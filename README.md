@@ -154,8 +154,6 @@ The `Design` and `Development` folders are scaffolded and will be populated as t
 The 42-week timeline depends on the following inputs. Any slippage affects the delivery window.
 
 - Payment gateway sandbox and production accounts
-- A dedicated AWS account, plus Apple and Google Play store accounts and an Apple Developer account (Sign in with Apple)
-- DNS, email (Amazon SES) and Google Maps accounts, plus branding guidelines
 - Specifications frozen by the end of Week 11
 - Practicum supervisor reviews and sign-offs within agreed academic timelines
 - At least 3-5 sample restaurant profiles (real or simulated) for UAT by Week 32
