@@ -4,7 +4,7 @@
 *Discover restaurants. Secure tables. Create memories.*
 
 ![Program](https://img.shields.io/badge/Program-NUCES%20MS%20Practicum-1f6feb)
-![Phase](https://img.shields.io/badge/Phase-Requirements%20%26%20Specs-orange)
+![Phase](https://img.shields.io/badge/Phase-Development-brightgreen)
 ![Products](https://img.shields.io/badge/Products-3-informational)
 ![User%20Stories](https://img.shields.io/badge/User%20Stories-51-success)
 
@@ -13,6 +13,7 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Team](#team)
 - [Problem Statement](#problem-statement)
 - [Core Flow](#core-flow)
 - [Products](#products)
@@ -31,6 +32,18 @@
 GoMingle is a social dining and restaurant booking platform for the Karachi food and beverage market. It combines curated restaurant discovery, group coordination and verified post-dining reviews, and it gives restaurants a way to enforce booking commitments.
 
 This repository is the single source of truth for the project: requirement analysis, formal documentation, design assets and source code. It was prepared by **Team GoMingle** as part of the **NUCES MS Practicum**.
+
+## Team
+
+**Team GoMingle**, NUCES MS Practicum
+
+| Name | Roll No. |
+|---|---|
+| Syed Rameez Ali | 25K-8302 |
+| Rahim Ahmed Khan | 25K-8303 |
+| Sheikh Raees Raza | 25K-8323 |
+
+**Current phase: Development.** Requirements and specifications are complete; the `Development` folders are where active work now happens.
 
 ## Problem Statement
 
@@ -88,8 +101,8 @@ A 42-week, phase-gated plan following a hybrid Agile approach with five formal m
 
 | Phase | Weeks | Focus |
 |---|---|---|
-| **1. Requirements & Specs** | W1-W11 | Requirements, feature specs and sign-off, UI/UX design in Figma, system and API architecture, AWS CDK stacks, CI/CD setup |
-| **2. Development** | W12-W32 | Infrastructure, NestJS backend (6 modules), payment pre-auth lifecycle, Flutter Mingler App, Partner Portal and Admin Panel. Staging checkpoint at W20 |
+| **1. Requirements & Specs** (complete) | W1-W11 | Requirements, feature specs and sign-off, UI/UX design in Figma, system and API architecture, AWS CDK stacks, CI/CD setup |
+| **2. Development** (current) | W12-W32 | Infrastructure, NestJS backend (6 modules), payment pre-auth lifecycle, Flutter Mingler App, Partner Portal and Admin Panel. Staging checkpoint at W20 |
 | **3. Regression & UAT Deployment** | W33-W42 | Full regression, security scan, client UAT (W36-W38), production deployment, hypercare and 30-day post-deployment checks |
 
 The specification phase locks **3 products, 16 features and 50 sub-features** before production code begins.
@@ -126,7 +139,7 @@ Go_Mingle/
     └── Mingler/                               Mingler App source code
 ```
 
-The `Design` and `Development` folders are scaffolded and will be populated as those phases begin.
+The `Design` and `Development` folders are scaffolded and filled in as work lands for each product.
 
 ## Documentation Index
 
