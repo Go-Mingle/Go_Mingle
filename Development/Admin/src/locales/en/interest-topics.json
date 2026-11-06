@@ -1,0 +1,76 @@
+{
+  "section": "CONFIGURE",
+  "title": "Topics",
+  "search": {
+    "placeholder": "Search topics…"
+  },
+  "actions": {
+    "newTopic": "New topic",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "table": {
+    "headers": {
+      "topic": "TOPIC",
+      "interests": "INTERESTS",
+      "description": "DESCRIPTION",
+      "tables": "TABLES"
+    },
+    "search": {
+      "topics": "Search topics…"
+    }
+  },
+  "mobile": {
+    "table": "table",
+    "tables": "tables"
+  },
+  "pagination": {
+    "showing": "Showing {{start}}–{{end}} of {{total}} results",
+    "perPage": "{{n}} / page"
+  },
+  "form": {
+    "newTitle": "New topic",
+    "editTitle": "Edit topic",
+    "topicName": "Topic name",
+    "topicNamePlaceholder": "e.g. Wine & Dine",
+    "topicNameRequired": "Topic name is required.",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe what this interest topic is about.",
+    "descriptionRequired": "Description is required.",
+    "descriptionMaxLength": "Description cannot exceed 500 characters.",
+    "createTopic": "Create topic",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel",
+    "createdToast": "\"{{name}}\" has been created.",
+    "updatedToast": "\"{{name}}\" has been updated.",
+    "image": "Logo / picture",
+    "imagePlaceholder": "https://…  (square image works best)",
+    "interests": "Interests",
+    "interestsPlaceholder": "Select one or more interests",
+    "interestsRequired": "Select at least one interest.",
+    "imageUpload": "Upload image",
+    "imageReplace": "Replace image",
+    "imageHint": "PNG or JPEG · at least 300×300px · under 2MB.",
+    "imageRequired": "A logo image is required.",
+    "imageTypeError": "Only PNG or JPEG images are supported.",
+    "imageSizeError": "Image must be under 2MB.",
+    "imageDimensionError": "Image must be at least 300×300 pixels.",
+    "imageUploadError": "Could not upload the image. Please try again.",
+    "imageUploading": "Uploading…",
+    "imageUploadTitle": "Click or drag image to upload",
+    "nameDuplicate": "Topic name already exists."
+  },
+  "errors": {
+    "notFound": "Topic not found. The list will refresh."
+  },
+  "delete": {
+    "title": "Delete topic?",
+    "blockedTitle": "Cannot delete topic",
+    "blockedContent": "\"{{name}}\" is used by {{count}} interest table(s). Remove it from those tables before deleting.",
+    "confirmContent": "\"{{name}}\" will be permanently deleted. This cannot be undone.",
+    "confirm": "Delete topic",
+    "cancel": "Cancel",
+    "gotIt": "Got it",
+    "deletedToast": "\"{{name}}\" has been deleted."
+  }
+}

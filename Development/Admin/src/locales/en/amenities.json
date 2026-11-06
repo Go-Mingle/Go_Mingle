@@ -1,0 +1,66 @@
+{
+  "title": "Amenities",
+  "actions": {
+    "newAmenity": "New amenity"
+  },
+  "table": {
+    "headers": {
+      "amenity": "AMENITY",
+      "count": "COUNT"
+    },
+    "search": {
+      "amenities": "Search amenities…"
+    }
+  },
+  "filters": {
+    "reset": "Reset",
+    "search": "Search"
+  },
+  "pagination": {
+    "showing": "Showing {{start}}–{{end}} of {{total}} results",
+    "perPage": "{{n}} / page"
+  },
+  "form": {
+    "newTitle": "New amenity",
+    "editTitle": "Edit amenity",
+    "amenityName": "Amenity name",
+    "amenityNamePlaceholder": "e.g. Rooftop access",
+    "nameRequired": "Amenity name is required.",
+    "nameMaxLength": "Name can't be more than 60 characters.",
+    "nameInUse": "This amenity name is already in use.",
+    "nameInvalid": "Enter a valid Amenity Name",
+    "iconLabel": "Custom icon (SVG, optional)",
+    "iconHelper": "Upload an SVG file to use as this amenity's icon. Defaults to a standard icon if left empty.",
+    "uploadButton": "Upload SVG",
+    "replaceButton": "Replace",
+    "removeButton": "Remove",
+    "resetToDefault": "Reset to default",
+    "resetToDefaultHelper": "Removes the custom icon. The built-in shield icon will be shown instead.",
+    "iconUploadTitle": "Click or drag SVG to upload",
+    "iconReplace": "Click or drag to replace",
+    "invalidSvg": "Please upload a valid SVG file.",
+    "svgTooLarge": "SVG file must be under 100 KB.",
+    "unsafeSvg": "The selected file is unsafe, please upload another.",
+    "createAmenity": "Create amenity",
+    "saveAmenity": "Save changes",
+    "cancel": "Cancel",
+    "createdToast": "\"{{name}}\" has been added.",
+    "updatedToast": "\"{{name}}\" has been updated."
+  },
+  "delete": {
+    "title": "Delete amenity?",
+    "withAssignments": "\"{{name}}\" is currently assigned to {{count}} restaurant{{plural}}. Deleting it will remove this amenity from all of them. This cannot be undone.",
+    "confirm": "\"{{name}}\" will be permanently deleted. This cannot be undone.",
+    "confirmButton": "Delete amenity",
+    "cancel": "Cancel",
+    "deletedToast": "\"{{name}}\" has been deleted."
+  },
+  "tooltips": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "emptyState": {
+    "noAmenities": "No amenities yet. Create one to enable restaurants to describe their offering.",
+    "noResults": "No amenities match your search."
+  }
+}

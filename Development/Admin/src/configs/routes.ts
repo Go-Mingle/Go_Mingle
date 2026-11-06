@@ -1,0 +1,20 @@
+export const ROUTES = {
+  LOGIN: '/login',
+  DASHBOARD: '/dashboard',
+  ROLES_ACCESS: '/roles-access',
+  USERS: '/users',
+  CATEGORIES: '/categories',
+  LOYALTY: '/loyalty',
+  RESTAURANTS: '/restaurants',
+  RESTAURANT_DETAIL: '/restaurants/:id',
+  INTEREST_TABLE_DETAIL: '/restaurants/:rid/interest-tables/:id',
+  APPROVAL_QUEUE: '/approval-queue',
+  APPLICATION_DETAIL: '/approval-queue/:id',
+  MINGLERS: '/minglers',
+  MINGLER_DETAIL: '/minglers/:id',
+  FINANCES: '/finances',
+  CHANGE_LOG: '/change-log',
+  PROFILE: '/profile',
+  /** Public — no auth guard. Deep-link hand-off for shared mobile links. */
+  OPEN_APP: '/open-app',
+} as const

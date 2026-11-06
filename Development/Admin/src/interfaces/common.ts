@@ -1,0 +1,18 @@
+export type StatusVariant =
+  | 'active'
+  | 'pending'
+  | 'suspended'
+  | 'deactivated'
+  | 'no-show'
+  | 'completed'
+  | 'cancelled'
+  | 'partially-cancelled'
+  | 'upcoming'
+  | 'paid'
+  | 'verified'
+  | 'flagged'
+  | 'super-admin'
+  | 'commission'
+  | 'penalty'
+
+export type PeriodKey = 'today' | 'thisWeek' | 'thisMonth' | 'allTime'

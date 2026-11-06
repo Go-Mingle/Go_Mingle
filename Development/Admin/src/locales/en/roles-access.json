@@ -1,0 +1,81 @@
+{
+  "section": "CONFIGURE",
+  "moreModules": "+{{count}} more",
+  "title": "Roles & access",
+  "subtitle": "Bundle module permissions into roles. Assign Super Admin (full access) or Admin (limited) rights.",
+  "actions": {
+    "newRole": "+ New role",
+    "newRoleShort": "New role",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "table": {
+    "headers": {
+      "roleName": "Role name",
+      "fullAccess": "Full access",
+      "usersAssigned": "Users Assigned",
+      "modules": "Modules",
+      "created": "Created"
+    }
+  },
+  "form": {
+    "newTitle": "New role",
+    "editTitle": "Edit role",
+    "roleName": "Role name",
+    "fullAccess": "Full access",
+    "fullAccessLabel": "Full access — grants access to all current and future modules.",
+    "createRole": "Create role",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel"
+  },
+  "delete": {
+    "title": "Delete role?",
+    "hasUsersTitle": "Remove users before deleting",
+    "hasUsersContent": "This role has {{count}} users assigned to it. Reassign or remove all users from this role before it can be deleted. Deleting a role with active users is not permitted.",
+    "confirmTitle": "Delete {{name}}?",
+    "confirmContent": "Are you sure you want to delete {{name}}? This action cannot be undone.",
+    "confirm": "Delete role",
+    "cancel": "Cancel",
+    "deleted": "\"{{name}}\" has been deleted."
+  },
+  "modules": {
+    "amenities": "Amenities",
+    "approvalQueue": "Approval Queue",
+    "categories": "Categories",
+    "changeLog": "Change Log",
+    "finances": "Finances",
+    "interestTopics": "Interest Topics",
+    "loyalty": "Loyalty",
+    "minglers": "Minglers",
+    "preferenceQuestions": "Preference Questions",
+    "restaurants": "Restaurants",
+    "rolesAccess": "Roles & Access",
+    "timerSettings": "Timer Settings",
+    "topics": "Topics",
+    "users": "Users"
+  },
+  "filterBtn": {
+    "reset": "Reset",
+    "search": "Search"
+  },
+  "tooltips": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "card": {
+    "users": "users",
+    "noModules": "No modules assigned"
+  },
+  "fullAccessBadge": "Full access",
+  "moduleAccess": "Module access",
+  "sections": {
+    "manage": "Manage",
+    "configure": "Configure"
+  },
+  "gotIt": "Got it",
+  "filterAll": "All",
+  "search": {
+    "role": "Search role…",
+    "count": "Search count…"
+  }
+}

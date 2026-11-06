@@ -1,0 +1,32 @@
+{
+  "section": "OVERVIEW",
+  "title": "Dashboard",
+  "activeRestaurants": "Active Restaurants",
+  "pendingApprovals": "Pending Approvals",
+  "activeMinglers": "Active Minglers",
+  "earnings": "Earnings",
+  "topRestaurants": "Top 5 Restaurants",
+  "topRestaurantsSubtitle": "By revenue contributed to GoMingle",
+  "approvalQueue": "Approval Queue",
+  "approvalQueueSubtitle": "Pending restaurant applications",
+  "openQueue": "Open queue >",
+  "bookings": "Bookings",
+  "revenueBySource": "Revenue by Source",
+  "revenueBySourceSubtitle": "This month — split between commissions and penalty fees",
+  "commissions": "Commissions",
+  "penaltyFees": "Penalty Fees",
+  "trend": "Trend (vs last month)",
+  "oldestDays": "Oldest {{days}}d",
+  "totalPkr": "Total PKR {{amount}}",
+  "total": "Total: {{count}}",
+  "periods": {
+    "today": "Today",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "allTime": "All Time"
+  },
+  "widgets": {
+    "search": "Search…",
+    "of": "{{count}} of {{total}}"
+  }
+}

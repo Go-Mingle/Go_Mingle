@@ -1,0 +1,275 @@
+{
+  "section": "USERS",
+  "title": "Minglers",
+  "subtitle": "Diners on GoMingle. Suspending revokes booking ability without losing their points.",
+  "table": {
+    "headers": {
+      "name": "NAME",
+      "preferences": "Preferences",
+      "phone": "PHONE",
+      "email": "EMAIL",
+      "joined": "JOINED",
+      "bookings": "BOOKINGS",
+      "points": "LOYALTY POINTS",
+      "lastSeen": "Last seen",
+      "status": "STATUS"
+    },
+    "search": {
+      "minglers": "Search minglers…",
+      "phone": "Search phone…",
+      "email": "Search email…",
+      "bookingId": "Search booking ID…",
+      "restaurant": "Search restaurants…",
+      "bookings": "Search bookings…",
+      "points": "Search loyalty points…",
+      "interestTable": "Search interest tables…",
+      "reviews": "Search reviews…",
+      "tooLong": "Search term too long."
+    },
+    "tooltips": {
+      "view": "View",
+      "suspend": "Suspend",
+      "unsuspend": "Unsuspend",
+      "alreadyActive": "Mingler is already active",
+      "alreadySuspended": "Mingler is already suspended"
+    },
+    "filters": {
+      "all": "All",
+      "active": "Active",
+      "suspended": "Suspended",
+      "noShow": "No-show",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "partiallyCancelled": "Partially cancelled",
+      "upcoming": "Upcoming",
+      "pending": "Pending",
+      "confirmed": "Confirmed"
+    }
+  },
+  "detail": {
+    "backToList": "← Back to minglers",
+    "since": "Mingler since {{date}}",
+    "totalBookings": "Total Bookings",
+    "loyaltyPoints": "Loyalty Points",
+    "lastBooking": "Last Booking",
+    "profileDetails": "Profile details",
+    "memberSince": "Member since",
+    "accountStatus": "Account status"
+  },
+  "tabs": {
+    "about": "About",
+    "overview": "Overview",
+    "bookings": "Bookings",
+    "payments": "Payment Methods",
+    "reviews": "Reviews",
+    "eatingPreferences": "Eating Preferences"
+  },
+  "about": {
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "preferences": "Preferences",
+    "memberSince": "Member since",
+    "accountStatus": "Account status",
+    "noPreferences": "No preferences recorded.",
+    "diningExperience": "Preferred Dining Experience",
+    "cuisines": "Favourite Cuisines",
+    "diningFrequency": "Dining Frequency",
+    "avgSpend": "Average Spend",
+    "dietary": "Dietary Requirements",
+    "preferredTime": "Preferred Dining Time",
+    "atmosphere": "Atmosphere Preferences",
+    "groupDining": "Open to Group Dining",
+    "noRestrictions": "No Restrictions",
+    "diningPreferences": "Dining Preferences"
+  },
+  "identity": {
+    "heading": "About Me",
+    "noIdentity": "No identity information recorded.",
+    "name": "Name",
+    "birthdate": "Birthdate",
+    "energyDrive": "Energy Drive",
+    "relationshipStatus": "Relationship Status",
+    "children": "Children",
+    "professionIndustry": "Profession Industry",
+    "profession": "Profession",
+    "personalInterests": "Personal Interests",
+    "footballTeam": "Football Team",
+    "cricketTeam": "Cricket Team",
+    "pets": "Pets",
+    "budget": "Budget",
+    "enneagramType": "Enneagram Type",
+    "notProvided": "—"
+  },
+  "eating": {
+    "heading": "Eating Preferences",
+    "noPrefs": "No eating preferences recorded.",
+    "notSpecified": "Not specified",
+    "culinaryRestrictions": "Culinary Restrictions",
+    "allergies": "Allergies",
+    "favouriteCuisines": "Favourite Cuisines",
+    "favouriteDishes": "Favourite Dishes",
+    "alcohol": "Alcohol",
+    "favouriteDrinks": "Favourite Drinks",
+    "favouriteCocktail": "Favourite Cocktail"
+  },
+  "itemisedBill": {
+    "tabLabel": "Itemised Bill",
+    "detailLabel": "Booking Detail",
+    "disabledTooltip": "Itemised bill is only available for completed bookings.",
+    "item": "Item",
+    "qty": "Qty",
+    "price": "Price",
+    "total": "Total",
+    "noItems": "No itemised bill available."
+  },
+  "bookings": {
+    "bookingId": "Booking ID",
+    "restaurant": "Restaurant",
+    "date": "Date",
+    "party": "Party",
+    "bill": "Bill",
+    "loyaltyRedeemed": "Loyalty Points Redeemed",
+    "status": "Status"
+  },
+  "payments": {
+    "cardNumber": "Card number",
+    "cardType": "Card type",
+    "expiry": "Expiry",
+    "defaultCard": "Default",
+    "setDefault": "Set as default",
+    "setDefaultConfirm": "Set card ending in {{last4}} as the default payment method for {{name}}?",
+    "noPaymentMethods": "This Mingler hasn't saved any payment methods yet."
+  },
+  "reviews": {
+    "rating": "Rating",
+    "review": "Review text",
+    "visibility": "Visibility",
+    "restaurant": "Restaurant",
+    "date": "Date",
+    "hideReview": "Hide this review from public view?",
+    "showReview": "Show this review publicly?",
+    "deleteReview": "Permanently delete this review? This cannot be undone."
+  },
+  "suspend": {
+    "title": "Suspend {{name}}?",
+    "content": "{{name}} will lose booking ability immediately.",
+    "consequence": "They'll lose app access and can't make new bookings until reactivated. Loyalty points are kept.",
+    "reasonLabel": "Reason for suspension *",
+    "reasonPlaceholder": "Explain why this account is being suspended.",
+    "minChars": "Minimum 10 characters required",
+    "activeBookingsWarning": "{{count}} active booking(s) will be automatically cancelled and refunded.",
+    "confirm": "Confirm suspend",
+    "cancel": "Cancel"
+  },
+  "unsuspend": {
+    "title": "Reactivate {{name}}?",
+    "content": "Unsuspending this account will restore the mingler's access to GoMingle.",
+    "confirm": "Unsuspend",
+    "cancel": "Cancel"
+  },
+  "hero": {
+    "since": "Mingler since {{date}} · {{phone}}",
+    "suspendBtn": "Suspend",
+    "unsuspendBtn": "Unsuspend",
+    "backToMinglers": "Back to minglers"
+  },
+  "bookingModal": {
+    "title": "Booking details",
+    "close": "Close",
+    "bookingId": "Booking ID",
+    "restaurant": "Restaurant",
+    "mingler": "Mingler",
+    "date": "Date",
+    "partySize": "Party size",
+    "partyPeople": "{{count}} people",
+    "status": "Status",
+    "bill": "Bill",
+    "notFound": "Booking details not found.",
+    "interestTable": "Interest table",
+    "combo": "Menu option"
+  },
+  "reviewModal": {
+    "title": "Review details",
+    "close": "Close",
+    "deleteButton": "Delete review"
+  },
+  "overview": {
+    "fullName": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "memberSince": "Member since",
+    "totalBookings": "Total bookings",
+    "loyaltyPoints": "Loyalty points",
+    "pts": "{{count}} pts",
+    "promingler": "Pro Mingler",
+    "prominglerOn": "Pro Mingler",
+    "prominglerOff": "Not a Pro Mingler"
+  },
+  "paymentModal": {
+    "title": "Change default card",
+    "confirm": "Confirm",
+    "setDefaultConfirm": "Set card ending in {{last4}} as the default payment method for {{name}}?"
+  },
+  "bookingCols": {
+    "bookingId": "BOOKING ID",
+    "restaurant": "RESTAURANT",
+    "date": "DATE",
+    "party": "PARTY",
+    "status": "STATUS",
+    "loyaltyRedeemed": "LOYALTY PTS REDEEMED",
+    "bill": "BILL",
+    "interestTable": "INTEREST TABLE",
+    "combo": "MENU OPTION",
+    "captainTooltip": "Captain of this interest table"
+  },
+  "reviewCols": {
+    "date": "DATE",
+    "restaurant": "RESTAURANT",
+    "interestTable": "INTEREST TABLE",
+    "rating": "RATING",
+    "review": "REVIEW",
+    "visibility": "VISIBILITY",
+    "actions": "ACTIONS",
+    "viewBooking": "View booking",
+    "deleteReview": "Delete review"
+  },
+  "deleteReview": {
+    "title": "Delete review?",
+    "content": "This review will be permanently deleted.",
+    "confirm": "Delete",
+    "cancel": "Cancel",
+    "deletedToast": "Review deleted.",
+    "alreadyDeleted": "This review was already deleted."
+  },
+  "bookingSubTabs": {
+    "upcoming": "Upcoming",
+    "all": "All"
+  },
+  "cancelBooking": {
+    "action": "Cancel booking",
+    "tooltip": "Cancel booking",
+    "title": "Cancel booking?",
+    "intro": "Cancelling will notify the restaurant and remove this booking from the mingler's upcoming list. Please provide a reason.",
+    "reasonLabel": "Reason for cancellation",
+    "reasonPlaceholder": "Enter reason (minimum 10 characters)…",
+    "characterCounter": "{{count}}/10 characters minimum",
+    "confirm": "Confirm cancellation",
+    "keep": "Keep booking",
+    "toast": "Booking {{bookingId}} cancelled.",
+    "confirmDesc": "The card hold is released, or the charge refunded if already confirmed."
+  },
+  "mainTabs": {
+    "bookings": "Bookings",
+    "payments": "Payment Methods",
+    "reviews": "Reviews",
+    "preferences": "Preferences"
+  },
+  "messages": {
+    "suspended": "{{name}} has been suspended. {{count}} booking(s) cancelled and refunded.",
+    "reactivated": "{{name}} has been reactivated.",
+    "defaultCardChanged": "Default card changed.",
+    "alreadyActioned": "This Mingler has already been actioned by another admin.",
+    "prominglerUpdated": "Pro Mingler status updated for {{name}}."
+  }
+}

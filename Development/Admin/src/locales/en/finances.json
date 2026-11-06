@@ -1,0 +1,204 @@
+{
+  "section": "FINANCES",
+  "title": "Finances",
+  "subtitle": "What GoMingle has earned. Mingler payments are held in Safepay escrow and released to restaurants after each event.",
+  "summary": {
+    "overallRevenue": "Overall Revenue",
+    "payments": "{{count}} payments",
+    "commissionsLabel": "Commissions",
+    "ofRevenue": "{{pct}}% of revenue",
+    "penalties": "Penalties",
+    "noShows": "{{count}} no-shows"
+  },
+  "table": {
+    "headers": {
+      "bookingId": "BOOKING ID",
+      "restaurant": "RESTAURANT",
+      "mingler": "MINGLER",
+      "interestTable": "INTEREST TABLE",
+      "combo": "COMBO",
+      "date": "DATE",
+      "type": "TYPE",
+      "totalAmount": "TOTAL AMOUNT",
+      "partnerShare": "PARTNER'S SHARE",
+      "gomingleShare": "GOMINGLE SHARE",
+      "loyaltyUsed": "LOYALTY POINTS USED",
+      "vat": "VAT",
+      "tip": "TIP"
+    }
+  },
+  "types": {
+    "bookingCommission": "Booking Commission",
+    "penalty": "Penalty"
+  },
+  "detail": {
+    "title": "Transaction details",
+    "bookingId": "Booking ID",
+    "restaurant": "Restaurant",
+    "mingler": "Mingler",
+    "interestTable": "Interest Table",
+    "date": "Date",
+    "type": "Type",
+    "totalAmount": "Total Amount",
+    "partnerShare": "Partner's Share",
+    "gomingleShare": "GoMingle Share",
+    "loyaltyUsed": "Loyalty Points Used",
+    "close": "Close",
+    "vat": "VAT 5%",
+    "tip": "Tip",
+    "loyaltyDeduction": "Loyalty Deduction",
+    "loyaltyRedeemed": "Loyalty Redeemed"
+  },
+  "periods": {
+    "today": "Today",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "allTime": "All Time",
+    "lastYear": "Last 1 Year",
+    "last6Months": "Last 6 Months"
+  },
+  "popover": {
+    "restaurantInfo": "Restaurant Info",
+    "category": "Category",
+    "city": "City",
+    "joined": "Joined",
+    "status": "Status"
+  },
+  "filterAll": "All",
+  "search": {
+    "bookingId": "Search booking ID…",
+    "restaurant": "Search restaurant…",
+    "mingler": "Search mingler…",
+    "totalAmount": "Search total amount…",
+    "interestTable": "Search interest table…",
+    "combo": "Search combo…"
+  },
+  "card": {
+    "bookingId": "Booking ID",
+    "date": "Date",
+    "totalAmount": "Total Amount",
+    "viewDetails": "View details"
+  },
+  "pagination": {
+    "showing": "Showing {{start}}–{{end}} of {{total}} results"
+  },
+  "emptyState": {
+    "title": "All caught up",
+    "message": "No transactions have been recorded yet. Earnings and payouts will appear here once bookings are completed.",
+    "periodMessage": "No transactions for this period yet. Try a wider date range to see earnings and payouts."
+  },
+  "noResults": {
+    "title": "No matching transactions",
+    "message": "No transactions match the filters you applied. Try broadening them, or clear the filters to see everything.",
+    "clearFilters": "Clear filters"
+  },
+  "export": "Export CSV",
+  "viewOnMap": "View on map",
+  "viewDetails": "View details",
+  "filters": {
+    "all": "All",
+    "commission": "Commission",
+    "penalty": "Penalty"
+  },
+  "tabs": {
+    "bookings": "Bookings",
+    "interestTables": "Interest Tables"
+  },
+  "breakdown": {
+    "interestTable": "INTEREST TABLE",
+    "bookings": "BOOKINGS",
+    "partnerShare": "PARTNER'S SHARE",
+    "gomingleShare": "GOMINGLE SHARE",
+    "vat": "VAT",
+    "tip": "TIP",
+    "total": "TOTAL",
+    "bookingsCount": "{{count}} bookings",
+    "detailTitle": "Interest table financials",
+    "interestTableLabel": "Interest table",
+    "bookingsLabel": "Bookings"
+  },
+  "escrowButton": "Escrow & payouts",
+  "escrow": {
+    "title": "Escrow & payouts",
+    "back": "Back to Finances",
+    "gateway": "{{name}} · {{env}} · {{mode}}",
+    "mode": {
+      "simulator": "built-in sandbox simulator",
+      "live": "connected with your API keys"
+    },
+    "summary": {
+      "authorized": "Held on cards",
+      "inEscrow": "In escrow",
+      "released": "Paid to restaurants",
+      "refunded": "Refunded",
+      "platformFees": "GoMingle fees"
+    },
+    "summaryHint": {
+      "authorized": "Authorised, not yet captured",
+      "inEscrow": "Captured, awaiting the event",
+      "released": "Net of platform fee",
+      "refunded": "Returned to Minglers",
+      "platformFees": "{{pct}}% of released bookings"
+    },
+    "status": {
+      "PENDING_PAYMENT": "Awaiting payment",
+      "AUTHORIZED": "Held on card",
+      "IN_ESCROW": "In escrow",
+      "RELEASED": "Released",
+      "REFUNDED": "Refunded",
+      "VOIDED": "Voided"
+    },
+    "col": {
+      "booking": "BOOKING",
+      "restaurant": "RESTAURANT",
+      "mingler": "MINGLER",
+      "amount": "AMOUNT",
+      "status": "STATUS",
+      "payout": "PAYOUT",
+      "actions": "ACTIONS"
+    },
+    "guests_one": "{{count}} guest",
+    "guests_other": "{{count}} guests",
+    "count_one": "{{count}} transaction",
+    "count_other": "{{count}} transactions",
+    "netAfterFee": "{{net}} to restaurant after {{fee}} fee",
+    "noPayoutAccount": "No payout account yet",
+    "action": {
+      "capture": "Capture",
+      "void": "Void",
+      "release": "Release",
+      "refund": "Refund"
+    },
+    "confirm": {
+      "void": "Void the card hold for {{ref}}?",
+      "refund": "Refund {{ref}} to the Mingler?"
+    },
+    "done": {
+      "capture": "{{ref}} captured into escrow",
+      "void": "Hold for {{ref}} voided",
+      "release": "{{ref}} released to the restaurant",
+      "refund": "{{ref}} refunded"
+    },
+    "actionFailed": "The action could not be completed. Please try again.",
+    "loadFailed": "Escrow transactions could not be loaded.",
+    "filterStatus": "Filter by status",
+    "empty": "No escrow transactions",
+    "cancel": "Cancel",
+    "reason": "Reason",
+    "reasonRequired": "Please enter a reason",
+    "reasonPlaceholder": "e.g. Event cancelled by the restaurant",
+    "testBooking": {
+      "open": "Sandbox booking",
+      "title": "Create a sandbox booking",
+      "submit": "Place card hold",
+      "body": "Places a Safepay sandbox card hold, as the Mingler app does when a seat is booked.",
+      "restaurant": "Restaurant",
+      "restaurantRequired": "Choose a restaurant",
+      "restaurantPlaceholder": "Choose an active restaurant",
+      "mingler": "Mingler name",
+      "guests": "Guests",
+      "amountPerGuest": "Amount per guest (PKR)",
+      "done": "{{ref}}: {{amount}} held on card"
+    }
+  }
+}
