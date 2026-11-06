@@ -622,7 +622,7 @@
     },
     "blockers": {
       "title": "Your application can't be submitted yet",
-      "missingFields": "Add: {{fields}}. Fill these in on the Overview tab: owner fields under Owner Details, restaurant phone and e-mail under Location & Address.",
+      "missingFields": "Add: {{fields}}. Fill these in on the Overview tab: owner fields under Owner Details; restaurant phone, e-mail and map location under Location & Address.",
       "needsPayout": "Add your payout bank account on the Payout Account tab.",
       "needsCoverPhoto": "Add a cover photo: click the image at the top left of this page.",
       "checklistTitle": "Before you can send for approval"
@@ -723,7 +723,19 @@
       "contactNotFound": "Contact not found.",
       "validation": "Please correct the highlighted fields."
     },
-    "addPayoutAccount": "Add Payout Account"
+    "addPayoutAccount": "Add Payout Account",
+    "mapLink": {
+      "label": "Map location",
+      "placeholder": "Paste a Google Maps link, or coordinates like 24.9214, 67.0937",
+      "hint": "In Google Maps, right-click your restaurant's entrance and click the coordinates at the top to copy them, then paste here. A shared place link works too.",
+      "approximate": "This link only gives the map's view, not a pin, so the location may be off. For an exact spot, paste the coordinates of the entrance instead.",
+      "pinned": "Location set: {{latitude}}, {{longitude}}",
+      "errors": {
+        "shortLink": "Short links (maps.app.goo.gl) can't be read. Open the link and copy the full address from the browser bar, or paste the coordinates.",
+        "unreadable": "No location found in that text. Paste a Google Maps link or coordinates like 24.9214, 67.0937.",
+        "outOfRange": "Those coordinates are outside the valid range."
+      }
+    }
   },
   "partnerMedia": {
     "photos": "Photos",
