@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { importLibrary, setOptions } from '@googlemaps/js-api-loader'
 import { useTranslation } from 'react-i18next'
 import { ENV } from '../../../../../configs/env'
+import { MapLinkInput } from './MapLinkInput'
 
 /** Karachi — a sensible opening view for a restaurant with no pin yet. */
 const FALLBACK_CENTER = { lat: 24.8607, lng: 67.0011 }
@@ -148,11 +149,12 @@ export function LocationMapPicker({
   }, [apiKey])
 
   if (!apiKey || failed) {
+    // Without the interactive map the position is still required (BR-09a), so
+    // it is taken from a pasted Google Maps link or coordinates instead of
+    // leaving "Map Location" impossible to complete.
     return (
       <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-page)] p-[14px]">
-        <div className="flex h-[260px] items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-card)] px-4 text-center text-[12.5px] text-[var(--color-text-muted)]">
-          {t('profile.form.mapUnavailable')}
-        </div>
+        <MapLinkInput latitude={latitude} longitude={longitude} onChange={onChange} error={error} />
       </div>
     )
   }

@@ -213,21 +213,21 @@ describe('LocationMapPicker', () => {
   })
 
   /** An unset key is a supported state, not a crash: the modal stays usable. */
-  it('shows a placeholder instead of a map when no key is configured', () => {
+  it('offers a link or coordinates field instead of a map when no key is configured', () => {
     h.env.GOOGLE_MAPS_API_KEY = ''
     renderPicker()
 
-    expect(screen.getByText(/map is unavailable/i)).toBeInTheDocument()
+    expect(screen.getByLabelText('Map location')).toBeInTheDocument()
     expect(screen.queryByTestId('location-map')).not.toBeInTheDocument()
     expect(h.importLibrary).not.toHaveBeenCalled()
     expect(h.setOptions).not.toHaveBeenCalled()
   })
 
-  it('falls back to the placeholder when the SDK fails to load', async () => {
+  it('falls back to the link field when the SDK fails to load', async () => {
     h.importLibrary.mockImplementation(() => Promise.reject(new Error('offline')))
     renderPicker()
 
-    expect(await screen.findByText(/map is unavailable/i)).toBeInTheDocument()
+    expect(await screen.findByLabelText('Map location')).toBeInTheDocument()
   })
 
   it('releases its SDK listeners on unmount', async () => {
