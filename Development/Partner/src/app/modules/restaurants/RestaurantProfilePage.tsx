@@ -33,6 +33,8 @@ import { InterestTablesTab } from './partnerInterestTables/components/InterestTa
 import { useInterestTablesTab } from './partnerInterestTables/hooks/useInterestTablesTab'
 import { ReviewsTab } from './partnerReviews/components/ReviewsTab'
 import { useReviewsTab } from './partnerReviews/hooks/useReviewsTab'
+import { PayoutAccountTab } from './partnerPayout/components/PayoutAccountTab'
+import { PAYOUT_ACCOUNT_TAB_KEY } from './partnerPayout/constants'
 
 /**
  * Restaurant Profile — the J6A shell (US-01) and the contract-backed tabs.
@@ -110,7 +112,9 @@ export function RestaurantProfilePage() {
         profile={profile}
         onEditName={c.openNameModal}
         onOpenImage={c.openImageModal}
-        onOpenPayments={c.openPayments}
+        // The payout account lives on its own tab now, so the header opens it
+        // there rather than handing off to an external setup page.
+        onOpenPayments={() => setActiveTab(PAYOUT_ACCOUNT_TAB_KEY)}
         onToggleVisibility={c.toggleVisibility}
         onSubmit={c.handleSubmit}
         submitting={c.submitting}
@@ -118,7 +122,12 @@ export function RestaurantProfilePage() {
         launchingPayments={c.launchingPayments}
       />
 
-      <ProfileBanners status={profile.status} rejections={c.rejections} blockers={c.blockers} />
+      <ProfileBanners
+        status={profile.status}
+        rejections={c.rejections}
+        blockers={c.blockers}
+        readiness={profile.submissionReadiness}
+      />
 
       <RestaurantDetailTabs
         // Both are prototype-shaped props the nine injected tabs no longer read; they
@@ -161,6 +170,7 @@ export function RestaurantProfilePage() {
         tableTimingsTab={<TableTimingsTab c={tables} />}
         interestTablesTab={<InterestTablesTab c={interestTables} />}
         reviewsTab={<ReviewsTab c={reviews} />}
+        payoutAccountTab={<PayoutAccountTab feedback={feedback} />}
       />
 
       <NameLocationModal c={c} />

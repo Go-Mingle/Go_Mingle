@@ -150,7 +150,9 @@ export function ProfileHeader({
             className="justify-center"
           >
             <Bank size={15} />
-            {t('restaurants:profile.updatePayments')}
+            {submissionReadiness.payoutConfigured
+              ? t('restaurants:profile.updatePayments')
+              : t('restaurants:profile.addPayoutAccount')}
           </AppButton>
         )}
 

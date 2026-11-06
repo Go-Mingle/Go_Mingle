@@ -61,7 +61,8 @@ describe('ProfileHeader', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Edit restaurant name and location' }))
     expect(h.onEditName).toHaveBeenCalledOnce()
 
-    fireEvent.click(screen.getByRole('button', { name: /Update Payment Info/i }))
+    // No payout account yet, so the button invites adding one.
+    fireEvent.click(screen.getByRole('button', { name: /Add Payout Account/i }))
     expect(h.onOpenPayments).toHaveBeenCalledOnce()
 
     fireEvent.click(screen.getByRole('button', { name: /Send for Approval/i }))
@@ -84,6 +85,7 @@ describe('ProfileHeader', () => {
     const h = renderHeader({
       status: 'ACTIVE' as RestaurantProfileStatus,
       visibleOnApp: true,
+      submissionReadiness: { canSubmit: true, payoutConfigured: true },
     } as Partial<PartnerRestaurantProfile>)
 
     const toggle = screen.getByRole('switch')
@@ -93,7 +95,7 @@ describe('ProfileHeader', () => {
     expect(screen.queryByRole('button', { name: /Save as Draft/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Send for Approval/i })).not.toBeInTheDocument()
     // Payments stays available wherever the profile is editable.
-    expect(screen.getByRole('button', { name: /Update Payment Info/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^Payout Account$/i })).toBeInTheDocument()
   })
 
   it('hides editing affordances when the profile is not editable', () => {
@@ -105,7 +107,7 @@ describe('ProfileHeader', () => {
     expect(
       screen.queryByRole('button', { name: 'Edit restaurant name and location' }),
     ).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /Update Payment Info/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Payout Account/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Save as Draft/i })).not.toBeInTheDocument()
   })
 })

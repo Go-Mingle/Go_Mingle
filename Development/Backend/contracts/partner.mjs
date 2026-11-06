@@ -5,7 +5,7 @@ var __export = (target, all) => {
     __defProp(target, name, { get: all[name], enumerable: true });
 };
 
-import { http as http17, HttpResponse as HttpResponse20 } from "msw";
+import { http as http18, HttpResponse as HttpResponse21 } from "msw";
 
 var mockRoles = [
   { id: "r1", name: "Super Admin", fullAccess: true, modules: [], usersCount: 2 },
@@ -3800,8 +3800,8 @@ var partnerAccountHandlers = [
   http3.get(ACCOUNT_ENDPOINTS.me, () => accountResponses.profile()),
   http3.patch(ACCOUNT_ENDPOINTS.me, async ({ request }) => {
     const body = await request.json();
-    const invalid = validateProfilePatch(body);
-    if (invalid) return invalid;
+    const invalid2 = validateProfilePatch(body);
+    if (invalid2) return invalid2;
     mockPartnerProfile.fullName = body.fullName.trim();
     if (typeof body.designation === "string") {
       mockPartnerProfile.designation = body.designation.trim() || null;
@@ -4661,8 +4661,8 @@ function applyFilters(query) {
   return rows;
 }
 function listMockFinances(query) {
-  const invalid = validateFilters(query);
-  if (invalid) return invalid;
+  const invalid2 = validateFilters(query);
+  if (invalid2) return invalid2;
   if (query.page !== null && query.page !== void 0) {
     const parsed = Number(query.page);
     if (!Number.isInteger(parsed) || parsed < 1) {
@@ -4715,8 +4715,8 @@ function exportMockFinances(query) {
   if (query.page || query.pageSize) {
     return errorResponse3(VALIDATION, "Pagination is not supported on export.", 422);
   }
-  const invalid = validateFilters(query);
-  if (invalid) return invalid;
+  const invalid2 = validateFilters(query);
+  if (invalid2) return invalid2;
   const body = applyFilters(query).map(
     (row) => [
       row.bookingRef,
@@ -4797,7 +4797,66 @@ var partnerEscrowHandlers = [
   )
 ];
 
-import { http as http8, HttpResponse as HttpResponse10 } from "msw";
+import { http as http8, HttpResponse as HttpResponse9 } from "msw";
+
+var PAYOUT_ACCOUNT_ENDPOINT = "/api/v1/partner/restaurant/payout-account";
+
+function normaliseIban(value) {
+  return value.replace(/\s+/g, "").toUpperCase();
+}
+function isValidPkIban(value) {
+  const iban = normaliseIban(value);
+  if (!/^PK\d{2}[A-Z]{4}\d{16}$/.test(iban)) return false;
+  const digits = (iban.slice(4) + iban.slice(0, 4)).replace(
+    /[A-Z]/g,
+    (c) => String(c.charCodeAt(0) - 55)
+  );
+  let remainder = 0;
+  for (const ch of digits) remainder = (remainder * 10 + Number(ch)) % 97;
+  return remainder === 1;
+}
+
+var MOCK_PAYOUT_BANKS = ["Meezan Bank", "HBL", "UBL", "MCB Bank", "Bank Alfalah"];
+var mask = (iban) => `${iban.slice(0, 4)} \u2022\u2022\u2022\u2022 ${iban.slice(-4)}`;
+var stored = null;
+var view = () => stored && {
+  accountTitle: stored.accountTitle,
+  bankName: stored.bankName,
+  ibanMasked: stored.ibanMasked,
+  addedAt: stored.addedAt,
+  updatedAt: stored.updatedAt
+};
+var invalid = (field, message) => HttpResponse9.json(
+  { success: false, error: { code: "ERR_VALIDATION", message, details: { field } } },
+  { status: 422 }
+);
+var partnerPayoutAccountHandlers = [
+  http8.get(
+    PAYOUT_ACCOUNT_ENDPOINT,
+    () => HttpResponse9.json({ success: true, data: { account: view(), banks: MOCK_PAYOUT_BANKS } })
+  ),
+  http8.put(PAYOUT_ACCOUNT_ENDPOINT, async ({ request }) => {
+    const body = await request.json();
+    const iban = stored && body.iban.trim() === stored.ibanMasked ? stored.iban : normaliseIban(body.iban);
+    if (!body.accountTitle?.trim()) return invalid("accountTitle", "Enter the account title.");
+    if (!MOCK_PAYOUT_BANKS.includes(body.bankName)) return invalid("bankName", "Choose your bank.");
+    if (!isValidPkIban(iban)) {
+      return invalid("iban", "Enter a valid Pakistani IBAN (24 characters, starting with PK).");
+    }
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    stored = {
+      accountTitle: body.accountTitle.trim(),
+      bankName: body.bankName,
+      iban,
+      ibanMasked: mask(iban),
+      addedAt: stored?.addedAt ?? now,
+      updatedAt: now
+    };
+    return HttpResponse9.json({ success: true, data: { account: view(), banks: MOCK_PAYOUT_BANKS } });
+  })
+];
+
+import { http as http9, HttpResponse as HttpResponse11 } from "msw";
 
 var PARTNER_PROFILE_ENDPOINTS = {
   restaurant: "/api/v1/partner/restaurant",
@@ -4829,7 +4888,7 @@ __export(partnerRestaurantProfile_exports, {
   submitMockProfile: () => submitMockProfile,
   updateMockContact: () => updateMockContact
 });
-import { HttpResponse as HttpResponse9 } from "msw";
+import { HttpResponse as HttpResponse10 } from "msw";
 var MANDATORY_FIELDS = [
   "name",
   "cuisine",
@@ -4952,7 +5011,7 @@ function setMockCoverPhoto(key = "restaurants/r-1/cover.jpg") {
   mockProfile.mainPhotoKey = key;
 }
 function errorResponse4(code, message, status, details = {}) {
-  return HttpResponse9.json({ success: false, error: { code, message, details } }, { status });
+  return HttpResponse10.json({ success: false, error: { code, message, details } }, { status });
 }
 function liveContacts() {
   return mockContacts.filter((contact) => !deletedContactIds.has(contact.id));
@@ -5096,8 +5155,8 @@ function patchMockProfile(body) {
   if (mockProfile.status === "PENDING") {
     return errorResponse4("ERR_PROFILE_READ_ONLY", READ_ONLY_MESSAGE, 409, { status: "PENDING" });
   }
-  const invalid = validatePatch(body);
-  if (invalid) return invalid;
+  const invalid2 = validatePatch(body);
+  if (invalid2) return invalid2;
   if (body.visibleOnApp !== void 0) {
     if (mockProfile.status !== "ACTIVE") {
       return errorResponse4("ERR_VALIDATION", "Visibility is only available once active.", 422);
@@ -5112,16 +5171,16 @@ function patchMockProfile(body) {
     mockProfile.visibleOnApp = body.visibleOnApp;
   }
   applyPatch(body);
-  return HttpResponse9.json({ success: true, data: profileResponse() });
+  return HttpResponse10.json({ success: true, data: profileResponse() });
 }
 function saveMockDraft(body) {
   if (mockProfile.status === "PENDING") {
     return errorResponse4("ERR_PROFILE_READ_ONLY", READ_ONLY_MESSAGE, 409, { status: "PENDING" });
   }
-  const invalid = validatePatch(body);
-  if (invalid) return invalid;
+  const invalid2 = validatePatch(body);
+  if (invalid2) return invalid2;
   applyPatch(body);
-  return HttpResponse9.json({ success: true, data: profileResponse() });
+  return HttpResponse10.json({ success: true, data: profileResponse() });
 }
 function submitMockProfile() {
   if (mockProfile.status !== "DRAFT" && mockProfile.status !== "REJECTED") {
@@ -5142,7 +5201,7 @@ function submitMockProfile() {
   }
   mockProfile.status = "PENDING";
   mockProfile.rejections = [];
-  return HttpResponse9.json({
+  return HttpResponse10.json({
     success: true,
     data: {
       status: "PENDING",
@@ -5151,7 +5210,7 @@ function submitMockProfile() {
   });
 }
 function onboardingLinkResponse() {
-  return HttpResponse9.json({
+  return HttpResponse10.json({
     success: true,
     data: {
       // Single-use and short-lived — a different URL every call.
@@ -5182,7 +5241,7 @@ function listMockContacts(query) {
   const sortBy = query.sortBy ?? "name";
   items = [...items].sort((a, b) => String(a[sortBy] ?? "").localeCompare(String(b[sortBy] ?? "")));
   if (query.sortOrder === "desc") items.reverse();
-  return HttpResponse9.json({ success: true, data: { items } });
+  return HttpResponse10.json({ success: true, data: { items } });
 }
 function createMockContact(body) {
   if (mockProfile.status === "PENDING") {
@@ -5202,7 +5261,7 @@ function createMockContact(body) {
     phone: body.phone ?? null
   };
   mockContacts.push(created);
-  return HttpResponse9.json({ success: true, data: created }, { status: 201 });
+  return HttpResponse10.json({ success: true, data: created }, { status: 201 });
 }
 function updateMockContact(id, body) {
   if (mockProfile.status === "PENDING") {
@@ -5222,7 +5281,7 @@ function updateMockContact(id, body) {
   if (body.title !== void 0) contact.title = body.title;
   if (body.email !== void 0) contact.email = body.email;
   if (body.phone !== void 0) contact.phone = body.phone;
-  return HttpResponse9.json({ success: true, data: contact });
+  return HttpResponse10.json({ success: true, data: contact });
 }
 function deleteMockContact(id) {
   if (mockProfile.status === "PENDING") {
@@ -5238,29 +5297,29 @@ function deleteMockContact(id) {
     });
   }
   deletedContactIds.add(id);
-  return HttpResponse9.json({ success: true, data: { id, deleted: true } });
+  return HttpResponse10.json({ success: true, data: { id, deleted: true } });
 }
 
 var partnerRestaurantProfileHandlers = [
-  http8.get(
+  http9.get(
     PARTNER_PROFILE_ENDPOINTS.restaurant,
-    () => HttpResponse10.json({ success: true, data: profileResponse() })
+    () => HttpResponse11.json({ success: true, data: profileResponse() })
   ),
-  http8.patch(
+  http9.patch(
     PARTNER_PROFILE_ENDPOINTS.restaurant,
     async ({ request }) => patchMockProfile(await request.json())
   ),
-  http8.post(PARTNER_PROFILE_ENDPOINTS.submit, () => {
+  http9.post(PARTNER_PROFILE_ENDPOINTS.submit, () => {
     const response = submitMockProfile();
     if (response.ok) partnerSessionState.route = "UNDER_REVIEW";
     return response;
   }),
-  http8.post(
+  http9.post(
     PARTNER_PROFILE_ENDPOINTS.saveDraft,
     async ({ request }) => saveMockDraft(await request.json())
   ),
-  http8.post(PARTNER_PROFILE_ENDPOINTS.onboardingLink, () => onboardingLinkResponse()),
-  http8.get(PARTNER_PROFILE_ENDPOINTS.contacts, ({ request }) => {
+  http9.post(PARTNER_PROFILE_ENDPOINTS.onboardingLink, () => onboardingLinkResponse()),
+  http9.get(PARTNER_PROFILE_ENDPOINTS.contacts, ({ request }) => {
     const params = new URL(request.url).searchParams;
     return listMockContacts({
       sortBy: params.get("sortBy"),
@@ -5269,21 +5328,21 @@ var partnerRestaurantProfileHandlers = [
       search: params.get("search")
     });
   }),
-  http8.post(
+  http9.post(
     PARTNER_PROFILE_ENDPOINTS.contacts,
     async ({ request }) => createMockContact(await request.json())
   ),
-  http8.patch(
+  http9.patch(
     `${PARTNER_PROFILE_ENDPOINTS.contacts}/:contactId`,
     async ({ params, request }) => updateMockContact(String(params.contactId), await request.json())
   ),
-  http8.delete(
+  http9.delete(
     `${PARTNER_PROFILE_ENDPOINTS.contacts}/:contactId`,
     ({ params }) => deleteMockContact(String(params.contactId))
   )
 ];
 
-import { http as http9, HttpResponse as HttpResponse13 } from "msw";
+import { http as http10, HttpResponse as HttpResponse14 } from "msw";
 
 var ROOT = "/api/v1/partner/restaurant";
 var PARTNER_MEDIA_ENDPOINTS = {
@@ -5324,7 +5383,7 @@ __export(partnerMedia_exports, {
   setMockDocumentCount: () => setMockDocumentCount,
   setMockPhotoCount: () => setMockPhotoCount
 });
-import { HttpResponse as HttpResponse12 } from "msw";
+import { HttpResponse as HttpResponse13 } from "msw";
 
 var SIGNATURE_BY_TYPE = {
   // "%PDF"
@@ -5369,7 +5428,7 @@ function bucketQualifiedKey(kind, objectId, fileName) {
   return `${BUCKET[kind]}/restaurants/${MOCK_KEY_RESTAURANT_ID}/${FOLDER[kind]}/${object}`;
 }
 
-import { HttpResponse as HttpResponse11 } from "msw";
+import { HttpResponse as HttpResponse12 } from "msw";
 var MOCK_CDN_ORIGIN = (globalThis.GM_PUBLIC_URL + "/mock-cdn");
 var MOCK_STREAM_ORIGIN = (globalThis.GM_PUBLIC_URL + "/mock-stream");
 var objects = /* @__PURE__ */ new Map();
@@ -5403,18 +5462,18 @@ function placeholderSvg(path) {
   ].join("");
 }
 function serveMockCdnObject(url) {
-  const stored = objects.get(pathOf(url));
-  if (stored) {
-    return new HttpResponse11(stored.bytes, {
+  const stored2 = objects.get(pathOf(url));
+  if (stored2) {
+    return new HttpResponse12(stored2.bytes, {
       headers: {
-        "Content-Type": stored.contentType,
-        "Content-Length": String(stored.bytes.byteLength),
+        "Content-Type": stored2.contentType,
+        "Content-Length": String(stored2.bytes.byteLength),
         // Re-requested freely: the bytes only live as long as the tab does.
         "Cache-Control": "no-store"
       }
     });
   }
-  return new HttpResponse11(placeholderSvg(pathOf(url)), {
+  return new HttpResponse12(placeholderSvg(pathOf(url)), {
     headers: { "Content-Type": "image/svg+xml", "Cache-Control": "no-store" }
   });
 }
@@ -5557,7 +5616,7 @@ function listMockDocuments(query) {
     const compared = field === "size" ? (a.size ?? 0) - (b.size ?? 0) : String(a[field]).localeCompare(String(b[field]));
     return descending ? -compared : compared;
   });
-  return HttpResponse12.json({ success: true, data: { items } });
+  return HttpResponse13.json({ success: true, data: { items } });
 }
 var COUNT_OF = {
   document: () => documents.length,
@@ -5591,7 +5650,7 @@ function mockUploadTarget(kind, body) {
     leading: [],
     bytes: null
   });
-  return HttpResponse12.json({
+  return HttpResponse13.json({
     success: true,
     data: {
       uploadUrl: `${MOCK_UPLOAD_ORIGIN}/${uploadRef}`,
@@ -5603,12 +5662,12 @@ function mockUploadTarget(kind, body) {
 }
 function receiveMockUpload(uploadRef, size, leading, bytes) {
   const entry = staged.find((item) => item.uploadRef === uploadRef);
-  if (!entry) return new HttpResponse12(null, { status: 403 });
+  if (!entry) return new HttpResponse13(null, { status: 403 });
   entry.received = true;
   entry.size = size;
   entry.bytes = bytes ?? null;
   entry.leading = leading ?? [...signatureFor(entry.contentType) ?? [0]];
-  return new HttpResponse12(null, { status: 200 });
+  return new HttpResponse13(null, { status: 200 });
 }
 function rejectUnknownCommitFields(body) {
   if (typeof body.uploadRef !== "string" || !body.uploadRef) {
@@ -5670,7 +5729,7 @@ function commitMockDocument(body) {
     uploadedAt: NOW
   };
   documents.push(item);
-  return HttpResponse12.json({ success: true, data: item }, { status: 201 });
+  return HttpResponse13.json({ success: true, data: item }, { status: 201 });
 }
 function commitMockPhoto(body) {
   const entry = takeStaged("photo", body);
@@ -5690,7 +5749,7 @@ function commitMockPhoto(body) {
     sortOrder: photos.length + 1
   });
   if (becameCover) mockProfile.mainPhotoKey = `photos/${mediaId}.jpg`;
-  return HttpResponse12.json(
+  return HttpResponse13.json(
     {
       success: true,
       data: {
@@ -5724,7 +5783,7 @@ function commitMockVideo(body) {
     // Ready on the next gallery read, so one poll observes the transition.
     readyAfterReads: galleryReads + 1
   });
-  return HttpResponse12.json(
+  return HttpResponse13.json(
     {
       success: true,
       data: { mediaId, name, status: "processing", size: entry.size, uploadedAt: NOW }
@@ -5746,7 +5805,7 @@ function mockGalleryResponse() {
     }
     return toVideoItem(video);
   });
-  return HttpResponse12.json({
+  return HttpResponse13.json({
     success: true,
     data: {
       photos: { count: photos.length, max: MOCK_LIMITS.photo.maxCount, items: photos },
@@ -5758,7 +5817,7 @@ function mockDownloadUrl(mediaId) {
   if (!documents.some((item) => item.mediaId === mediaId)) {
     return errorResponse4("ERR_NOT_FOUND", "Document not found.", 404);
   }
-  return HttpResponse12.json({
+  return HttpResponse13.json({
     success: true,
     // Short-lived by design: re-requested on every click, never cached.
     data: { downloadUrl: `${MOCK_UPLOAD_ORIGIN}/signed-get/${mediaId}`, expiresInSeconds: 300 }
@@ -5771,7 +5830,7 @@ function deleteMockDocument(mediaId) {
     return errorResponse4("ERR_NOT_FOUND", "Document not found.", 404);
   }
   documents = documents.filter((item) => item.mediaId !== mediaId);
-  return HttpResponse12.json({ success: true, data: { mediaId, removed: true } });
+  return HttpResponse13.json({ success: true, data: { mediaId, removed: true } });
 }
 function setMockCoverPhoto2(mediaId) {
   const blocked = readOnly();
@@ -5780,7 +5839,7 @@ function setMockCoverPhoto2(mediaId) {
   if (!photo) return errorResponse4("ERR_NOT_FOUND", "Photo not found.", 404);
   photos = photos.map((item) => ({ ...item, isCover: item.mediaId === mediaId }));
   mockProfile.mainPhotoKey = `photos/${mediaId}.jpg`;
-  return HttpResponse12.json({ success: true, data: { mediaId, isCover: true } });
+  return HttpResponse13.json({ success: true, data: { mediaId, isCover: true } });
 }
 function deleteMockPhoto(mediaId) {
   const blocked = readOnly();
@@ -5796,7 +5855,7 @@ function deleteMockPhoto(mediaId) {
   }
   photos = photos.filter((item) => item.mediaId !== mediaId);
   if (photo.isCover) clearMockCoverPhoto();
-  return HttpResponse12.json({ success: true, data: { mediaId, removed: true } });
+  return HttpResponse13.json({ success: true, data: { mediaId, removed: true } });
 }
 function deleteMockVideo(mediaId) {
   const blocked = readOnly();
@@ -5805,7 +5864,7 @@ function deleteMockVideo(mediaId) {
     return errorResponse4("ERR_NOT_FOUND", "Video not found.", 404);
   }
   videos = videos.filter((item) => item.mediaId !== mediaId);
-  return HttpResponse12.json({ success: true, data: { mediaId, removed: true } });
+  return HttpResponse13.json({ success: true, data: { mediaId, removed: true } });
 }
 
 async function uploadedObject(request) {
@@ -5818,15 +5877,15 @@ async function uploadedObject(request) {
 }
 var partnerMediaHandlers = [
   // ── Documents ────────────────────────────────────────────────
-  http9.post(
+  http10.post(
     PARTNER_MEDIA_ENDPOINTS.documentUploadUrl,
     async ({ request }) => mockUploadTarget("document", await request.json())
   ),
-  http9.get(
+  http10.get(
     PARTNER_MEDIA_ENDPOINTS.documentDownloadUrl(":mediaId"),
     ({ params }) => mockDownloadUrl(String(params.mediaId))
   ),
-  http9.get(PARTNER_MEDIA_ENDPOINTS.documents, ({ request }) => {
+  http10.get(PARTNER_MEDIA_ENDPOINTS.documents, ({ request }) => {
     const params = new URL(request.url).searchParams;
     return listMockDocuments({
       sortBy: params.get("sortBy"),
@@ -5834,43 +5893,43 @@ var partnerMediaHandlers = [
       search: params.get("search")
     });
   }),
-  http9.post(
+  http10.post(
     PARTNER_MEDIA_ENDPOINTS.documents,
     async ({ request }) => commitMockDocument(await request.json())
   ),
-  http9.delete(
+  http10.delete(
     PARTNER_MEDIA_ENDPOINTS.documentById(":mediaId"),
     ({ params }) => deleteMockDocument(String(params.mediaId))
   ),
   // ── Gallery ──────────────────────────────────────────────────
-  http9.get(PARTNER_MEDIA_ENDPOINTS.media, () => mockGalleryResponse()),
+  http10.get(PARTNER_MEDIA_ENDPOINTS.media, () => mockGalleryResponse()),
   // ── Photos ───────────────────────────────────────────────────
-  http9.post(
+  http10.post(
     PARTNER_MEDIA_ENDPOINTS.photoUploadUrl,
     async ({ request }) => mockUploadTarget("photo", await request.json())
   ),
-  http9.patch(
+  http10.patch(
     PARTNER_MEDIA_ENDPOINTS.photoCover(":mediaId"),
     ({ params }) => setMockCoverPhoto2(String(params.mediaId))
   ),
-  http9.post(
+  http10.post(
     PARTNER_MEDIA_ENDPOINTS.photos,
     async ({ request }) => commitMockPhoto(await request.json())
   ),
-  http9.delete(
+  http10.delete(
     PARTNER_MEDIA_ENDPOINTS.photoById(":mediaId"),
     ({ params }) => deleteMockPhoto(String(params.mediaId))
   ),
   // ── Videos ───────────────────────────────────────────────────
-  http9.post(
+  http10.post(
     PARTNER_MEDIA_ENDPOINTS.videoUploadUrl,
     async ({ request }) => mockUploadTarget("video", await request.json())
   ),
-  http9.post(
+  http10.post(
     PARTNER_MEDIA_ENDPOINTS.videos,
     async ({ request }) => commitMockVideo(await request.json())
   ),
-  http9.delete(
+  http10.delete(
     PARTNER_MEDIA_ENDPOINTS.videoById(":mediaId"),
     ({ params }) => deleteMockVideo(String(params.mediaId))
   ),
@@ -5881,22 +5940,22 @@ var partnerMediaHandlers = [
    * multipart. Recording the upload is what lets commit refuse a reference whose
    * bytes never landed.
    */
-  http9.put(`${MOCK_UPLOAD_ORIGIN}/:uploadRef`, async ({ params, request }) => {
+  http10.put(`${MOCK_UPLOAD_ORIGIN}/:uploadRef`, async ({ params, request }) => {
     const { size, leading, bytes } = await uploadedObject(request);
     return receiveMockUpload(String(params.uploadRef), size, leading, bytes);
   }),
-  http9.post(`${MOCK_UPLOAD_ORIGIN}/:uploadRef`, async ({ params, request }) => {
+  http10.post(`${MOCK_UPLOAD_ORIGIN}/:uploadRef`, async ({ params, request }) => {
     const { size, leading, bytes } = await uploadedObject(request);
     return receiveMockUpload(String(params.uploadRef), size, leading, bytes);
   }),
   /** The presigned GET a document download redirects to. */
-  http9.get(
+  http10.get(
     `${MOCK_UPLOAD_ORIGIN}/signed-get/:mediaId`,
-    () => new HttpResponse13(null, { status: 200 })
+    () => new HttpResponse14(null, { status: 200 })
   )
 ];
 
-import { http as http10 } from "msw";
+import { http as http11 } from "msw";
 
 var ROOT2 = "/api/v1/partner/restaurant/amenities";
 var PARTNER_AMENITIES_ENDPOINTS = {
@@ -5906,7 +5965,7 @@ var PARTNER_AMENITIES_ENDPOINTS = {
   byId: (amenityId) => `${ROOT2}/${amenityId}`
 };
 
-import { HttpResponse as HttpResponse14 } from "msw";
+import { HttpResponse as HttpResponse15 } from "msw";
 var READ_ONLY_MESSAGE3 = "Your application is under review and can't be edited right now.";
 var CDN = "https://cdn.gomingle.com/amenities";
 function seed3() {
@@ -5926,7 +5985,7 @@ function seed3() {
 }
 var catalogue = seed3();
 function listMockAmenities() {
-  return HttpResponse14.json({ success: true, data: { items: catalogue } });
+  return HttpResponse15.json({ success: true, data: { items: catalogue } });
 }
 function setMockAmenitySelected(amenityId, body) {
   if (mockProfile.status === "PENDING") {
@@ -5938,15 +5997,15 @@ function setMockAmenitySelected(amenityId, body) {
   const amenity = catalogue.find((item) => item.amenityId === amenityId);
   if (!amenity) return errorResponse4("ERR_NOT_FOUND", "Amenity not found.", 404);
   amenity.selected = body.selected;
-  return HttpResponse14.json({
+  return HttpResponse15.json({
     success: true,
     data: { amenityId, selected: amenity.selected }
   });
 }
 
 var partnerAmenitiesHandlers = [
-  http10.get(PARTNER_AMENITIES_ENDPOINTS.list, () => listMockAmenities()),
-  http10.put(
+  http11.get(PARTNER_AMENITIES_ENDPOINTS.list, () => listMockAmenities()),
+  http11.put(
     PARTNER_AMENITIES_ENDPOINTS.byId(":amenityId"),
     async ({ params, request }) => setMockAmenitySelected(
       String(params.amenityId),
@@ -5955,7 +6014,7 @@ var partnerAmenitiesHandlers = [
   )
 ];
 
-import { http as http11 } from "msw";
+import { http as http12 } from "msw";
 
 var ROOT3 = "/api/v1/partner/restaurant";
 var PARTNER_MENU_ENDPOINTS = {
@@ -5988,7 +6047,7 @@ __export(partnerMenu_exports, {
   setMockMenuPdf: () => setMockMenuPdf,
   updateMockMenuOption: () => updateMockMenuOption
 });
-import { HttpResponse as HttpResponse15 } from "msw";
+import { HttpResponse as HttpResponse16 } from "msw";
 var READ_ONLY_MESSAGE4 = "Your application is under review and can't be edited right now.";
 var MOCK_MENU_PDF_MAX_BYTES = 10 * 1024 * 1024;
 var MOCK_MENU_UPLOAD_ORIGIN = (globalThis.GM_PUBLIC_URL + "/mock-menu-upload");
@@ -6058,7 +6117,7 @@ function readOnly2() {
   return mockProfile.status === "PENDING" ? errorResponse4("ERR_PROFILE_READ_ONLY", READ_ONLY_MESSAGE4, 409, { status: "PENDING" }) : null;
 }
 function getMockMenuPdf() {
-  return HttpResponse15.json({ success: true, data: menuPdf });
+  return HttpResponse16.json({ success: true, data: menuPdf });
 }
 function mockMenuPdfUploadTarget(body) {
   const refused = readOnly2();
@@ -6076,7 +6135,7 @@ function mockMenuPdfUploadTarget(body) {
     size: 0,
     leading: []
   });
-  return HttpResponse15.json({
+  return HttpResponse16.json({
     success: true,
     data: {
       uploadUrl: `${MOCK_MENU_UPLOAD_ORIGIN}/${uploadRef}`,
@@ -6092,11 +6151,11 @@ function mockMenuPdfUploadTarget(body) {
 }
 function receiveMockMenuPdf(uploadRef, size, leading) {
   const entry = staged2.find((item) => item.uploadRef === uploadRef);
-  if (!entry) return new HttpResponse15(null, { status: 403 });
+  if (!entry) return new HttpResponse16(null, { status: 403 });
   entry.received = true;
   entry.size = size;
   entry.leading = leading ?? [...signatureFor(entry.contentType) ?? [0]];
-  return new HttpResponse15(null, { status: 200 });
+  return new HttpResponse16(null, { status: 200 });
 }
 function slugify(name) {
   const dot = name.lastIndexOf(".");
@@ -6131,7 +6190,7 @@ function commitMockMenuPdf(body) {
   }
   const name = slugify(entry.name);
   menuPdf = { menuUrl: `${CDN2}/menu/${entry.uploadRef}-${name}`, name };
-  return HttpResponse15.json({ success: true, data: menuPdf });
+  return HttpResponse16.json({ success: true, data: menuPdf });
 }
 function deleteMockMenuPdf() {
   const refused = readOnly2();
@@ -6140,10 +6199,10 @@ function deleteMockMenuPdf() {
     return errorResponse4("ERR_NOT_FOUND", "No menu PDF to remove.", 404);
   }
   menuPdf = { menuUrl: null, name: null };
-  return HttpResponse15.json({ success: true, data: { menuUrl: null } });
+  return HttpResponse16.json({ success: true, data: { menuUrl: null } });
 }
 function listMockMenuOptions() {
-  return HttpResponse15.json({ success: true, data: { items: options } });
+  return HttpResponse16.json({ success: true, data: { items: options } });
 }
 function validationFailure(body) {
   const fields = {};
@@ -6192,8 +6251,8 @@ function toDraft(body) {
 function createMockMenuOption(body) {
   const refused = readOnly2();
   if (refused) return refused;
-  const invalid = validationFailure(body);
-  if (invalid) return invalid;
+  const invalid2 = validationFailure(body);
+  if (invalid2) return invalid2;
   idCounter2 += 1;
   const created = {
     comboId: `c-${String(idCounter2)}`,
@@ -6201,17 +6260,17 @@ function createMockMenuOption(body) {
     ...toDraft(body)
   };
   options.push(created);
-  return HttpResponse15.json({ success: true, data: created }, { status: 201 });
+  return HttpResponse16.json({ success: true, data: created }, { status: 201 });
 }
 function updateMockMenuOption(comboId, body) {
   const refused = readOnly2();
   if (refused) return refused;
   const index = options.findIndex((option) => option.comboId === comboId);
   if (index < 0) return errorResponse4("ERR_NOT_FOUND", "Menu option not found.", 404);
-  const invalid = validationFailure(body);
-  if (invalid) return invalid;
+  const invalid2 = validationFailure(body);
+  if (invalid2) return invalid2;
   options[index] = { ...options[index], ...toDraft(body) };
-  return HttpResponse15.json({ success: true, data: options[index] });
+  return HttpResponse16.json({ success: true, data: options[index] });
 }
 function setMockMenuOptionVisibility(comboId, body) {
   const refused = readOnly2();
@@ -6222,7 +6281,7 @@ function setMockMenuOptionVisibility(comboId, body) {
     return errorResponse4("ERR_VALIDATION", "Invalid request.", 422);
   }
   option.isHidden = body.hidden;
-  return HttpResponse15.json({
+  return HttpResponse16.json({
     success: true,
     data: { comboId, isHidden: option.isHidden }
   });
@@ -6242,7 +6301,7 @@ function deleteMockMenuOption(comboId) {
     );
   }
   options.splice(index, 1);
-  return HttpResponse15.json({ success: true, data: { comboId, deleted: true } });
+  return HttpResponse16.json({ success: true, data: { comboId, deleted: true } });
 }
 
 async function uploadedObject2(request) {
@@ -6251,34 +6310,34 @@ async function uploadedObject2(request) {
 }
 var partnerMenuHandlers = [
   // ── The menu PDF ─────────────────────────────────────────────
-  http11.post(
+  http12.post(
     PARTNER_MENU_ENDPOINTS.menuPdfUploadUrl,
     async ({ request }) => mockMenuPdfUploadTarget(await request.json())
   ),
-  http11.get(PARTNER_MENU_ENDPOINTS.menuPdf, () => getMockMenuPdf()),
-  http11.put(
+  http12.get(PARTNER_MENU_ENDPOINTS.menuPdf, () => getMockMenuPdf()),
+  http12.put(
     PARTNER_MENU_ENDPOINTS.menuPdf,
     async ({ request }) => commitMockMenuPdf(await request.json())
   ),
-  http11.delete(PARTNER_MENU_ENDPOINTS.menuPdf, () => deleteMockMenuPdf()),
+  http12.delete(PARTNER_MENU_ENDPOINTS.menuPdf, () => deleteMockMenuPdf()),
   // ── Menu options ─────────────────────────────────────────────
-  http11.patch(
+  http12.patch(
     PARTNER_MENU_ENDPOINTS.menuOptionVisibility(":comboId"),
     async ({ params, request }) => setMockMenuOptionVisibility(
       String(params.comboId),
       await request.json()
     )
   ),
-  http11.get(PARTNER_MENU_ENDPOINTS.menuOptions, () => listMockMenuOptions()),
-  http11.post(
+  http12.get(PARTNER_MENU_ENDPOINTS.menuOptions, () => listMockMenuOptions()),
+  http12.post(
     PARTNER_MENU_ENDPOINTS.menuOptions,
     async ({ request }) => createMockMenuOption(await request.json())
   ),
-  http11.patch(
+  http12.patch(
     PARTNER_MENU_ENDPOINTS.menuOptionById(":comboId"),
     async ({ params, request }) => updateMockMenuOption(String(params.comboId), await request.json())
   ),
-  http11.delete(
+  http12.delete(
     PARTNER_MENU_ENDPOINTS.menuOptionById(":comboId"),
     ({ params }) => deleteMockMenuOption(String(params.comboId))
   ),
@@ -6287,13 +6346,13 @@ var partnerMenuHandlers = [
    * Stands in for the presigned S3 PUT. Recording the upload is what lets commit
    * refuse a reference whose bytes never landed.
    */
-  http11.put(`${MOCK_MENU_UPLOAD_ORIGIN}/:uploadRef`, async ({ params, request }) => {
+  http12.put(`${MOCK_MENU_UPLOAD_ORIGIN}/:uploadRef`, async ({ params, request }) => {
     const { size, leading } = await uploadedObject2(request);
     return receiveMockMenuPdf(String(params.uploadRef), size, leading);
   })
 ];
 
-import { http as http12 } from "msw";
+import { http as http13 } from "msw";
 
 var ROOT4 = "/api/v1/partner/restaurant";
 var PARTNER_TABLES_ENDPOINTS = {
@@ -6317,7 +6376,7 @@ __export(partnerTables_exports, {
   setMockTableVisibility: () => setMockTableVisibility,
   updateMockTable: () => updateMockTable
 });
-import { HttpResponse as HttpResponse16 } from "msw";
+import { HttpResponse as HttpResponse17 } from "msw";
 var READ_ONLY_MESSAGE5 = "Your application is under review and can't be edited right now.";
 var NOT_FOUND_MESSAGE = "Table area not found.";
 var NAME_MAX = 150;
@@ -6504,13 +6563,13 @@ function toAvailability(body) {
   }, {});
 }
 function listMockTables() {
-  return HttpResponse16.json({ success: true, data: { items: tables } });
+  return HttpResponse17.json({ success: true, data: { items: tables } });
 }
 function createMockTable(body) {
   const refused = readOnly3();
   if (refused) return refused;
-  const invalid = validationFailure2(body);
-  if (invalid) return invalid;
+  const invalid2 = validationFailure2(body);
+  if (invalid2) return invalid2;
   idCounter3 += 1;
   const created = {
     tableId: `t-${String(idCounter3)}`,
@@ -6519,21 +6578,21 @@ function createMockTable(body) {
     availability: toAvailability(body)
   };
   tables.push(created);
-  return HttpResponse16.json({ success: true, data: created }, { status: 201 });
+  return HttpResponse17.json({ success: true, data: created }, { status: 201 });
 }
 function updateMockTable(tableId, body) {
   const refused = readOnly3();
   if (refused) return refused;
   const index = tables.findIndex((table) => table.tableId === tableId);
   if (index < 0) return errorResponse4("ERR_NOT_FOUND", NOT_FOUND_MESSAGE, 404);
-  const invalid = validationFailure2(body, tableId);
-  if (invalid) return invalid;
+  const invalid2 = validationFailure2(body, tableId);
+  if (invalid2) return invalid2;
   tables[index] = {
     ...tables[index],
     name: body.name.trim(),
     availability: toAvailability(body)
   };
-  return HttpResponse16.json({ success: true, data: tables[index] });
+  return HttpResponse17.json({ success: true, data: tables[index] });
 }
 function setMockTableVisibility(tableId, body) {
   const refused = readOnly3();
@@ -6544,7 +6603,7 @@ function setMockTableVisibility(tableId, body) {
     return errorResponse4("ERR_VALIDATION", "Invalid request.", 422);
   }
   table.isHidden = body.hidden;
-  return HttpResponse16.json({ success: true, data: { tableId, isHidden: table.isHidden } });
+  return HttpResponse17.json({ success: true, data: { tableId, isHidden: table.isHidden } });
 }
 function deleteMockTable(tableId) {
   const refused = readOnly3();
@@ -6561,33 +6620,33 @@ function deleteMockTable(tableId) {
     );
   }
   tables.splice(index, 1);
-  return HttpResponse16.json({ success: true, data: { tableId, deleted: true } });
+  return HttpResponse17.json({ success: true, data: { tableId, deleted: true } });
 }
 
 var partnerTablesHandlers = [
-  http12.patch(
+  http13.patch(
     PARTNER_TABLES_ENDPOINTS.tableVisibility(":tableId"),
     async ({ params, request }) => setMockTableVisibility(
       String(params.tableId),
       await request.json()
     )
   ),
-  http12.get(PARTNER_TABLES_ENDPOINTS.tables, () => listMockTables()),
-  http12.post(
+  http13.get(PARTNER_TABLES_ENDPOINTS.tables, () => listMockTables()),
+  http13.post(
     PARTNER_TABLES_ENDPOINTS.tables,
     async ({ request }) => createMockTable(await request.json())
   ),
-  http12.patch(
+  http13.patch(
     PARTNER_TABLES_ENDPOINTS.tableById(":tableId"),
     async ({ params, request }) => updateMockTable(String(params.tableId), await request.json())
   ),
-  http12.delete(
+  http13.delete(
     PARTNER_TABLES_ENDPOINTS.tableById(":tableId"),
     ({ params }) => deleteMockTable(String(params.tableId))
   )
 ];
 
-import { http as http13 } from "msw";
+import { http as http14 } from "msw";
 
 var ROOT5 = "/api/v1/partner";
 var PARTNER_IT_ENDPOINTS = {
@@ -6619,7 +6678,7 @@ __export(partnerInterestTables_exports, {
   mockLiveInterestTableCount: () => mockLiveInterestTableCount,
   resetMockInterestTables: () => resetMockInterestTables
 });
-import { HttpResponse as HttpResponse17 } from "msw";
+import { HttpResponse as HttpResponse18 } from "msw";
 var READ_ONLY_MESSAGE6 = "Your application is under review and can't be edited right now.";
 var IT_NOT_FOUND = "Interest table not found.";
 var BOOKING_NOT_FOUND = "Booking not found.";
@@ -7058,7 +7117,7 @@ function listMockInterestTables(url) {
     proMingler: table.proMingler,
     status: table.status
   }));
-  return HttpResponse17.json({
+  return HttpResponse18.json({
     success: true,
     data: { items, page, pageSize, total: visible.length }
   });
@@ -7070,15 +7129,15 @@ function getMockInterestTable(itId) {
   void _isDraft;
   void _imageUrl;
   void _seatsBooked;
-  return HttpResponse17.json({ success: true, data: detail });
+  return HttpResponse18.json({ success: true, data: detail });
 }
 function listMockInterestTableMenuOptions(itId) {
   if (!liveTable(itId)) return errorResponse4("ERR_NOT_FOUND", IT_NOT_FOUND, 404);
-  return HttpResponse17.json({ success: true, data: { items: menuOptions[itId] ?? [] } });
+  return HttpResponse18.json({ success: true, data: { items: menuOptions[itId] ?? [] } });
 }
 function listMockInterestTableBookings(itId) {
   if (!liveTable(itId)) return errorResponse4("ERR_NOT_FOUND", IT_NOT_FOUND, 404);
-  return HttpResponse17.json({ success: true, data: { items: bookings[itId] ?? [] } });
+  return HttpResponse18.json({ success: true, data: { items: bookings[itId] ?? [] } });
 }
 function getMockBooking(bookingId) {
   const booking = findBooking(bookingId);
@@ -7100,7 +7159,7 @@ function getMockBooking(bookingId) {
     status: booking.status,
     billPkr: booking.billPkr
   };
-  return HttpResponse17.json({ success: true, data: detail });
+  return HttpResponse18.json({ success: true, data: detail });
 }
 function cancelMockBooking(bookingId) {
   const refused = requireActive();
@@ -7133,15 +7192,15 @@ function cancelMockBooking(bookingId) {
     table.seatsBooked -= 1;
     table.seatsLeft += 1;
   }
-  return HttpResponse17.json({ success: true, data: { bookingId, status: "CANCELLED" } });
+  return HttpResponse18.json({ success: true, data: { bookingId, status: "CANCELLED" } });
 }
 function listMockInvitees(itId) {
   const table = liveTable(itId);
   if (!table) return errorResponse4("ERR_NOT_FOUND", IT_NOT_FOUND, 404);
   if (!table.inviteOnly) {
-    return HttpResponse17.json({ success: true, data: { inviteOnly: false, items: [] } });
+    return HttpResponse18.json({ success: true, data: { inviteOnly: false, items: [] } });
   }
-  return HttpResponse17.json({
+  return HttpResponse18.json({
     success: true,
     data: { inviteOnly: true, items: invitees[itId] ?? [] }
   });
@@ -7163,58 +7222,58 @@ function cancelMockInvite(itId, inviteeId) {
   }
   invitee.inviteStatus = "CANCELLED";
   invitee.cancellable = false;
-  return HttpResponse17.json({ success: true, data: { inviteeId, inviteStatus: "CANCELLED" } });
+  return HttpResponse18.json({ success: true, data: { inviteeId, inviteStatus: "CANCELLED" } });
 }
 function getMockMingler(minglerId) {
   const mingler = minglers[minglerId];
   if (!mingler) return errorResponse4("ERR_NOT_FOUND", PROFILE_UNAVAILABLE, 404);
-  return HttpResponse17.json({ success: true, data: mingler });
+  return HttpResponse18.json({ success: true, data: mingler });
 }
 
 var partnerInterestTablesHandlers = [
   // ── Interest-table sub-resources, before /:itId ──────────────
-  http13.get(
+  http14.get(
     PARTNER_IT_ENDPOINTS.menuOptions(":itId"),
     ({ params }) => listMockInterestTableMenuOptions(String(params.itId))
   ),
-  http13.get(
+  http14.get(
     PARTNER_IT_ENDPOINTS.bookings(":itId"),
     ({ params }) => listMockInterestTableBookings(String(params.itId))
   ),
-  http13.post(
+  http14.post(
     PARTNER_IT_ENDPOINTS.cancelInvite(":itId", ":inviteeId"),
     ({ params }) => cancelMockInvite(String(params.itId), String(params.inviteeId))
   ),
-  http13.get(
+  http14.get(
     PARTNER_IT_ENDPOINTS.invitees(":itId"),
     ({ params }) => listMockInvitees(String(params.itId))
   ),
   // ── The grid, then the detail ────────────────────────────────
-  http13.get(
+  http14.get(
     PARTNER_IT_ENDPOINTS.interestTables,
     ({ request }) => listMockInterestTables(new URL(request.url))
   ),
-  http13.get(
+  http14.get(
     PARTNER_IT_ENDPOINTS.interestTableById(":itId"),
     ({ params }) => getMockInterestTable(String(params.itId))
   ),
   // ── Bookings: cancel before the detail read ──────────────────
-  http13.post(
+  http14.post(
     PARTNER_IT_ENDPOINTS.cancelBooking(":bookingId"),
     ({ params }) => cancelMockBooking(String(params.bookingId))
   ),
-  http13.get(
+  http14.get(
     PARTNER_IT_ENDPOINTS.bookingById(":bookingId"),
     ({ params }) => getMockBooking(String(params.bookingId))
   ),
   // ── The Mingler profile modal ────────────────────────────────
-  http13.get(
+  http14.get(
     PARTNER_IT_ENDPOINTS.minglerById(":minglerId"),
     ({ params }) => getMockMingler(String(params.minglerId))
   )
 ];
 
-import { http as http14 } from "msw";
+import { http as http15 } from "msw";
 
 var ROOT6 = "/api/v1/partner";
 var PARTNER_REVIEWS_ENDPOINTS = {
@@ -7230,7 +7289,7 @@ __export(partnerReviews_exports, {
   mockReviewDetail: () => mockReviewDetail,
   resetMockReviews: () => resetMockReviews
 });
-import { HttpResponse as HttpResponse18 } from "msw";
+import { HttpResponse as HttpResponse19 } from "msw";
 var PHOTO = globalThis.GM_PUBLIC_URL + "/mock-cdn/reviews/mezze-platter.jpg";
 function seed4() {
   return [
@@ -7405,7 +7464,7 @@ function listMockReviews(query) {
     items: rows.slice(start, start + pageSize).map(toListItem2),
     pagination: { page, pageSize, totalRecords, totalPages }
   };
-  return HttpResponse18.json({ success: true, data: body });
+  return HttpResponse19.json({ success: true, data: body });
 }
 function mockReviewDetail(reviewId) {
   const review = visibleReviews().find((item) => item.reviewId === reviewId);
@@ -7422,7 +7481,7 @@ function mockReviewDetail(reviewId) {
     photos: review.photoThumbnails,
     bookingId: review.bookingId
   };
-  return HttpResponse18.json({ success: true, data: detail });
+  return HttpResponse19.json({ success: true, data: detail });
 }
 function deleteMockReviewAsAdmin(reviewId) {
   reviews = reviews.filter((item) => item.reviewId !== reviewId);
@@ -7442,17 +7501,17 @@ function readQuery2(url) {
   };
 }
 var partnerReviewsHandlers = [
-  http14.get(
+  http15.get(
     PARTNER_REVIEWS_ENDPOINTS.reviews,
     ({ request }) => listMockReviews(readQuery2(request.url))
   ),
-  http14.get(
+  http15.get(
     PARTNER_REVIEWS_ENDPOINTS.reviewById(":reviewId"),
     ({ params }) => mockReviewDetail(String(params.reviewId))
   )
 ];
 
-import { http as http15 } from "msw";
+import { http as http16 } from "msw";
 
 var ROOT7 = "/api/v1/partner/notifications";
 var NOTIFICATION_ENDPOINTS = {
@@ -7487,7 +7546,7 @@ __export(partnerNotifications_exports, {
   resetMockNotifications: () => resetMockNotifications,
   setMockUnreadCount: () => setMockUnreadCount
 });
-import { HttpResponse as HttpResponse19 } from "msw";
+import { HttpResponse as HttpResponse20 } from "msw";
 var MINUTE = 6e4;
 var HOUR = 36e5;
 var DAY = 864e5;
@@ -7644,13 +7703,13 @@ function unreadCount() {
   return notifications.filter((item) => !item.isRead).length;
 }
 function mockUnreadCount() {
-  return HttpResponse19.json({ success: true, data: { unreadCount: unreadCount() } });
+  return HttpResponse20.json({ success: true, data: { unreadCount: unreadCount() } });
 }
 var RECENT_LIMIT = 7;
 function mockRecentNotifications() {
   const items = [...notifications].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)).slice(0, RECENT_LIMIT).map(toItem);
   const body = { unreadCount: unreadCount(), items };
-  return HttpResponse19.json({ success: true, data: body });
+  return HttpResponse20.json({ success: true, data: body });
 }
 function karachiToday2() {
   return new Date(Date.now() + 5 * HOUR).toISOString().slice(0, 10);
@@ -7696,8 +7755,8 @@ function matchesSearch3(item, needle) {
   return item.title.toLowerCase().includes(term) || item.body.toLowerCase().includes(term);
 }
 function listMockNotifications(query) {
-  const invalid = validate(query);
-  if (invalid) return invalid;
+  const invalid2 = validate(query);
+  if (invalid2) return invalid2;
   const badge = unreadCount();
   let rows = [...notifications];
   const search = query.search?.trim();
@@ -7733,10 +7792,10 @@ function listMockNotifications(query) {
     items: rows.slice(start, start + pageSize).map(toItem),
     pagination: { page, pageSize, totalRecords, totalPages }
   };
-  return HttpResponse19.json({ success: true, data: body });
+  return HttpResponse20.json({ success: true, data: body });
 }
 function mockNotificationTypes() {
-  return HttpResponse19.json({ success: true, data: { items: [...TYPE_CATALOGUE] } });
+  return HttpResponse20.json({ success: true, data: { items: [...TYPE_CATALOGUE] } });
 }
 function markMockRead(id) {
   const item = notifications.find((row) => row.id === id);
@@ -7746,7 +7805,7 @@ function markMockRead(id) {
     item.readAt = karachiIso(0);
   }
   const body = { id, isRead: true, unreadCount: unreadCount() };
-  return HttpResponse19.json({ success: true, data: body });
+  return HttpResponse20.json({ success: true, data: body });
 }
 function markAllMockRead() {
   const unread = notifications.filter((item) => !item.isRead);
@@ -7755,7 +7814,7 @@ function markAllMockRead() {
     item.readAt = karachiIso(0);
   });
   const body = { markedCount: unread.length, unreadCount: 0 };
-  return HttpResponse19.json({ success: true, data: body });
+  return HttpResponse20.json({ success: true, data: body });
 }
 function mockReadAt(id) {
   return notifications.find((row) => row.id === id)?.readAt ?? null;
@@ -7776,24 +7835,24 @@ function readQuery3(url) {
   };
 }
 var partnerNotificationsHandlers = [
-  http15.get(NOTIFICATION_ENDPOINTS.unreadCount, () => mockUnreadCount()),
-  http15.get(NOTIFICATION_ENDPOINTS.recent, () => mockRecentNotifications()),
-  http15.get(NOTIFICATION_ENDPOINTS.types, () => mockNotificationTypes()),
-  http15.patch(NOTIFICATION_ENDPOINTS.markAllRead, () => markAllMockRead()),
-  http15.get(
+  http16.get(NOTIFICATION_ENDPOINTS.unreadCount, () => mockUnreadCount()),
+  http16.get(NOTIFICATION_ENDPOINTS.recent, () => mockRecentNotifications()),
+  http16.get(NOTIFICATION_ENDPOINTS.types, () => mockNotificationTypes()),
+  http16.patch(NOTIFICATION_ENDPOINTS.markAllRead, () => markAllMockRead()),
+  http16.get(
     NOTIFICATION_ENDPOINTS.list,
     ({ request }) => listMockNotifications(readQuery3(request.url))
   ),
-  http15.patch(
+  http16.patch(
     NOTIFICATION_ENDPOINTS.markRead(":id"),
     ({ params }) => markMockRead(String(params.id))
   )
 ];
 
-import { http as http16 } from "msw";
+import { http as http17 } from "msw";
 var mockCdnHandlers = [
-  http16.get(`${MOCK_CDN_ORIGIN}/*`, ({ request }) => serveMockCdnObject(request.url)),
-  http16.get(`${MOCK_STREAM_ORIGIN}/*`, ({ request }) => serveMockCdnObject(request.url))
+  http17.get(`${MOCK_CDN_ORIGIN}/*`, ({ request }) => serveMockCdnObject(request.url)),
+  http17.get(`${MOCK_STREAM_ORIGIN}/*`, ({ request }) => serveMockCdnObject(request.url))
 ];
 
 var BASE = "/api";
@@ -7811,6 +7870,7 @@ var partnerHandlers = [
   ...partnerWebhookHandlers,
   ...partnerFinancesHandlers,
   ...partnerEscrowHandlers,
+  ...partnerPayoutAccountHandlers,
   ...partnerRestaurantProfileHandlers,
   ...partnerMediaHandlers,
   ...partnerAmenitiesHandlers,
@@ -7824,10 +7884,10 @@ var partnerHandlers = [
 ];
 var legacyHandlers = [
   // Auth
-  http17.post(`${BASE}/auth/login`, async ({ request }) => {
+  http18.post(`${BASE}/auth/login`, async ({ request }) => {
     const body = await request.json();
     if (body.email && body.password) {
-      return HttpResponse20.json({
+      return HttpResponse21.json({
         user: {
           id: "u1",
           name: "Hira Mansoor",
@@ -7838,24 +7898,24 @@ var legacyHandlers = [
         token: "mock-token"
       });
     }
-    return HttpResponse20.json({ message: "Invalid credentials" }, { status: 401 });
+    return HttpResponse21.json({ message: "Invalid credentials" }, { status: 401 });
   }),
   // Roles
-  http17.get(`${BASE}/roles`, () => HttpResponse20.json(mockRoles)),
-  http17.post(`${BASE}/roles`, async ({ request }) => {
+  http18.get(`${BASE}/roles`, () => HttpResponse21.json(mockRoles)),
+  http18.post(`${BASE}/roles`, async ({ request }) => {
     const body = await request.json();
-    return HttpResponse20.json({ ...body, id: `r${Date.now()}`, usersCount: 0 }, { status: 201 });
+    return HttpResponse21.json({ ...body, id: `r${Date.now()}`, usersCount: 0 }, { status: 201 });
   }),
-  http17.put(`${BASE}/roles/:id`, async ({ request }) => {
+  http18.put(`${BASE}/roles/:id`, async ({ request }) => {
     const body = await request.json();
-    return HttpResponse20.json(body);
+    return HttpResponse21.json(body);
   }),
-  http17.delete(`${BASE}/roles/:id`, () => HttpResponse20.json({ success: true })),
+  http18.delete(`${BASE}/roles/:id`, () => HttpResponse21.json({ success: true })),
   // Users moved to the versioned J3 API — see partnerUsersHandlers.
   // Interest Tables — in-memory mutating list so created tables persist
   // within the session.
-  http17.get(`${BASE}/interest-tables`, () => HttpResponse20.json(mockInterestTables)),
-  http17.post(`${BASE}/interest-tables`, async ({ request }) => {
+  http18.get(`${BASE}/interest-tables`, () => HttpResponse21.json(mockInterestTables)),
+  http18.post(`${BASE}/interest-tables`, async ({ request }) => {
     const body = await request.json();
     const status = body.saveAsDraft ? "draft" : body.mode === "coming_soon" ? "coming_soon" : "pending";
     const created = {
@@ -7869,97 +7929,97 @@ var legacyHandlers = [
       status
     };
     mockInterestTables.unshift(created);
-    return HttpResponse20.json(created, { status: 201 });
+    return HttpResponse21.json(created, { status: 201 });
   }),
-  http17.get(`${BASE}/interest-tables/:id/bookings`, ({ params }) => {
+  http18.get(`${BASE}/interest-tables/:id/bookings`, ({ params }) => {
     const id = params.id;
     const bookings2 = mockRestaurantBookings.filter((b) => b.interestTableId === id);
-    return HttpResponse20.json(bookings2);
+    return HttpResponse21.json(bookings2);
   }),
-  http17.get(`${BASE}/interest-tables/:id`, ({ params }) => {
+  http18.get(`${BASE}/interest-tables/:id`, ({ params }) => {
     const id = params.id;
     const found = mockInterestTables.find((tbl) => tbl.id === id);
-    if (!found) return new HttpResponse20(null, { status: 404 });
-    return HttpResponse20.json(found);
+    if (!found) return new HttpResponse21(null, { status: 404 });
+    return HttpResponse21.json(found);
   }),
   // V8 SA6: update (AC14) — Draft tables are fully editable; post-publish edits
   // are constrained on the server in the real backend.
-  http17.patch(`${BASE}/interest-tables/:id`, async ({ params, request }) => {
+  http18.patch(`${BASE}/interest-tables/:id`, async ({ params, request }) => {
     const id = params.id;
     const body = await request.json();
     const idx = mockInterestTables.findIndex((tbl) => tbl.id === id);
-    if (idx < 0) return new HttpResponse20(null, { status: 404 });
+    if (idx < 0) return new HttpResponse21(null, { status: 404 });
     const merged = { ...mockInterestTables[idx], ...body };
     if (body.mode === "available_now" && mockInterestTables[idx].status === "coming_soon") {
       merged.status = "pending";
     }
     mockInterestTables[idx] = merged;
-    return HttpResponse20.json(mockInterestTables[idx]);
+    return HttpResponse21.json(mockInterestTables[idx]);
   }),
   // V8 SA6 AC20: publish a Draft — Coming Soon mode → coming_soon, else pending.
-  http17.post(`${BASE}/interest-tables/:id/publish`, ({ params }) => {
+  http18.post(`${BASE}/interest-tables/:id/publish`, ({ params }) => {
     const id = params.id;
     const tbl = mockInterestTables.find((t) => t.id === id);
-    if (!tbl) return new HttpResponse20(null, { status: 404 });
+    if (!tbl) return new HttpResponse21(null, { status: 404 });
     tbl.status = tbl.mode === "coming_soon" ? "coming_soon" : "pending";
-    return HttpResponse20.json(tbl);
+    return HttpResponse21.json(tbl);
   }),
   // V8 SA6 AC15: admin-cancel interest table (cascade/refund handled by backend).
-  http17.post(`${BASE}/interest-tables/:id/cancel`, ({ params }) => {
+  http18.post(`${BASE}/interest-tables/:id/cancel`, ({ params }) => {
     const id = params.id;
     const tbl = mockInterestTables.find((t) => t.id === id);
-    if (!tbl) return new HttpResponse20(null, { status: 404 });
+    if (!tbl) return new HttpResponse21(null, { status: 404 });
     tbl.status = "cancelled";
     mockRestaurantBookings.filter((b) => b.interestTableId === id).forEach((b) => {
       if (b.status === "pending" || b.status === "confirmed") b.status = "cancelled";
     });
-    return HttpResponse20.json(tbl);
+    return HttpResponse21.json(tbl);
   }),
   // V8 SA6 AC14: change the Promingler on a published table.
-  http17.post(`${BASE}/interest-tables/:id/promingler`, async ({ params, request }) => {
+  http18.post(`${BASE}/interest-tables/:id/promingler`, async ({ params, request }) => {
     const id = params.id;
     const body = await request.json();
     const tbl = mockInterestTables.find((t) => t.id === id);
-    if (!tbl) return new HttpResponse20(null, { status: 404 });
+    if (!tbl) return new HttpResponse21(null, { status: 404 });
     if (body.prominglerId) {
       const m = mockMinglers.find((x) => x.id === body.prominglerId);
       tbl.promingler = m ? { id: m.id, name: m.name, email: m.email ?? "" } : { id: body.prominglerId, name: "Unknown", email: "" };
     }
-    return HttpResponse20.json(tbl);
+    return HttpResponse21.json(tbl);
   }),
   // V8 SA6 AC16/AC22: delete an interest table.
-  http17.delete(`${BASE}/interest-tables/:id`, ({ params }) => {
+  http18.delete(`${BASE}/interest-tables/:id`, ({ params }) => {
     const id = params.id;
     const idx = mockInterestTables.findIndex((t) => t.id === id);
     if (idx >= 0) mockInterestTables.splice(idx, 1);
-    return HttpResponse20.json({ success: true });
+    return HttpResponse21.json({ success: true });
   }),
   // V8 SA6 AC30: admin-cancel a single Mingler booking.
-  http17.post(`${BASE}/interest-tables/:id/bookings/:bookingId/cancel`, ({ params }) => {
+  http18.post(`${BASE}/interest-tables/:id/bookings/:bookingId/cancel`, ({ params }) => {
     const bookingId = params.bookingId;
     const bk = mockRestaurantBookings.find((b) => b.id === bookingId || b.bookingId === bookingId);
     if (bk) bk.status = "cancelled";
-    return HttpResponse20.json({ success: true });
+    return HttpResponse21.json({ success: true });
   }),
   // V8 SA6 AC6: read-only partner availability slots for a restaurant.
-  http17.get(`${BASE}/restaurants/:id/available-slots`, ({ params }) => {
+  http18.get(`${BASE}/restaurants/:id/available-slots`, ({ params }) => {
     const id = params.id;
-    return HttpResponse20.json(mockAvailableSlots.filter((s) => s.restaurantId === id));
+    return HttpResponse21.json(mockAvailableSlots.filter((s) => s.restaurantId === id));
   }),
   // Restaurants
-  http17.get(`${BASE}/restaurants`, () => HttpResponse20.json(mockRestaurants)),
-  http17.get(`${BASE}/restaurants/:id`, ({ params }) => {
+  http18.get(`${BASE}/restaurants`, () => HttpResponse21.json(mockRestaurants)),
+  http18.get(`${BASE}/restaurants/:id`, ({ params }) => {
     const r = mockRestaurants.find((x) => x.id === params.id);
-    return r ? HttpResponse20.json(r) : HttpResponse20.json({ message: "Not found" }, { status: 404 });
+    return r ? HttpResponse21.json(r) : HttpResponse21.json({ message: "Not found" }, { status: 404 });
   }),
-  http17.get(`${BASE}/restaurants/:id/bookings`, () => HttpResponse20.json(mockRestaurantBookings)),
-  http17.put(`${BASE}/restaurants/:id/suspend`, () => HttpResponse20.json({ success: true })),
+  http18.get(`${BASE}/restaurants/:id/bookings`, () => HttpResponse21.json(mockRestaurantBookings)),
+  http18.put(`${BASE}/restaurants/:id/suspend`, () => HttpResponse21.json({ success: true })),
   // Update editable restaurant fields — mutate in-memory so edits persist for the session.
-  http17.put(`${BASE}/restaurants/:id`, async ({ params, request }) => {
+  http18.put(`${BASE}/restaurants/:id`, async ({ params, request }) => {
     const id = params.id;
     const body = await request.json();
     const idx = mockRestaurants.findIndex((r) => r.id === id);
-    if (idx < 0) return HttpResponse20.json({ message: "Not found" }, { status: 404 });
+    if (idx < 0) return HttpResponse21.json({ message: "Not found" }, { status: 404 });
     mockRestaurants[idx] = {
       ...mockRestaurants[idx],
       ...body
@@ -7969,33 +8029,33 @@ var legacyHandlers = [
       const profileStatus = PROFILE_STATUS_BY_DEMO_STATUS[body.profileStatus.toLowerCase()];
       if (profileStatus) setMockProfileStatus(profileStatus);
     }
-    return HttpResponse20.json(mockRestaurants[idx]);
+    return HttpResponse21.json(mockRestaurants[idx]);
   }),
   // Minglers
-  http17.get(`${BASE}/minglers`, () => HttpResponse20.json(mockMinglers)),
-  http17.get(`${BASE}/minglers/:id`, ({ params }) => {
+  http18.get(`${BASE}/minglers`, () => HttpResponse21.json(mockMinglers)),
+  http18.get(`${BASE}/minglers/:id`, ({ params }) => {
     const m = mockMinglers.find((x) => x.id === params.id);
-    return m ? HttpResponse20.json(m) : HttpResponse20.json({ message: "Not found" }, { status: 404 });
+    return m ? HttpResponse21.json(m) : HttpResponse21.json({ message: "Not found" }, { status: 404 });
   }),
-  http17.get(`${BASE}/minglers/:id/bookings`, () => HttpResponse20.json(mockMinglerBookings)),
-  http17.get(`${BASE}/minglers/:id/payment-methods`, () => HttpResponse20.json(mockPaymentMethods)),
-  http17.get(`${BASE}/minglers/:id/reviews`, () => HttpResponse20.json(mockReviews)),
-  http17.put(`${BASE}/minglers/:id/suspend`, () => HttpResponse20.json({ success: true })),
+  http18.get(`${BASE}/minglers/:id/bookings`, () => HttpResponse21.json(mockMinglerBookings)),
+  http18.get(`${BASE}/minglers/:id/payment-methods`, () => HttpResponse21.json(mockPaymentMethods)),
+  http18.get(`${BASE}/minglers/:id/reviews`, () => HttpResponse21.json(mockReviews)),
+  http18.put(`${BASE}/minglers/:id/suspend`, () => HttpResponse21.json({ success: true })),
   // V8 SA8: toggle Promingler designation (mutates in-memory so the list reflects it).
-  http17.put(`${BASE}/minglers/:id/promingler`, async ({ params, request }) => {
+  http18.put(`${BASE}/minglers/:id/promingler`, async ({ params, request }) => {
     const body = await request.json();
     const m = mockMinglers.find((x) => x.id === params.id);
-    if (!m) return HttpResponse20.json({ message: "Not found" }, { status: 404 });
+    if (!m) return HttpResponse21.json({ message: "Not found" }, { status: 404 });
     m.isPromingler = !!body.isPromingler;
-    return HttpResponse20.json({ success: true });
+    return HttpResponse21.json({ success: true });
   }),
-  http17.put(`${BASE}/reviews/:id/visibility`, () => HttpResponse20.json({ success: true })),
-  http17.delete(`${BASE}/reviews/:id`, () => HttpResponse20.json({ success: true })),
+  http18.put(`${BASE}/reviews/:id/visibility`, () => HttpResponse21.json({ success: true })),
+  http18.delete(`${BASE}/reviews/:id`, () => HttpResponse21.json({ success: true })),
   // Finances moved to the versioned J5 API — see partnerFinancesHandlers.
   // Dashboard stats
-  http17.get(
+  http18.get(
     `${BASE}/dashboard/stats`,
-    () => HttpResponse20.json({
+    () => HttpResponse21.json({
       activeRestaurants: 7,
       pendingApprovals: 5,
       activeMinglers: 9,
@@ -8007,10 +8067,10 @@ var legacyHandlers = [
     })
   ),
   // Webhooks moved to the versioned J4 API — see partnerWebhookHandlers.
-  http17.get(`${BASE}/dashboard/bookings-chart`, () => HttpResponse20.json(mockBookingsChart)),
-  http17.get(
+  http18.get(`${BASE}/dashboard/bookings-chart`, () => HttpResponse21.json(mockBookingsChart)),
+  http18.get(
     `${BASE}/dashboard/revenue-chart`,
-    () => HttpResponse20.json({
+    () => HttpResponse21.json({
       total: 148320,
       commissions: 118656,
       penalties: 29664,

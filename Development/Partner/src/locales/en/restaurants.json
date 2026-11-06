@@ -575,7 +575,8 @@
     "scheduleTiming": "Table Timings",
     "contacts": "Contacts",
     "interestTables": "Interest Tables",
-    "availableInterestTables": "Available Interest Tables"
+    "availableInterestTables": "Available Interest Tables",
+    "payoutAccount": "Payout Account"
   },
   "availableSlots": {
     "loading": "Loading availability…",
@@ -601,10 +602,10 @@
     "visibilityLabel": "Visible on Mingler App",
     "visibleOn": "Your restaurant is now visible to Minglers.",
     "visibleOff": "Your restaurant is hidden from Minglers.",
-    "updatePayments": "Update Payment Info",
+    "updatePayments": "Payout Account",
     "saveDraft": "Save as Draft",
     "sendForApproval": "Send for Approval",
-    "submitBlockedHint": "Complete the required details, payment setup and cover photo first.",
+    "submitBlockedHint": "Not ready yet. The yellow box below lists what's missing.",
     "submitPendingHint": "Your application is already under review. You can't submit it again until a decision is made.",
     "submittedTitle": "Approval request submitted",
     "submittedBody": "Your application has been submitted and is under review. We'll email you when a decision is made.",
@@ -621,9 +622,10 @@
     },
     "blockers": {
       "title": "Your application can't be submitted yet",
-      "missingFields": "Add the following before submitting: {{fields}}.",
-      "needsPayout": "Payment account setup is required before submitting for approval. Please set up your payment info.",
-      "needsCoverPhoto": "A cover photo is required before submitting for approval."
+      "missingFields": "Add: {{fields}}. Fill these in on the Overview tab: owner fields under Owner Details, restaurant phone and e-mail under Location & Address.",
+      "needsPayout": "Add your payout bank account on the Payout Account tab.",
+      "needsCoverPhoto": "Add a cover photo: click the image at the top left of this page.",
+      "checklistTitle": "Before you can send for approval"
     },
     "payments": {
       "configured": "Your payment account is set up.",
@@ -720,7 +722,8 @@
       "paymentSeam": "Couldn't start payment setup. Please try again.",
       "contactNotFound": "Contact not found.",
       "validation": "Please correct the highlighted fields."
-    }
+    },
+    "addPayoutAccount": "Add Payout Account"
   },
   "partnerMedia": {
     "photos": "Photos",
@@ -1139,5 +1142,32 @@
     "errors": {
       "notFound": "That review is no longer available. The list has been refreshed."
     }
+  },
+  "payoutAccount": {
+    "title": "Payout bank account",
+    "explainer": "Mingler payments are held in Safepay escrow until each event is completed. GoMingle then pays your share, minus the platform fee, into this bank account.",
+    "fields": {
+      "accountTitle": "Account title",
+      "bankName": "Bank",
+      "iban": "IBAN",
+      "updatedAt": "Last updated"
+    },
+    "placeholders": {
+      "accountTitle": "As printed on your bank statement",
+      "bankName": "Choose your bank"
+    },
+    "ibanHint": "24 characters starting with PK, e.g. PK36 SCBL 0000 0011 2345 6702.",
+    "ibanKeepHint": "Leave as shown to keep the account number on file, or enter a new IBAN.",
+    "errors": {
+      "accountTitle": "Enter the account title.",
+      "bankName": "Choose your bank.",
+      "iban": "Enter a valid Pakistani IBAN (24 characters, starting with PK)."
+    },
+    "save": "Save payout account",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "saved": "Payout account saved.",
+    "editAria": "Edit payout account",
+    "loadFailed": "Your payout account could not be loaded."
   }
 }

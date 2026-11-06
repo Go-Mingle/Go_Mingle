@@ -42,6 +42,8 @@ interface BuildTabItemsParams {
   tableTimingsTab?: React.ReactNode
   interestTablesTab?: React.ReactNode
   reviewsTab?: React.ReactNode
+  /** The payout bank account; the tab only shows when the page supplies it. */
+  payoutAccountTab?: React.ReactNode
 }
 
 export function buildTabItems({
@@ -57,6 +59,7 @@ export function buildTabItems({
   tableTimingsTab,
   interestTablesTab,
   reviewsTab,
+  payoutAccountTab,
 }: BuildTabItemsParams): TabsProps['items'] {
   const tabs: TabsProps['items'] = [
     {
@@ -110,6 +113,15 @@ export function buildTabItems({
       key: 'interest-tables',
       label: t('restaurants:tabs.interestTables'),
       children: interestTablesTab,
+    })
+  }
+
+  if (payoutAccountTab) {
+    // Straight after Overview: with it, the only tab that gates approval.
+    tabs.splice(1, 0, {
+      key: 'payout-account',
+      label: t('restaurants:tabs.payoutAccount'),
+      children: payoutAccountTab,
     })
   }
 

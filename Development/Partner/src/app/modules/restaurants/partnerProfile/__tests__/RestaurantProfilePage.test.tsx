@@ -29,6 +29,7 @@ vi.mock('../../components/restaurantDetailTabs', () => ({
     overviewTab,
     contactsTab,
     reviewsTab,
+    payoutAccountTab,
     hasReviewsAccess,
     hasInterestTablesAccess,
     activeTab,
@@ -37,6 +38,7 @@ vi.mock('../../components/restaurantDetailTabs', () => ({
     overviewTab: React.ReactNode
     contactsTab: React.ReactNode
     reviewsTab: React.ReactNode
+    payoutAccountTab?: React.ReactNode
     hasReviewsAccess?: boolean
     hasInterestTablesAccess?: boolean
     activeTab: string
@@ -59,7 +61,11 @@ vi.mock('../../components/restaurantDetailTabs', () => ({
       {/* Surfaced so a test can assert the page navigated, e.g. the cover modal's
           hand-off to Photos & Videos. */}
       <span data-testid="active-tab">{activeTab}</span>
-      {activeTab === 'contacts' ? contactsTab : overviewTab}
+      {activeTab === 'contacts'
+        ? contactsTab
+        : activeTab === 'payout-account'
+          ? payoutAccountTab
+          : overviewTab}
     </div>
   ),
 }))
@@ -563,11 +569,9 @@ describe('submit gate', () => {
     await userEvent.setup().click(screen.getByRole('button', { name: /send for approval/i }))
 
     const alert = await screen.findByRole('alert')
-    expect(within(alert).getByText(/add the following before submitting/i)).toBeInTheDocument()
-    expect(within(alert).getByText(/payment account setup is required/i)).toBeInTheDocument()
-    expect(
-      within(alert).getByText(/cover photo is required before submitting/i),
-    ).toBeInTheDocument()
+    expect(within(alert).getByText(/^Add: Cuisine Type, Map Location/i)).toBeInTheDocument()
+    expect(within(alert).getByText(/payout bank account on the payout account tab/i)).toBeInTheDocument()
+    expect(within(alert).getByText(/add a cover photo/i)).toBeInTheDocument()
   })
 
   /**
@@ -641,36 +645,28 @@ describe('cover image modal', () => {
 })
 
 describe('payments hand-off', () => {
-  it('opens the modal with the GoMingle brand name, not the old GoMingle one', async () => {
-    // No payout account yet, so this is first-time setup rather than an update.
-    clearMockPayoutAccount()
-    await renderPage()
-    await userEvent.setup().click(screen.getByRole('button', { name: /update payment info/i }))
-
-    expect(await screen.findByText(/held in safepay escrow|holds them in escrow/i)).toBeInTheDocument()
-    expect(screen.queryByText(/mingle\s?eat uses/i)).not.toBeInTheDocument()
-  })
-
   /**
-   * Titled from `paymentConfigured`, not the response's `mode`: the server picks
-   * the same branch from the same fact, and `mode` only arrives on the response
-   * that immediately redirects to Safepay — too late to title this modal.
+   * The payout account is managed in the portal now: the header button opens
+   * the Payout Account tab instead of a modal hand-off to an external page.
    */
-  it('titles the hand-off as setup when no account is bound', async () => {
+  it('offers Add Payout Account until one exists, and opens the Payout Account tab', async () => {
     clearMockPayoutAccount()
     await renderPage()
-    await userEvent.setup().click(screen.getByRole('button', { name: /update payment info/i }))
+    // The tab pane mounts only once opened.
+    expect(screen.queryByText(/held in safepay escrow/i)).not.toBeInTheDocument()
+    await userEvent.setup().click(screen.getByRole('button', { name: /add payout account/i }))
 
-    expect(await screen.findByText('Set up payments')).toBeInTheDocument()
+    expect(screen.getByTestId('active-tab')).toHaveTextContent('payout-account')
+    expect(await screen.findByText(/held in safepay escrow/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Save payout account' })).toBeInTheDocument()
+    expect(screen.queryByText('Set up payments')).not.toBeInTheDocument()
   })
 
-  it('titles the hand-off as an update once one is', async () => {
+  it('labels the header button Payout Account once an account is on file', async () => {
     setMockPayoutAccount()
     await renderPage()
-    await userEvent.setup().click(screen.getByRole('button', { name: /update payment info/i }))
-
-    expect(await screen.findByText('Update payment info')).toBeInTheDocument()
-    expect(screen.queryByText('Set up payments')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^payout account$/i })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /add payout account/i })).not.toBeInTheDocument()
   })
 
   /** Returning does not itself configure payments — the webhook does. */

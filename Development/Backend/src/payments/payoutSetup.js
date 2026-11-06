@@ -14,7 +14,7 @@ const LOCAL = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/
 const trusted = (o) => Boolean(o) && (LOCAL.test(o) || config.corsOrigins.includes(o))
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`)
 
-const BANKS = [
+export const BANKS = [
   'Meezan Bank', 'HBL', 'UBL', 'MCB Bank', 'Allied Bank', 'Bank Alfalah', 'Standard Chartered Pakistan',
   'Faysal Bank', 'Bank AL Habib', 'Askari Bank', 'JS Bank', 'Soneri Bank', 'BankIslami', 'Dubai Islamic Bank Pakistan',
 ]
@@ -51,6 +51,46 @@ ${error ? `<div class="err">${esc(error)}</div>` : ''}
   )
 }
 
+/** The payout account as the partner sees it: the number is always masked. */
+export function publicPayoutAccount(account) {
+  if (!account) return null
+  return {
+    accountTitle: account.accountTitle,
+    bankName: account.bankName,
+    ibanMasked: maskIban(account.iban),
+    addedAt: account.addedAt,
+    updatedAt: account.updatedAt ?? account.addedAt,
+  }
+}
+
+/**
+ * Validates and stores a restaurant's payout account. Shared by the Partner
+ * Portal's Payout Account tab and the hosted setup page.
+ * An IBAN sent back exactly as shown masked ("PK72 •••• 1234") keeps the
+ * number on file, so editing only the title or bank does not need it retyped.
+ */
+export async function savePayoutAccount(restaurantId, input) {
+  const rec = db.restaurants[restaurantId]
+  if (!rec) return { error: 'Restaurant not found.' }
+  const accountTitle = String(input.accountTitle ?? '').trim()
+  const bankName = String(input.bankName ?? '').trim()
+  const saved = rec.payoutAccount?.iban
+  const iban = saved && String(input.iban ?? '').trim() === maskIban(saved) ? saved : normaliseIban(input.iban)
+  if (!accountTitle) return { error: 'Enter the account title.', field: 'accountTitle' }
+  if (accountTitle.length > 100) return { error: 'The account title can be at most 100 characters.', field: 'accountTitle' }
+  if (!BANKS.includes(bankName)) return { error: 'Choose your bank.', field: 'bankName' }
+  if (!isValidPkIban(iban)) {
+    return { error: 'Enter a valid Pakistani IBAN (24 characters, starting with PK).', field: 'iban' }
+  }
+  const now = new Date().toISOString()
+  rec.payoutAccount = { accountTitle, bankName, iban, addedAt: rec.payoutAccount?.addedAt ?? now, updatedAt: now }
+  const ns = await partnerTenant(restaurantId)
+  ns.profile.mockProfile.payoutAccountId = `po_${iban.slice(-8)}`
+  snapshot(restaurantId, ns)
+  save()
+  return { account: rec.payoutAccount }
+}
+
 export function payoutRoutes() {
   const r = express.Router()
   r.get('/payouts/setup/:id', (req, res) => {
@@ -65,17 +105,9 @@ export function payoutRoutes() {
       if (!rec) return res.status(404).send(page('Not found', '<h1>Restaurant not found</h1>'))
       const raw = Buffer.isBuffer(req.body) ? new URLSearchParams(req.body.toString('utf8')) : new URLSearchParams(req.body)
       const input = Object.fromEntries(raw)
-      const accountTitle = String(input.accountTitle ?? '').trim()
-      const iban = normaliseIban(input.iban)
-      if (!accountTitle) return res.status(422).send(form(rec, { ...req.query, ...input }, 'Enter the account title.'))
-      if (!isValidPkIban(iban)) {
-        return res.status(422).send(form(rec, { ...req.query, ...input }, 'Enter a valid Pakistani IBAN (24 characters, starting with PK).'))
-      }
-      rec.payoutAccount = { accountTitle, bankName: String(input.bankName ?? '').trim(), iban, addedAt: new Date().toISOString() }
-      const ns = await partnerTenant(id)
-      ns.profile.mockProfile.payoutAccountId = `po_${iban.slice(-8)}`
-      snapshot(id, ns)
-      save()
+      const result = await savePayoutAccount(id, input)
+      if (result.error) return res.status(422).send(form(rec, { ...req.query, ...input }, result.error))
+      const iban = result.account.iban
       if (trusted(req.query.return)) return res.redirect(303, `${req.query.return}/overview?payments=return`)
       res.send(page('Saved', `<h1>Payout account saved</h1><p>Payouts will go to <b>${esc(rec.payoutAccount.bankName)} ${esc(maskIban(iban))}</b>. You can close this tab.</p>`))
     } catch (err) {

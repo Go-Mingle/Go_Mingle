@@ -28,7 +28,7 @@ Both sign-in screens show the demo account. To stop everything, close the three 
 
 **Demo script (about 5 minutes):**
 1. **Partner Portal:** click *Create an account*, enter any e-mail and the 6-digit code from the **GoMingle API** window (`123456` also works), then set a password.
-2. Fill in the Overview (name, cuisine, address, owner, phones), upload a cover photo under *Photos & Videos* and a trade licence under *Documents*, then click *Add payout account* and enter a bank and IBAN (for example `PK72 HABB 0012 3456 7890 1234`).
+2. Fill in the Overview (name, cuisine, address, owner, phones), upload a cover photo under *Photos & Videos* and a trade licence under *Documents*, then click **Add Payout Account**: it opens the *Payout Account* tab, where you enter the account title, bank and IBAN (for example `PK72 HABB 0012 3456 7890 1234`) and save. A yellow box on the profile lists anything still missing before *Send for Approval* turns on.
 3. Click **Send for Approval**. The profile turns read-only, *Under review*.
 4. **Admin Panel → Approval Queue:** the restaurant is listed and the bell shows a new notification. Open it to see the profile and documents.
 5. **Decline** with a reason. The partner sees it on their profile, fixes it and resubmits.

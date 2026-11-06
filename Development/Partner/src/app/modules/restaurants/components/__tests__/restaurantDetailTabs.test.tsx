@@ -60,6 +60,13 @@ function keysFor(over: Partial<Parameters<typeof buildTabItems>[0]> = {}) {
 }
 
 describe('buildTabItems', () => {
+  it('puts Payout Account straight after Overview when the page supplies it', () => {
+    const keys = keysFor({ hasInterestTablesAccess: true, payoutAccountTab: <div>payout</div> })
+    expect(keys.slice(0, 3)).toEqual(['overview', 'payout-account', 'contacts'])
+    expect(keys).toHaveLength(10)
+    expect(keys.indexOf('interest-tables')).toBe(keys.indexOf('photos-videos') - 1)
+  })
+
   it('offers all nine tabs in design order when everything is granted', () => {
     expect(keysFor({ hasInterestTablesAccess: true })).toEqual([
       'overview',

@@ -13,6 +13,7 @@ import { config } from './config.js'
 import { db } from './db/store.js'
 import * as escrow from './payments/escrow.js'
 import { gateway as safepayGateway } from './payments/safepay.js'
+import { BANKS, publicPayoutAccount, savePayoutAccount } from './payments/payoutSetup.js'
 import {
   notifyPartner,
   onAdminRestaurantChange,
@@ -217,6 +218,7 @@ const CONTRACT_REGISTERED_EMAIL = 'partner@gomingle.com'
 const contractSignupTokens = new Map() // userId -> token the contract expects on `complete`
 
 const SESSION_PATH = '/api/v1/partner/session'
+const PAYOUT_ACCOUNT = '/api/v1/partner/restaurant/payout-account'
 const PROFILE_ROOT = '/api/v1/partner/restaurant'
 const SUBMIT_PATH = `${PROFILE_ROOT}/submit`
 const ONBOARDING_LINK = `${PROFILE_ROOT}/payments/onboarding-link`
@@ -394,6 +396,24 @@ export function partnerPortal() {
         data.partnerUser = { ...data.partnerUser, id: user.id, email: user.email, fullName: user.fullName }
         if (data.restaurant) Object.assign(data.restaurant, { id, name: p.name ?? data.restaurant.name, status: p.status })
         return res.status(response.status).json(payload)
+      }
+      if (req.path === PAYOUT_ACCOUNT) {
+        // The restaurant's payout bank account, managed on the profile's Payout
+        // Account tab. Editable in every state: bank details are not part of the
+        // profile under review, and escrow is released to whatever is on file.
+        if (req.method === 'GET') {
+          return res.json({
+            success: true,
+            data: { account: publicPayoutAccount(escrow.payoutAccount(id)), banks: BANKS },
+          })
+        }
+        if (req.method === 'PUT') {
+          const result = await savePayoutAccount(id, jsonBody(req))
+          if (result.error) {
+            return sendError(res, 422, 'ERR_VALIDATION', result.error, { field: result.field })
+          }
+          return res.json({ success: true, data: { account: publicPayoutAccount(result.account), banks: BANKS } })
+        }
       }
       if (req.method === 'GET' && req.path === '/api/v1/partner/escrow') {
         const account = escrow.payoutAccount(id)

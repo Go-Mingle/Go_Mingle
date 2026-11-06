@@ -10,6 +10,7 @@ import { resetMockMenu } from './mocks/data/partnerMenu'
 import { resetMockTables } from './mocks/data/partnerTables'
 import { resetMockInterestTables } from './mocks/data/partnerInterestTables'
 import { resetMockReviews } from './mocks/data/partnerReviews'
+import { resetMockPayoutAccount } from './mocks/handlers/partnerPayoutAccount'
 import { resetMockNotifications } from './mocks/data/partnerNotifications'
 import { __resetMockAuthState } from './shared/auth/mockAuthProvider'
 import { resetMockSignupState } from './mocks/handlers/partnerSignup'
@@ -57,6 +58,7 @@ beforeEach(() => {
   resetMockTables()
   resetMockInterestTables()
   resetMockReviews()
+  resetMockPayoutAccount()
   resetMockNotifications()
   // Signups, issued reset codes, and the mock lockout counters (MET-1240).
   __resetMockAuthState()
