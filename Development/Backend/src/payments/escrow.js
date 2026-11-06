@@ -81,11 +81,18 @@ function push(h, event, by, note) {
   h.timeline.push({ status: event, at: h.updatedAt, by, ...(note ? { note } : {}) })
 }
 
-export async function createHold({ restaurantId, minglerName, guests, amountPerGuest, eventName, eventAt, by = 'Mingler app' }) {
+/**
+ * `demo: true` marks seeded sample records: they never touch the gateway, so a
+ * fresh start does not create trackers in your Safepay account (or fail when
+ * Safepay is unreachable).
+ */
+export async function createHold({ restaurantId, minglerName, guests, amountPerGuest, eventName, eventAt, by = 'Mingler app', demo = false }) {
   const amount = round(Number(guests) * Number(amountPerGuest))
   if (!(amount > 0)) throw new EscrowError(422, 'ERR_VALIDATION', 'Amount must be greater than zero.')
   const id = `esc-${crypto.randomBytes(4).toString('hex')}`
-  const auth = await safepay.authorize({ amount, orderId: id })
+  const auth = demo
+    ? { tracker: `demo_${crypto.randomUUID()}`, state: 'AUTHORIZED' }
+    : await safepay.authorize({ amount, orderId: id })
   const h = {
     id,
     bookingRef: `GM-${Math.floor(100000 + Math.random() * 900000)}`,
@@ -99,6 +106,7 @@ export async function createHold({ restaurantId, minglerName, guests, amountPerG
     eventAt: eventAt ?? now(),
     gateway: safepay.gateway.name,
     tracker: auth.tracker,
+    ...(demo ? { demo: true } : {}),
     createdAt: now(),
     timeline: [],
   }
@@ -106,6 +114,11 @@ export async function createHold({ restaurantId, minglerName, guests, amountPerG
   ledger().holds[id] = h
   save()
   return view(h)
+}
+
+/** Safepay reports a card hold as AUTHORIZED (simulator) or similar live states. */
+function isAuthorized(state) {
+  return ['AUTHORIZED', 'TRACKER_AUTHORIZED', 'PAID', 'TRACKER_ENDED'].includes(String(state).toUpperCase())
 }
 
 function find(id) {
@@ -122,9 +135,9 @@ function expect(h, status, action) {
 
 export async function capture(id, by) {
   const h = find(id)
-  if (h.status === 'PENDING_PAYMENT' && (await safepay.status(h.tracker)) !== 'UNKNOWN') push(h, 'AUTHORIZED', 'Safepay')
+  if (h.status === 'PENDING_PAYMENT' && isAuthorized(await safepay.status(h.tracker))) push(h, 'AUTHORIZED', 'Safepay')
   expect(h, 'AUTHORIZED', 'capture')
-  await safepay.capture(h.tracker)
+  if (!h.demo) await safepay.capture(h.tracker)
   push(h, 'IN_ESCROW', by)
   save()
   return view(h)
@@ -133,7 +146,7 @@ export async function capture(id, by) {
 export async function voidHold(id, by, reason) {
   const h = find(id)
   expect(h, 'AUTHORIZED', 'void')
-  await safepay.voidHold(h.tracker)
+  if (!h.demo) await safepay.voidHold(h.tracker)
   push(h, 'VOIDED', by, reason)
   save()
   return view(h)
@@ -143,7 +156,7 @@ export async function refund(id, by, reason) {
   const h = find(id)
   expect(h, 'IN_ESCROW', 'refund')
   if (!reason) throw new EscrowError(422, 'ERR_VALIDATION', 'A reason is required to refund.')
-  await safepay.refund(h.tracker, h.amount)
+  if (!h.demo) await safepay.refund(h.tracker, h.amount)
   push(h, 'REFUNDED', by, reason)
   save()
   return view(h)
@@ -212,7 +225,7 @@ export async function seedEscrow() {
     ['rest2', 'Danish Ahmed', 4, 2900, 'Gaming Night', 'VOIDED'],
   ]
   for (const [restaurantId, minglerName, guests, per, eventName, target] of plan) {
-    const h = await createHold({ restaurantId, minglerName, guests, amountPerGuest: per, eventName })
+    const h = await createHold({ restaurantId, minglerName, guests, amountPerGuest: per, eventName, demo: true })
     if (target === 'VOIDED') await voidHold(h.id, 'System', 'Cancelled before the 24-hour mark')
     if (['IN_ESCROW', 'RELEASED', 'REFUNDED'].includes(target)) await capture(h.id, 'System (24-hour confirmation)')
     if (target === 'REFUNDED') await refund(h.id, 'Hira Mansoor', 'Event cancelled by restaurant')

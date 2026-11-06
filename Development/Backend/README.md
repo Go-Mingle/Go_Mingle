@@ -100,7 +100,7 @@ Restaurants add their payout account on the sandbox page `/payouts/setup/:restau
 | `POST /admin/api/v1/escrow/:id/{capture,void,release,refund}` | Move a transaction; partners are notified on capture and release |
 | `GET /partner/api/v1/partner/escrow` | The signed-in restaurant's escrow position and payouts |
 
-**Simulator vs. your Safepay sandbox.** With no keys set, `src/payments/safepay.js` runs a built-in simulator with the same state machine, so the demo works offline. Set `SAFEPAY_API_KEY` and `SAFEPAY_SECRET_KEY` from your Safepay sandbox dashboard (sandbox.api.getsafepay.com) and the same calls go to Safepay's v3 order API. The live path follows Safepay's documented endpoints but has not been run against a real sandbox account from this build, so test it once with your keys before the demo. In live mode the Mingler enters the card in Safepay's checkout (with 3-D Secure) before a hold is authorised.
+**Simulator vs. your Safepay sandbox.** With no keys set, `src/payments/safepay.js` runs a built-in simulator with the same state machine, so the demo works offline. Put your Safepay sandbox keys in `Backend/.env` (copy `.env.example`): the key that starts with `sec_` goes in `SAFEPAY_API_KEY`, the long secret in `SAFEPAY_SECRET_KEY`. Restart the API and its startup line shows `Payments  Safepay sandbox (https://sandbox.api.getsafepay.com)`. Empty keys switch back to the simulator. The seeded sample transactions stay local in both modes; only bookings you create go to Safepay. The live path follows Safepay's documented endpoints but has not been run against a real sandbox account from this build, so test it once with your keys before the demo. In live mode the Mingler enters the card in Safepay's checkout (with 3-D Secure) before a hold is authorised.
 
 ## Configuration
 
@@ -115,6 +115,8 @@ Restaurants add their payout account on the sandbox page `/payouts/setup/:restau
 | `DATA_FILE` | `data/gomingle-db.json` | Where the persistent store is written |
 | `SAFEPAY_ENV` | sandbox | `sandbox` or `production` (picks the Safepay host) |
 | `SAFEPAY_API_KEY` / `SAFEPAY_SECRET_KEY` | unset | Safepay keys. Unset runs the built-in simulator |
+
+Any of these can go in `Backend/.env` (one `KEY=value` per line; see `.env.example`). Values set in the shell take priority. `.env` is git-ignored, so keys are never committed.
 | `PLATFORM_FEE_PCT` | 10 | GoMingle's cut when escrow is released |
 
 ## Limits of this build (what the production NestJS service adds)

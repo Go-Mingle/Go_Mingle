@@ -63,7 +63,7 @@ cd Backend && npm test
 
 ## Notes
 
-- Backend details, configuration and current limits are in `Backend/README.md`. The main limits: no real e-mail, SMS or payments (codes print in the API window; Safepay runs in simulator mode until you add sandbox keys, see the API README), and booking/finance figures are sample data until the Mingler app is connected.
+- Backend details, configuration and current limits are in `Backend/README.md`. The main limits: no real e-mail, SMS or payments (codes print in the API window; Safepay uses the sandbox keys in `Backend/.env`; empty them to use the offline simulator), and booking/finance figures are sample data until the Mingler app is connected.
 - Production sign-in is still AWS Cognito. Set `VITE_AUTH_MODE=cognito` and the pool variables.
 - The mobile app's bundle id is now `com.gomingle.customer`. Register that id in Firebase before building release apps.
 - The Flutter app still pulls the Ethr UI SDK from its original Bitbucket repository. That URL in `pubspec.yaml` is the only place the old company name remains, because the package can only be fetched from where it is hosted.

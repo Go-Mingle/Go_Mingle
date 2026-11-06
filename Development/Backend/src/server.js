@@ -1,3 +1,4 @@
+import './env.js'
 import express from 'express'
 import cors from 'cors'
 import { config } from './config.js'
@@ -21,7 +22,7 @@ import { dataFile, flush } from './db/store.js'
 
 seedUsers()
 restoreAdminRecords()
-await seedEscrow()
+await seedEscrow().catch((err) => console.error('Escrow seed skipped:', err.message))
 
 const phosphorDir = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
