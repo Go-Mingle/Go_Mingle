@@ -1,0 +1,52 @@
+{
+  "section": "AUDIT TRAIL",
+  "title": "Change log",
+  "subtitle": "Every value change is recorded here. Tamper-proof, exportable, immutable.",
+  "errors": {
+    "unavailable": "The audit trail service is unavailable, so change history cannot be shown. This does not mean no changes were made — contact your administrator."
+  },
+  "table": {
+    "headers": {
+      "timestamp": "Timestamp",
+      "admin": "Admin",
+      "action": "Action",
+      "target": "Target",
+      "old": "Old",
+      "new": "New",
+      "module": "Module"
+    },
+    "search": {
+      "timestamp": "Search timestamp…",
+      "user": "Search user…",
+      "oldVal": "Search old value…",
+      "newVal": "Search new value…"
+    }
+  },
+  "actions": {
+    "create": "Create",
+    "update": "Update",
+    "delete": "Delete",
+    "exportCsv": "Export CSV"
+  },
+  "filterBtn": {
+    "reset": "Reset",
+    "search": "Search"
+  },
+  "filters": {
+    "allModules": "All Modules",
+    "filterByModule": "Filter by module",
+    "all": "All",
+    "create": "Create",
+    "update": "Update",
+    "delete": "Delete"
+  },
+  "card": {
+    "record": "Record",
+    "previous": "Previous",
+    "updatedTo": "Updated To"
+  },
+  "pagination": {
+    "showing": "Showing {{start}}–{{end}} of {{total}} results",
+    "perPage": "{{n}} / page"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "section": "CONFIGURE",
+  "title": "Categories",
+  "subtitle": "Categories drive commission rules. Editing rates updates billing on all current and future bookings.",
+  "actions": {
+    "newCategory": "New category"
+  },
+  "table": {
+    "headers": {
+      "category": "CATEGORY",
+      "categoryName": "Category name",
+      "commissionPercent": "COMMISSION %",
+      "restaurants": "RESTAURANTS"
+    },
+    "search": {
+      "categories": "Search categories…"
+    }
+  },
+  "pagination": {
+    "showing": "Showing {{start}}–{{end}} of {{total}} results",
+    "perPage": "{{n}} / page"
+  },
+  "form": {
+    "newTitle": "New category",
+    "editTitle": "Edit category",
+    "categoryName": "Category name",
+    "categoryNamePlaceholder": "e.g. Premium",
+    "categoryNameRequired": "Category name is required.",
+    "required": "Required.",
+    "groupBookingCommission": "Booking Commission",
+    "commissionRate": "Commission rate",
+    "commissionRatePlaceholder": "e.g. 12",
+    "commissionRateHelper": "% of booking bill",
+    "commissionRateRequired": "Commission Rate must be between 1 and 100 with up to 2 decimal places.",
+    "interestTablesPerMonth": "Interest tables allowed per month",
+    "interestTablesPerMonthPlaceholder": "e.g. 5",
+    "interestTablesPerMonthHelper": "Max interest tables this category can create each month.",
+    "interestTablesPerMonthRequired": "Monthly interest table limit must be a whole number between 1 and 1000.",
+    "infoCallout": "The commission rate applies to every booking in this category.",
+    "createCategory": "Create category",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel",
+    "createdToast": "Category created.",
+    "updatedToast": "Category updated."
+  },
+  "delete": {
+    "blockedTitle": "Cannot delete category",
+    "blockedContent": "\"{{name}}\" has {{count}} restaurant{{count, plural, one {} other {s}}} assigned. Reassign all restaurants to a different category before deleting.",
+    "confirmTitle": "Delete category?",
+    "confirmContent": "\"{{name}}\" will be permanently deleted. This cannot be undone.",
+    "deletedToast": "Category deleted.",
+    "confirm": "Delete category",
+    "cancel": "Cancel",
+    "gotIt": "Got it"
+  },
+  "tooltips": {
+    "edit": "Edit",
+    "delete": "Delete"
+  }
+}

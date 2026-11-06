@@ -1,0 +1,297 @@
+{
+  "section": "ACCOUNTS",
+  "title": "Restaurants",
+  "subtitle": "All approved restaurants. Suspending freezes new bookings without losing data.",
+  "table": {
+    "headers": {
+      "name": "Name",
+      "city": "City",
+      "category": "Category",
+      "bookings": "Bookings",
+      "joined": "Joined",
+      "status": "Status"
+    },
+    "tooltips": {
+      "changeCategory": "Change category",
+      "suspend": "Suspend",
+      "unsuspend": "Unsuspend"
+    },
+    "search": {
+      "restaurants": "Search restaurants…",
+      "city": "Search city…",
+      "bookings": "Search bookings…",
+      "reset": "Reset",
+      "search": "Search"
+    }
+  },
+  "actions": {
+    "suspend": "Suspend",
+    "unsuspend": "Unsuspend",
+    "reactivate": "Reactivate",
+    "changeCategory": "Change Category",
+    "backToList": "← Back to restaurants"
+  },
+  "suspend": {
+    "title": "Suspend {{name}}?",
+    "reason": "This restaurant will be hidden from the Mingler App. Please provide a reason:",
+    "placeholder": "Enter reason (minimum 10 characters)…",
+    "placeholderForSuspension": "Enter reason for suspension (minimum 10 characters)…",
+    "minChars": "Reason must be at least 10 characters.",
+    "confirm": "Suspend",
+    "cancel": "Cancel",
+    "consequence": "While suspended, the restaurant is hidden from the Mingler App and all new bookings are paused until you reactivate it.",
+    "activeBookingsWarning": "{{count}} upcoming booking(s) will be cancelled and refunded."
+  },
+  "deleteReview": {
+    "title": "Delete review?",
+    "content": "This review will be permanently deleted and cannot be recovered.",
+    "confirm": "Delete review"
+  },
+  "unsuspend": {
+    "title": "Unsuspend {{name}}?",
+    "content": "{{name}} will be made visible on the Mingler App again.",
+    "confirm": "Unsuspend"
+  },
+  "changeCategory": {
+    "title": "Change Category — {{name}}",
+    "subtitle": "Select a new category for this restaurant:",
+    "save": "Save",
+    "warning": "Changing the category updates the commission rate for all future bookings at this restaurant. Existing completed bookings are not affected.",
+    "current": "Current",
+    "new": "New",
+    "selectBelow": "Select below",
+    "selectCategory": "Select new category"
+  },
+  "detail": {
+    "snapshot": "Snapshot",
+    "thisMonth": "This month",
+    "grossSales": "Gross sales",
+    "commission": "Commission earned",
+    "avgParty": "Avg party size",
+    "upcoming": "Upcoming",
+    "all": "All",
+    "bookingsSection": "Bookings",
+    "visibleOnApp": "Visible on Mingler App",
+    "notVisibleOnApp": "Not Visible on Mingler App",
+    "activeStatus": "Active",
+    "inactiveStatus": "Inactive",
+    "deactivatedStatus": "Deactivated",
+    "unknownStatus": "Unknown"
+  },
+  "overview": {
+    "title": "Overview",
+    "restaurantDetails": "Restaurant Details",
+    "locationAddress": "Location & Address",
+    "ownerDetails": "Owner Details",
+    "houseRules": "House Rules / Dress Code",
+    "notProvided": "Not provided",
+    "fields": {
+      "description": "Description",
+      "category": "Category",
+      "cuisineType": "Cuisine Type",
+      "seatingCapacity": "Seating Capacity",
+      "seats": "{{count}} seats",
+      "avgBill": "Avg Bill / Person",
+      "avgBillValue": "PKR {{amount}}",
+      "operatingHours": "Operating Hours",
+      "website": "Website",
+      "mingleFriendly": "Mingle Friendly",
+      "yes": "Yes",
+      "no": "No",
+      "fullAddress": "Full Address",
+      "areaDistrict": "Area / District",
+      "city": "City",
+      "phone": "Phone",
+      "emailAddress": "Email address",
+      "viewOnMap": "View on map",
+      "ownerName": "Owner Name",
+      "ownerEmail": "Email",
+      "ownerPhone": "Phone",
+      "dressCode": "Dress Code",
+      "smokingPolicy": "Smoking Policy",
+      "alcoholPolicy": "Alcohol Policy",
+      "alcohol": "Alcohol",
+      "ageRestriction": "Age Restriction",
+      "reservationPolicy": "Reservation Policy",
+      "quietHours": "Quiet Hours",
+      "houseNotes": "General Notes",
+      "houseRules": "House Rules"
+    }
+  },
+  "amenities": {
+    "assignedTitle": "Assigned Amenities",
+    "empty": "No amenities assigned to this restaurant.",
+    "label": "amenity"
+  },
+  "menu": {
+    "empty": "No menu items have been added yet.",
+    "startingFrom": "Starting from",
+    "price": "PKR {{price}}",
+    "todaysSpecial": "Today's Special",
+    "noImage": "No image",
+    "downloadMenu": "Download menu (PDF)",
+    "noMenuPdf": "No menu PDF uploaded",
+    "combosEmpty": "No menu options added yet."
+  },
+  "schedule": {
+    "title": "Table Timings",
+    "viewOnly": "View only",
+    "closed": "Closed",
+    "empty": "No tables have been set up yet.",
+    "days": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday"
+    },
+    "dayShort": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "timingsLabel": "Weekly timings"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "noReviews": "No reviews yet.",
+    "avgRating": "Average Rating",
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative",
+    "deleteTitle": "Delete review?",
+    "deleteConfirm": "This review will be permanently deleted and cannot be recovered.",
+    "deleteButton": "Delete",
+    "viewBooking": "View booking",
+    "deleteReview": "Delete review",
+    "searchMinglers": "Search minglers…",
+    "colDate": "Date",
+    "colMingler": "Mingler",
+    "colInterestTable": "Interest Table",
+    "colRating": "Rating",
+    "colReview": "Review",
+    "bookingDetails": "Booking details",
+    "reviewDetails": "Review details",
+    "bookingId": "Booking ID",
+    "restaurant": "Restaurant",
+    "mingler": "Mingler",
+    "date": "Date",
+    "partySize": "Party size",
+    "partyPeople": "{{count}} people",
+    "status": "Status",
+    "bill": "Bill",
+    "billNotFound": "Booking details not found.",
+    "close": "Close"
+  },
+  "bookings": {
+    "title": "All Bookings",
+    "searchPlaceholder": "Search bookings…",
+    "headers": {
+      "bookingId": "Booking ID",
+      "guest": "Mingler",
+      "date": "Date",
+      "party": "Party",
+      "bill": "Bill",
+      "status": "Status",
+      "interestTable": "Interest Table",
+      "combo": "Menu option"
+    },
+    "bookingDetail": "Booking details",
+    "detailTab": "Booking Detail",
+    "itemisedBillTab": "Itemised Bill",
+    "itemisedBillDisabled": "Itemised bill is only available for completed bookings.",
+    "restaurantLabel": "Restaurant",
+    "itemCol": "Item",
+    "qtyCol": "Qty",
+    "priceCol": "Price",
+    "totalLabel": "Total",
+    "noItems": "No itemised bill available.",
+    "noShow": "No-show",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "partiallyCancelled": "Partially cancelled",
+    "partiallyNoShow": "Partially no-show",
+    "upcoming": "Upcoming",
+    "close": "Close",
+    "cancelAction": "Cancel booking",
+    "cancelTooltip": "Cancel booking",
+    "cancelModal": {
+      "title": "Cancel booking?",
+      "intro": "Cancelling will notify {{guest}} via email and an in-app notification. Please provide a reason.",
+      "reasonLabel": "Reason for cancellation",
+      "reasonPlaceholder": "Enter reason (minimum 10 characters)…",
+      "minChars": "Reason must be at least 10 characters.",
+      "characterCounter": "{{count}}/10 characters minimum",
+      "confirm": "Confirm cancellation",
+      "cancel": "Keep booking"
+    },
+    "cancelToast": "Booking {{bookingId}} cancelled. {{guest}} has been notified by email.",
+    "pending": "Pending",
+    "confirmed": "Confirmed"
+  },
+  "documents": {
+    "title": "Documents",
+    "tradeLicence": "Trade Licence",
+    "tradeLicenceExpiry": "Trade Licence Expiry",
+    "ownerName": "Owner Name",
+    "ownerEmail": "Owner Email",
+    "businessReg": "Business Registration",
+    "verifiedRestaurant": "Verified",
+    "download": "Download",
+    "noDocuments": "No documents uploaded."
+  },
+  "media": {
+    "title": "Multimedia",
+    "photos": "Photos",
+    "videos": "Videos",
+    "noPhotos": "No photos uploaded.",
+    "noVideos": "No videos uploaded.",
+    "download": "Download"
+  },
+  "contacts": {
+    "title": "Contacts",
+    "noContacts": "No contacts have been added yet.",
+    "headers": {
+      "name": "Name",
+      "title": "Title",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "searchNames": "Search names…",
+    "searchTitles": "Search titles…",
+    "searchEmails": "Search emails…",
+    "searchPhones": "Search phone numbers…"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "reviews": "Reviews",
+    "multimedia": "Multimedia",
+    "photosVideos": "Photos & Videos",
+    "documents": "Documents",
+    "allBookings": "All Bookings",
+    "bookings": "Bookings",
+    "menu": "Menu",
+    "combos": "Menu Options",
+    "amenities": "Amenities",
+    "scheduleTiming": "Table Timings",
+    "contacts": "Contacts",
+    "interestTables": "Interest Tables"
+  },
+  "placeholders": {
+    "menuComingSoon": "Menu management coming soon.",
+    "scheduleTimingComingSoon": "Schedule and timing management coming soon."
+  },
+  "messages": {
+    "suspended": "{{name}} has been suspended.",
+    "unsuspended": "{{name}} has been unsuspended.",
+    "categoryUpdated": "Category updated successfully",
+    "categoryMoved": "{{name}} moved to {{category}}.",
+    "reviewDeleted": "Review deleted."
+  }
+}

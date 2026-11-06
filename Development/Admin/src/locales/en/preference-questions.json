@@ -1,0 +1,68 @@
+{
+  "section": "CONFIGURE",
+  "title": "Preference Questions",
+  "actions": {
+    "newQuestion": "New question"
+  },
+  "table": {
+    "headers": {
+      "order": "Order",
+      "question": "Question",
+      "type": "Type"
+    },
+    "search": {
+      "question": "Search questions…"
+    },
+    "noResults": "No preference questions yet.",
+    "empty": "No preference questions yet. Create one to start collecting preferences from Minglers.",
+    "noMatch": "No questions match your search."
+  },
+  "type": {
+    "single": "Single select",
+    "multi": "Multi select"
+  },
+  "pagination": {
+    "showing": "Showing {{start}}–{{end}} of {{total}}",
+    "perPage": "{{n}}/page"
+  },
+  "form": {
+    "newTitle": "New preference question",
+    "editTitle": "Edit preference question",
+    "questionLabel": "Question",
+    "questionPlaceholder": "e.g. How often do you eat out?",
+    "questionRequired": "Question text is required",
+    "typeLabel": "Answer type",
+    "orderLabel": "Order",
+    "orderHelper": "Position in which this question appears to minglers.",
+    "orderRequired": "Order is required",
+    "optionsLabel": "Options",
+    "optionPlaceholder": "Option text",
+    "answerLabel": "Answer",
+    "answerPlaceholder": "Single answer text",
+    "addOption": "Add option",
+    "removeOption": "Remove",
+    "required": "Required",
+    "duplicateOption": "Options must be unique",
+    "minOneOption": "Add at least one option",
+    "minTwoOptions": "At least two options are required.",
+    "infoCallout": "Options shown here are what minglers will choose from when filling their preferences.",
+    "cancel": "Cancel",
+    "createQuestion": "Create question",
+    "saveChanges": "Save changes"
+  },
+  "delete": {
+    "title": "Delete question?",
+    "content": "\"{{name}}\" will be permanently deleted along with all of its options. This cannot be undone.",
+    "confirm": "Delete question",
+    "cancel": "Cancel"
+  },
+  "messages": {
+    "createdToast": "\"{{name}}\" has been created.",
+    "updatedToast": "\"{{name}}\" has been updated.",
+    "deletedToast": "\"{{name}}\" has been deleted."
+  },
+  "tooltips": {
+    "edit": "Edit",
+    "delete": "Delete"
+  }
+}

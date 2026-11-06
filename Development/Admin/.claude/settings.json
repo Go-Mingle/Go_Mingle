@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path src -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)",
+      "Bash(xargs grep -l \"apiClient\\\\|fetch\\\\|axios\")",
+      "Bash(npx vitest *)",
+      "Bash(grep -E \"Page\\\\.tsx$|page\\\\.tsx$\")",
+      "Bash(grep -r \"import.*from.*\\\\.\\\\.\\\\/.*modules\" src/app/modules --include=\"*.tsx\" -n)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\\\\src\" -Force)",
+      "Bash(Select-Object Name, FullName)",
+      "Bash(dir \"c:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\\\\src\")",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\\\\src\\\\app\\\\modules\" -Directory)",
+      "Bash(Remove-Item -Recurse -Force \"C:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\\\\src\\\\app\\\\modules\\\\dashboard\")",
+      "Bash(Remove-Item -Recurse -Force \"c:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\\\\src\\\\app\\\\modules\\\\dashboard\\\\__tests__\")",
+      "Bash(New-Item -ItemType File -Path \"c:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\\\\docs\\\\audit\\\\IMPLEMENTATION_JUSTIFICATION.md\" -Force)",
+      "Bash(Out-Null)",
+      "PowerShell(New-Item -ItemType File -Path \"c:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\\\\docs\\\\audit\\\\IMPLEMENTATION_JUSTIFICATION.md\" -Force)",
+      "PowerShell(\"created\")",
+      "PowerShell(New-Item -ItemType File -Path \"c:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\\\\docs\\\\audit\\\\IMPLEMENTATION_JUSTIFICATION_BATCH2.md\" -Force)",
+      "Bash(Select-String -Pattern \"\\(\\\\s×|\\\\s✓|FAIL|PASS|Error:|AssertionError|Expected|Received|at src/\\)\")",
+      "Bash(Select-Object -First 200)",
+      "Bash(Get-Content \"C:\\\\Users\\\\developer\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-developer-Documents-gomingle-gomingle\\\\d1372f51-7f82-43e4-8713-e7eb67fad71c\\\\tasks\\\\w7wba2kp1.output\" -ErrorAction SilentlyContinue)",
+      "Read(//c/Users/developer/AppData/Local/Temp/claude/c--Users-developer-Documents-gomingle-gomingle/d1372f51-7f82-43e4-8713-e7eb67fad71c/tasks/**)",
+      "PowerShell(git -C \"c:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\" diff --name-only HEAD)",
+      "PowerShell(git -C \"c:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\" status --short)",
+      "Bash(Remove-Item -Path \"C:\\\\Users\\\\developer\\\\Documents\\\\gomingle\\\\gomingle\\\\.claude\\\\workflows\\\\f1-compliance-fixes.js\" -Force)",
+      "PowerShell(npm run type-check)",
+      "PowerShell(npm run typecheck)",
+      "PowerShell(npx eslint src/app/modules/interest-tables/components/CreateInterestTableModal.tsx)",
+      "PowerShell(npx vitest run src/app/modules/interest-tables/__tests__/CreateInterestTableModal.test.tsx --reporter=dot)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\developer\\Documents\\gomingle\\gomingle\\.claude\\workflows"
+    ]
+  }
+}

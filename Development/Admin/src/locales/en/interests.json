@@ -1,0 +1,50 @@
+{
+  "section": "CONFIGURE",
+  "title": "Interests",
+  "actions": {
+    "newInterest": "New interest",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "table": {
+    "headers": {
+      "name": "INTEREST",
+      "category": "CATEGORY"
+    },
+    "search": {
+      "name": "Search interests…",
+      "category": "Search categories…"
+    }
+  },
+  "pagination": {
+    "showing": "Showing {{start}}–{{end}} of {{total}} results",
+    "perPage": "{{n}} / page"
+  },
+  "form": {
+    "newTitle": "New interest",
+    "editTitle": "Edit interest",
+    "name": "Interest name",
+    "namePlaceholder": "e.g. Wine, Books, Technology",
+    "nameRequired": "Interest name is required.",
+    "category": "Interest Category",
+    "categoryPlaceholder": "Select or type a category",
+    "categoryHelper": "Pick an existing category or type a new one to create it.",
+    "categoryRequired": "A category is required.",
+    "createCategoryOption": "Create \"{{name}}\"",
+    "cancel": "Cancel",
+    "createInterest": "Create interest",
+    "saveChanges": "Save changes",
+    "createdToast": "\"{{name}}\" interest created.",
+    "updatedToast": "\"{{name}}\" interest updated.",
+    "createError": "Could not create the interest. Please try again.",
+    "updateError": "Could not update the interest. Please try again."
+  },
+  "delete": {
+    "title": "Delete interest?",
+    "confirmContent": "\"{{name}}\" will be permanently deleted. This cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete interest",
+    "deletedToast": "\"{{name}}\" interest deleted.",
+    "deleteError": "Could not delete the interest. Please try again."
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "access": {
+    "primaryOnlyTitle": "Only the account owner can manage this",
+    "primaryOnlyBody": "Your account is a team member of this restaurant. Ask the account owner to make changes here."
+  },
+  "errors": {
+    "genericError": "Something went wrong. Please try again.",
+    "fetchError": "Failed to load data. Please try again.",
+    "sessionExpired": "Your session has expired. Please sign in again.",
+    "accountSuspended": "Your account has been suspended. Please contact support.",
+    "accountNotFound": "Account not found. Please contact support.",
+    "serviceUnavailable": "We're having trouble reaching the server. Retrying…"
+  },
+  "menu": {
+    "choiceOf": "Choice of {{count}}"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "overview": "Overview",
+    "restaurantProfile": "Restaurant Profile",
+    "contacts": "Contacts",
+    "documents": "Documents",
+    "amenities": "Amenities",
+    "menuOptions": "Menu Options",
+    "tableTimings": "Table Timings",
+    "interestTables": "Interest Tables",
+    "photosVideos": "Photos & Videos",
+    "reviews": "Reviews",
+    "finances": "Finances",
+    "payouts": "Payouts",
+    "notifications": "Notifications",
+    "integrations": "Integrations",
+    "restaurant": "RESTAURANT",
+    "configure": "CONFIGURE",
+    "manage": "MANAGE",
+    "superAdmin": "SUPER ADMIN"
+  },
+  "topbar": {
+    "portalLabel": "PARTNER PORTAL",
+    "superAdmin": "Super Admin",
+    "welcomeBack": "Welcome Back",
+    "signedInAs": "Signed in as",
+    "viewProfile": "View profile",
+    "viewEditProfile": "View & Edit Profile",
+    "changePassword": "Change password",
+    "signOut": "Sign out",
+    "signOutTitle": "Sign out?",
+    "signOutContent": "You will be signed out of the GoMingle Partner Portal."
+  },
+  "buttons": {
+    "save": "Save",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel",
+    "close": "Close",
+    "delete": "Delete",
+    "edit": "Edit",
+    "more": "More actions",
+    "create": "Create",
+    "approve": "Approve",
+    "reject": "Reject",
+    "confirm": "Confirm",
+    "gotIt": "Got it",
+    "export": "Export CSV",
+    "back": "Back",
+    "send": "Send",
+    "reset": "Reset",
+    "search": "Search",
+    "apply": "Apply",
+    "update": "Update",
+    "verify": "Verify",
+    "continue": "Continue",
+    "sendInvite": "Send invite",
+    "submit": "Submit",
+    "retry": "Try again"
+  },
+  "backTo": {
+    "restaurants": "Back to restaurants",
+    "minglers": "Back to minglers",
+    "interestTables": "Back to interest tables",
+    "reviews": "Back to reviews",
+    "finances": "Back to finances",
+    "bookings": "Back to bookings",
+    "interestTable": "Back to interest table"
+  },
+  "status": {
+    "loading": "Loading…",
+    "updating": "Updating…",
+    "noData": "No data",
+    "active": "Active",
+    "pending": "Pending",
+    "suspended": "Suspended",
+    "deactivated": "Deactivated",
+    "noShow": "No-show",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "confirmed": "Confirmed",
+    "comingSoon": "Coming Soon",
+    "invited": "Invited",
+    "tableBooked": "Table Booked",
+    "paid": "Paid",
+    "flagged": "Flagged",
+    "verified": "Verified",
+    "all": "All",
+    "inactive": "Inactive",
+    "mingleFriendly": "Mingle Friendly"
+  },
+  "setupGate": {
+    "profileSetup": {
+      "title": "Finish setting up your restaurant",
+      "body": "This section unlocks once your restaurant profile is approved. Complete your profile and submit it for approval to continue.",
+      "cta": "Go to Restaurant Profile"
+    },
+    "underReview": {
+      "title": "Your application is under review",
+      "body": "You've submitted your restaurant profile and it's with our team. This section unlocks as soon as your restaurant is approved — there's nothing else you need to do."
+    },
+    "rejected": {
+      "title": "Your application was declined",
+      "body": "This section stays locked while your restaurant is declined. Open your restaurant profile to read why, correct the details and send it back for approval.",
+      "cta": "Review and resubmit"
+    }
+  },
+  "labels": {
+    "search": "Search",
+    "records": "{{count}} records",
+    "of": "of",
+    "actions": "Actions",
+    "status": "Status",
+    "name": "Name",
+    "fullName": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "city": "City",
+    "date": "Date",
+    "preview": "Preview",
+    "download": "Download",
+    "today": "Today",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "allTime": "All Time",
+    "lastYear": "Last 1 Year",
+    "last6Months": "Last 6 Months",
+    "pkr": "PKR",
+    "pendingCount": "{{count}} pending",
+    "setDefault": "Set as default",
+    "joined": "Joined",
+    "markAsRead": "Mark as read",
+    "required": "Required",
+    "title": "Title",
+    "role": "Role",
+    "password": "Password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "lastActive": "Last active"
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "emailRequired": "Valid email required",
+    "required": "Required",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "passwordMin8": "Password must be at least 8 characters",
+    "fullNameRequired": "Full name is required",
+    "min10Chars": "Must be at least 10 characters"
+  },
+  "screenSize": {
+    "largerRequired": "Larger screen required",
+    "description": "This section requires a desktop screen (1024px or wider) to use."
+  }
+}

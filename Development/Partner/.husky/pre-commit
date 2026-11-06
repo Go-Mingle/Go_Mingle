@@ -1,0 +1,14 @@
+# 1. Lint + format staged files (fast — only touched files)
+npx lint-staged
+
+# 2. Type check the whole project
+npm run typecheck
+
+# 3. Run only the tests related to staged changes (not the full suite)
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR -- '*.ts' '*.tsx')
+if [ -n "$STAGED_FILES" ]; then
+  npx vitest related --run $STAGED_FILES
+fi
+
+# 4. Production build must succeed
+npm run build

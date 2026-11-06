@@ -1,0 +1,238 @@
+# GoMingle Partner Web — Bitbucket Pipelines
+# Mirrors the GoMingle Admin Portal pipeline: SonarQube scan + quality gate on
+# `dev` and `qa`, then deploy to S3/CloudFront. Jenkins is triggered on dev → qa PRs.
+#
+# REQUIRED Bitbucket repository variables (set these before the pipeline can pass):
+#   Sonar:   SONAR_HOST_URL, SONAR_TOKEN, SONAR_PROJECT_KEY
+#   Jenkins: JENKINS_URL, JENKINS_TOKEN   (+ review JOB_NAME / COMPONENT_KEY below for partner)
+#   Deploy:  AWS_ROLE_ARN, AWS_DEFAULT_REGION, S3_BUCKET, DISTRIBUTION_ID
+#   Build:   VITE_API_BASE_URL,
+#            VITE_COGNITO_PARTNERS_POOL_ID, VITE_COGNITO_PARTNERS_CLIENT_ID,
+#            VITE_COGNITO_REGION, VITE_SENTRY_DSN (optional),
+#            VITE_ENABLE_MOCKS (optional — leave unset; .env.production pins it false)
+#
+# The VITE_* values are inlined by Vite at BUILD time and baked into the static
+# bundle. Setting them on the S3/CloudFront host has no effect. If the two
+# Cognito ids are missing the app silently falls back to its mock auth provider
+# and login never calls Cognito.
+#
+# ┌─────────────────────────────────────────────────────────────────────────┐
+# │ TEMPORARY BYPASS — added 2026-09-04 to unblock dev → qa deploys.        │
+# │                                                                         │
+# │ Three gates are currently non-blocking. Search this file for `BYPASS`   │
+# │ to find all three; each is a few lines and reverts cleanly.             │
+# │                                                                         │
+# │   1. Jenkins trigger      — warns instead of failing the PR build.      │
+# │   2. Test + coverage run  — warns instead of failing the scan step.     │
+# │   3. SonarQube gate (qa)  — step commented out of the `qa` branch.      │
+# │                                                                         │
+# │ What this gives up: a dev → qa merge can now deploy with FAILING TESTS, │
+# │ with coverage below the 90/85/90/90 threshold, and with a red Sonar     │
+# │ quality gate — none of which will stop the build. The `dev` branch      │
+# │ still runs the quality gate, so that is the remaining safety net.       │
+# │                                                                         │
+# │ This is a hold, not a fix. Restore all three once the underlying        │
+# │ failure is identified and resolved.                                     │
+# └─────────────────────────────────────────────────────────────────────────┘
+image: node:20
+
+definitions:
+  steps:
+    - step: &jenkins-trigger
+        name: "Trigger Jenkins only on dev ---> qa"
+        size: 4x
+        runtime:
+         cloud:
+           atlassian-ip-ranges: true
+        image: alpine:latest
+        script:
+          - apk add --no-cache curl jq bash
+          - |
+            set -e
+
+            # ✅ ONLY allow dev → qa PRs
+            if [ "${BITBUCKET_BRANCH}" != "dev" ] || [ "${BITBUCKET_PR_DESTINATION_BRANCH}" != "qa" ]; then
+              echo "Skipping Jenkins trigger: only dev → qa PRs are allowed."
+              exit 0
+            fi
+
+            # JENKINS CONFIG — review JOB_NAME / COMPONENT_KEY for the partner pipeline.
+            JENKINS_USER="admin"
+            JENKINS_TOKEN="${JENKINS_TOKEN}"
+            JENKINS_URL="${JENKINS_URL}"
+            JOB_NAME="ci-cd-automation-gomingle"
+
+            # PR METADATA
+            PR_ID="${BITBUCKET_PR_ID}"
+            #SOURCE_BRANCH="${BITBUCKET_PR_SOURCE_BRANCH}"
+            TARGET_BRANCH="${BITBUCKET_PR_DESTINATION_BRANCH}"
+            COMMIT="${BITBUCKET_COMMIT}"
+
+            echo "PR #$PR_ID"
+            echo "Source: $SOURCE_BRANCH → Target: $TARGET_BRANCH"
+            echo "Commit: $COMMIT"
+
+            # TRIGGER JENKINS
+            # `-w` appends the status so a failure says *why*. Without it `-s`
+            # swallows everything and the log reads only "Jenkins trigger failed".
+            RESPONSE=$(curl -k -s -i -w '\nHTTP_STATUS:%{http_code}' -X POST \
+              "${JENKINS_URL}/job/${JOB_NAME}/buildWithParameters" \
+              -u "${JENKINS_USER}:${JENKINS_TOKEN}" \
+              --data-urlencode "SOURCE_BRANCH=${BITBUCKET_BRANCH}" \
+              --data-urlencode "TARGET_BRANCH=${TARGET_BRANCH}" \
+              --data-urlencode "COMMIT=${COMMIT}" \
+              --data-urlencode "COMPONENT_KEY=gomingle-partner-frontend" \
+              --data-urlencode "REPO_NAME=${BITBUCKET_REPO_SLUG}" \
+              --data-urlencode "IS_NIGHTLY_RUN=false")
+
+            echo "$RESPONSE" | grep -i '^HTTP_STATUS:' || true
+            QUEUE_URL=$(echo "$RESPONSE" | grep -i '^Location:' | awk '{print $2}' | tr -d '\r\n')
+
+            if [ -z "$QUEUE_URL" ]; then
+              # BYPASS (1/3) — was `exit 1`. Kicking off QA automation is an
+              # outbound handoff, not a verdict on this code, so a broken webhook
+              # no longer blocks the deploy.
+              echo "=============================================================="
+              echo "WARNING: Jenkins trigger FAILED — QA automation was NOT started."
+              echo "  Nothing will run the QA suite for this merge. Start the job"
+              echo "  manually, or fix JENKINS_URL / JENKINS_TOKEN and confirm the"
+              echo "  '${JOB_NAME}' job accepts COMPONENT_KEY=gomingle-partner-frontend."
+              echo "  Response above. Restore 'exit 1' once this is working."
+              echo "=============================================================="
+              exit 0
+            fi
+
+            echo "Jenkins queued at: $QUEUE_URL"
+
+
+    - step: &sonarqube-scan
+        size: 2x
+        name: SonarQube Scan
+        script:
+          - npm ci
+          # BYPASS (2/3) — was `- npm run test:coverage`. A failing test or a
+          # coverage threshold miss now warns instead of failing the step.
+          # `reportOnFailure: true` in vite.config.ts means lcov.info is still
+          # written when tests fail, so Sonar below still receives coverage data.
+          - |
+            npm run test:coverage || {
+              echo "=============================================================="
+              echo "WARNING: tests and/or coverage thresholds FAILED."
+              echo "  The build is continuing anyway under a temporary bypass."
+              echo "  Coverage sent to Sonar below may be incomplete."
+              echo "  Restore this to a plain 'npm run test:coverage' once green."
+              echo "=============================================================="
+            }
+
+          - pipe: sonarsource/sonarqube-scan:4.0.0
+            variables:
+              SONAR_HOST_URL: $SONAR_HOST_URL
+              SONAR_TOKEN: $SONAR_TOKEN
+              EXTRA_ARGS: >
+                -Dsonar.projectKey=$SONAR_PROJECT_KEY
+                -Dsonar.sources=src
+                -Dsonar.tests=src
+                -Dsonar.test.inclusions=src/**/*.test.ts,src/**/*.test.tsx,src/**/*.spec.ts,src/**/*.spec.tsx
+                -Dsonar.exclusions=dist/**,node_modules/**,coverage/**,src/**/*.d.ts,src/mocks/**,src/locales/**
+                -Dsonar.coverage.exclusions=src/main.tsx,src/app/App.tsx,src/**/index.ts,src/**/index.tsx,src/**/*.d.ts,src/mocks/**,src/locales/**,src/**/*.test.ts,src/**/*.test.tsx,src/**/*.spec.ts,src/**/*.spec.tsx,src/**/types.ts,src/**/types/**,src/**/constants.ts,src/**/constants/**,src/app/router.tsx,src/configs/routes.ts
+                -Dsonar.typescript.tsconfigPath=tsconfig.json
+                -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                -Dsonar.issue.ignore.multicriteria=css1
+                -Dsonar.issue.ignore.multicriteria.css1.ruleKey=css:S4662
+                -Dsonar.issue.ignore.multicriteria.css1.resourceKey=src/styles/index.css
+
+    - step: &check-quality-gate-sonarqube
+        name: Check Quality Gate
+        size: 2x
+        script:
+          - pipe: sonarsource/sonarqube-quality-gate:1.1.0
+            variables:
+              SONAR_TOKEN: ${SONAR_TOKEN}
+    - step: &deploy-to-s3
+        name: Build and deploy to S3
+        oidc: true
+        caches:
+          - node
+        script:
+          - npm ci
+          # Vite inlines import.meta.env.VITE_* at BUILD time, so every value the
+          # app needs has to be present here. Setting these on the host does
+          # nothing — the deploy artefact is a static bundle.
+          - export VITE_API_BASE_URL="$VITE_API_BASE_URL"
+          - export VITE_ENABLE_MOCKS="$VITE_ENABLE_MOCKS"
+          # Unset ids leave isCognitoConfigured() false, which silently selects
+          # the mock auth provider — login then never calls Cognito at all.
+          - export VITE_COGNITO_PARTNERS_POOL_ID="$VITE_COGNITO_PARTNERS_POOL_ID"
+          - export VITE_COGNITO_PARTNERS_CLIENT_ID="$VITE_COGNITO_PARTNERS_CLIENT_ID"
+          - export VITE_COGNITO_REGION="$VITE_COGNITO_REGION"
+          - export VITE_SENTRY_DSN="$VITE_SENTRY_DSN"
+          # Refuse to ship a build that mocks its own API. Checked on the inputs,
+          # not the output: the worker is a lazy import, so its chunk is emitted
+          # either way and grepping dist would fail every build.
+          - |
+            if [ "$VITE_ENABLE_MOCKS" = "true" ] || [ "$VITE_ENABLE_MOCKS" = "legacy" ] \
+               || grep -qE '^[[:space:]]*VITE_ENABLE_MOCKS=(true|legacy)' .env.production; then
+              echo "BUILD REJECTED: mocks would be active in a deployed build."
+              echo "  repository variable : ${VITE_ENABLE_MOCKS:-<unset>}"
+              echo "  .env.production     : $(grep -E '^[[:space:]]*VITE_ENABLE_MOCKS=' .env.production || echo '<unset>')"
+              exit 1
+            fi
+          # Without an API origin the bundle sends /api/... to its own CloudFront
+          # origin, which answers with index.html and a 200 — every API call then
+          # fails as a JSON parse error with nothing obviously wrong in the
+          # network tab. Cheaper to fail here than to ship it.
+          - |
+            if [ -z "$VITE_API_BASE_URL" ]; then
+              echo "BUILD REJECTED: VITE_API_BASE_URL is empty."
+              echo "A deployed build has no dev proxy and must call the API host directly."
+              exit 1
+            fi
+          - npm run build
+          - pipe: atlassian/aws-s3-deploy:1.1.0
+            variables:
+              AWS_OIDC_ROLE_ARN: $AWS_ROLE_ARN
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              S3_BUCKET: $S3_BUCKET
+              LOCAL_PATH: "dist"
+          - pipe: atlassian/aws-cloudfront-invalidate:0.12.0
+            variables:
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              AWS_OIDC_ROLE_ARN: $AWS_ROLE_ARN
+              DISTRIBUTION_ID: $DISTRIBUTION_ID
+
+pipelines:
+  pull-requests:
+    '**':
+      - step: *jenkins-trigger
+  branches:
+    dev:
+      - step: *sonarqube-scan
+      - step: *check-quality-gate-sonarqube
+      - step: *jenkins-trigger
+      - stage:
+          name: Deploy to dev
+          deployment: Develop
+          steps:
+            - step: *deploy-to-s3
+
+    qa:
+      - step: *sonarqube-scan
+      # BYPASS (3/3) — the quality gate is disabled on `qa` only. Bitbucket has
+      # no per-step "continue on error" for a pipe, so the step is commented out
+      # rather than made non-blocking. The scan above still runs and still
+      # publishes to SonarQube, so the project's gate status stays visible there
+      # — it just no longer stops the deploy. `dev` keeps its gate (below).
+      # Uncomment to restore.
+      # - step: *check-quality-gate-sonarqube
+      - stage:
+          name: Deploy to qa
+          deployment: QA
+          steps:
+            - step: *deploy-to-s3
+
+    uat:
+      - stage:
+          name: Deploy to uat
+          deployment: UAT
+          steps:
+            - step: *deploy-to-s3

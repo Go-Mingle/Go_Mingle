@@ -1,0 +1,117 @@
+{
+  "section": "CONFIGURE",
+  "title": "Users",
+  "subtitle": "People who hold an admin login. Each must be tied to exactly one role.",
+  "actions": {
+    "newUser": "+ New user",
+    "newUserShort": "New user",
+    "edit": "Edit",
+    "reset": "Reset",
+    "delete": "Delete"
+  },
+  "table": {
+    "headers": {
+      "name": "NAME",
+      "role": "ROLE",
+      "status": "STATUS",
+      "lastActive": "LAST ACTIVE"
+    },
+    "roleDeleted": "Role deleted",
+    "roleDeletedHint": "This administrator's role was deleted, so they cannot sign in. Edit the account and assign a live role.",
+    "searchName": "Search name…",
+    "searchNameOrEmail": "Search name or email…",
+    "filterAll": "All",
+    "filterActive": "Active",
+    "filterSuspended": "Suspended"
+  },
+  "card": {
+    "email": "Email",
+    "lastActive": "Last Active",
+    "active": "Active",
+    "suspended": "Suspended"
+  },
+  "modals": {
+    "actionNotAllowed": "Action not allowed",
+    "new": {
+      "title": "New user",
+      "fullName": "Full name",
+      "email": "Email",
+      "role": "Role",
+      "selectRole": "Select role",
+      "status": "Status",
+      "selectStatus": "Select status",
+      "password": "Password",
+      "confirmPassword": "Confirm password"
+    },
+    "edit": {
+      "title": "Edit user",
+      "fullName": "Full name",
+      "email": "Email",
+      "emailHint": "Email cannot be changed",
+      "role": "Role",
+      "roleDeletedOption": "Deleted role — select a replacement",
+      "roleDeletedReassign": "This role no longer exists. Assign a live role to restore access.",
+      "selectRole": "Select role",
+      "status": "Status",
+      "selectStatus": "Select status"
+    },
+    "delete": {
+      "title": "Delete user?",
+      "confirm": "Delete user",
+      "cancel": "Cancel",
+      "deleted": "\"{{name}}\" has been deleted."
+    },
+    "resetPassword": {
+      "title": "Set new password",
+      "content": "Setting a new password for",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "newPlaceholder": "Enter new password",
+      "confirmPlaceholder": "Confirm new password",
+      "passwordRequired": "Password is required.",
+      "passwordMin": "Password must be at least 8 characters.",
+      "confirmRequired": "Please confirm the password.",
+      "passwordsDoNotMatch": "Passwords do not match.",
+      "setPassword": "Set password",
+      "send": "Send email",
+      "cancel": "Cancel",
+      "sent": "New password has been set for {{name}}. A confirmation email has been sent to {{email}}."
+    },
+    "footer": {
+      "cancel": "Cancel",
+      "sendInvite": "Send invite",
+      "saveChanges": "Save changes"
+    }
+  },
+  "statusOptions": {
+    "active": "Active",
+    "suspended": "Suspended"
+  },
+  "roles": {
+    "superAdmin": "Super Admin",
+    "operationsManager": "Operations Manager",
+    "financeManager": "Finance Manager",
+    "contentReviewer": "Content Reviewer"
+  },
+  "tooltips": {
+    "edit": "Edit",
+    "sendPasswordReset": "Send password reset",
+    "delete": "Delete"
+  },
+  "messages": {
+    "created": "User created. An invite email has been sent.",
+    "updated": "{{name}}'s profile has been updated.",
+    "passwordReset": "Password updated. The user has been notified by email.",
+    "createdEmailFailed": "User created. Login details could not be sent — use Set Password to resend credentials.",
+    "passwordSetFailed": "Failed to set password. Please try again."
+  },
+  "validation": {
+    "required": "Required",
+    "invalidEmail": "Enter a valid Email Address",
+    "invalidName": "Enter a valid User Name",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "passwordMin8": "Password must be at least 8 characters"
+  },
+  "readOnlyHint": "Email cannot be changed.",
+  "newUserTitle": "New user"
+}

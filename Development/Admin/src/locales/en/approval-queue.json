@@ -1,0 +1,159 @@
+{
+  "section": "ONBOARDING",
+  "title": "Approval queue",
+  "subtitle": "Each application requires a category before approval. Welcome emails are sent automatically.",
+  "tabs": {
+    "pending": "Pending Approval",
+    "rejected": "Rejected Requests"
+  },
+  "table": {
+    "headers": {
+      "restaurant": "Restaurant",
+      "owner": "Owner",
+      "phone": "Phone",
+      "email": "Email",
+      "city": "City",
+      "submitted": "Submitted",
+      "files": "Files",
+      "rejectedOn": "Rejected On",
+      "reason": "Reason",
+      "status": "Status"
+    },
+    "searchRestaurants": "Search restaurants…",
+    "searchOwners": "Search owners…",
+    "searchCity": "Search city…"
+  },
+  "fields": {
+    "ownerName": "Owner name",
+    "ownerEmail": "Owner email",
+    "ownerPhone": "Owner phone",
+    "cuisineType": "Cuisine type",
+    "city": "City",
+    "address": "Restaurant address",
+    "tradeLicence": "Trade licence number",
+    "tradeLicenceExpiry": "Trade licence expiry",
+    "businessReg": "Business registration number"
+  },
+  "reject": {
+    "title": "Reject application",
+    "rejectButton": "Reject",
+    "reasonLabel": "Reason for rejection",
+    "reasonRequired": "Please provide a reason",
+    "placeholder": "Explain why this application is being rejected…",
+    "confirmTitle": "Confirm rejection",
+    "cancel": "Cancel"
+  },
+  "rejectionNotice": {
+    "title": "Application Rejected",
+    "reasonLabel": "Reason"
+  },
+  "documents": {
+    "download": "Download",
+    "noDocuments": "No documents uploaded."
+  },
+  "photos": {
+    "title": "Photos",
+    "noPhotos": "No photos uploaded."
+  },
+  "videos": {
+    "title": "Videos",
+    "noVideos": "No videos uploaded."
+  },
+  "card": {
+    "owner": "Owner",
+    "city": "City",
+    "submitted": "Submitted",
+    "rejectedOn": "Rejected On",
+    "rejectionReason": "Rejection Reason",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "actions": {
+    "view": "View",
+    "approve": "Approve",
+    "decline": "Decline",
+    "reject": "Reject"
+  },
+  "messages": {
+    "approved": "Application approved — {{name}} is now active.",
+    "rejected": "Application rejected — {{name}}.",
+    "declined": "Application declined — {{name}}.",
+    "conflict": "This application was already actioned. The list has been refreshed.",
+    "notFound": "This application could not be found. It may have been removed."
+  },
+  "detail": {
+    "backToQueue": "Back to approval queue",
+    "submitted": "Submitted",
+    "notProvided": "Not provided",
+    "seatsCount": "{{count}} seats",
+    "notFoundTitle": "Application not found",
+    "notFoundDesc": "This application could not be found. It may have been removed or already actioned.",
+    "declinedTitle": "Application Declined",
+    "declinedOn": "Declined on {{date}}",
+    "rejectedBy": "by {{name}}",
+    "rejectionHistory": "Rejection history",
+    "readyToSubmit": "Ready to submit",
+    "minChars": "Minimum 10 characters required",
+    "menuComingSoon": "Menu information coming soon.",
+    "pendingAssignment": "Pending assignment",
+    "visibleOnApp": "Visible on Mingler App",
+    "notVisibleOnApp": "Not visible on Mingler App",
+    "tabs": {
+      "overview": "Overview",
+      "menu": "Menu",
+      "documents": "Documents",
+      "media": "Photos & Videos",
+      "contacts": "Contact Details"
+    },
+    "sections": {
+      "applicationDetails": "Application Details",
+      "businessLegal": "Business & Legal",
+      "contactInfo": "Contact Information",
+      "restaurantDetails": "Restaurant Details",
+      "locationAddress": "Location & Address"
+    },
+    "fields": {
+      "cuisineType": "Cuisine Type",
+      "city": "City",
+      "address": "Address",
+      "tradeLicenceNo": "Trade Licence No.",
+      "licenceExpiry": "Licence Expiry",
+      "businessRegNo": "Business Reg. No.",
+      "ownerContact": "Owner / Contact",
+      "emailAddress": "Email Address",
+      "phoneNumber": "Phone Number",
+      "category": "Category",
+      "seatingCapacity": "Seating capacity",
+      "averageBill": "Average bill",
+      "operatingHours": "Operating hours",
+      "website": "Website",
+      "mingleFriendly": "Mingle Friendly",
+      "fullAddress": "Full address",
+      "areaDistrict": "Area / District"
+    }
+  },
+  "approve": {
+    "modalTitle": "Approve Application",
+    "modalSubtitle": "Assign a category to approve this application.",
+    "selectCategoryLabel": "Select category",
+    "selectCategoryPlaceholderShort": "— Select a category —",
+    "selectCategoryPlaceholder": "— Select a category —",
+    "categoryMustBeSelected": "A category must be selected before approval can proceed.",
+    "categoryHelper": "A category must be selected before approval can proceed.",
+    "noCategoriesGuard": "No active categories exist. Create a category first before approving.",
+    "noCategories": "No active categories exist. Please create a category before approving.",
+    "invalidCategory": "The selected category is invalid. Please choose another.",
+    "confirmApproval": "Approve Application",
+    "title": "Approve Application",
+    "cancel": "Cancel"
+  },
+  "decline": {
+    "title": "Decline Application",
+    "subtitle": "Provide a reason for declining this application.",
+    "reasonLabel": "Reason for declining *",
+    "placeholder": "Explain why this application is being declined. The applicant will receive this message via email.",
+    "confirmDecline": "Decline Application",
+    "cancel": "Cancel"
+  }
+}

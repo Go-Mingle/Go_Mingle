@@ -1,0 +1,1 @@
+export { AmenitiesPage } from './AmenitiesPage'
