@@ -116,6 +116,44 @@ describe('restaurant lifecycle', () => {
       body: 'accountTitle=Kolachi+Pvt+Ltd&bankName=HBL&iban=PK72+HABB+0012+3456+7890+1234',
     })
     assert.equal(connect.status, 200)
+
+    // Re-saving the form as pre-filled (masked IBAN) keeps the stored number.
+    const resave = await fetch(link.json.data.url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ accountTitle: 'Kolachi Restaurant (Pvt) Ltd', bankName: 'HBL', iban: 'PK72 •••• 1234' }),
+    })
+    assert.equal(resave.status, 200)
+    const profile = await call('GET', '/partner/api/v1/partner/restaurant', { token: partner })
+    assert.equal(profile.json.data.submissionReadiness.payoutConfigured, true)
+  })
+
+  it('shows and edits the payout account from the portal, never exposing the full IBAN', async () => {
+    const path = '/partner/api/v1/partner/restaurant/payout-account'
+    const got = await call('GET', path, { token: partner })
+    assert.equal(got.status, 200)
+    assert.deepEqual(
+      { title: got.json.data.account.accountTitle, bank: got.json.data.account.bankName, iban: got.json.data.account.ibanMasked },
+      { title: 'Kolachi Restaurant (Pvt) Ltd', bank: 'HBL', iban: 'PK72 •••• 1234' },
+    )
+    assert.ok(got.json.data.banks.includes('Meezan Bank'))
+    assert.ok(!JSON.stringify(got.json).includes('PK72HABB0012345678901234'))
+
+    const bad = await call('PUT', path, { token: partner, body: { accountTitle: 'X', bankName: 'HBL', iban: 'PK00HABB0000000000000000' } })
+    assert.equal(bad.status, 422)
+    assert.equal(bad.json.error.details.field, 'iban')
+    assert.equal((await call('PUT', path, { token: partner, body: { accountTitle: 'X', bankName: 'Nope', iban: 'PK72 •••• 1234' } })).json.error.details.field, 'bankName')
+
+    // Masked IBAN = keep the number; title and bank change.
+    const kept = await call('PUT', path, { token: partner, body: { accountTitle: 'Kolachi Pvt', bankName: 'Meezan Bank', iban: 'PK72 •••• 1234' } })
+    assert.equal(kept.status, 200, JSON.stringify(kept.json))
+    assert.equal(kept.json.data.account.bankName, 'Meezan Bank')
+    assert.equal(kept.json.data.account.ibanMasked, 'PK72 •••• 1234')
+
+    const changed = await call('PUT', path, { token: partner, body: { accountTitle: 'Kolachi Pvt', bankName: 'Meezan Bank', iban: 'PK40MEZN0000001123456702' } })
+    assert.equal(changed.json.data.account.ibanMasked, 'PK40 •••• 6702')
+    // Put the original back for the later escrow assertions.
+    await call('PUT', path, { token: partner, body: { accountTitle: 'Kolachi Restaurant (Pvt) Ltd', bankName: 'HBL', iban: 'PK72HABB0012345678901234' } })
   })
 
   it('submits for approval and appears in the admin queue with its documents', async () => {

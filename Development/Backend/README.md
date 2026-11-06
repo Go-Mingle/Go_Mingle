@@ -91,7 +91,7 @@ booking ──authorize──▶ AUTHORIZED ──capture──▶ IN_ESCROW ─
 - **Release:** after the event, the restaurant's share (amount minus `PLATFORM_FEE_PCT`, default 10%) is paid to the IBAN it registered. The release is refused if no payout account exists.
 - **Void / refund:** cancels a hold, or returns captured money to the Mingler.
 
-Restaurants add their payout account on the sandbox page `/payouts/setup/:restaurantId`. The page asks for the account title, bank and a Pakistani IBAN; IBANs are checked with mod-97. Admins run the ledger from **Finances → Escrow & payouts**. Partners see their balance on **Finances**.
+Restaurants add and edit their payout account on the **Payout Account** tab of their profile (`GET`/`PUT /partner/api/v1/partner/restaurant/payout-account`). It asks for the account title, bank and a Pakistani IBAN, checked with mod-97. The IBAN is only ever returned masked (`PK72 •••• 1234`); sending the masked value back keeps the number on file. A hosted page at `/payouts/setup/:restaurantId` does the same for links opened outside the portal. Admins run the ledger from **Finances → Escrow & payouts**. Partners see their balance on **Finances**.
 
 | Route | Purpose |
 |---|---|
@@ -99,6 +99,7 @@ Restaurants add their payout account on the sandbox page `/payouts/setup/:restau
 | `POST /admin/api/v1/escrow/test-booking` | Place a sandbox card hold (stands in for the Mingler app) |
 | `POST /admin/api/v1/escrow/:id/{capture,void,release,refund}` | Move a transaction; partners are notified on capture and release |
 | `GET /partner/api/v1/partner/escrow` | The signed-in restaurant's escrow position and payouts |
+| `GET`/`PUT /partner/api/v1/partner/restaurant/payout-account` | The restaurant's payout bank account (IBAN masked) |
 
 **Simulator vs. your Safepay sandbox.** With no keys set, `src/payments/safepay.js` runs a built-in simulator with the same state machine, so the demo works offline. Put your Safepay sandbox keys in `Backend/.env` (copy `.env.example`): the key that starts with `sec_` goes in `SAFEPAY_API_KEY`, the long secret in `SAFEPAY_SECRET_KEY`. Restart the API and its startup line shows `Payments  Safepay sandbox (https://sandbox.api.getsafepay.com)`. Empty keys switch back to the simulator. The seeded sample transactions stay local in both modes; only bookings you create go to Safepay. The live path follows Safepay's documented endpoints but has not been run against a real sandbox account from this build, so test it once with your keys before the demo. In live mode the Mingler enters the card in Safepay's checkout (with 3-D Secure) before a hold is authorised.
 
