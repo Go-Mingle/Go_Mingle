@@ -32,6 +32,22 @@ const PURPOSE_PREFIX: Readonly<Record<string, string>> = {
 // enough to assert on; the shape stays UUID-like so it satisfies the backend's
 // key pattern.
 let uploadSeq = 0
+
+/**
+ * What the bucket holds, keyed by storage key. Keeping the bytes lets the
+ * public URL of an upload (a topic graphic, an interest-table cover) serve the
+ * image that was actually uploaded.
+ */
+const bucketObjects = new Map<string, { bytes: ArrayBuffer; contentType: string }>()
+
+function bucketKey(url: string): string {
+  return new URL(url).pathname.replace(/^\/mock-bucket\//, '').replace(/^\//, '')
+}
+
+/** Public URL of an uploaded object. */
+export function bucketObjectUrl(key: string): string {
+  return `https://mock-bucket.local/${key}`
+}
 const nextObjectId = () => `00000000-0000-4000-8000-${String(++uploadSeq).padStart(12, '0')}`
 
 // Signed-URL provider (spec: POST /api/v1/uploads/signed-url). Returns a mock
@@ -62,9 +78,22 @@ export const uploadsHandlers = [
   // the request escape to the network. Real S3 signs the Content-Type header, so
   // a request arriving without one is refused here too rather than passing an
   // upload the real bucket would reject.
-  http.put(/^https:\/\/mock-bucket\.local\//, ({ request }) =>
-    request.headers.get('content-type')
-      ? new HttpResponse(null, { status: 200 })
-      : new HttpResponse(null, { status: 403, statusText: 'SignatureDoesNotMatch' }),
-  ),
+  http.put(/^https:\/\/mock-bucket\.local\//, async ({ request }) => {
+    const contentType = request.headers.get('content-type')
+    if (!contentType) {
+      return new HttpResponse(null, { status: 403, statusText: 'SignatureDoesNotMatch' })
+    }
+    bucketObjects.set(bucketKey(request.url), { bytes: await request.arrayBuffer(), contentType })
+    return new HttpResponse(null, { status: 200 })
+  }),
+
+  // Public read of an uploaded object.
+  http.get(/^https:\/\/mock-bucket\.local\//, ({ request }) => {
+    const object = bucketObjects.get(bucketKey(request.url))
+    if (!object) return new HttpResponse(null, { status: 404 })
+    return new HttpResponse(object.bytes, {
+      status: 200,
+      headers: { 'Content-Type': object.contentType, 'Cache-Control': 'public, max-age=31536000' },
+    })
+  }),
 ]

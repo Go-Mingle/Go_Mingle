@@ -1,9 +1,32 @@
 import { http, HttpResponse } from 'msw'
-import { mockUsers } from '../data/index'
+import { mockRoles, mockUsers } from '../data/index'
 
 const BASE = '/api/v1/users'
 
-const MOCK_CURRENT_USER_ID = 'u1'
+const DEFAULT_CURRENT_USER_ID = 'u1'
+let currentUserId = DEFAULT_CURRENT_USER_ID
+
+/**
+ * The signed-in admin, whose own row the Users screen hides and protects from
+ * self-modification. The GoMingle API sets it per request from the session.
+ */
+export function setMockCurrentUserId(id: string | null) {
+  currentUserId = id ?? DEFAULT_CURRENT_USER_ID
+}
+
+/** The role as the users API returns it, resolved from the roles store. */
+function resolveRole(roleId: string) {
+  const role = mockRoles.find((r) => r.id === roleId && r.deleted_at == null)
+  return role ? { id: role.id, name: role.name, fullAccess: role.fullAccess } : null
+}
+
+function nextUserId(): string {
+  const max = mockUsers.reduce((n, u) => {
+    const m = /^u(\d+)$/.exec(u.id)
+    return m ? Math.max(n, Number(m[1])) : n
+  }, 0)
+  return `u${max + 1}`
+}
 
 type MockUser = (typeof mockUsers)[number]
 
@@ -43,7 +66,7 @@ export const usersHandlers = [
     const q = url.searchParams.get('q') ?? ''
     const statuses = url.searchParams.get('statuses')?.split(',').filter(Boolean) ?? []
 
-    let items = [...mockUsers].filter((u) => u.id !== MOCK_CURRENT_USER_ID)
+    let items = [...mockUsers].filter((u) => u.id !== currentUserId)
     if (q) {
       items = items.filter(
         (u) =>
@@ -75,7 +98,7 @@ export const usersHandlers = [
   // GET /api/v1/users/:id
   http.get(`${BASE}/:id`, ({ params }) => {
     const id = params.id as string
-    if (id === MOCK_CURRENT_USER_ID) {
+    if (id === currentUserId) {
       return errorEnvelope('ERR_SELF_MODIFICATION', 'Cannot operate on your own account.', 403)
     }
     const user = mockUsers.find((u) => u.id === id)
@@ -99,9 +122,12 @@ export const usersHandlers = [
     if (emailExists) {
       return errorEnvelope('ERR_EMAIL_IN_USE', 'Email already in use.', 409)
     }
-    const role = { id: body.roleId, name: body.roleId, fullAccess: false }
+    const role = resolveRole(body.roleId)
+    if (!role) {
+      return errorEnvelope('ERR_ROLE_NOT_FOUND', 'Choose an existing role.', 422)
+    }
     const newUser: MockUser = {
-      id: `u${mockUsers.length + 1}`,
+      id: nextUserId(),
       fullName: body.fullName,
       username: body.email.split('@')[0],
       email: body.email,
@@ -124,7 +150,7 @@ export const usersHandlers = [
   // PATCH /api/v1/users/:id — update user
   http.patch(`${BASE}/:id`, async ({ request, params }) => {
     const id = params.id as string
-    if (id === MOCK_CURRENT_USER_ID) {
+    if (id === currentUserId) {
       return errorEnvelope('ERR_SELF_MODIFICATION', 'Cannot operate on your own account.', 403)
     }
     const idx = mockUsers.findIndex((u) => u.id === id)
@@ -144,7 +170,14 @@ export const usersHandlers = [
       status: 'ACTIVE' | 'SUSPENDED'
     }>
     const existing = mockUsers[idx]
-    if (body.roleId !== undefined) existing.roleId = body.roleId
+    if (body.roleId !== undefined) {
+      const role = resolveRole(body.roleId)
+      if (!role) {
+        return errorEnvelope('ERR_ROLE_NOT_FOUND', 'Choose an existing role.', 422)
+      }
+      existing.roleId = role.id
+      existing.role = role
+    }
     if (body.fullName !== undefined) existing.fullName = body.fullName
     if (body.status !== undefined) existing.status = body.status
     return HttpResponse.json(envelope(toUserResponse(existing)))
@@ -153,7 +186,7 @@ export const usersHandlers = [
   // DELETE /api/v1/users/:id — 204 No Content
   http.delete(`${BASE}/:id`, ({ params }) => {
     const id = params.id as string
-    if (id === MOCK_CURRENT_USER_ID) {
+    if (id === currentUserId) {
       return errorEnvelope('ERR_SELF_MODIFICATION', 'Cannot operate on your own account.', 403)
     }
     if (isOnlyActiveSuperAdmin(id)) {

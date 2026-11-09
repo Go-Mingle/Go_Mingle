@@ -452,6 +452,14 @@ init_define_import_meta_env();
 import { http, HttpResponse } from "msw";
 
 init_define_import_meta_env();
+
+// gm-state:gm-state-registry
+init_define_import_meta_env();
+var stateModules = /* @__PURE__ */ new Map();
+function __register(name, accessor) {
+  stateModules.set(name, accessor);
+}
+
 var mockRoles = [
   {
     id: "r1",
@@ -4174,6 +4182,248 @@ var mockReviews = [
     bookingId: "BK-10009"
   }
 ];
+var mockBookingLookup = {
+  "BK-10081": {
+    bookingId: "BK-10081",
+    restaurantName: "Aurelia",
+    minglerName: "Sana Khan",
+    date: "2026-04-15T19:30:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo1",
+    comboName: "Mezze Feast for 2",
+    status: "completed",
+    billAmount: 1840
+  },
+  "BK-10082": {
+    bookingId: "BK-10082",
+    restaurantName: "Aurelia",
+    minglerName: "Mustafa Butt",
+    date: "2026-03-28T20:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo2",
+    comboName: "Wagyu Experience",
+    status: "completed",
+    billAmount: 980
+  },
+  "BK-10083": {
+    bookingId: "BK-10083",
+    restaurantName: "Aurelia",
+    minglerName: "Parveen Rizvi",
+    date: "2026-03-10T19:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo3",
+    comboName: "Italian Classic",
+    status: "completed",
+    billAmount: 1120
+  },
+  "BK-10084": {
+    bookingId: "BK-10084",
+    restaurantName: "Aurelia",
+    minglerName: "Danish Ahmed",
+    date: "2026-02-22T20:30:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo4",
+    comboName: "Seafood Set",
+    status: "completed",
+    billAmount: 760
+  },
+  "BK-10085": {
+    bookingId: "BK-10085",
+    restaurantName: "Aurelia",
+    minglerName: "Osama Farooq",
+    date: "2026-02-08T21:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo5",
+    comboName: "Veggie Delight",
+    status: "cancelled",
+    billAmount: 0
+  },
+  "BK-10086": {
+    bookingId: "BK-10086",
+    restaurantName: "Aurelia",
+    minglerName: "Lubna Paracha",
+    date: "2026-01-30T19:30:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo1",
+    comboName: "Mezze Feast for 2",
+    status: "completed",
+    billAmount: 840
+  },
+  "BK-10087": {
+    bookingId: "BK-10087",
+    restaurantName: "Aurelia",
+    minglerName: "Hassaan Adeel",
+    date: "2026-01-15T20:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo2",
+    comboName: "Wagyu Experience",
+    status: "cancelled",
+    billAmount: 0
+  },
+  "BK-10088": {
+    bookingId: "BK-10088",
+    restaurantName: "Aurelia",
+    minglerName: "Tariq Saleem",
+    date: "2025-12-28T19:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo3",
+    comboName: "Italian Classic",
+    status: "completed",
+    billAmount: 1260
+  },
+  "BK-10071": {
+    bookingId: "BK-10071",
+    restaurantName: "Saffron Table",
+    minglerName: "Parveen Rizvi",
+    date: "2026-04-20T19:30:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo4",
+    comboName: "Seafood Set",
+    status: "completed",
+    billAmount: 620
+  },
+  "BK-10072": {
+    bookingId: "BK-10072",
+    restaurantName: "Saffron Table",
+    minglerName: "Tariq Saleem",
+    date: "2026-04-01T20:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo5",
+    comboName: "Veggie Delight",
+    status: "completed",
+    billAmount: 340
+  },
+  "BK-10073": {
+    bookingId: "BK-10073",
+    restaurantName: "Saffron Table",
+    minglerName: "Mehwish Tanoli",
+    date: "2026-03-15T19:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo1",
+    comboName: "Mezze Feast for 2",
+    status: "completed",
+    billAmount: 480
+  },
+  "BK-10074": {
+    bookingId: "BK-10074",
+    restaurantName: "Saffron Table",
+    minglerName: "Sana Khan",
+    date: "2026-03-02T20:30:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo2",
+    comboName: "Wagyu Experience",
+    status: "completed",
+    billAmount: 290
+  },
+  "BK-10075": {
+    bookingId: "BK-10075",
+    restaurantName: "Saffron Table",
+    minglerName: "Osama Farooq",
+    date: "2026-02-18T19:30:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo3",
+    comboName: "Italian Classic",
+    status: "completed",
+    billAmount: 310
+  },
+  "BK-10076": {
+    bookingId: "BK-10076",
+    restaurantName: "Saffron Table",
+    minglerName: "Mustafa Butt",
+    date: "2026-02-05T20:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo4",
+    comboName: "Seafood Set",
+    status: "cancelled",
+    billAmount: 0
+  },
+  "BK-10077": {
+    bookingId: "BK-10077",
+    restaurantName: "Saffron Table",
+    minglerName: "Lubna Paracha",
+    date: "2026-01-22T19:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo5",
+    comboName: "Veggie Delight",
+    status: "completed",
+    billAmount: 720
+  },
+  "BK-10078": {
+    bookingId: "BK-10078",
+    restaurantName: "Saffron Table",
+    minglerName: "Danish Ahmed",
+    date: "2026-01-08T20:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo1",
+    comboName: "Mezze Feast for 2",
+    status: "completed",
+    billAmount: 560
+  },
+  "BK-10041": {
+    bookingId: "BK-10041",
+    restaurantName: "Aurelia",
+    minglerName: "Sana Khan",
+    date: "2026-05-04T19:30:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo2",
+    comboName: "Wagyu Experience",
+    status: "completed",
+    billAmount: 1840
+  },
+  "BK-10033": {
+    bookingId: "BK-10033",
+    restaurantName: "Maison Petit",
+    minglerName: "Sana Khan",
+    date: "2026-04-22T20:00:00",
+    interestTableId: "it7",
+    interestTableTopic: "Startup Founders",
+    comboId: "combo3",
+    comboName: "Italian Classic",
+    status: "cancelled",
+    billAmount: 0
+  },
+  "BK-10021": {
+    bookingId: "BK-10021",
+    restaurantName: "Saffron Table",
+    minglerName: "Sana Khan",
+    date: "2026-04-10T19:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo4",
+    comboName: "Seafood Set",
+    status: "completed",
+    billAmount: 620
+  },
+  "BK-10009": {
+    bookingId: "BK-10009",
+    restaurantName: "Olive & Ash",
+    minglerName: "Sana Khan",
+    date: "2026-03-28T20:30:00",
+    interestTableId: "it5",
+    interestTableTopic: "Foodies Unite",
+    comboId: "combo5",
+    comboName: "Veggie Delight",
+    status: "cancelled",
+    billAmount: 0
+  }
+};
 var mockRestaurantBookings = [
   {
     id: "rb1",
@@ -4517,9 +4767,24 @@ var mockV1InterestTables = [
     created: "2026-05-30T11:00:00.000Z"
   }
 ];
+__register("data/index.ts", {
+  read: () => ({ "mockRoles": mockRoles, "mockUsers": mockUsers, "mockCategories": mockCategories, "mockInterests": mockInterests, "mockInterestTopics": mockInterestTopics, "hoursFromNow": hoursFromNow, "mockInterestTables": mockInterestTables, "mockRestaurantMedia": mockRestaurantMedia, "defaultSchedule": defaultSchedule, "defaultTables": defaultTables, "defaultMenu": defaultMenu, "defaultCombos": defaultCombos, "mockRestaurants": mockRestaurants, "mockApplicationMedia": mockApplicationMedia, "mockApplicationSchedule": mockApplicationSchedule, "mockApplicationMenu": mockApplicationMenu, "applicationDetailDefaults": applicationDetailDefaults, "mockApplications": mockApplications, "mockMinglers": mockMinglers, "mockFinances": mockFinances, "mockChangeLogs": mockChangeLogs, "mockLoyalty": mockLoyalty, "mockBookingsChart": mockBookingsChart, "mockMinglerBookings": mockMinglerBookings, "mockPaymentMethods": mockPaymentMethods, "mockReviews": mockReviews, "mockBookingLookup": mockBookingLookup, "mockRestaurantBookings": mockRestaurantBookings, "mockPreferenceQuestions": mockPreferenceQuestions, "mockInterestTableMenuOptions": mockInterestTableMenuOptions, "mockV1InterestTables": mockV1InterestTables }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var BASE = "/api/v1/roles";
 var changeLogEntries = [];
+function assignedCount(roleId) {
+  return mockUsers.filter((u) => u.roleId === roleId).length;
+}
+function withCount(role) {
+  return { ...role, usersAssigned: assignedCount(role.id) };
+}
 var rolesHandlers = [
   /** GET /api/v1/roles — paginated, filterable list of non-deleted roles */
   http.get(BASE, ({ request }) => {
@@ -4529,7 +4794,7 @@ var rolesHandlers = [
     const search = url.searchParams.get("search")?.toLowerCase() ?? "";
     const sortBy = url.searchParams.get("sortBy") === "usersAssigned" ? "usersAssigned" : "name";
     const sortDir = url.searchParams.get("sortDir") === "desc" ? "desc" : "asc";
-    let active = mockRoles.filter((r) => r.deleted_at == null);
+    let active = mockRoles.filter((r) => r.deleted_at == null).map(withCount);
     if (search) active = active.filter((r) => r.name.toLowerCase().includes(search));
     active = [...active].sort((a, b) => {
       const cmp = sortBy === "usersAssigned" ? (a.usersAssigned ?? 0) - (b.usersAssigned ?? 0) : a.name.toLowerCase().localeCompare(b.name.toLowerCase());
@@ -4593,7 +4858,7 @@ var rolesHandlers = [
     const id = params.id;
     const role = mockRoles.find((r) => r.id === id && r.deleted_at == null);
     if (!role) return HttpResponse.json({ error: { code: "ERR_ROLE_NOT_FOUND" } }, { status: 404 });
-    return HttpResponse.json({ success: true, data: role });
+    return HttpResponse.json({ success: true, data: withCount(role) });
   }),
   /** POST /api/v1/roles — create a new role */
   http.post(BASE, async ({ request }) => {
@@ -4625,7 +4890,14 @@ var rolesHandlers = [
     const idx = mockRoles.findIndex((r) => r.id === id);
     if (idx < 0)
       return HttpResponse.json({ error: { code: "ERR_ROLE_NOT_FOUND" } }, { status: 404 });
-    mockRoles[idx] = { ...mockRoles[idx], ...body };
+    const { usersAssigned: _ignored, ...changes } = body;
+    void _ignored;
+    mockRoles[idx] = { ...mockRoles[idx], ...changes };
+    for (const user of mockUsers) {
+      if (user.roleId === id) {
+        user.role = { id, name: mockRoles[idx].name, fullAccess: mockRoles[idx].fullAccess };
+      }
+    }
     changeLogEntries.push({
       id: String(Date.now()),
       action: "ROLE_UPDATED",
@@ -4635,7 +4907,7 @@ var rolesHandlers = [
       resourceName: mockRoles[idx].name,
       timestamp: (/* @__PURE__ */ new Date()).toISOString()
     });
-    return HttpResponse.json(mockRoles[idx]);
+    return HttpResponse.json(withCount(mockRoles[idx]));
   }),
   /** DELETE /api/v1/roles/:id — soft-delete, returns 204 No Content */
   http.delete(`${BASE}/:id`, ({ params }) => {
@@ -4643,6 +4915,19 @@ var rolesHandlers = [
     const idx = mockRoles.findIndex((r) => r.id === id);
     if (idx < 0)
       return HttpResponse.json({ error: { code: "ERR_ROLE_NOT_FOUND" } }, { status: 404 });
+    if (assignedCount(id) > 0) {
+      return HttpResponse.json(
+        {
+          success: false,
+          error: {
+            code: "ERR_ROLE_HAS_ASSIGNED_USERS",
+            message: "Reassign the users who hold this role before deleting it."
+          }
+        },
+        { status: 409 }
+      );
+    }
+    ;
     mockRoles[idx].deleted_at = (/* @__PURE__ */ new Date()).toISOString();
     changeLogEntries.push({
       id: String(Date.now()),
@@ -4656,6 +4941,15 @@ var rolesHandlers = [
     return new HttpResponse(null, { status: 204 });
   })
 ];
+__register("handlers/roles.ts", {
+  read: () => ({ "changeLogEntries": changeLogEntries, "rolesHandlers": rolesHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
 import { http as http2, HttpResponse as HttpResponse2 } from "msw";
@@ -4725,11 +5019,44 @@ var authHandlers = [
   http2.patch(`${BASE2}/me`, () => HttpResponse2.json({})),
   http2.post(`${BASE2}/change-password`, () => HttpResponse2.json({}))
 ];
+__register("handlers/auth.ts", {
+  read: () => ({ "mockOtpCode": mockOtpCode, "otpIssuedAt": otpIssuedAt, "mockMe": mockMe, "authHandlers": authHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      case "mockOtpCode":
+        mockOtpCode = value;
+        return true;
+      case "otpIssuedAt":
+        otpIssuedAt = value;
+        return true;
+      case "mockMe":
+        mockMe = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
 import { http as http3, HttpResponse as HttpResponse3 } from "msw";
 var BASE3 = "/api/v1/users";
-var MOCK_CURRENT_USER_ID = "u1";
+var DEFAULT_CURRENT_USER_ID = "u1";
+var currentUserId = DEFAULT_CURRENT_USER_ID;
+function setMockCurrentUserId(id) {
+  currentUserId = id ?? DEFAULT_CURRENT_USER_ID;
+}
+function resolveRole(roleId) {
+  const role = mockRoles.find((r) => r.id === roleId && r.deleted_at == null);
+  return role ? { id: role.id, name: role.name, fullAccess: role.fullAccess } : null;
+}
+function nextUserId() {
+  const max = mockUsers.reduce((n, u) => {
+    const m = /^u(\d+)$/.exec(u.id);
+    return m ? Math.max(n, Number(m[1])) : n;
+  }, 0);
+  return `u${max + 1}`;
+}
 function envelope(data) {
   return { success: true, data };
 }
@@ -4761,7 +5088,7 @@ var usersHandlers = [
     const sortOrder = url.searchParams.get("sortOrder") ?? "asc";
     const q = url.searchParams.get("q") ?? "";
     const statuses = url.searchParams.get("statuses")?.split(",").filter(Boolean) ?? [];
-    let items = [...mockUsers].filter((u) => u.id !== MOCK_CURRENT_USER_ID);
+    let items = [...mockUsers].filter((u) => u.id !== currentUserId);
     if (q) {
       items = items.filter(
         (u) => u.fullName.toLowerCase().includes(q.toLowerCase()) || u.email.toLowerCase().includes(q.toLowerCase())
@@ -4786,7 +5113,7 @@ var usersHandlers = [
   // GET /api/v1/users/:id
   http3.get(`${BASE3}/:id`, ({ params }) => {
     const id = params.id;
-    if (id === MOCK_CURRENT_USER_ID) {
+    if (id === currentUserId) {
       return errorEnvelope("ERR_SELF_MODIFICATION", "Cannot operate on your own account.", 403);
     }
     const user = mockUsers.find((u) => u.id === id);
@@ -4802,9 +5129,12 @@ var usersHandlers = [
     if (emailExists) {
       return errorEnvelope("ERR_EMAIL_IN_USE", "Email already in use.", 409);
     }
-    const role = { id: body.roleId, name: body.roleId, fullAccess: false };
+    const role = resolveRole(body.roleId);
+    if (!role) {
+      return errorEnvelope("ERR_ROLE_NOT_FOUND", "Choose an existing role.", 422);
+    }
     const newUser = {
-      id: `u${mockUsers.length + 1}`,
+      id: nextUserId(),
       fullName: body.fullName,
       username: body.email.split("@")[0],
       email: body.email,
@@ -4821,7 +5151,7 @@ var usersHandlers = [
   // PATCH /api/v1/users/:id — update user
   http3.patch(`${BASE3}/:id`, async ({ request, params }) => {
     const id = params.id;
-    if (id === MOCK_CURRENT_USER_ID) {
+    if (id === currentUserId) {
       return errorEnvelope("ERR_SELF_MODIFICATION", "Cannot operate on your own account.", 403);
     }
     const idx = mockUsers.findIndex((u) => u.id === id);
@@ -4837,7 +5167,14 @@ var usersHandlers = [
     }
     const body = await request.json();
     const existing = mockUsers[idx];
-    if (body.roleId !== void 0) existing.roleId = body.roleId;
+    if (body.roleId !== void 0) {
+      const role = resolveRole(body.roleId);
+      if (!role) {
+        return errorEnvelope("ERR_ROLE_NOT_FOUND", "Choose an existing role.", 422);
+      }
+      existing.roleId = role.id;
+      existing.role = role;
+    }
     if (body.fullName !== void 0) existing.fullName = body.fullName;
     if (body.status !== void 0) existing.status = body.status;
     return HttpResponse3.json(envelope(toUserResponse(existing)));
@@ -4845,7 +5182,7 @@ var usersHandlers = [
   // DELETE /api/v1/users/:id — 204 No Content
   http3.delete(`${BASE3}/:id`, ({ params }) => {
     const id = params.id;
-    if (id === MOCK_CURRENT_USER_ID) {
+    if (id === currentUserId) {
       return errorEnvelope("ERR_SELF_MODIFICATION", "Cannot operate on your own account.", 403);
     }
     if (isOnlyActiveSuperAdmin(id)) {
@@ -4875,6 +5212,18 @@ var usersHandlers = [
     );
   })
 ];
+__register("handlers/users.ts", {
+  read: () => ({ "currentUserId": currentUserId, "usersHandlers": usersHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      case "currentUserId":
+        currentUserId = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
 import { http as http4, HttpResponse as HttpResponse4 } from "msw";
@@ -4963,6 +5312,15 @@ var categoriesHandlers = [
     return new HttpResponse4(null, { status: 204 });
   })
 ];
+__register("handlers/categories.ts", {
+  read: () => ({ "categoriesHandlers": categoriesHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
 import { http as http5, HttpResponse as HttpResponse5 } from "msw";
@@ -5186,9 +5544,32 @@ var mockAmenities = [
     createdAt: "2026-04-01T10:00:00Z"
   }
 ];
+__register("data/amenities.ts", {
+  read: () => ({ "mockAmenities": mockAmenities }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var BASE5 = "/api/v1/amenities";
-var iconCdnUrl = (id) => `https://cdn.gomingle.com/amenities/${id}.svg`;
+async function iconDataUrl(file) {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  let binary = "";
+  for (let i = 0; i < bytes.length; i += 32768) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + 32768));
+  }
+  return `data:${file.type || "image/svg+xml"};base64,${btoa(binary)}`;
+}
+function nextAmenityId() {
+  const max = mockAmenities.reduce((n, a) => {
+    const m = /^a(\d+)$/.exec(a.id);
+    return m ? Math.max(n, Number(m[1])) : n;
+  }, 0);
+  return `a${max + 1}`;
+}
 var isUploadedFile = (entry) => entry !== null && typeof entry !== "string";
 var amenitiesHandlers = [
   http5.get(BASE5, ({ request }) => {
@@ -5264,12 +5645,12 @@ var amenitiesHandlers = [
         { status: 409 }
       );
     }
-    const id = `a${mockAmenities.length + 1}`;
+    const id = nextAmenityId();
     const icon = fd.get("icon");
     const created = {
       id,
       name,
-      iconUrl: isUploadedFile(icon) ? iconCdnUrl(id) : null,
+      iconUrl: isUploadedFile(icon) ? await iconDataUrl(icon) : null,
       restaurantsCount: 0,
       sampleRestaurants: [],
       createdAt: (/* @__PURE__ */ new Date()).toISOString(),
@@ -5314,7 +5695,7 @@ var amenitiesHandlers = [
     }
     const updated = { ...mockAmenities[idx] };
     if (name) updated.name = name;
-    if (isUploadedFile(icon)) updated.iconUrl = iconCdnUrl(id);
+    if (isUploadedFile(icon)) updated.iconUrl = await iconDataUrl(icon);
     else if (resetIcon === "true") updated.iconUrl = null;
     updated.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
     mockAmenities[idx] = updated;
@@ -5336,6 +5717,15 @@ var amenitiesHandlers = [
     return new HttpResponse5(null, { status: 204 });
   })
 ];
+__register("handlers/amenities.ts", {
+  read: () => ({ "isUploadedFile": isUploadedFile, "amenitiesHandlers": amenitiesHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
 import { http as http6, HttpResponse as HttpResponse6 } from "msw";
@@ -5643,6 +6033,15 @@ var preferenceQuestionsHandlers = [
     return new HttpResponse6(null, { status: 204 });
   })
 ];
+__register("handlers/preference-questions.ts", {
+  read: () => ({ "mockPreferenceQuestionOptionsById": mockPreferenceQuestionOptionsById, "preferenceQuestionsHandlers": preferenceQuestionsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
 import { http as http7, HttpResponse as HttpResponse7 } from "msw";
@@ -5760,8 +6159,8 @@ function toDetail(r) {
     fullAddress: r.address ?? null,
     areaDistrict: r.area ?? null,
     city: r.city ?? null,
-    latitude: null,
-    longitude: null,
+    latitude: r.latitude ?? null,
+    longitude: r.longitude ?? null,
     ownerName: r.owner ?? null,
     ownerPhone: r.phone ?? null,
     ownerEmail: r.ownerEmail ?? null,
@@ -5771,7 +6170,8 @@ function toDetail(r) {
     dressCode: r.dressCode ?? null,
     joinedAt: r.joinedDate,
     confirmedBookings: r.bookings,
-    avatarUrl: r.avatarUrl ?? null
+    avatarUrl: r.avatarUrl ?? null,
+    menuPdfUrl: r.menuPdfUrl ?? null
   };
 }
 var restaurantsHandlers = [
@@ -6027,13 +6427,94 @@ var restaurantsHandlers = [
     return HttpResponse7.json({ success: true, data });
   })
 ];
+__register("handlers/restaurants.ts", {
+  read: () => ({ "restaurantsHandlers": restaurantsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
+
+init_define_import_meta_env();
+import { http as http9, HttpResponse as HttpResponse9 } from "msw";
 
 init_define_import_meta_env();
 import { http as http8, HttpResponse as HttpResponse8 } from "msw";
+var BASE8 = "/api/v1/uploads";
+var CONTENT_TYPE_EXT = {
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/webp": "webp"
+};
+var PURPOSE_PREFIX = {
+  TOPIC_GRAPHIC: "topics/",
+  INTEREST_TABLE_COVER: "covers/"
+};
+var uploadSeq = 0;
+var bucketObjects = /* @__PURE__ */ new Map();
+function bucketKey(url) {
+  return new URL(url).pathname.replace(/^\/mock-bucket\//, "").replace(/^\//, "");
+}
+function bucketObjectUrl(key) {
+  return `${globalThis.GM_PUBLIC_URL}/mock-bucket/${key}`;
+}
+var nextObjectId = () => `00000000-0000-4000-8000-${String(++uploadSeq).padStart(12, "0")}`;
+var uploadsHandlers = [
+  http8.post(`${BASE8}/signed-url`, async ({ request }) => {
+    const body = await request.json();
+    const prefix = PURPOSE_PREFIX[body.purpose ?? ""] ?? "covers/";
+    const ext = CONTENT_TYPE_EXT[body.contentType ?? ""] ?? "png";
+    const key = `${prefix}${nextObjectId()}.${ext}`;
+    return HttpResponse8.json({
+      success: true,
+      data: {
+        uploadUrl: `${globalThis.GM_PUBLIC_URL}/mock-bucket/${key}?signature=mock`,
+        key
+      }
+    });
+  }),
+  // The pre-signed bucket PUT. Matched by RegExp rather than a `*` path pattern,
+  // which does not match across segments under this MSW version and would let
+  // the request escape to the network. Real S3 signs the Content-Type header, so
+  // a request arriving without one is refused here too rather than passing an
+  // upload the real bucket would reject.
+  http8.put(/\/mock-bucket\//, async ({ request }) => {
+    const contentType = request.headers.get("content-type");
+    if (!contentType) {
+      return new HttpResponse8(null, { status: 403, statusText: "SignatureDoesNotMatch" });
+    }
+    bucketObjects.set(bucketKey(request.url), { bytes: await request.arrayBuffer(), contentType });
+    return new HttpResponse8(null, { status: 200 });
+  }),
+  // Public read of an uploaded object.
+  http8.get(/\/mock-bucket\//, ({ request }) => {
+    const object = bucketObjects.get(bucketKey(request.url));
+    if (!object) return new HttpResponse8(null, { status: 404 });
+    return new HttpResponse8(object.bytes, {
+      status: 200,
+      headers: { "Content-Type": object.contentType, "Cache-Control": "public, max-age=31536000" }
+    });
+  })
+];
+__register("handlers/uploads.ts", {
+  read: () => ({ "uploadSeq": uploadSeq, "bucketObjects": bucketObjects, "nextObjectId": nextObjectId, "uploadsHandlers": uploadsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      case "uploadSeq":
+        uploadSeq = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
+
 var RESTAURANT_BASE = "/api/v1/restaurants";
 var INTEREST_TABLE_BASE = "/api/v1/interest-tables";
 function itNotFound() {
-  return HttpResponse8.json(
+  return HttpResponse9.json(
     { success: false, error: { code: "ERR_INTEREST_TABLE_NOT_FOUND", message: "Not found" } },
     { status: 404 }
   );
@@ -6041,19 +6522,29 @@ function itNotFound() {
 var inviteesByTable = /* @__PURE__ */ new Map();
 function seedInvitees(id) {
   if (!inviteesByTable.has(id)) {
+    const seeded = !createdTableIds.has(id);
     inviteesByTable.set(
       id,
-      mockMinglers.slice(0, 3).map((m, i) => ({
+      seeded ? mockMinglers.slice(0, 3).map((m, i) => ({
         minglerId: m.id,
         fullName: m.name,
         avatarUrl: null,
         isPromingler: i === 0,
         dateInvited: new Date(2026, 5, 10 + i).toISOString(),
         status: i === 0 ? "TABLE_BOOKED" : "INVITED"
-      }))
+      })) : []
     );
   }
   return inviteesByTable.get(id);
+}
+var createdTableIds = /* @__PURE__ */ new Set();
+function resolveRefs(restaurant, topicId, tableId) {
+  const topic = topicId ? mockInterestTopics.find((t) => t.id === topicId) : void 0;
+  const table = tableId ? restaurant?.tables.find((t) => t.id === tableId) : void 0;
+  return {
+    topic: topic ? { id: topic.id, name: topic.name, graphicUrl: topic.graphicUrl } : null,
+    assignedTable: tableId ? { id: tableId, name: table?.name ?? tableId } : null
+  };
 }
 function toMasterListItem(t) {
   const [year, month, day] = (t.startDate ?? "").split("-");
@@ -6076,11 +6567,11 @@ function multiParam(url, key) {
 }
 var interestTablesV1Handlers = [
   // GET /api/v1/interest-tables — cross-restaurant master list (CR-43).
-  http8.get(INTEREST_TABLE_BASE, ({ request }) => {
+  http9.get(INTEREST_TABLE_BASE, ({ request }) => {
     const url = new URL(request.url);
     const search = (url.searchParams.get("search") ?? "").trim();
     if (search.length > 100) {
-      return HttpResponse8.json(
+      return HttpResponse9.json(
         { success: false, error: { code: "ERR_VALIDATION", message: "Search term too long." } },
         { status: 400 }
       );
@@ -6143,7 +6634,7 @@ var interestTablesV1Handlers = [
     });
     const totalRecords = items.length;
     const totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
-    return HttpResponse8.json({
+    return HttpResponse9.json({
       success: true,
       data: {
         items: items.slice((page - 1) * pageSize, page * pageSize),
@@ -6152,7 +6643,7 @@ var interestTablesV1Handlers = [
     });
   }),
   // GET /api/v1/restaurants/:rid/interest-tables
-  http8.get(`${RESTAURANT_BASE}/:rid/interest-tables`, ({ request, params }) => {
+  http9.get(`${RESTAURANT_BASE}/:rid/interest-tables`, ({ request, params }) => {
     const rid = params.rid;
     const url = new URL(request.url);
     const page = Math.max(1, parseInt(url.searchParams.get("page") ?? "1", 10));
@@ -6195,7 +6686,7 @@ var interestTablesV1Handlers = [
     const totalRecords = items.length;
     const totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
     const pagedItems = items.slice((page - 1) * pageSize, page * pageSize);
-    return HttpResponse8.json({
+    return HttpResponse9.json({
       success: true,
       data: {
         items: pagedItems,
@@ -6204,16 +6695,23 @@ var interestTablesV1Handlers = [
     });
   }),
   // POST /api/v1/restaurants/:rid/interest-tables
-  http8.post(`${RESTAURANT_BASE}/:rid/interest-tables`, async ({ request, params }) => {
+  http9.post(`${RESTAURANT_BASE}/:rid/interest-tables`, async ({ request, params }) => {
     const rid = params.rid;
     const body = await request.json();
-    const restaurant = { id: rid, name: `Restaurant ${rid}` };
+    const record = mockRestaurants.find((r) => r.id === rid);
+    if (!record) {
+      return HttpResponse9.json(
+        { success: false, error: { code: "ERR_RESTAURANT_NOT_FOUND", message: "Restaurant not found." } },
+        { status: 404 }
+      );
+    }
+    const restaurant = { id: rid, name: record.name };
+    const refs = resolveRefs(record, body.topicId, body.restaurantTableId);
     const status = body.publish ? body.availabilityMode === "COMING_SOON" ? "COMING_SOON" : "PENDING" : "DRAFT";
     const created = {
       id: `it-v1-${Date.now()}`,
       name: body.name,
-      topic: null,
-      assignedTable: body.restaurantTableId ? { id: body.restaurantTableId, name: `Table ${body.restaurantTableId}` } : null,
+      ...refs,
       restaurant,
       seatsBooked: 0,
       minMinglers: 4,
@@ -6223,9 +6721,12 @@ var interestTablesV1Handlers = [
       startDate: body.startDate,
       startTime: body.startTime,
       durationHours: body.durationMinutes / 60,
+      durationMinutes: body.durationMinutes,
+      comboIds: body.menuOptionIds ?? [],
+      inviteList: body.inviteList ?? [],
       sponsorName: null,
       sponsorLogoUrl: null,
-      eventImageUrl: null,
+      eventImageUrl: body.coverImageKey ? bucketObjectUrl(body.coverImageKey) : null,
       availabilityMode: body.availabilityMode,
       inviteOnly: body.inviteOnly ?? false,
       prominglerEnabled: body.prominglerEnabled ?? false,
@@ -6234,23 +6735,24 @@ var interestTablesV1Handlers = [
       status,
       created: (/* @__PURE__ */ new Date()).toISOString()
     };
+    createdTableIds.add(created.id);
     mockV1InterestTables.unshift(created);
-    return HttpResponse8.json({ success: true, data: created }, { status: 201 });
+    return HttpResponse9.json({ success: true, data: created }, { status: 201 });
   }),
   // GET /api/v1/interest-tables/:id
-  http8.get(`${INTEREST_TABLE_BASE}/:id`, ({ params }) => {
+  http9.get(`${INTEREST_TABLE_BASE}/:id`, ({ params }) => {
     const id = params.id;
     const found = mockV1InterestTables.find((t) => t.id === id);
     if (!found) {
-      return HttpResponse8.json(
+      return HttpResponse9.json(
         { success: false, error: { code: "ERR_INTEREST_TABLE_NOT_FOUND", message: "Not found" } },
         { status: 404 }
       );
     }
-    return HttpResponse8.json({ success: true, data: found });
+    return HttpResponse9.json({ success: true, data: found });
   }),
   // PATCH /api/v1/interest-tables/:id — edit
-  http8.patch(`${INTEREST_TABLE_BASE}/:id`, async ({ params, request }) => {
+  http9.patch(`${INTEREST_TABLE_BASE}/:id`, async ({ params, request }) => {
     const id = params.id;
     const idx = mockV1InterestTables.findIndex((t) => t.id === id);
     if (idx < 0) return itNotFound();
@@ -6266,20 +6768,42 @@ var interestTablesV1Handlers = [
       ...body.startDate !== void 0 && { startDate: body.startDate },
       ...body.startTime !== void 0 && { startTime: body.startTime },
       ...body.availabilityMode !== void 0 && { availabilityMode: body.availabilityMode },
-      ...body.inviteOnly !== void 0 && { inviteOnly: body.inviteOnly }
+      ...body.inviteOnly !== void 0 && { inviteOnly: body.inviteOnly },
+      ...body.durationMinutes !== void 0 && {
+        durationMinutes: body.durationMinutes,
+        durationHours: body.durationMinutes / 60
+      },
+      ...body.menuOptionIds !== void 0 && { comboIds: body.menuOptionIds },
+      ...body.coverImageKey !== void 0 && {
+        eventImageUrl: body.coverImageKey ? bucketObjectUrl(body.coverImageKey) : null
+      },
+      ...body.prominglerEnabled !== void 0 && { prominglerEnabled: body.prominglerEnabled },
+      ...body.prominglerMinglerId !== void 0 && {
+        prominglerMinglerId: body.prominglerMinglerId
+      }
     };
-    return HttpResponse8.json({ success: true, data: mockV1InterestTables[idx] });
+    if (body.topicId !== void 0 || body.restaurantTableId !== void 0) {
+      const current = mockV1InterestTables[idx];
+      const record = mockRestaurants.find((r) => r.id === current.restaurant?.id);
+      const refs = resolveRefs(
+        record,
+        body.topicId ?? current.topic?.id,
+        body.restaurantTableId ?? current.assignedTable?.id
+      );
+      mockV1InterestTables[idx] = { ...current, ...refs };
+    }
+    return HttpResponse9.json({ success: true, data: mockV1InterestTables[idx] });
   }),
   // DELETE /api/v1/interest-tables/:id — soft delete
-  http8.delete(`${INTEREST_TABLE_BASE}/:id`, ({ params }) => {
+  http9.delete(`${INTEREST_TABLE_BASE}/:id`, ({ params }) => {
     const id = params.id;
     const idx = mockV1InterestTables.findIndex((t) => t.id === id);
     if (idx < 0) return itNotFound();
     mockV1InterestTables.splice(idx, 1);
-    return HttpResponse8.json({ success: true, data: { id, deleted: true } });
+    return HttpResponse9.json({ success: true, data: { id, deleted: true } });
   }),
   // POST /api/v1/interest-tables/:id/make-available
-  http8.post(`${INTEREST_TABLE_BASE}/:id/make-available`, ({ params }) => {
+  http9.post(`${INTEREST_TABLE_BASE}/:id/make-available`, ({ params }) => {
     const id = params.id;
     const idx = mockV1InterestTables.findIndex((t) => t.id === id);
     if (idx < 0) return itNotFound();
@@ -6288,40 +6812,40 @@ var interestTablesV1Handlers = [
       availabilityMode: "AVAILABLE_NOW",
       status: "PENDING"
     };
-    return HttpResponse8.json({
+    return HttpResponse9.json({
       success: true,
       data: { id, status: mockV1InterestTables[idx].status, availability: "AVAILABLE_NOW" }
     });
   }),
   // POST /api/v1/interest-tables/:id/publish — DRAFT → PENDING / COMING_SOON
-  http8.post(`${INTEREST_TABLE_BASE}/:id/publish`, ({ params }) => {
+  http9.post(`${INTEREST_TABLE_BASE}/:id/publish`, ({ params }) => {
     const id = params.id;
     const idx = mockV1InterestTables.findIndex((t) => t.id === id);
     if (idx < 0) return itNotFound();
     const existing = mockV1InterestTables[idx];
     const status = existing.availabilityMode === "COMING_SOON" ? "COMING_SOON" : "PENDING";
     mockV1InterestTables[idx] = { ...existing, status };
-    return HttpResponse8.json({ success: true, data: mockV1InterestTables[idx] });
+    return HttpResponse9.json({ success: true, data: mockV1InterestTables[idx] });
   }),
   // POST /api/v1/interest-tables/:id/cancel — admin cancel (refund cascade server-side)
-  http8.post(`${INTEREST_TABLE_BASE}/:id/cancel`, ({ params }) => {
+  http9.post(`${INTEREST_TABLE_BASE}/:id/cancel`, ({ params }) => {
     const id = params.id;
     const idx = mockV1InterestTables.findIndex((t) => t.id === id);
     if (idx < 0) return itNotFound();
     mockV1InterestTables[idx] = { ...mockV1InterestTables[idx], status: "CANCELLED" };
-    return HttpResponse8.json({
+    return HttpResponse9.json({
       success: true,
       data: { id, status: "CANCELLED", cancelledCount: mockV1InterestTables[idx].seatsBooked }
     });
   }),
   // POST /api/v1/interest-tables/:id/promingler — Change Promingler
-  http8.post(`${INTEREST_TABLE_BASE}/:id/promingler`, async ({ params, request }) => {
+  http9.post(`${INTEREST_TABLE_BASE}/:id/promingler`, async ({ params, request }) => {
     const id = params.id;
     const idx = mockV1InterestTables.findIndex((t) => t.id === id);
     if (idx < 0) return itNotFound();
     const body = await request.json();
     if (!body.prominglerMinglerId) {
-      return HttpResponse8.json(
+      return HttpResponse9.json(
         {
           success: false,
           error: { code: "ERR_VALIDATION", message: "prominglerMinglerId is required" }
@@ -6334,10 +6858,10 @@ var interestTablesV1Handlers = [
       prominglerEnabled: true,
       prominglerMinglerId: body.prominglerMinglerId
     };
-    return HttpResponse8.json({ success: true, data: mockV1InterestTables[idx] });
+    return HttpResponse9.json({ success: true, data: mockV1InterestTables[idx] });
   }),
   // GET /api/v1/interest-tables/:id/invitees
-  http8.get(`${INTEREST_TABLE_BASE}/:id/invitees`, ({ params, request }) => {
+  http9.get(`${INTEREST_TABLE_BASE}/:id/invitees`, ({ params, request }) => {
     const id = params.id;
     if (!mockV1InterestTables.some((t) => t.id === id)) return itNotFound();
     const url = new URL(request.url);
@@ -6350,7 +6874,7 @@ var interestTablesV1Handlers = [
     if (q) items = items.filter((i) => (i.fullName ?? "").toLowerCase().includes(q));
     const totalRecords = items.length;
     const totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
-    return HttpResponse8.json({
+    return HttpResponse9.json({
       success: true,
       data: {
         items: items.slice((page - 1) * pageSize, page * pageSize),
@@ -6359,20 +6883,20 @@ var interestTablesV1Handlers = [
     });
   }),
   // POST /api/v1/interest-tables/:id/invitees
-  http8.post(`${INTEREST_TABLE_BASE}/:id/invitees`, async ({ params, request }) => {
+  http9.post(`${INTEREST_TABLE_BASE}/:id/invitees`, async ({ params, request }) => {
     const id = params.id;
     if (!mockV1InterestTables.some((t) => t.id === id)) return itNotFound();
     const { minglerId } = await request.json();
     const mingler = mockMinglers.find((m) => m.id === minglerId);
     if (!mingler) {
-      return HttpResponse8.json(
+      return HttpResponse9.json(
         { success: false, error: { code: "ERR_MINGLER_NOT_FOUND", message: "Mingler not found." } },
         { status: 404 }
       );
     }
     const list = seedInvitees(id);
     const existing = list.find((i) => i.minglerId === minglerId);
-    if (existing) return HttpResponse8.json({ success: true, data: existing }, { status: 200 });
+    if (existing) return HttpResponse9.json({ success: true, data: existing }, { status: 200 });
     const invitee = {
       minglerId,
       fullName: mingler.name,
@@ -6382,56 +6906,66 @@ var interestTablesV1Handlers = [
       status: "INVITED"
     };
     list.push(invitee);
-    return HttpResponse8.json({ success: true, data: invitee }, { status: 201 });
+    return HttpResponse9.json({ success: true, data: invitee }, { status: 201 });
   }),
   // DELETE /api/v1/interest-tables/:id/invitees/:minglerId
-  http8.delete(`${INTEREST_TABLE_BASE}/:id/invitees/:minglerId`, ({ params }) => {
+  http9.delete(`${INTEREST_TABLE_BASE}/:id/invitees/:minglerId`, ({ params }) => {
     const id = params.id;
     const minglerId = params.minglerId;
     if (!mockV1InterestTables.some((t) => t.id === id)) return itNotFound();
     const list = seedInvitees(id);
     const idx = list.findIndex((i) => i.minglerId === minglerId);
     if (idx >= 0) list.splice(idx, 1);
-    return HttpResponse8.json({ success: true, data: { minglerId, removed: idx >= 0 } });
+    return HttpResponse9.json({ success: true, data: { minglerId, removed: idx >= 0 } });
   }),
   // GET /api/v1/restaurants/:rid/lookups/interest-tables
-  http8.get(`${RESTAURANT_BASE}/:rid/lookups/interest-tables`, ({ params }) => {
+  http9.get(`${RESTAURANT_BASE}/:rid/lookups/interest-tables`, ({ params }) => {
     const rid = params.rid;
     const items = mockV1InterestTables.filter((t) => t.restaurant?.id === rid).map((t) => ({ interestTableId: t.id, interestTableName: t.name })).sort((a, b) => a.interestTableName.localeCompare(b.interestTableName));
-    return HttpResponse8.json({ success: true, data: { items } });
+    return HttpResponse9.json({ success: true, data: { items } });
   }),
   // GET /api/v1/interest-tables/:id/menu-options
-  http8.get(`${INTEREST_TABLE_BASE}/:id/menu-options`, ({ params }) => {
+  http9.get(`${INTEREST_TABLE_BASE}/:id/menu-options`, ({ params }) => {
     const id = params.id;
     const found = mockV1InterestTables.find((t) => t.id === id);
     if (!found) {
-      return HttpResponse8.json(
+      return HttpResponse9.json(
         { success: false, error: { code: "ERR_INTEREST_TABLE_NOT_FOUND", message: "Not found" } },
         { status: 404 }
       );
     }
-    const items = mockInterestTableMenuOptions;
-    return HttpResponse8.json({ success: true, data: { items } });
+    const record = mockRestaurants.find((r) => r.id === found.restaurant?.id);
+    const items = createdTableIds.has(id) ? (record?.combos ?? []).filter((c) => (found.comboIds ?? []).includes(c.id)).map((c) => ({ id: c.id, name: c.name, pricePkr: c.price, courses: c.courses })) : mockInterestTableMenuOptions;
+    return HttpResponse9.json({ success: true, data: { items } });
   }),
   // GET /api/v1/restaurants/:rid/tables/:tid/availability-check
-  http8.get(`${RESTAURANT_BASE}/:rid/tables/:tid/availability-check`, ({ params }) => {
+  http9.get(`${RESTAURANT_BASE}/:rid/tables/:tid/availability-check`, ({ params }) => {
     const tid = params.tid;
     if (tid === "table-2") {
-      return HttpResponse8.json({
+      return HttpResponse9.json({
         success: true,
         data: { assignable: false, reason: "Table already booked for this slot" }
       });
     }
-    return HttpResponse8.json({
+    return HttpResponse9.json({
       success: true,
       data: { assignable: true, reason: null }
     });
   })
 ];
+__register("handlers/interest-tables.ts", {
+  read: () => ({ "inviteesByTable": inviteesByTable, "createdTableIds": createdTableIds, "interestTablesV1Handlers": interestTablesV1Handlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
-import { http as http9, HttpResponse as HttpResponse9 } from "msw";
-var BASE8 = "/api/v1/interests";
+import { http as http10, HttpResponse as HttpResponse10 } from "msw";
+var BASE9 = "/api/v1/interests";
 var ALLOWED_PAGE_SIZES = [25, 50, 100];
 var DEFAULT_PAGE_SIZE = 25;
 function readPageSize(raw) {
@@ -6444,12 +6978,12 @@ function readPage(raw) {
 }
 var interestsHandlers = [
   // GET /api/v1/interests — paginated list.
-  http9.get(BASE8, ({ request }) => {
+  http10.get(BASE9, ({ request }) => {
     const url = new URL(request.url);
     const page = readPage(url.searchParams.get("page"));
     const pageSize = readPageSize(url.searchParams.get("pageSize"));
     const totalRecords = mockInterests.length;
-    return HttpResponse9.json({
+    return HttpResponse10.json({
       success: true,
       data: {
         items: mockInterests.slice((page - 1) * pageSize, page * pageSize),
@@ -6465,9 +6999,9 @@ var interestsHandlers = [
   // GET /api/v1/interests/active — active interests. Sources the create form's
   // category dropdown AND the topic form's interests multi-select (MET-1304).
   // Declared before /:id so "active" isn't captured as an id param.
-  http9.get(
-    `${BASE8}/active`,
-    () => HttpResponse9.json({
+  http10.get(
+    `${BASE9}/active`,
+    () => HttpResponse10.json({
       success: true,
       data: {
         items: mockInterests.map((i) => ({ id: i.id, name: i.name, groupName: i.groupName }))
@@ -6475,22 +7009,22 @@ var interestsHandlers = [
     })
   ),
   // GET /api/v1/interests/:id — single record (powers the edit modal).
-  http9.get(`${BASE8}/:id`, ({ params }) => {
+  http10.get(`${BASE9}/:id`, ({ params }) => {
     const found = mockInterests.find((i) => i.id === params.id);
     if (!found) {
-      return HttpResponse9.json(
+      return HttpResponse10.json(
         { success: false, error: { code: "ERR_INTEREST_NOT_FOUND", message: "Not found" } },
         { status: 404 }
       );
     }
-    return HttpResponse9.json({ success: true, data: found });
+    return HttpResponse10.json({ success: true, data: found });
   }),
   // POST /api/v1/interests — create.
-  http9.post(BASE8, async ({ request }) => {
+  http10.post(BASE9, async ({ request }) => {
     const body = await request.json();
     const exists = mockInterests.some((i) => i.name.toLowerCase() === body.name.toLowerCase());
     if (exists) {
-      return HttpResponse9.json(
+      return HttpResponse10.json(
         {
           success: false,
           error: {
@@ -6510,15 +7044,15 @@ var interestsHandlers = [
       updatedAt: null
     };
     mockInterests.push(created);
-    return HttpResponse9.json({ success: true, data: created }, { status: 201 });
+    return HttpResponse10.json({ success: true, data: created }, { status: 201 });
   }),
   // PATCH /api/v1/interests/:id — update.
-  http9.patch(`${BASE8}/:id`, async ({ params, request }) => {
+  http10.patch(`${BASE9}/:id`, async ({ params, request }) => {
     const id = params.id;
     const body = await request.json();
     const idx = mockInterests.findIndex((i) => i.id === id);
     if (idx < 0) {
-      return HttpResponse9.json(
+      return HttpResponse10.json(
         { success: false, error: { code: "ERR_INTEREST_NOT_FOUND", message: "Not found" } },
         { status: 404 }
       );
@@ -6528,7 +7062,7 @@ var interestsHandlers = [
         (i, j) => j !== idx && i.name.toLowerCase() === body.name.toLowerCase()
       );
       if (duplicate) {
-        return HttpResponse9.json(
+        return HttpResponse10.json(
           {
             success: false,
             error: {
@@ -6546,20 +7080,29 @@ var interestsHandlers = [
       ...body,
       updatedAt: (/* @__PURE__ */ new Date()).toISOString()
     };
-    return HttpResponse9.json({ success: true, data: mockInterests[idx] });
+    return HttpResponse10.json({ success: true, data: mockInterests[idx] });
   }),
   // DELETE /api/v1/interests/:id
-  http9.delete(`${BASE8}/:id`, ({ params }) => {
+  http10.delete(`${BASE9}/:id`, ({ params }) => {
     const id = params.id;
     const idx = mockInterests.findIndex((i) => i.id === id);
     if (idx >= 0) mockInterests.splice(idx, 1);
-    return new HttpResponse9(null, { status: 204 });
+    return new HttpResponse10(null, { status: 204 });
   })
 ];
+__register("handlers/interests.ts", {
+  read: () => ({ "interestsHandlers": interestsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
-import { http as http10, HttpResponse as HttpResponse10 } from "msw";
-var BASE9 = "/api/v1/admin/approvals";
+import { http as http11, HttpResponse as HttpResponse11 } from "msw";
+var BASE10 = "/api/v1/admin/approvals";
 function toApiItem(a) {
   const rec = a;
   return {
@@ -6577,14 +7120,14 @@ function toApiItem(a) {
   };
 }
 function notFound2() {
-  return HttpResponse10.json(
+  return HttpResponse11.json(
     { success: false, error: { code: "ERR_APPLICATION_NOT_FOUND", message: "Not found" } },
     { status: 404 }
   );
 }
 var approvalsHandlers = [
   // GET /api/v1/admin/approvals — status-filtered, paginated queue listing.
-  http10.get(BASE9, ({ request }) => {
+  http11.get(BASE10, ({ request }) => {
     const url = new URL(request.url);
     const status = url.searchParams.get("status");
     const page = Math.max(1, Number(url.searchParams.get("page") ?? 1));
@@ -6605,7 +7148,7 @@ var approvalsHandlers = [
     const totalRecords = items.length;
     const totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
     const start = (page - 1) * pageSize;
-    return HttpResponse10.json({
+    return HttpResponse11.json({
       success: true,
       data: {
         items: items.slice(start, start + pageSize).map(toApiItem),
@@ -6614,34 +7157,43 @@ var approvalsHandlers = [
     });
   }),
   // GET /api/v1/admin/approvals/:id
-  http10.get(`${BASE9}/:id`, ({ params }) => {
+  http11.get(`${BASE10}/:id`, ({ params }) => {
     const a = mockApplications.find((x) => x.id === params.id);
     if (!a) return notFound2();
-    return HttpResponse10.json({
+    return HttpResponse11.json({
       success: true,
       data: { ...toApiItem(a), status: a.status, rejectionHistory: [] }
     });
   }),
   // POST /api/v1/admin/approvals/:id/approve
-  http10.post(
-    `${BASE9}/:id/approve`,
-    ({ params }) => HttpResponse10.json({ success: true, data: { id: params.id, status: "APPROVED" } })
+  http11.post(
+    `${BASE10}/:id/approve`,
+    ({ params }) => HttpResponse11.json({ success: true, data: { id: params.id, status: "APPROVED" } })
   ),
   // POST /api/v1/admin/approvals/:id/decline
-  http10.post(
-    `${BASE9}/:id/decline`,
-    ({ params }) => HttpResponse10.json({ success: true, data: { id: params.id, status: "REJECTED" } })
+  http11.post(
+    `${BASE10}/:id/decline`,
+    ({ params }) => HttpResponse11.json({ success: true, data: { id: params.id, status: "REJECTED" } })
   )
 ];
+__register("handlers/approvals.ts", {
+  read: () => ({ "approvalsHandlers": approvalsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
-import { http as http11, HttpResponse as HttpResponse11 } from "msw";
-var BASE10 = "/api/v1/minglers";
+import { http as http12, HttpResponse as HttpResponse12 } from "msw";
+var BASE11 = "/api/v1/minglers";
 function envelope2(data) {
   return { success: true, data };
 }
 function errorEnvelope2(code, message, status, details = {}) {
-  return HttpResponse11.json({ success: false, error: { code, message, details } }, { status });
+  return HttpResponse12.json({ success: false, error: { code, message, details } }, { status });
 }
 var prominglerOverrides = /* @__PURE__ */ new Map();
 function resolveIsPromingler(m) {
@@ -6754,7 +7306,7 @@ var paymentMethodsStore = mockPaymentMethods.map((pm) => {
 });
 var minglersHandlers = [
   // GET /api/v1/minglers — paginated directory (search/sort/filter)
-  http11.get(BASE10, ({ request }) => {
+  http12.get(BASE11, ({ request }) => {
     const url = new URL(request.url);
     const page = Number(url.searchParams.get("page") ?? 1);
     const pageSize = Number(url.searchParams.get("pageSize") ?? 25);
@@ -6782,7 +7334,7 @@ var minglersHandlers = [
     const totalItems = items.length;
     const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
     const start = (page - 1) * pageSize;
-    return HttpResponse11.json(
+    return HttpResponse12.json(
       envelope2({
         items: items.slice(start, start + pageSize).map(toMinglerListItem),
         pagination: { page, pageSize, totalItems, totalPages }
@@ -6792,24 +7344,24 @@ var minglersHandlers = [
   // GET /api/v1/minglers/prominglers/active — active Pro Minglers lookup for
   // the interest-table Promingler select. Registered before `:id` (distinct
   // 2-segment path, so no collision, but kept explicit).
-  http11.get(`${BASE10}/prominglers/active`, () => {
+  http12.get(`${BASE11}/prominglers/active`, () => {
     const items = mockMinglers.filter((m) => resolveIsPromingler(m)).map((m) => ({ id: m.id, fullName: m.name, phone: m.phone, email: m.email }));
-    return HttpResponse11.json(envelope2({ items }));
+    return HttpResponse12.json(envelope2({ items }));
   }),
   // GET /api/v1/minglers/:id — full detail record
-  http11.get(`${BASE10}/:id`, ({ params }) => {
+  http12.get(`${BASE11}/:id`, ({ params }) => {
     const m = mockMinglers.find((x) => x.id === params.id);
-    return m ? HttpResponse11.json(envelope2(toMinglerDetail(m))) : HttpResponse11.json({ message: "Not found" }, { status: 404 });
+    return m ? HttpResponse12.json(envelope2(toMinglerDetail(m))) : HttpResponse12.json({ message: "Not found" }, { status: 404 });
   }),
-  http11.get(`${BASE10}/:id/bookings`, () => HttpResponse11.json(mockMinglerBookings)),
+  http12.get(`${BASE11}/:id/bookings`, () => HttpResponse12.json(mockMinglerBookings)),
   // GET /api/v1/minglers/:id/bookings/count-active — Suspend modal warning
-  http11.get(`${BASE10}/:id/bookings/count-active`, ({ params }) => {
+  http12.get(`${BASE11}/:id/bookings/count-active`, ({ params }) => {
     const m = mockMinglers.find((x) => x.id === params.id);
     if (!m) return errorEnvelope2("ERR_MINGLER_NOT_FOUND", "Mingler not found.", 404);
-    return HttpResponse11.json(envelope2({ count: countActiveBookings() }));
+    return HttpResponse12.json(envelope2({ count: countActiveBookings() }));
   }),
   // POST /api/v1/minglers/:id/suspend
-  http11.post(`${BASE10}/:id/suspend`, async ({ params, request }) => {
+  http12.post(`${BASE11}/:id/suspend`, async ({ params, request }) => {
     const m = mockMinglers.find((x) => x.id === params.id);
     if (!m) return errorEnvelope2("ERR_MINGLER_NOT_FOUND", "Mingler not found.", 404);
     if (m.status !== "ACTIVE") {
@@ -6823,7 +7375,7 @@ var minglersHandlers = [
     const body = await request.json();
     const bookingsCancelled = countActiveBookings();
     m.status = "SUSPENDED";
-    return HttpResponse11.json(
+    return HttpResponse12.json(
       envelope2({
         id: m.id,
         status: "SUSPENDED",
@@ -6834,7 +7386,7 @@ var minglersHandlers = [
     );
   }),
   // POST /api/v1/minglers/:id/reactivate
-  http11.post(`${BASE10}/:id/reactivate`, ({ params }) => {
+  http12.post(`${BASE11}/:id/reactivate`, ({ params }) => {
     const m = mockMinglers.find((x) => x.id === params.id);
     if (!m) return errorEnvelope2("ERR_MINGLER_NOT_FOUND", "Mingler not found.", 404);
     if (m.status !== "SUSPENDED") {
@@ -6846,32 +7398,32 @@ var minglersHandlers = [
       );
     }
     m.status = "ACTIVE";
-    return HttpResponse11.json(
+    return HttpResponse12.json(
       envelope2({ id: m.id, status: "ACTIVE", reactivatedAt: (/* @__PURE__ */ new Date()).toISOString() })
     );
   }),
   // PATCH /api/v1/minglers/:id/promingler
-  http11.patch(`${BASE10}/:id/promingler`, async ({ params, request }) => {
+  http12.patch(`${BASE11}/:id/promingler`, async ({ params, request }) => {
     const m = mockMinglers.find((x) => x.id === params.id);
     if (!m) return errorEnvelope2("ERR_MINGLER_NOT_FOUND", "Mingler not found.", 404);
     const body = await request.json();
     prominglerOverrides.set(m.id, body.isPromingler);
-    return HttpResponse11.json(envelope2({ id: m.id, isPromingler: body.isPromingler }));
+    return HttpResponse12.json(envelope2({ id: m.id, isPromingler: body.isPromingler }));
   }),
   // GET /api/v1/minglers/:id/eating-preferences
-  http11.get(`${BASE10}/:id/eating-preferences`, ({ params }) => {
+  http12.get(`${BASE11}/:id/eating-preferences`, ({ params }) => {
     const m = mockMinglers.find((x) => x.id === params.id);
     if (!m) return errorEnvelope2("ERR_MINGLER_NOT_FOUND", "Mingler not found.", 404);
-    return HttpResponse11.json(envelope2({ items: EATING_PREFERENCES_FIXTURE }));
+    return HttpResponse12.json(envelope2({ items: EATING_PREFERENCES_FIXTURE }));
   }),
   // GET /api/v1/minglers/:id/payment-methods
-  http11.get(`${BASE10}/:id/payment-methods`, ({ params }) => {
+  http12.get(`${BASE11}/:id/payment-methods`, ({ params }) => {
     const m = mockMinglers.find((x) => x.id === params.id);
     if (!m) return errorEnvelope2("ERR_MINGLER_NOT_FOUND", "Mingler not found.", 404);
-    return HttpResponse11.json(envelope2({ items: paymentMethodsStore }));
+    return HttpResponse12.json(envelope2({ items: paymentMethodsStore }));
   }),
   // POST /api/v1/minglers/:id/payment-methods/:pmId/set-default
-  http11.post(`${BASE10}/:id/payment-methods/:pmId/set-default`, ({ params }) => {
+  http12.post(`${BASE11}/:id/payment-methods/:pmId/set-default`, ({ params }) => {
     const target = paymentMethodsStore.find((pm) => pm.paymentMethodId === params.pmId);
     if (!target) {
       return errorEnvelope2("ERR_PAYMENT_METHOD_NOT_FOUND", "Payment method not found.", 404);
@@ -6879,18 +7431,27 @@ var minglersHandlers = [
     paymentMethodsStore.forEach((pm) => {
       pm.isDefault = pm.paymentMethodId === target.paymentMethodId;
     });
-    return HttpResponse11.json(envelope2({ paymentMethodId: target.paymentMethodId, isDefault: true }));
+    return HttpResponse12.json(envelope2({ paymentMethodId: target.paymentMethodId, isDefault: true }));
   })
 ];
+__register("handlers/minglers.ts", {
+  read: () => ({ "prominglerOverrides": prominglerOverrides, "paymentMethodsStore": paymentMethodsStore, "minglersHandlers": minglersHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
-import { http as http12, HttpResponse as HttpResponse12 } from "msw";
+import { http as http13, HttpResponse as HttpResponse13 } from "msw";
 var V1 = "/api/v1";
 function envelope3(data) {
   return { success: true, data };
 }
 function errorEnvelope3(code, message, status, details = {}) {
-  return HttpResponse12.json({ success: false, error: { code, message, details } }, { status });
+  return HttpResponse13.json({ success: false, error: { code, message, details } }, { status });
 }
 var deletedReviewIds = /* @__PURE__ */ new Set();
 function toApiDate(iso) {
@@ -6918,7 +7479,7 @@ function buildSummary(source) {
 }
 var reviewsHandlers = [
   // GET /api/v1/restaurants/:rid/reviews — restaurant-scoped list + summary (spec J10D / CR-021)
-  http12.get(`${V1}/restaurants/:rid/reviews`, ({ params, request }) => {
+  http13.get(`${V1}/restaurants/:rid/reviews`, ({ params, request }) => {
     const rid = params.rid;
     const url = new URL(request.url);
     const q = (url.searchParams.get("q") ?? "").trim().toLowerCase();
@@ -6957,7 +7518,7 @@ var reviewsHandlers = [
     const totalRecords = items.length;
     const totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
     const start = (page - 1) * pageSize;
-    return HttpResponse12.json(
+    return HttpResponse13.json(
       envelope3({
         summary,
         items: items.slice(start, start + pageSize),
@@ -6966,7 +7527,7 @@ var reviewsHandlers = [
     );
   }),
   // GET /api/v1/admin/reviews?minglerId=&q=&ratingFilter=&page=&pageSize=&sortBy=&sortOrder=
-  http12.get(`${V1}/admin/reviews`, ({ request }) => {
+  http13.get(`${V1}/admin/reviews`, ({ request }) => {
     const url = new URL(request.url);
     const minglerId = url.searchParams.get("minglerId") ?? "";
     const q = (url.searchParams.get("q") ?? "").trim().toLowerCase();
@@ -7006,7 +7567,7 @@ var reviewsHandlers = [
     const totalRecords = items.length;
     const totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
     const start = (page - 1) * pageSize;
-    return HttpResponse12.json(
+    return HttpResponse13.json(
       envelope3({
         items: items.slice(start, start + pageSize),
         pagination: { page, pageSize, totalRecords, totalPages }
@@ -7014,13 +7575,13 @@ var reviewsHandlers = [
     );
   }),
   // GET /api/v1/reviews/:id — read-only detail
-  http12.get(`${V1}/reviews/:id`, ({ params }) => {
+  http13.get(`${V1}/reviews/:id`, ({ params }) => {
     const id = params.id;
     const r = mockReviews.find((x) => x.id === id);
     if (!r || deletedReviewIds.has(id)) {
       return errorEnvelope3("ERR_REVIEW_NOT_FOUND", "Review not found.", 404);
     }
-    return HttpResponse12.json(
+    return HttpResponse13.json(
       envelope3({
         id: r.id,
         restaurantName: r.restaurant,
@@ -7039,20 +7600,29 @@ var reviewsHandlers = [
     );
   }),
   // DELETE /api/v1/reviews/:id — soft-delete → 204
-  http12.delete(`${V1}/reviews/:id`, ({ params }) => {
+  http13.delete(`${V1}/reviews/:id`, ({ params }) => {
     const id = params.id;
     const exists = mockReviews.some((x) => x.id === id);
     if (!exists || deletedReviewIds.has(id)) {
       return errorEnvelope3("ERR_REVIEW_NOT_FOUND", "Review not found.", 404);
     }
     deletedReviewIds.add(id);
-    return new HttpResponse12(null, { status: 204 });
+    return new HttpResponse13(null, { status: 204 });
   })
 ];
+__register("handlers/reviews.ts", {
+  read: () => ({ "deletedReviewIds": deletedReviewIds, "reviewsHandlers": reviewsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
-import { http as http13, HttpResponse as HttpResponse13 } from "msw";
-var BASE11 = "/api/v1/admin/bookings";
+import { http as http14, HttpResponse as HttpResponse14 } from "msw";
+var BASE12 = "/api/v1/admin/bookings";
 var restaurantByName = new Map(mockRestaurants.map((r) => [r.name, r]));
 function toIsoDate(ddMmYyyy) {
   const [year, month, day] = ddMmYyyy.split("-");
@@ -7098,12 +7668,12 @@ var bookingsHandlers = [
   // GET /api/v1/admin/bookings — read-only view owned by the Bookings module,
   // consumed here scoped to a single minglerId (the only scope this admin
   // panel surface uses today).
-  http13.get(BASE11, ({ request }) => {
+  http14.get(BASE12, ({ request }) => {
     const url = new URL(request.url);
     const minglerId = url.searchParams.get("minglerId");
     const interestTableId = url.searchParams.get("interestTableId");
     if (!minglerId && !interestTableId) {
-      return HttpResponse13.json(
+      return HttpResponse14.json(
         {
           success: false,
           error: {
@@ -7131,7 +7701,7 @@ var bookingsHandlers = [
     const totalRecords = items.length;
     const totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
     const start = (page - 1) * pageSize;
-    return HttpResponse13.json({
+    return HttpResponse14.json({
       success: true,
       data: {
         items: items.slice(start, start + pageSize),
@@ -7140,16 +7710,16 @@ var bookingsHandlers = [
     });
   }),
   // GET /api/v1/admin/bookings/:id — single booking detail (View Booking popup)
-  http13.get(`${BASE11}/:id`, ({ params }) => {
+  http14.get(`${BASE12}/:id`, ({ params }) => {
     const id = params.id;
     const b = mockMinglerBookings.find((x) => x.id === id) ?? mockMinglerBookings.find((x) => x.bookingId === id);
     if (!b) {
-      return HttpResponse13.json(
+      return HttpResponse14.json(
         { success: false, error: { code: "ERR_BOOKING_NOT_FOUND", message: "Booking not found." } },
         { status: 404 }
       );
     }
-    return HttpResponse13.json({
+    return HttpResponse14.json({
       success: true,
       data: {
         id: b.id,
@@ -7171,18 +7741,18 @@ var bookingsHandlers = [
   // POST /api/v1/admin/bookings/:id/cancel — admin-cancel a single booking.
   // Server runs the refund/hold-release cascade (J10C / CR-010); here the
   // booking itself moves to Cancelled so every list that shows it updates.
-  http13.post(`${BASE11}/:id/cancel`, ({ params }) => {
+  http14.post(`${BASE12}/:id/cancel`, ({ params }) => {
     const id = params.id;
     const b = mockMinglerBookings.find((x) => x.id === id) ?? mockMinglerBookings.find((x) => x.bookingId === id);
     if (!b) {
-      return HttpResponse13.json(
+      return HttpResponse14.json(
         { success: false, error: { code: "ERR_BOOKING_NOT_FOUND", message: "Booking not found." } },
         { status: 404 }
       );
     }
     const status = b.status.toUpperCase();
     if (status !== "PENDING" && status !== "CONFIRMED") {
-      return HttpResponse13.json(
+      return HttpResponse14.json(
         {
           success: false,
           error: {
@@ -7194,12 +7764,21 @@ var bookingsHandlers = [
       );
     }
     b.status = b.status === b.status.toLowerCase() ? "cancelled" : b.status === b.status.toUpperCase() ? "CANCELLED" : "Cancelled";
-    return HttpResponse13.json({ success: true, data: { id: b.id, status: "CANCELLED" } });
+    return HttpResponse14.json({ success: true, data: { id: b.id, status: "CANCELLED" } });
   })
 ];
+__register("handlers/bookings.ts", {
+  read: () => ({ "restaurantByName": restaurantByName, "bookingsHandlers": bookingsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
-import { http as http14, HttpResponse as HttpResponse14 } from "msw";
+import { http as http15, HttpResponse as HttpResponse15 } from "msw";
 
 init_define_import_meta_env();
 var import_dayjs = __toESM(require_dayjs_min(), 1);
@@ -7291,21 +7870,21 @@ function pushMockNotification(item) {
 }
 var notificationsHandlers = [
   // GET /api/v1/notifications/unread-count
-  http14.get(`${V12}/unread-count`, () => {
+  http15.get(`${V12}/unread-count`, () => {
     const count = notifications.filter((n) => !n.readAt).length;
-    return HttpResponse14.json(envelope4({ count }));
+    return HttpResponse15.json(envelope4({ count }));
   }),
   // GET /api/v1/notifications/recent
-  http14.get(`${V12}/recent`, () => {
+  http15.get(`${V12}/recent`, () => {
     const items = [...notifications].sort(
       (a, b) => parseFlexibleDate(b.createdAt).valueOf() - parseFlexibleDate(a.createdAt).valueOf()
     ).slice(0, 10);
-    return HttpResponse14.json(envelope4({ items }));
+    return HttpResponse15.json(envelope4({ items }));
   }),
   // GET /api/v1/notifications/types
-  http14.get(`${V12}/types`, () => HttpResponse14.json(envelope4({ types: TYPES }))),
+  http15.get(`${V12}/types`, () => HttpResponse15.json(envelope4({ types: TYPES }))),
   // GET /api/v1/notifications
-  http14.get(V12, ({ request }) => {
+  http15.get(V12, ({ request }) => {
     const url = new URL(request.url);
     const search = (url.searchParams.get("search") ?? "").toLowerCase();
     const type = url.searchParams.get("type") ?? "";
@@ -7333,7 +7912,7 @@ var notificationsHandlers = [
     const totalItems = items.length;
     const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
     const start = (page - 1) * pageSize;
-    return HttpResponse14.json(
+    return HttpResponse15.json(
       envelope4({
         items: items.slice(start, start + pageSize),
         pagination: { page, pageSize, totalItems, totalPages }
@@ -7341,11 +7920,11 @@ var notificationsHandlers = [
     );
   }),
   // PATCH /api/v1/notifications/:id/read
-  http14.patch(`${V12}/:id/read`, ({ params }) => {
+  http15.patch(`${V12}/:id/read`, ({ params }) => {
     const id = params.id;
     const n = notifications.find((x) => x.id === id);
     if (!n) {
-      return HttpResponse14.json(
+      return HttpResponse15.json(
         { success: false, error: { code: "ERR_NOTIFICATION_NOT_FOUND", message: "Not found." } },
         { status: 404 }
       );
@@ -7355,7 +7934,7 @@ var notificationsHandlers = [
       n.readAt = "2026-07-10T00:00:00Z";
       n.readByUserId = "u1";
     }
-    return HttpResponse14.json(
+    return HttpResponse15.json(
       envelope4({
         id,
         marked: alreadyRead ? 0 : 1,
@@ -7365,7 +7944,7 @@ var notificationsHandlers = [
     );
   }),
   // PATCH /api/v1/notifications/mark-all-read
-  http14.patch(`${V12}/mark-all-read`, () => {
+  http15.patch(`${V12}/mark-all-read`, () => {
     let marked = 0;
     notifications.forEach((n) => {
       if (!n.readAt) {
@@ -7374,50 +7953,23 @@ var notificationsHandlers = [
         marked += 1;
       }
     });
-    return HttpResponse14.json(
+    return HttpResponse15.json(
       envelope4({ marked, markedAt: "2026-07-10T00:00:00Z", markedByUserId: "u1" })
     );
   })
 ];
-
-init_define_import_meta_env();
-import { http as http15, HttpResponse as HttpResponse15 } from "msw";
-var BASE12 = "/api/v1/uploads";
-var CONTENT_TYPE_EXT = {
-  "image/png": "png",
-  "image/jpeg": "jpg",
-  "image/webp": "webp"
-};
-var PURPOSE_PREFIX = {
-  TOPIC_GRAPHIC: "topics/",
-  INTEREST_TABLE_COVER: "covers/"
-};
-var uploadSeq = 0;
-var nextObjectId = () => `00000000-0000-4000-8000-${String(++uploadSeq).padStart(12, "0")}`;
-var uploadsHandlers = [
-  http15.post(`${BASE12}/signed-url`, async ({ request }) => {
-    const body = await request.json();
-    const prefix = PURPOSE_PREFIX[body.purpose ?? ""] ?? "covers/";
-    const ext = CONTENT_TYPE_EXT[body.contentType ?? ""] ?? "png";
-    const key = `${prefix}${nextObjectId()}.${ext}`;
-    return HttpResponse15.json({
-      success: true,
-      data: {
-        uploadUrl: `${globalThis.GM_PUBLIC_URL}/mock-bucket/${key}?signature=mock`,
-        key
-      }
-    });
-  }),
-  // The pre-signed bucket PUT. Matched by RegExp rather than a `*` path pattern,
-  // which does not match across segments under this MSW version and would let
-  // the request escape to the network. Real S3 signs the Content-Type header, so
-  // a request arriving without one is refused here too rather than passing an
-  // upload the real bucket would reject.
-  http15.put(
-    /\/mock-bucket\//,
-    ({ request }) => request.headers.get("content-type") ? new HttpResponse15(null, { status: 200 }) : new HttpResponse15(null, { status: 403, statusText: "SignatureDoesNotMatch" })
-  )
-];
+__register("handlers/notifications.ts", {
+  read: () => ({ "notifications": notifications, "notificationsHandlers": notificationsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      case "notifications":
+        notifications = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 init_define_import_meta_env();
 import { http as http16, HttpResponse as HttpResponse16 } from "msw";
@@ -7568,6 +8120,18 @@ var escrowHandlers = [
     return HttpResponse16.json({ success: true, data: next });
   })
 ];
+__register("handlers/escrow.ts", {
+  read: () => ({ "round": round, "ledger": ledger, "error": error, "escrowHandlers": escrowHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      case "ledger":
+        ledger = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 var BASE14 = "/api";
 var authMocks = [
@@ -7645,7 +8209,7 @@ var topicsHandlers = [
       description: body.description ?? null,
       // Create now sends a `graphicKey` (signed-url storage key); the backend
       // resolves it to a display URL. Mirror that here for the returned record.
-      graphicUrl: body.graphicKey ? `https://mock-cdn.local/${body.graphicKey}` : null,
+      graphicUrl: body.graphicKey ? bucketObjectUrl(body.graphicKey) : null,
       interests: interestIds.map((id) => mockInterests.find((i) => i.id === id)).filter((i) => Boolean(i)),
       interestTablesCount: 0,
       createdAt: (/* @__PURE__ */ new Date()).toISOString()
@@ -7669,7 +8233,7 @@ var topicsHandlers = [
       ...body.description !== void 0 && { description: body.description },
       // Edit sends `graphicKey` only when the image was replaced.
       ...body.graphicKey !== void 0 && {
-        graphicUrl: `https://mock-cdn.local/${body.graphicKey}`
+        graphicUrl: bucketObjectUrl(body.graphicKey)
       },
       interests: updatedInterests
     };
@@ -7945,11 +8509,22 @@ var handlers = [
 var browserHandlers = handlers.filter(
   (h) => !authMocks.includes(h) && !escrowHandlers.includes(h) && !rolesHandlers.includes(h) && !usersHandlers.includes(h) && !categoriesHandlers.includes(h) && !amenitiesHandlers.includes(h) && !preferenceQuestionsHandlers.includes(h) && !topicsHandlers.includes(h) && !interestsHandlers.includes(h) && !loyaltyHandlers.includes(h) && !restaurantsHandlers.includes(h) && !interestTablesV1Handlers.includes(h) && !uploadsHandlers.includes(h) && !approvalsHandlers.includes(h) && !reviewsHandlers.includes(h) && !bookingsHandlers.includes(h)
 );
+__register("handlers/index.ts", {
+  read: () => ({ "authMocks": authMocks, "topicsHandlers": topicsHandlers, "loyaltyHandlers": loyaltyHandlers, "handlers": handlers, "browserHandlers": browserHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 export {
   handlers,
   mockAmenities,
   mockApplications,
   mockCategories,
   mockRestaurants,
-  pushMockNotification
+  pushMockNotification,
+  setMockCurrentUserId,
+  stateModules
 };

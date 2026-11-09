@@ -6,10 +6,10 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { seedUsers, SEED_ACCOUNTS } from './auth/users.js'
 import { admin } from './contracts/registry.js'
-import { restoreAdminRecords } from './integration.js'
+import { flushState, initAdmin } from './integration.js'
 import { adminPortal, assetRoutes, partnerPortal } from './portals.js'
 import { payoutRoutes } from './payments/payoutSetup.js'
-import { seedEscrow } from './payments/escrow.js'
+import { restoreEscrow } from './payments/escrow.js'
 import { gateway } from './payments/safepay.js'
 import { dataFile, flush } from './db/store.js'
 
@@ -21,8 +21,8 @@ import { dataFile, flush } from './db/store.js'
  */
 
 seedUsers()
-restoreAdminRecords()
-await seedEscrow().catch((err) => console.error('Escrow seed skipped:', err.message))
+initAdmin()
+restoreEscrow()
 
 const phosphorDir = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -86,6 +86,7 @@ for (const signal of ['SIGINT', 'SIGTERM']) {
   process.on(signal, () => {
     try {
       flush()
+      flushState()
     } finally {
       process.exit(0)
     }

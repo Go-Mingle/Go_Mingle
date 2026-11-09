@@ -1,4 +1,5 @@
 import { HttpResponse } from 'msw'
+import { MOCK_CDN_ORIGIN } from './mockCdn'
 import type {
   PartnerContact,
   PartnerRestaurantProfile,
@@ -129,6 +130,7 @@ let deletedContactIds = new Set<string>()
 
 export function resetMockProfile(): void {
   mockProfile = activeSeed()
+  mockAssignment = null
   mockContacts = [
     {
       id: 'ct-1',
@@ -243,6 +245,28 @@ function readiness(): SubmissionReadiness {
   }
 }
 
+/**
+ * Category and commission GoMingle assigned on approval. The API sets it from
+ * the Admin Panel's decision; until then an Active restaurant shows the
+ * fixture's Premium tier.
+ */
+export let mockAssignment: { category: { id: string; name: string }; commissionPercent: number } | null =
+  null
+
+export function setMockAssignment(value: typeof mockAssignment) {
+  mockAssignment = value
+}
+
+/**
+ * The cover's public URL. The cover key is `photos/<mediaId>.jpg`, the object
+ * the photo upload stored on the CDN as `<mediaId>.jpg`.
+ */
+export function coverPhotoUrl(key: string | null): string | null {
+  if (!key) return null
+  const file = key.split('/').pop() ?? key
+  return `${MOCK_CDN_ORIGIN}/${file}`
+}
+
 export function profileResponse(): PartnerRestaurantProfile {
   return {
     id: mockProfile.id,
@@ -256,8 +280,12 @@ export function profileResponse(): PartnerRestaurantProfile {
     },
     cuisine: mockProfile.cuisine,
     description: mockProfile.description,
-    category: mockProfile.status === 'ACTIVE' ? { id: 'c-1', name: 'Premium' } : null,
-    commissionPercent: mockProfile.status === 'ACTIVE' ? 12 : null,
+    category:
+      mockProfile.status === 'ACTIVE'
+        ? (mockAssignment?.category ?? { id: 'c-1', name: 'Premium' })
+        : null,
+    commissionPercent:
+      mockProfile.status === 'ACTIVE' ? (mockAssignment?.commissionPercent ?? 12) : null,
     owner: {
       name: mockProfile.ownerName,
       email: mockProfile.ownerEmail,
@@ -273,7 +301,7 @@ export function profileResponse(): PartnerRestaurantProfile {
       dressCode: mockProfile.dressCode,
       servesAlcohol: mockProfile.servesAlcohol,
     },
-    coverPhotoUrl: mockProfile.mainPhotoKey ? 'https://cdn.example.test/cover.jpg' : null,
+    coverPhotoUrl: coverPhotoUrl(mockProfile.mainPhotoKey),
     status: mockProfile.status,
     visibleOnApp: mockProfile.visibleOnApp,
     paymentConfigured: mockProfile.payoutAccountId !== null,

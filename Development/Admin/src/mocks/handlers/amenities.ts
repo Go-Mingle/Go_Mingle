@@ -4,10 +4,25 @@ import { mockAmenities } from '../data/amenities'
 
 const BASE = '/api/v1/amenities'
 
-// The real API stores an amenity icon under a stable per-amenity CDN key, so
-// replacing the file leaves the URL unchanged — only updatedAt moves. Mirror
-// that here so the mocks exercise the same cache-busting path as production.
-const iconCdnUrl = (id: string) => `https://cdn.gomingle.com/amenities/${id}.svg`
+// The real API stores the uploaded icon on its CDN and returns that URL. With no
+// CDN behind the mocks, the icon is kept as a data URL of the uploaded file, so
+// the image the admin chose is the one every screen shows.
+async function iconDataUrl(file: Blob): Promise<string> {
+  const bytes = new Uint8Array(await file.arrayBuffer())
+  let binary = ''
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000))
+  }
+  return `data:${file.type || 'image/svg+xml'};base64,${btoa(binary)}`
+}
+
+function nextAmenityId(): string {
+  const max = mockAmenities.reduce((n, a) => {
+    const m = /^a(\d+)$/.exec(a.id)
+    return m ? Math.max(n, Number(m[1])) : n
+  }, 0)
+  return `a${max + 1}`
+}
 
 /** A FormData entry is either a string or a file — `instanceof File` is not
  *  reliable here because Node's undici File is a different realm than jsdom's. */
@@ -98,12 +113,12 @@ export const amenitiesHandlers = [
       )
     }
 
-    const id = `a${mockAmenities.length + 1}`
+    const id = nextAmenityId()
     const icon = fd.get('icon')
     const created: Amenity = {
       id,
       name,
-      iconUrl: isUploadedFile(icon) ? iconCdnUrl(id) : null,
+      iconUrl: isUploadedFile(icon) ? await iconDataUrl(icon as Blob) : null,
       restaurantsCount: 0,
       sampleRestaurants: [],
       createdAt: new Date().toISOString(),
@@ -153,7 +168,7 @@ export const amenitiesHandlers = [
     const updated = { ...mockAmenities[idx] }
     if (name) updated.name = name
     // The FE sends either a replacement file or a reset flag, never both.
-    if (isUploadedFile(icon)) updated.iconUrl = iconCdnUrl(id)
+    if (isUploadedFile(icon)) updated.iconUrl = await iconDataUrl(icon as Blob)
     else if (resetIcon === 'true') updated.iconUrl = null
     updated.updatedAt = new Date().toISOString()
     mockAmenities[idx] = updated

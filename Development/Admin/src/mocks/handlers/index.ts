@@ -13,7 +13,7 @@ import { minglersHandlers } from './minglers'
 import { reviewsHandlers } from './reviews'
 import { bookingsHandlers } from './bookings'
 import { notificationsHandlers } from './notifications'
-import { uploadsHandlers } from './uploads'
+import { bucketObjectUrl, uploadsHandlers } from './uploads'
 import { escrowHandlers } from './escrow'
 import type {
   UpdateEarnRatePayload,
@@ -119,7 +119,7 @@ const topicsHandlers = [
       description: (body.description as string | undefined) ?? null,
       // Create now sends a `graphicKey` (signed-url storage key); the backend
       // resolves it to a display URL. Mirror that here for the returned record.
-      graphicUrl: body.graphicKey ? `https://mock-cdn.local/${body.graphicKey as string}` : null,
+      graphicUrl: body.graphicKey ? bucketObjectUrl(body.graphicKey as string) : null,
       interests: interestIds
         .map((id) => mockInterests.find((i) => i.id === id))
         .filter((i): i is Interest => Boolean(i)),
@@ -149,7 +149,7 @@ const topicsHandlers = [
       ...(body.description !== undefined && { description: body.description as string | null }),
       // Edit sends `graphicKey` only when the image was replaced.
       ...(body.graphicKey !== undefined && {
-        graphicUrl: `https://mock-cdn.local/${body.graphicKey as string}`,
+        graphicUrl: bucketObjectUrl(body.graphicKey as string),
       }),
       interests: updatedInterests,
     }

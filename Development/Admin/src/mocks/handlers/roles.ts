@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 import type { Role } from '../../app/modules/roles-access/types'
-import { mockRoles } from '../data/index'
+import { mockRoles, mockUsers } from '../data/index'
 
 const BASE = '/api/v1/roles'
 
@@ -16,6 +16,15 @@ interface ChangeLogEntry {
 
 export const changeLogEntries: ChangeLogEntry[] = []
 
+/** How many admin users hold the role — counted live, never stored. */
+function assignedCount(roleId: string): number {
+  return mockUsers.filter((u) => u.roleId === roleId).length
+}
+
+function withCount<T extends { id: string }>(role: T): T & { usersAssigned: number } {
+  return { ...role, usersAssigned: assignedCount(role.id) }
+}
+
 export const rolesHandlers = [
   /** GET /api/v1/roles — paginated, filterable list of non-deleted roles */
   http.get(BASE, ({ request }) => {
@@ -26,7 +35,7 @@ export const rolesHandlers = [
     const sortBy = url.searchParams.get('sortBy') === 'usersAssigned' ? 'usersAssigned' : 'name'
     const sortDir = url.searchParams.get('sortDir') === 'desc' ? 'desc' : 'asc'
 
-    let active = mockRoles.filter((r) => r.deleted_at == null)
+    let active = mockRoles.filter((r) => r.deleted_at == null).map(withCount)
     if (search) active = active.filter((r) => r.name.toLowerCase().includes(search))
 
     active = [...active].sort((a, b) => {
@@ -101,7 +110,7 @@ export const rolesHandlers = [
     const id = params.id as string
     const role = mockRoles.find((r) => r.id === id && r.deleted_at == null)
     if (!role) return HttpResponse.json({ error: { code: 'ERR_ROLE_NOT_FOUND' } }, { status: 404 })
-    return HttpResponse.json({ success: true, data: role })
+    return HttpResponse.json({ success: true, data: withCount(role) })
   }),
 
   /** POST /api/v1/roles — create a new role */
@@ -135,7 +144,15 @@ export const rolesHandlers = [
     const idx = mockRoles.findIndex((r) => r.id === id)
     if (idx < 0)
       return HttpResponse.json({ error: { code: 'ERR_ROLE_NOT_FOUND' } }, { status: 404 })
-    mockRoles[idx] = { ...mockRoles[idx], ...body } as (typeof mockRoles)[number]
+    const { usersAssigned: _ignored, ...changes } = body
+    void _ignored
+    mockRoles[idx] = { ...mockRoles[idx], ...changes } as (typeof mockRoles)[number]
+    // Users carry a copy of their role's name and access level.
+    for (const user of mockUsers) {
+      if (user.roleId === id) {
+        user.role = { id, name: mockRoles[idx].name, fullAccess: mockRoles[idx].fullAccess }
+      }
+    }
     changeLogEntries.push({
       id: String(Date.now()),
       action: 'ROLE_UPDATED',
@@ -145,7 +162,7 @@ export const rolesHandlers = [
       resourceName: mockRoles[idx].name,
       timestamp: new Date().toISOString(),
     })
-    return HttpResponse.json(mockRoles[idx])
+    return HttpResponse.json(withCount(mockRoles[idx]))
   }),
 
   /** DELETE /api/v1/roles/:id — soft-delete, returns 204 No Content */
@@ -154,6 +171,18 @@ export const rolesHandlers = [
     const idx = mockRoles.findIndex((r) => r.id === id)
     if (idx < 0)
       return HttpResponse.json({ error: { code: 'ERR_ROLE_NOT_FOUND' } }, { status: 404 })
+    if (assignedCount(id) > 0) {
+      return HttpResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'ERR_ROLE_HAS_ASSIGNED_USERS',
+            message: 'Reassign the users who hold this role before deleting it.',
+          },
+        },
+        { status: 409 },
+      )
+    }
     ;(mockRoles[idx] as Role & { deleted_at: string | null }).deleted_at = new Date().toISOString()
     changeLogEntries.push({
       id: String(Date.now()),

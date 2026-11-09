@@ -2,6 +2,7 @@ import { HttpResponse } from 'msw'
 import { errorResponse, mockProfile } from './partnerRestaurantProfile'
 import { bytesMatchContentType, signatureFor } from './fileSignatures'
 import { bucketQualifiedKey } from './uploadKeys'
+import { MOCK_CDN_ORIGIN, putMockCdnObject } from './mockCdn'
 import type {
   ComboCourse,
   MenuOption,
@@ -38,6 +39,8 @@ interface StagedMenuPdf {
   size: number
   /** The stored object's leading bytes, inspected at commit (MET-1148). */
   leading: number[]
+  /** The uploaded file, served from the CDN once committed. */
+  bytes?: ArrayBuffer
 }
 
 function seedCourses(): ComboCourse[] {
@@ -173,7 +176,12 @@ export function mockMenuPdfUploadTarget(body: Record<string, unknown>): Response
  * Stored, not judged: a presigned PUT can enforce neither the length nor the
  * content, which is exactly why the commit re-inspects both.
  */
-export function receiveMockMenuPdf(uploadRef: string, size: number, leading?: number[]): Response {
+export function receiveMockMenuPdf(
+  uploadRef: string,
+  size: number,
+  leading?: number[],
+  bytes?: ArrayBuffer,
+): Response {
   const entry = staged.find((item) => item.uploadRef === uploadRef)
   if (!entry) return new HttpResponse(null, { status: 403 })
 
@@ -182,6 +190,7 @@ export function receiveMockMenuPdf(uploadRef: string, size: number, leading?: nu
   // Omitted means "bytes that match what was declared" — the ordinary upload.
   // Pass `[]` for the zero-byte case, or another signature for a mismatch.
   entry.leading = leading ?? [...(signatureFor(entry.contentType) ?? [0x00])]
+  entry.bytes = bytes
   return new HttpResponse(null, { status: 200 })
 }
 
@@ -245,7 +254,12 @@ export function commitMockMenuPdf(body: Record<string, unknown>): Response {
 
   // Replace-on-upload: one key, no history (BR-02).
   const name = slugify(entry.name)
-  menuPdf = { menuUrl: `${CDN}/menu/${entry.uploadRef}-${name}`, name }
+  // Served from the CDN with the bytes that were uploaded, when there are any.
+  const menuUrl = entry.bytes
+    ? `${MOCK_CDN_ORIGIN}/menu/${entry.uploadRef}-${name}`
+    : `${CDN}/menu/${entry.uploadRef}-${name}`
+  if (entry.bytes) putMockCdnObject(menuUrl, entry.bytes, 'application/pdf')
+  menuPdf = { menuUrl, name }
 
   return HttpResponse.json({ success: true, data: menuPdf })
 }

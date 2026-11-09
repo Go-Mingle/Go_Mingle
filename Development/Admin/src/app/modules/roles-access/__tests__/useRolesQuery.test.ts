@@ -10,6 +10,7 @@ import {
   useActiveRolesQuery,
   useRoleQuery,
 } from '../hooks/useRolesQuery'
+import { mockRoles } from '../../../../mocks/data/index'
 import { server } from '../../../../mocks/server'
 import { http, HttpResponse } from 'msw'
 import type { ReactNode } from 'react'
@@ -102,7 +103,16 @@ describe('useDeleteRoleMutation happy path', () => {
       wrapper: createWrapper(queryClient),
     })
 
-    result.current.mutate('r4')
+    // A role nobody holds — roles with assigned users cannot be deleted.
+    mockRoles.push({
+      id: 'r-unused',
+      name: 'Unused Role',
+      fullAccess: false,
+      permissions: [],
+      usersAssigned: 0,
+      deleted_at: null,
+    })
+    result.current.mutate('r-unused')
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true)

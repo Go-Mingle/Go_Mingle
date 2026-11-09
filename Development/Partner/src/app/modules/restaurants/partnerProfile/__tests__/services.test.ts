@@ -6,6 +6,7 @@ import {
   clearMockPayoutAccount,
   mockProfile,
   resetMockProfile,
+  setMockAssignment,
   setMockCoverPhoto,
   setMockProfileStatus,
   setMockPayoutAccount,
@@ -30,6 +31,20 @@ describe('partnerProfileService.get', () => {
     expect(profile.owner.name).toBe('Osama Khalil')
     expect(profile.rules.servesAlcohol).toBe(true)
     expect(profile.coverPhotoUrl).toContain('https://')
+  })
+
+  it('points the cover at the photo the partner chose, on the CDN', async () => {
+    setMockCoverPhoto('photos/photo-7.jpg')
+    expect((await partnerProfileService.get()).coverPhotoUrl).toBe('https://cdn.mock.local/photo-7.jpg')
+  })
+
+  it('shows the category and commission GoMingle assigned on approval', async () => {
+    setMockAssignment({ category: { id: 'c9', name: 'Casual' }, commissionPercent: 8 })
+    const profile = await partnerProfileService.get()
+    expect(profile.category).toEqual({ id: 'c9', name: 'Casual' })
+    expect(profile.commissionPercent).toBe(8)
+    setMockProfileStatus('PENDING')
+    expect((await partnerProfileService.get()).category).toBeNull()
   })
 
   it('exposes editable rather than making the client re-derive it', async () => {
