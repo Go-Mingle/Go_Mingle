@@ -2,6 +2,7 @@ import { db, save } from './db/store.js'
 import { admin, tenant } from './contracts/registry.js'
 import * as state from './state.js'
 import { SEED_ACCOUNTS } from './auth/users.js'
+import { starterAmenities, starterInterests, starterPreferenceQuestions, starterTopics } from './seed/catalog.js'
 
 /**
  * Restaurant lifecycle and data flow across both portals.
@@ -160,13 +161,68 @@ function blankAdmin() {
   })
 }
 
+/**
+ * Fills the four pick-list catalogues (amenities, interests, topics,
+ * preference questions) with the starter set from src/seed/catalog.js.
+ *
+ * Runs once per install: on a fresh install, and on an existing one that
+ * predates the starter set, for whichever of the four is still empty. After
+ * that the catalogues are the admins' to edit; deleting entries never brings
+ * them back.
+ */
+function seedStarterCatalog() {
+  db.meta ??= {}
+  if (db.meta.starterCatalog) return
+  const amenities = adminStore('mockAmenities', 'data/amenities.ts')
+  if (amenities.length === 0) amenities.push(...starterAmenities())
+
+  const interests = adminStore('mockInterests')
+  if (interests.length === 0) interests.push(...starterInterests())
+
+  const topics = adminStore('mockInterestTopics')
+  if (topics.length === 0) topics.push(...starterTopics(interests))
+
+  const questions = adminStore('mockPreferenceQuestions')
+  if (questions.length === 0) {
+    const seed = starterPreferenceQuestions()
+    questions.push(...seed.questions)
+    const options = admin.stateModules.get('handlers/preference-questions.ts').read().mockPreferenceQuestionOptionsById
+    for (const key of Object.keys(options)) delete options[key]
+    Object.assign(options, seed.optionsById)
+  }
+  db.meta.starterCatalog = new Date().toISOString()
+  save()
+}
+
 /** Boot: restores the Admin Panel's data, or starts a fresh install empty. */
 export function initAdmin() {
   const saved = state.load('admin')
   if (saved) state.apply(admin, saved)
   else blankAdmin()
+  seedStarterCatalog()
   restoreAdminRecords()
+  refreshCatalogCounts()
   flushState()
+}
+
+/**
+ * Live usage counts on the catalogues: how many restaurants offer each amenity
+ * (with a few of their names), and how many interest tables use each topic.
+ * Recomputed after every partner save and admin change, so the Amenities and
+ * Topics screens never show stale numbers.
+ */
+export function refreshCatalogCounts() {
+  const amenities = adminStore('mockAmenities', 'data/amenities.ts')
+  const restaurants = adminStore('mockRestaurants')
+  for (const amenity of amenities) {
+    const using = restaurants.filter((r) => (db.restaurants[r.id]?.amenityIds ?? r.amenityIds ?? []).includes(amenity.id))
+    amenity.restaurantsCount = using.length
+    amenity.sampleRestaurants = using.slice(0, 3).map((r) => ({ id: r.id, name: r.name }))
+  }
+  const tables = adminStore('mockV1InterestTables')
+  for (const topic of adminStore('mockInterestTopics')) {
+    topic.interestTablesCount = tables.filter((t) => t.topic?.id === topic.id && t.status !== 'CANCELLED').length
+  }
 }
 
 // ── Admin-side records kept in the main store (pre-snapshot installs) ───────
@@ -323,6 +379,7 @@ export function snapshot(restaurantId, ns) {
   save()
   persistState()
   if (admin.mockRestaurants.some((r) => r.id === restaurantId)) mirrorToAdmin(restaurantId)
+  refreshCatalogCounts()
 }
 
 /** Phone numbers arrive as compact E.164; the admin screens show them spaced. */
@@ -463,6 +520,9 @@ export function mirrorToAdmin(restaurantId) {
     dressCode: p.dressCode ?? record.dressCode,
     houseNotes: p.houseRules ?? record.houseNotes,
     alcoholPolicy: p.servesAlcohol == null ? record.alcoholPolicy : p.servesAlcohol ? 'Full bar' : 'Halal — no alcohol',
+    // The partner's "Visible on Mingler App" switch is the source of truth for
+    // the visibility badge the Admin Panel shows (list and detail).
+    mingleFriendly: Boolean(p.visibleOnApp),
     amenityIds: clone(rec.amenityIds ?? []),
     contacts: (rec.contacts ?? []).map((c) => ({
       id: c.id,

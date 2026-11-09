@@ -69,7 +69,7 @@ export function EventsReferenceCard() {
                         />
                       </div>
                       <pre
-                        className="rounded-[12px] bg-[var(--color-text)] text-[#e6e9ef] px-4 py-4 m-0 overflow-x-auto text-[12px] leading-[1.65] font-[ui-monospace,SFMono-Regular,Menlo,monospace]"
+                        className="rounded-[12px] bg-[#1a2332] text-[#e6e9ef] px-4 py-4 m-0 overflow-x-auto text-[12px] leading-[1.65] font-[ui-monospace,SFMono-Regular,Menlo,monospace]"
                       >
                         {json}
                       </pre>

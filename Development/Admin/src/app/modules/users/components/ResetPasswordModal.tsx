@@ -73,31 +73,31 @@ export function ResetPasswordModal({ target, onConfirm, onCancel }: ResetPasswor
         </Form.Item>
         <ul className="list-none m-0 p-0 mb-4 space-y-0.5">
           <li
-            className={`text-xs flex items-center gap-1 ${pw.length >= 8 ? 'text-green-500' : 'text-gray-400'}`}
+            className={`text-xs flex items-center gap-1 ${pw.length >= 8 ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
           >
             {pw.length >= 8 && <Check size={12} weight="bold" />}
             At least 8 characters
           </li>
           <li
-            className={`text-xs flex items-center gap-1 ${/[A-Z]/.test(pw) ? 'text-green-500' : 'text-gray-400'}`}
+            className={`text-xs flex items-center gap-1 ${/[A-Z]/.test(pw) ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
           >
             {/[A-Z]/.test(pw) && <Check size={12} weight="bold" />}
             One uppercase letter
           </li>
           <li
-            className={`text-xs flex items-center gap-1 ${/[a-z]/.test(pw) ? 'text-green-500' : 'text-gray-400'}`}
+            className={`text-xs flex items-center gap-1 ${/[a-z]/.test(pw) ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
           >
             {/[a-z]/.test(pw) && <Check size={12} weight="bold" />}
             One lowercase letter
           </li>
           <li
-            className={`text-xs flex items-center gap-1 ${/[0-9]/.test(pw) ? 'text-green-500' : 'text-gray-400'}`}
+            className={`text-xs flex items-center gap-1 ${/[0-9]/.test(pw) ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
           >
             {/[0-9]/.test(pw) && <Check size={12} weight="bold" />}
             One number
           </li>
           <li
-            className={`text-xs flex items-center gap-1 ${/[^A-Za-z0-9]/.test(pw) ? 'text-green-500' : 'text-gray-400'}`}
+            className={`text-xs flex items-center gap-1 ${/[^A-Za-z0-9]/.test(pw) ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
           >
             {/[^A-Za-z0-9]/.test(pw) && <Check size={12} weight="bold" />}
             One special character

@@ -16,7 +16,7 @@ export function RestaurantCardList({ data, onCardClick }: RestaurantCardListProp
     <div className="restaurant-card-list">
       {data.map((r) => {
         const catColors = categoryColors[r.category] ?? {
-          bg: '#F1F3F6',
+          bg: 'var(--tint-neutral-bg)',
           text: 'var(--color-text-secondary)',
         }
         const statusBg = statusColors[r.status] ?? 'var(--color-text-secondary)'

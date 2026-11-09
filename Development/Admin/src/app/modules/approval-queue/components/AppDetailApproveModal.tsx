@@ -44,7 +44,7 @@ export function AppDetailApproveModal({
     >
       <div className="[font-family:var(--font-ui)]">
         <div className="flex justify-center mb-4">
-          <div className="w-14 h-14 rounded-full bg-[#E8F5E9] flex items-center justify-center">
+          <div className="w-14 h-14 rounded-full bg-[var(--color-success-bg)] flex items-center justify-center">
             <CheckCircle size={28} color="var(--color-success)" weight="fill" />
           </div>
         </div>

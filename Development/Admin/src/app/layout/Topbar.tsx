@@ -6,6 +6,7 @@ import { Grid } from 'antd'
 import { NotificationPopover } from './NotificationPopover'
 import { UserMenuDropdown } from './UserMenuDropdown'
 import { TopbarModals } from './TopbarModals'
+import { ThemeToggle } from '../atoms/ThemeToggle'
 import { useAppDispatch, useAppSelector } from '../../shared/store/hooks'
 import { toggleDrawer } from '../../shared/store/uiSlice'
 
@@ -41,6 +42,7 @@ export function Topbar() {
       </div>
 
       <div className="flex items-center gap-4 lg:gap-6">
+        <ThemeToggle />
         <NotificationPopover
           open={bellOpen}
           onOpenChange={setBellOpen}

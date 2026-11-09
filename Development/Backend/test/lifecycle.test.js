@@ -232,12 +232,14 @@ describe('restaurant lifecycle', () => {
 
   it('amenities come from the admin catalogue and sync back', async () => {
     const boundary = 'gm-test'
-    const form = `--${boundary}\r\nContent-Disposition: form-data; name="name"\r\n\r\nRooftop Seating\r\n--${boundary}--\r\n`
+    const form = `--${boundary}\r\nContent-Disposition: form-data; name="name"\r\n\r\nShisha Lounge\r\n--${boundary}--\r\n`
     const created = await call('POST', '/admin/api/v1/amenities', { token: adminToken, raw: form, contentType: `multipart/form-data; boundary=${boundary}` })
     assert.equal(created.status, 201, JSON.stringify(created.json))
     const amenityId = created.json.data.id
     const list = await call('GET', '/partner/api/v1/partner/restaurant/amenities', { token: partner })
-    assert.deepEqual(list.json.data.items.map((a) => a.amenityId), [amenityId])
+    const offered = list.json.data.items.map((a) => a.amenityId)
+    assert.ok(offered.includes(amenityId))
+    assert.ok(offered.includes('am-free-wi-fi'), 'starter amenities are offered too')
     await call('PUT', `/partner/api/v1/partner/restaurant/amenities/${amenityId}`, { token: partner, body: { selected: true } })
     const adminAmenities = await call('GET', `/admin/api/v1/restaurants/${restaurantId}/amenities`, { token: adminToken })
     assert.deepEqual(adminAmenities.json.data.items.map((a) => a.id), [amenityId])

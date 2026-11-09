@@ -2,6 +2,8 @@
 
 NUCES MS Practicum: GoMingle social dining and restaurant booking platform (Karachi).
 
+**Version 0.5** (9 Nov 2026). See *Version history* at the end.
+
 ```
 GoMingle/
 ├── Backend/      Backend: Node.js + Express, JWT auth, ~245 REST routes
@@ -26,10 +28,12 @@ GoMingle/
 
 Both sign-in screens show the account. To stop everything, close the three server windows.
 
-**This is a clean install.** Apart from those two accounts there is no data: no categories, amenities, topics, restaurants or Minglers. The partner account starts with an empty Draft restaurant. Everything you enter is saved and survives restarts. If you ran an earlier GoMingle build, its demo data is moved aside automatically (`Backend/data/*.v1-backup.json`) the first time this version starts.
+**Light and dark mode:** use the moon / sun button in the top bar of either portal. Until you pick one, the portals follow your computer's setting; your choice is remembered. The GoMingle logo turns white in dark mode.
+
+**This is a clean install.** Apart from those two accounts, the only data is a starter set in the four pick-lists, so the platform is usable from the first sign-in: **16 amenities**, **43 interests** in 8 groups, **12 topics** and **9 preference questions**. Edit or delete any of it. There are no categories, restaurants, Minglers, interest tables or bookings. The partner account starts with an empty Draft restaurant. Everything you enter is saved and survives restarts. If you ran an earlier GoMingle build, its demo data is moved aside automatically (`Backend/data/*.v1-backup.json`) the first time this version starts.
 
 **Suggested first run (about 10 minutes):**
-0. **Admin Panel:** add a category (e.g. *Premium*, 12%) under **Categories**, and a few amenities, interests and interest topics. Approval needs a category.
+0. **Admin Panel:** add a category (e.g. *Premium*, 12%) under **Categories**. Approval needs a category. Amenities, interests, topics and preference questions are already filled in.
 1. **Partner Portal:** sign in as partner@gomingle.com, or click *Create an account*, enter any e-mail and the 6-digit code from the **GoMingle API** window (`123456` also works), then set a password.
 2. Fill in the Overview (name, cuisine, address, owner, phones), upload a cover photo under *Photos & Videos* and a trade licence under *Documents*, then click **Add Payout Account**: it opens the *Payout Account* tab, where you enter the account title, bank and IBAN (for example `PK72 HABB 0012 3456 7890 1234`) and save. A yellow box on the profile lists anything still missing before *Send for Approval* turns on.
 3. Click **Send for Approval**. The profile turns read-only, *Under review*.
@@ -74,3 +78,17 @@ cd Backend && npm test
 - Production sign-in is still AWS Cognito. Set `VITE_AUTH_MODE=cognito` and the pool variables.
 - The mobile app's bundle id is now `com.gomingle.customer`. Register that id in Firebase before building release apps.
 - The Flutter app still pulls the Ethr UI SDK from its original Bitbucket repository. That URL in `pubspec.yaml` is the only place the old company name remains, because the package can only be fetched from where it is hosted.
+
+## Version history
+
+| Version | Date | What changed |
+|---|---|---|
+| 0.5 | 9 Nov 2026 | Partner "Visible on Mingler app" switch now shows correctly in the Admin Panel; light/dark mode in both portals with a white logo in dark mode; starter Amenities, Interests, Topics and Preference Questions (Jira GM-238 to GM-241) |
+| 0.4 | 9 Nov 2026 | End-to-end test fixes (menus, tables and timings reach Admin, roles reach Users, cover photo, change log, restart-safe data); clean install without demo data (Jira GM-213 to GM-233) |
+| 0.3 | 6 Nov 2026 | Set the restaurant's map pin by pasting a Google Maps link |
+| 0.2 | 6 Nov 2026 | Restaurant payout bank account (IBAN) and hosted payout set-up page |
+| 0.1 | 6 Nov 2026 | Safepay sandbox keys read from `Backend/.env` |
+| 0 | 6 Nov 2026 | First working build: both portals on the GoMingle API, Karachi/PKR rebrand, Safepay escrow |
+
+The same history is on GitHub (Go-Mingle/Go_Mingle) as tags `v0` to `v0.5`.
+

@@ -66,7 +66,7 @@ function ChangeLogCardList({ data }: ChangeLogCardListProps) {
         const newVal = row.newVal !== undefined ? String(row.newVal) : '—'
 
         const badge = ACTION_BADGE[action] ?? {
-          bg: '#F1F3F6',
+          bg: 'var(--tint-neutral-bg)',
           color: 'var(--color-text-secondary)',
           actionKey: action,
         }

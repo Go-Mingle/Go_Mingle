@@ -130,31 +130,31 @@ export function NewUserModal({
             </Form.Item>
             <ul className="list-none m-0 p-0 mb-2 space-y-0.5">
               <li
-                className={`text-xs flex items-center gap-1 ${newPassword.length >= 8 ? 'text-green-500' : 'text-gray-400'}`}
+                className={`text-xs flex items-center gap-1 ${newPassword.length >= 8 ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
               >
                 {newPassword.length >= 8 && <Check size={12} weight="bold" />}
                 At least 8 characters
               </li>
               <li
-                className={`text-xs flex items-center gap-1 ${/[A-Z]/.test(newPassword) ? 'text-green-500' : 'text-gray-400'}`}
+                className={`text-xs flex items-center gap-1 ${/[A-Z]/.test(newPassword) ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
               >
                 {/[A-Z]/.test(newPassword) && <Check size={12} weight="bold" />}
                 One uppercase letter
               </li>
               <li
-                className={`text-xs flex items-center gap-1 ${/[a-z]/.test(newPassword) ? 'text-green-500' : 'text-gray-400'}`}
+                className={`text-xs flex items-center gap-1 ${/[a-z]/.test(newPassword) ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
               >
                 {/[a-z]/.test(newPassword) && <Check size={12} weight="bold" />}
                 One lowercase letter
               </li>
               <li
-                className={`text-xs flex items-center gap-1 ${/[0-9]/.test(newPassword) ? 'text-green-500' : 'text-gray-400'}`}
+                className={`text-xs flex items-center gap-1 ${/[0-9]/.test(newPassword) ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
               >
                 {/[0-9]/.test(newPassword) && <Check size={12} weight="bold" />}
                 One number
               </li>
               <li
-                className={`text-xs flex items-center gap-1 ${/[^A-Za-z0-9]/.test(newPassword) ? 'text-green-500' : 'text-gray-400'}`}
+                className={`text-xs flex items-center gap-1 ${/[^A-Za-z0-9]/.test(newPassword) ? 'text-[var(--color-success)]' : 'text-[var(--color-text-subtle)]'}`}
               >
                 {/[^A-Za-z0-9]/.test(newPassword) && <Check size={12} weight="bold" />}
                 One special character

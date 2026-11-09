@@ -8,7 +8,7 @@ const STATUS_BG_CLASS: Record<DeliveryRowStatus, string> = {
   RETRYING: 'bg-[var(--color-warning)]',
   FAILED_EMAILED: 'bg-[var(--color-error)]',
   FAILED: 'bg-[var(--color-error)]',
-  QUEUED: 'bg-[var(--color-text-muted)]',
+  QUEUED: 'bg-[var(--color-badge-neutral)]',
 }
 
 /**

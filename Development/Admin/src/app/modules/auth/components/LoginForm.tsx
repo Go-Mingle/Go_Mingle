@@ -426,7 +426,7 @@ export function LoginForm() {
         {/* Why the previous session ended, when it ended involuntarily (FE1 AC-04.4). */}
         <SessionNotice />
 
-        <div className="bg-white border border-[var(--color-border)] rounded-[12px] p-8 shadow-[var(--shadow-md)]">
+        <div className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-[12px] p-8 shadow-[var(--shadow-md)]">
           {step === 'login' && (
             <Form form={form} layout="vertical" onFinish={onFinish} requiredMark={false}>
               <LoginStep

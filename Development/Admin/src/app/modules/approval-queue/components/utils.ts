@@ -1,11 +1,11 @@
 import type React from 'react'
 
 export const AVATAR_PALETTE = [
-  { bg: '#E6F7F6', text: '#0C8C84' },
-  { bg: '#FFF0EE', text: '#E5503F' },
-  { bg: '#EEF4FF', text: '#1565C0' },
-  { bg: '#FFF8EC', text: '#B06000' },
-  { bg: '#F5F0FF', text: '#6B46C1' },
+  { bg: 'var(--tint-teal-bg)', text: 'var(--tint-teal-fg)' },
+  { bg: 'var(--tint-coral-bg)', text: 'var(--tint-coral-fg)' },
+  { bg: 'var(--tint-blue-bg)', text: 'var(--tint-blue-fg)' },
+  { bg: 'var(--tint-amber-bg)', text: 'var(--tint-amber-fg)' },
+  { bg: 'var(--tint-violet-bg)', text: 'var(--tint-violet-fg)' },
 ]
 
 export function getAvatarColor(name: string) {

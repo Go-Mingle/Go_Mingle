@@ -28,7 +28,7 @@
 /* ── Table ───────────────────────────────────────────────────── */
 .ant-table .ant-table-thead > tr > th,
 .ant-table .ant-table-thead > tr > td {
-  background-color: #f5f7fa !important;
+  background-color: var(--color-table-head) !important;
   color: var(--color-text-muted) !important;
   font-size: var(--table-header-font-size) !important;
   font-weight: 600 !important;
@@ -81,7 +81,7 @@
 .ant-table .ant-table-thead > tr > th.ant-table-cell-fix-end,
 .ant-table .ant-table-thead > tr > th.ant-table-cell-fix-left,
 .ant-table .ant-table-thead > tr > th.ant-table-cell-fix-right {
-  background-color: #f5f7fa !important;
+  background-color: var(--color-table-head) !important;
 }
 .ant-table-wrapper {
   border-radius: var(--radius-lg) !important;
@@ -178,7 +178,7 @@
   border-color: var(--color-accent-dark) !important;
 }
 .ant-btn-default {
-  background-color: #fff !important;
+  background-color: var(--color-btn-default-bg) !important;
   border-color: var(--color-border-strong) !important;
   color: var(--color-text) !important;
 }
@@ -535,7 +535,7 @@
 /* ── restaurant-contacts-table specific tweaks ──────────────── */
 /* Specificity (0,5,3) — beats the global .ant-table-wrapper rule (0,4,3). */
 .restaurant-contacts-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th {
-  background: #f8fafb !important;
+  background: var(--color-table-head-alt) !important;
   color: var(--color-text-muted) !important;
   font-size: 11px !important;
   font-weight: 700 !important;
@@ -582,7 +582,7 @@
   vertical-align: middle !important;
 }
 .app-contacts-table .ant-table-thead > tr > th {
-  background: #f8fafb !important;
+  background: var(--color-table-head-alt) !important;
   color: var(--color-text-muted) !important;
   font-size: 11px !important;
   font-weight: 700 !important;
@@ -1183,7 +1183,7 @@ tr.ant-table-measure-row {
    14px/16px rhythm, uppercase muted header, and 56px rows as the other data
    tables so they match the design. */
 .profile-data-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th {
-  background: #f8fafb !important;
+  background: var(--color-table-head-alt) !important;
   color: var(--color-text-muted) !important;
   font-size: 11px !important;
   font-weight: 700 !important;

@@ -12,7 +12,7 @@ export function buildPlatformStatusStyle(currentStatus: string, t: TFunction): S
   if (status === 'PENDING') return { bg: '#B06000', text: '#FFFFFF', label: t('card.pending') }
   if (status === 'ACTIVE') return { bg: '#1A8A5A', text: '#FFFFFF', label: t('card.approved') }
   if (status === 'REJECTED') return { bg: '#C0392B', text: '#FFFFFF', label: t('card.rejected') }
-  return { bg: 'var(--color-text-secondary)', text: '#FFFFFF', label: currentStatus }
+  return { bg: 'var(--color-badge-neutral)', text: '#FFFFFF', label: currentStatus }
 }
 
 export function buildVisibilityStyle(visibleOnApp: boolean, t: TFunction): StatusBadgeStyle {

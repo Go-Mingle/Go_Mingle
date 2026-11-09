@@ -42,11 +42,11 @@ The `run-gomingle.bat` / `run-gomingle.sh` launchers in the parent folder set al
 
 ## Accounts
 
-A fresh install holds **no data** except these two accounts:
+A fresh install holds no records except these two accounts and the starter pick-lists (16 amenities, 43 interests, 12 topics, 9 preference questions from `src/seed/catalog.js`, added once and then the admins' to edit):
 
 | Portal | Email | Password | Starts with |
 |---|---|---|---|
-| Admin Panel (Super Admin) | admin@gomingle.com | Admin@123 | the *Super Admin* role; no categories, amenities, topics, restaurants, Minglers or bookings |
+| Admin Panel (Super Admin) | admin@gomingle.com | Admin@123 | the *Super Admin* role and the starter pick-lists; no categories, restaurants, Minglers or bookings |
 | Partner Portal | partner@gomingle.com | Partner@123 | an empty Draft restaurant to set up and submit |
 
 Everything else is entered by you. Approving a restaurant needs a category, so add one under **Categories** first.

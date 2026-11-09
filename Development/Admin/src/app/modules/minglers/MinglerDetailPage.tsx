@@ -62,7 +62,7 @@ export function MinglerDetailPage() {
   const minglerStatus = mingler.status
   const isActive = minglerStatus.toUpperCase() === 'ACTIVE'
   const heroCfg = HERO_STATUS_CONFIG[minglerStatus.toUpperCase()] ?? {
-    bg: 'var(--color-text-secondary)',
+    bg: 'var(--color-badge-neutral)',
     label: minglerStatus,
   }
 

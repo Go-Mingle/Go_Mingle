@@ -116,10 +116,10 @@ export function RestaurantDetailHeader({
             <img
               src={restaurant.avatarUrl as string}
               alt={restaurant.name as string}
-              className="w-16 h-16 rounded-[12px] shrink-0 border border-[rgba(0,0,0,0.06)] object-cover"
+              className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] object-cover"
             />
           ) : (
-            <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[rgba(0,0,0,0.06)] flex items-center justify-center text-white font-bold font-[Poppins] bg-[var(--color-accent)]">
+            <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] flex items-center justify-center text-white font-bold font-[Poppins] bg-[var(--color-accent)]">
               {getRestaurantInitials((restaurant.name as string) ?? '')}
             </div>
           )}
@@ -163,10 +163,10 @@ export function RestaurantDetailHeader({
               <img
                 src={restaurant.avatarUrl as string}
                 alt={restaurant.name as string}
-                className="w-16 h-16 rounded-[12px] shrink-0 border border-[rgba(0,0,0,0.06)] object-cover"
+                className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] object-cover"
               />
             ) : (
-              <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[rgba(0,0,0,0.06)] flex items-center justify-center text-white font-bold font-[Poppins] bg-[var(--color-accent)]">
+              <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] flex items-center justify-center text-white font-bold font-[Poppins] bg-[var(--color-accent)]">
                 {getRestaurantInitials((restaurant.name as string) ?? '')}
               </div>
             )}
