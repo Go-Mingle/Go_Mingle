@@ -37,7 +37,7 @@ export function AppDetailDeclineModal({
     >
       <div className="[font-family:var(--font-ui)]">
         <div className="flex justify-center mb-4">
-          <div className="w-14 h-14 rounded-full bg-[#FDECEA] flex items-center justify-center">
+          <div className="w-14 h-14 rounded-full bg-[var(--color-error-bg)] flex items-center justify-center">
             <XCircle size={28} color="var(--color-error)" weight="fill" />
           </div>
         </div>

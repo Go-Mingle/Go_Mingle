@@ -47,7 +47,7 @@ const SOLID_STATUS: Partial<Record<StatusVariant, string>> = {
   completed: 'bg-[var(--color-success)]',
   cancelled: 'bg-[var(--color-error)]',
   'no-show': 'bg-[var(--color-error)]',
-  deactivated: 'bg-[var(--color-text-secondary)]',
+  deactivated: 'bg-[var(--color-badge-neutral)]',
   // An interest table's lifecycle reads as a status, not a classification, so both
   // are solid like `pending` and `completed` beside them in the same column.
   confirmed: 'bg-[var(--color-info)]',

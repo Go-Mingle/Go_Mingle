@@ -33,7 +33,9 @@
     "changePassword": "Change password",
     "signOut": "Sign out",
     "signOutTitle": "Sign out?",
-    "signOutContent": "You will be signed out of GoMingle Admin."
+    "signOutContent": "You will be signed out of GoMingle Admin.",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
   },
   "buttons": {
     "save": "Save",

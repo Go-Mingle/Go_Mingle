@@ -104,6 +104,18 @@
   --font-display: 'Poppins', sans-serif;
   --font-ui: 'Poppins', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  /* Soft tints for category pills and initials avatars (theme-aware). */
+  --tint-teal-bg: #e6f7f6;
+  --tint-teal-fg: #0c8c84;
+  --tint-coral-bg: #fff0ee;
+  --tint-coral-fg: #e5503f;
+  --tint-blue-bg: #eef4ff;
+  --tint-blue-fg: #1565c0;
+  --tint-amber-bg: #fff8ec;
+  --tint-amber-fg: #b06000;
+  --tint-violet-bg: #f5f0ff;
+  --tint-violet-fg: #6b21a8;
+  --tint-neutral-bg: #f1f3f6;
 }
 
 /* ── Global reset ───────────────────────────────────────── */
@@ -165,4 +177,110 @@ body {
   --color-accent-mid: #ff8a78;
   --color-input-border-focus: #ff5a44;
   --color-navy: #1c1730;
+}
+
+/* ── Theme surfaces used by antd-overrides.css ─────────────────────────────
+   Table header and default-button fills, so the overrides follow the theme
+   instead of hard-coding light hex values. */
+:root {
+  --color-table-head: #f5f7fa;
+  --color-table-head-alt: #f8fafb;
+  --color-btn-default-bg: #ffffff;
+  --color-scrim: rgba(0, 0, 0, 0.35);
+  /* Neutral fill for solid status badges with white text. */
+  --color-badge-neutral: #4a5568;
+}
+
+/* ── Dark theme ────────────────────────────────────────────────────────────
+   Set by shared/theme/themeStore.ts on <html data-theme="dark">. Only the
+   colour tokens change; every component reads them, so the whole portal
+   follows. Status colours keep their meaning with tinted, low-alpha fills. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-page: #0e141c;
+  --color-sidebar: #141b25;
+  --color-topbar: #141b25;
+  --color-card: #18202b;
+  --color-border: #273241;
+  --color-border-strong: #364356;
+  --color-divider: #1f2834;
+  --color-text: #e7ebf1;
+  --color-text-secondary: #bcc5d2;
+  --color-text-muted: #9aa5b5;
+  --color-text-subtle: #8591a3;
+  --color-text-placeholder: #6c788a;
+  --color-accent: #0fa79d;
+  --color-accent-dark: #0c8c84;
+  --color-accent-light: rgba(20, 173, 162, 0.16);
+  --color-accent-light-hover: rgba(20, 173, 162, 0.24);
+  --color-accent-mid: #5ecec9;
+  --color-coral: #ef5f4f;
+  --color-coral-dark: #e5503f;
+  --color-coral-light: rgba(255, 107, 91, 0.16);
+  --color-success: #2f9e6a;
+  --color-success-bg: rgba(76, 195, 138, 0.14);
+  --color-success-border: rgba(76, 195, 138, 0.34);
+  --color-warning: #c27a1a;
+  --color-warning-bg: rgba(240, 163, 68, 0.14);
+  --color-warning-border: rgba(240, 163, 68, 0.34);
+  --color-error: #e05a4c;
+  --color-error-bg: rgba(242, 120, 107, 0.14);
+  --color-error-bg-hover: rgba(242, 120, 107, 0.22);
+  --color-error-border: rgba(242, 120, 107, 0.36);
+  --color-error-dark: #ff9488;
+  --color-disabled-bg: #2c3747;
+  --color-info: #3d87e6;
+  --color-info-bg: rgba(106, 168, 255, 0.14);
+  --color-info-border: rgba(106, 168, 255, 0.34);
+  --color-amber: #f5b13d;
+  --color-amber-bg: rgba(245, 177, 61, 0.14);
+  --color-rating: #f5b13d;
+  --color-rating-bg: rgba(245, 177, 61, 0.14);
+  --color-violet: #a78bfa;
+  --color-neutral: #6b7787;
+  --color-hover: rgba(20, 173, 162, 0.08);
+  --color-hover-neutral: rgba(255, 255, 255, 0.05);
+  --color-hover-solid: #18292f;
+  --color-focus-ring: rgba(20, 173, 162, 0.32);
+  --color-selected: rgba(20, 173, 162, 0.14);
+  --color-teal-light: rgba(20, 173, 162, 0.16);
+  --color-input-bg: #121922;
+  --color-input-border: #364356;
+  --color-input-border-hover: #4a5a70;
+  --color-input-border-focus: #0fa79d;
+  --color-table-head: #1d2633;
+  --color-table-head-alt: #1d2633;
+  --color-btn-default-bg: #1d2633;
+  --color-scrim: rgba(0, 0, 0, 0.6);
+  --color-badge-neutral: #6b7787;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.6);
+  --tint-teal-bg: rgba(20, 173, 162, 0.16);
+  --tint-teal-fg: #5ecec9;
+  --tint-coral-bg: rgba(255, 107, 91, 0.16);
+  --tint-coral-fg: #ff9488;
+  --tint-blue-bg: rgba(106, 168, 255, 0.16);
+  --tint-blue-fg: #8ab8ff;
+  --tint-amber-bg: rgba(245, 177, 61, 0.16);
+  --tint-amber-fg: #f5b13d;
+  --tint-violet-bg: rgba(167, 139, 250, 0.16);
+  --tint-violet-fg: #c4b5fd;
+  --tint-neutral-bg: #1d2633;
+}
+
+/* The landing screens keep their coral brand accent, with dark-safe fills. */
+:root[data-theme='dark'] .gm-auth {
+  --color-accent: #ef5f4f;
+  --color-accent-dark: #e5503f;
+  --color-accent-light: rgba(255, 90, 68, 0.16);
+  --color-accent-light-hover: rgba(255, 90, 68, 0.24);
+  --color-input-border-focus: #ff5a44;
+}
+
+/* The GoMingle logo turns white in dark mode; light mode keeps the brand colours. */
+:root[data-theme='dark'] .gm-logo {
+  filter: brightness(0) invert(1);
 }

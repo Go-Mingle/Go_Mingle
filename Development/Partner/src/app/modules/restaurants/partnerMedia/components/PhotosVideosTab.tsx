@@ -28,7 +28,7 @@ const SECTION_TITLE = 'text-sm font-semibold text-[var(--color-text)] m-0'
 const META = 'text-[12px] text-[var(--color-text-muted)]'
 /** Circular action pinned over a photo thumbnail. */
 const OVERLAY_BTN =
-  'w-7 h-7 rounded-full bg-white/90 flex items-center justify-center border-none cursor-pointer'
+  'w-7 h-7 rounded-full bg-[var(--color-card)]/90 flex items-center justify-center border-none cursor-pointer'
 /** Square action in a video row. */
 const ROW_BTN =
   'w-8 h-8 rounded-[8px] flex items-center justify-center bg-transparent border-none cursor-pointer'

@@ -6,7 +6,7 @@ import { displayOr } from '../format'
 import type { PartnerRestaurantProfile, RestaurantProfileStatus } from '../types'
 
 const STATUS_STYLE: Record<RestaurantProfileStatus, string> = {
-  DRAFT: 'bg-[var(--color-text-muted)]',
+  DRAFT: 'bg-[var(--color-badge-neutral)]',
   PENDING: 'bg-[var(--color-warning)]',
   ACTIVE: 'bg-[var(--color-success)]',
   REJECTED: 'bg-[var(--color-error)]',

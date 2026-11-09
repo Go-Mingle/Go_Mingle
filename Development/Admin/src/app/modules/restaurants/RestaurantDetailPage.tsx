@@ -105,7 +105,7 @@ export function RestaurantDetailPage() {
       case 'REJECTED':
         return { bg: 'var(--color-error)', text: '#FFFFFF', label: 'Rejected' }
       default:
-        return { bg: 'var(--color-text-secondary)', text: '#FFFFFF', label: 'Unknown' }
+        return { bg: 'var(--color-badge-neutral)', text: '#FFFFFF', label: 'Unknown' }
     }
   })()
 

@@ -50,7 +50,7 @@ export function SignUpPage() {
               <GoMingleLogo collapsed={false} />
             </div>
 
-            <div className="bg-white border border-[var(--color-border)] rounded-[12px] p-8 shadow-[var(--shadow-md)]">
+            <div className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-[12px] p-8 shadow-[var(--shadow-md)]">
               {step === 'email' && (
                 <EmailStep
                   email={email}

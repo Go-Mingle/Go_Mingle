@@ -96,9 +96,9 @@ describe('buildRestaurantsColumns', () => {
     expect(category.filters).toEqual(categoryOptions)
     const unknown = category.render('Mystery')
     expect(unknown.props.children).toBe('Mystery')
-    expect(unknown.props.style.background).toBe('#F1F3F6')
+    expect(unknown.props.style.background).toBe('var(--tint-neutral-bg)')
     const known = category.render('Premium')
-    expect(known.props.style.background).toBe('#E6F7F6')
+    expect(known.props.style.background).toBe('var(--tint-teal-bg)')
   })
 
   it('bookings column is server-sortable and renders with toLocaleString', () => {

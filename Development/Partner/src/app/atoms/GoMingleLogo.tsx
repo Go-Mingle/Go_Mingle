@@ -17,7 +17,7 @@ export function GoMingleLogo({ collapsed = false, height = 36, light = false }: 
       <img
         src={logoMark}
         alt="GoMingle"
-        className="block h-[var(--logo-h)] w-auto object-contain"
+        className="gm-logo block h-[var(--logo-h)] w-auto object-contain"
         style={{ '--logo-h': `${height + 4}px` } as CSSProperties}
         draggable={false}
       />
@@ -28,7 +28,7 @@ export function GoMingleLogo({ collapsed = false, height = 36, light = false }: 
     <img
       src={light ? logoFullLight : logoFull}
       alt="GoMingle"
-      className="block h-[var(--logo-h)] w-auto object-contain"
+      className="gm-logo block h-[var(--logo-h)] w-auto object-contain"
       style={{ '--logo-h': `${height}px` } as CSSProperties}
       draggable={false}
     />

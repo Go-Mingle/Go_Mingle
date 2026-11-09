@@ -48,7 +48,7 @@ export function LoginStep({
 
       {/* Lockout banner */}
       {isLocked && (
-        <div className="mb-5 flex items-start gap-2.5 px-3.5 py-3 bg-[#FEF2F2] border border-[#FECACA] rounded-lg">
+        <div className="mb-5 flex items-start gap-2.5 px-3.5 py-3 bg-[var(--color-error-bg)] border border-[var(--color-error-border)] rounded-lg">
           <WarningCircle
             size={18}
             weight="fill"

@@ -12,10 +12,10 @@ export interface Restaurant {
 }
 
 export const categoryColors: Record<string, { bg: string; text: string }> = {
-  Premium: { bg: '#E6F7F6', text: '#0C8C84' },
-  Standard: { bg: '#EEF4FF', text: 'var(--color-info)' },
-  Casual: { bg: '#FFF8EC', text: 'var(--color-warning)' },
-  'Pop-up': { bg: '#F5F0FF', text: '#6B21A8' },
+  Premium: { bg: 'var(--tint-teal-bg)', text: 'var(--tint-teal-fg)' },
+  Standard: { bg: 'var(--tint-blue-bg)', text: 'var(--tint-blue-fg)' },
+  Casual: { bg: 'var(--tint-amber-bg)', text: 'var(--tint-amber-fg)' },
+  'Pop-up': { bg: 'var(--tint-violet-bg)', text: 'var(--tint-violet-fg)' },
 }
 
 export const statusColors: Record<string, string> = {

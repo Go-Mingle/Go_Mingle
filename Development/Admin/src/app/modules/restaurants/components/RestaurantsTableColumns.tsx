@@ -61,7 +61,7 @@ export function buildRestaurantsColumns(
       filters: categoryOptions,
       filterIcon: funnelIcon,
       render: (cat: string) => {
-        const colors = categoryColors[cat] ?? { bg: '#F1F3F6', text: 'var(--color-text-secondary)' }
+        const colors = categoryColors[cat] ?? { bg: 'var(--tint-neutral-bg)', text: 'var(--color-text-secondary)' }
         return (
           <span
             style={{

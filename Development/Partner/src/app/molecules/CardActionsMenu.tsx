@@ -22,7 +22,7 @@ interface CardActionsMenuProps {
 // Solid pill trigger for placing over imagery (no hover restyle).
 const OVERLAY_BTN =
   'w-[30px] h-[30px] inline-flex items-center justify-center rounded-full shrink-0 cursor-pointer border-none ' +
-  'text-[var(--color-text)] bg-[rgba(255,255,255,0.92)] shadow-[0_1px_4px_rgba(0,0,0,0.2)]'
+  'text-[#1a2332] bg-[rgba(255,255,255,0.92)] shadow-[0_1px_4px_rgba(0,0,0,0.2)]'
 
 // Plain icon trigger. Hover restyle applies at md+ only (touch has no hover).
 const ICON_BTN =

@@ -1,4 +1,6 @@
 import crypto from 'node:crypto'
+import fs from 'node:fs'
+import path from 'node:path'
 import express from 'express'
 import { adminAuthRouter, requireAdmin } from './auth/adminAuth.js'
 import { partnerAuthRouter, requirePartner, meetsPasswordPolicy, setPassword, PARTNER_AUDIENCE } from './auth/partnerAuth.js'
@@ -41,9 +43,13 @@ import {
   partnerDocuments,
   partnerGallery,
   partnerTenant,
+  refreshCatalogCounts,
   routeFor,
   snapshot,
 } from './integration.js'
+
+/** Brand teal used for catalogue amenity icons (legible on light and dark). */
+const AMENITY_ICON_COLOR = '#0FA79D'
 
 function notFound(res, req) {
   sendError(res, 404, 'ERR_NOT_FOUND', `No route for ${req.method} ${req.originalUrl}`)
@@ -362,6 +368,7 @@ export function adminPortal() {
         await onAdminRestaurantChange(decodeURIComponent(m[1]), change, jsonBody(req))
       }
       if (itRestaurant) await syncInterestTables(itRestaurant)
+      refreshCatalogCounts()
       audit(result, target)
       persistState()
     }),
@@ -712,10 +719,13 @@ export function assetRoutes(phosphorDir) {
     }
     res.setHeader('Content-Type', 'image/svg+xml')
     if (icon.startsWith('<svg')) return res.send(icon)
+    // A Phosphor icon draws in `currentColor`, which an <img> renders black —
+    // unreadable on the dark theme. Paint it in the brand teal, which reads on
+    // both the light and the dark portal.
     const kebab = icon.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase() || 'star'
-    res.sendFile(`${kebab}.svg`, { root: phosphorDir }, (err) => {
-      if (err && !res.headersSent) res.sendFile('star.svg', { root: phosphorDir })
-    })
+    const file = path.join(phosphorDir, `${path.basename(kebab)}.svg`)
+    const svg = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : fs.readFileSync(path.join(phosphorDir, 'star.svg'), 'utf8')
+    res.send(svg.replace('fill="currentColor"', `fill="${AMENITY_ICON_COLOR}"`))
   })
 
   return r

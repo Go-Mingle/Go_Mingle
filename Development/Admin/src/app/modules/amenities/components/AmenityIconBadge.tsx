@@ -18,6 +18,13 @@ import {
   Martini,
   MusicNote,
   Heart,
+  UsersThree,
+  HandsPraying,
+  Snowflake,
+  Lightning,
+  CreditCard,
+  DoorOpen,
+  Cigarette,
 } from '@phosphor-icons/react'
 import type { Icon } from '@phosphor-icons/react'
 
@@ -39,6 +46,13 @@ const amenityIconMap: Record<string, Icon> = {
   Martini,
   MusicNote,
   Heart,
+  UsersThree,
+  HandsPraying,
+  Snowflake,
+  Lightning,
+  CreditCard,
+  DoorOpen,
+  Cigarette,
 }
 
 interface AmenityIconBadgeProps {

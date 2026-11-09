@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import logoFull from '../../assets/gomingle-logo.png'
 import logoFullLight from '../../assets/gomingle-logo-light.png'
 import logoMark from '../../assets/gomingle-mark.png'
@@ -16,7 +17,8 @@ export function GoMingleLogo({ collapsed = false, height = 36, light = false }: 
       <img
         src={logoMark}
         alt="GoMingle"
-        style={{ height: height + 4, width: 'auto', display: 'block', objectFit: 'contain' }}
+        className="gm-logo block h-[var(--logo-h)] w-auto object-contain"
+        style={{ '--logo-h': `${height + 4}px` } as CSSProperties}
         draggable={false}
       />
     )
@@ -26,7 +28,8 @@ export function GoMingleLogo({ collapsed = false, height = 36, light = false }: 
     <img
       src={light ? logoFullLight : logoFull}
       alt="GoMingle"
-      style={{ height, width: 'auto', display: 'block', objectFit: 'contain' }}
+      className="gm-logo block h-[var(--logo-h)] w-auto object-contain"
+      style={{ '--logo-h': `${height}px` } as CSSProperties}
       draggable={false}
     />
   )

@@ -53,12 +53,18 @@ describe('admin auth', () => {
     assert.equal((await res.json()).error.code, 'ERR_TOKEN_INVALID')
   })
 
-  it('starts a fresh install with no demo records', async () => {
+  it('starts a fresh install with no demo records, only the starter catalogues', async () => {
     const { accessToken } = await (await post('/admin/api/v1/auth/login', { email: 'admin@gomingle.com', password: 'Admin@123' })).json()
-    for (const path of ['/api/v1/restaurants', '/api/v1/minglers', '/api/v1/categories', '/api/v1/amenities', '/api/v1/interest-tables']) {
-      const body = await (await get(`/admin${path}?page=1&pageSize=25`, accessToken)).json()
-      const items = body.data?.items ?? body.items ?? body.data ?? []
-      assert.equal(items.length, 0, path)
+    const count = async (path) => {
+      const body = await (await get(`/admin${path}${path.includes('?') ? '&' : '?'}page=1&pageSize=100`, accessToken)).json()
+      return (body.data?.items ?? body.items ?? body.data ?? []).length
+    }
+    for (const path of ['/api/v1/restaurants', '/api/v1/minglers', '/api/v1/categories', '/api/v1/interest-tables']) {
+      assert.equal(await count(path), 0, path)
+    }
+    // The four pick-lists ship with a starter set so the platform is usable on day one.
+    for (const path of ['/api/v1/amenities', '/api/v1/interests', '/api/v1/topics', '/api/v1/preference-questions']) {
+      assert.ok((await count(path)) > 0, path)
     }
     const roles = await (await get('/admin/api/v1/roles/active', accessToken)).json()
     assert.deepEqual(roles.items.map((r) => r.name), ['Super Admin'])

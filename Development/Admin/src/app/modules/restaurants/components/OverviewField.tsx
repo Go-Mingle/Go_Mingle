@@ -15,7 +15,7 @@ export function OverviewField({ IconComp, label, value }: OverviewFieldProps) {
           width: 32,
           height: 32,
           borderRadius: 12,
-          background: '#F1F3F6',
+          background: 'var(--color-table-head)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

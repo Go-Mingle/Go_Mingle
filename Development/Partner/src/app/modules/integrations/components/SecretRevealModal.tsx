@@ -45,7 +45,7 @@ export function SecretRevealModal({ secret, onClose }: SecretRevealModalProps) {
           </p>
         </div>
 
-        <div className="rounded-[8px] bg-[var(--color-text)] px-4 py-3.5 mb-4 overflow-x-auto font-[ui-monospace,SFMono-Regular,Menlo,monospace]">
+        <div className="rounded-[8px] bg-[#1a2332] px-4 py-3.5 mb-4 overflow-x-auto font-[ui-monospace,SFMono-Regular,Menlo,monospace]">
           <span className="text-[13px] text-[#e6e9ef] whitespace-nowrap">{secret}</span>
         </div>
 

@@ -145,6 +145,19 @@ describe('cross-portal data', () => {
     assert.equal((await call('DELETE', `/partner/api/v1/partner/restaurant/menu-options/${comboId}`, { token: partner })).status, 409)
   })
 
+  it('the partner visibility switch is what the Admin Panel shows', async () => {
+    const visible = async () => [
+      data(await call('GET', `/admin/api/v1/restaurants/${restaurantId}`, { token: adminToken })).visibleOnApp,
+      items(await call('GET', '/admin/api/v1/restaurants?page=1&pageSize=50', { token: adminToken })).find((r) => r.id === restaurantId)?.visibleOnApp,
+    ]
+    assert.deepEqual(await visible(), [true, true])
+    const off = await call('PATCH', '/partner/api/v1/partner/restaurant', { token: partner, body: { visibleOnApp: false } })
+    assert.equal(off.status, 200)
+    assert.deepEqual(await visible(), [false, false])
+    await call('PATCH', '/partner/api/v1/partner/restaurant', { token: partner, body: { visibleOnApp: true } })
+    assert.deepEqual(await visible(), [true, true])
+  })
+
   it('roles reach the Users screen and new admins can sign in', async () => {
     const role = data(await call('POST', '/admin/api/v1/roles', { token: adminToken, body: { name: 'Ops', fullAccess: false, permissions: ['FINANCES'] } }))
     const active = await call('GET', '/admin/api/v1/roles/active', { token: adminToken })

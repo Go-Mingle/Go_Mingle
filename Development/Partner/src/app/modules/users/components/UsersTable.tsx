@@ -143,7 +143,7 @@ function buildUserColumns(
       ],
       filterIcon: statusFilterIcon(t('table.filterBy', { column: statusHeader })),
       render: (v: string) => {
-        const colours = userStatusColours[v] ?? { bg: 'var(--color-text-secondary)' }
+        const colours = userStatusColours[v] ?? { bg: 'var(--color-badge-neutral)' }
         const label = v.charAt(0).toUpperCase() + v.slice(1)
         return (
           <span

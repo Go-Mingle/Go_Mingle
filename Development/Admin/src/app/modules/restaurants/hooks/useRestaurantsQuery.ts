@@ -9,6 +9,14 @@ import type {
 } from '../restaurantApi.types'
 
 /**
+ * Restaurant profiles, visibility, tables, menus and media are owned by the
+ * partner and change in the Partner Portal, outside this app. These queries
+ * are always treated as stale, so opening or returning to a screen shows the
+ * partner's latest data instead of a cached copy.
+ */
+const PARTNER_OWNED = { staleTime: 0 } as const
+
+/**
  * `options.enabled` lets a caller hold the request back until it has something
  * worth querying — e.g. a search-driven picker that must not list every
  * restaurant before the user types. Defaults to true, so existing callers are
@@ -20,6 +28,7 @@ export function useRestaurantsQuery(
 ) {
   return useQuery({
     queryKey: ['restaurants', params],
+    ...PARTNER_OWNED,
     queryFn: () => restaurantsService.listRestaurants(params),
     enabled: options.enabled ?? true,
     placeholderData: keepPreviousData,
@@ -29,6 +38,7 @@ export function useRestaurantsQuery(
 export function useRestaurantDetailQuery(id: string | undefined) {
   return useQuery({
     queryKey: ['restaurant', id],
+    ...PARTNER_OWNED,
     queryFn: () => restaurantsService.getRestaurantDetail(id!),
     enabled: !!id,
   })
@@ -37,6 +47,7 @@ export function useRestaurantDetailQuery(id: string | undefined) {
 export function useRestaurantContactsQuery(id: string | undefined) {
   return useQuery({
     queryKey: ['restaurant', id, 'contacts'],
+    ...PARTNER_OWNED,
     queryFn: () => restaurantsService.getContacts(id!),
     enabled: !!id,
   })
@@ -45,6 +56,7 @@ export function useRestaurantContactsQuery(id: string | undefined) {
 export function useRestaurantTablesQuery(id: string | undefined) {
   return useQuery({
     queryKey: ['restaurant', id, 'tables'],
+    ...PARTNER_OWNED,
     queryFn: () => restaurantsService.getRestaurantTables(id!),
     enabled: !!id,
   })
@@ -53,6 +65,7 @@ export function useRestaurantTablesQuery(id: string | undefined) {
 export function useMenuOptionsQuery(id: string | undefined) {
   return useQuery({
     queryKey: ['restaurant', id, 'menu-options'],
+    ...PARTNER_OWNED,
     queryFn: () => restaurantsService.getMenuOptions(id!),
     enabled: !!id,
   })
@@ -61,6 +74,7 @@ export function useMenuOptionsQuery(id: string | undefined) {
 export function useRestaurantAmenitiesQuery(id: string | undefined) {
   return useQuery({
     queryKey: ['restaurant', id, 'amenities'],
+    ...PARTNER_OWNED,
     queryFn: () => restaurantsService.getAmenities(id!),
     enabled: !!id,
   })
@@ -88,6 +102,7 @@ export function useChangeCategoryMutation(restaurantId: string | undefined) {
 export function useRestaurantMediaQuery(id: string | undefined, kind: RestaurantMediaKind) {
   return useQuery({
     queryKey: ['restaurant', id, 'media', kind],
+    ...PARTNER_OWNED,
     queryFn: () => restaurantsService.getMedia(id!, kind),
     enabled: !!id,
   })

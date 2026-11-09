@@ -46,7 +46,9 @@
     "changePassword": "Change password",
     "signOut": "Sign out",
     "signOutTitle": "Sign out?",
-    "signOutContent": "You will be signed out of the GoMingle Partner Portal."
+    "signOutContent": "You will be signed out of the GoMingle Partner Portal.",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
   },
   "buttons": {
     "save": "Save",
