@@ -14,9 +14,17 @@ import { fileURLToPath } from 'node:url'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const FILE = process.env.DATA_FILE ?? path.join(root, 'data', 'gomingle-db.json')
 
+/**
+ * Version 2 is the first release that keeps every record (see src/state.js)
+ * and starts without demo data. A store from an earlier build holds demo
+ * records, so it is set aside (renamed to *.v1-backup.json) and the install
+ * starts clean.
+ */
+const VERSION = 2
+
 function empty() {
   return {
-    version: 1,
+    version: VERSION,
     users: [],
     /** Partner restaurants, keyed by restaurant id. */
     restaurants: {},
@@ -29,12 +37,19 @@ const ephemeral = process.env.NODE_ENV === 'test' && !process.env.DATA_FILE
 
 export const db = (() => {
   if (ephemeral) return empty()
+  let data
   try {
-    const data = JSON.parse(fs.readFileSync(FILE, 'utf8'))
-    return { ...empty(), ...data, admin: { ...empty().admin, ...(data.admin ?? {}) } }
+    data = JSON.parse(fs.readFileSync(FILE, 'utf8'))
   } catch {
     return empty()
   }
+  if (data.version !== VERSION) {
+    fs.renameSync(FILE, FILE.replace(/\.json$/, '') + '.v1-backup.json')
+    fs.rmSync(path.join(path.dirname(FILE), 'state'), { recursive: true, force: true })
+    console.log(`Earlier demo data moved to ${path.basename(FILE).replace(/\.json$/, '')}.v1-backup.json — starting clean.`)
+    return empty()
+  }
+  return { ...empty(), ...data, admin: { ...empty().admin, ...(data.admin ?? {}) } }
 })()
 
 let timer = null

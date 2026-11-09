@@ -207,37 +207,13 @@ export function summary(restaurantId) {
   }
 }
 
-// ── Demo seed ───────────────────────────────────────────────────────────────
+// ── Boot ────────────────────────────────────────────────────────────────────
 
-export async function seedEscrow() {
-  const l = ledger()
-  if (l.seeded) {
-    safepay.restoreSimulated(Object.values(l.holds))
-    return
-  }
-  l.seeded = true
-  const plan = [
-    ['rest1', 'Sana Khan', 4, 3200, 'Founders & Filter Coffee', 'RELEASED'],
-    ['rest1', 'Osama Khalil', 2, 2800, 'Sufi Night Supper Club', 'IN_ESCROW'],
-    ['rest1', 'Hira Mansoor', 3, 3500, 'Startup Founders Brunch', 'AUTHORIZED'],
-    ['rest2', 'Laiba Hassan', 5, 2600, 'Book Club Biryani', 'IN_ESCROW'],
-    ['rest3', 'Parveen Rizvi', 2, 4100, 'Chai & Poetry Evening', 'REFUNDED'],
-    ['rest2', 'Danish Ahmed', 4, 2900, 'Gaming Night', 'VOIDED'],
-  ]
-  for (const [restaurantId, minglerName, guests, per, eventName, target] of plan) {
-    const h = await createHold({ restaurantId, minglerName, guests, amountPerGuest: per, eventName, demo: true })
-    if (target === 'VOIDED') await voidHold(h.id, 'System', 'Cancelled before the 24-hour mark')
-    if (['IN_ESCROW', 'RELEASED', 'REFUNDED'].includes(target)) await capture(h.id, 'System (24-hour confirmation)')
-    if (target === 'REFUNDED') await refund(h.id, 'Hira Mansoor', 'Event cancelled by restaurant')
-    if (target === 'RELEASED') {
-      const rec = (db.restaurants.rest1 ??= { id: 'rest1', createdAt: now(), amenityIds: [], seededData: true })
-      rec.payoutAccount ??= {
-        accountTitle: 'Aurelia Dining (Pvt) Ltd',
-        bankName: 'Meezan Bank',
-        iban: 'PK40MEZN0000001123456702',
-      }
-      release(h.id, 'System (event completed)')
-    }
-  }
-  save()
+/**
+ * Re-registers simulated holds with the Safepay simulator after a restart. A
+ * fresh install starts with an empty ledger — every hold comes from a real
+ * (or sandbox test) booking.
+ */
+export function restoreEscrow() {
+  safepay.restoreSimulated(Object.values(ledger().holds))
 }

@@ -14,6 +14,7 @@ process.env.DATA_FILE = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'gm-')),
 process.env.PORT = '4998'
 process.env.PUBLIC_URL = 'http://localhost:4998'
 const { app } = await import('../src/server.js')
+const { db } = await import('../src/db/store.js')
 
 const base = 'http://localhost:4998'
 let server
@@ -55,11 +56,13 @@ async function upload(token, kind, name, contentType, bytes) {
 before(() => new Promise((resolve) => { server = app.listen(4998, resolve) }))
 after(() => new Promise((resolve) => server.close(resolve)))
 
+const email = 'owner@kolachi.pk'
+let restaurantId
+
 describe('restaurant lifecycle', () => {
-  const email = 'owner@kolachi.pk'
   let partner
   let adminToken
-  let restaurantId
+  let categoryId
 
   it('partner signs up and lands in profile setup', async () => {
     assert.equal((await call('POST', '/partner/api/v1/partner/signup/start', { body: { email } })).status, 200)
@@ -203,8 +206,15 @@ describe('restaurant lifecycle', () => {
   })
 
   it('admin approves → restaurant is live in the directory and the partner gets the full portal', async () => {
-    const approve = await call('POST', `/admin/api/v1/admin/approvals/${restaurantId}/approve`, { token: adminToken, body: { categoryId: 'c1' } })
+    // A fresh install has no categories until the team adds one.
+    assert.equal((await call('POST', `/admin/api/v1/admin/approvals/${restaurantId}/approve`, { token: adminToken, body: { categoryId: 'c1' } })).status, 422)
+    const category = await call('POST', '/admin/api/v1/categories', { token: adminToken, body: { name: 'Premium', commissionRate: 12 } })
+    categoryId = category.json.data?.id ?? category.json.id
+    const approve = await call('POST', `/admin/api/v1/admin/approvals/${restaurantId}/approve`, { token: adminToken, body: { categoryId } })
     assert.equal(approve.status, 200)
+    const profile = await call('GET', '/partner/api/v1/partner/restaurant', { token: partner })
+    assert.deepEqual(profile.json.data.category, { id: categoryId, name: 'Premium' })
+    assert.equal(profile.json.data.commissionPercent, 12)
     const list = await call('GET', '/admin/api/v1/restaurants?page=1&pageSize=50&q=kolachi', { token: adminToken })
     const row = list.json.data.items.find((r) => r.id === restaurantId)
     assert.equal(row.status, 'ACTIVE')
@@ -221,11 +231,16 @@ describe('restaurant lifecycle', () => {
   })
 
   it('amenities come from the admin catalogue and sync back', async () => {
+    const boundary = 'gm-test'
+    const form = `--${boundary}\r\nContent-Disposition: form-data; name="name"\r\n\r\nRooftop Seating\r\n--${boundary}--\r\n`
+    const created = await call('POST', '/admin/api/v1/amenities', { token: adminToken, raw: form, contentType: `multipart/form-data; boundary=${boundary}` })
+    assert.equal(created.status, 201, JSON.stringify(created.json))
+    const amenityId = created.json.data.id
     const list = await call('GET', '/partner/api/v1/partner/restaurant/amenities', { token: partner })
-    assert.ok(list.json.data.items.length >= 10)
-    await call('PUT', '/partner/api/v1/partner/restaurant/amenities/a1', { token: partner, body: { selected: true } })
+    assert.deepEqual(list.json.data.items.map((a) => a.amenityId), [amenityId])
+    await call('PUT', `/partner/api/v1/partner/restaurant/amenities/${amenityId}`, { token: partner, body: { selected: true } })
     const adminAmenities = await call('GET', `/admin/api/v1/restaurants/${restaurantId}/amenities`, { token: adminToken })
-    assert.deepEqual(adminAmenities.json.data.items.map((a) => a.id), ['a1'])
+    assert.deepEqual(adminAmenities.json.data.items.map((a) => a.id), [amenityId])
   })
 
   it('admin suspension reaches the partner inbox', async () => {
@@ -233,6 +248,8 @@ describe('restaurant lifecycle', () => {
     assert.ok(res.status < 300, JSON.stringify(res.json))
     const inbox = await call('GET', '/partner/api/v1/partner/notifications?page=1&pageSize=10', { token: partner })
     assert.match(JSON.stringify(inbox.json), /suspended/i)
+    const profile = await call('GET', '/partner/api/v1/partner/restaurant', { token: partner })
+    assert.equal(profile.json.data.visibleOnApp, false)
   })
 
   it('persists accounts and restaurants to disk', async () => {
@@ -246,7 +263,7 @@ describe('restaurant lifecycle', () => {
 
 describe('partner team members', () => {
   it('a teammate added in the portal can sign in to the same restaurant', async () => {
-    const owner = (await call('POST', '/partner/api/v1/partner/auth/login', { body: { email: 'partner@gomingle.com', password: 'Partner@123' } })).json.accessToken
+    const owner = (await call('POST', '/partner/api/v1/partner/auth/login', { body: { email, password: 'Kolachi@2026' } })).json.accessToken
     const add = await call('POST', '/partner/api/v1/partner/users', {
       token: owner,
       body: { fullName: 'Sana Iqbal', email: 'sana@aurelia.pk', password: 'Aurelia@2026', confirmPassword: 'Aurelia@2026' },
@@ -255,7 +272,7 @@ describe('partner team members', () => {
     const login = await call('POST', '/partner/api/v1/partner/auth/login', { body: { email: 'sana@aurelia.pk', password: 'Aurelia@2026' } })
     assert.equal(login.status, 200)
     const session = await call('GET', '/partner/api/v1/partner/session', { token: login.json.accessToken })
-    assert.equal(session.json.data.restaurant.id, 'rest1')
+    assert.equal(session.json.data.restaurant.id, restaurantId)
 
     const id = add.json.data.id
     await call('PATCH', `/partner/api/v1/partner/users/${id}`, { token: owner, body: { status: 'SUSPENDED' } })
@@ -269,22 +286,21 @@ describe('Safepay escrow', () => {
   let owner
   before(async () => {
     adminToken = (await call('POST', '/admin/api/v1/auth/login', { body: { email: 'admin@gomingle.com', password: 'Admin@123' } })).json.accessToken
-    owner = (await call('POST', '/partner/api/v1/partner/auth/login', { body: { email: 'partner@gomingle.com', password: 'Partner@123' } })).json.accessToken
+    owner = (await call('POST', '/partner/api/v1/partner/auth/login', { body: { email, password: 'Kolachi@2026' } })).json.accessToken
   })
 
-  it('shows the seeded escrow ledger on the Safepay sandbox', async () => {
+  it('starts with an empty ledger on the Safepay sandbox', async () => {
     const res = await call('GET', '/admin/api/v1/escrow', { token: adminToken })
     assert.equal(res.status, 200)
     assert.equal(res.json.data.gateway.name, 'Safepay')
     assert.equal(res.json.data.gateway.environment, 'sandbox')
-    const statuses = new Set(res.json.data.items.map((i) => i.status))
-    for (const s of ['AUTHORIZED', 'IN_ESCROW', 'RELEASED', 'REFUNDED', 'VOIDED']) assert.ok(statuses.has(s), s)
+    assert.deepEqual(res.json.data.items, [])
   })
 
   it('holds → escrow → release pays the restaurant net of the fee and notifies it', async () => {
     const created = await call('POST', '/admin/api/v1/escrow/test-booking', {
       token: adminToken,
-      body: { restaurantId: 'rest1', minglerName: 'Zara Ali', guests: 4, amountPerGuest: 2500 },
+      body: { restaurantId, minglerName: 'Zara Ali', guests: 4, amountPerGuest: 2500 },
     })
     assert.equal(created.status, 201)
     const id = created.json.data.id
@@ -298,19 +314,19 @@ describe('Safepay escrow', () => {
     assert.equal(released.json.data.status, 'RELEASED')
     assert.equal(released.json.data.payout.amount, 9000)
     assert.equal(released.json.data.payout.platformFee, 1000)
-    assert.match(released.json.data.payout.ibanMasked, /^PK40 •••• 6702$/)
+    assert.match(released.json.data.payout.ibanMasked, /^PK72 •••• 1234$/)
 
     const mine = await call('GET', '/partner/api/v1/partner/escrow', { token: owner })
     assert.ok(mine.json.data.items.some((i) => i.id === id && i.status === 'RELEASED'))
-    assert.ok(mine.json.data.items.every((i) => i.restaurantId === 'rest1'))
+    assert.ok(mine.json.data.items.every((i) => i.restaurantId === restaurantId))
     const inbox = await call('GET', '/partner/api/v1/partner/notifications?page=1&pageSize=10', { token: owner })
     assert.match(JSON.stringify(inbox.json), /Payout released/)
   })
 
   it('voids an uncaptured hold and refunds captured funds with a reason', async () => {
-    const a = (await call('POST', '/admin/api/v1/escrow/test-booking', { token: adminToken, body: { restaurantId: 'rest1', guests: 2, amountPerGuest: 3000 } })).json.data
+    const a = (await call('POST', '/admin/api/v1/escrow/test-booking', { token: adminToken, body: { restaurantId, guests: 2, amountPerGuest: 3000 } })).json.data
     assert.equal((await call('POST', `/admin/api/v1/escrow/${a.id}/void`, { token: adminToken })).json.data.status, 'VOIDED')
-    const b = (await call('POST', '/admin/api/v1/escrow/test-booking', { token: adminToken, body: { restaurantId: 'rest1', guests: 2, amountPerGuest: 3000 } })).json.data
+    const b = (await call('POST', '/admin/api/v1/escrow/test-booking', { token: adminToken, body: { restaurantId, guests: 2, amountPerGuest: 3000 } })).json.data
     await call('POST', `/admin/api/v1/escrow/${b.id}/capture`, { token: adminToken })
     assert.equal((await call('POST', `/admin/api/v1/escrow/${b.id}/refund`, { token: adminToken })).status, 422)
     const refunded = await call('POST', `/admin/api/v1/escrow/${b.id}/refund`, { token: adminToken, body: { reason: 'Event cancelled' } })
@@ -318,10 +334,16 @@ describe('Safepay escrow', () => {
   })
 
   it('refuses to release to a restaurant without a payout account', async () => {
-    const h = (await call('POST', '/admin/api/v1/escrow/test-booking', { token: adminToken, body: { restaurantId: 'rest2', guests: 2, amountPerGuest: 3000 } })).json.data
+    const h = (await call('POST', '/admin/api/v1/escrow/test-booking', { token: adminToken, body: { restaurantId, guests: 2, amountPerGuest: 3000 } })).json.data
     await call('POST', `/admin/api/v1/escrow/${h.id}/capture`, { token: adminToken })
-    const res = await call('POST', `/admin/api/v1/escrow/${h.id}/release`, { token: adminToken })
-    assert.equal(res.status, 409)
-    assert.equal(res.json.error.code, 'ERR_NO_PAYOUT_ACCOUNT')
+    const account = db.restaurants[restaurantId].payoutAccount
+    delete db.restaurants[restaurantId].payoutAccount
+    try {
+      const res = await call('POST', `/admin/api/v1/escrow/${h.id}/release`, { token: adminToken })
+      assert.equal(res.status, 409)
+      assert.equal(res.json.error.code, 'ERR_NO_PAYOUT_ACCOUNT')
+    } finally {
+      db.restaurants[restaurantId].payoutAccount = account
+    }
   })
 })

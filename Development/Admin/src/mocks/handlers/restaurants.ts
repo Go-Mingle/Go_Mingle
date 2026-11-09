@@ -164,8 +164,8 @@ function toDetail(r: (typeof mockRestaurants)[number]): RestaurantDetail {
     fullAddress: r.address ?? null,
     areaDistrict: r.area ?? null,
     city: r.city ?? null,
-    latitude: null,
-    longitude: null,
+    latitude: (r as { latitude?: number | null }).latitude ?? null,
+    longitude: (r as { longitude?: number | null }).longitude ?? null,
     ownerName: r.owner ?? null,
     ownerPhone: r.phone ?? null,
     ownerEmail: r.ownerEmail ?? null,
@@ -176,6 +176,7 @@ function toDetail(r: (typeof mockRestaurants)[number]): RestaurantDetail {
     joinedAt: r.joinedDate,
     confirmedBookings: r.bookings,
     avatarUrl: r.avatarUrl ?? null,
+    menuPdfUrl: (r as { menuPdfUrl?: string | null }).menuPdfUrl ?? null,
   }
 }
 

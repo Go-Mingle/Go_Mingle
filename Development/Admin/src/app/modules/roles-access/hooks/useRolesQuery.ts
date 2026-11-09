@@ -59,7 +59,9 @@ export function useActiveRolesQuery() {
   return useQuery({
     queryKey: ['roles', 'active'],
     queryFn: () => rolesService.getActive(),
-    staleTime: 5 * 60 * 1000,
+    // Always refetch when a role picker mounts, so a role created moments ago
+    // (here or by another admin) is offered straight away.
+    staleTime: 0,
   })
 }
 

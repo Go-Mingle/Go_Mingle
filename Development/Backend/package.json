@@ -12,7 +12,8 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "build:contracts": "node scripts/build-contracts.mjs",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "reset-data": "node -e \"require('fs').rmSync('data',{recursive:true,force:true});console.log('All GoMingle data deleted. The next start is a fresh install.')\""
   },
   "dependencies": {
     "@phosphor-icons/core": "^2.1.1",

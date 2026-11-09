@@ -90,6 +90,8 @@ export interface RestaurantDetail {
   joinedAt: string
   confirmedBookings: number
   avatarUrl: string | null
+  /** The partner's uploaded menu PDF, when there is one. */
+  menuPdfUrl?: string | null
 }
 
 /**

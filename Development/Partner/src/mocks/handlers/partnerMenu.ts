@@ -27,10 +27,17 @@ import {
  * first few bytes for the content check (MET-1148). Both stand in for the real
  * server inspecting the stored object.
  */
-async function uploadedObject(request: Request): Promise<{ size: number; leading: number[] }> {
+async function uploadedObject(
+  request: Request,
+): Promise<{ size: number; leading: number[]; bytes: ArrayBuffer }> {
   const buffer = await request.arrayBuffer().catch(() => new ArrayBuffer(0))
-  // Four is the longest signature we check; reading more would be dead weight.
-  return { size: buffer.byteLength, leading: [...new Uint8Array(buffer.slice(0, 4))] }
+  // Four is the longest signature we check; the whole file is kept so the
+  // committed menu can be downloaded from the mock CDN.
+  return {
+    size: buffer.byteLength,
+    leading: [...new Uint8Array(buffer.slice(0, 4))],
+    bytes: buffer,
+  }
 }
 
 export const partnerMenuHandlers = [
@@ -75,7 +82,7 @@ export const partnerMenuHandlers = [
    * refuse a reference whose bytes never landed.
    */
   http.put(`${MOCK_MENU_UPLOAD_ORIGIN}/:uploadRef`, async ({ params, request }) => {
-    const { size, leading } = await uploadedObject(request)
-    return receiveMockMenuPdf(String(params.uploadRef), size, leading)
+    const { size, leading, bytes } = await uploadedObject(request)
+    return receiveMockMenuPdf(String(params.uploadRef), size, leading, bytes)
   }),
 ]

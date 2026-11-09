@@ -53,12 +53,15 @@ describe('admin auth', () => {
     assert.equal((await res.json()).error.code, 'ERR_TOKEN_INVALID')
   })
 
-  it('serves Karachi restaurant data in PKR to a signed-in admin', async () => {
+  it('starts a fresh install with no demo records', async () => {
     const { accessToken } = await (await post('/admin/api/v1/auth/login', { email: 'admin@gomingle.com', password: 'Admin@123' })).json()
-    const body = await (await get('/admin/api/v1/restaurants', accessToken)).json()
-    const text = JSON.stringify(body)
-    assert.match(text, /Karachi/)
-    assert.doesNotMatch(text, /Dubai|AED/)
+    for (const path of ['/api/v1/restaurants', '/api/v1/minglers', '/api/v1/categories', '/api/v1/amenities', '/api/v1/interest-tables']) {
+      const body = await (await get(`/admin${path}?page=1&pageSize=25`, accessToken)).json()
+      const items = body.data?.items ?? body.items ?? body.data ?? []
+      assert.equal(items.length, 0, path)
+    }
+    const roles = await (await get('/admin/api/v1/roles/active', accessToken)).json()
+    assert.deepEqual(roles.items.map((r) => r.name), ['Super Admin'])
   })
 
   it('rejects a partner token on admin routes', async () => {
@@ -76,13 +79,13 @@ describe('admin auth', () => {
 })
 
 describe('partner auth and sign-up', () => {
-  it('signs in and gets a full-portal session', async () => {
+  it('signs in to an empty draft restaurant', async () => {
     const res = await post('/partner/api/v1/partner/auth/login', { email: 'partner@gomingle.com', password: 'Partner@123' })
     assert.equal(res.status, 200)
     const { accessToken, user } = await res.json()
     assert.equal(user.email, 'partner@gomingle.com')
     const session = await (await get('/partner/api/v1/partner/session', accessToken)).json()
-    assert.equal(session.data.route, 'FULL_PORTAL')
+    assert.equal(session.data.route, 'PROFILE_SETUP')
   })
 
   it('runs sign-up end to end without moving the seeded partner', async () => {
@@ -100,7 +103,8 @@ describe('partner auth and sign-up', () => {
     assert.equal(relog.status, 200)
     const seeded = await (await post('/partner/api/v1/partner/auth/login', { email: 'partner@gomingle.com', password: 'Partner@123' })).json()
     const seededSession = await (await get('/partner/api/v1/partner/session', seeded.accessToken)).json()
-    assert.equal(seededSession.data.route, 'FULL_PORTAL')
+    assert.equal(seededSession.data.route, 'PROFILE_SETUP')
+    assert.notEqual(seededSession.data.restaurant.id, session.data.restaurant.id)
   })
 
   it('rejects a wrong sign-up code', async () => {

@@ -29,6 +29,8 @@ export function useCreateUserMutation() {
     mutationFn: (data: CreateUserDto) => usersService.create(data),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ['users'] })
+      // A user's role feeds each role's "users assigned" count.
+      void qc.invalidateQueries({ queryKey: ['roles'] })
     },
   })
 }
@@ -40,6 +42,8 @@ export function useUpdateUserMutation() {
       usersService.update(id, data),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ['users'] })
+      // A user's role feeds each role's "users assigned" count.
+      void qc.invalidateQueries({ queryKey: ['roles'] })
     },
   })
 }
@@ -50,6 +54,8 @@ export function useDeleteUserMutation() {
     mutationFn: (id: string) => usersService.delete(id),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ['users'] })
+      // A user's role feeds each role's "users assigned" count.
+      void qc.invalidateQueries({ queryKey: ['roles'] })
     },
   })
 }
@@ -61,6 +67,8 @@ export function useSetUserPasswordMutation() {
       usersService.changePassword(id, data),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ['users'] })
+      // A user's role feeds each role's "users assigned" count.
+      void qc.invalidateQueries({ queryKey: ['roles'] })
     },
   })
 }

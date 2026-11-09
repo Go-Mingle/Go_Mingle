@@ -7,6 +7,12 @@ var __export = (target, all) => {
 
 import { http as http18, HttpResponse as HttpResponse21 } from "msw";
 
+// gm-state:gm-state-registry
+var stateModules = /* @__PURE__ */ new Map();
+function __register(name, accessor) {
+  stateModules.set(name, accessor);
+}
+
 var mockRoles = [
   { id: "r1", name: "Super Admin", fullAccess: true, modules: [], usersCount: 2 },
   {
@@ -31,6 +37,161 @@ var mockRoles = [
     usersCount: 0
   }
 ];
+var mockUsers = [
+  {
+    id: "u1",
+    name: "Hira Mansoor",
+    username: "hira.mansoor",
+    email: "hira@gomingle.com",
+    role: "Super Admin",
+    roleId: "r1",
+    designation: "Owner",
+    status: "active",
+    lastActive: "2026-05-05",
+    initials: "HM"
+  },
+  {
+    id: "u2",
+    name: "Yasmeen Iqbal",
+    username: "yasmeen.iqbal",
+    email: "yasmeen@gomingle.com",
+    role: "Operations Manager",
+    roleId: "r2",
+    designation: "General Manager",
+    status: "active",
+    lastActive: "2026-05-04",
+    initials: "YI"
+  },
+  {
+    id: "u3",
+    name: "Nadeem Sharif",
+    username: "nadeem.sharif",
+    email: "nadeem@gomingle.com",
+    role: "Operations Manager",
+    roleId: "r2",
+    designation: "Floor Manager",
+    status: "active",
+    lastActive: "2026-05-03",
+    initials: "NS"
+  },
+  {
+    id: "u4",
+    name: "Raheel Chaudhry",
+    username: "raheel.chaudhry",
+    email: "raheel@gomingle.com",
+    role: "Finance Manager",
+    roleId: "r3",
+    designation: "Finance Lead",
+    status: "active",
+    lastActive: "2026-04-30",
+    initials: "RC"
+  },
+  {
+    id: "u5",
+    name: "Erum Vohra",
+    username: "erum.vohra",
+    email: "erum@gomingle.com",
+    role: "Operations Manager",
+    roleId: "r2",
+    designation: "Shift Supervisor",
+    status: "suspended",
+    lastActive: "2026-03-12",
+    initials: "EV"
+  },
+  {
+    id: "u6",
+    name: "Karim Baloch",
+    username: "karim.baloch",
+    email: "karim@gomingle.com",
+    role: "Content Reviewer",
+    roleId: "r4",
+    designation: "Marketing Lead",
+    status: "active",
+    lastActive: "2026-05-01",
+    initials: "KB"
+  }
+];
+var mockCategories = [
+  {
+    id: "c1",
+    name: "Premium",
+    description: "Fine dining and luxury experiences",
+    bookingCommissionPercent: 12,
+    restaurantCount: 4
+  },
+  {
+    id: "c2",
+    name: "Standard",
+    description: "Everyday dining and casual restaurants",
+    bookingCommissionPercent: 9,
+    restaurantCount: 2
+  },
+  {
+    id: "c3",
+    name: "Casual",
+    description: "Cafes, fast casual, and quick bites",
+    bookingCommissionPercent: 7,
+    restaurantCount: 1
+  },
+  {
+    id: "c4",
+    name: "Pop-up",
+    description: "Temporary and event-based dining concepts",
+    bookingCommissionPercent: 6,
+    restaurantCount: 0
+  }
+];
+var mockInterestTopics = [
+  {
+    id: "t1",
+    name: "Wine & Dine",
+    description: "An evening pairing fine wines with curated small plates, for guests who enjoy relaxed conversation over good food.",
+    image: "https://picsum.photos/seed/wine-dine/80/80",
+    interestIds: ["i1", "i2", "i10"],
+    tablesCount: 4
+  },
+  {
+    id: "t2",
+    name: "Startup Founders",
+    description: "A table for early-stage founders to swap notes on building, fundraising, and the realities of running a company.",
+    image: "https://picsum.photos/seed/startup-founders/80/80",
+    interestIds: ["i3", "i4", "i11"],
+    tablesCount: 2
+  },
+  {
+    id: "t3",
+    name: "Book Club",
+    description: "Readers gather to discuss a chosen title over dinner. Each session focuses on one book agreed in advance.",
+    image: "https://picsum.photos/seed/book-club/80/80",
+    interestIds: ["i5", "i6"],
+    tablesCount: 3
+  },
+  {
+    id: "t4",
+    name: "Tech & AI",
+    description: "Conversations on the latest in technology and artificial intelligence, open to enthusiasts and professionals alike.",
+    image: "https://picsum.photos/seed/tech-ai/80/80",
+    interestIds: ["i7", "i8"],
+    tablesCount: 5
+  },
+  {
+    id: "t5",
+    name: "Foodies Unite",
+    description: "For people who plan trips around restaurants. Share recommendations and discover hidden culinary gems together.",
+    image: "https://picsum.photos/seed/foodies-unite/80/80",
+    interestIds: ["i10", "i9", "i12"],
+    tablesCount: 1
+  }
+];
+__register("data/catalog.ts", {
+  read: () => ({ "mockRoles": mockRoles, "mockUsers": mockUsers, "mockCategories": mockCategories, "mockInterestTopics": mockInterestTopics }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var TABLE_IMG_A = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
 var TABLE_IMG_B = "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80";
@@ -525,6 +686,15 @@ var mockAvailableSlots = [
   { id: "slot4", restaurantId: "rest5", day: "Sunday", startTime: "12:00 PM", endTime: "4:00 PM" },
   { id: "slot5", restaurantId: "rest5", day: "Friday", startTime: "6:30 PM", endTime: "10:30 PM" }
 ];
+__register("data/interestTables.ts", {
+  read: () => ({ "hoursFromNow": hoursFromNow, "auTable": auTable, "mockInterestTables": mockInterestTables, "mockAvailableSlots": mockAvailableSlots }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var mockRestaurantMedia = {
   photos: [
@@ -2491,6 +2661,15 @@ var mockRestaurants = [
     reviews: []
   }
 ];
+__register("data/restaurants.ts", {
+  read: () => ({ "mockRestaurantMedia": mockRestaurantMedia, "defaultSchedule": defaultSchedule, "defaultTables": defaultTables, "defaultMenu": defaultMenu, "defaultCombos": defaultCombos, "mockRestaurants": mockRestaurants }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var DEFAULT_EATING_PREFS = {
   culinaryRestrictions: ["None"],
@@ -3224,7 +3403,282 @@ var mockMinglers = [
     false
   )
 ];
+__register("data/minglers.ts", {
+  read: () => ({ "extraMingler": extraMingler, "mockMinglers": mockMinglers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
+var mockPayouts = [
+  { id: "po1", date: "2026-06-30", amount: 18420, status: "completed" },
+  { id: "po2", date: "2026-05-31", amount: 15960, status: "completed" },
+  { id: "po3", date: "2026-07-07", amount: 6240, status: "pending" },
+  { id: "po4", date: "2026-04-30", amount: 21030, status: "completed" }
+];
+var mockFinances = [
+  {
+    id: "f1",
+    restaurant: "Aurelia",
+    restaurantId: "rest1",
+    bookingId: "BK-10041",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboName: "Wagyu Experience",
+    mingler: "Sana Khan",
+    type: "commission",
+    partnerShare: 1620,
+    gomingleShare: 220,
+    vat: 92,
+    tip: 80,
+    totalAmount: 2012,
+    loyaltyUsed: 80,
+    loyaltyPkrDeduction: 8,
+    loyaltyRedeemed: { pkr: 8, pts: 80 },
+    restaurantCity: "Karachi",
+    restaurantAddress: "Level 3, The Pier, Clifton Boardwalk, Karachi",
+    date: "2026-05-04",
+    restaurantInfo: {
+      name: "Aurelia",
+      email: "osama@aurelia.pk",
+      address: "Level 3, The Pier, Clifton Boardwalk, Karachi",
+      city: "Karachi"
+    }
+  },
+  {
+    id: "f2",
+    restaurant: "Saffron Table",
+    restaurantId: "rest2",
+    bookingId: "BK-10042",
+    interestTableId: "it7",
+    interestTableTopic: "Startup Founders",
+    comboName: "Veggie Delight",
+    mingler: "Parveen Rizvi",
+    type: "penalty",
+    partnerShare: 315,
+    gomingleShare: 105,
+    vat: 21,
+    tip: 0,
+    totalAmount: 441,
+    loyaltyUsed: 0,
+    loyaltyPkrDeduction: 0,
+    restaurantCity: "Lahore",
+    restaurantAddress: "Shop 12, Bahria Town Boulevard, Lahore",
+    date: "2026-05-04",
+    restaurantInfo: {
+      name: "Saffron Table",
+      email: "parveen@safftable.pk",
+      address: "Shop 12, Bahria Town Boulevard, Lahore",
+      city: "Lahore"
+    }
+  },
+  {
+    id: "f3",
+    restaurant: "Maison Petit",
+    restaurantId: "rest8",
+    bookingId: "BK-10043",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboName: "Mezze Feast for 2",
+    mingler: "Mustafa Butt",
+    type: "commission",
+    partnerShare: 2323,
+    gomingleShare: 317,
+    vat: 132,
+    tip: 50,
+    totalAmount: 2822,
+    loyaltyUsed: 200,
+    loyaltyPkrDeduction: 20,
+    loyaltyRedeemed: { pkr: 20, pts: 200 },
+    restaurantCity: "Karachi",
+    restaurantAddress: "Level 2, Currency House Tower 1, I.I. Chundrigar Road, Karachi",
+    date: "2026-05-03",
+    restaurantInfo: {
+      name: "Maison Petit",
+      email: "claire@maisonpetit.pk",
+      address: "Level 2, Currency House Tower 1, I.I. Chundrigar Road, Karachi",
+      city: "Karachi"
+    }
+  },
+  {
+    id: "f4",
+    restaurant: "Olive & Ash",
+    restaurantId: "rest6",
+    bookingId: "BK-10044",
+    interestTableId: "it5",
+    interestTableTopic: "Foodies Unite",
+    comboName: "Wagyu Experience",
+    mingler: "Danish Ahmed",
+    type: "commission",
+    partnerShare: 892,
+    gomingleShare: 88,
+    vat: 49,
+    tip: 40,
+    totalAmount: 1069,
+    loyaltyUsed: 0,
+    loyaltyPkrDeduction: 0,
+    date: "2026-05-03",
+    restaurantInfo: {
+      name: "Olive & Ash",
+      email: "marco@oliveash.pk",
+      address: "Ground Floor, Boat Basin Mall, Khalidiyah, Lahore",
+      city: "Lahore"
+    }
+  },
+  {
+    id: "f5",
+    restaurant: "Coral & Lime",
+    restaurantId: "rest3",
+    bookingId: "BK-10045",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboName: "Italian Classic",
+    mingler: "Tariq Saleem",
+    type: "penalty",
+    partnerShare: 668,
+    gomingleShare: 222,
+    vat: 44.5,
+    tip: 0,
+    totalAmount: 934.5,
+    loyaltyUsed: 0,
+    loyaltyPkrDeduction: 0,
+    date: "2026-05-02",
+    restaurantInfo: {
+      name: "Coral & Lime",
+      email: "lena@corallime.pk",
+      address: "Shop 4, Gulshan-e-Iqbal Cluster M, DHA Phase 6 Lake Towers, Karachi",
+      city: "Karachi"
+    }
+  },
+  {
+    id: "f6",
+    restaurant: "Yuzu",
+    restaurantId: "rest5",
+    bookingId: "BK-10046",
+    interestTableId: "it6",
+    interestTableTopic: "Wine & Dine",
+    comboName: "Seafood Set",
+    mingler: "Mehwish Tanoli",
+    type: "commission",
+    partnerShare: 503,
+    gomingleShare: 37,
+    vat: 27,
+    tip: 30,
+    totalAmount: 597,
+    loyaltyUsed: 50,
+    loyaltyPkrDeduction: 5,
+    date: "2026-05-02",
+    restaurantInfo: {
+      name: "Yuzu",
+      email: "jiho@yuzu.pk",
+      address: "Unit 7, Shahrah-e-Faisal Complex, Al A'amal Street, Karachi",
+      city: "Karachi"
+    }
+  },
+  {
+    id: "f7",
+    restaurant: "Smoke + Sugar",
+    restaurantId: "rest7",
+    bookingId: "BK-10047",
+    interestTableId: "it2",
+    interestTableTopic: "Startup Founders",
+    comboName: "Italian Classic",
+    mingler: "Lubna Paracha",
+    type: "commission",
+    partnerShare: 710,
+    gomingleShare: 70,
+    vat: 39,
+    tip: 0,
+    totalAmount: 819,
+    loyaltyUsed: 0,
+    loyaltyPkrDeduction: 0,
+    date: "2026-05-01",
+    restaurantInfo: {
+      name: "Smoke + Sugar",
+      email: "sara@smokesugar.pk",
+      address: "Korangi Industrial Area 3, Shahrah-e-Faisal, Karachi",
+      city: "Karachi"
+    }
+  },
+  {
+    id: "f8",
+    restaurant: "Aurelia",
+    restaurantId: "rest1",
+    bookingId: "BK-10048",
+    interestTableId: "it3",
+    interestTableTopic: "Book Club",
+    comboName: "Veggie Delight",
+    mingler: "Osama Farooq",
+    type: "commission",
+    partnerShare: 2816,
+    gomingleShare: 384,
+    vat: 160,
+    tip: 100,
+    totalAmount: 3460,
+    loyaltyUsed: 120,
+    loyaltyPkrDeduction: 12,
+    date: "2026-05-01",
+    restaurantInfo: {
+      name: "Aurelia",
+      email: "osama@aurelia.pk",
+      address: "Level 3, The Pier, Clifton Boardwalk, Karachi",
+      city: "Karachi"
+    }
+  },
+  {
+    id: "f9",
+    restaurant: "Saffron Table",
+    restaurantId: "rest2",
+    bookingId: "BK-10049",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboName: "Mezze Feast for 2",
+    mingler: "Hassaan Adeel",
+    type: "penalty",
+    partnerShare: 255,
+    gomingleShare: 85,
+    vat: 17,
+    tip: 0,
+    totalAmount: 357,
+    loyaltyUsed: 0,
+    loyaltyPkrDeduction: 0,
+    date: "2026-04-30",
+    restaurantInfo: {
+      name: "Saffron Table",
+      email: "parveen@safftable.pk",
+      address: "Shop 12, Bahria Town Boulevard, Lahore",
+      city: "Lahore"
+    }
+  },
+  {
+    id: "f10",
+    restaurant: "Maison Petit",
+    restaurantId: "rest8",
+    bookingId: "BK-10050",
+    interestTableId: "it2",
+    interestTableTopic: "Startup Founders",
+    comboName: "Wagyu Experience",
+    mingler: "Sana Khan",
+    type: "commission",
+    partnerShare: 1725,
+    gomingleShare: 235,
+    vat: 98,
+    tip: 60,
+    totalAmount: 2118,
+    loyaltyUsed: 160,
+    loyaltyPkrDeduction: 16,
+    date: "2026-04-29",
+    restaurantInfo: {
+      name: "Maison Petit",
+      email: "claire@maisonpetit.pk",
+      address: "Level 2, Currency House Tower 1, I.I. Chundrigar Road, Karachi",
+      city: "Karachi"
+    }
+  }
+];
 var mockBookingsChart = [
   { day: "Mon", count: 34 },
   { day: "Tue", count: 41 },
@@ -3234,6 +3688,15 @@ var mockBookingsChart = [
   { day: "Sat", count: 94 },
   { day: "Sun", count: 76 }
 ];
+__register("data/finances.ts", {
+  read: () => ({ "mockPayouts": mockPayouts, "mockFinances": mockFinances, "mockBookingsChart": mockBookingsChart }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var mockMinglerBookings = [
   {
@@ -3374,6 +3837,248 @@ var mockReviews = [
     bookingId: "BK-10009"
   }
 ];
+var mockBookingLookup = {
+  "BK-10081": {
+    bookingId: "BK-10081",
+    restaurantName: "Aurelia",
+    minglerName: "Sana Khan",
+    date: "2026-04-15T19:30:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo1",
+    comboName: "Mezze Feast for 2",
+    status: "completed",
+    billAmount: 1840
+  },
+  "BK-10082": {
+    bookingId: "BK-10082",
+    restaurantName: "Aurelia",
+    minglerName: "Mustafa Butt",
+    date: "2026-03-28T20:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo2",
+    comboName: "Wagyu Experience",
+    status: "completed",
+    billAmount: 980
+  },
+  "BK-10083": {
+    bookingId: "BK-10083",
+    restaurantName: "Aurelia",
+    minglerName: "Parveen Rizvi",
+    date: "2026-03-10T19:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo3",
+    comboName: "Italian Classic",
+    status: "completed",
+    billAmount: 1120
+  },
+  "BK-10084": {
+    bookingId: "BK-10084",
+    restaurantName: "Aurelia",
+    minglerName: "Danish Ahmed",
+    date: "2026-02-22T20:30:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo4",
+    comboName: "Seafood Set",
+    status: "completed",
+    billAmount: 760
+  },
+  "BK-10085": {
+    bookingId: "BK-10085",
+    restaurantName: "Aurelia",
+    minglerName: "Osama Farooq",
+    date: "2026-02-08T21:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo5",
+    comboName: "Veggie Delight",
+    status: "cancelled",
+    billAmount: 0
+  },
+  "BK-10086": {
+    bookingId: "BK-10086",
+    restaurantName: "Aurelia",
+    minglerName: "Lubna Paracha",
+    date: "2026-01-30T19:30:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo1",
+    comboName: "Mezze Feast for 2",
+    status: "completed",
+    billAmount: 840
+  },
+  "BK-10087": {
+    bookingId: "BK-10087",
+    restaurantName: "Aurelia",
+    minglerName: "Hassaan Adeel",
+    date: "2026-01-15T20:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo2",
+    comboName: "Wagyu Experience",
+    status: "cancelled",
+    billAmount: 0
+  },
+  "BK-10088": {
+    bookingId: "BK-10088",
+    restaurantName: "Aurelia",
+    minglerName: "Tariq Saleem",
+    date: "2025-12-28T19:00:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo3",
+    comboName: "Italian Classic",
+    status: "completed",
+    billAmount: 1260
+  },
+  "BK-10071": {
+    bookingId: "BK-10071",
+    restaurantName: "Saffron Table",
+    minglerName: "Parveen Rizvi",
+    date: "2026-04-20T19:30:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo4",
+    comboName: "Seafood Set",
+    status: "completed",
+    billAmount: 620
+  },
+  "BK-10072": {
+    bookingId: "BK-10072",
+    restaurantName: "Saffron Table",
+    minglerName: "Tariq Saleem",
+    date: "2026-04-01T20:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo5",
+    comboName: "Veggie Delight",
+    status: "completed",
+    billAmount: 340
+  },
+  "BK-10073": {
+    bookingId: "BK-10073",
+    restaurantName: "Saffron Table",
+    minglerName: "Mehwish Tanoli",
+    date: "2026-03-15T19:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo1",
+    comboName: "Mezze Feast for 2",
+    status: "completed",
+    billAmount: 480
+  },
+  "BK-10074": {
+    bookingId: "BK-10074",
+    restaurantName: "Saffron Table",
+    minglerName: "Sana Khan",
+    date: "2026-03-02T20:30:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo2",
+    comboName: "Wagyu Experience",
+    status: "completed",
+    billAmount: 290
+  },
+  "BK-10075": {
+    bookingId: "BK-10075",
+    restaurantName: "Saffron Table",
+    minglerName: "Osama Farooq",
+    date: "2026-02-18T19:30:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo3",
+    comboName: "Italian Classic",
+    status: "completed",
+    billAmount: 310
+  },
+  "BK-10076": {
+    bookingId: "BK-10076",
+    restaurantName: "Saffron Table",
+    minglerName: "Mustafa Butt",
+    date: "2026-02-05T20:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo4",
+    comboName: "Seafood Set",
+    status: "cancelled",
+    billAmount: 0
+  },
+  "BK-10077": {
+    bookingId: "BK-10077",
+    restaurantName: "Saffron Table",
+    minglerName: "Lubna Paracha",
+    date: "2026-01-22T19:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo5",
+    comboName: "Veggie Delight",
+    status: "completed",
+    billAmount: 720
+  },
+  "BK-10078": {
+    bookingId: "BK-10078",
+    restaurantName: "Saffron Table",
+    minglerName: "Danish Ahmed",
+    date: "2026-01-08T20:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo1",
+    comboName: "Mezze Feast for 2",
+    status: "completed",
+    billAmount: 560
+  },
+  "BK-10041": {
+    bookingId: "BK-10041",
+    restaurantName: "Aurelia",
+    minglerName: "Sana Khan",
+    date: "2026-05-04T19:30:00",
+    interestTableId: "it1",
+    interestTableTopic: "Wine & Dine",
+    comboId: "combo2",
+    comboName: "Wagyu Experience",
+    status: "completed",
+    billAmount: 1840
+  },
+  "BK-10033": {
+    bookingId: "BK-10033",
+    restaurantName: "Maison Petit",
+    minglerName: "Sana Khan",
+    date: "2026-04-22T20:00:00",
+    interestTableId: "it7",
+    interestTableTopic: "Startup Founders",
+    comboId: "combo3",
+    comboName: "Italian Classic",
+    status: "cancelled",
+    billAmount: 0
+  },
+  "BK-10021": {
+    bookingId: "BK-10021",
+    restaurantName: "Saffron Table",
+    minglerName: "Sana Khan",
+    date: "2026-04-10T19:00:00",
+    interestTableId: "it4",
+    interestTableTopic: "Tech & AI",
+    comboId: "combo4",
+    comboName: "Seafood Set",
+    status: "completed",
+    billAmount: 620
+  },
+  "BK-10009": {
+    bookingId: "BK-10009",
+    restaurantName: "Olive & Ash",
+    minglerName: "Sana Khan",
+    date: "2026-03-28T20:30:00",
+    interestTableId: "it5",
+    interestTableTopic: "Foodies Unite",
+    comboId: "combo5",
+    comboName: "Veggie Delight",
+    status: "cancelled",
+    billAmount: 0
+  }
+};
 var mockRestaurantBookings = [
   {
     id: "rb1",
@@ -3541,6 +4246,53 @@ var mockRestaurantBookings = [
     bill: 220
   }
 ];
+__register("data/bookings.ts", {
+  read: () => ({ "mockMinglerBookings": mockMinglerBookings, "mockPaymentMethods": mockPaymentMethods, "mockReviews": mockReviews, "mockBookingLookup": mockBookingLookup, "mockRestaurantBookings": mockRestaurantBookings }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
+
+var mockPushNotifications = [
+  {
+    id: "pn1",
+    title: "Weekend Wine Tables are live",
+    body: "New Friday wine-pairing interest tables just opened. Book your seat before they fill up.",
+    audience: "all",
+    scheduledAt: "2026-06-20T17:00:00.000Z",
+    status: "sent"
+  },
+  {
+    id: "pn2",
+    title: "Double loyalty points this week",
+    body: "Earn 2\xD7 points on every confirmed booking through Sunday.",
+    audience: "segment",
+    audienceDetail: "Active diners",
+    scheduledAt: "2026-06-28T09:00:00.000Z",
+    status: "sent"
+  },
+  {
+    id: "pn3",
+    title: "Ramadan iftar tables \u2014 early access",
+    body: "Prominglers get first access to curated iftar interest tables.",
+    audience: "specific",
+    audienceDetail: "Prominglers",
+    scheduledAt: "2026-07-10T15:30:00.000Z",
+    status: "scheduled"
+  }
+];
+__register("data/notifications.ts", {
+  read: () => ({ "mockPushNotifications": mockPushNotifications }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http } from "msw";
 
@@ -3632,11 +4384,29 @@ var sessionResponses = {
   unavailable: () => errorEnvelope("ERR_SERVICE_UNAVAILABLE", "Something went wrong.", 503),
   internal: () => errorEnvelope("ERR_INTERNAL", "Something went wrong.", 500)
 };
+__register("data/partnerSession.ts", {
+  read: () => ({ "partnerSessionState": partnerSessionState, "sessionResponses": sessionResponses }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var partnerSessionHandlers = [
   http.get(SESSION_ENDPOINTS.session, () => sessionResponses.ok()),
   http.post(SESSION_ENDPOINTS.loginRecorded, () => sessionResponses.loginRecorded())
 ];
+__register("handlers/partnerSession.ts", {
+  read: () => ({ "partnerSessionHandlers": partnerSessionHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http2 } from "msw";
 
@@ -3706,6 +4476,15 @@ var signupResponses = {
   unavailable: () => errorEnvelope2("ERR_SERVICE_UNAVAILABLE", "Something went wrong. Please try again.", 503),
   internal: () => errorEnvelope2("ERR_INTERNAL", "Something went wrong. Please try again.", 500)
 };
+__register("data/partnerSignup.ts", {
+  read: () => ({ "mockSignupAccount": mockSignupAccount, "signupResponses": signupResponses }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var PASSWORD_MIN_LENGTH = 8;
 var HAS_UPPER = /[A-Z]/;
@@ -3753,6 +4532,18 @@ var partnerSignupHandlers = [
     return signupResponses.passwordSet();
   })
 ];
+__register("handlers/partnerSignup.ts", {
+  read: () => ({ "normalise": normalise2, "signedUpEmail": signedUpEmail, "partnerSignupHandlers": partnerSignupHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      case "signedUpEmail":
+        signedUpEmail = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http3 } from "msw";
 
@@ -3762,6 +4553,13 @@ var ACCOUNT_ENDPOINTS = {
 var FULL_NAME_MAX_LENGTH = 100;
 var DESIGNATION_MAX_LENGTH = 100;
 
+var partnerAccount_exports = {};
+__export(partnerAccount_exports, {
+  accountResponses: () => accountResponses,
+  mockPartnerProfile: () => mockPartnerProfile,
+  resetMockPartnerProfile: () => resetMockPartnerProfile,
+  validateProfilePatch: () => validateProfilePatch
+});
 import { HttpResponse as HttpResponse3 } from "msw";
 var mockPartnerProfile = {
   id: "pu1",
@@ -3773,6 +4571,9 @@ var mockPartnerProfile = {
   emailEditable: false
 };
 var INITIAL = { ...mockPartnerProfile };
+function resetMockPartnerProfile() {
+  Object.assign(mockPartnerProfile, INITIAL);
+}
 function errorEnvelope3(code, message, status) {
   return HttpResponse3.json({ success: false, error: { code, message } }, { status });
 }
@@ -3795,6 +4596,15 @@ function validateProfilePatch(body) {
   }
   return null;
 }
+__register("data/partnerAccount.ts", {
+  read: () => ({ "mockPartnerProfile": mockPartnerProfile, "accountResponses": accountResponses }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var partnerAccountHandlers = [
   http3.get(ACCOUNT_ENDPOINTS.me, () => accountResponses.profile()),
@@ -3809,6 +4619,15 @@ var partnerAccountHandlers = [
     return accountResponses.profile();
   })
 ];
+__register("handlers/partnerAccount.ts", {
+  read: () => ({ "partnerAccountHandlers": partnerAccountHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http4 } from "msw";
 
@@ -3818,6 +4637,18 @@ var PARTNER_USERS_ENDPOINTS = {
   setPassword: (id) => `/api/v1/partner/users/${id}/set-password`
 };
 
+var partnerUsers_exports = {};
+__export(partnerUsers_exports, {
+  createMockPartnerUser: () => createMockPartnerUser,
+  deleteMockPartnerUser: () => deleteMockPartnerUser,
+  errorResponse: () => errorResponse,
+  findLiveUser: () => findLiveUser,
+  listPartnerUsers: () => listPartnerUsers,
+  mockPartnerUsers: () => mockPartnerUsers,
+  resetMockPartnerUsers: () => resetMockPartnerUsers,
+  setMockPartnerUserPassword: () => setMockPartnerUserPassword,
+  updateMockPartnerUser: () => updateMockPartnerUser
+});
 import { HttpResponse as HttpResponse4 } from "msw";
 function seed() {
   return [
@@ -3873,6 +4704,9 @@ function seed() {
   ];
 }
 var mockPartnerUsers = seed();
+function resetMockPartnerUsers() {
+  mockPartnerUsers = seed();
+}
 function toListItem(user) {
   return {
     id: user.id,
@@ -4042,6 +4876,18 @@ function setMockPartnerUserPassword(id, body) {
   }
   return HttpResponse4.json({ success: true, data: { passwordSet: true } });
 }
+__register("data/partnerUsers.ts", {
+  read: () => ({ "mockPartnerUsers": mockPartnerUsers }),
+  write: (name, value) => {
+    switch (name) {
+      case "mockPartnerUsers":
+        mockPartnerUsers = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 var partnerUsersHandlers = [
   http4.get(PARTNER_USERS_ENDPOINTS.list, ({ request }) => {
@@ -4079,6 +4925,15 @@ var partnerUsersHandlers = [
     ({ params }) => deleteMockPartnerUser(String(params.userId))
   )
 ];
+__register("handlers/partnerUsers.ts", {
+  read: () => ({ "partnerUsersHandlers": partnerUsersHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http5, HttpResponse as HttpResponse6 } from "msw";
 
@@ -4346,6 +5201,24 @@ function listMockDeliveries(query) {
     data: { items, pagination: { page, pageSize, totalRecords, totalPages } }
   });
 }
+__register("data/webhooks.ts", {
+  read: () => ({ "mockWebhookState": mockWebhookState, "testRecordDelayMs": testRecordDelayMs, "mockWebhookDeliveries": mockWebhookDeliveries }),
+  write: (name, value) => {
+    switch (name) {
+      case "mockWebhookState":
+        mockWebhookState = value;
+        return true;
+      case "testRecordDelayMs":
+        testRecordDelayMs = value;
+        return true;
+      case "mockWebhookDeliveries":
+        mockWebhookDeliveries = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 var partnerWebhookHandlers = [
   http5.get(WEBHOOK_ENDPOINTS.config, ({ request }) => {
@@ -4370,6 +5243,15 @@ var partnerWebhookHandlers = [
     });
   })
 ];
+__register("handlers/partnerWebhook.ts", {
+  read: () => ({ "partnerWebhookHandlers": partnerWebhookHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http6 } from "msw";
 
@@ -4738,6 +5620,18 @@ ${body}` : `${CSV_HEADER}
     }
   });
 }
+__register("data/partnerFinances.ts", {
+  read: () => ({ "mockFinanceTransactions": mockFinanceTransactions }),
+  write: (name, value) => {
+    switch (name) {
+      case "mockFinanceTransactions":
+        mockFinanceTransactions = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 function readQuery(url) {
   const params = new URL(url).searchParams;
@@ -4762,6 +5656,15 @@ var partnerFinancesHandlers = [
     ({ params }) => mockFinanceDetail(String(params.bookingId))
   )
 ];
+__register("handlers/partnerFinances.ts", {
+  read: () => ({ "partnerFinancesHandlers": partnerFinancesHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http7, HttpResponse as HttpResponse8 } from "msw";
 var mockPartnerEscrow = {
@@ -4796,6 +5699,15 @@ var partnerEscrowHandlers = [
     () => HttpResponse8.json({ success: true, data: mockPartnerEscrow })
   )
 ];
+__register("handlers/partnerEscrow.ts", {
+  read: () => ({ "mockPartnerEscrow": mockPartnerEscrow, "partnerEscrowHandlers": partnerEscrowHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http8, HttpResponse as HttpResponse9 } from "msw";
 
@@ -4855,8 +5767,20 @@ var partnerPayoutAccountHandlers = [
     return HttpResponse9.json({ success: true, data: { account: view(), banks: MOCK_PAYOUT_BANKS } });
   })
 ];
+__register("handlers/partnerPayoutAccount.ts", {
+  read: () => ({ "mask": mask, "stored": stored, "view": view, "invalid": invalid, "partnerPayoutAccountHandlers": partnerPayoutAccountHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      case "stored":
+        stored = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
-import { http as http9, HttpResponse as HttpResponse11 } from "msw";
+import { http as http9, HttpResponse as HttpResponse12 } from "msw";
 
 var PARTNER_PROFILE_ENDPOINTS = {
   restaurant: "/api/v1/partner/restaurant",
@@ -4871,10 +5795,12 @@ var partnerRestaurantProfile_exports = {};
 __export(partnerRestaurantProfile_exports, {
   clearMockCoverPhoto: () => clearMockCoverPhoto,
   clearMockPayoutAccount: () => clearMockPayoutAccount,
+  coverPhotoUrl: () => coverPhotoUrl,
   createMockContact: () => createMockContact,
   deleteMockContact: () => deleteMockContact,
   errorResponse: () => errorResponse4,
   listMockContacts: () => listMockContacts,
+  mockAssignment: () => mockAssignment,
   mockContacts: () => mockContacts,
   mockProfile: () => mockProfile,
   onboardingLinkResponse: () => onboardingLinkResponse,
@@ -4882,13 +5808,82 @@ __export(partnerRestaurantProfile_exports, {
   profileResponse: () => profileResponse,
   resetMockProfile: () => resetMockProfile,
   saveMockDraft: () => saveMockDraft,
+  setMockAssignment: () => setMockAssignment,
   setMockCoverPhoto: () => setMockCoverPhoto,
   setMockPayoutAccount: () => setMockPayoutAccount,
   setMockProfileStatus: () => setMockProfileStatus,
   submitMockProfile: () => submitMockProfile,
   updateMockContact: () => updateMockContact
 });
+import { HttpResponse as HttpResponse11 } from "msw";
+
+var mockCdn_exports = {};
+__export(mockCdn_exports, {
+  MOCK_CDN_ORIGIN: () => MOCK_CDN_ORIGIN,
+  MOCK_STREAM_ORIGIN: () => MOCK_STREAM_ORIGIN,
+  clearMockCdnObjects: () => clearMockCdnObjects,
+  putMockCdnObject: () => putMockCdnObject,
+  serveMockCdnObject: () => serveMockCdnObject
+});
 import { HttpResponse as HttpResponse10 } from "msw";
+var MOCK_CDN_ORIGIN = (globalThis.GM_PUBLIC_URL + "/mock-cdn");
+var MOCK_STREAM_ORIGIN = (globalThis.GM_PUBLIC_URL + "/mock-stream");
+var objects = /* @__PURE__ */ new Map();
+function pathOf(url) {
+  return new URL(url).pathname;
+}
+function putMockCdnObject(url, bytes, contentType) {
+  objects.set(pathOf(url), { bytes, contentType });
+}
+function clearMockCdnObjects() {
+  objects.clear();
+}
+function hueOf(path) {
+  let hash = 0;
+  for (let index = 0; index < path.length; index += 1) {
+    hash = (hash * 31 + path.charCodeAt(index)) % 360;
+  }
+  return hash;
+}
+function placeholderSvg(path) {
+  const hue = hueOf(path);
+  return [
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">',
+    `<rect width="400" height="300" fill="hsl(${String(hue)} 42% 88%)"/>`,
+    `<g fill="none" stroke="hsl(${String(hue)} 38% 52%)" stroke-width="8" stroke-linejoin="round">`,
+    '<rect x="118" y="92" width="164" height="122" rx="12"/>',
+    '<path d="M130 196l46-48 33 33 27-25 34 40"/>',
+    "</g>",
+    `<circle cx="245" cy="128" r="12" fill="hsl(${String(hue)} 38% 52%)"/>`,
+    "</svg>"
+  ].join("");
+}
+function serveMockCdnObject(url) {
+  const stored2 = objects.get(pathOf(url));
+  if (stored2) {
+    return new HttpResponse10(stored2.bytes, {
+      headers: {
+        "Content-Type": stored2.contentType,
+        "Content-Length": String(stored2.bytes.byteLength),
+        // Re-requested freely: the bytes only live as long as the tab does.
+        "Cache-Control": "no-store"
+      }
+    });
+  }
+  return new HttpResponse10(placeholderSvg(pathOf(url)), {
+    headers: { "Content-Type": "image/svg+xml", "Cache-Control": "no-store" }
+  });
+}
+__register("data/mockCdn.ts", {
+  read: () => ({ "objects": objects }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
+
 var MANDATORY_FIELDS = [
   "name",
   "cuisine",
@@ -4972,6 +5967,7 @@ var mockContacts = [
 var deletedContactIds = /* @__PURE__ */ new Set();
 function resetMockProfile() {
   mockProfile = activeSeed();
+  mockAssignment = null;
   mockContacts = [
     {
       id: "ct-1",
@@ -5011,7 +6007,7 @@ function setMockCoverPhoto(key = "restaurants/r-1/cover.jpg") {
   mockProfile.mainPhotoKey = key;
 }
 function errorResponse4(code, message, status, details = {}) {
-  return HttpResponse10.json({ success: false, error: { code, message, details } }, { status });
+  return HttpResponse11.json({ success: false, error: { code, message, details } }, { status });
 }
 function liveContacts() {
   return mockContacts.filter((contact) => !deletedContactIds.has(contact.id));
@@ -5048,6 +6044,15 @@ function readiness() {
     canSubmit: missing.length === 0 && payoutConfigured && hasCoverPhoto
   };
 }
+var mockAssignment = null;
+function setMockAssignment(value) {
+  mockAssignment = value;
+}
+function coverPhotoUrl(key) {
+  if (!key) return null;
+  const file = key.split("/").pop() ?? key;
+  return `${MOCK_CDN_ORIGIN}/${file}`;
+}
 function profileResponse() {
   return {
     id: mockProfile.id,
@@ -5061,8 +6066,8 @@ function profileResponse() {
     },
     cuisine: mockProfile.cuisine,
     description: mockProfile.description,
-    category: mockProfile.status === "ACTIVE" ? { id: "c-1", name: "Premium" } : null,
-    commissionPercent: mockProfile.status === "ACTIVE" ? 12 : null,
+    category: mockProfile.status === "ACTIVE" ? mockAssignment?.category ?? { id: "c-1", name: "Premium" } : null,
+    commissionPercent: mockProfile.status === "ACTIVE" ? mockAssignment?.commissionPercent ?? 12 : null,
     owner: {
       name: mockProfile.ownerName,
       email: mockProfile.ownerEmail,
@@ -5078,7 +6083,7 @@ function profileResponse() {
       dressCode: mockProfile.dressCode,
       servesAlcohol: mockProfile.servesAlcohol
     },
-    coverPhotoUrl: mockProfile.mainPhotoKey ? "https://cdn.example.test/cover.jpg" : null,
+    coverPhotoUrl: coverPhotoUrl(mockProfile.mainPhotoKey),
     status: mockProfile.status,
     visibleOnApp: mockProfile.visibleOnApp,
     paymentConfigured: mockProfile.payoutAccountId !== null,
@@ -5171,7 +6176,7 @@ function patchMockProfile(body) {
     mockProfile.visibleOnApp = body.visibleOnApp;
   }
   applyPatch(body);
-  return HttpResponse10.json({ success: true, data: profileResponse() });
+  return HttpResponse11.json({ success: true, data: profileResponse() });
 }
 function saveMockDraft(body) {
   if (mockProfile.status === "PENDING") {
@@ -5180,7 +6185,7 @@ function saveMockDraft(body) {
   const invalid2 = validatePatch(body);
   if (invalid2) return invalid2;
   applyPatch(body);
-  return HttpResponse10.json({ success: true, data: profileResponse() });
+  return HttpResponse11.json({ success: true, data: profileResponse() });
 }
 function submitMockProfile() {
   if (mockProfile.status !== "DRAFT" && mockProfile.status !== "REJECTED") {
@@ -5201,7 +6206,7 @@ function submitMockProfile() {
   }
   mockProfile.status = "PENDING";
   mockProfile.rejections = [];
-  return HttpResponse10.json({
+  return HttpResponse11.json({
     success: true,
     data: {
       status: "PENDING",
@@ -5210,7 +6215,7 @@ function submitMockProfile() {
   });
 }
 function onboardingLinkResponse() {
-  return HttpResponse10.json({
+  return HttpResponse11.json({
     success: true,
     data: {
       // Single-use and short-lived — a different URL every call.
@@ -5241,7 +6246,7 @@ function listMockContacts(query) {
   const sortBy = query.sortBy ?? "name";
   items = [...items].sort((a, b) => String(a[sortBy] ?? "").localeCompare(String(b[sortBy] ?? "")));
   if (query.sortOrder === "desc") items.reverse();
-  return HttpResponse10.json({ success: true, data: { items } });
+  return HttpResponse11.json({ success: true, data: { items } });
 }
 function createMockContact(body) {
   if (mockProfile.status === "PENDING") {
@@ -5261,7 +6266,7 @@ function createMockContact(body) {
     phone: body.phone ?? null
   };
   mockContacts.push(created);
-  return HttpResponse10.json({ success: true, data: created }, { status: 201 });
+  return HttpResponse11.json({ success: true, data: created }, { status: 201 });
 }
 function updateMockContact(id, body) {
   if (mockProfile.status === "PENDING") {
@@ -5281,7 +6286,7 @@ function updateMockContact(id, body) {
   if (body.title !== void 0) contact.title = body.title;
   if (body.email !== void 0) contact.email = body.email;
   if (body.phone !== void 0) contact.phone = body.phone;
-  return HttpResponse10.json({ success: true, data: contact });
+  return HttpResponse11.json({ success: true, data: contact });
 }
 function deleteMockContact(id) {
   if (mockProfile.status === "PENDING") {
@@ -5297,13 +6302,34 @@ function deleteMockContact(id) {
     });
   }
   deletedContactIds.add(id);
-  return HttpResponse10.json({ success: true, data: { id, deleted: true } });
+  return HttpResponse11.json({ success: true, data: { id, deleted: true } });
 }
+__register("data/partnerRestaurantProfile.ts", {
+  read: () => ({ "mockProfile": mockProfile, "mockContacts": mockContacts, "deletedContactIds": deletedContactIds, "mockAssignment": mockAssignment }),
+  write: (name, value) => {
+    switch (name) {
+      case "mockProfile":
+        mockProfile = value;
+        return true;
+      case "mockContacts":
+        mockContacts = value;
+        return true;
+      case "deletedContactIds":
+        deletedContactIds = value;
+        return true;
+      case "mockAssignment":
+        mockAssignment = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 var partnerRestaurantProfileHandlers = [
   http9.get(
     PARTNER_PROFILE_ENDPOINTS.restaurant,
-    () => HttpResponse11.json({ success: true, data: profileResponse() })
+    () => HttpResponse12.json({ success: true, data: profileResponse() })
   ),
   http9.patch(
     PARTNER_PROFILE_ENDPOINTS.restaurant,
@@ -5341,6 +6367,15 @@ var partnerRestaurantProfileHandlers = [
     ({ params }) => deleteMockContact(String(params.contactId))
   )
 ];
+__register("handlers/partnerRestaurantProfile.ts", {
+  read: () => ({ "partnerRestaurantProfileHandlers": partnerRestaurantProfileHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http10, HttpResponse as HttpResponse14 } from "msw";
 
@@ -5426,56 +6461,6 @@ function extensionOf(name) {
 function bucketQualifiedKey(kind, objectId, fileName) {
   const object = `${objectId}${extensionOf(fileName)}`;
   return `${BUCKET[kind]}/restaurants/${MOCK_KEY_RESTAURANT_ID}/${FOLDER[kind]}/${object}`;
-}
-
-import { HttpResponse as HttpResponse12 } from "msw";
-var MOCK_CDN_ORIGIN = (globalThis.GM_PUBLIC_URL + "/mock-cdn");
-var MOCK_STREAM_ORIGIN = (globalThis.GM_PUBLIC_URL + "/mock-stream");
-var objects = /* @__PURE__ */ new Map();
-function pathOf(url) {
-  return new URL(url).pathname;
-}
-function putMockCdnObject(url, bytes, contentType) {
-  objects.set(pathOf(url), { bytes, contentType });
-}
-function clearMockCdnObjects() {
-  objects.clear();
-}
-function hueOf(path) {
-  let hash = 0;
-  for (let index = 0; index < path.length; index += 1) {
-    hash = (hash * 31 + path.charCodeAt(index)) % 360;
-  }
-  return hash;
-}
-function placeholderSvg(path) {
-  const hue = hueOf(path);
-  return [
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">',
-    `<rect width="400" height="300" fill="hsl(${String(hue)} 42% 88%)"/>`,
-    `<g fill="none" stroke="hsl(${String(hue)} 38% 52%)" stroke-width="8" stroke-linejoin="round">`,
-    '<rect x="118" y="92" width="164" height="122" rx="12"/>',
-    '<path d="M130 196l46-48 33 33 27-25 34 40"/>',
-    "</g>",
-    `<circle cx="245" cy="128" r="12" fill="hsl(${String(hue)} 38% 52%)"/>`,
-    "</svg>"
-  ].join("");
-}
-function serveMockCdnObject(url) {
-  const stored2 = objects.get(pathOf(url));
-  if (stored2) {
-    return new HttpResponse12(stored2.bytes, {
-      headers: {
-        "Content-Type": stored2.contentType,
-        "Content-Length": String(stored2.bytes.byteLength),
-        // Re-requested freely: the bytes only live as long as the tab does.
-        "Cache-Control": "no-store"
-      }
-    });
-  }
-  return new HttpResponse12(placeholderSvg(pathOf(url)), {
-    headers: { "Content-Type": "image/svg+xml", "Cache-Control": "no-store" }
-  });
 }
 
 var READ_ONLY_MESSAGE2 = "Your application is under review and can't be edited right now.";
@@ -5866,6 +6851,33 @@ function deleteMockVideo(mediaId) {
   videos = videos.filter((item) => item.mediaId !== mediaId);
   return HttpResponse13.json({ success: true, data: { mediaId, removed: true } });
 }
+__register("data/partnerMedia.ts", {
+  read: () => ({ "documents": documents, "photos": photos, "videos": videos, "staged": staged, "galleryReads": galleryReads, "idCounter": idCounter }),
+  write: (name, value) => {
+    switch (name) {
+      case "documents":
+        documents = value;
+        return true;
+      case "photos":
+        photos = value;
+        return true;
+      case "videos":
+        videos = value;
+        return true;
+      case "staged":
+        staged = value;
+        return true;
+      case "galleryReads":
+        galleryReads = value;
+        return true;
+      case "idCounter":
+        idCounter = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 async function uploadedObject(request) {
   const buffer = await request.arrayBuffer().catch(() => new ArrayBuffer(0));
@@ -5954,6 +6966,15 @@ var partnerMediaHandlers = [
     () => new HttpResponse14(null, { status: 200 })
   )
 ];
+__register("handlers/partnerMedia.ts", {
+  read: () => ({ "partnerMediaHandlers": partnerMediaHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http11 } from "msw";
 
@@ -6002,6 +7023,18 @@ function setMockAmenitySelected(amenityId, body) {
     data: { amenityId, selected: amenity.selected }
   });
 }
+__register("data/partnerAmenities.ts", {
+  read: () => ({ "catalogue": catalogue }),
+  write: (name, value) => {
+    switch (name) {
+      case "catalogue":
+        catalogue = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 var partnerAmenitiesHandlers = [
   http11.get(PARTNER_AMENITIES_ENDPOINTS.list, () => listMockAmenities()),
@@ -6013,6 +7046,15 @@ var partnerAmenitiesHandlers = [
     )
   )
 ];
+__register("handlers/partnerAmenities.ts", {
+  read: () => ({ "partnerAmenitiesHandlers": partnerAmenitiesHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http12 } from "msw";
 
@@ -6149,12 +7191,13 @@ function mockMenuPdfUploadTarget(body) {
     }
   });
 }
-function receiveMockMenuPdf(uploadRef, size, leading) {
+function receiveMockMenuPdf(uploadRef, size, leading, bytes) {
   const entry = staged2.find((item) => item.uploadRef === uploadRef);
   if (!entry) return new HttpResponse16(null, { status: 403 });
   entry.received = true;
   entry.size = size;
   entry.leading = leading ?? [...signatureFor(entry.contentType) ?? [0]];
+  entry.bytes = bytes;
   return new HttpResponse16(null, { status: 200 });
 }
 function slugify(name) {
@@ -6189,7 +7232,9 @@ function commitMockMenuPdf(body) {
     );
   }
   const name = slugify(entry.name);
-  menuPdf = { menuUrl: `${CDN2}/menu/${entry.uploadRef}-${name}`, name };
+  const menuUrl = entry.bytes ? `${MOCK_CDN_ORIGIN}/menu/${entry.uploadRef}-${name}` : `${CDN2}/menu/${entry.uploadRef}-${name}`;
+  if (entry.bytes) putMockCdnObject(menuUrl, entry.bytes, "application/pdf");
+  menuPdf = { menuUrl, name };
   return HttpResponse16.json({ success: true, data: menuPdf });
 }
 function deleteMockMenuPdf() {
@@ -6303,10 +7348,38 @@ function deleteMockMenuOption(comboId) {
   options.splice(index, 1);
   return HttpResponse16.json({ success: true, data: { comboId, deleted: true } });
 }
+__register("data/partnerMenu.ts", {
+  read: () => ({ "menuPdf": menuPdf, "options": options, "staged": staged2, "inUse": inUse, "idCounter": idCounter2 }),
+  write: (name, value) => {
+    switch (name) {
+      case "menuPdf":
+        menuPdf = value;
+        return true;
+      case "options":
+        options = value;
+        return true;
+      case "staged":
+        staged2 = value;
+        return true;
+      case "inUse":
+        inUse = value;
+        return true;
+      case "idCounter":
+        idCounter2 = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 async function uploadedObject2(request) {
   const buffer = await request.arrayBuffer().catch(() => new ArrayBuffer(0));
-  return { size: buffer.byteLength, leading: [...new Uint8Array(buffer.slice(0, 4))] };
+  return {
+    size: buffer.byteLength,
+    leading: [...new Uint8Array(buffer.slice(0, 4))],
+    bytes: buffer
+  };
 }
 var partnerMenuHandlers = [
   // ── The menu PDF ─────────────────────────────────────────────
@@ -6347,10 +7420,19 @@ var partnerMenuHandlers = [
    * refuse a reference whose bytes never landed.
    */
   http12.put(`${MOCK_MENU_UPLOAD_ORIGIN}/:uploadRef`, async ({ params, request }) => {
-    const { size, leading } = await uploadedObject2(request);
-    return receiveMockMenuPdf(String(params.uploadRef), size, leading);
+    const { size, leading, bytes } = await uploadedObject2(request);
+    return receiveMockMenuPdf(String(params.uploadRef), size, leading, bytes);
   })
 ];
+__register("handlers/partnerMenu.ts", {
+  read: () => ({ "partnerMenuHandlers": partnerMenuHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http13 } from "msw";
 
@@ -6622,6 +7704,24 @@ function deleteMockTable(tableId) {
   tables.splice(index, 1);
   return HttpResponse17.json({ success: true, data: { tableId, deleted: true } });
 }
+__register("data/partnerTables.ts", {
+  read: () => ({ "tables": tables, "inUse": inUse2, "idCounter": idCounter3 }),
+  write: (name, value) => {
+    switch (name) {
+      case "tables":
+        tables = value;
+        return true;
+      case "inUse":
+        inUse2 = value;
+        return true;
+      case "idCounter":
+        idCounter3 = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 var partnerTablesHandlers = [
   http13.patch(
@@ -6645,6 +7745,15 @@ var partnerTablesHandlers = [
     ({ params }) => deleteMockTable(String(params.tableId))
   )
 ];
+__register("handlers/partnerTables.ts", {
+  read: () => ({ "partnerTablesHandlers": partnerTablesHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http14 } from "msw";
 
@@ -7229,6 +8338,30 @@ function getMockMingler(minglerId) {
   if (!mingler) return errorResponse4("ERR_NOT_FOUND", PROFILE_UNAVAILABLE, 404);
   return HttpResponse18.json({ success: true, data: mingler });
 }
+__register("data/partnerInterestTables.ts", {
+  read: () => ({ "tables": tables2, "menuOptions": menuOptions, "bookings": bookings, "invitees": invitees, "minglers": minglers }),
+  write: (name, value) => {
+    switch (name) {
+      case "tables":
+        tables2 = value;
+        return true;
+      case "menuOptions":
+        menuOptions = value;
+        return true;
+      case "bookings":
+        bookings = value;
+        return true;
+      case "invitees":
+        invitees = value;
+        return true;
+      case "minglers":
+        minglers = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 var partnerInterestTablesHandlers = [
   // ── Interest-table sub-resources, before /:itId ──────────────
@@ -7272,6 +8405,15 @@ var partnerInterestTablesHandlers = [
     ({ params }) => getMockMingler(String(params.minglerId))
   )
 ];
+__register("handlers/partnerInterestTables.ts", {
+  read: () => ({ "partnerInterestTablesHandlers": partnerInterestTablesHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http15 } from "msw";
 
@@ -7486,6 +8628,18 @@ function mockReviewDetail(reviewId) {
 function deleteMockReviewAsAdmin(reviewId) {
   reviews = reviews.filter((item) => item.reviewId !== reviewId);
 }
+__register("data/partnerReviews.ts", {
+  read: () => ({ "reviews": reviews }),
+  write: (name, value) => {
+    switch (name) {
+      case "reviews":
+        reviews = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 function readQuery2(url) {
   const params = new URL(url).searchParams;
@@ -7510,6 +8664,15 @@ var partnerReviewsHandlers = [
     ({ params }) => mockReviewDetail(String(params.reviewId))
   )
 ];
+__register("handlers/partnerReviews.ts", {
+  read: () => ({ "partnerReviewsHandlers": partnerReviewsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http16 } from "msw";
 
@@ -7819,6 +8982,18 @@ function markAllMockRead() {
 function mockReadAt(id) {
   return notifications.find((row) => row.id === id)?.readAt ?? null;
 }
+__register("data/partnerNotifications.ts", {
+  read: () => ({ "notifications": notifications }),
+  write: (name, value) => {
+    switch (name) {
+      case "notifications":
+        notifications = value;
+        return true;
+      default:
+        return false;
+    }
+  }
+});
 
 function readQuery3(url) {
   const params = new URL(url).searchParams;
@@ -7848,12 +9023,30 @@ var partnerNotificationsHandlers = [
     ({ params }) => markMockRead(String(params.id))
   )
 ];
+__register("handlers/partnerNotifications.ts", {
+  read: () => ({ "partnerNotificationsHandlers": partnerNotificationsHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 import { http as http17 } from "msw";
 var mockCdnHandlers = [
   http17.get(`${MOCK_CDN_ORIGIN}/*`, ({ request }) => serveMockCdnObject(request.url)),
   http17.get(`${MOCK_STREAM_ORIGIN}/*`, ({ request }) => serveMockCdnObject(request.url))
 ];
+__register("handlers/mockCdn.ts", {
+  read: () => ({ "mockCdnHandlers": mockCdnHandlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 
 var BASE = "/api";
 var PROFILE_STATUS_BY_DEMO_STATUS = {
@@ -8081,7 +9274,18 @@ var legacyHandlers = [
   )
 ];
 var handlers = [...partnerHandlers, ...legacyHandlers];
+__register("handlers/index.ts", {
+  read: () => ({ "partnerHandlers": partnerHandlers, "legacyHandlers": legacyHandlers, "handlers": handlers }),
+  write: (name, value) => {
+    switch (name) {
+      default:
+        return false;
+    }
+  }
+});
 export {
+  partnerAccount_exports as account,
+  mockCdn_exports as cdn,
   partnerFinances_exports as finances,
   handlers,
   partnerInterestTables_exports as interestTables,
@@ -8091,6 +9295,8 @@ export {
   partnerRestaurantProfile_exports as profile,
   partnerReviews_exports as reviews,
   partnerSession_exports as session,
+  stateModules,
   partnerTables_exports as tables,
+  partnerUsers_exports as users,
   webhooks_exports as webhooks
 };

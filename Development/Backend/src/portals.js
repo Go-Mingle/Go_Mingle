@@ -2,7 +2,20 @@ import crypto from 'node:crypto'
 import express from 'express'
 import { adminAuthRouter, requireAdmin } from './auth/adminAuth.js'
 import { partnerAuthRouter, requirePartner, meetsPasswordPolicy, setPassword, PARTNER_AUDIENCE } from './auth/partnerAuth.js'
-import { allUsers, checkCode, clearCode, createUser, findUser, issueCode, normaliseEmail, touchUser } from './auth/users.js'
+import {
+  allUsers,
+  checkCode,
+  clearCode,
+  createUser,
+  findUser,
+  findUserById,
+  issueCode,
+  meetsPasswordPolicy as passwordOk,
+  normaliseEmail,
+  touchUser,
+} from './auth/users.js'
+import { revokeUserRefreshTokens } from './auth/tokens.js'
+import { describeTarget, recordChange } from './changeLog.js'
 
 const allPartnerUsers = () => allUsers().filter((u) => u.portal === 'partner')
 import { issueTokens } from './auth/tokens.js'
@@ -15,6 +28,11 @@ import * as escrow from './payments/escrow.js'
 import { gateway as safepayGateway } from './payments/safepay.js'
 import { BANKS, publicPayoutAccount, savePayoutAccount } from './payments/payoutSetup.js'
 import {
+  adminStore,
+  interestTableRestaurant,
+  isSuspended,
+  persistState,
+  syncInterestTables,
   notifyPartner,
   onAdminRestaurantChange,
   onApproved,
@@ -156,8 +174,133 @@ async function adminEscrow(req, res) {
   }
 }
 
+// ── Admin users ↔ sign-in accounts ─────────────────────────────────────────
+
+const USERS = '/api/v1/users'
+const USER = /^\/api\/v1\/users\/([^/]+)(\/change-password)?$/
+const ROLE = /^\/api\/v1\/roles\/([^/]+)$/
+
+/** The role as the sign-in account carries it (with permissions, for /auth/me). */
+function roleFor(roleId) {
+  const role = adminStore('mockRoles').find((r) => r.id === roleId)
+  return role ? { id: role.id, name: role.name, permissions: role.permissions ?? [], fullAccess: Boolean(role.fullAccess) } : null
+}
+
+/** The Users-screen record behind a sign-in account. */
+function adminRecordFor(user) {
+  return adminStore('mockUsers').find((u) => normaliseEmail(u.email) === user.email) ?? null
+}
+
+/** Checks a Users-screen request before it runs; sends an error and returns false when it must not. */
+function precheckAdminUsers(req, res) {
+  const body = jsonBody(req)
+  let m
+  if (req.method === 'POST' && req.path === USERS) {
+    const email = normaliseEmail(body.email)
+    const existing = email && allUsers().find((u) => u.email === email && u.status !== 'DELETED')
+    if (existing) {
+      sendError(res, 409, 'ERR_EMAIL_IN_USE', 'Email already in use.')
+      return false
+    }
+    if (!passwordOk(body.password)) {
+      sendError(res, 422, 'ERR_INVALID_PASSWORD', 'Password must be at least 8 characters with upper and lower case letters, a number and a symbol.')
+      return false
+    }
+    if (body.confirmPassword !== undefined && body.confirmPassword !== body.password) {
+      sendError(res, 422, 'ERR_PASSWORD_MISMATCH', 'Passwords do not match.')
+      return false
+    }
+  }
+  if (req.method === 'POST' && (m = req.path.match(USER)) && m[2]) {
+    if (body.confirmNewPassword !== undefined && body.confirmNewPassword !== body.newPassword) {
+      sendError(res, 422, 'ERR_PASSWORD_MISMATCH', 'Passwords do not match.')
+      return false
+    }
+    if (!passwordOk(body.newPassword)) {
+      sendError(res, 422, 'ERR_INVALID_PASSWORD', 'Password must be at least 8 characters with upper and lower case letters, a number and a symbol.')
+      return false
+    }
+  }
+  return true
+}
+
+/** Keeps the sign-in accounts in step with what the Users and Roles screens changed. */
+function syncAdminAccounts(req, before) {
+  const body = jsonBody(req)
+  let m
+  if (req.method === 'POST' && req.path === USERS) {
+    const email = normaliseEmail(body.email)
+    const record = adminStore('mockUsers').find((u) => normaliseEmail(u.email) === email)
+    if (!record) return
+    const deleted = allUsers().find((u) => u.email === email)
+    const fields = {
+      fullName: record.fullName,
+      role: roleFor(record.roleId),
+      roleName: record.role?.name,
+      status: record.status ?? 'ACTIVE',
+    }
+    if (deleted) {
+      Object.assign(deleted, fields, { portal: 'admin', failures: 0, lockedUntil: 0 })
+      setPassword(deleted, body.password)
+    } else {
+      createUser({ email, password: body.password, portal: 'admin', ...fields })
+    }
+    return
+  }
+  if ((m = req.path.match(USER))) {
+    const email = before?.email ?? adminStore('mockUsers').find((u) => u.id === decodeURIComponent(m[1]))?.email
+    const account = email && findUser(email, 'admin')
+    if (!account) return
+    if (m[2]) {
+      setPassword(account, body.newPassword)
+      revokeUserRefreshTokens(account.id)
+      return
+    }
+    if (req.method === 'DELETE') {
+      account.status = 'DELETED'
+      revokeUserRefreshTokens(account.id)
+    } else {
+      const record = adminStore('mockUsers').find((u) => u.id === decodeURIComponent(m[1]))
+      if (record) {
+        account.fullName = record.fullName
+        account.role = roleFor(record.roleId)
+        account.roleName = record.role?.name
+        account.status = record.status
+        if (record.status !== 'ACTIVE') revokeUserRefreshTokens(account.id)
+      }
+    }
+    touchUser()
+    return
+  }
+  if ((m = req.path.match(ROLE)) && req.method === 'PATCH') {
+    const role = roleFor(decodeURIComponent(m[1]))
+    for (const account of allUsers()) {
+      if (account.portal === 'admin' && account.role?.id === role?.id) {
+        account.role = role
+        account.roleName = role.name
+      }
+    }
+    touchUser()
+  }
+}
+
 export function adminPortal() {
   const r = express.Router()
+  // Renaming yourself (profile menu) renames your row on the Users screen too.
+  r.use((req, res, next) => {
+    if (req.method === 'PATCH' && req.path === '/api/v1/auth/me') {
+      const account = requireAdminSilently(req)
+      res.on('finish', () => {
+        const fullName = String(jsonBody(req).fullName ?? '').trim()
+        if (res.statusCode !== 200 || !account || !fullName) return
+        const record = adminRecordFor(account)
+        if (record) record.fullName = fullName
+        touchUser()
+        persistState()
+      })
+    }
+    next()
+  })
   r.use(adminAuthRouter())
   r.use(
     wrap(async (req, res) => {
@@ -165,22 +308,35 @@ export function adminPortal() {
         const adminUser = requireAdmin(req, res)
         if (!adminUser) return
         req.adminUser = adminUser
+        admin.setMockCurrentUserId(adminRecordFor(adminUser)?.id ?? null)
       }
+      const mutation = req.method !== 'GET' && req.method !== 'HEAD'
+      const audit = (result, target) =>
+        mutation && recordChange({ method: req.method, path: req.path, body: jsonBody(req), adminUser: req.adminUser, target, result })
 
       let m
-      if (req.path.startsWith('/api/v1/escrow')) return adminEscrow(req, res)
+      if (req.path.startsWith('/api/v1/escrow')) {
+        await adminEscrow(req, res)
+        if (mutation && res.statusCode < 400) audit(null, null)
+        return
+      }
       if (req.method === 'POST' && (m = req.path.match(APPROVE))) {
         const { categoryId } = jsonBody(req)
         if (!categoryId) return sendError(res, 422, 'ERR_VALIDATION', 'Choose a category to approve.')
-        const data = await onApproved(decodeURIComponent(m[1]), categoryId)
+        const id = decodeURIComponent(m[1])
+        const data = await onApproved(id, categoryId)
         if (!data) return sendError(res, 404, 'ERR_APPLICATION_NOT_FOUND', 'Application not found.')
+        if (data.error) return sendError(res, 422, 'ERR_CATEGORY_NOT_FOUND', 'Choose an existing category.')
+        audit({ name: adminStore('mockRestaurants').find((x) => x.id === id)?.name }, null)
         return res.json({ success: true, data })
       }
       if (req.method === 'POST' && (m = req.path.match(DECLINE))) {
         const reason = String(jsonBody(req).reason ?? '').trim()
         if (!reason) return sendError(res, 422, 'ERR_VALIDATION', 'A reason is required to decline.')
-        const data = await onDeclined(decodeURIComponent(m[1]), reason)
+        const id = decodeURIComponent(m[1])
+        const data = await onDeclined(id, reason)
         if (!data) return sendError(res, 404, 'ERR_APPLICATION_NOT_FOUND', 'Application not found.')
+        audit({ name: adminStore('mockRestaurants').find((x) => x.id === id)?.name }, null)
         return res.json({ success: true, data })
       }
 
@@ -192,14 +348,31 @@ export function adminPortal() {
         return res.json({ success: true, data: { items: await partnerMediaForAdmin(decodeURIComponent(m[1]), kind) } })
       }
 
+      if (mutation && !precheckAdminUsers(req, res)) return
+      const target = mutation ? describeTarget(req.path) : null
+      const itRestaurant = mutation ? interestTableRestaurant(req.path) : null
+
       const response = await serve(req, res, admin.handlers)
-      if (response?.ok && req.method !== 'GET' && (m = req.path.match(RESTAURANT_ACTION))) {
+      if (!response?.ok || !mutation) return
+      const result = await response.json().then((j) => j?.data ?? j, () => null)
+
+      if (req.path.startsWith(USERS) || req.path.startsWith('/api/v1/roles')) syncAdminAccounts(req, target?.record)
+      if ((m = req.path.match(RESTAURANT_ACTION))) {
         const change = m[2] === 'suspend' ? 'suspended' : m[2] === 'unsuspend' ? 'unsuspended' : 'category'
         await onAdminRestaurantChange(decodeURIComponent(m[1]), change, jsonBody(req))
       }
+      if (itRestaurant) await syncInterestTables(itRestaurant)
+      audit(result, target)
+      persistState()
     }),
   )
   return r
+}
+
+/** The signed-in admin for a request, without sending an error. */
+function requireAdminSilently(req) {
+  const sink = { status: () => sink, json: () => sink, setHeader: () => sink, end: () => sink }
+  return requireAdmin(req, sink)
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -225,6 +398,27 @@ const ONBOARDING_LINK = `${PROFILE_ROOT}/payments/onboarding-link`
 const AMENITIES = `${PROFILE_ROOT}/amenities`
 const AMENITY = /^\/api\/v1\/partner\/restaurant\/amenities\/([^/]+)$/
 const TEAM = '/api/v1/partner/users'
+const ACCOUNT = '/api/v1/partner/me'
+
+/** A team member's designation, from the team list the owner manages. */
+function teamDesignation(ns, user) {
+  return ns.users.mockPartnerUsers.find((u) => u.id === user.teamMemberId)?.designation ?? ''
+}
+
+/** After a rename on the account screen: the sign-in account and the team list follow. */
+function syncAccountName(ns, user) {
+  const profile = ns.account.mockPartnerProfile
+  if (profile.fullName) user.fullName = profile.fullName
+  if (profile.designation !== undefined) user.designation = profile.designation
+  touchUser()
+  const row = user.teamMemberId
+    ? ns.users.mockPartnerUsers.find((u) => u.id === user.teamMemberId)
+    : ns.users.mockPartnerUsers.find((u) => u.isPrimary)
+  if (row) {
+    row.fullName = user.fullName
+    if (profile.designation) row.designation = profile.designation
+  }
+}
 const TEAM_MEMBER = /^\/api\/v1\/partner\/users\/([^/]+)(\/set-password)?$/
 
 /** Team members a partner adds can sign in to the same restaurant. */
@@ -444,11 +638,28 @@ export function partnerPortal() {
         })
       }
 
+      // A suspended restaurant cannot put itself back on the Mingler app.
+      if (req.method === 'PATCH' && req.path === PROFILE_ROOT && jsonBody(req).visibleOnApp === true && isSuspended(id)) {
+        return sendError(res, 409, 'ERR_RESTAURANT_SUSPENDED', 'GoMingle has suspended your restaurant. Contact GoMingle to be reactivated.')
+      }
+      // The account screen shows whoever is signed in (owner or team member).
+      if (req.path === ACCOUNT) {
+        Object.assign(ns.account.mockPartnerProfile, {
+          id: user.id,
+          email: user.email,
+          fullName: user.fullName,
+          designation: user.designation ?? (user.teamMemberId ? teamDesignation(ns, user) : 'Owner'),
+          isPrimary: !user.teamMemberId,
+        })
+      }
+
       const response = await serve(req, res, ns.handlers)
       if (!response?.ok || req.method === 'GET') return
+      if (req.path === ACCOUNT) syncAccountName(ns, user)
       if (req.path.startsWith(TEAM)) await syncTeamAccount(req, response, user)
       if (req.path.startsWith(PROFILE_ROOT)) snapshot(id, ns)
       if (req.path === SUBMIT_PATH) await onSubmitted(id)
+      persistState()
     }),
   )
   return r
@@ -470,6 +681,7 @@ export function assetRoutes(phosphorDir) {
       if (!response) return notFound(res, req)
       await sendFetchResponse(res, response)
       if (req.method !== 'GET' && key !== 'signup') snapshot(key, ns)
+      if (req.method !== 'GET') persistState()
     }),
   )
 
@@ -479,6 +691,7 @@ export function assetRoutes(phosphorDir) {
       const response = await resolveContract(admin.handlers, await toFetchRequest(req, req.originalUrl))
       if (!response) return notFound(res, req)
       await sendFetchResponse(res, response)
+      if (req.method !== 'GET') persistState()
     }),
   )
 
@@ -492,6 +705,11 @@ export function assetRoutes(phosphorDir) {
     res.setHeader('Cache-Control', 'no-cache')
     res.setHeader('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'")
     if (/^https?:\/\//.test(icon)) return res.redirect(icon)
+    const data = /^data:([^;,]+)(;base64)?,(.*)$/s.exec(icon)
+    if (data) {
+      res.setHeader('Content-Type', data[1])
+      return res.send(data[2] ? Buffer.from(data[3], 'base64') : Buffer.from(decodeURIComponent(data[3])))
+    }
     res.setHeader('Content-Type', 'image/svg+xml')
     if (icon.startsWith('<svg')) return res.send(icon)
     const kebab = icon.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase() || 'star'

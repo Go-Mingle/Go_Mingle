@@ -60,7 +60,8 @@ export function touchUser() {
 
 export function findUser(email, portal) {
   const user = users.get(normaliseEmail(email))
-  return user && user.portal === portal ? user : null
+  // A deleted account no longer exists as far as sign-in is concerned.
+  return user && user.portal === portal && user.status !== 'DELETED' ? user : null
 }
 
 export function findUserById(id) {

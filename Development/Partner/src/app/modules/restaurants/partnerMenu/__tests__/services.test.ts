@@ -142,6 +142,17 @@ describe('commitMenuPdf', () => {
     expect(pdf.name).toBe('my-menu-final.pdf')
   })
 
+  it('serves the uploaded file itself from the CDN link it returns', async () => {
+    const target = await partnerMenuService.menuPdfUploadTarget('Dinner.pdf')
+    const bytes = new TextEncoder().encode('%PDF-1.4 dinner').buffer
+    receiveMockMenuPdf(target.uploadRef, bytes.byteLength, [0x25, 0x50, 0x44, 0x46], bytes)
+    const pdf = await partnerMenuService.commitMenuPdf(target.uploadRef)
+    expect(pdf.menuUrl).toMatch(/^https:\/\/cdn\.mock\.local\/menu\/.+-dinner\.pdf$/)
+    const res = await fetch(pdf.menuUrl as string)
+    expect(res.headers.get('content-type')).toBe('application/pdf')
+    expect(await res.text()).toBe('%PDF-1.4 dinner')
+  })
+
   it('sends the uploadRef and nothing else', async () => {
     let body: unknown
     server.use(

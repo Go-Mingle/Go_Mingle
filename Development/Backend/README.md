@@ -8,6 +8,9 @@ Backend
 │   ├── server.js            HTTP server, CORS, logging, routing
 │   ├── config.js            settings (env-overridable)
 │   ├── portals.js           /admin and /partner routers, auth guard, sign-up and session scoping
+│   ├── integration.js       data flow between the portals (mirroring, approvals, interest tables)
+│   ├── state.js             saves and restores every portal store (data/state/*.json)
+│   ├── changeLog.js         audit row for every admin change
 │   ├── auth/
 │   │   ├── users.js         accounts (bcrypt), lockout, one-time codes, demo seed
 │   │   ├── tokens.js        JWT access tokens (HS256) + rotating refresh tokens
@@ -15,8 +18,8 @@ Backend
 │   │   └── partnerAuth.js   /partner/api/v1/partner/auth/*
 │   └── contracts/dispatch.js  serves a route from a portal's contract module
 ├── contracts/               admin.mjs, partner.mjs: generated route modules + seed data
-├── scripts/build-contracts.mjs
-└── test/api.test.js         end-to-end API tests (node:test)
+├── scripts/build-contracts.mjs, state-plugin.mjs
+└── test/                    API, lifecycle and cross-portal integration tests (node:test)
 ```
 
 ## Run it
@@ -24,7 +27,8 @@ Backend
 ```bash
 npm install
 npm start            # http://localhost:4000
-npm test             # 23 API tests incl. the full cross-portal lifecycle (Node 22+)
+npm test             # 35 API tests incl. the full cross-portal lifecycle (Node 22+)
+npm run reset-data   # delete all data; the next start is a fresh install
 ```
 
 Point the portals at it:
@@ -36,12 +40,16 @@ Point the portals at it:
 
 The `run-gomingle.bat` / `run-gomingle.sh` launchers in the parent folder set all of this up.
 
-## Demo accounts
+## Accounts
 
-| Portal | Email | Password |
-|---|---|---|
-| Admin Panel (Super Admin) | admin@gomingle.com | Admin@123 |
-| Partner Portal (Aurelia, Clifton) | partner@gomingle.com | Partner@123 |
+A fresh install holds **no data** except these two accounts:
+
+| Portal | Email | Password | Starts with |
+|---|---|---|---|
+| Admin Panel (Super Admin) | admin@gomingle.com | Admin@123 | the *Super Admin* role; no categories, amenities, topics, restaurants, Minglers or bookings |
+| Partner Portal | partner@gomingle.com | Partner@123 | an empty Draft restaurant to set up and submit |
+
+Everything else is entered by you. Approving a restaurant needs a category, so add one under **Categories** first.
 
 New partners can sign up from the Partner Portal. The 6-digit e-mail code is printed in the API console window. The demo code `123456` is also accepted (`DEMO_OTP` to change it).
 
@@ -57,9 +65,15 @@ New partners can sign up from the Partner Portal. The 6-digit e-mail code is pri
 | Sees *Under review* (profile read-only) | ← | **Decline** with a reason |
 | Sees the reason, fixes, resubmits | → | Back in the queue, marked *resubmitted* |
 | Gets the full portal and an "approved" notification | ← | **Approve** with a category; restaurant joins the **Restaurants** directory |
-| Edits profile, contacts, amenities, photos | → | Restaurant detail shows the partner's latest data |
-| Gets a notification | ← | Suspend / reactivate |
+| Edits profile, contacts, amenities, photos, cover photo, map location | → | Restaurant detail shows the partner's latest data |
+| Adds / edits table areas and their weekly timings | → | **Schedule** tab and the interest-table form list them (hidden ones are withdrawn) |
+| Adds / edits menu options, uploads the menu PDF | → | **Menu** tab and the interest-table form list them; *Download menu* works |
+| Sees the category and commission | ← | Approve into / change a category |
+| Interest Tables tab lists the table, with its menu; the table area and menu options it uses can't be deleted | ← | Creates, edits, publishes or cancels an interest table using the partner's tables and menus |
+| Gets a notification; restaurant hidden from the app | ← | Suspend (reason) / reactivate |
 | Adds a team member | | The team member can sign in to the same restaurant |
+
+Inside the Admin Panel, roles created under **Roles & Access** are offered straight away on **Users**; each user carries the role's name and permissions, the role counts its users and can't be deleted while in use. Users created on **Users** can sign in with the password given, and suspend, delete and reset-password apply to sign-in at once. Every admin change is written to the **Change Log**.
 
 The amenity list partners pick from is the catalogue admins manage under **Amenities**, including the icons.
 
@@ -70,11 +84,11 @@ The amenity list partners pick from is the catalogue admins manage under **Ameni
 - Five failed sign-ins lock an account for 15 minutes.
 - Both portals support forgot-password and change-password; partners can also self sign-up.
 
-**Per-restaurant data.** Every partner restaurant has its own isolated copy of the partner domain: profile, contacts, menu, tables, media, documents, team, inbox and webhooks. A new restaurant starts empty. The demo restaurant Aurelia (`partner@gomingle.com`) comes with sample menus, bookings and finances.
+**Per-restaurant data.** Every partner restaurant has its own isolated copy of the partner domain: profile, contacts, menu, tables, media, documents, team, inbox and webhooks. Every restaurant, including the one behind `partner@gomingle.com`, starts empty.
 
 **Routes.** There are about 245 routes. Request validation, response envelopes and error codes match the portals exactly, because they are generated from the portals' typed contract modules (`npm run build:contracts -- ../Admin ../Partner`). The cross-portal behaviour above is implemented in `src/integration.js` and `src/portals.js`.
 
-**Persistence.** The data file keeps accounts, partner restaurants (profile, contacts, amenities, status and rejection history) and the admin restaurant and application records they produce. Delete `data/gomingle-db.json` to reset the demo. Operational demo data that isn't part of the onboarding flow is kept in memory only: menus, bookings, finances, roles and loyalty settings.
+**Persistence.** Everything survives a restart. `data/gomingle-db.json` keeps accounts, the escrow ledger and restaurant onboarding records. `data/state/admin.json` and `data/state/tenant-<restaurant>.json` keep every other record the portals hold: roles, users, categories, amenities (with their icons), interests, topics (with graphics), preference questions, loyalty settings, interest tables, notifications, the change log, and each restaurant's menu, menu PDF, tables, photos, documents, team and webhooks — uploaded files included. They are written after every change. Run `npm run reset-data` (with the API stopped) to start again from a fresh install. A data file from an earlier demo build is set aside automatically as `*.v1-backup.json` on first start.
 
 ## Payments: Safepay with escrow
 
@@ -101,7 +115,7 @@ Restaurants add and edit their payout account on the **Payout Account** tab of t
 | `GET /partner/api/v1/partner/escrow` | The signed-in restaurant's escrow position and payouts |
 | `GET`/`PUT /partner/api/v1/partner/restaurant/payout-account` | The restaurant's payout bank account (IBAN masked) |
 
-**Simulator vs. your Safepay sandbox.** With no keys set, `src/payments/safepay.js` runs a built-in simulator with the same state machine, so the demo works offline. Put your Safepay sandbox keys in `Backend/.env` (copy `.env.example`): the key that starts with `sec_` goes in `SAFEPAY_API_KEY`, the long secret in `SAFEPAY_SECRET_KEY`. Restart the API and its startup line shows `Payments  Safepay sandbox (https://sandbox.api.getsafepay.com)`. Empty keys switch back to the simulator. The seeded sample transactions stay local in both modes; only bookings you create go to Safepay. The live path follows Safepay's documented endpoints but has not been run against a real sandbox account from this build, so test it once with your keys before the demo. In live mode the Mingler enters the card in Safepay's checkout (with 3-D Secure) before a hold is authorised.
+**Simulator vs. your Safepay sandbox.** With no keys set, `src/payments/safepay.js` runs a built-in simulator with the same state machine, so the demo works offline. Put your Safepay sandbox keys in `Backend/.env` (copy `.env.example`): the key that starts with `sec_` goes in `SAFEPAY_API_KEY`, the long secret in `SAFEPAY_SECRET_KEY`. Restart the API and its startup line shows `Payments  Safepay sandbox (https://sandbox.api.getsafepay.com)`. Empty keys switch back to the simulator. The live path follows Safepay's documented endpoints but has not been run against a real sandbox account from this build, so test it once with your keys before the demo. In live mode the Mingler enters the card in Safepay's checkout (with 3-D Secure) before a hold is authorised.
 
 ## Configuration
 
@@ -109,7 +123,7 @@ Restaurants add and edit their payout account on the **Payout Account** tab of t
 |---|---|---|
 | `PORT` | 4000 | Listen port |
 | `PUBLIC_URL` | `http://localhost:PORT` | Origin browsers use (upload/media URLs) |
-| `JWT_SECRET` | random per start | Signing secret. Set it to keep sessions across restarts |
+| `JWT_SECRET` | set in `.env` | Signing secret; keeps people signed in across restarts |
 | `ACCESS_TOKEN_TTL` / `REFRESH_TOKEN_TTL` | 7200 / 604800 s | Token lifetimes |
 | `CORS_ORIGINS` | any localhost port | Extra allowed origins, comma-separated |
 | `DEMO_OTP` | 123456 | Extra one-time code accepted for demos |
@@ -127,5 +141,5 @@ The SRS targets a NestJS modular monolith on ECS with PostgreSQL, Redis, OpenSea
 - **A relational database.** The data file stands in for PostgreSQL.
 - **Real e-mail, SMS or push.** Codes are printed to the console.
 - **Real payouts.** Payments use the Safepay simulator unless you add sandbox keys. Releasing escrow records the payout to the restaurant's IBAN; the bank transfer itself (Raast/IBFT from GoMingle's account) is not automated, because Safepay does not document a marketplace payout API.
-- **Fine-grained admin roles.** The seeded admin is Super Admin.
-- **Mobile-app bookings.** Booking and finance figures are sample data until the Mingler app is connected.
+- **Mobile-app bookings.** Minglers, bookings, reviews and finance figures come from the Mingler app, which is not connected yet, so those screens stay empty; the Admin **Escrow → Sandbox booking** button stands in for a booking.
+- **Timer Settings.** The Admin Panel screen is a placeholder in the portal itself.

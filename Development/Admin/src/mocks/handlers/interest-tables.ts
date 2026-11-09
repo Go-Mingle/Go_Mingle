@@ -8,7 +8,14 @@ import type {
   InviteeRow,
   MasterInterestTableItem,
 } from '../../app/modules/interest-tables/types'
-import { mockV1InterestTables, mockInterestTableMenuOptions, mockMinglers } from '../data/index'
+import {
+  mockV1InterestTables,
+  mockInterestTableMenuOptions,
+  mockMinglers,
+  mockRestaurants,
+  mockInterestTopics,
+} from '../data/index'
+import { bucketObjectUrl } from './uploads'
 
 const RESTAURANT_BASE = '/api/v1/restaurants'
 const INTEREST_TABLE_BASE = '/api/v1/interest-tables'
@@ -23,26 +30,54 @@ function itNotFound() {
 // Session-scoped invitee lists, keyed by interest-table id.
 const inviteesByTable = new Map<string, InviteeRow[]>()
 
+/**
+ * The invitee list for a table. Seeded tables (those in the demo data) start
+ * with three of the seeded Minglers; a table created in this session starts
+ * empty — nobody has been invited to it yet.
+ */
 function seedInvitees(id: string): InviteeRow[] {
   if (!inviteesByTable.has(id)) {
+    const seeded = !createdTableIds.has(id)
     inviteesByTable.set(
       id,
-      mockMinglers.slice(0, 3).map((m, i) => ({
-        minglerId: m.id,
-        fullName: m.name,
-        avatarUrl: null,
-        isPromingler: i === 0,
-        dateInvited: new Date(2026, 5, 10 + i).toISOString(),
-        status: i === 0 ? 'TABLE_BOOKED' : 'INVITED',
-      })),
+      seeded
+        ? mockMinglers.slice(0, 3).map((m, i) => ({
+            minglerId: m.id,
+            fullName: m.name,
+            avatarUrl: null,
+            isPromingler: i === 0,
+            dateInvited: new Date(2026, 5, 10 + i).toISOString(),
+            status: i === 0 ? 'TABLE_BOOKED' : 'INVITED',
+          }))
+        : [],
     )
   }
   return inviteesByTable.get(id)!
 }
 
+/** Interest tables created through the API (not part of the seed). */
+const createdTableIds = new Set<string>()
+
+type MockRestaurant = (typeof mockRestaurants)[number]
+
+/** Restaurant, topic and table references as the detail screens show them. */
+function resolveRefs(
+  restaurant: MockRestaurant | undefined,
+  topicId: string | undefined,
+  tableId: string | undefined,
+) {
+  const topic = topicId ? mockInterestTopics.find((t) => t.id === topicId) : undefined
+  const table = tableId ? restaurant?.tables.find((t) => t.id === tableId) : undefined
+  return {
+    topic: topic ? { id: topic.id, name: topic.name, graphicUrl: topic.graphicUrl } : null,
+    assignedTable: tableId ? { id: tableId, name: table?.name ?? tableId } : null,
+  }
+}
+
 /** Test-only: reset session-scoped invitee state. */
 export function __resetInviteesMock() {
   inviteesByTable.clear()
+  createdTableIds.clear()
 }
 
 /**
@@ -240,7 +275,15 @@ export const interestTablesV1Handlers = [
     const rid = params.rid as string
     const body = (await request.json()) as CreateInterestTablePayload
 
-    const restaurant = { id: rid, name: `Restaurant ${rid}` }
+    const record = mockRestaurants.find((r) => r.id === rid)
+    if (!record) {
+      return HttpResponse.json(
+        { success: false, error: { code: 'ERR_RESTAURANT_NOT_FOUND', message: 'Restaurant not found.' } },
+        { status: 404 },
+      )
+    }
+    const restaurant = { id: rid, name: record.name }
+    const refs = resolveRefs(record, body.topicId, body.restaurantTableId)
 
     // publish=false → DRAFT; publish=true → PENDING (Available Now) or COMING_SOON.
     const status: InterestTable['status'] = body.publish
@@ -252,10 +295,7 @@ export const interestTablesV1Handlers = [
     const created: InterestTable = {
       id: `it-v1-${Date.now()}`,
       name: body.name,
-      topic: null,
-      assignedTable: body.restaurantTableId
-        ? { id: body.restaurantTableId, name: `Table ${body.restaurantTableId}` }
-        : null,
+      ...refs,
       restaurant,
       seatsBooked: 0,
       minMinglers: 4,
@@ -265,9 +305,12 @@ export const interestTablesV1Handlers = [
       startDate: body.startDate,
       startTime: body.startTime,
       durationHours: body.durationMinutes / 60,
+      durationMinutes: body.durationMinutes,
+      comboIds: body.menuOptionIds ?? [],
+      inviteList: body.inviteList ?? [],
       sponsorName: null,
       sponsorLogoUrl: null,
-      eventImageUrl: null,
+      eventImageUrl: body.coverImageKey ? bucketObjectUrl(body.coverImageKey) : null,
       availabilityMode: body.availabilityMode,
       inviteOnly: body.inviteOnly ?? false,
       prominglerEnabled: body.prominglerEnabled ?? false,
@@ -277,6 +320,7 @@ export const interestTablesV1Handlers = [
       created: new Date().toISOString(),
     }
 
+    createdTableIds.add(created.id)
     mockV1InterestTables.unshift(created)
 
     return HttpResponse.json({ success: true, data: created }, { status: 201 })
@@ -313,6 +357,28 @@ export const interestTablesV1Handlers = [
       ...(body.startTime !== undefined && { startTime: body.startTime }),
       ...(body.availabilityMode !== undefined && { availabilityMode: body.availabilityMode }),
       ...(body.inviteOnly !== undefined && { inviteOnly: body.inviteOnly }),
+      ...(body.durationMinutes !== undefined && {
+        durationMinutes: body.durationMinutes,
+        durationHours: body.durationMinutes / 60,
+      }),
+      ...(body.menuOptionIds !== undefined && { comboIds: body.menuOptionIds }),
+      ...(body.coverImageKey !== undefined && {
+        eventImageUrl: body.coverImageKey ? bucketObjectUrl(body.coverImageKey) : null,
+      }),
+      ...(body.prominglerEnabled !== undefined && { prominglerEnabled: body.prominglerEnabled }),
+      ...(body.prominglerMinglerId !== undefined && {
+        prominglerMinglerId: body.prominglerMinglerId,
+      }),
+    }
+    if (body.topicId !== undefined || body.restaurantTableId !== undefined) {
+      const current = mockV1InterestTables[idx]
+      const record = mockRestaurants.find((r) => r.id === current.restaurant?.id)
+      const refs = resolveRefs(
+        record,
+        body.topicId ?? current.topic?.id,
+        body.restaurantTableId ?? current.assignedTable?.id,
+      )
+      mockV1InterestTables[idx] = { ...current, ...refs }
     }
     return HttpResponse.json({ success: true, data: mockV1InterestTables[idx] })
   }),
@@ -471,7 +537,14 @@ export const interestTablesV1Handlers = [
         { status: 404 },
       )
     }
-    const items: InterestTableMenuOptionItem[] = mockInterestTableMenuOptions
+    // A table created through the API offers the restaurant's own menu options
+    // it was set up with; seeded tables keep their fixture list.
+    const record = mockRestaurants.find((r) => r.id === found.restaurant?.id)
+    const items: InterestTableMenuOptionItem[] = createdTableIds.has(id)
+      ? (record?.combos ?? [])
+          .filter((c) => (found.comboIds ?? []).includes(c.id))
+          .map((c) => ({ id: c.id, name: c.name, pricePkr: c.price, courses: c.courses }))
+      : mockInterestTableMenuOptions
     return HttpResponse.json({ success: true, data: { items } })
   }),
 

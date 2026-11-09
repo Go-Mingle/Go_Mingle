@@ -13,6 +13,7 @@
  */
 import { build } from 'esbuild'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { stateAccessorPlugin } from './state-plugin.mjs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -44,6 +45,8 @@ export { handlers } from '${dir}/src/mocks/handlers/index'
 export { mockRestaurants, mockApplications, mockCategories } from '${dir}/src/mocks/data/index'
 export { mockAmenities } from '${dir}/src/mocks/data/amenities'
 export { pushMockNotification } from '${dir}/src/mocks/handlers/notifications'
+export { setMockCurrentUserId } from '${dir}/src/mocks/handlers/users'
+export { stateModules } from 'gm-state-registry'
 `,
   partner: (dir) => `
 export { handlers } from '${dir}/src/mocks/handlers/index'
@@ -57,6 +60,10 @@ export * as reviews from '${dir}/src/mocks/data/partnerReviews'
 export * as finances from '${dir}/src/mocks/data/partnerFinances'
 export * as webhooks from '${dir}/src/mocks/data/webhooks'
 export * as menu from '${dir}/src/mocks/data/partnerMenu'
+export * as users from '${dir}/src/mocks/data/partnerUsers'
+export * as cdn from '${dir}/src/mocks/data/mockCdn'
+export * as account from '${dir}/src/mocks/data/partnerAccount'
+export { stateModules } from 'gm-state-registry'
 `,
 }
 
@@ -71,6 +78,7 @@ for (const [name, dir] of [['admin', adminDir], ['partner', partnerDir]]) {
     entryPoints: [entry],
     outfile: path.join(root, 'contracts', `${name}.mjs`),
     tsconfig: path.join(dir, 'tsconfig.app.json'),
+    plugins: [stateAccessorPlugin(path.resolve(dir))],
   })
   // The contracts point uploads and media at placeholder hosts that only a
   // browser service worker could answer. Re-home them on this API server.
