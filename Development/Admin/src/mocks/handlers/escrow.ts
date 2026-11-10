@@ -4,6 +4,7 @@ import type {
   EscrowItem,
   EscrowOverview,
   EscrowStatus,
+  PaymentFailure,
   TestBookingRequest,
 } from '../../app/modules/escrow/types'
 
@@ -90,8 +91,31 @@ let ledger = seed()
 /** The no-show penalty per seat the mock restaurant charges. */
 export const MOCK_NO_SHOW_PENALTY_PKR = 1500
 
+let failures: PaymentFailure[] = []
+
+/** Test helper: puts failed collections on the escrow screen. */
+export function setMockPaymentFailures(next: Partial<PaymentFailure>[]) {
+  failures = next.map((f, index) => ({
+    id: index + 1,
+    action: 'capture',
+    amount: 1500,
+    message: 'Safepay 503',
+    at: '2026-11-10T19:30:00.000Z',
+    attempts: 1,
+    holdId: `esc-f${String(index + 1)}`,
+    bookingId: `bk-f${String(index + 1)}`,
+    bookingRef: `GM-9000${String(index + 1)}`,
+    seatNo: index + 1,
+    minglerName: 'Farid Ahmed',
+    restaurantName: 'Aurelia Dining',
+    eventName: 'Supper Club',
+    ...f,
+  }))
+}
+
 export function resetMockEscrow() {
   ledger = seed()
+  failures = []
 }
 
 function overview(status: EscrowStatus | null): EscrowOverview {
@@ -111,6 +135,7 @@ function overview(status: EscrowStatus | null): EscrowOverview {
       count: all.length,
     },
     items: status ? all.filter((i) => i.status === status) : all,
+    paymentFailures: failures,
     restaurants: RESTAURANTS,
   }
 }
@@ -150,32 +175,55 @@ export const escrowHandlers = [
     return HttpResponse.json({ success: true, data: item }, { status: 201 })
   }),
 
-  // A sandbox booking at an interest table: the hold is the no-show penalty × seats.
+  // A sandbox booking at an interest table: one hold per seat, each for the no-show penalty.
   http.post('*/api/v1/admin/bookings/sandbox', async ({ request }) => {
     const body = (await request.json()) as { interestTableId?: string; minglerName?: string; seats?: number }
     if (!body.interestTableId) return error(422, 'ERR_VALIDATION', 'Choose an interest table.')
     const seats = body.seats ?? 2
-    const id = `esc-${String(ledger.size + 101).padStart(6, '0')}`
-    const hold = makeItem(
-      id,
-      RESTAURANTS[0].id,
-      body.minglerName || 'Test Mingler',
-      seats,
-      MOCK_NO_SHOW_PENALTY_PKR,
-      'Friday Wine Evening',
-      'AUTHORIZED',
-    )
-    ledger.set(id, hold)
+    const bookingId = `bk-${String(ledger.size + 101)}`
+    const holds = Array.from({ length: seats }, (_unused, index) => {
+      const id = `esc-${String(ledger.size + 101).padStart(6, '0')}`
+      const hold: EscrowItem = {
+        ...makeItem(id, RESTAURANTS[0].id, body.minglerName || 'Test Mingler', 1, MOCK_NO_SHOW_PENALTY_PKR, 'Friday Wine Evening', 'AUTHORIZED'),
+        kind: 'NO_SHOW_HOLD',
+        bookingId,
+        seatNo: index + 1,
+      }
+      ledger.set(id, hold)
+      return hold
+    })
     return HttpResponse.json(
       {
         success: true,
         data: {
-          booking: { id: `bk-${id}`, bookingRef: hold.bookingRef, seats, penaltyPerSeatPkr: MOCK_NO_SHOW_PENALTY_PKR },
-          hold,
+          booking: { id: bookingId, bookingRef: holds[0].bookingRef, seats, penaltyPerSeatPkr: MOCK_NO_SHOW_PENALTY_PKR },
+          holds,
+          heldTotalPkr: seats * MOCK_NO_SHOW_PENALTY_PKR,
         },
       },
       { status: 201 },
     )
+  }),
+
+  http.post(`${BASE}/failures/:id/retry`, ({ params }) => {
+    const id = Number(params.id)
+    const failure = failures.find((f) => f.id === id)
+    if (!failure) return error(404, 'ERR_NOT_FOUND', 'This failure was not found or is already resolved.')
+    if (failure.message.includes('still down')) {
+      failure.attempts += 1
+      return error(502, 'ERR_GATEWAY', `Still failing: ${failure.message}`)
+    }
+    failures = failures.filter((f) => f.id !== id)
+    return HttpResponse.json({ success: true, data: { id, resolved: true } })
+  }),
+
+  http.post(`${BASE}/failures/:id/resolve`, async ({ params, request }) => {
+    const id = Number(params.id)
+    const body = (await request.json()) as { note?: string }
+    if (!failures.some((f) => f.id === id)) return error(404, 'ERR_NOT_FOUND', 'This failure was not found or is already resolved.')
+    if ((body.note ?? '').trim().length < 5) return error(422, 'ERR_VALIDATION', 'Add a short note on how this was settled.')
+    failures = failures.filter((f) => f.id !== id)
+    return HttpResponse.json({ success: true, data: { id, resolved: true } })
   }),
 
   http.post(`${BASE}/:id/:action`, async ({ params, request }) => {

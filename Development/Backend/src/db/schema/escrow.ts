@@ -53,8 +53,12 @@ export const escrowHolds = pgTable('escrow_holds', {
   /** PAYMENT: money for the dinner. NO_SHOW_HOLD: the penalty reserved at booking (GM-203). */
   kind: text('kind').notNull().default('PAYMENT'),
   bookingId: text('booking_id'),
-  /** What was reserved on the card before a partial capture. */
-  heldAmount: doublePrecision('held_amount'),
+  /**
+   * Penalty holds are placed one per seat (Safepay cannot collect part of a
+   * hold), so a no-show collects the empty seats' holds in full and lets the
+   * others go. This is the seat's number within its booking.
+   */
+  seatNo: integer('seat_no'),
   /** Set when the capture is requested, so the same capture is never sent twice. */
   idempotencyKey: text('idempotency_key').unique(),
 })
@@ -72,5 +76,10 @@ export const paymentFailures = pgTable('payment_failures', {
   amount: doublePrecision('amount'),
   message: text('message').notNull(),
   at: text('at').notNull(),
+  attempts: integer('attempts').notNull().default(1),
   resolvedAt: text('resolved_at'),
+  resolvedBy: text('resolved_by'),
+  /** How it ended: RETRIED (the retry went through) or DISMISSED (settled by hand, with a note). */
+  resolution: text('resolution'),
+  resolutionNote: text('resolution_note'),
 })

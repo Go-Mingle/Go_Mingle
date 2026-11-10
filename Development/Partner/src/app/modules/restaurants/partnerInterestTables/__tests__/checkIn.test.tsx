@@ -209,4 +209,39 @@ describe('No-show', () => {
     expect(await screen.findByText('Penalty not collected yet')).toBeInTheDocument()
     expect(screen.getByText('No-show')).toBeInTheDocument()
   })
+
+  it('shows what was collected when only some seats could be charged', async () => {
+    server.use(
+      http.get(PARTNER_IT_ENDPOINTS.bookings(':itId'), () =>
+        HttpResponse.json({
+          success: true,
+          data: {
+            items: [
+              {
+                bookingId: 'bk-9',
+                bookingRef: 'GM-100009',
+                minglerId: '',
+                minglerName: 'Zain Malik',
+                proMingler: { isProMingler: false, kind: 'NONE' },
+                menuOption: '',
+                date: '28-04-2026',
+                billPkr: null,
+                status: 'COMPLETED',
+                cancellable: false,
+                seats: 2,
+                attendance: 'NO_SHOW',
+                emptySeats: 2,
+                penaltyPerSeatPkr: 1500,
+                penaltyChargedPkr: 1500,
+                penaltyStatus: 'FAILED',
+                canMarkNoShow: false,
+              },
+            ],
+          },
+        }),
+      ),
+    )
+    await renderLoaded('bookings')
+    expect(await screen.findByText('Penalty not collected yet · PKR 1,500 collected so far')).toBeInTheDocument()
+  })
 })
