@@ -1,0 +1,158 @@
+{
+  "eyebrow": "Integrations",
+  "title": "Webhooks",
+  "intro": "Receive booking and interest-table events in your own system as they happen. All events for this restaurant go to one endpoint — your system reads the eventType field and acts on what it needs.",
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "toggle": {
+    "label": "Webhooks",
+    "lockedHint": "Save your endpoint and bearer token before enabling webhooks.",
+    "onTitle": "Turn on webhooks?",
+    "onContent": "We'll start posting events to your saved endpoint as they occur.",
+    "onConfirm": "Turn on",
+    "offTitle": "Turn off webhooks?",
+    "offContent": "We'll stop posting events to your endpoint immediately. Events that fire while webhooks are off are not sent or emailed.",
+    "offConfirm": "Turn off",
+    "onToast": "Webhooks are on. We'll post events as they occur.",
+    "offToast": "Webhooks are off. Events that fire now are not sent or emailed."
+  },
+  "errors": {
+    "notConfigured": "Save your endpoint and bearer token first.",
+    "validation": "Please check the highlighted fields and try again."
+  },
+  "tabs": {
+    "setup": "Setup",
+    "events": "Events",
+    "deliveries": "Recent deliveries"
+  },
+  "endpoint": {
+    "title": "Endpoint",
+    "sub": "A single public HTTPS URL where we POST every event for this restaurant. Return a 2xx to acknowledge — anything else is retried.",
+    "label": "Endpoint URL",
+    "placeholder": "https://api.yourdomain.com/hooks/gomingle",
+    "hint": "HTTPS only. One endpoint per restaurant — filter by event type on your side.",
+    "hintShort": "HTTPS only.",
+    "httpsError": "Endpoint URL must use HTTPS.",
+    "invalidError": "Enter a valid URL.",
+    "hostError": "Enter a full hostname, for example https://api.yourdomain.com/hooks.",
+    "tooLongError": "Endpoint URL must be 2,048 characters or fewer."
+  },
+  "auth": {
+    "title": "Authorization",
+    "sub": "We send this as a Bearer token in the Authorization header on every delivery, so your endpoint can confirm the request is allowed. Required — we never post to an unauthenticated endpoint.",
+    "label": "Bearer token",
+    "placeholder": "your-token",
+    "hint": "Sent as Authorization: Bearer <token> on every request. Treat it like a password.",
+    "hintShort": "Treat it like a password.",
+    "requiredError": "Bearer token is required — we never post to an unauthenticated endpoint.",
+    "tooLongError": "Bearer token must be 500 characters or fewer.",
+    "reveal": "Show token",
+    "hide": "Hide token"
+  },
+  "secret": {
+    "title": "Signing secret",
+    "sub": "We sign every request body with this secret and send the signature in a header, so you can confirm the request came from GoMingle and wasn't altered. Shown in full once when generated.",
+    "placeholder": "No secret yet — save your endpoint to generate one.",
+    "hint": "Shown in full only when generated or rotated. The last four characters tell you which secret is live.",
+    "copy": "Copy secret",
+    "copied": "Secret copied",
+    "rotate": "Rotate",
+    "rotateTitle": "Rotate signing secret?",
+    "rotateBody": "There is no grace period — the current secret stops working the moment you rotate. Your system will stop verifying payloads until you update it with the new one.",
+    "rotateConfirm": "Rotate secret",
+    "rotated": "Signing secret rotated."
+  },
+  "reveal": {
+    "title": "Copy your signing secret",
+    "body": "This is the only time we'll show it in full. Copy it now and store it securely — if you lose it you'll need to rotate for a new one.",
+    "copy": "Copy secret",
+    "copied": "Copied",
+    "done": "I've copied it"
+  },
+  "save": {
+    "msg": "Endpoint, authorization and delivery status are saved together.",
+    "button": "Save changes",
+    "saving": "Saving…",
+    "toast": "Webhook settings saved."
+  },
+  "events": {
+    "title": "Events you'll receive",
+    "sub": "Two independent streams, delivered in order per table and per booking. Expand any event to see a sample payload.",
+    "titleTooltip": "All 7 events are always delivered — filter by eventType on your side. Standard events retry then fall back to email on failure. The interest-table Published event is gating: if it can't be delivered, that table's later events wait on email until it's resolved.",
+    "published": "Published",
+    "updated": "Updated",
+    "cancelled": "Cancelled",
+    "created": "Created",
+    "confirmed": "Confirmed",
+    "completed": "Completed",
+    "cancelledBk": "Cancelled",
+    "copyPayload": "Copy",
+    "copied": "Copied",
+    "legend": "Standard events are delivered on their own — if one can't be delivered it's retried, then emailed, and the rest of the stream carries on. Gating applies only to the interest-table Published event: if we can't deliver it, that table's later events switch to email until it's sorted. Booking events are always standard."
+  },
+  "streams": {
+    "interestTable": "Interest table",
+    "booking": "Booking",
+    "orderedIt": "ordered per interestTableId",
+    "orderedBk": "ordered per bookingId"
+  },
+  "tags": {
+    "gating": "Gating",
+    "standard": "Standard"
+  },
+  "delivery": {
+    "title": "How delivery works",
+    "sub": "Retries and email fallback are automatic — there's nothing to set up.",
+    "retriesTitle": "Retries",
+    "retriesBody": "On a 5xx, timeout or connection error we retry every 15 minutes, up to 10 attempts. A 4xx fails immediately.",
+    "emailTitle": "Email fallback",
+    "emailBody": "If an event can't be delivered after retries, we email it to your restaurant's contact email so nothing is missed."
+  },
+  "test": {
+    "title": "Test your endpoint",
+    "sub": "Send a sample of any event to your endpoint to confirm connectivity and signature checks before going live.",
+    "label": "Event to send",
+    "labelTooltip": "Sends a real sample payload of the chosen event to your saved endpoint. It's marked as a test in the payload and appears in the log below, so it's easy to tell apart from live traffic.",
+    "send": "Send test",
+    "sending": "Sending…",
+    "hint": "Test events are marked as tests in the payload and show in the log below, so they're easy to tell apart from live traffic.",
+    "queuedToast": "Test queued — check Recent deliveries for the result.",
+    "needsConfig": "Save your endpoint and bearer token before sending a test.",
+    "awaiting": "Test accepted. Waiting for it to appear in Recent deliveries…",
+    "awaitingStale": "Still not in Recent deliveries. Open that tab and refresh — the log can lag behind."
+  },
+  "deliveries": {
+    "title": "Recent deliveries",
+    "refresh": "Refresh",
+    "filters": {
+      "all": "All",
+      "delivered": "Delivered",
+      "retrying": "Retrying",
+      "failed": "Failed"
+    },
+    "filterAria": "Filter by status",
+    "clearFilter": "Show all deliveries",
+    "delivered": "Delivered",
+    "retrying": "Retrying",
+    "failed": "Failed",
+    "failedEmailed": "Failed · emailed",
+    "queued": "Queued",
+    "justNow": "just now",
+    "queuedStale": "Not recorded yet — refresh to check again",
+    "cols": {
+      "event": "Event",
+      "status": "Status",
+      "tries": "Tries",
+      "reason": "Reason",
+      "when": "When"
+    },
+    "testTag": "Test",
+    "empty": "No deliveries yet.",
+    "emptyHint": "Configure and enable webhooks to start receiving events.",
+    "emptyFiltered": "No deliveries match this status.",
+    "emptyFilteredHint": "Nothing in the last 30 days has this status. Switch back to All to see every delivery.",
+    "note": "We log each delivery's status, attempt count and a short reason if it didn't get through. We don't store the response your endpoint returns — capture request or response detail on your side if you need it."
+  }
+}

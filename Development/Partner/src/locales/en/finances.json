@@ -1,0 +1,155 @@
+{
+  "section": "FINANCES",
+  "title": "Finances",
+  "subtitle": "What you have earned. Mingler payments are held in Safepay escrow and paid to your bank account after each event.",
+  "payoutInfo": {
+    "active": "Payout account active",
+    "notConfigured": "Payout account not configured. Set up your payout info to receive payments.",
+    "setup": "Set Up Payout Info",
+    "update": "Update Payout Info"
+  },
+  "payouts": {
+    "title": "Payouts",
+    "date": "Payout Date",
+    "amount": "Amount",
+    "status": "Status",
+    "statuses": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed"
+    }
+  },
+  "summary": {
+    "overallRevenue": "Overall Revenue",
+    "payments": "{{count}} payments",
+    "commissionsLabel": "Commissions",
+    "ofRevenue": "{{pct}}% of revenue",
+    "penalties": "Penalties",
+    "noShows": "{{count}} no-shows"
+  },
+  "table": {
+    "headers": {
+      "bookingId": "BOOKING ID",
+      "restaurant": "RESTAURANT",
+      "mingler": "MINGLER",
+      "interestTable": "INTEREST TABLE",
+      "combo": "COMBO",
+      "date": "DATE",
+      "type": "TYPE",
+      "totalAmount": "TOTAL AMOUNT",
+      "partnerShare": "MY SHARE",
+      "gomingleShare": "GOMINGLE SHARE",
+      "loyaltyUsed": "LOYALTY POINTS USED",
+      "vat": "VAT",
+      "tip": "TIP"
+    }
+  },
+  "types": {
+    "bookingCommission": "Booking Commission",
+    "penalty": "Penalty"
+  },
+  "detail": {
+    "title": "Transaction details",
+    "bookingId": "Booking ID",
+    "restaurant": "Restaurant",
+    "mingler": "Mingler",
+    "date": "Date",
+    "type": "Type",
+    "totalAmount": "Total Amount",
+    "partnerShare": "My Share",
+    "gomingleShare": "GoMingle Share",
+    "loyaltyUsed": "Loyalty Points Used",
+    "close": "Close",
+    "vat": "VAT 5%",
+    "tip": "Tip",
+    "loyaltyDeduction": "Loyalty Deduction",
+    "notFound": "Transaction not found."
+  },
+  "periods": {
+    "today": "Today",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "thisYear": "This Year",
+    "custom": "Custom range",
+    "allTime": "All Time",
+    "lastYear": "Last 1 Year",
+    "last6Months": "Last 6 Months"
+  },
+  "popover": {
+    "restaurantInfo": "Restaurant Info",
+    "category": "Category",
+    "city": "City",
+    "joined": "Joined",
+    "status": "Status"
+  },
+  "filterAll": "All",
+  "search": {
+    "bookingId": "Search booking ID…",
+    "restaurant": "Search restaurant…",
+    "mingler": "Search mingler…",
+    "totalAmount": "Search total amount…",
+    "interestTable": "Search interest table…",
+    "combo": "Search combo…"
+  },
+  "card": {
+    "bookingId": "Booking ID",
+    "mingler": "Mingler",
+    "date": "Date",
+    "totalAmount": "Total Amount",
+    "viewDetails": "View details",
+    "transactionDetails": "Transaction details",
+    "minglerProfile": "Mingler profile"
+  },
+  "pagination": {
+    "showing": "Showing {{start}}–{{end}} of {{total}} results"
+  },
+  "emptyState": {
+    "title": "No transactions yet",
+    "description": "Once a booking is completed it appears here, with your share of what it earned."
+  },
+  "noMatch": {
+    "title": "No transactions match your filters",
+    "description": "Try a different search term or date range — or set the period back to All Time to see everything."
+  },
+  "export": "Export CSV",
+  "exporting": "Exporting…",
+  "exportToast": "Your CSV download has started.",
+  "viewOnMap": "View on map",
+  "viewDetails": "View details",
+  "filters": {
+    "all": "All",
+    "commission": "Commission",
+    "penalty": "Penalty"
+  },
+  "tabs": {
+    "bookings": "Bookings",
+    "interestTables": "Interest Tables"
+  },
+  "breakdown": {
+    "interestTable": "INTEREST TABLE",
+    "bookings": "BOOKINGS",
+    "partnerShare": "MY SHARE",
+    "gomingleShare": "GOMINGLE SHARE",
+    "vat": "VAT",
+    "tip": "TIP",
+    "total": "TOTAL",
+    "bookingsCount": "{{count}} bookings",
+    "detailTitle": "Interest table financials",
+    "interestTableLabel": "Interest table",
+    "bookingsLabel": "Bookings"
+  },
+  "escrow": {
+    "title": "Safepay escrow",
+    "gateway": "{{name}} · {{env}}",
+    "heldOnCards": "Held on cards",
+    "heldOnCardsHint": "Card holds for upcoming bookings",
+    "inEscrow": "In escrow",
+    "inEscrowHint": "Collected, released after the event",
+    "paidOut": "Paid to you",
+    "paidOutHint": "After the {{pct}}% GoMingle fee",
+    "payoutTo": "Payouts go to {{bank}} {{iban}} ({{title}})",
+    "noAccount": "Add a payout bank account (IBAN) in Restaurant settings so escrow can be released to you.",
+    "lastPayout": "Last payout {{reference}}: {{amount}} on {{date}}",
+    "loadFailed": "Escrow balance could not be loaded."
+  }
+}

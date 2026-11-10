@@ -1,0 +1,18 @@
+export const ROUTES = {
+  LOGIN: '/login',
+  USERS: '/users',
+  INTEREST_TABLES: '/interest-tables',
+  INTEREST_TABLE_DETAIL: '/interest-tables/:id',
+  RESTAURANT_DETAIL: '/restaurants/:id',
+  OVERVIEW: '/overview',
+  CONTACTS: '/contacts',
+  DOCUMENTS: '/documents',
+  AMENITIES: '/amenities',
+  MENU_OPTIONS: '/menu-options',
+  TABLE_TIMINGS: '/table-timings',
+  PHOTOS_VIDEOS: '/photos-videos',
+  REVIEWS: '/reviews',
+  MINGLER_DETAIL: '/minglers/:id',
+  FINANCES: '/finances',
+  PROFILE: '/profile',
+} as const

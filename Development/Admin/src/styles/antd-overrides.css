@@ -1,0 +1,1049 @@
+/* ── Ant Design global overrides ──────────────────────────────────
+   This file uses heavy !important by design. Global Ant Design class
+   rules (single-class, specificity 0,1,0) frequently override our
+   utility classes & inline rules in unpredictable orders depending on
+   import sequence. Heavy !important here keeps the design system stable.
+   IMPORTANT: never copy !important onto inline style={{}} props. */
+
+/* ── Fonts: enforce Poppins across all Ant Design surfaces ───── */
+.ant-btn,
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-input-number,
+.ant-picker,
+.ant-select,
+.ant-select-dropdown,
+.ant-modal,
+.ant-table,
+.ant-dropdown,
+.ant-form,
+.ant-form-item-label,
+.ant-tabs,
+.ant-tooltip,
+.ant-message,
+.ant-pagination {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* ── Table ───────────────────────────────────────────────────── */
+.ant-table .ant-table-thead > tr > th,
+.ant-table .ant-table-thead > tr > td {
+  background-color: var(--color-table-head) !important;
+  color: var(--color-text-muted) !important;
+  font-size: var(--table-header-font-size) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  padding: 10px var(--table-cell-padding-h) !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.ant-table-wrapper .ant-table .ant-table-tbody > tr > td.ant-table-cell,
+.ant-table-wrapper .ant-table-tbody .ant-table-row .ant-table-cell {
+  border-bottom: 1px solid var(--color-divider) !important;
+  padding: 12px var(--table-cell-padding-h) !important;
+  font-size: var(--table-body-font-size) !important;
+  font-family: 'Poppins', sans-serif !important;
+  line-height: 1.5 !important;
+}
+.ant-table .ant-table-tbody > tr:last-child > td {
+  border-bottom: none !important;
+}
+.ant-table .ant-table-tbody > tr:hover > td {
+  background-color: var(--color-hover) !important;
+}
+.ant-table {
+  background: var(--color-card) !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.ant-table-wrapper {
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden;
+}
+.ant-table-container {
+  border-radius: 0 !important;
+  border: none !important;
+}
+.ant-table-wrapper .ant-spin-nested-loading,
+.ant-table-wrapper .ant-spin-container {
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden;
+}
+.ant-table .ant-table-container::before,
+.ant-table .ant-table-container::after {
+  display: none !important;
+}
+.ant-table-wrapper .ant-pagination {
+  padding: 12px 16px !important;
+  margin: 0 !important;
+  border-top: 1px solid var(--color-divider) !important;
+}
+
+/* Sorter + filter trigger */
+.ant-table-filter-trigger {
+  color: var(--color-text-subtle) !important;
+}
+.ant-table-filter-trigger.active {
+  color: var(--color-accent) !important;
+}
+.ant-table-column-sorter-up.active,
+.ant-table-column-sorter-down.active {
+  color: var(--color-accent) !important;
+}
+
+/* Filter dropdown */
+.ant-table-filter-dropdown {
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+.ant-table-filter-dropdown .ant-btn-primary {
+  background: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  border-radius: var(--radius-lg) !important;
+  color: #fff !important;
+}
+.ant-table-filter-dropdown .ant-btn-primary:hover {
+  background: var(--color-accent-dark) !important;
+  border-color: var(--color-accent-dark) !important;
+}
+
+/* ── Profile dropdown menu (topbar user menu) ────────────────── */
+.app-profile-menu.ant-dropdown-menu {
+  padding: 6px !important;
+  min-width: 200px;
+  border-radius: 12px !important;
+}
+.app-profile-menu .ant-dropdown-menu-item {
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.app-profile-menu .ant-dropdown-menu-item .ant-dropdown-menu-item-icon {
+  margin-inline-end: 10px !important;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.ant-btn {
+  border-radius: var(--radius-lg) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  height: var(--btn-height-md) !important;
+  font-size: 13px !important;
+}
+.ant-btn-sm {
+  border-radius: var(--radius-lg) !important;
+  height: var(--btn-height-sm) !important;
+  font-size: 12px !important;
+}
+.ant-btn-lg {
+  border-radius: var(--radius-lg) !important;
+  height: var(--btn-height-lg) !important;
+  font-size: 14px !important;
+}
+.ant-btn-primary {
+  background-color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: #fff !important;
+}
+.ant-btn-primary:hover {
+  background-color: var(--color-accent-dark) !important;
+  border-color: var(--color-accent-dark) !important;
+}
+.ant-btn-default {
+  background-color: var(--color-btn-default-bg) !important;
+  border-color: var(--color-border-strong) !important;
+  color: var(--color-text) !important;
+}
+.ant-btn-default:hover {
+  border-color: var(--color-accent) !important;
+  color: var(--color-accent) !important;
+}
+.ant-btn-dangerous {
+  border-radius: var(--radius-lg) !important;
+  color: var(--color-coral) !important;
+  border-color: var(--color-coral) !important;
+}
+.ant-btn-dangerous:hover {
+  color: var(--color-coral-dark) !important;
+  border-color: var(--color-coral-dark) !important;
+}
+.ant-btn-dangerous.ant-btn-primary {
+  background: var(--color-coral) !important;
+  color: #fff !important;
+}
+.ant-btn-dangerous.ant-btn-primary:hover {
+  background: var(--color-coral-dark) !important;
+}
+.ant-btn-link {
+  color: var(--color-accent) !important;
+  height: auto !important;
+}
+.ant-btn-link:hover {
+  color: var(--color-accent-dark) !important;
+}
+
+/* Primary action button (renders the accent/teal colour).
+   Applies to both antd <Button className="btn-primary"> AND plain
+   <button className="btn-primary"> (e.g. the login submit button). */
+.btn-primary,
+.ant-btn.btn-primary {
+  background-color: var(--color-accent) !important;
+  border: 1px solid var(--color-accent) !important;
+  color: #fff !important;
+  border-radius: var(--radius-lg) !important;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif !important;
+}
+.btn-primary:hover,
+.ant-btn.btn-primary:hover {
+  background-color: var(--color-accent-dark) !important;
+  border-color: var(--color-accent-dark) !important;
+}
+.btn-primary:disabled,
+.ant-btn.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+/* Mobile (touch) — no hover darken on the primary button (e.g. the login /
+   forgot-password / reset submit buttons). Hover stays desktop-only. */
+@media (max-width: 767px) {
+  .btn-primary:hover,
+  .ant-btn.btn-primary:hover {
+    background-color: var(--color-accent) !important;
+    border-color: var(--color-accent) !important;
+  }
+}
+
+/* ── Inputs ──────────────────────────────────────────────────── */
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-input-number,
+.ant-picker {
+  border-color: var(--color-input-border) !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--color-input-bg) !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.ant-input::placeholder,
+.ant-input-affix-wrapper input::placeholder {
+  color: var(--color-text-placeholder) !important;
+}
+.ant-input:hover,
+.ant-input-affix-wrapper:hover,
+.ant-input-number:hover,
+.ant-picker:hover {
+  border-color: var(--color-input-border-hover) !important;
+}
+.ant-input:focus,
+.ant-input-affix-wrapper-focused,
+.ant-input-number-focused,
+.ant-picker-focused {
+  border-color: var(--color-input-border-focus) !important;
+  box-shadow: 0 0 0 3px var(--color-focus-ring) !important;
+}
+
+/* ── Select ──────────────────────────────────────────────────── */
+.ant-select .ant-select-selector {
+  border-color: var(--color-input-border) !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--color-input-bg) !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.ant-select:hover .ant-select-selector {
+  border-color: var(--color-input-border-hover) !important;
+}
+.ant-select-focused .ant-select-selector {
+  border-color: var(--color-input-border-focus) !important;
+  box-shadow: 0 0 0 3px var(--color-focus-ring) !important;
+}
+.ant-select-dropdown {
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: var(--color-accent-light) !important;
+  color: var(--color-accent-dark) !important;
+  font-weight: 500 !important;
+}
+
+/* ── Cards ───────────────────────────────────────────────────── */
+.ant-card {
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm) !important;
+  background: var(--color-card) !important;
+}
+.ant-card .ant-card-head {
+  border-bottom: 1px solid var(--color-divider) !important;
+  padding: 16px 24px !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.ant-card .ant-card-body {
+  padding: 24px !important;
+}
+
+/* ── Pagination ──────────────────────────────────────────────── */
+.ant-pagination-item {
+  border-radius: var(--radius-md) !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination-next .ant-pagination-item-link {
+  border-radius: var(--radius-md) !important;
+}
+.ant-pagination-item-active {
+  background: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+}
+.ant-pagination-item-active a {
+  color: #fff !important;
+}
+.ant-pagination-item:hover {
+  border-color: var(--color-accent) !important;
+}
+.ant-pagination-item:hover a {
+  color: var(--color-accent) !important;
+}
+
+/* ── Modals ──────────────────────────────────────────────────── */
+.ant-modal .ant-modal-content {
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-modal) !important;
+  padding: 24px !important;
+}
+.ant-modal .ant-modal-header {
+  margin-bottom: 16px !important;
+  border-bottom: none !important;
+  padding: 0 !important;
+}
+.ant-modal .ant-modal-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--color-text) !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.ant-modal .ant-modal-footer {
+  border-top: none !important;
+  padding-top: 16px !important;
+  margin-top: 16px !important;
+}
+
+/* ── Form labels ─────────────────────────────────────────────── */
+.ant-form-item .ant-form-item-label > label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--color-text-secondary) !important;
+  height: auto !important;
+}
+
+/* ── Tabs ────────────────────────────────────────────────────── */
+.ant-tabs-tab {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--color-accent) !important;
+  font-weight: 600 !important;
+}
+.ant-tabs-ink-bar {
+  background: var(--color-accent) !important;
+  height: 2px !important;
+}
+.ant-tabs-tab:hover {
+  color: var(--color-accent) !important;
+}
+
+/* ── Message toasts ──────────────────────────────────────────── */
+.ant-message .ant-message-notice-content {
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-md) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 13px !important;
+  padding: 10px 16px !important;
+}
+
+/* ── Tooltips ────────────────────────────────────────────────── */
+.ant-tooltip .ant-tooltip-inner {
+  border-radius: var(--radius-md) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important;
+  padding: 6px 10px !important;
+  background: var(--color-navy) !important;
+}
+.ant-tooltip .ant-tooltip-arrow::before {
+  background: var(--color-navy) !important;
+}
+
+/* ── Segmented (preserved) ───────────────────────────────────── */
+.ant-segmented-item-selected {
+  background-color: var(--color-accent-light) !important;
+  color: var(--color-accent-dark) !important;
+}
+
+/* ── Mobile: centred modals (override default bottom-sheet behaviour) ── */
+@media (max-width: 767px) {
+  .ant-modal-wrap {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .ant-modal {
+    top: 0 !important;
+    margin: 0 auto !important;
+    max-width: calc(100vw - 32px) !important;
+    width: calc(100vw - 32px) !important;
+    position: relative !important;
+    bottom: auto !important;
+  }
+  .ant-modal-content {
+    width: 100% !important;
+    border-radius: 16px !important;
+  }
+  .ant-pagination {
+    text-align: center !important;
+  }
+}
+
+/* ── restaurant-card-list (mobile) ───────────────────────────── */
+.restaurant-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.restaurant-card {
+  background: var(--color-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: box-shadow 150ms ease-out;
+  outline: none;
+  text-align: left;
+  width: 100%;
+}
+.restaurant-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-border-strong);
+}
+.restaurant-card:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+/* ── mingler-card-list (mobile) ──────────────────────────────── */
+.mingler-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mingler-card {
+  background: var(--color-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: box-shadow 150ms ease-out;
+  outline: none;
+  text-align: left;
+  width: 100%;
+}
+.mingler-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-border-strong);
+}
+.mingler-card:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+/* ── generic card-list containers (preserved) ─────────────── */
+.approval-queue-card-list,
+.users-card-list,
+.finances-card-list,
+.roles-card-list,
+.change-log-card-list,
+.categories-card-list,
+.amenities-card-list,
+.detail-reviews-card-list,
+.detail-bookings-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.approval-queue-card-list > div,
+.users-card-list > div,
+.finances-card-list > div,
+.roles-card-list > div,
+.change-log-card-list > div,
+.categories-card-list > div,
+.amenities-card-list > div,
+.detail-reviews-card-list > div,
+.detail-bookings-card-list > div {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── restaurant-contacts-table specific tweaks ──────────────── */
+/* Specificity (0,5,3) — beats the global .ant-table-wrapper rule (0,4,3). */
+.restaurant-contacts-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th {
+  background: var(--color-table-head-alt) !important;
+  color: var(--color-text-muted) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  padding: 14px 16px !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  white-space: nowrap;
+}
+.restaurant-contacts-table .ant-table-thead > tr > th::before {
+  display: none !important;
+}
+.restaurant-contacts-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid var(--color-divider) !important;
+  vertical-align: middle;
+  font-family: 'Poppins', sans-serif !important;
+}
+.restaurant-contacts-table .ant-table-tbody > tr:last-child > td {
+  border-bottom: none !important;
+}
+.restaurant-contacts-table .ant-table-tbody > tr:hover > td {
+  background: rgba(15, 167, 157, 0.04) !important;
+}
+.restaurant-contacts-table .ant-table-column-sorters {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+  width: auto;
+}
+
+/* ── Detail-page tables — unified 14px rhythm ──────────────── */
+.restaurant-detail-bookings-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.restaurant-detail-reviews-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.app-contacts-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th {
+  padding: 14px 16px !important;
+}
+.restaurant-detail-bookings-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.restaurant-detail-reviews-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.app-contacts-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid var(--color-divider) !important;
+  vertical-align: middle !important;
+}
+.app-contacts-table .ant-table-thead > tr > th {
+  background: var(--color-table-head-alt) !important;
+  color: var(--color-text-muted) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  white-space: nowrap;
+}
+.app-contacts-table .ant-table-thead > tr > th::before {
+  display: none !important;
+}
+.app-contacts-table .ant-table-tbody > tr:last-child > td {
+  border-bottom: none !important;
+}
+.app-contacts-table .ant-table-tbody > tr:hover > td {
+  background: rgba(15, 167, 157, 0.04) !important;
+}
+/* Remove ghost gap between thead and first tbody row on all detail tables */
+.restaurant-contacts-table .ant-table-tbody > tr:first-child > td,
+.restaurant-detail-bookings-table .ant-table-tbody > tr:first-child > td,
+.restaurant-detail-reviews-table .ant-table-tbody > tr:first-child > td,
+.app-contacts-table .ant-table-tbody > tr:first-child > td {
+  border-top: none !important;
+}
+
+/* ── Cursor pointer for clickable booking rows ─────────────── */
+.restaurant-detail-bookings-table .ant-table-tbody > tr {
+  cursor: pointer;
+}
+
+/* ── Mingler detail tables — 14px padding rhythm ─────────────
+   High-specificity .ant-table-wrapper chain so they beat the
+   global rule in this file. */
+.mingler-detail-bookings-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.mingler-detail-reviews-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th {
+  padding: 14px 16px !important;
+}
+.mingler-detail-bookings-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.mingler-detail-reviews-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td {
+  padding: 14px 16px !important;
+}
+.mingler-detail-bookings-table .ant-table-tbody > tr:first-child > td,
+.mingler-detail-reviews-table .ant-table-tbody > tr:first-child > td {
+  border-top: none !important;
+}
+
+/* ── Hover-only download buttons ───────────────────────────── */
+.photo-cell .photo-download-btn,
+.video-row .video-download-btn,
+.document-row .document-download-btn {
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+.photo-cell:hover .photo-download-btn,
+.video-row:hover .video-download-btn,
+.document-row:hover .document-download-btn {
+  opacity: 1;
+}
+
+/* ── Listing tables — unified 14px vertical rhythm ──────────────
+   Specificity (0,5,3) — beats the global .ant-table-wrapper rule (0,4,3). */
+.restaurants-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.minglers-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.finances-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.approval-queue-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.roles-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.users-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.change-log-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.amenities-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.preference-questions-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.interest-topics-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.interests-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.interest-tables-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th {
+  padding: 14px 16px !important;
+}
+.restaurants-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.minglers-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.finances-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.approval-queue-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.roles-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.users-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.change-log-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.amenities-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.preference-questions-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.interest-topics-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.interests-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.interest-tables-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid var(--color-divider) !important;
+  vertical-align: middle !important;
+}
+
+/* ── Fix ghost gap / extra divider between thead and tbody (5 tables) ──
+   Specificity bumped to (0,5,3)+ with .ant-table-wrapper chain to beat
+   any antd CSS-in-JS rules. Also collapses borders and kills any extra
+   horizontal rule rendered between thead and the first tbody row.
+   Restaurants + Approval Queue are intentionally NOT in this list. */
+.minglers-table .ant-table-wrapper .ant-table,
+.finances-table .ant-table-wrapper .ant-table,
+.change-log-table .ant-table-wrapper .ant-table,
+.roles-table .ant-table-wrapper .ant-table,
+.users-table .ant-table-wrapper .ant-table,
+.amenities-table .ant-table-wrapper .ant-table,
+.preference-questions-table .ant-table-wrapper .ant-table,
+.interest-topics-table .ant-table-wrapper .ant-table,
+.interests-table .ant-table-wrapper .ant-table,
+.interest-tables-table .ant-table-wrapper .ant-table {
+  border-collapse: collapse !important;
+}
+/* Remove top border on every body cell — doubles up with thead's bottom border */
+.minglers-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.finances-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.change-log-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.roles-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.users-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.amenities-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.preference-questions-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.interest-topics-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.interests-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.interest-tables-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td {
+  border-top: 0 !important;
+}
+/* Single clean 1px separator under header */
+.minglers-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.finances-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.change-log-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.roles-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.users-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.preference-questions-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.interest-topics-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.interests-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.interest-tables-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th {
+  border-bottom: 1px solid var(--color-border) !important;
+  box-shadow: none !important;
+}
+/* Kill antd's vertical-cell divider pseudo-element under header (creates the
+   ghost line) */
+.minglers-table .ant-table-thead > tr > th::before,
+.finances-table .ant-table-thead > tr > th::before,
+.change-log-table .ant-table-thead > tr > th::before,
+.roles-table .ant-table-thead > tr > th::before,
+.users-table .ant-table-thead > tr > th::before,
+.preference-questions-table .ant-table-thead > tr > th::before,
+.interest-topics-table .ant-table-thead > tr > th::before,
+.interests-table .ant-table-thead > tr > th::before,
+.interest-tables-table .ant-table-thead > tr > th::before {
+  display: none !important;
+  content: none !important;
+}
+/* Kill antd-injected dividers above/below thead and tbody */
+.minglers-table .ant-table-thead::after,
+.finances-table .ant-table-thead::after,
+.change-log-table .ant-table-thead::after,
+.roles-table .ant-table-thead::after,
+.users-table .ant-table-thead::after,
+.preference-questions-table .ant-table-thead::after,
+.interest-topics-table .ant-table-thead::after,
+.interests-table .ant-table-thead::after,
+.minglers-table .ant-table-tbody::before,
+.finances-table .ant-table-tbody::before,
+.change-log-table .ant-table-tbody::before,
+.roles-table .ant-table-tbody::before,
+.users-table .ant-table-tbody::before,
+.preference-questions-table .ant-table-tbody::before,
+.interest-topics-table .ant-table-tbody::before,
+.interests-table .ant-table-tbody::before,
+.interest-tables-table .ant-table-thead::after,
+.interest-tables-table .ant-table-tbody::before {
+  display: none !important;
+  content: none !important;
+  border: 0 !important;
+  height: 0 !important;
+}
+/* Force first-row top padding to match other rows (no extra space at top) */
+.minglers-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td,
+.finances-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td,
+.change-log-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td,
+.roles-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td,
+.users-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td,
+.preference-questions-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td,
+.interest-topics-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td,
+.interests-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td,
+.interest-tables-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td {
+  padding-top: 14px !important;
+  border-top: 0 !important;
+}
+/* Suppress the empty-state placeholder row that sometimes renders a separator */
+.minglers-table .ant-table-placeholder,
+.finances-table .ant-table-placeholder,
+.change-log-table .ant-table-placeholder,
+.roles-table .ant-table-placeholder,
+.users-table .ant-table-placeholder,
+.preference-questions-table .ant-table-placeholder,
+.interest-topics-table .ant-table-placeholder,
+.interests-table .ant-table-placeholder,
+.interest-tables-table .ant-table-placeholder {
+  display: none !important;
+}
+
+/* ── Interest Table detail — per-table bookings & invited tables ──
+   Matches the shared listing-table look: 14px 16px cell padding,
+   single header divider, no doubled top border on the first row. */
+.interest-table-bookings-table .ant-table-wrapper .ant-table,
+.interest-table-invited-table .ant-table-wrapper .ant-table {
+  border-collapse: collapse !important;
+}
+.interest-table-bookings-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th,
+.interest-table-invited-table .ant-table-wrapper .ant-table .ant-table-thead > tr > th {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  box-shadow: none !important;
+}
+.interest-table-bookings-table .ant-table-thead > tr > th::before,
+.interest-table-invited-table .ant-table-thead > tr > th::before {
+  display: none !important;
+  content: none !important;
+}
+.interest-table-bookings-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
+.interest-table-invited-table .ant-table-wrapper .ant-table .ant-table-tbody > tr > td {
+  padding: 14px 16px !important;
+  border-top: 0 !important;
+  border-bottom: 1px solid var(--color-divider) !important;
+  vertical-align: middle !important;
+}
+.interest-table-bookings-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td,
+.interest-table-invited-table .ant-table-wrapper .ant-table .ant-table-tbody > tr:first-child > td {
+  padding-top: 14px !important;
+  border-top: 0 !important;
+}
+
+/* ── Loyalty cards — stacked vertically (earn above redeem) ──── */
+.loyalty-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Loyalty inner field grid — 2 columns on desktop, 1 on mobile ─ */
+.loyalty-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 767px) {
+  .loyalty-field-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* Loyalty number fields — full-width, fixed 40px height + 12px radius (matches design).
+   Each field has a suffix, so antd wraps the control in an inline affix-wrapper that
+   would otherwise shrink to its content; force it (and the plain input-number) to fill
+   the column. */
+.loyalty-field-grid .ant-input-number,
+.loyalty-field-grid .ant-input-number-affix-wrapper {
+  width: 100% !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+}
+.loyalty-field-grid .ant-input-number-affix-wrapper .ant-input-number {
+  height: auto !important;
+  border-radius: 0 !important;
+}
+.loyalty-field-grid .ant-input-number-input {
+  height: 38px !important;
+}
+
+/* ── Categories card list (mobile) ─────────────────────────────── */
+.categories-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Hide antd's hidden measure row globally ─────────────────────
+   antd inserts <tr class="ant-table-measure-row" aria-hidden="true">
+   for fixed-column width calculations when scroll={{ x: 'max-content' }}
+   is used. It should be 0-height but is leaking a visible empty row
+   in v6. Force-hide it everywhere — it's never user-visible by design. */
+.ant-table-measure-row,
+.ant-table-tbody > tr.ant-table-measure-row,
+tr.ant-table-measure-row {
+  display: none !important;
+  height: 0 !important;
+  visibility: hidden !important;
+}
+
+/* ── Pinned (fixed) table columns ────────────────────────────────
+   Fixed columns must stay opaque so horizontally-scrolled content
+   never shows through them. The row hover tint (--color-hover) is
+   translucent, so for sticky cells composite it over the solid card
+   background. AntD 6 emits .ant-table-cell-fix-start/-end (with
+   -left/-right kept for safety). Paired with withFixedEnds() +
+   scroll={{ x: 'max-content' }}. */
+.ant-table .ant-table-tbody > tr > td.ant-table-cell-fix-start,
+.ant-table .ant-table-tbody > tr > td.ant-table-cell-fix-end,
+.ant-table .ant-table-tbody > tr > td.ant-table-cell-fix-left,
+.ant-table .ant-table-tbody > tr > td.ant-table-cell-fix-right {
+  background: var(--color-card) !important;
+}
+.ant-table .ant-table-tbody > tr:hover > td.ant-table-cell-fix-start,
+.ant-table .ant-table-tbody > tr:hover > td.ant-table-cell-fix-end,
+.ant-table .ant-table-tbody > tr:hover > td.ant-table-cell-fix-left,
+.ant-table .ant-table-tbody > tr:hover > td.ant-table-cell-fix-right {
+  background: linear-gradient(var(--color-hover), var(--color-hover)), var(--color-card) !important;
+}
+
+/* ── Finances restaurant-info popover (click-triggered) ─────── */
+.restaurant-info-popover .ant-popover-inner {
+  background: var(--color-card) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--color-border) !important;
+  padding: 16px !important;
+}
+.restaurant-info-popover .ant-popover-arrow {
+  display: none !important;
+}
+
+/* ── Category form modal ─────────────────────────────────────────
+   Uses the canonical AntD modal padding (matches every other modal in
+   the portal). The rules below only fix layout glitches for affix
+   wrappers (PKR prefix / % suffix inputs) so the inner <input> matches
+   the wrapper height and shrinks correctly inside the flex columns. */
+.category-modal .ant-input-affix-wrapper > input.ant-input {
+  height: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+.category-modal .ant-input-affix-wrapper > input.ant-input:focus {
+  box-shadow: none !important;
+}
+.category-modal .ant-form-item {
+  min-width: 0;
+}
+.category-modal .ant-input-affix-wrapper {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.category-modal .ant-form-item-control,
+.category-modal .ant-form-item-control-input,
+.category-modal .ant-form-item-control-input-content {
+  width: 100%;
+  min-width: 0;
+}
+@media (max-width: 767px) {
+  .category-modal .ant-modal-body,
+  .category-modal .ant-form,
+  .category-modal .ant-form-item {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+/* Restaurants — media grid overlay hover */
+.media-cell:hover .media-overlay {
+  opacity: 1 !important;
+}
+@media (max-width: 1279px) {
+  .photos-grid,
+  .videos-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+}
+@media (max-width: 1023px) {
+  .photos-grid,
+  .videos-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+@media (max-width: 767px) {
+  .photos-grid,
+  .videos-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+@media (max-width: 479px) {
+  .photos-grid,
+  .videos-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 767px) {
+  .documents-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 479px) {
+  .documents-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STANDARD MODAL FORM  (finalized in the Topics create/edit modal)
+   Apply `.app-form` to a <Form> and `.app-modal-footer` to its action
+   row to get: all-caps login-style labels, no required asterisk
+   (optional fields get a "(optional)" suffix in the label text),
+   40px inputs/selects with consistent placeholders, and a full-width
+   footer divider.
+   ══════════════════════════════════════════════════════════════ */
+
+/* No asterisk — optional fields are marked "(optional)" in the label text */
+.app-form .ant-form-item-required::before {
+  display: none !important;
+  content: '' !important;
+}
+/* Labels: all-caps, matching the login screen (EMAIL / PASSWORD) */
+.app-form .ant-form-item-label > label {
+  height: auto !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--color-text-muted) !important;
+}
+/* Single-line inputs + affix wrappers → 40px, 8px radius (textarea excluded) */
+.app-form input.ant-input,
+.app-form .ant-input-affix-wrapper,
+.app-form .ant-input-number,
+.app-form .ant-picker {
+  min-height: 40px !important;
+  border-radius: 8px !important;
+}
+.app-form .ant-input-number-input {
+  height: 38px !important;
+}
+.app-form textarea.ant-input {
+  border-radius: 8px !important;
+}
+/* Select → 40px control with placeholder matching the inputs.
+   (This antd build uses the newer Select DOM: bordered box is the root,
+   placeholder is .ant-select-placeholder.) */
+.app-form .ant-select {
+  min-height: 40px !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.app-form .ant-select-placeholder {
+  color: var(--color-text-placeholder) !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.app-form .ant-select-input,
+.app-form .ant-select-selection-item,
+.app-form .ant-select-content-item {
+  font-size: 14px !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* Footer action row — divider bleeds to the full modal width (24px body padding) */
+.app-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 20px -24px 0;
+  padding: 16px 24px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ── Branded Upload.Dragger (image upload) ────────────────────── */
+.app-upload-dragger .ant-upload.ant-upload-drag,
+.topic-image-dragger .ant-upload.ant-upload-drag {
+  border: 1.5px dashed var(--color-border-strong) !important;
+  border-radius: 8px !important;
+  background: var(--color-input-bg) !important;
+  transition:
+    border-color 150ms ease-out,
+    background 150ms ease-out;
+}
+.app-upload-dragger .ant-upload.ant-upload-drag:hover,
+.topic-image-dragger .ant-upload.ant-upload-drag:hover {
+  border-color: var(--color-accent) !important;
+  background: var(--color-accent-light) !important;
+}
+.app-upload-dragger .ant-upload-btn,
+.topic-image-dragger .ant-upload-btn {
+  padding: 16px !important;
+}
+
+/* ── Global keyboard focus ring (a11y) ───────────────────────────
+   A visible focus indicator for keyboard users on interactive
+   controls (buttons, links, icon buttons) that otherwise inherit
+   AntD defaults or none. Mouse clicks use :focus-visible so this
+   only shows on keyboard navigation. */
+button:focus-visible,
+a:focus-visible,
+[role='button']:focus-visible,
+.ant-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Keep form-item controls from collapsing to min-content inside the topic
+   modal, so a long validation message (e.g. the logo error) wraps as normal
+   text instead of one character per line. Mirrors the .category-modal fix. */
+.topic-form-modal .ant-form-item-control,
+.topic-form-modal .ant-form-item-control-input,
+.topic-form-modal .ant-form-item-control-input-content {
+  width: 100%;
+  min-width: 0;
+}

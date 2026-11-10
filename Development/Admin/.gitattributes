@@ -1,0 +1,3 @@
+
+# qa-smoke-check: keep the hook script LF for Git Bash on Windows
+scripts/qa-smoke-prepush.sh text eol=lf

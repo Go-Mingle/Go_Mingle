@@ -1,0 +1,4 @@
+# Shell scripts and git hooks must stay LF or they break when executed by sh/bash.
+*.sh text eol=lf
+.husky/** text eol=lf
+scripts/** text eol=lf
