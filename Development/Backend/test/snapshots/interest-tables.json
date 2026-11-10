@@ -1,0 +1,4355 @@
+[
+ {
+  "step": "login partner",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "profile",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": true,
+    "isCover": true,
+    "mediaId": "<gen>",
+    "name": "dining.jpg",
+    "size": 8,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "payout",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "Kolachi",
+     "addedAt": "<iso>",
+     "bankName": "HBL",
+     "ibanMasked": "PK36 •••• 6702",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table area 1",
+  "status": 201,
+  "body": {
+   "data": {
+    "availability": {
+     "0": [],
+     "1": [],
+     "2": [],
+     "3": [],
+     "4": [],
+     "5": [
+      {
+       "end": "23:00",
+       "start": "18:00"
+      }
+     ],
+     "6": []
+    },
+    "isHidden": false,
+    "name": "Window Table",
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table area 2",
+  "status": 201,
+  "body": {
+   "data": {
+    "availability": {
+     "0": [],
+     "1": [],
+     "2": [],
+     "3": [],
+     "4": [],
+     "5": [],
+     "6": []
+    },
+    "isHidden": false,
+    "name": "Garden Patio",
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "menu option 1",
+  "status": 201,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "courses": [
+     {
+      "choose": 1,
+      "course": "Main Course",
+      "options": [
+       "Chicken Biryani",
+       "Lamb Tikka"
+      ]
+     }
+    ],
+    "isHidden": false,
+    "name": "Signature Set",
+    "pricePkr": 3500
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "menu option 2",
+  "status": 201,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "courses": [
+     {
+      "choose": 1,
+      "course": "Main Course",
+      "options": [
+       "Chicken Biryani",
+       "Lamb Tikka"
+      ]
+     }
+    ],
+    "isHidden": false,
+    "name": "Seafood Set",
+    "pricePkr": 4200
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "create for a draft restaurant",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND",
+    "message": "Restaurant not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "create for unknown restaurant",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND",
+    "message": "Restaurant not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "submit",
+  "status": 200,
+  "body": {
+   "data": {
+    "message": "Your application has been submitted and is under review.",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "category",
+  "status": 201,
+  "body": {
+   "commissionRate": 12,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "interestTablesPerMonth": 4,
+   "name": "Premium",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "approve",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "id": "<gen>",
+    "status": "APPROVED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "restaurant list empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "lookup empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "page": 1,
+    "pageSize": 10,
+    "total": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "get unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "publish unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "cancel unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "make-available unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "promingler unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "patch unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "delete unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "invitees unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "menu options unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "availability check",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignable": true,
+    "reason": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "create",
+  "status": 201,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "Window Table"
+    },
+    "availabilityMode": "AVAILABLE_NOW",
+    "comboIds": [
+     "c-1",
+     "c-2"
+    ],
+    "created": "<iso>",
+    "durationHours": 2.5,
+    "durationMinutes": 150,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": true,
+    "maxGuests": 8,
+    "maxMinglers": 8,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Startup Mixer",
+    "prominglerEnabled": false,
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-03-12",
+    "startTime": "19:30",
+    "status": "PENDING",
+    "timeLeft": "<gen>",
+    "topic": {
+     "graphicUrl": "<gen>",
+     "id": "<gen>",
+     "name": "Book Club"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "create coming soon",
+  "status": 201,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "Garden Patio"
+    },
+    "availabilityMode": "COMING_SOON",
+    "comboIds": [
+     "c-2"
+    ],
+    "created": "<iso>",
+    "durationHours": 2.5,
+    "durationMinutes": 150,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": false,
+    "maxGuests": 12,
+    "maxMinglers": 12,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Friday Wine Evening",
+    "prominglerEnabled": true,
+    "prominglerMinglerId": "<gen>",
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-01-05",
+    "startTime": "19:30",
+    "status": "COMING_SOON",
+    "timeLeft": "<gen>",
+    "topic": {
+     "graphicUrl": "<gen>",
+     "id": "<gen>",
+     "name": "Chai & Conversations"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "create draft",
+  "status": 201,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "t-9"
+    },
+    "availabilityMode": "AVAILABLE_NOW",
+    "comboIds": [],
+    "created": "<iso>",
+    "durationHours": 2.5,
+    "durationMinutes": 150,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": false,
+    "maxGuests": 8,
+    "maxMinglers": 8,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Book Club",
+    "prominglerEnabled": false,
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-02-01",
+    "startTime": "19:30",
+    "status": "DRAFT",
+    "timeLeft": "<gen>",
+    "topic": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "get",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "Window Table"
+    },
+    "availabilityMode": "AVAILABLE_NOW",
+    "comboIds": [
+     "c-1",
+     "c-2"
+    ],
+    "created": "<iso>",
+    "durationHours": 2.5,
+    "durationMinutes": 150,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": true,
+    "maxGuests": 8,
+    "maxMinglers": 8,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Startup Mixer",
+    "prominglerEnabled": false,
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-03-12",
+    "startTime": "19:30",
+    "status": "PENDING",
+    "timeLeft": "<gen>",
+    "topic": {
+     "graphicUrl": "<gen>",
+     "id": "<gen>",
+     "name": "Book Club"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "get coming soon",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "Garden Patio"
+    },
+    "availabilityMode": "COMING_SOON",
+    "comboIds": [
+     "c-2"
+    ],
+    "created": "<iso>",
+    "durationHours": 2.5,
+    "durationMinutes": 150,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": false,
+    "maxGuests": 12,
+    "maxMinglers": 12,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Friday Wine Evening",
+    "prominglerEnabled": true,
+    "prominglerMinglerId": "<gen>",
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-01-05",
+    "startTime": "19:30",
+    "status": "COMING_SOON",
+    "timeLeft": "<gen>",
+    "topic": {
+     "graphicUrl": "<gen>",
+     "id": "<gen>",
+     "name": "Chai & Conversations"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "get draft",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "t-9"
+    },
+    "availabilityMode": "AVAILABLE_NOW",
+    "comboIds": [],
+    "created": "<iso>",
+    "durationHours": 2.5,
+    "durationMinutes": 150,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": false,
+    "maxGuests": 8,
+    "maxMinglers": 8,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Book Club",
+    "prominglerEnabled": false,
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-02-01",
+    "startTime": "19:30",
+    "status": "DRAFT",
+    "timeLeft": "<gen>",
+    "topic": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "menu options",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "courses": [
+       {
+        "choose": 1,
+        "course": "Main Course",
+        "options": [
+         "Chicken Biryani",
+         "Lamb Tikka"
+        ]
+       }
+      ],
+      "id": "<gen>",
+      "name": "Signature Set",
+      "pricePkr": 3500
+     },
+     {
+      "courses": [
+       {
+        "choose": 1,
+        "course": "Main Course",
+        "options": [
+         "Chicken Biryani",
+         "Lamb Tikka"
+        ]
+       }
+      ],
+      "id": "<gen>",
+      "name": "Seafood Set",
+      "pricePkr": 4200
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "menu options none",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master sortBy=interestTable&sortOrder=asc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master sortBy=restaurant",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master sortBy=maxGuests&sortOrder=asc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     },
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master sortBy=dateTime&sortOrder=asc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master sortBy=nope&pageSize=7&page=0",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master pageSize=10&page=2",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 2,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master search=wine",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master search=KOLA&searchField=restaurant",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master search=KOLA&searchField=interestTable",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master availabilityMode=COMING_SOON",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master availabilityMode=COMING_SOON,AVAILABLE_NOW&status=DRAFT&stat",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master status=CANCELLED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master restaurantId=rest1",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master restaurantId=nope",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master inviteOnly=true",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master inviteOnly=false",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master inviteOnly=maybe",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "12-03-2027",
+      "startTime": "19:30",
+      "status": "PENDING"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "01-02-2027",
+      "startTime": "19:30",
+      "status": "DRAFT"
+     },
+     {
+      "availabilityMode": "COMING_SOON",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "COMING_SOON"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "master search=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Search term too long."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "restaurant list ",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Window Table"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [
+       "c-1",
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Startup Mixer",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-03-12",
+      "startTime": "19:30",
+      "status": "PENDING",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Book Club"
+      }
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Garden Patio"
+      },
+      "availabilityMode": "COMING_SOON",
+      "comboIds": [
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "maxMinglers": 12,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Friday Wine Evening",
+      "prominglerEnabled": true,
+      "prominglerMinglerId": "<gen>",
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-01-05",
+      "startTime": "19:30",
+      "status": "COMING_SOON",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Chai & Conversations"
+      }
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "t-9"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Book Club",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-02-01",
+      "startTime": "19:30",
+      "status": "DRAFT",
+      "timeLeft": "<gen>",
+      "topic": null
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "restaurant list q=MIX",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Window Table"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [
+       "c-1",
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Startup Mixer",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-03-12",
+      "startTime": "19:30",
+      "status": "PENDING",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Book Club"
+      }
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "restaurant list status=DRAFT",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "t-9"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Book Club",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-02-01",
+      "startTime": "19:30",
+      "status": "DRAFT",
+      "timeLeft": "<gen>",
+      "topic": null
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "restaurant list sortBy=name",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "t-9"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Book Club",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-02-01",
+      "startTime": "19:30",
+      "status": "DRAFT",
+      "timeLeft": "<gen>",
+      "topic": null
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Garden Patio"
+      },
+      "availabilityMode": "COMING_SOON",
+      "comboIds": [
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "maxMinglers": 12,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Friday Wine Evening",
+      "prominglerEnabled": true,
+      "prominglerMinglerId": "<gen>",
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-01-05",
+      "startTime": "19:30",
+      "status": "COMING_SOON",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Chai & Conversations"
+      }
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Window Table"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [
+       "c-1",
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Startup Mixer",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-03-12",
+      "startTime": "19:30",
+      "status": "PENDING",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Book Club"
+      }
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "restaurant list sortBy=name&sortOrder=DESC",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Window Table"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [
+       "c-1",
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Startup Mixer",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-03-12",
+      "startTime": "19:30",
+      "status": "PENDING",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Book Club"
+      }
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Garden Patio"
+      },
+      "availabilityMode": "COMING_SOON",
+      "comboIds": [
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "maxMinglers": 12,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Friday Wine Evening",
+      "prominglerEnabled": true,
+      "prominglerMinglerId": "<gen>",
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-01-05",
+      "startTime": "19:30",
+      "status": "COMING_SOON",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Chai & Conversations"
+      }
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "t-9"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Book Club",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-02-01",
+      "startTime": "19:30",
+      "status": "DRAFT",
+      "timeLeft": "<gen>",
+      "topic": null
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "restaurant list sortBy=status",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Garden Patio"
+      },
+      "availabilityMode": "COMING_SOON",
+      "comboIds": [
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "maxMinglers": 12,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Friday Wine Evening",
+      "prominglerEnabled": true,
+      "prominglerMinglerId": "<gen>",
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-01-05",
+      "startTime": "19:30",
+      "status": "COMING_SOON",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Chai & Conversations"
+      }
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "t-9"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Book Club",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-02-01",
+      "startTime": "19:30",
+      "status": "DRAFT",
+      "timeLeft": "<gen>",
+      "topic": null
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Window Table"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [
+       "c-1",
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Startup Mixer",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-03-12",
+      "startTime": "19:30",
+      "status": "PENDING",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Book Club"
+      }
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "restaurant list sortBy=seatsBooked",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "t-9"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Book Club",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-02-01",
+      "startTime": "19:30",
+      "status": "DRAFT",
+      "timeLeft": "<gen>",
+      "topic": null
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Garden Patio"
+      },
+      "availabilityMode": "COMING_SOON",
+      "comboIds": [
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "maxMinglers": 12,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Friday Wine Evening",
+      "prominglerEnabled": true,
+      "prominglerMinglerId": "<gen>",
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-01-05",
+      "startTime": "19:30",
+      "status": "COMING_SOON",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Chai & Conversations"
+      }
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Window Table"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [
+       "c-1",
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Startup Mixer",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-03-12",
+      "startTime": "19:30",
+      "status": "PENDING",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Book Club"
+      }
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "restaurant list sortOrder=DESC",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "t-9"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Book Club",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-02-01",
+      "startTime": "19:30",
+      "status": "DRAFT",
+      "timeLeft": "<gen>",
+      "topic": null
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Garden Patio"
+      },
+      "availabilityMode": "COMING_SOON",
+      "comboIds": [
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "maxMinglers": 12,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Friday Wine Evening",
+      "prominglerEnabled": true,
+      "prominglerMinglerId": "<gen>",
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-01-05",
+      "startTime": "19:30",
+      "status": "COMING_SOON",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Chai & Conversations"
+      }
+     },
+     {
+      "assignedTable": {
+       "id": "<gen>",
+       "name": "Window Table"
+      },
+      "availabilityMode": "AVAILABLE_NOW",
+      "comboIds": [
+       "c-1",
+       "c-2"
+      ],
+      "created": "<iso>",
+      "durationHours": 2.5,
+      "durationMinutes": 150,
+      "eventImageUrl": null,
+      "id": "<gen>",
+      "inviteList": [],
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "maxMinglers": 8,
+      "minGuests": 4,
+      "minMinglers": 4,
+      "name": "Startup Mixer",
+      "prominglerEnabled": false,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "seatsBooked": 0,
+      "sponsorLogoUrl": null,
+      "sponsorName": null,
+      "startDate": "2027-03-12",
+      "startTime": "19:30",
+      "status": "PENDING",
+      "timeLeft": "<gen>",
+      "topic": {
+       "graphicUrl": "<gen>",
+       "id": "<gen>",
+       "name": "Book Club"
+      }
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "restaurant list pageSize=25&page=2",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 2,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "lookup",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "interestTableId": "<gen>",
+      "interestTableName": "Book Club"
+     },
+     {
+      "interestTableId": "<gen>",
+      "interestTableName": "Friday Wine Evening"
+     },
+     {
+      "interestTableId": "<gen>",
+      "interestTableName": "Startup Mixer"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topic counts",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "description": "One book, agreed in advance, discussed over dinner. English and Urdu titles alternate.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 1,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Books",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Urdu Poetry",
+        "updatedAt": null
+       }
+      ],
+      "name": "Book Club"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Unhurried evenings over chai on history, ideas and the stories that shaped the city.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 1,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Chai",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "History",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Urdu Poetry",
+        "updatedAt": null
+       }
+      ],
+      "name": "Chai & Conversations"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Designers, photographers, filmmakers and artists sharing work in progress and what inspires them.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Art & Design",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Photography",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Film",
+        "updatedAt": null
+       }
+      ],
+      "name": "Creative Minds"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Match analysis, fantasy picks and old rivalries, for fans who can talk cricket all night.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Cricket",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Football",
+        "updatedAt": null
+       }
+      ],
+      "name": "Cricket Talk"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Early-stage founders and operators swap notes on building, hiring and raising in Pakistan.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Startups",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Entrepreneurship",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Investing",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Networking",
+        "updatedAt": null
+       }
+      ],
+      "name": "Founders’ Table"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Volunteers and people looking to help: local causes, sustainability and how to get involved.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Community",
+        "id": "<gen>",
+        "name": "Volunteering",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Community",
+        "id": "<gen>",
+        "name": "Sustainability",
+        "updatedAt": null
+       }
+      ],
+      "name": "Giving Back"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "For people who plan their week around where to eat next: nihari, karahi, BBQ and the city’s best street food.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Desi Food",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "BBQ & Grills",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Street Food",
+        "updatedAt": null
+       }
+      ],
+      "name": "Karachi Food Trail"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Saving, investing and planning ahead, in plain language, without the sales pitch.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "Personal Finance",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Investing",
+        "updatedAt": null
+       }
+      ],
+      "name": "Money Matters"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "What’s new in software and AI, and what it means for work here. Open to builders and the curious alike.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Technology",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Artificial Intelligence",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Product Design",
+        "updatedAt": null
+       }
+      ],
+      "name": "Tech & AI Night"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Northern Areas road trips to Istanbul layovers: trade travel stories, tips and plans.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Lifestyle",
+        "id": "<gen>",
+        "name": "Travel",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Photography",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "Languages",
+        "updatedAt": null
+       }
+      ],
+      "name": "Travel Stories"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Runners, padel players and anyone building healthier habits, over a balanced meal.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Fitness",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Running",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Padel",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Lifestyle",
+        "id": "<gen>",
+        "name": "Wellness",
+        "updatedAt": null
+       }
+      ],
+      "name": "Wellness & Fitness"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Women building careers and businesses in Karachi share wins, setbacks and advice.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Leadership",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Entrepreneurship",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Networking",
+        "updatedAt": null
+       }
+      ],
+      "name": "Women Who Lead"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 12
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner list",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "COMING_SOON",
+      "date": "05-01-2027",
+      "imageUrl": null,
+      "interestTableId": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "proMingler": {
+       "kind": "ADMIN_ASSIGNED",
+       "name": ""
+      },
+      "seatsBooked": 0,
+      "status": "COMING_SOON",
+      "time": "7:30 PM"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "date": "12-03-2027",
+      "imageUrl": null,
+      "interestTableId": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "proMingler": {
+       "kind": "NONE",
+       "name": ""
+      },
+      "seatsBooked": 0,
+      "status": "PENDING",
+      "time": "7:30 PM"
+     }
+    ],
+    "page": 1,
+    "pageSize": 10,
+    "total": 2
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner list coming soon",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "COMING_SOON",
+      "date": "05-01-2027",
+      "imageUrl": null,
+      "interestTableId": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "proMingler": {
+       "kind": "ADMIN_ASSIGNED",
+       "name": ""
+      },
+      "seatsBooked": 0,
+      "status": "COMING_SOON",
+      "time": "7:30 PM"
+     }
+    ],
+    "page": 1,
+    "pageSize": 10,
+    "total": 1
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner list page",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "date": "12-03-2027",
+      "imageUrl": null,
+      "interestTableId": "<gen>",
+      "inviteOnly": true,
+      "maxGuests": 8,
+      "name": "Startup Mixer",
+      "proMingler": {
+       "kind": "NONE",
+       "name": ""
+      },
+      "seatsBooked": 0,
+      "status": "PENDING",
+      "time": "7:30 PM"
+     }
+    ],
+    "page": 2,
+    "pageSize": 1,
+    "total": 2
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": "Window Table",
+    "availabilityMode": "AVAILABLE_NOW",
+    "canCheckIn": false,
+    "checkInOpensAt": "<iso>",
+    "copyLinkEligible": true,
+    "createdAt": "<stamp>",
+    "durationMinutes": 150,
+    "interestTableId": "<gen>",
+    "inviteOnly": true,
+    "maxGuests": 8,
+    "minGuests": 4,
+    "name": "Startup Mixer",
+    "proMingler": {
+     "kind": "NONE",
+     "name": ""
+    },
+    "seatsLeft": 8,
+    "startDate": "12-03-2027",
+    "startTime": "7:30 PM",
+    "status": "PENDING",
+    "topic": "Book Club"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner detail coming soon",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": "Garden Patio",
+    "availabilityMode": "COMING_SOON",
+    "canCheckIn": false,
+    "checkInOpensAt": "<iso>",
+    "copyLinkEligible": true,
+    "createdAt": "<stamp>",
+    "durationMinutes": 150,
+    "interestTableId": "<gen>",
+    "inviteOnly": false,
+    "maxGuests": 12,
+    "minGuests": 4,
+    "name": "Friday Wine Evening",
+    "proMingler": {
+     "kind": "ADMIN_ASSIGNED",
+     "name": ""
+    },
+    "seatsLeft": 12,
+    "startDate": "05-01-2027",
+    "startTime": "7:30 PM",
+    "status": "COMING_SOON",
+    "topic": "Chai & Conversations"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner detail draft hidden",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Interest table not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner menu options",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "courses": [
+       {
+        "choose": 1,
+        "course": "Main Course",
+        "options": [
+         "Chicken Biryani",
+         "Lamb Tikka"
+        ]
+       }
+      ],
+      "name": "Signature Set",
+      "pricePkr": 3500
+     },
+     {
+      "courses": [
+       {
+        "choose": 1,
+        "course": "Main Course",
+        "options": [
+         "Chicken Biryani",
+         "Lamb Tikka"
+        ]
+       }
+      ],
+      "name": "Seafood Set",
+      "pricePkr": 4200
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner bookings",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner invitees",
+  "status": 200,
+  "body": {
+   "data": {
+    "inviteOnly": true,
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner invitees open table",
+  "status": 200,
+  "body": {
+   "data": {
+    "inviteOnly": false,
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner invitees draft",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Interest table not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner cancel invite",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Invite not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner booking",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Booking not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner cancel booking",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Booking not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner mingler",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Profile unavailable."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "area in use",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_TABLE_IN_USE",
+    "details": {
+     "upcomingTables": 1
+    },
+    "message": "This table area can't be deleted — it's assigned to one or more upcoming interest tables."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "option in use by two",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_MENU_OPTION_IN_USE",
+    "details": {
+     "upcomingTables": 2
+    },
+    "message": "This menu option is used by an upcoming interest table and can't be deleted. You can hide it instead."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "hide option",
+  "status": 200,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "isHidden": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "hidden option not offered",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "courses": [
+       {
+        "choose": 1,
+        "course": "Main Course",
+        "options": [
+         "Chicken Biryani",
+         "Lamb Tikka"
+        ]
+       }
+      ],
+      "id": "<gen>",
+      "name": "Signature Set",
+      "pricePkr": 3500
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "edit",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "Window Table"
+    },
+    "availabilityMode": "AVAILABLE_NOW",
+    "comboIds": [
+     "c-1"
+    ],
+    "created": "<iso>",
+    "durationHours": 1.5,
+    "durationMinutes": 90,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": false,
+    "maxGuests": 10,
+    "maxMinglers": 10,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Founders Mixer",
+    "prominglerEnabled": false,
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-03-13",
+    "startTime": "20:00",
+    "status": "PENDING",
+    "timeLeft": "<gen>",
+    "topic": {
+     "graphicUrl": "<gen>",
+     "id": "<gen>",
+     "name": "Chai & Conversations"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "edit table area only",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "Garden Patio"
+    },
+    "availabilityMode": "AVAILABLE_NOW",
+    "comboIds": [
+     "c-1"
+    ],
+    "created": "<iso>",
+    "durationHours": 1.5,
+    "durationMinutes": 90,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": false,
+    "maxGuests": 10,
+    "maxMinglers": 10,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Founders Mixer",
+    "prominglerEnabled": false,
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-03-13",
+    "startTime": "20:00",
+    "status": "PENDING",
+    "timeLeft": "<gen>",
+    "topic": {
+     "graphicUrl": "<gen>",
+     "id": "<gen>",
+     "name": "Chai & Conversations"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "edit nothing",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "Garden Patio"
+    },
+    "availabilityMode": "AVAILABLE_NOW",
+    "comboIds": [
+     "c-1"
+    ],
+    "created": "<iso>",
+    "durationHours": 1.5,
+    "durationMinutes": 90,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": false,
+    "maxGuests": 10,
+    "maxMinglers": 10,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Founders Mixer",
+    "prominglerEnabled": false,
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-03-13",
+    "startTime": "20:00",
+    "status": "PENDING",
+    "timeLeft": "<gen>",
+    "topic": {
+     "graphicUrl": "<gen>",
+     "id": "<gen>",
+     "name": "Chai & Conversations"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner detail after edit",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": "Garden Patio",
+    "availabilityMode": "AVAILABLE_NOW",
+    "canCheckIn": false,
+    "checkInOpensAt": "<iso>",
+    "copyLinkEligible": true,
+    "createdAt": "<stamp>",
+    "durationMinutes": 90,
+    "interestTableId": "<gen>",
+    "inviteOnly": false,
+    "maxGuests": 10,
+    "minGuests": 4,
+    "name": "Founders Mixer",
+    "proMingler": {
+     "kind": "NONE",
+     "name": ""
+    },
+    "seatsLeft": 10,
+    "startDate": "13-03-2027",
+    "startTime": "8:00 PM",
+    "status": "PENDING",
+    "topic": "Chai & Conversations"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "area released",
+  "status": 200,
+  "body": {
+   "data": {
+    "deleted": true,
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "publish draft",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "t-9"
+    },
+    "availabilityMode": "AVAILABLE_NOW",
+    "comboIds": [],
+    "created": "<iso>",
+    "durationHours": 2.5,
+    "durationMinutes": 150,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": false,
+    "maxGuests": 8,
+    "maxMinglers": 8,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Book Club",
+    "prominglerEnabled": false,
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-02-01",
+    "startTime": "19:30",
+    "status": "PENDING",
+    "timeLeft": "<gen>",
+    "topic": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "make available",
+  "status": 200,
+  "body": {
+   "data": {
+    "availability": "AVAILABLE_NOW",
+    "id": "<gen>",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "promingler missing",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "prominglerMinglerId is required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "promingler",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": {
+     "id": "<gen>",
+     "name": "Garden Patio"
+    },
+    "availabilityMode": "AVAILABLE_NOW",
+    "comboIds": [
+     "c-1"
+    ],
+    "created": "<iso>",
+    "durationHours": 1.5,
+    "durationMinutes": 90,
+    "eventImageUrl": null,
+    "id": "<gen>",
+    "inviteList": [],
+    "inviteOnly": false,
+    "maxGuests": 10,
+    "maxMinglers": 10,
+    "minGuests": 4,
+    "minMinglers": 4,
+    "name": "Founders Mixer",
+    "prominglerEnabled": true,
+    "prominglerMinglerId": "<gen>",
+    "restaurant": {
+     "id": "<gen>",
+     "name": "Kolachi"
+    },
+    "seatsBooked": 0,
+    "sponsorLogoUrl": null,
+    "sponsorName": null,
+    "startDate": "2027-03-13",
+    "startTime": "20:00",
+    "status": "PENDING",
+    "timeLeft": "<gen>",
+    "topic": {
+     "graphicUrl": "<gen>",
+     "id": "<gen>",
+     "name": "Chai & Conversations"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "invitees",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "invite unknown mingler",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_MINGLER_NOT_FOUND",
+    "message": "Mingler not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "uninvite nobody",
+  "status": 200,
+  "body": {
+   "data": {
+    "minglerId": "<gen>",
+    "removed": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "cancel",
+  "status": 200,
+  "body": {
+   "data": {
+    "cancelledCount": 0,
+    "id": "<gen>",
+    "status": "CANCELLED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner list after cancel",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "date": "01-02-2027",
+      "imageUrl": null,
+      "interestTableId": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 8,
+      "name": "Book Club",
+      "proMingler": {
+       "kind": "NONE",
+       "name": ""
+      },
+      "seatsBooked": 0,
+      "status": "PENDING",
+      "time": "7:30 PM"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "date": "05-01-2027",
+      "imageUrl": null,
+      "interestTableId": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "proMingler": {
+       "kind": "ADMIN_ASSIGNED",
+       "name": ""
+      },
+      "seatsBooked": 0,
+      "status": "CANCELLED",
+      "time": "7:30 PM"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "date": "13-03-2027",
+      "imageUrl": null,
+      "interestTableId": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 10,
+      "name": "Founders Mixer",
+      "proMingler": {
+       "kind": "ADMIN_ASSIGNED",
+       "name": ""
+      },
+      "seatsBooked": 0,
+      "status": "PENDING",
+      "time": "8:00 PM"
+     }
+    ],
+    "page": 1,
+    "pageSize": 10,
+    "total": 3
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner cancelled detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "assignedTable": "Garden Patio",
+    "availabilityMode": "AVAILABLE_NOW",
+    "canCheckIn": false,
+    "checkInOpensAt": "<iso>",
+    "copyLinkEligible": false,
+    "createdAt": "<stamp>",
+    "durationMinutes": 150,
+    "interestTableId": "<gen>",
+    "inviteOnly": false,
+    "maxGuests": 12,
+    "minGuests": 4,
+    "name": "Friday Wine Evening",
+    "proMingler": {
+     "kind": "ADMIN_ASSIGNED",
+     "name": ""
+    },
+    "seatsLeft": 12,
+    "startDate": "05-01-2027",
+    "startTime": "7:30 PM",
+    "status": "CANCELLED",
+    "topic": "Chai & Conversations"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "option released by cancel",
+  "status": 200,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "deleted": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topic counts after cancel",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "description": "One book, agreed in advance, discussed over dinner. English and Urdu titles alternate.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Books",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Urdu Poetry",
+        "updatedAt": null
+       }
+      ],
+      "name": "Book Club"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Unhurried evenings over chai on history, ideas and the stories that shaped the city.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 1,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Chai",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "History",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Urdu Poetry",
+        "updatedAt": null
+       }
+      ],
+      "name": "Chai & Conversations"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Designers, photographers, filmmakers and artists sharing work in progress and what inspires them.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Art & Design",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Photography",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Film",
+        "updatedAt": null
+       }
+      ],
+      "name": "Creative Minds"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Match analysis, fantasy picks and old rivalries, for fans who can talk cricket all night.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Cricket",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Football",
+        "updatedAt": null
+       }
+      ],
+      "name": "Cricket Talk"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Early-stage founders and operators swap notes on building, hiring and raising in Pakistan.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Startups",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Entrepreneurship",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Investing",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Networking",
+        "updatedAt": null
+       }
+      ],
+      "name": "Founders’ Table"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Volunteers and people looking to help: local causes, sustainability and how to get involved.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Community",
+        "id": "<gen>",
+        "name": "Volunteering",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Community",
+        "id": "<gen>",
+        "name": "Sustainability",
+        "updatedAt": null
+       }
+      ],
+      "name": "Giving Back"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "For people who plan their week around where to eat next: nihari, karahi, BBQ and the city’s best street food.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Desi Food",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "BBQ & Grills",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Street Food",
+        "updatedAt": null
+       }
+      ],
+      "name": "Karachi Food Trail"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Saving, investing and planning ahead, in plain language, without the sales pitch.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "Personal Finance",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Investing",
+        "updatedAt": null
+       }
+      ],
+      "name": "Money Matters"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "What’s new in software and AI, and what it means for work here. Open to builders and the curious alike.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Technology",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Artificial Intelligence",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Product Design",
+        "updatedAt": null
+       }
+      ],
+      "name": "Tech & AI Night"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Northern Areas road trips to Istanbul layovers: trade travel stories, tips and plans.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Lifestyle",
+        "id": "<gen>",
+        "name": "Travel",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Photography",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "Languages",
+        "updatedAt": null
+       }
+      ],
+      "name": "Travel Stories"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Runners, padel players and anyone building healthier habits, over a balanced meal.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Fitness",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Running",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Padel",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Lifestyle",
+        "id": "<gen>",
+        "name": "Wellness",
+        "updatedAt": null
+       }
+      ],
+      "name": "Wellness & Fitness"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Women building careers and businesses in Karachi share wins, setbacks and advice.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Leadership",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Entrepreneurship",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Networking",
+        "updatedAt": null
+       }
+      ],
+      "name": "Women Who Lead"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 12
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "delete",
+  "status": 200,
+  "body": {
+   "data": {
+    "deleted": true,
+    "id": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "delete again",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "master end",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 10,
+      "name": "Founders Mixer",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "13-03-2027",
+      "startTime": "20:00",
+      "status": "PENDING"
+     },
+     {
+      "availabilityMode": "AVAILABLE_NOW",
+      "coverImageUrl": null,
+      "id": "<gen>",
+      "inviteOnly": false,
+      "maxGuests": 12,
+      "name": "Friday Wine Evening",
+      "promingler": null,
+      "restaurant": {
+       "id": "<gen>",
+       "name": "Kolachi"
+      },
+      "startDate": "05-01-2027",
+      "startTime": "19:30",
+      "status": "CANCELLED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "change log",
+  "status": 200,
+  "body": [
+   {
+    "action": "delete",
+    "admin": "admin@gomingle.com",
+    "data": "Book Club",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Deleted interest table: Book Club",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Friday Wine Evening",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Cancelled",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "delete",
+    "admin": "admin@gomingle.com",
+    "data": "Founders Mixer",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Deleted interest table: Founders Mixer",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Founders Mixer",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Changed Pro Mingler",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Friday Wine Evening",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Made available",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Book Club",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Published",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Founders Mixer",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Updated interest table",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Founders Mixer",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Updated interest table",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Founders Mixer",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Changed to name: Founders Mixer, maxGuests: 10, startDate: 2027-03-13, startTime: 20:00",
+    "oldVal": "Was name: Startup Mixer, maxGuests: 8, startDate: 2027-03-12, startTime: 19:30",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Book Club",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Created interest table: Book Club",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Friday Wine Evening",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Created interest table: Friday Wine Evening",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Startup Mixer",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Tables",
+    "newVal": "Created interest table: Startup Mixer",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Kolachi",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Approvals",
+    "newVal": "Approved",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Premium",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Categories",
+    "newVal": "Created category: Premium",
+    "timestamp": "<stamp>"
+   }
+  ]
+ }
+]

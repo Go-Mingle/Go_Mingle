@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Form, Input, InputNumber, Modal, Select } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { useInterestTableOptions } from '../hooks/useEscrow'
 import type { EscrowRestaurantOption, TestBookingRequest } from '../types'
 
 interface ReasonModalProps {
@@ -64,6 +65,10 @@ export function TestBookingModal({ open, restaurants, loading, onCancel, onSubmi
   const { t } = useTranslation('finances')
   const [form] = Form.useForm<TestBookingRequest>()
 
+  const restaurantId = Form.useWatch('restaurantId', form)
+  const interestTableId = Form.useWatch('interestTableId', form)
+  const tables = useInterestTableOptions(open ? restaurantId : undefined)
+
   useEffect(() => {
     if (open) form.resetFields()
   }, [open, form])
@@ -97,26 +102,49 @@ export function TestBookingModal({ open, restaurants, loading, onCancel, onSubmi
             showSearch
             optionFilterProp="label"
             placeholder={t('escrow.testBooking.restaurantPlaceholder')}
+            onChange={() => form.setFieldValue('interestTableId', undefined)}
             options={restaurants.map((r) => ({
               value: r.id,
               label: r.hasPayoutAccount ? r.name : `${r.name} — ${t('escrow.noPayoutAccount')}`,
             }))}
           />
         </Form.Item>
+        <Form.Item
+          name="interestTableId"
+          label={t('escrow.testBooking.interestTable')}
+          extra={interestTableId ? t('escrow.testBooking.interestTableHelp') : t('escrow.testBooking.interestTableOptional')}
+        >
+          <Select
+            allowClear
+            showSearch
+            optionFilterProp="label"
+            disabled={!restaurantId}
+            loading={tables.isFetching}
+            placeholder={t('escrow.testBooking.interestTablePlaceholder')}
+            options={(tables.data?.items ?? []).map((it) => ({ value: it.interestTableId, label: it.interestTableName }))}
+          />
+        </Form.Item>
         <Form.Item name="minglerName" label={t('escrow.testBooking.mingler')}>
           <Input maxLength={80} placeholder="Zara Ali" />
         </Form.Item>
         <div className="grid grid-cols-2 gap-3">
-          <Form.Item name="guests" label={t('escrow.testBooking.guests')} rules={[{ required: true }]}>
-            <InputNumber min={1} max={8} className="w-full" />
-          </Form.Item>
           <Form.Item
-            name="amountPerGuest"
-            label={t('escrow.testBooking.amountPerGuest')}
+            name="guests"
+            label={interestTableId ? t('escrow.testBooking.seats') : t('escrow.testBooking.guests')}
             rules={[{ required: true }]}
           >
-            <InputNumber min={100} max={100000} step={100} className="w-full" />
+            <InputNumber min={1} max={8} className="w-full" />
           </Form.Item>
+          {/* At an interest table the amount is the restaurant's no-show penalty, not a typed figure. */}
+          {!interestTableId && (
+            <Form.Item
+              name="amountPerGuest"
+              label={t('escrow.testBooking.amountPerGuest')}
+              rules={[{ required: true }]}
+            >
+              <InputNumber min={100} max={100000} step={100} className="w-full" />
+            </Form.Item>
+          )}
         </div>
       </Form>
     </Modal>

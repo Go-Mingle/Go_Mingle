@@ -11,6 +11,7 @@ import { IT_TAB_KEYS } from '../constants'
 import { useInterestTableDetail } from '../hooks/useInterestTableDetail'
 import type { InterestTableDetailController } from '../hooks/useInterestTableDetail'
 import { BookingDetailsModal } from './BookingDetailsModal'
+import { CheckInDialogs } from './CheckInDialogs'
 import { BookingsTab } from './BookingsTab'
 import { InterestTableDetailHeader } from './InterestTableDetailHeader'
 import { InvitedTab } from './InvitedTab'
@@ -79,12 +80,16 @@ export function PartnerInterestTableDetailPage() {
     <div>
       {feedback.contextHolder}
 
-      <InterestTableDetailHeader table={c.table} />
+      <InterestTableDetailHeader
+        table={c.table}
+        onGuestsArrived={c.canCheckIn ? c.requestGuestsArrived : undefined}
+      />
       <DetailTabs c={c} table={c.table} />
 
       <BookingDetailsModal bookingId={c.openBookingId} onClose={c.closeBooking} />
       <MinglerProfileModal minglerId={c.openMinglerId} onClose={c.closeMingler} />
       <CancelDialogs c={c} />
+      <CheckInDialogs c={c} />
     </div>
   )
 }

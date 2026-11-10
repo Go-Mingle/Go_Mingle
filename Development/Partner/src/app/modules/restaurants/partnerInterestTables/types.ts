@@ -83,6 +83,9 @@ export interface InterestTableDetail {
    * the server is the authority, and it is false for Cancelled (BR-09).
    */
   copyLinkEligible: boolean
+  /** Whether "Guests Arrived" is offered: from one hour before the start, while bookings are open. */
+  canCheckIn?: boolean
+  checkInOpensAt?: string
 }
 
 /** One assigned combo course (endpoint 3). Same grouped shape as J6D's menu options. */
@@ -121,6 +124,31 @@ export interface InterestTableBookingRow {
    * buttons that 409.
    */
   cancellable: boolean
+  /** Seats on the booking. */
+  seats?: number
+  /** Set once the booking is checked in. `PARTIAL`: some of its seats stayed empty. */
+  attendance?: BookingAttendance | null
+  arrivedSeats?: number | null
+  emptySeats?: number | null
+  /** The penalty per empty seat this booking was made under. */
+  penaltyPerSeatPkr?: number
+  /** What was collected for empty seats; null while nothing is due. */
+  penaltyChargedPkr?: number | null
+  penaltyStatus?: 'CHARGED' | 'FAILED' | null
+  /**
+   * Whether "No-show" is offered. Decided by the server (the booking is still
+   * open and the table's start time has passed); never recompute it.
+   */
+  canMarkNoShow?: boolean
+}
+
+export type BookingAttendance = 'ARRIVED' | 'PARTIAL' | 'NO_SHOW'
+
+export interface GuestsArrivedResponse {
+  interestTableId: string
+  status: 'COMPLETED'
+  bookingsCheckedIn: number
+  seatsArrived: number
 }
 
 /**

@@ -20,6 +20,8 @@ export const PARTNER_IT_ENDPOINTS = {
   invitees: (itId: string) => `${ROOT}/interest-tables/${itId}/invitees`,
   cancelInvite: (itId: string, inviteeId: string) =>
     `${ROOT}/interest-tables/${itId}/invitees/${inviteeId}/cancel`,
+  guestsArrived: (itId: string) => `${ROOT}/interest-tables/${itId}/guests-arrived`,
+  markNoShow: (bookingId: string) => `${ROOT}/bookings/${bookingId}/no-show`,
   bookingById: (bookingId: string) => `${ROOT}/bookings/${bookingId}`,
   cancelBooking: (bookingId: string) => `${ROOT}/bookings/${bookingId}/cancel`,
   minglerById: (minglerId: string) => `${ROOT}/minglers/${minglerId}`,

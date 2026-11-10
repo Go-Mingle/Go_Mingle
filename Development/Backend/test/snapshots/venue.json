@@ -1,0 +1,1702 @@
+[
+ {
+  "step": "login partner",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "tables empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table no name",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "name": "Table name is required."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table unknown field",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "seats": "Unrecognised field."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table long name",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "name": "Table name must be 150 characters or fewer."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table availability not object",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "availability": "Availability must be an object keyed by weekday."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table bad days and ranges",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "availability.1": "Ranges must be an array.",
+      "availability.2": "A day can have at most 6 time ranges.",
+      "availability.3[0].end": "Time must be HH:MM (24-hour).",
+      "availability.3[0].start": "Time must be HH:MM (24-hour).",
+      "availability.3[1].end": "End time must be after the start time.",
+      "availability.3[2].end": "End time must be after the start time.",
+      "availability.4": "Time ranges on the same day can't overlap.",
+      "availability.7": "Weekday must be \"0\" (Sunday) through \"6\" (Saturday).",
+      "availability.mon": "Weekday must be \"0\" (Sunday) through \"6\" (Saturday)."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table",
+  "status": 201,
+  "body": {
+   "data": {
+    "availability": {
+     "0": [
+      {
+       "end": "23:59",
+       "start": "00:00"
+      }
+     ],
+     "1": [
+      {
+       "end": "17:00",
+       "start": "16:00"
+      },
+      {
+       "end": "11:30",
+       "start": "10:00"
+      }
+     ],
+     "2": [],
+     "3": [],
+     "4": [],
+     "5": [],
+     "6": []
+    },
+    "isHidden": false,
+    "name": "Window Table",
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table duplicate",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_TABLE_NAME_DUPLICATE",
+    "details": {
+     "field": "name"
+    },
+    "message": "A table area with this name already exists."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table 2",
+  "status": 201,
+  "body": {
+   "data": {
+    "availability": {
+     "0": [],
+     "1": [],
+     "2": [],
+     "3": [],
+     "4": [],
+     "5": [
+      {
+       "end": "23:00",
+       "start": "18:00"
+      }
+     ],
+     "6": []
+    },
+    "isHidden": false,
+    "name": "Garden Patio",
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table 3 always closed",
+  "status": 201,
+  "body": {
+   "data": {
+    "availability": {
+     "0": [],
+     "1": [],
+     "2": [],
+     "3": [],
+     "4": [],
+     "5": [],
+     "6": []
+    },
+    "isHidden": false,
+    "name": "Chef's Counter",
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "tables",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availability": {
+       "0": [
+        {
+         "end": "23:59",
+         "start": "00:00"
+        }
+       ],
+       "1": [
+        {
+         "end": "17:00",
+         "start": "16:00"
+        },
+        {
+         "end": "11:30",
+         "start": "10:00"
+        }
+       ],
+       "2": [],
+       "3": [],
+       "4": [],
+       "5": [],
+       "6": []
+      },
+      "isHidden": false,
+      "name": "Window Table",
+      "tableId": "<gen>"
+     },
+     {
+      "availability": {
+       "0": [],
+       "1": [],
+       "2": [],
+       "3": [],
+       "4": [],
+       "5": [
+        {
+         "end": "23:00",
+         "start": "18:00"
+        }
+       ],
+       "6": []
+      },
+      "isHidden": false,
+      "name": "Garden Patio",
+      "tableId": "<gen>"
+     },
+     {
+      "availability": {
+       "0": [],
+       "1": [],
+       "2": [],
+       "3": [],
+       "4": [],
+       "5": [],
+       "6": []
+      },
+      "isHidden": false,
+      "name": "Chef's Counter",
+      "tableId": "<gen>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table update missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Table area not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table update invalid",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "name": "Table name is required."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table update duplicate",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_TABLE_NAME_DUPLICATE",
+    "details": {
+     "field": "name"
+    },
+    "message": "A table area with this name already exists."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table update own name",
+  "status": 200,
+  "body": {
+   "data": {
+    "availability": {
+     "0": [],
+     "1": [],
+     "2": [],
+     "3": [],
+     "4": [],
+     "5": [],
+     "6": [
+      {
+       "end": "15:00",
+       "start": "12:00"
+      }
+     ]
+    },
+    "isHidden": false,
+    "name": "Window Table",
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table hide bad body",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Invalid request."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table hide missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Table area not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table hide",
+  "status": 200,
+  "body": {
+   "data": {
+    "isHidden": true,
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table hide again",
+  "status": 200,
+  "body": {
+   "data": {
+    "isHidden": true,
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table delete missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Table area not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table delete",
+  "status": 200,
+  "body": {
+   "data": {
+    "deleted": true,
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table delete again",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Table area not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "table 4 gets a new id",
+  "status": 201,
+  "body": {
+   "data": {
+    "availability": {
+     "0": [],
+     "1": [],
+     "2": [],
+     "3": [
+      {
+       "end": "23:00",
+       "start": "20:00"
+      }
+     ],
+     "4": [],
+     "5": [],
+     "6": []
+    },
+    "isHidden": false,
+    "name": "Chef's Counter",
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "tables end",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availability": {
+       "0": [],
+       "1": [],
+       "2": [],
+       "3": [],
+       "4": [],
+       "5": [],
+       "6": [
+        {
+         "end": "15:00",
+         "start": "12:00"
+        }
+       ]
+      },
+      "isHidden": false,
+      "name": "Window Table",
+      "tableId": "<gen>"
+     },
+     {
+      "availability": {
+       "0": [],
+       "1": [],
+       "2": [],
+       "3": [],
+       "4": [],
+       "5": [
+        {
+         "end": "23:00",
+         "start": "18:00"
+        }
+       ],
+       "6": []
+      },
+      "isHidden": true,
+      "name": "Garden Patio",
+      "tableId": "<gen>"
+     },
+     {
+      "availability": {
+       "0": [],
+       "1": [],
+       "2": [],
+       "3": [
+        {
+         "end": "23:00",
+         "start": "20:00"
+        }
+       ],
+       "4": [],
+       "5": [],
+       "6": []
+      },
+      "isHidden": false,
+      "name": "Chef's Counter",
+      "tableId": "<gen>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "options empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "option empty body",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "courses": "Add at least one section.",
+      "name": "Name is required.",
+      "pricePkr": "Price is required."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "option invalid",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "courses.0.choose": "Choice of must be at least 1.",
+      "courses.0.course": "Section name is required.",
+      "courses.0.options": "Add at least one item.",
+      "courses.1.choose": "You can't ask diners to choose more items than the section offers.",
+      "courses.2.choose": "Choice of must be at least 1.",
+      "name": "Name must be 255 characters or fewer.",
+      "pricePkr": "Price cannot be negative."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "option price not a number",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "courses": "Add at least one section.",
+      "pricePkr": "Price is required."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "option too many sections",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "courses": "A menu option can have at most 20 sections."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "option",
+  "status": 201,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "courses": [
+     {
+      "choose": 1,
+      "course": "Main Course",
+      "options": [
+       "Chicken Biryani",
+       "Lamb Tikka"
+      ]
+     },
+     {
+      "choose": 2,
+      "course": "Desserts",
+      "options": [
+       "Kunafa",
+       "Baklava",
+       "Kheer"
+      ]
+     }
+    ],
+    "isHidden": false,
+    "name": " Signature Set ",
+    "pricePkr": 3500.5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "option 2",
+  "status": 201,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "courses": [
+     {
+      "choose": 1,
+      "course": "Main Course",
+      "options": [
+       "Chicken Biryani",
+       "Lamb Tikka"
+      ]
+     }
+    ],
+    "isHidden": false,
+    "name": "Seafood Set",
+    "pricePkr": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "options",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "comboId": "<gen>",
+      "courses": [
+       {
+        "choose": 1,
+        "course": "Main Course",
+        "options": [
+         "Chicken Biryani",
+         "Lamb Tikka"
+        ]
+       },
+       {
+        "choose": 2,
+        "course": "Desserts",
+        "options": [
+         "Kunafa",
+         "Baklava",
+         "Kheer"
+        ]
+       }
+      ],
+      "isHidden": false,
+      "name": " Signature Set ",
+      "pricePkr": 3500.5
+     },
+     {
+      "comboId": "<gen>",
+      "courses": [
+       {
+        "choose": 1,
+        "course": "Main Course",
+        "options": [
+         "Chicken Biryani",
+         "Lamb Tikka"
+        ]
+       }
+      ],
+      "isHidden": false,
+      "name": "Seafood Set",
+      "pricePkr": 0
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "option update missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Menu option not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "option update invalid",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "courses": "Add at least one section.",
+      "pricePkr": "Price is required."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "option update",
+  "status": 200,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "courses": [
+     {
+      "choose": 2,
+      "course": "Desserts",
+      "options": [
+       "Kunafa",
+       "Baklava",
+       "Kheer"
+      ]
+     }
+    ],
+    "isHidden": false,
+    "name": "Signature Levantine",
+    "pricePkr": 4200
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "option hide bad body",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Invalid request."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "option hide missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Menu option not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "option hide",
+  "status": 200,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "isHidden": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "option delete missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Menu option not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf none",
+  "status": 200,
+  "body": {
+   "data": {
+    "menuUrl": null,
+    "name": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf delete none",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "No menu PDF to remove."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf target not a pdf",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Only a PDF menu is allowed."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf target no name",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Only a PDF menu is allowed."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf commit unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "No upload was found for that reference."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf commit no ref",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "No upload was found for that reference."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf never uploaded target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf never uploaded commit",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "No uploaded file was found for this reference."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf wrong bytes target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf wrong bytes commit",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_MEDIA_TYPE",
+    "details": {
+     "contentType": "application/pdf",
+     "message": "Only a PDF menu is allowed."
+    },
+    "message": "This file type isn't supported for this section."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf empty target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf empty commit",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_MEDIA_TYPE",
+    "details": {
+     "contentType": "application/pdf",
+     "message": "Only a PDF menu is allowed."
+    },
+    "message": "This file type isn't supported for this section."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf commit",
+  "status": 200,
+  "body": {
+   "data": {
+    "menuUrl": "<gen>",
+    "name": "autumn-menu-2026-final.pdf"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf again commit",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "No upload was found for that reference."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pdf",
+  "status": 200,
+  "body": {
+   "data": {
+    "menuUrl": "<gen>",
+    "name": "autumn-menu-2026-final.pdf"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf replace target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf replace commit",
+  "status": 200,
+  "body": {
+   "data": {
+    "menuUrl": "<gen>",
+    "name": "menu.pdf"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "option 3",
+  "status": 201,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "courses": [
+     {
+      "choose": 1,
+      "course": "Main Course",
+      "options": [
+       "Chicken Biryani",
+       "Lamb Tikka"
+      ]
+     },
+     {
+      "choose": 2,
+      "course": "Desserts",
+      "options": [
+       "Kunafa",
+       "Baklava",
+       "Kheer"
+      ]
+     }
+    ],
+    "isHidden": false,
+    "name": "Tasting",
+    "pricePkr": 9000
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "option delete",
+  "status": 200,
+  "body": {
+   "data": {
+    "comboId": "<gen>",
+    "deleted": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": true,
+    "isCover": true,
+    "mediaId": "<gen>",
+    "name": "dining.jpg",
+    "size": 8,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "payout",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "Kolachi",
+     "addedAt": "<iso>",
+     "bankName": "HBL",
+     "ibanMasked": "PK36 •••• 6702",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "submit",
+  "status": 200,
+  "body": {
+   "data": {
+    "message": "Your application has been submitted and is under review.",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "ro tables readable",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availability": {
+       "0": [],
+       "1": [],
+       "2": [],
+       "3": [],
+       "4": [],
+       "5": [],
+       "6": [
+        {
+         "end": "15:00",
+         "start": "12:00"
+        }
+       ]
+      },
+      "isHidden": false,
+      "name": "Window Table",
+      "tableId": "<gen>"
+     },
+     {
+      "availability": {
+       "0": [],
+       "1": [],
+       "2": [],
+       "3": [],
+       "4": [],
+       "5": [
+        {
+         "end": "23:00",
+         "start": "18:00"
+        }
+       ],
+       "6": []
+      },
+      "isHidden": true,
+      "name": "Garden Patio",
+      "tableId": "<gen>"
+     },
+     {
+      "availability": {
+       "0": [],
+       "1": [],
+       "2": [],
+       "3": [
+        {
+         "end": "23:00",
+         "start": "20:00"
+        }
+       ],
+       "4": [],
+       "5": [],
+       "6": []
+      },
+      "isHidden": false,
+      "name": "Chef's Counter",
+      "tableId": "<gen>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "ro table create",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro table update",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro table hide",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro table delete",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro option create",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro option update",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro option hide",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro option delete",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro pdf target",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro pdf commit",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "ro pdf delete",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "admin tables",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availability": [
+       {
+        "dayOfWeek": 6,
+        "end": "3:00 PM",
+        "start": "12:00 PM"
+       }
+      ],
+      "id": "<gen>",
+      "name": "Window Table"
+     },
+     {
+      "availability": [
+       {
+        "dayOfWeek": 3,
+        "end": "11:00 PM",
+        "start": "8:00 PM"
+       }
+      ],
+      "id": "<gen>",
+      "name": "Chef's Counter"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin menu options",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "courses": [
+       {
+        "choose": 2,
+        "course": "Desserts",
+        "options": [
+         "Kunafa",
+         "Baklava",
+         "Kheer"
+        ]
+       }
+      ],
+      "id": "<gen>",
+      "name": "Signature Levantine",
+      "pricePkr": 4200
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin detail has the menu",
+  "status": 200,
+  "body": {
+   "data": {
+    "areaDistrict": "DHA",
+    "avatarUrl": "<gen>",
+    "businessRegNo": "",
+    "category": null,
+    "city": "Karachi",
+    "confirmedBookings": 0,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "dressCode": "",
+    "email": "o@kolachi.pk",
+    "fullAddress": "Do Darya, Karachi",
+    "houseRules": "",
+    "id": "<gen>",
+    "joinedAt": "<gen>",
+    "latitude": 24.78,
+    "longitude": 67.06,
+    "menuPdfUrl": "<gen>",
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "phone": "+92 21 3525 0000",
+    "seatingCapacity": 0,
+    "servesAlcohol": null,
+    "status": "PENDING",
+    "visibleOnApp": false,
+    "website": ""
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin tables unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "category",
+  "status": 201,
+  "body": {
+   "commissionRate": 12,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "interestTablesPerMonth": 4,
+   "name": "Premium",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "approve",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "id": "<gen>",
+    "status": "APPROVED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf delete",
+  "status": 200,
+  "body": {
+   "data": {
+    "menuUrl": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pdf gone",
+  "status": 200,
+  "body": {
+   "data": {
+    "menuUrl": null,
+    "name": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table show",
+  "status": 200,
+  "body": {
+   "data": {
+    "isHidden": false,
+    "tableId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin tables after",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "availability": [
+       {
+        "dayOfWeek": 6,
+        "end": "3:00 PM",
+        "start": "12:00 PM"
+       }
+      ],
+      "id": "<gen>",
+      "name": "Window Table"
+     },
+     {
+      "availability": [
+       {
+        "dayOfWeek": 5,
+        "end": "11:00 PM",
+        "start": "6:00 PM"
+       }
+      ],
+      "id": "<gen>",
+      "name": "Garden Patio"
+     },
+     {
+      "availability": [
+       {
+        "dayOfWeek": 3,
+        "end": "11:00 PM",
+        "start": "8:00 PM"
+       }
+      ],
+      "id": "<gen>",
+      "name": "Chef's Counter"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin detail no menu",
+  "status": 200,
+  "body": {
+   "data": {
+    "areaDistrict": "DHA",
+    "avatarUrl": "<gen>",
+    "businessRegNo": "",
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "city": "Karachi",
+    "confirmedBookings": 0,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "dressCode": "",
+    "email": "o@kolachi.pk",
+    "fullAddress": "Do Darya, Karachi",
+    "houseRules": "",
+    "id": "<gen>",
+    "joinedAt": "<gen>",
+    "latitude": 24.78,
+    "longitude": 67.06,
+    "menuPdfUrl": null,
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "phone": "+92 21 3525 0000",
+    "seatingCapacity": 0,
+    "servesAlcohol": null,
+    "status": "ACTIVE",
+    "visibleOnApp": true,
+    "website": ""
+   },
+   "success": true
+  }
+ }
+]

@@ -111,12 +111,83 @@ describe('EscrowPage', () => {
     const dialog = await screen.findByRole('dialog')
     await user.click(within(dialog).getByRole('button', { name: 'Place card hold' }))
     expect(await screen.findByText('Choose a restaurant')).toBeInTheDocument()
-    await user.click(within(dialog).getByRole('combobox'))
+    await user.click(within(dialog).getAllByRole('combobox')[0])
     await user.click(await screen.findByTitle('Aurelia Dining'))
     await user.type(within(dialog).getByPlaceholderText('Zara Ali'), 'Zara Ali')
     await user.click(within(dialog).getByRole('button', { name: 'Place card hold' }))
     expect(await screen.findByText('7 transactions')).toBeInTheDocument()
     expect(screen.getByText(/Zara Ali · 2 guests/)).toBeInTheDocument()
+  })
+
+  it('books seats at an interest table: the hold is the no-show penalty', async () => {
+    const success = vi.spyOn(antd.message, 'success')
+    server.use(
+      http.get('*/api/v1/restaurants/:rid/lookups/interest-tables', () =>
+        HttpResponse.json({ success: true, data: { items: [{ interestTableId: 'it-1', interestTableName: 'Friday Wine Evening' }] } }),
+      ),
+    )
+    const user = userEvent.setup()
+    renderPage()
+    await screen.findByText('GM-000101')
+    await user.click(screen.getByRole('button', { name: /Sandbox booking/ }))
+    const dialog = await screen.findByRole('dialog')
+    expect(within(dialog).getByText('Optional. Leave empty to place a plain payment hold.')).toBeInTheDocument()
+    await user.click(within(dialog).getAllByRole('combobox')[0])
+    await user.click(await screen.findByTitle('Aurelia Dining'))
+    await user.click(within(dialog).getAllByRole('combobox')[1])
+    await user.click(await screen.findByTitle('Friday Wine Evening'))
+    // The amount is the restaurant's penalty, so it is no longer asked for.
+    await waitFor(() => expect(within(dialog).queryByText('Amount per guest (PKR)')).not.toBeInTheDocument())
+    expect(within(dialog).getByText('Seats')).toBeInTheDocument()
+    await user.type(within(dialog).getByPlaceholderText('Zara Ali'), 'Hina Shah')
+    await user.click(within(dialog).getByRole('button', { name: 'Place card hold' }))
+    expect(await screen.findByText('7 transactions')).toBeInTheDocument()
+    expect(screen.getByText(/Hina Shah · 2 guests/)).toBeInTheDocument()
+    expect(success).toHaveBeenCalledWith(expect.stringMatching(/booked: PKR 3,000 no-show hold on card/))
+  })
+
+  const tableLookup = http.get('*/api/v1/restaurants/:rid/lookups/interest-tables', () =>
+    HttpResponse.json({ success: true, data: { items: [{ interestTableId: 'it-1', interestTableName: 'Friday Wine Evening' }] } }),
+  )
+  const bookAtTable = async (user: ReturnType<typeof userEvent.setup>) => {
+    await screen.findByText('GM-000101')
+    await user.click(screen.getByRole('button', { name: /Sandbox booking/ }))
+    const dialog = await screen.findByRole('dialog')
+    await user.click(within(dialog).getAllByRole('combobox')[0])
+    await user.click(await screen.findByTitle('Aurelia Dining'))
+    await user.click(within(dialog).getAllByRole('combobox')[1])
+    await user.click(await screen.findByTitle('Friday Wine Evening'))
+    await user.click(within(dialog).getByRole('button', { name: 'Place card hold' }))
+  }
+
+  it('says so when a table booking places no hold', async () => {
+    const success = vi.spyOn(antd.message, 'success')
+    server.use(
+      tableLookup,
+      http.post('*/api/v1/admin/bookings/sandbox', () =>
+        HttpResponse.json(
+          { success: true, data: { booking: { id: 'bk-1', bookingRef: 'GM-555555', seats: 2, penaltyPerSeatPkr: 0 }, hold: null } },
+          { status: 201 },
+        ),
+      ),
+    )
+    renderPage()
+    await bookAtTable(userEvent.setup())
+    await waitFor(() => expect(success).toHaveBeenCalledWith('GM-555555 booked. No card hold: this restaurant has no no-show penalty.'))
+  })
+
+  it('surfaces a table booking failure and keeps the form open', async () => {
+    const error = vi.spyOn(antd.message, 'error')
+    server.use(
+      tableLookup,
+      http.post('*/api/v1/admin/bookings/sandbox', () =>
+        HttpResponse.json({ success: false, error: { code: 'ERR_TABLE_FULL', message: 'Only 1 seat left at this table.' } }, { status: 409 }),
+      ),
+    )
+    renderPage()
+    await bookAtTable(userEvent.setup())
+    await waitFor(() => expect(error).toHaveBeenCalledWith('Only 1 seat left at this table.'))
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('surfaces a test booking failure', async () => {
@@ -129,7 +200,7 @@ describe('EscrowPage', () => {
     await screen.findByText('GM-000101')
     await user.click(screen.getByRole('button', { name: /Sandbox booking/ }))
     const dialog = await screen.findByRole('dialog')
-    await user.click(within(dialog).getByRole('combobox'))
+    await user.click(within(dialog).getAllByRole('combobox')[0])
     await user.click(await screen.findByTitle(/Saffron Terrace/))
     await user.click(within(dialog).getByRole('button', { name: 'Place card hold' }))
     await waitFor(() => expect(error).toHaveBeenCalled())

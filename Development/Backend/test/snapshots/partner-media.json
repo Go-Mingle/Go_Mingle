@@ -1,0 +1,1022 @@
+[
+ {
+  "step": "login",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "documents empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "gallery empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "photos": {
+     "count": 0,
+     "items": [],
+     "max": 20
+    },
+    "videos": {
+     "count": 0,
+     "items": [],
+     "max": 5
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "target no name",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "A name and content type are required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "commit no ref",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "An uploadRef is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "commit unknown ref",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "No upload was found for that reference."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "doc target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "doc extra field commit",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Property name is not allowed on this request."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "doc commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "name": "Trade Licence.pdf",
+    "size": 16,
+    "type": "PDF",
+    "uploadedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "doc again commit",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "No upload was found for that reference."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "doc never uploaded target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "doc never uploaded commit",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "No uploaded object for that reference."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "doc wrong bytes target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "doc wrong bytes commit",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_MEDIA_TYPE",
+    "details": {
+     "contentType": "application/pdf",
+     "message": "Only PDF, DOCX, JPG or PNG documents are allowed."
+    },
+    "message": "This file type isn't supported for this section."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "doc empty target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "doc empty commit",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_MEDIA_TYPE",
+    "details": {
+     "contentType": "application/pdf",
+     "message": "Only PDF, DOCX, JPG or PNG documents are allowed."
+    },
+    "message": "This file type isn't supported for this section."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "doc png target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "doc png commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "name": "Floor plan.png",
+    "size": 6,
+    "type": "PNG",
+    "uploadedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "doc wrong kind target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "doc as photo commit",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "No upload was found for that reference."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "documents",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "mediaId": "<gen>",
+      "name": "Floor plan.png",
+      "size": 6,
+      "type": "PNG",
+      "uploadedAt": "<iso>"
+     },
+     {
+      "mediaId": "<gen>",
+      "name": "Trade Licence.pdf",
+      "size": 16,
+      "type": "PDF",
+      "uploadedAt": "<iso>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "documents sorted",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "mediaId": "<gen>",
+      "name": "Trade Licence.pdf",
+      "size": 16,
+      "type": "PDF",
+      "uploadedAt": "<iso>"
+     },
+     {
+      "mediaId": "<gen>",
+      "name": "Floor plan.png",
+      "size": 6,
+      "type": "PNG",
+      "uploadedAt": "<iso>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "documents by type",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "mediaId": "<gen>",
+      "name": "Floor plan.png",
+      "size": 6,
+      "type": "PNG",
+      "uploadedAt": "<iso>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "documents bad sort",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Invalid sort or search parameter."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "documents bad order",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Invalid sort or search parameter."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "download url",
+  "status": 200,
+  "body": {
+   "data": {
+    "downloadUrl": "<gen>",
+    "expiresInSeconds": 300
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "download url missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Document not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "photo target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": true,
+    "isCover": true,
+    "mediaId": "<gen>",
+    "name": "dining.jpg",
+    "size": 8,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile has cover",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": "<gen>",
+    "cuisine": null,
+    "description": null,
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": null,
+     "city": null,
+     "fullAddress": null,
+     "latitude": null,
+     "longitude": null
+    },
+    "name": null,
+    "owner": {
+     "email": null,
+     "name": null,
+     "phone": null
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": null,
+     "phone": null,
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": true,
+     "missingFields": [
+      "name",
+      "cuisine",
+      "description",
+      "fullAddress",
+      "areaDistrict",
+      "city",
+      "gpsLocation",
+      "ownerName",
+      "ownerPhone",
+      "ownerEmail",
+      "restaurantPhone",
+      "restaurantEmail"
+     ],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo 2 target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo 2 commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": false,
+    "isCover": false,
+    "mediaId": "<gen>",
+    "name": "bar.png",
+    "size": 6,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "gallery",
+  "status": 200,
+  "body": {
+   "data": {
+    "photos": {
+     "count": 2,
+     "items": [
+      {
+       "isCover": true,
+       "mediaId": "<gen>",
+       "name": "dining.jpg",
+       "size": 8,
+       "sortOrder": 1,
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      },
+      {
+       "isCover": false,
+       "mediaId": "<gen>",
+       "name": "bar.png",
+       "size": 6,
+       "sortOrder": 2,
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      }
+     ],
+     "max": 20
+    },
+    "videos": {
+     "count": 0,
+     "items": [],
+     "max": 5
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "delete cover refused",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_COVER_PHOTO_REASSIGN",
+    "details": {},
+    "message": "Please set a new cover photo before deleting this one."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "set cover",
+  "status": 200,
+  "body": {
+   "data": {
+    "isCover": true,
+    "mediaId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "set cover missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Photo not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "gallery new cover",
+  "status": 200,
+  "body": {
+   "data": {
+    "photos": {
+     "count": 2,
+     "items": [
+      {
+       "isCover": false,
+       "mediaId": "<gen>",
+       "name": "dining.jpg",
+       "size": 8,
+       "sortOrder": 1,
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      },
+      {
+       "isCover": true,
+       "mediaId": "<gen>",
+       "name": "bar.png",
+       "size": 6,
+       "sortOrder": 2,
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      }
+     ],
+     "max": 20
+    },
+    "videos": {
+     "count": 0,
+     "items": [],
+     "max": 5
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "delete photo",
+  "status": 200,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "removed": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "delete photo again",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Photo not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "delete last photo",
+  "status": 200,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "removed": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile lost cover",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": null,
+    "description": null,
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": null,
+     "city": null,
+     "fullAddress": null,
+     "latitude": null,
+     "longitude": null
+    },
+    "name": null,
+    "owner": {
+     "email": null,
+     "name": null,
+     "phone": null
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": null,
+     "phone": null,
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [
+      "name",
+      "cuisine",
+      "description",
+      "fullAddress",
+      "areaDistrict",
+      "city",
+      "gpsLocation",
+      "ownerName",
+      "ownerPhone",
+      "ownerEmail",
+      "restaurantPhone",
+      "restaurantEmail"
+     ],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo 3 target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo 3 commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": true,
+    "isCover": true,
+    "mediaId": "<gen>",
+    "name": "terrace.jpg",
+    "size": 8,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo bad target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo bad commit",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_MEDIA_TYPE",
+    "details": {
+     "contentType": "image/jpeg",
+     "message": "Only JPG or PNG photos are allowed."
+    },
+    "message": "This file type isn't supported for this section."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "video target",
+  "status": 200,
+  "body": {
+   "data": {
+    "maxBytes": 209715200,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "video commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "name": "tour.mp4",
+    "size": 9,
+    "status": "processing",
+    "uploadedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "gallery video ready",
+  "status": 200,
+  "body": {
+   "data": {
+    "photos": {
+     "count": 1,
+     "items": [
+      {
+       "isCover": true,
+       "mediaId": "<gen>",
+       "name": "terrace.jpg",
+       "size": 8,
+       "sortOrder": 1,
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      }
+     ],
+     "max": 20
+    },
+    "videos": {
+     "count": 1,
+     "items": [
+      {
+       "mediaId": "<gen>",
+       "name": "tour.mp4",
+       "size": 9,
+       "sortOrder": 1,
+       "status": "ready",
+       "thumbnailUrl": "<gen>",
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      }
+     ],
+     "max": 5
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "gallery again",
+  "status": 200,
+  "body": {
+   "data": {
+    "photos": {
+     "count": 1,
+     "items": [
+      {
+       "isCover": true,
+       "mediaId": "<gen>",
+       "name": "terrace.jpg",
+       "size": 8,
+       "sortOrder": 1,
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      }
+     ],
+     "max": 20
+    },
+    "videos": {
+     "count": 1,
+     "items": [
+      {
+       "mediaId": "<gen>",
+       "name": "tour.mp4",
+       "size": 9,
+       "sortOrder": 1,
+       "status": "ready",
+       "thumbnailUrl": "<gen>",
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      }
+     ],
+     "max": 5
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "video 2 target",
+  "status": 200,
+  "body": {
+   "data": {
+    "maxBytes": 209715200,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "video 2 commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "name": "kitchen.mp4",
+    "size": 4,
+    "status": "processing",
+    "uploadedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "delete video",
+  "status": 200,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "removed": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "delete video again",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Video not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "delete document",
+  "status": 200,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "removed": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "delete document again",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Document not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "gallery end",
+  "status": 200,
+  "body": {
+   "data": {
+    "photos": {
+     "count": 1,
+     "items": [
+      {
+       "isCover": true,
+       "mediaId": "<gen>",
+       "name": "terrace.jpg",
+       "size": 8,
+       "sortOrder": 1,
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      }
+     ],
+     "max": 20
+    },
+    "videos": {
+     "count": 1,
+     "items": [
+      {
+       "mediaId": "<gen>",
+       "name": "kitchen.mp4",
+       "size": 4,
+       "sortOrder": 2,
+       "status": "ready",
+       "thumbnailUrl": "<gen>",
+       "uploadedAt": "<iso>",
+       "url": "<gen>"
+      }
+     ],
+     "max": 5
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "documents end",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "mediaId": "<gen>",
+      "name": "Floor plan.png",
+      "size": 6,
+      "type": "PNG",
+      "uploadedAt": "<iso>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ }
+]

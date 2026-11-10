@@ -1,0 +1,1272 @@
+[
+ {
+  "step": "login partner",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/minglers",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 0,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/minglers?page=3&pageSize=50&sortBy=name&sortOrder=asc&na",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 3,
+     "pageSize": 50,
+     "totalItems": 0,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/minglers/prominglers/active",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/minglers/m1",
+  "status": 404,
+  "body": {
+   "message": "Not found"
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/minglers/m1/bookings",
+  "status": 200,
+  "body": []
+ },
+ {
+  "step": "GET /admin/api/v1/minglers/m1/bookings/count-active",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_MINGLER_NOT_FOUND",
+    "details": {},
+    "message": "Mingler not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/minglers/m1/eating-preferences",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_MINGLER_NOT_FOUND",
+    "details": {},
+    "message": "Mingler not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/minglers/m1/payment-methods",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_MINGLER_NOT_FOUND",
+    "details": {},
+    "message": "Mingler not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "POST /admin/api/v1/minglers/m1/suspend",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_MINGLER_NOT_FOUND",
+    "details": {},
+    "message": "Mingler not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "POST /admin/api/v1/minglers/m1/reactivate",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_MINGLER_NOT_FOUND",
+    "details": {},
+    "message": "Mingler not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "PATCH /admin/api/v1/minglers/m1/promingler",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_MINGLER_NOT_FOUND",
+    "details": {},
+    "message": "Mingler not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "POST /admin/api/v1/minglers/m1/payment-methods/pm1/set-default",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_PAYMENT_METHOD_NOT_FOUND",
+    "details": {},
+    "message": "Payment method not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "minglers no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/bookings",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "A booking scope filter is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/bookings?minglerId=m1",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/bookings?interestTableId=it1&status=PENDING,CONFIR",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 2,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/bookings/b1",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_BOOKING_NOT_FOUND",
+    "message": "Booking not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "POST /admin/api/v1/admin/bookings/b1/cancel",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_BOOKING_NOT_FOUND",
+    "message": "Booking not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/restaurants/rest1/reviews",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "summary": {
+     "average": 0,
+     "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+     },
+     "negative": 0,
+     "neutral": 0,
+     "positive": 0,
+     "total": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/restaurants/rest1/reviews?q=good&ratingFilter=5,4&page=2",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 2,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "summary": {
+     "average": 0,
+     "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+     },
+     "negative": 0,
+     "neutral": 0,
+     "positive": 0,
+     "total": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/reviews?minglerId=m1",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/reviews?page=2&pageSize=5",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 2,
+     "pageSize": 5,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/reviews/r1",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_REVIEW_NOT_FOUND",
+    "details": {},
+    "message": "Review not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "delete review",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_REVIEW_NOT_FOUND",
+    "details": {},
+    "message": "Review not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/finances",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/finances?page=2&pageSize=50&sortBy=total&sortOrder",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 2,
+     "pageSize": 50,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/finances?dateFrom=2026-12-31&dateTo=2026-01-01",
+  "status": 400,
+  "body": {
+   "error": {
+    "message": "Invalid date range."
+   }
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/finances/export",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresIn": 300,
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /admin/api/v1/admin/finances/BK-1",
+  "status": 404,
+  "body": {
+   "error": {
+    "message": "Booking not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /admin/api/timer-settings",
+  "status": 200,
+  "body": []
+ },
+ {
+  "step": "GET /partner/api/v1/partner/reviews",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "summary": {
+     "average": 0,
+     "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+     },
+     "total": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/reviews?search=x&ratingFilter=5&ratingFilter=1",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "summary": {
+     "average": 0,
+     "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+     },
+     "total": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/reviews?pageSize=7&page=-1",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "summary": {
+     "average": 0,
+     "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+     },
+     "total": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/reviews/r-1",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Review not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner reviews no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?pageSize=25&page=3&sortBy=mingler&sor",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?period=THIS_MONTH",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?period=CUSTOM&dateFrom=2026-01-01&dat",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?restaurantId=rest2",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Unexpected parameter."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?sortBy=total",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid sort field."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?sortOrder=up",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid sort order."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?searchField=restaurant",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid search field."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?period=LAST_WEEK",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid period."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?period=THIS_YEAR&dateFrom=2026-01-01",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?period=CUSTOM&dateFrom=2026-01-01",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?dateFrom=01-01-2026",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?dateTo=2026/01/01",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?dateFrom=2026-02-01&dateTo=2026-01-01",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?page=0",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid page."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?page=1.5",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid page."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances?pageSize=7",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid page size."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/finances/b-1",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": null,
+    "message": "Transaction not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook",
+  "status": 200,
+  "body": {
+   "data": {
+    "bearerToken": null,
+    "bearerTokenMasked": null,
+    "configured": false,
+    "enabled": false,
+    "endpointUrl": null,
+    "secretRotatedAt": null,
+    "signingSecret": null,
+    "signingSecretMasked": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook?reveal=true",
+  "status": 200,
+  "body": {
+   "data": {
+    "bearerToken": null,
+    "bearerTokenMasked": null,
+    "configured": false,
+    "enabled": false,
+    "endpointUrl": null,
+    "secretRotatedAt": null,
+    "signingSecret": null,
+    "signingSecretMasked": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook/deliveries",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "POST /partner/api/v1/partner/webhook/rotate-secret",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_CONFIGURED",
+    "details": null,
+    "message": "Save your endpoint and bearer token first."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "POST /partner/api/v1/partner/webhook/test",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_CONFIGURED",
+    "details": null,
+    "message": "Save your endpoint and bearer token first."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "PUT /partner/api/v1/partner/webhook",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Unexpected field."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "PUT /partner/api/v1/partner/webhook",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Endpoint URL must use HTTPS."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "PUT /partner/api/v1/partner/webhook",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Endpoint URL must use HTTPS."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "PUT /partner/api/v1/partner/webhook",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Enter a full hostname, for example https://api.yourdomain.com/hooks."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "PUT /partner/api/v1/partner/webhook",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Bearer token is required — we never post to an unauthenticated endpoint."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "PUT /partner/api/v1/partner/webhook",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Bearer token is required — we never post to an unauthenticated endpoint."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "webhook save",
+  "status": 200,
+  "body": {
+   "data": {
+    "bearerToken": null,
+    "bearerTokenMasked": "••••••••••••",
+    "configured": true,
+    "enabled": true,
+    "endpointUrl": "<gen>",
+    "secretRotatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "webhook after save",
+  "status": 200,
+  "body": {
+   "data": {
+    "bearerToken": null,
+    "bearerTokenMasked": "••••••••••••",
+    "configured": true,
+    "enabled": true,
+    "endpointUrl": "<gen>",
+    "secretRotatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "webhook revealed",
+  "status": 200,
+  "body": {
+   "data": {
+    "bearerToken": "pos_live_123",
+    "bearerTokenMasked": "••••••••••••",
+    "configured": true,
+    "enabled": true,
+    "endpointUrl": "<gen>",
+    "secretRotatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "webhook reveal must be literal",
+  "status": 200,
+  "body": {
+   "data": {
+    "bearerToken": null,
+    "bearerTokenMasked": "••••••••••••",
+    "configured": true,
+    "enabled": true,
+    "endpointUrl": "<gen>",
+    "secretRotatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "webhook save again keeps the secret",
+  "status": 200,
+  "body": {
+   "data": {
+    "bearerToken": null,
+    "bearerTokenMasked": "••••••••••••",
+    "configured": true,
+    "enabled": true,
+    "endpointUrl": "<gen>",
+    "secretRotatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "webhook rotate",
+  "status": 200,
+  "body": {
+   "data": {
+    "secretRotatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "webhook after rotate",
+  "status": 200,
+  "body": {
+   "data": {
+    "bearerToken": null,
+    "bearerTokenMasked": "••••••••••••",
+    "configured": true,
+    "enabled": true,
+    "endpointUrl": "<gen>",
+    "secretRotatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "POST /partner/api/v1/partner/webhook/test",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Unknown event type."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "POST /partner/api/v1/partner/webhook/test",
+  "status": 202,
+  "body": {
+   "data": {
+    "eventType": "INTEREST_TABLE_PUBLISHED",
+    "queued": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook/deliveries?status=DELIVERED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "POST /partner/api/v1/partner/webhook/test",
+  "status": 202,
+  "body": {
+   "data": {
+    "eventType": "BOOKING_CANCELLED",
+    "queued": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook/deliveries?",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "eventLabel": "Booking · Cancelled",
+      "eventType": "BOOKING_CANCELLED",
+      "isTest": true,
+      "occurredAt": "<iso>",
+      "reason": null,
+      "status": "DELIVERED",
+      "tries": 1,
+      "whenRelative": "just now"
+     },
+     {
+      "eventLabel": "Interest table · Published",
+      "eventType": "INTEREST_TABLE_PUBLISHED",
+      "isTest": true,
+      "occurredAt": "<iso>",
+      "reason": null,
+      "status": "DELIVERED",
+      "tries": 1,
+      "whenRelative": "just now"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook/deliveries?status=DELIVERED&pageSize=1",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "eventLabel": "Interest table · Published",
+      "eventType": "INTEREST_TABLE_PUBLISHED",
+      "isTest": true,
+      "occurredAt": "<iso>",
+      "reason": null,
+      "status": "DELIVERED",
+      "tries": 1,
+      "whenRelative": "just now"
+     }
+    ],
+    "pagination": {
+     "page": 2,
+     "pageSize": 1,
+     "totalPages": 2,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook/deliveries?status=FAILED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook/deliveries?status=RETRYING",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook/deliveries?status=nope&page=9&pageSize",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "eventLabel": "Booking · Cancelled",
+      "eventType": "BOOKING_CANCELLED",
+      "isTest": true,
+      "occurredAt": "<iso>",
+      "reason": null,
+      "status": "DELIVERED",
+      "tries": 1,
+      "whenRelative": "just now"
+     },
+     {
+      "eventLabel": "Interest table · Published",
+      "eventType": "INTEREST_TABLE_PUBLISHED",
+      "isTest": true,
+      "occurredAt": "<iso>",
+      "reason": null,
+      "status": "DELIVERED",
+      "tries": 1,
+      "whenRelative": "just now"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup start",
+  "status": 200,
+  "body": {
+   "data": {
+    "codeSent": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup verify",
+  "status": 201,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "email": "owner@bbq.pk",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "id": "<gen>",
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP",
+    "session": {
+     "accessToken": "<jwt>",
+     "expiresIn": 7200,
+     "idToken": "<jwt>",
+     "refreshToken": "<gen>",
+     "tokenType": "Bearer"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook",
+  "status": 200,
+  "body": {
+   "data": {
+    "bearerToken": null,
+    "bearerTokenMasked": null,
+    "configured": false,
+    "enabled": false,
+    "endpointUrl": null,
+    "secretRotatedAt": null,
+    "signingSecret": null,
+    "signingSecretMasked": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "GET /partner/api/v1/partner/webhook/deliveries",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ }
+]

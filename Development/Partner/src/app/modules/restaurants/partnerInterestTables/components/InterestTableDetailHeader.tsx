@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { ArrowLeft, LinkSimple } from '@phosphor-icons/react'
+import { ArrowLeft, CheckCircle, LinkSimple } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { StatusBadge } from '../../../../atoms/StatusBadge'
@@ -11,12 +11,19 @@ import type { InterestTableDetail } from '../types'
 /**
  * The detail header.
  *
- * Copy Link is the **only** action. The prototype's Publish, Edit, Delete, Change
+ * Copy Link, and "Guests Arrived" while the table can be checked in, are the only actions. The prototype's Publish, Edit, Delete, Change
  * Promingler, Cancel Table and "Make available for booking" buttons are all gone:
  * every one of them modifies an interest table, which is admin-only (BR-02). The
  * design's "Make available for booking" control was dropped deliberately.
  */
-export function InterestTableDetailHeader({ table }: { table: InterestTableDetail }) {
+export function InterestTableDetailHeader({
+  table,
+  onGuestsArrived,
+}: {
+  table: InterestTableDetail
+  /** Supplied only while guests can be checked in; the button is absent otherwise. */
+  onGuestsArrived?: () => void
+}) {
   const { t } = useTranslation(['restaurants', 'common'])
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
@@ -60,12 +67,20 @@ export function InterestTableDetailHeader({ table }: { table: InterestTableDetai
 
         {/* Bound to the server's own flag, never derived from status — it is false for
             Cancelled, and the server is the authority (BR-09). */}
-        {table.copyLinkEligible && (
-          <AppButton variant="neutral" onClick={copyLink}>
-            <LinkSimple size={15} />
-            {t('restaurants:partnerInterestTables.copyLink')}
-          </AppButton>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          {table.copyLinkEligible && (
+            <AppButton variant="neutral" onClick={copyLink}>
+              <LinkSimple size={15} />
+              {t('restaurants:partnerInterestTables.copyLink')}
+            </AppButton>
+          )}
+          {onGuestsArrived && (
+            <AppButton variant="primary" onClick={onGuestsArrived}>
+              <CheckCircle size={15} />
+              {t('restaurants:partnerInterestTables.guestsArrived')}
+            </AppButton>
+          )}
+        </div>
       </div>
     </div>
   )
