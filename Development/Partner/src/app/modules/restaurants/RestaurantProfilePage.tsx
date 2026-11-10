@@ -34,6 +34,7 @@ import { useInterestTablesTab } from './partnerInterestTables/hooks/useInterestT
 import { ReviewsTab } from './partnerReviews/components/ReviewsTab'
 import { useReviewsTab } from './partnerReviews/hooks/useReviewsTab'
 import { PayoutAccountTab } from './partnerPayout/components/PayoutAccountTab'
+import { NoShowPolicyTab } from './partnerNoShowPolicy/components/NoShowPolicyTab'
 import { PAYOUT_ACCOUNT_TAB_KEY } from './partnerPayout/constants'
 
 /**
@@ -171,6 +172,7 @@ export function RestaurantProfilePage() {
         interestTablesTab={<InterestTablesTab c={interestTables} />}
         reviewsTab={<ReviewsTab c={reviews} />}
         payoutAccountTab={<PayoutAccountTab feedback={feedback} />}
+        noShowPolicyTab={<NoShowPolicyTab feedback={feedback} />}
       />
 
       <NameLocationModal c={c} />

@@ -1,6 +1,14 @@
 import { httpClient } from '../../../shared/api/httpClient'
 import { ESCROW_ENDPOINTS } from './constants'
-import type { EscrowAction, EscrowItem, EscrowOverview, EscrowStatus, TestBookingRequest } from './types'
+import type {
+  EscrowAction,
+  EscrowItem,
+  EscrowOverview,
+  EscrowStatus,
+  InterestTableOption,
+  TableBookingResult,
+  TestBookingRequest,
+} from './types'
 
 export const escrowService = {
   getOverview: (status?: EscrowStatus): Promise<EscrowOverview> =>
@@ -10,6 +18,13 @@ export const escrowService = {
 
   createTestBooking: (body: TestBookingRequest): Promise<EscrowItem> =>
     httpClient.post<EscrowItem>(ESCROW_ENDPOINTS.testBooking, body),
+
+  /** Books seats at an interest table; the card hold is the no-show penalty × seats. */
+  createTableBooking: (body: { interestTableId: string; minglerName: string; seats: number }): Promise<TableBookingResult> =>
+    httpClient.post<TableBookingResult>(ESCROW_ENDPOINTS.tableBooking, body),
+
+  listInterestTables: (restaurantId: string): Promise<{ items: InterestTableOption[] }> =>
+    httpClient.get<{ items: InterestTableOption[] }>(ESCROW_ENDPOINTS.interestTables(restaurantId)),
 
   act: (id: string, action: EscrowAction, reason?: string): Promise<EscrowItem> =>
     httpClient.post<EscrowItem>(ESCROW_ENDPOINTS.action(id, action), reason ? { reason } : {}),

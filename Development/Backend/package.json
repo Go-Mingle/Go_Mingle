@@ -1,29 +1,47 @@
 {
-  "name": "gomingle-api",
+  "name": "gomingle-server",
   "version": "1.0.0",
-  "description": "GoMingle backend API for the Admin Panel and Partner Portal (practicum demo build).",
+  "description": "GoMingle backend: NestJS modular monolith on PostgreSQL, serving the Admin Panel (/admin) and the Partner Portal (/partner).",
   "private": true,
-  "type": "module",
-  "main": "src/server.js",
+  "type": "commonjs",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
-    "build:contracts": "node scripts/build-contracts.mjs",
-    "test": "node --test test/*.test.js",
-    "reset-data": "node -e \"require('fs').rmSync('data',{recursive:true,force:true});console.log('All GoMingle data deleted. The next start is a fresh install.')\""
+    "build": "tsc -p tsconfig.build.json",
+    "prestart": "npm run build",
+    "start": "node dist/main.js",
+    "dev": "tsx watch src/main.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "reset-data": "node scripts/reset-data.js"
   },
   "dependencies": {
-    "@phosphor-icons/core": "^2.1.1",
+    "@nestjs/common": "11.1.29",
+    "@nestjs/core": "11.1.29",
+    "@nestjs/platform-express": "11.1.29",
+    "@phosphor-icons/core": "2.1.1",
     "bcryptjs": "2.4.3",
-    "cors": "2.8.5",
-    "express": "4.21.2",
+    "drizzle-orm": "0.45.3",
+    "embedded-postgres": "17.10.0-beta.17",
     "jsonwebtoken": "9.0.2",
-    "msw": "2.14.6"
+    "pg": "8.16.3",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
   },
   "devDependencies": {
-    "esbuild": "0.25.0"
+    "@nestjs/testing": "11.1.29",
+    "@swc/core": "1.13.5",
+    "@types/bcryptjs": "2.4.6",
+    "@types/express": "5.0.3",
+    "@types/jsonwebtoken": "9.0.10",
+    "@types/node": "22.18.0",
+    "@types/pg": "8.15.5",
+    "drizzle-kit": "0.31.5",
+    "tsx": "4.20.5",
+    "typescript": "5.9.3",
+    "unplugin-swc": "1.5.7",
+    "vitest": "4.1.11"
   }
 }

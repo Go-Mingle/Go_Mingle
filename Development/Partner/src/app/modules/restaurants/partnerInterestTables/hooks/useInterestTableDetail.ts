@@ -9,6 +9,8 @@ import { useInterestTablesFeedback } from './useInterestTablesFeedback'
 import {
   useCancelBookingMutation,
   useCancelInviteMutation,
+  useGuestsArrivedMutation,
+  useMarkNoShowMutation,
   useInterestTableBookingsQuery,
   useInterestTableInviteesQuery,
   useInterestTableMenuOptionsQuery,
@@ -35,6 +37,8 @@ export function useInterestTableDetail(itId: string | undefined, feedback: Profi
 
   const cancelBooking = useCancelBookingMutation()
   const cancelInvite = useCancelInviteMutation()
+  const guestsArrived = useGuestsArrivedMutation()
+  const markNoShow = useMarkNoShowMutation()
 
   /**
    * The cancel actions require the restaurant to be **ACTIVE** (BR-07).
@@ -48,6 +52,8 @@ export function useInterestTableDetail(itId: string | undefined, feedback: Profi
 
   const [bookingTarget, setBookingTarget] = useState<InterestTableBookingRow | null>(null)
   const [inviteTarget, setInviteTarget] = useState<InviteeRow | null>(null)
+  const [arrivalOpen, setArrivalOpen] = useState(false)
+  const [noShowTarget, setNoShowTarget] = useState<InterestTableBookingRow | null>(null)
   const [openBookingId, setOpenBookingId] = useState<string | null>(null)
   const [openMinglerId, setOpenMinglerId] = useState<string | null>(null)
 
@@ -88,6 +94,42 @@ export function useInterestTableDetail(itId: string | undefined, feedback: Profi
       },
     })
   }, [bookingTarget, cancelBooking, showSuccess, showInterestTablesError, t])
+
+  // ── Guests Arrived ───────────────────────────────────────────
+  const confirmGuestsArrived = useCallback(() => {
+    if (!itId) return
+    guestsArrived.mutate(itId, {
+      onSuccess: (result) => {
+        showSuccess(t('restaurants:partnerInterestTables.guestsArrivedDone', { count: result.seatsArrived }))
+        setArrivalOpen(false)
+      },
+      onError: (cause) => {
+        showInterestTablesError(cause)
+        setArrivalOpen(false)
+      },
+    })
+  }, [itId, guestsArrived, showSuccess, showInterestTablesError, t])
+
+  // ── No-show on one booking ───────────────────────────────────
+  const confirmNoShow = useCallback(
+    (emptySeats: number) => {
+      if (!noShowTarget) return
+      markNoShow.mutate(
+        { bookingId: noShowTarget.bookingId, emptySeats },
+        {
+          onSuccess: () => {
+            showSuccess(t('restaurants:partnerInterestTables.noShowRecorded'))
+            setNoShowTarget(null)
+          },
+          onError: (cause) => {
+            showInterestTablesError(cause)
+            setNoShowTarget(null)
+          },
+        },
+      )
+    },
+    [noShowTarget, markNoShow, showSuccess, showInterestTablesError, t],
+  )
 
   // ── Cancel an invite (US-04) ─────────────────────────────────
   const confirmCancelInvite = useCallback(() => {
@@ -156,6 +198,23 @@ export function useInterestTableDetail(itId: string | undefined, feedback: Profi
     cancelBookingDialog: () => setBookingTarget(null),
     confirmCancelBooking,
     cancellingBooking: cancelBooking.isPending,
+
+    /**
+     * Whether "Guests Arrived" is offered: the server's own flag, plus the same
+     * ACTIVE-only gate as the cancel actions.
+     */
+    canCheckIn: canCancel && detailQuery.data?.canCheckIn === true,
+    arrivalOpen,
+    requestGuestsArrived: () => setArrivalOpen(true),
+    closeGuestsArrived: () => setArrivalOpen(false),
+    confirmGuestsArrived,
+    checkingIn: guestsArrived.isPending,
+
+    noShowTarget,
+    requestNoShow: setNoShowTarget,
+    closeNoShow: () => setNoShowTarget(null),
+    confirmNoShow,
+    markingNoShow: markNoShow.isPending,
 
     inviteTarget,
     requestCancelInvite: setInviteTarget,

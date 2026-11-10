@@ -1,0 +1,20 @@
+CREATE TABLE "escrow_holds" (
+	"id" text PRIMARY KEY NOT NULL,
+	"seq" serial NOT NULL,
+	"booking_ref" text NOT NULL,
+	"restaurant_id" text NOT NULL,
+	"mingler_name" text NOT NULL,
+	"guests" integer NOT NULL,
+	"amount" double precision NOT NULL,
+	"currency" text DEFAULT 'PKR' NOT NULL,
+	"platform_fee_pct" double precision NOT NULL,
+	"event_name" text NOT NULL,
+	"event_at" text NOT NULL,
+	"gateway" text NOT NULL,
+	"tracker" text NOT NULL,
+	"status" text NOT NULL,
+	"created_at" text NOT NULL,
+	"updated_at" text NOT NULL,
+	"timeline" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"payout" jsonb
+);

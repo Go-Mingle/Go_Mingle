@@ -1,0 +1,4154 @@
+[
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "amenities start",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Air conditioned",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Card payments accepted",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Designated smoking area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Family seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Free Wi-Fi",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Generator / UPS backup",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Kids play area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Laptop friendly",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Live music",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Outdoor seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Prayer area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Private dining room",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Rooftop seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Sea view",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Valet parking",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Wheelchair accessible",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 16
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenities active",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Free Wi-Fi"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Valet parking"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Wheelchair accessible"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Family seating"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Prayer area"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Air conditioned"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Generator / UPS backup"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Card payments accepted"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Outdoor seating"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Rooftop seating"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Sea view"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Private dining room"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Kids play area"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Live music"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Laptop friendly"
+     },
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Designated smoking area"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "interests start",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Desi Food",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "BBQ & Grills",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Street Food",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Seafood",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Fine Dining",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Desserts",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Coffee",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Chai",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Vegetarian",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Startups",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Entrepreneurship",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Investing",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Marketing",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Freelancing",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Networking",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Leadership",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Technology",
+      "id": "<gen>",
+      "name": "Technology",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Technology",
+      "id": "<gen>",
+      "name": "Artificial Intelligence",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Technology",
+      "id": "<gen>",
+      "name": "Product Design",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Technology",
+      "id": "<gen>",
+      "name": "Gaming",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Books",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Urdu Poetry",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Film",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Music",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Art & Design",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Photography",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Theatre",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Cricket",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Football",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Padel",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Running",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Fitness",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Travel",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Fashion",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Wellness",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Parenting",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Pets",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "History",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "Languages",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "Science",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "Personal Finance",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Community",
+      "id": "<gen>",
+      "name": "Volunteering",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Community",
+      "id": "<gen>",
+      "name": "Sustainability",
+      "updatedAt": null
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 100,
+     "totalPages": 1,
+     "totalRecords": 43
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "interests page 2",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Photography",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Theatre",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Cricket",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Football",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Padel",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Running",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Fitness",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Travel",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Fashion",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Wellness",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Parenting",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Pets",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "History",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "Languages",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "Science",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "Personal Finance",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Community",
+      "id": "<gen>",
+      "name": "Volunteering",
+      "updatedAt": null
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Community",
+      "id": "<gen>",
+      "name": "Sustainability",
+      "updatedAt": null
+     }
+    ],
+    "pagination": {
+     "page": 2,
+     "pageSize": 25,
+     "totalPages": 2,
+     "totalRecords": 43
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "interests active",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Desi Food"
+     },
+     {
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "BBQ & Grills"
+     },
+     {
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Street Food"
+     },
+     {
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Seafood"
+     },
+     {
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Fine Dining"
+     },
+     {
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Desserts"
+     },
+     {
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Coffee"
+     },
+     {
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Chai"
+     },
+     {
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Vegetarian"
+     },
+     {
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Startups"
+     },
+     {
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Entrepreneurship"
+     },
+     {
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Investing"
+     },
+     {
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Marketing"
+     },
+     {
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Freelancing"
+     },
+     {
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Networking"
+     },
+     {
+      "groupName": "Business & Careers",
+      "id": "<gen>",
+      "name": "Leadership"
+     },
+     {
+      "groupName": "Technology",
+      "id": "<gen>",
+      "name": "Technology"
+     },
+     {
+      "groupName": "Technology",
+      "id": "<gen>",
+      "name": "Artificial Intelligence"
+     },
+     {
+      "groupName": "Technology",
+      "id": "<gen>",
+      "name": "Product Design"
+     },
+     {
+      "groupName": "Technology",
+      "id": "<gen>",
+      "name": "Gaming"
+     },
+     {
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Books"
+     },
+     {
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Urdu Poetry"
+     },
+     {
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Film"
+     },
+     {
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Music"
+     },
+     {
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Art & Design"
+     },
+     {
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Photography"
+     },
+     {
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Theatre"
+     },
+     {
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Cricket"
+     },
+     {
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Football"
+     },
+     {
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Padel"
+     },
+     {
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Running"
+     },
+     {
+      "groupName": "Sports & Fitness",
+      "id": "<gen>",
+      "name": "Fitness"
+     },
+     {
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Travel"
+     },
+     {
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Fashion"
+     },
+     {
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Wellness"
+     },
+     {
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Parenting"
+     },
+     {
+      "groupName": "Lifestyle",
+      "id": "<gen>",
+      "name": "Pets"
+     },
+     {
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "History"
+     },
+     {
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "Languages"
+     },
+     {
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "Science"
+     },
+     {
+      "groupName": "Learning & Ideas",
+      "id": "<gen>",
+      "name": "Personal Finance"
+     },
+     {
+      "groupName": "Community",
+      "id": "<gen>",
+      "name": "Volunteering"
+     },
+     {
+      "groupName": "Community",
+      "id": "<gen>",
+      "name": "Sustainability"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topics start",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "description": "One book, agreed in advance, discussed over dinner. English and Urdu titles alternate.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Books",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Urdu Poetry",
+        "updatedAt": null
+       }
+      ],
+      "name": "Book Club"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Unhurried evenings over chai on history, ideas and the stories that shaped the city.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Chai",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "History",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Urdu Poetry",
+        "updatedAt": null
+       }
+      ],
+      "name": "Chai & Conversations"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Designers, photographers, filmmakers and artists sharing work in progress and what inspires them.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Art & Design",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Photography",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Film",
+        "updatedAt": null
+       }
+      ],
+      "name": "Creative Minds"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Match analysis, fantasy picks and old rivalries, for fans who can talk cricket all night.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Cricket",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Football",
+        "updatedAt": null
+       }
+      ],
+      "name": "Cricket Talk"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Early-stage founders and operators swap notes on building, hiring and raising in Pakistan.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Startups",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Entrepreneurship",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Investing",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Networking",
+        "updatedAt": null
+       }
+      ],
+      "name": "Founders’ Table"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Volunteers and people looking to help: local causes, sustainability and how to get involved.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Community",
+        "id": "<gen>",
+        "name": "Volunteering",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Community",
+        "id": "<gen>",
+        "name": "Sustainability",
+        "updatedAt": null
+       }
+      ],
+      "name": "Giving Back"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "For people who plan their week around where to eat next: nihari, karahi, BBQ and the city’s best street food.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Desi Food",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "BBQ & Grills",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Street Food",
+        "updatedAt": null
+       }
+      ],
+      "name": "Karachi Food Trail"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Saving, investing and planning ahead, in plain language, without the sales pitch.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "Personal Finance",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Investing",
+        "updatedAt": null
+       }
+      ],
+      "name": "Money Matters"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "What’s new in software and AI, and what it means for work here. Open to builders and the curious alike.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Technology",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Artificial Intelligence",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Product Design",
+        "updatedAt": null
+       }
+      ],
+      "name": "Tech & AI Night"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Northern Areas road trips to Istanbul layovers: trade travel stories, tips and plans.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Lifestyle",
+        "id": "<gen>",
+        "name": "Travel",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Photography",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "Languages",
+        "updatedAt": null
+       }
+      ],
+      "name": "Travel Stories"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Runners, padel players and anyone building healthier habits, over a balanced meal.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Fitness",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Running",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Padel",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Lifestyle",
+        "id": "<gen>",
+        "name": "Wellness",
+        "updatedAt": null
+       }
+      ],
+      "name": "Wellness & Fitness"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Women building careers and businesses in Karachi share wins, setbacks and advice.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Leadership",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Entrepreneurship",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Networking",
+        "updatedAt": null
+       }
+      ],
+      "name": "Women Who Lead"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 12
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topics active",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Karachi Food Trail"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Founders’ Table"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Tech & AI Night"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Book Club"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Chai & Conversations"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Cricket Talk"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Creative Minds"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Wellness & Fitness"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Travel Stories"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Money Matters"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Women Who Lead"
+     },
+     {
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Giving Back"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "questions start",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 4,
+      "question": "How often do you eat out?",
+      "questionOrder": 1,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 10,
+      "question": "Which cuisines do you enjoy?",
+      "questionOrder": 2,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 7,
+      "question": "Do you have any dietary requirements?",
+      "questionOrder": 3,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 4,
+      "question": "When do you prefer to meet?",
+      "questionOrder": 4,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 3,
+      "question": "What table size feels right for you?",
+      "questionOrder": 5,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 5,
+      "question": "What kind of atmosphere do you enjoy?",
+      "questionOrder": 6,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 7,
+      "question": "Which areas of Karachi are easiest for you?",
+      "questionOrder": 7,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 4,
+      "question": "What is your usual budget per person?",
+      "questionOrder": 8,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 5,
+      "question": "What are you hoping to get from GoMingle?",
+      "questionOrder": 9,
+      "type": "MULTI_SELECT"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 9
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "questions active",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Rarely"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Once or twice a month"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Every week"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "A few times a week"
+       }
+      ],
+      "optionsCount": 4,
+      "question": "How often do you eat out?",
+      "questionOrder": 1,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Pakistani / Desi"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "BBQ & grills"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Chinese"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Continental"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Italian"
+       },
+       {
+        "displayOrder": 5,
+        "id": "<gen>",
+        "text": "Thai"
+       },
+       {
+        "displayOrder": 6,
+        "id": "<gen>",
+        "text": "Japanese"
+       },
+       {
+        "displayOrder": 7,
+        "id": "<gen>",
+        "text": "Lebanese / Arabic"
+       },
+       {
+        "displayOrder": 8,
+        "id": "<gen>",
+        "text": "Seafood"
+       },
+       {
+        "displayOrder": 9,
+        "id": "<gen>",
+        "text": "Fast food"
+       }
+      ],
+      "optionsCount": 10,
+      "question": "Which cuisines do you enjoy?",
+      "questionOrder": 2,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "None"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Vegetarian"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Vegan"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Gluten-free"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Nut allergy"
+       },
+       {
+        "displayOrder": 5,
+        "id": "<gen>",
+        "text": "Dairy-free"
+       },
+       {
+        "displayOrder": 6,
+        "id": "<gen>",
+        "text": "Prefer mild spice"
+       }
+      ],
+      "optionsCount": 7,
+      "question": "Do you have any dietary requirements?",
+      "questionOrder": 3,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Weekday lunch"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Weekday dinner"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Weekend brunch"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Weekend dinner"
+       }
+      ],
+      "optionsCount": 4,
+      "question": "When do you prefer to meet?",
+      "questionOrder": 4,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Small (4–5 people)"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Medium (6–7 people)"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Full table (8 people)"
+       }
+      ],
+      "optionsCount": 3,
+      "question": "What table size feels right for you?",
+      "questionOrder": 5,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Quiet and cosy"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Lively and buzzing"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Rooftop or outdoor"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Family friendly"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Fine dining"
+       }
+      ],
+      "optionsCount": 5,
+      "question": "What kind of atmosphere do you enjoy?",
+      "questionOrder": 6,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "DHA"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Clifton"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Gulshan-e-Iqbal"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "PECHS / Tariq Road"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Bahadurabad"
+       },
+       {
+        "displayOrder": 5,
+        "id": "<gen>",
+        "text": "North Nazimabad"
+       },
+       {
+        "displayOrder": 6,
+        "id": "<gen>",
+        "text": "Saddar"
+       }
+      ],
+      "optionsCount": 7,
+      "question": "Which areas of Karachi are easiest for you?",
+      "questionOrder": 7,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Under PKR 2,000"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "PKR 2,000 – 4,000"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "PKR 4,000 – 7,000"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Over PKR 7,000"
+       }
+      ],
+      "optionsCount": 4,
+      "question": "What is your usual budget per person?",
+      "questionOrder": 8,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "New friends"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Professional networking"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Great food"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Learning something new"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Getting out more"
+       }
+      ],
+      "optionsCount": 5,
+      "question": "What are you hoping to get from GoMingle?",
+      "questionOrder": 9,
+      "type": "MULTI_SELECT"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "categories start",
+  "status": 200,
+  "body": []
+ },
+ {
+  "step": "no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "create category",
+  "status": 201,
+  "body": {
+   "commissionRate": 12,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "name": "Premium",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "duplicate category",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_CATEGORY_NAME_IN_USE",
+    "details": {
+     "name": "premium"
+    },
+    "message": "Category name already exists."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "create category 2",
+  "status": 201,
+  "body": {
+   "commissionRate": 8,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "name": "Standard",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "categories",
+  "status": 200,
+  "body": [
+   {
+    "commissionRate": 12,
+    "createdAt": "<iso>",
+    "id": "<gen>",
+    "name": "Premium",
+    "restaurantsCount": 0
+   },
+   {
+    "commissionRate": 8,
+    "createdAt": "<iso>",
+    "id": "<gen>",
+    "name": "Standard",
+    "restaurantsCount": 0
+   }
+  ]
+ },
+ {
+  "step": "categories active",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "id": "<gen>",
+      "name": "Premium"
+     },
+     {
+      "id": "<gen>",
+      "name": "Standard"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "category",
+  "status": 200,
+  "body": {
+   "commissionRate": 12,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "name": "Premium",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "category missing",
+  "status": 404,
+  "body": {
+   "message": "Not found"
+  }
+ },
+ {
+  "step": "patch category",
+  "status": 200,
+  "body": {
+   "commissionRate": 15,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "name": "Premium",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "patch category dup",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_CATEGORY_NAME_IN_USE",
+    "details": {
+     "name": "STANDARD"
+    },
+    "message": "Category name already exists."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "patch category missing",
+  "status": 404,
+  "body": {
+   "message": "Not found"
+  }
+ },
+ {
+  "step": "delete category missing",
+  "status": 404,
+  "body": {
+   "message": "Not found"
+  }
+ },
+ {
+  "step": "delete category",
+  "status": 204,
+  "body": null
+ },
+ {
+  "step": "amenity no name",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Name is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "amenity duplicate",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_AMENITY_NAME_IN_USE",
+    "details": {
+     "name": "free wi-fi"
+    },
+    "message": "Amenity name already exists."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "amenity create",
+  "status": 201,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "iconUrl": null,
+    "id": "<gen>",
+    "name": "Shisha Lounge",
+    "restaurantsCount": 0,
+    "sampleRestaurants": [],
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity with icon",
+  "status": 201,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "iconUrl": "<gen>",
+    "id": "<gen>",
+    "name": "Rooftop Shisha",
+    "restaurantsCount": 0,
+    "sampleRestaurants": [],
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity get",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "iconUrl": null,
+    "id": "<gen>",
+    "name": "Shisha Lounge",
+    "restaurantsCount": 0,
+    "sampleRestaurants": [],
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_AMENITY_NOT_FOUND",
+    "details": {},
+    "message": "Amenity not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "amenity rename",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "iconUrl": null,
+    "id": "<gen>",
+    "name": "Shisha Terrace",
+    "restaurantsCount": 0,
+    "sampleRestaurants": [],
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity rename dup",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_AMENITY_NAME_IN_USE",
+    "details": {
+     "name": "Sea View"
+    },
+    "message": "Amenity name already exists."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "amenity new icon",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "iconUrl": "<gen>",
+    "id": "<gen>",
+    "name": "Shisha Terrace",
+    "restaurantsCount": 0,
+    "sampleRestaurants": [],
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity reset icon",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "iconUrl": null,
+    "id": "<gen>",
+    "name": "Shisha Terrace",
+    "restaurantsCount": 0,
+    "sampleRestaurants": [],
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity patch missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_AMENITY_NOT_FOUND",
+    "details": {},
+    "message": "Amenity not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "amenities search",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Sea view",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Rooftop seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Outdoor seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Family seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 4
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenities by count",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Free Wi-Fi",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Valet parking",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Wheelchair accessible",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Family seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Prayer area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Air conditioned",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Generator / UPS backup",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Card payments accepted",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Outdoor seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Rooftop seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Sea view",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Private dining room",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Kids play area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Live music",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Laptop friendly",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Designated smoking area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": null,
+      "id": "<gen>",
+      "name": "Shisha Terrace",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Rooftop Shisha",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 50,
+     "totalPages": 1,
+     "totalRecords": 18
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity delete",
+  "status": 204,
+  "body": null
+ },
+ {
+  "step": "amenity delete again",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_AMENITY_NOT_FOUND",
+    "details": {},
+    "message": "Amenity not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "interest create",
+  "status": 201,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "groupName": "Arts & Culture",
+    "id": "<gen>",
+    "name": "Karaoke",
+    "updatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "interest duplicate",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_NAME_IN_USE",
+    "details": {
+     "name": "karaoke"
+    },
+    "message": "Interest name already exists."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "interest get",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "groupName": "Arts & Culture",
+    "id": "<gen>",
+    "name": "Karaoke",
+    "updatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "interest missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "interest patch",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "groupName": "Arts & Culture",
+    "id": "<gen>",
+    "name": "Karaoke Nights",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "interest patch dup",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_NAME_IN_USE",
+    "details": {
+     "name": "cricket"
+    },
+    "message": "Interest name already exists."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "interest patch missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "signed url",
+  "status": 200,
+  "body": {
+   "data": {
+    "key": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topic create",
+  "status": 201,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "description": null,
+    "graphicUrl": "<gen>",
+    "id": "<gen>",
+    "interestTablesCount": 0,
+    "interests": [
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Karaoke Nights",
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Chai",
+      "updatedAt": null
+     }
+    ],
+    "name": "Board Games"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signed url cover",
+  "status": 200,
+  "body": {
+   "data": {
+    "key": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topic get",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "description": null,
+    "graphicUrl": "<gen>",
+    "id": "<gen>",
+    "interestTablesCount": 0,
+    "interests": [
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Karaoke Nights",
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Chai",
+      "updatedAt": null
+     }
+    ],
+    "name": "Board Games"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topic missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_TOPIC_NOT_FOUND"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "interest renamed later",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "groupName": "Lifestyle",
+    "id": "<gen>",
+    "name": "Karaoke Nights",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topic keeps snapshot",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "description": null,
+    "graphicUrl": "<gen>",
+    "id": "<gen>",
+    "interestTablesCount": 0,
+    "interests": [
+     {
+      "createdAt": "<iso>",
+      "groupName": "Arts & Culture",
+      "id": "<gen>",
+      "name": "Karaoke Nights",
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Chai",
+      "updatedAt": null
+     }
+    ],
+    "name": "Board Games"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topic patch",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "description": "Dice and chai",
+    "graphicUrl": "<gen>",
+    "id": "<gen>",
+    "interestTablesCount": 0,
+    "interests": [
+     {
+      "createdAt": "<iso>",
+      "groupName": "Food & Drink",
+      "id": "<gen>",
+      "name": "Chai",
+      "updatedAt": null
+     }
+    ],
+    "name": "Board Game Night"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "topic patch missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_TOPIC_NOT_FOUND"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "topics search",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "description": "Early-stage founders and operators swap notes on building, hiring and raising in Pakistan.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Startups",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Entrepreneurship",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Investing",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Networking",
+        "updatedAt": null
+       }
+      ],
+      "name": "Founders’ Table"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "interest delete",
+  "status": 204,
+  "body": null
+ },
+ {
+  "step": "topic delete",
+  "status": 204,
+  "body": null
+ },
+ {
+  "step": "topics after",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "description": "One book, agreed in advance, discussed over dinner. English and Urdu titles alternate.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Books",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Urdu Poetry",
+        "updatedAt": null
+       }
+      ],
+      "name": "Book Club"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Unhurried evenings over chai on history, ideas and the stories that shaped the city.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Chai",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "History",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Urdu Poetry",
+        "updatedAt": null
+       }
+      ],
+      "name": "Chai & Conversations"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Designers, photographers, filmmakers and artists sharing work in progress and what inspires them.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Art & Design",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Photography",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Film",
+        "updatedAt": null
+       }
+      ],
+      "name": "Creative Minds"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Match analysis, fantasy picks and old rivalries, for fans who can talk cricket all night.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Cricket",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Football",
+        "updatedAt": null
+       }
+      ],
+      "name": "Cricket Talk"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Early-stage founders and operators swap notes on building, hiring and raising in Pakistan.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Startups",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Entrepreneurship",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Investing",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Networking",
+        "updatedAt": null
+       }
+      ],
+      "name": "Founders’ Table"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Volunteers and people looking to help: local causes, sustainability and how to get involved.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Community",
+        "id": "<gen>",
+        "name": "Volunteering",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Community",
+        "id": "<gen>",
+        "name": "Sustainability",
+        "updatedAt": null
+       }
+      ],
+      "name": "Giving Back"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "For people who plan their week around where to eat next: nihari, karahi, BBQ and the city’s best street food.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Desi Food",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "BBQ & Grills",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Food & Drink",
+        "id": "<gen>",
+        "name": "Street Food",
+        "updatedAt": null
+       }
+      ],
+      "name": "Karachi Food Trail"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Saving, investing and planning ahead, in plain language, without the sales pitch.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "Personal Finance",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Investing",
+        "updatedAt": null
+       }
+      ],
+      "name": "Money Matters"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "What’s new in software and AI, and what it means for work here. Open to builders and the curious alike.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Technology",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Artificial Intelligence",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Technology",
+        "id": "<gen>",
+        "name": "Product Design",
+        "updatedAt": null
+       }
+      ],
+      "name": "Tech & AI Night"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Northern Areas road trips to Istanbul layovers: trade travel stories, tips and plans.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Lifestyle",
+        "id": "<gen>",
+        "name": "Travel",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Arts & Culture",
+        "id": "<gen>",
+        "name": "Photography",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Learning & Ideas",
+        "id": "<gen>",
+        "name": "Languages",
+        "updatedAt": null
+       }
+      ],
+      "name": "Travel Stories"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Runners, padel players and anyone building healthier habits, over a balanced meal.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Fitness",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Running",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Sports & Fitness",
+        "id": "<gen>",
+        "name": "Padel",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Lifestyle",
+        "id": "<gen>",
+        "name": "Wellness",
+        "updatedAt": null
+       }
+      ],
+      "name": "Wellness & Fitness"
+     },
+     {
+      "createdAt": "<iso>",
+      "description": "Women building careers and businesses in Karachi share wins, setbacks and advice.",
+      "graphicUrl": "<gen>",
+      "id": "<gen>",
+      "interestTablesCount": 0,
+      "interests": [
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Leadership",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Entrepreneurship",
+        "updatedAt": null
+       },
+       {
+        "createdAt": "<iso>",
+        "groupName": "Business & Careers",
+        "id": "<gen>",
+        "name": "Networking",
+        "updatedAt": null
+       }
+      ],
+      "name": "Women Who Lead"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 100,
+     "totalPages": 1,
+     "totalRecords": 12
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "question dup",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_INSUFFICIENT_OPTIONS",
+    "details": {},
+    "message": "At least two options are required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "question create",
+  "status": 201,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "id": "<gen>",
+    "optionsCount": 2,
+    "question": "Tea or coffee?",
+    "questionOrder": 2,
+    "type": "SINGLE_SELECT",
+    "updatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "questions after create",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 4,
+      "question": "How often do you eat out?",
+      "questionOrder": 1,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 2,
+      "question": "Tea or coffee?",
+      "questionOrder": 2,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 10,
+      "question": "Which cuisines do you enjoy?",
+      "questionOrder": 3,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 7,
+      "question": "Do you have any dietary requirements?",
+      "questionOrder": 4,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 4,
+      "question": "When do you prefer to meet?",
+      "questionOrder": 5,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 3,
+      "question": "What table size feels right for you?",
+      "questionOrder": 6,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 5,
+      "question": "What kind of atmosphere do you enjoy?",
+      "questionOrder": 7,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 7,
+      "question": "Which areas of Karachi are easiest for you?",
+      "questionOrder": 8,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 4,
+      "question": "What is your usual budget per person?",
+      "questionOrder": 9,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 5,
+      "question": "What are you hoping to get from GoMingle?",
+      "questionOrder": 10,
+      "type": "MULTI_SELECT"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 10
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "question same text",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_QUESTION_TEXT_IN_USE",
+    "details": {},
+    "message": "A question with this text already exists."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "question get",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "id": "<gen>",
+    "options": [
+     {
+      "displayOrder": 0,
+      "id": "<gen>",
+      "text": "Tea"
+     },
+     {
+      "displayOrder": 1,
+      "id": "<gen>",
+      "text": "Coffee"
+     }
+    ],
+    "question": "Tea or coffee?",
+    "questionOrder": 2,
+    "type": "SINGLE_SELECT",
+    "updatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "question missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_QUESTION_NOT_FOUND",
+    "details": {},
+    "message": "Question not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "question detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "id": "<gen>",
+    "options": [
+     {
+      "displayOrder": 0,
+      "id": "<gen>",
+      "text": "Tea"
+     },
+     {
+      "displayOrder": 1,
+      "id": "<gen>",
+      "text": "Coffee"
+     }
+    ],
+    "question": "Tea or coffee?",
+    "questionOrder": 2,
+    "type": "SINGLE_SELECT",
+    "updatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "question patch",
+  "status": 200,
+  "body": {
+   "data": {
+    "id": "<gen>",
+    "optionsCount": 3,
+    "question": "Chai or coffee?",
+    "questionOrder": 5,
+    "type": "SINGLE_SELECT",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "question after patch",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "id": "<gen>",
+    "options": [
+     {
+      "displayOrder": 0,
+      "id": "<gen>",
+      "text": "Both"
+     },
+     {
+      "displayOrder": 1,
+      "id": "<gen>",
+      "text": "Coffee!"
+     },
+     {
+      "displayOrder": 0,
+      "id": "<gen>",
+      "text": "Chai"
+     }
+    ],
+    "question": "Chai or coffee?",
+    "questionOrder": 5,
+    "type": "SINGLE_SELECT",
+    "updatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "question few options",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_INSUFFICIENT_OPTIONS",
+    "details": {},
+    "message": "At least two options are required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "question patch missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_QUESTION_NOT_FOUND",
+    "details": {},
+    "message": "Question not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "questions sorted",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 10,
+      "question": "Which cuisines do you enjoy?",
+      "questionOrder": 3,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 7,
+      "question": "Which areas of Karachi are easiest for you?",
+      "questionOrder": 9,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 4,
+      "question": "When do you prefer to meet?",
+      "questionOrder": 6,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 3,
+      "question": "What table size feels right for you?",
+      "questionOrder": 7,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 5,
+      "question": "What kind of atmosphere do you enjoy?",
+      "questionOrder": 8,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 4,
+      "question": "What is your usual budget per person?",
+      "questionOrder": 10,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 5,
+      "question": "What are you hoping to get from GoMingle?",
+      "questionOrder": 11,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 4,
+      "question": "How often do you eat out?",
+      "questionOrder": 1,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 7,
+      "question": "Do you have any dietary requirements?",
+      "questionOrder": 4,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "optionsCount": 3,
+      "question": "Chai or coffee?",
+      "questionOrder": 5,
+      "type": "SINGLE_SELECT"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 50,
+     "totalPages": 1,
+     "totalRecords": 10
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "question delete",
+  "status": 204,
+  "body": null
+ },
+ {
+  "step": "question delete again",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_QUESTION_NOT_FOUND",
+    "details": {},
+    "message": "Question not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "questions end",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Rarely"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Once or twice a month"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Every week"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "A few times a week"
+       }
+      ],
+      "optionsCount": 4,
+      "question": "How often do you eat out?",
+      "questionOrder": 1,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Pakistani / Desi"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "BBQ & grills"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Chinese"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Continental"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Italian"
+       },
+       {
+        "displayOrder": 5,
+        "id": "<gen>",
+        "text": "Thai"
+       },
+       {
+        "displayOrder": 6,
+        "id": "<gen>",
+        "text": "Japanese"
+       },
+       {
+        "displayOrder": 7,
+        "id": "<gen>",
+        "text": "Lebanese / Arabic"
+       },
+       {
+        "displayOrder": 8,
+        "id": "<gen>",
+        "text": "Seafood"
+       },
+       {
+        "displayOrder": 9,
+        "id": "<gen>",
+        "text": "Fast food"
+       }
+      ],
+      "optionsCount": 10,
+      "question": "Which cuisines do you enjoy?",
+      "questionOrder": 3,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "None"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Vegetarian"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Vegan"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Gluten-free"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Nut allergy"
+       },
+       {
+        "displayOrder": 5,
+        "id": "<gen>",
+        "text": "Dairy-free"
+       },
+       {
+        "displayOrder": 6,
+        "id": "<gen>",
+        "text": "Prefer mild spice"
+       }
+      ],
+      "optionsCount": 7,
+      "question": "Do you have any dietary requirements?",
+      "questionOrder": 4,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Weekday lunch"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Weekday dinner"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Weekend brunch"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Weekend dinner"
+       }
+      ],
+      "optionsCount": 4,
+      "question": "When do you prefer to meet?",
+      "questionOrder": 6,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Small (4–5 people)"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Medium (6–7 people)"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Full table (8 people)"
+       }
+      ],
+      "optionsCount": 3,
+      "question": "What table size feels right for you?",
+      "questionOrder": 7,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Quiet and cosy"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Lively and buzzing"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Rooftop or outdoor"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Family friendly"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Fine dining"
+       }
+      ],
+      "optionsCount": 5,
+      "question": "What kind of atmosphere do you enjoy?",
+      "questionOrder": 8,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "DHA"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Clifton"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Gulshan-e-Iqbal"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "PECHS / Tariq Road"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Bahadurabad"
+       },
+       {
+        "displayOrder": 5,
+        "id": "<gen>",
+        "text": "North Nazimabad"
+       },
+       {
+        "displayOrder": 6,
+        "id": "<gen>",
+        "text": "Saddar"
+       }
+      ],
+      "optionsCount": 7,
+      "question": "Which areas of Karachi are easiest for you?",
+      "questionOrder": 9,
+      "type": "MULTI_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "Under PKR 2,000"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "PKR 2,000 – 4,000"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "PKR 4,000 – 7,000"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Over PKR 7,000"
+       }
+      ],
+      "optionsCount": 4,
+      "question": "What is your usual budget per person?",
+      "questionOrder": 10,
+      "type": "SINGLE_SELECT"
+     },
+     {
+      "createdAt": "<iso>",
+      "id": "<gen>",
+      "options": [
+       {
+        "displayOrder": 0,
+        "id": "<gen>",
+        "text": "New friends"
+       },
+       {
+        "displayOrder": 1,
+        "id": "<gen>",
+        "text": "Professional networking"
+       },
+       {
+        "displayOrder": 2,
+        "id": "<gen>",
+        "text": "Great food"
+       },
+       {
+        "displayOrder": 3,
+        "id": "<gen>",
+        "text": "Learning something new"
+       },
+       {
+        "displayOrder": 4,
+        "id": "<gen>",
+        "text": "Getting out more"
+       }
+      ],
+      "optionsCount": 5,
+      "question": "What are you hoping to get from GoMingle?",
+      "questionOrder": 11,
+      "type": "MULTI_SELECT"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "loyalty",
+  "status": 200,
+  "body": {
+   "data": {
+    "bonusPointsAt10thBooking": 100,
+    "earnUpdatedAt": null,
+    "earnUpdatedBy": null,
+    "maxRedemptionPercentOfBill": 50,
+    "pkrSpentToEarn1Point": 10,
+    "pointsNeededForPkr1Off": 100,
+    "pointsPerAcceptedInvite": 50,
+    "pointsPerCrownProminglerRole": 75,
+    "pointsPerInterestTableShare": 15,
+    "pointsPerReviewWithPhoto": 25,
+    "redeemUpdatedAt": null,
+    "redeemUpdatedBy": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "loyalty earn",
+  "status": 200,
+  "body": {
+   "data": {
+    "bonusPointsAt10thBooking": 100,
+    "earnUpdatedAt": "<iso>",
+    "maxRedemptionPercentOfBill": 50,
+    "pkrSpentToEarn1Point": 20,
+    "pointsNeededForPkr1Off": 100,
+    "pointsPerAcceptedInvite": 50,
+    "pointsPerCrownProminglerRole": 75,
+    "pointsPerInterestTableShare": 15,
+    "pointsPerReviewWithPhoto": 25,
+    "redeemUpdatedAt": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "loyalty redeem",
+  "status": 200,
+  "body": {
+   "data": {
+    "bonusPointsAt10thBooking": 100,
+    "earnUpdatedAt": "<iso>",
+    "maxRedemptionPercentOfBill": 50,
+    "pkrSpentToEarn1Point": 20,
+    "pointsNeededForPkr1Off": 80,
+    "pointsPerAcceptedInvite": 50,
+    "pointsPerCrownProminglerRole": 75,
+    "pointsPerInterestTableShare": 15,
+    "pointsPerReviewWithPhoto": 25,
+    "redeemUpdatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "loyalty after",
+  "status": 200,
+  "body": {
+   "data": {
+    "bonusPointsAt10thBooking": 100,
+    "earnUpdatedAt": "<iso>",
+    "maxRedemptionPercentOfBill": 50,
+    "pkrSpentToEarn1Point": 20,
+    "pointsNeededForPkr1Off": 80,
+    "pointsPerAcceptedInvite": 50,
+    "pointsPerCrownProminglerRole": 75,
+    "pointsPerInterestTableShare": 15,
+    "pointsPerReviewWithPhoto": 25,
+    "redeemUpdatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "change log",
+  "status": 200,
+  "body": [
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "redeem-rate",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Loyalty",
+    "newVal": "Updated loyalty settings",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "earn-rate",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Loyalty",
+    "newVal": "Updated loyalty settings",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "delete",
+    "admin": "admin@gomingle.com",
+    "data": "Chai or coffee?",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Preference Questions",
+    "newVal": "Deleted question: Chai or coffee?",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Chai or coffee?",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Preference Questions",
+    "newVal": "Updated question",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Tea or coffee?",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Preference Questions",
+    "newVal": "Created question: Tea or coffee?",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "delete",
+    "admin": "admin@gomingle.com",
+    "data": "Board Game Night",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Topics",
+    "newVal": "Deleted topic: Board Game Night",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "delete",
+    "admin": "admin@gomingle.com",
+    "data": "Karaoke Nights",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interests",
+    "newVal": "Deleted interest: Karaoke Nights",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Board Game Night",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Topics",
+    "newVal": "Changed to name: Board Game Night, description: Dice and chai",
+    "oldVal": "Was name: Board Games, description: null",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Karaoke Nights",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interests",
+    "newVal": "Updated interest",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Board Games",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interest Topics",
+    "newVal": "Created topic: Board Games",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Karaoke Nights",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interests",
+    "newVal": "Changed to name: Karaoke Nights",
+    "oldVal": "Was name: Karaoke",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Karaoke",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Interests",
+    "newVal": "Created interest: Karaoke",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "delete",
+    "admin": "admin@gomingle.com",
+    "data": "Shisha Terrace",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Amenities",
+    "newVal": "Deleted amenity: Shisha Terrace",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Shisha Terrace",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Amenities",
+    "newVal": "Updated amenity",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Shisha Terrace",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Amenities",
+    "newVal": "Updated amenity",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Shisha Terrace",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Amenities",
+    "newVal": "Changed to name: Shisha Terrace",
+    "oldVal": "Was name: Shisha Lounge",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Rooftop Shisha",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Amenities",
+    "newVal": "Created amenity: Rooftop Shisha",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Shisha Lounge",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Amenities",
+    "newVal": "Created amenity: Shisha Lounge",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "delete",
+    "admin": "admin@gomingle.com",
+    "data": "Premium",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Categories",
+    "newVal": "Deleted category: Premium",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Premium",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Categories",
+    "newVal": "Changed to commissionRate: 15",
+    "oldVal": "Was commissionRate: 12",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Standard",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Categories",
+    "newVal": "Created category: Standard",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Premium",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Categories",
+    "newVal": "Created category: Premium",
+    "timestamp": "<stamp>"
+   }
+  ]
+ }
+]

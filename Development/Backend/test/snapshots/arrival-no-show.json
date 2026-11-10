@@ -1,0 +1,1265 @@
+[
+ {
+  "step": "login partner",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "policy default",
+  "status": 200,
+  "body": {
+   "data": {
+    "cancellationWindowHours": 24,
+    "limits": {
+     "penaltyMaxPkr": 100000,
+     "windowMaxHours": 168
+    },
+    "penaltyPerSeatPkr": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "policy no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "policy empty body",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "cancellationWindowHours": "Enter a whole number of hours, 0 or more.",
+      "penaltyPerSeatPkr": "Enter an amount of 0 or more."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "policy negative",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "cancellationWindowHours": "Enter a whole number of hours, 0 or more.",
+      "penaltyPerSeatPkr": "Enter an amount of 0 or more."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "policy too large",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "cancellationWindowHours": "The cancellation window can be at most 168 hours.",
+      "penaltyPerSeatPkr": "The penalty can be at most PKR 100,000 per seat."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "policy as text",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "cancellationWindowHours": "Enter a whole number of hours, 0 or more.",
+      "penaltyPerSeatPkr": "Enter an amount of 0 or more."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "policy zero",
+  "status": 200,
+  "body": {
+   "data": {
+    "cancellationWindowHours": 0,
+    "limits": {
+     "penaltyMaxPkr": 100000,
+     "windowMaxHours": 168
+    },
+    "penaltyPerSeatPkr": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": true,
+    "isCover": true,
+    "mediaId": "<gen>",
+    "name": "dining.jpg",
+    "size": 8,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "payout",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "Kolachi Pvt",
+     "addedAt": "<iso>",
+     "bankName": "HBL",
+     "ibanMasked": "PK36 •••• 6702",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "submit",
+  "status": 200,
+  "body": {
+   "data": {
+    "message": "Your application has been submitted and is under review.",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "category",
+  "status": 201,
+  "body": {
+   "commissionRate": 12,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "interestTablesPerMonth": 4,
+   "name": "Premium",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "approve",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "id": "<gen>",
+    "status": "APPROVED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "sandbox no table",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Choose an interest table."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "sandbox unknown table",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_INTEREST_TABLE_NOT_FOUND",
+    "message": "Interest table not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "sandbox bad seats",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Seats must be a whole number of 1 or more."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "sandbox too many seats",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_TABLE_FULL",
+    "details": {
+     "seatsLeft": 8
+    },
+    "message": "Only 8 seats left at this table."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "booking with no penalty",
+  "status": 201,
+  "body": {
+   "data": {
+    "booking": {
+     "attendance": null,
+     "billPkr": null,
+     "emptySeats": null,
+     "id": "<gen>",
+     "interestTableId": "<gen>",
+     "interestTableName": "Startup Mixer",
+     "isCaptain": false,
+     "isCrownProMingler": false,
+     "isTickProMingler": false,
+     "menuOption": "",
+     "minglerId": "",
+     "minglerName": "Sana Khan",
+     "penaltyChargedPkr": null,
+     "penaltyPerSeatPkr": 0,
+     "penaltyStatus": null,
+     "prominglerLabel": null,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "seats": 2,
+     "status": "CONFIRMED",
+     "topic": ""
+    },
+    "hold": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "policy 1500",
+  "status": 200,
+  "body": {
+   "data": {
+    "cancellationWindowHours": 12,
+    "limits": {
+     "penaltyMaxPkr": 100000,
+     "windowMaxHours": 168
+    },
+    "penaltyPerSeatPkr": 1500
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "booking with penalty",
+  "status": 201,
+  "body": {
+   "data": {
+    "booking": {
+     "attendance": null,
+     "billPkr": null,
+     "emptySeats": null,
+     "id": "<gen>",
+     "interestTableId": "<gen>",
+     "interestTableName": "Startup Mixer",
+     "isCaptain": false,
+     "isCrownProMingler": false,
+     "isTickProMingler": false,
+     "menuOption": "",
+     "minglerId": "",
+     "minglerName": "Osama",
+     "penaltyChargedPkr": null,
+     "penaltyPerSeatPkr": 1500,
+     "penaltyStatus": null,
+     "prominglerLabel": null,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "seats": 3,
+     "status": "CONFIRMED",
+     "topic": ""
+    },
+    "hold": {
+     "amount": 4500,
+     "bookingId": "<gen>",
+     "createdAt": "<iso>",
+     "currency": "PKR",
+     "eventName": "Startup Mixer",
+     "gateway": "Safepay",
+     "guests": 3,
+     "heldAmount": 4500,
+     "id": "<gen>",
+     "kind": "NO_SHOW_HOLD",
+     "minglerName": "Osama",
+     "payoutTo": "PK36 •••• 6702",
+     "platformFee": 450,
+     "platformFeePct": 10,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "restaurantNet": 4050,
+     "status": "AUTHORIZED",
+     "timeline": [
+      {
+       "at": "<iso>",
+       "by": "Hira Mansoor (sandbox test booking)",
+       "status": "AUTHORIZED"
+      }
+     ],
+     "tracker": "<gen>",
+     "updatedAt": "<iso>"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "booking 3",
+  "status": 201,
+  "body": {
+   "data": {
+    "booking": {
+     "attendance": null,
+     "billPkr": null,
+     "emptySeats": null,
+     "id": "<gen>",
+     "interestTableId": "<gen>",
+     "interestTableName": "Startup Mixer",
+     "isCaptain": false,
+     "isCrownProMingler": false,
+     "isTickProMingler": false,
+     "menuOption": "",
+     "minglerId": "",
+     "minglerName": "Hina",
+     "penaltyChargedPkr": null,
+     "penaltyPerSeatPkr": 1500,
+     "penaltyStatus": null,
+     "prominglerLabel": null,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "seats": 2,
+     "status": "CONFIRMED",
+     "topic": ""
+    },
+    "hold": {
+     "amount": 3000,
+     "bookingId": "<gen>",
+     "createdAt": "<iso>",
+     "currency": "PKR",
+     "eventName": "Startup Mixer",
+     "gateway": "Safepay",
+     "guests": 2,
+     "heldAmount": 3000,
+     "id": "<gen>",
+     "kind": "NO_SHOW_HOLD",
+     "minglerName": "Hina",
+     "payoutTo": "PK36 •••• 6702",
+     "platformFee": 300,
+     "platformFeePct": 10,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "restaurantNet": 2700,
+     "status": "AUTHORIZED",
+     "timeline": [
+      {
+       "at": "<iso>",
+       "by": "Hira Mansoor (sandbox test booking)",
+       "status": "AUTHORIZED"
+      }
+     ],
+     "tracker": "<gen>",
+     "updatedAt": "<iso>"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "booking 4",
+  "status": 201,
+  "body": {
+   "data": {
+    "booking": {
+     "attendance": null,
+     "billPkr": null,
+     "emptySeats": null,
+     "id": "<gen>",
+     "interestTableId": "<gen>",
+     "interestTableName": "Startup Mixer",
+     "isCaptain": false,
+     "isCrownProMingler": false,
+     "isTickProMingler": false,
+     "menuOption": "",
+     "minglerId": "",
+     "minglerName": "Test Mingler",
+     "penaltyChargedPkr": null,
+     "penaltyPerSeatPkr": 1500,
+     "penaltyStatus": null,
+     "prominglerLabel": null,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "seats": 1,
+     "status": "CONFIRMED",
+     "topic": ""
+    },
+    "hold": {
+     "amount": 1500,
+     "bookingId": "<gen>",
+     "createdAt": "<iso>",
+     "currency": "PKR",
+     "eventName": "Startup Mixer",
+     "gateway": "Safepay",
+     "guests": 1,
+     "heldAmount": 1500,
+     "id": "<gen>",
+     "kind": "NO_SHOW_HOLD",
+     "minglerName": "Test Mingler",
+     "payoutTo": "PK36 •••• 6702",
+     "platformFee": 150,
+     "platformFeePct": 10,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "restaurantNet": 1350,
+     "status": "AUTHORIZED",
+     "timeline": [
+      {
+       "at": "<iso>",
+       "by": "Hira Mansoor (sandbox test booking)",
+       "status": "AUTHORIZED"
+      }
+     ],
+     "tracker": "<gen>",
+     "updatedAt": "<iso>"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "table is full",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_TABLE_FULL",
+    "details": {
+     "seatsLeft": 0
+    },
+    "message": "Only 0 seats left at this table."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner booking detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "attendance": null,
+    "billPkr": null,
+    "bookingId": "<gen>",
+    "emptySeats": null,
+    "interestTableName": "Startup Mixer",
+    "menuOption": "",
+    "minglerName": "Osama",
+    "penaltyChargedPkr": null,
+    "penaltyPerSeatPkr": 1500,
+    "seats": 3,
+    "status": "CONFIRMED",
+    "topic": ""
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner booking unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Booking not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "admin booking by ref",
+  "status": 200,
+  "body": {
+   "data": {
+    "attendance": null,
+    "billPkr": null,
+    "emptySeats": null,
+    "id": "<gen>",
+    "interestTableName": "Startup Mixer",
+    "isCrownProMingler": false,
+    "isTickProMingler": false,
+    "menuOption": "",
+    "penaltyChargedPkr": null,
+    "penaltyPerSeatPkr": 1500,
+    "prominglerLabel": null,
+    "restaurantName": "Kolachi",
+    "seats": 3,
+    "status": "CONFIRMED",
+    "topic": ""
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin booking unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_BOOKING_NOT_FOUND",
+    "message": "Booking not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "admin bookings no scope",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "A booking scope filter is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "no-show unknown booking",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Booking not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "no-show bad seats",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "emptySeats": "Enter a number between 1 and 3."
+     }
+    },
+    "message": "Empty seats must be between 1 and 3."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "no-show zero seats",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "emptySeats": "Enter a number between 1 and 3."
+     }
+    },
+    "message": "Empty seats must be between 1 and 3."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "no-show two of three",
+  "status": 200,
+  "body": {
+   "data": {
+    "arrivedSeats": 1,
+    "attendance": "PARTIAL",
+    "billPkr": null,
+    "bookingId": "<gen>",
+    "canMarkNoShow": false,
+    "cancellable": false,
+    "emptySeats": 2,
+    "menuOption": "",
+    "minglerId": "",
+    "minglerName": "Osama",
+    "penaltyChargedPkr": 3000,
+    "penaltyPerSeatPkr": 1500,
+    "penaltyStatus": "CHARGED",
+    "proMingler": {
+     "isProMingler": false,
+     "kind": "NONE"
+    },
+    "seats": 3,
+    "status": "COMPLETED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "no-show again",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_BOOKING_NOT_ACTIVE",
+    "details": {
+     "status": "COMPLETED"
+    },
+    "message": "This booking has already been checked in or cancelled."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "no-show with no penalty",
+  "status": 200,
+  "body": {
+   "data": {
+    "arrivedSeats": 0,
+    "attendance": "NO_SHOW",
+    "billPkr": null,
+    "bookingId": "<gen>",
+    "canMarkNoShow": false,
+    "cancellable": false,
+    "emptySeats": 2,
+    "menuOption": "",
+    "minglerId": "",
+    "minglerName": "Sana Khan",
+    "penaltyChargedPkr": 0,
+    "penaltyPerSeatPkr": 0,
+    "penaltyStatus": null,
+    "proMingler": {
+     "isProMingler": false,
+     "kind": "NONE"
+    },
+    "seats": 2,
+    "status": "COMPLETED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "cancel booking",
+  "status": 200,
+  "body": {
+   "data": {
+    "bookingId": "<gen>",
+    "status": "CANCELLED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "cancel again",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_BOOKING_NOT_CANCELLABLE",
+    "details": {
+     "status": "CANCELLED"
+    },
+    "message": "This booking can no longer be cancelled."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "no-show cancelled booking",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_BOOKING_NOT_ACTIVE",
+    "details": {
+     "status": "CANCELLED"
+    },
+    "message": "This booking has already been checked in or cancelled."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "arrived unknown table",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Interest table not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "guests arrived",
+  "status": 200,
+  "body": {
+   "data": {
+    "bookingsCheckedIn": 1,
+    "interestTableId": "<gen>",
+    "seatsArrived": 2,
+    "status": "COMPLETED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "arrived twice",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "details": {
+     "status": "COMPLETED"
+    },
+    "message": "Guests can't be checked in on a table that is completed."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "booking on a completed table",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_TABLE_NOT_BOOKABLE",
+    "details": {
+     "status": "COMPLETED"
+    },
+    "message": "This interest table is not open for booking."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "booking next week",
+  "status": 201,
+  "body": {
+   "data": {
+    "booking": {
+     "attendance": null,
+     "billPkr": null,
+     "emptySeats": null,
+     "id": "<gen>",
+     "interestTableId": "<gen>",
+     "interestTableName": "Friday Wine Evening",
+     "isCaptain": false,
+     "isCrownProMingler": false,
+     "isTickProMingler": false,
+     "menuOption": "",
+     "minglerId": "",
+     "minglerName": "Zain",
+     "penaltyChargedPkr": null,
+     "penaltyPerSeatPkr": 1500,
+     "penaltyStatus": null,
+     "prominglerLabel": null,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "seats": 2,
+     "status": "CONFIRMED",
+     "topic": ""
+    },
+    "hold": {
+     "amount": 3000,
+     "bookingId": "<gen>",
+     "createdAt": "<iso>",
+     "currency": "PKR",
+     "eventName": "Friday Wine Evening",
+     "gateway": "Safepay",
+     "guests": 2,
+     "heldAmount": 3000,
+     "id": "<gen>",
+     "kind": "NO_SHOW_HOLD",
+     "minglerName": "Zain",
+     "payoutTo": "PK36 •••• 6702",
+     "platformFee": 300,
+     "platformFeePct": 10,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "restaurantNet": 2700,
+     "status": "AUTHORIZED",
+     "timeline": [
+      {
+       "at": "<iso>",
+       "by": "Hira Mansoor (sandbox test booking)",
+       "status": "AUTHORIZED"
+      }
+     ],
+     "tracker": "<gen>",
+     "updatedAt": "<iso>"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "arrived too early",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_TOO_EARLY",
+    "message": "Guests can be checked in from one hour before the table starts."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "no-show too early",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_TOO_EARLY",
+    "message": "A no-show can be recorded once the table's start time has passed."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "booking soon",
+  "status": 201,
+  "body": {
+   "data": {
+    "booking": {
+     "attendance": null,
+     "billPkr": null,
+     "emptySeats": null,
+     "id": "<gen>",
+     "interestTableId": "<gen>",
+     "interestTableName": "Chai & Conversations",
+     "isCaptain": false,
+     "isCrownProMingler": false,
+     "isTickProMingler": false,
+     "menuOption": "",
+     "minglerId": "",
+     "minglerName": "Test Mingler",
+     "penaltyChargedPkr": null,
+     "penaltyPerSeatPkr": 1500,
+     "penaltyStatus": null,
+     "prominglerLabel": null,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "seats": 2,
+     "status": "CONFIRMED",
+     "topic": ""
+    },
+    "hold": {
+     "amount": 3000,
+     "bookingId": "<gen>",
+     "createdAt": "<iso>",
+     "currency": "PKR",
+     "eventName": "Chai & Conversations",
+     "gateway": "Safepay",
+     "guests": 2,
+     "heldAmount": 3000,
+     "id": "<gen>",
+     "kind": "NO_SHOW_HOLD",
+     "minglerName": "Test Mingler",
+     "payoutTo": "PK36 •••• 6702",
+     "platformFee": 300,
+     "platformFeePct": 10,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "restaurantNet": 2700,
+     "status": "AUTHORIZED",
+     "timeline": [
+      {
+       "at": "<iso>",
+       "by": "Hira Mansoor (sandbox test booking)",
+       "status": "AUTHORIZED"
+      }
+     ],
+     "tracker": "<gen>",
+     "updatedAt": "<iso>"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "arrived shortly before the start",
+  "status": 200,
+  "body": {
+   "data": {
+    "bookingsCheckedIn": 1,
+    "interestTableId": "<gen>",
+    "seatsArrived": 2,
+    "status": "COMPLETED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "arrived with no bookings",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_NO_BOOKINGS",
+    "message": "There are no bookings to check in on this table."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "booking nobody checked in",
+  "status": 201,
+  "body": {
+   "data": {
+    "booking": {
+     "attendance": null,
+     "billPkr": null,
+     "emptySeats": null,
+     "id": "<gen>",
+     "interestTableId": "<gen>",
+     "interestTableName": "Rooftop Social",
+     "isCaptain": false,
+     "isCrownProMingler": false,
+     "isTickProMingler": false,
+     "menuOption": "",
+     "minglerId": "",
+     "minglerName": "Yasmeen",
+     "penaltyChargedPkr": null,
+     "penaltyPerSeatPkr": 1500,
+     "penaltyStatus": null,
+     "prominglerLabel": null,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "seats": 2,
+     "status": "CONFIRMED",
+     "topic": ""
+    },
+    "hold": {
+     "amount": 3000,
+     "bookingId": "<gen>",
+     "createdAt": "<iso>",
+     "currency": "PKR",
+     "eventName": "Rooftop Social",
+     "gateway": "Safepay",
+     "guests": 2,
+     "heldAmount": 3000,
+     "id": "<gen>",
+     "kind": "NO_SHOW_HOLD",
+     "minglerName": "Yasmeen",
+     "payoutTo": "PK36 •••• 6702",
+     "platformFee": 300,
+     "platformFeePct": 10,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "restaurantNet": 2700,
+     "status": "AUTHORIZED",
+     "timeline": [
+      {
+       "at": "<iso>",
+       "by": "Hira Mansoor (sandbox test booking)",
+       "status": "AUTHORIZED"
+      }
+     ],
+     "tracker": "<gen>",
+     "updatedAt": "<iso>"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "booking within the grace hour",
+  "status": 201,
+  "body": {
+   "data": {
+    "booking": {
+     "attendance": null,
+     "billPkr": null,
+     "emptySeats": null,
+     "id": "<gen>",
+     "interestTableId": "<gen>",
+     "interestTableName": "Brunch Club",
+     "isCaptain": false,
+     "isCrownProMingler": false,
+     "isTickProMingler": false,
+     "menuOption": "",
+     "minglerId": "",
+     "minglerName": "Test Mingler",
+     "penaltyChargedPkr": null,
+     "penaltyPerSeatPkr": 1500,
+     "penaltyStatus": null,
+     "prominglerLabel": null,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "seats": 1,
+     "status": "CONFIRMED",
+     "topic": ""
+    },
+    "hold": {
+     "amount": 1500,
+     "bookingId": "<gen>",
+     "createdAt": "<iso>",
+     "currency": "PKR",
+     "eventName": "Brunch Club",
+     "gateway": "Safepay",
+     "guests": 1,
+     "heldAmount": 1500,
+     "id": "<gen>",
+     "kind": "NO_SHOW_HOLD",
+     "minglerName": "Test Mingler",
+     "payoutTo": "PK36 •••• 6702",
+     "platformFee": 150,
+     "platformFeePct": 10,
+     "restaurantId": "<gen>",
+     "restaurantName": "Kolachi",
+     "restaurantNet": 1350,
+     "status": "AUTHORIZED",
+     "timeline": [
+      {
+       "at": "<iso>",
+       "by": "Hira Mansoor (sandbox test booking)",
+       "status": "AUTHORIZED"
+      }
+     ],
+     "tracker": "<gen>",
+     "updatedAt": "<iso>"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "no-show check",
+  "status": 200,
+  "body": {
+   "data": {
+    "checked": 3,
+    "noShows": 1
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "no-show check again",
+  "status": 200,
+  "body": {
+   "data": {
+    "checked": 2,
+    "noShows": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup start",
+  "status": 200,
+  "body": {
+   "data": {
+    "codeSent": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup verify",
+  "status": 201,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "email": "owner@bbq.pk",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "id": "<gen>",
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP",
+    "session": {
+     "accessToken": "<jwt>",
+     "expiresIn": 7200,
+     "idToken": "<jwt>",
+     "refreshToken": "<gen>",
+     "tokenType": "Bearer"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "other restaurant bookings",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Interest table not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "other restaurant no-show",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "DRAFT"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "other restaurant policy is its own",
+  "status": 200,
+  "body": {
+   "data": {
+    "cancellationWindowHours": 24,
+    "limits": {
+     "penaltyMaxPkr": 100000,
+     "windowMaxHours": 168
+    },
+    "penaltyPerSeatPkr": 0
+   },
+   "success": true
+  }
+ }
+]

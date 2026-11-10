@@ -1,0 +1,1778 @@
+[
+ {
+  "step": "login partner",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "console empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [],
+    "restaurants": [],
+    "summary": {
+     "authorized": 0,
+     "count": 0,
+     "currency": "PKR",
+     "inEscrow": 0,
+     "platformFeePct": 10,
+     "platformFees": 0,
+     "refunded": 0,
+     "released": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner escrow empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [],
+    "payoutAccount": null,
+    "summary": {
+     "authorized": 0,
+     "count": 0,
+     "currency": "PKR",
+     "inEscrow": 0,
+     "platformFeePct": 10,
+     "platformFees": 0,
+     "refunded": 0,
+     "released": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "test booking unknown restaurant",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Choose a restaurant."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "test booking draft restaurant",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Choose a restaurant."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "capture unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "message": "Escrow transaction not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "unknown action",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "message": "Unknown escrow route."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "profile",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": true,
+    "isCover": true,
+    "mediaId": "<gen>",
+    "name": "dining.jpg",
+    "size": 8,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "payout",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "Kolachi Pvt",
+     "addedAt": "<iso>",
+     "bankName": "HBL",
+     "ibanMasked": "PK36 •••• 6702",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "submit",
+  "status": 200,
+  "body": {
+   "data": {
+    "message": "Your application has been submitted and is under review.",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "category",
+  "status": 201,
+  "body": {
+   "commissionRate": 12,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "interestTablesPerMonth": 4,
+   "name": "Premium",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "approve",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "id": "<gen>",
+    "status": "APPROVED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "console lists the restaurant",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [],
+    "restaurants": [
+     {
+      "hasPayoutAccount": true,
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "summary": {
+     "authorized": 0,
+     "count": 0,
+     "currency": "PKR",
+     "inEscrow": 0,
+     "platformFeePct": 10,
+     "platformFees": 0,
+     "refunded": 0,
+     "released": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "booking with no amount",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Amount must be greater than zero."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "booking with bad amount",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Amount must be greater than zero."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "booking",
+  "status": 201,
+  "body": {
+   "data": {
+    "amount": 13333.34,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Startup Mixer",
+    "gateway": "Safepay",
+    "guests": 4,
+    "id": "<gen>",
+    "minglerName": "Sana Khan",
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 1333.33,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 12000.01,
+    "status": "AUTHORIZED",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "booking defaults",
+  "status": 201,
+  "body": {
+   "data": {
+    "amount": 6000,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Interest Table",
+    "gateway": "Safepay",
+    "guests": 2,
+    "id": "<gen>",
+    "minglerName": "Test Mingler",
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 600,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 5400,
+    "status": "AUTHORIZED",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "booking 3",
+  "status": 201,
+  "body": {
+   "data": {
+    "amount": 999.99,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Interest Table",
+    "gateway": "Safepay",
+    "guests": 1,
+    "id": "<gen>",
+    "minglerName": "Osama",
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 100,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 899.99,
+    "status": "AUTHORIZED",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "booking 4",
+  "status": 201,
+  "body": {
+   "data": {
+    "amount": 7500,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Interest Table",
+    "gateway": "Safepay",
+    "guests": 3,
+    "id": "<gen>",
+    "minglerName": "Hina",
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 750,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 6750,
+    "status": "AUTHORIZED",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "release before capture",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "message": "Cannot release a transaction that is authorized."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "refund before capture",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "message": "Cannot refund a transaction that is authorized."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "capture",
+  "status": 200,
+  "body": {
+   "data": {
+    "amount": 13333.34,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Startup Mixer",
+    "gateway": "Safepay",
+    "guests": 4,
+    "id": "<gen>",
+    "minglerName": "Sana Khan",
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 1333.33,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 12000.01,
+    "status": "IN_ESCROW",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     },
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor",
+      "status": "IN_ESCROW"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "capture again",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "message": "Cannot capture a transaction that is in escrow."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "void after capture",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "message": "Cannot void a transaction that is in escrow."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "refund without reason",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "A reason is required to refund."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "void",
+  "status": 200,
+  "body": {
+   "data": {
+    "amount": 6000,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Interest Table",
+    "gateway": "Safepay",
+    "guests": 2,
+    "id": "<gen>",
+    "minglerName": "Test Mingler",
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 600,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 5400,
+    "status": "VOIDED",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     },
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor",
+      "note": "Cancelled in time",
+      "status": "VOIDED"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "capture voided",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "message": "Cannot capture a transaction that is voided."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "capture 3",
+  "status": 200,
+  "body": {
+   "data": {
+    "amount": 999.99,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Interest Table",
+    "gateway": "Safepay",
+    "guests": 1,
+    "id": "<gen>",
+    "minglerName": "Osama",
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 100,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 899.99,
+    "status": "IN_ESCROW",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     },
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor",
+      "status": "IN_ESCROW"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "refund",
+  "status": 200,
+  "body": {
+   "data": {
+    "amount": 999.99,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Interest Table",
+    "gateway": "Safepay",
+    "guests": 1,
+    "id": "<gen>",
+    "minglerName": "Osama",
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 100,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 899.99,
+    "status": "REFUNDED",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     },
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor",
+      "status": "IN_ESCROW"
+     },
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor",
+      "note": "Dispute upheld",
+      "status": "REFUNDED"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "refund again",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "message": "Cannot refund a transaction that is refunded."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "release",
+  "status": 200,
+  "body": {
+   "data": {
+    "amount": 13333.34,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Startup Mixer",
+    "gateway": "Safepay",
+    "guests": 4,
+    "id": "<gen>",
+    "minglerName": "Sana Khan",
+    "payout": {
+     "accountTitle": "Kolachi Pvt",
+     "amount": 12000.01,
+     "bank": "HBL",
+     "ibanMasked": "PK36 •••• 6702",
+     "paidAt": "<iso>",
+     "platformFee": 1333.33
+    },
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 1333.33,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 12000.01,
+    "status": "RELEASED",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     },
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor",
+      "status": "IN_ESCROW"
+     },
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor",
+      "status": "RELEASED"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "release again",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "message": "Cannot release a transaction that is released."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "capture 4",
+  "status": 200,
+  "body": {
+   "data": {
+    "amount": 7500,
+    "createdAt": "<iso>",
+    "currency": "PKR",
+    "eventAt": "<iso>",
+    "eventName": "Interest Table",
+    "gateway": "Safepay",
+    "guests": 3,
+    "id": "<gen>",
+    "minglerName": "Hina",
+    "payoutTo": "PK36 •••• 6702",
+    "platformFee": 750,
+    "platformFeePct": 10,
+    "restaurantId": "<gen>",
+    "restaurantName": "Kolachi",
+    "restaurantNet": 6750,
+    "status": "IN_ESCROW",
+    "timeline": [
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor (sandbox test booking)",
+      "status": "AUTHORIZED"
+     },
+     {
+      "at": "<iso>",
+      "by": "Hira Mansoor",
+      "status": "IN_ESCROW"
+     }
+    ],
+    "tracker": "<gen>",
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "console",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [
+     {
+      "amount": 7500,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Interest Table",
+      "gateway": "Safepay",
+      "guests": 3,
+      "id": "<gen>",
+      "minglerName": "Hina",
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 750,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 6750,
+      "status": "IN_ESCROW",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "IN_ESCROW"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     },
+     {
+      "amount": 999.99,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Interest Table",
+      "gateway": "Safepay",
+      "guests": 1,
+      "id": "<gen>",
+      "minglerName": "Osama",
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 100,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 899.99,
+      "status": "REFUNDED",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "IN_ESCROW"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "note": "Dispute upheld",
+        "status": "REFUNDED"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     },
+     {
+      "amount": 6000,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Interest Table",
+      "gateway": "Safepay",
+      "guests": 2,
+      "id": "<gen>",
+      "minglerName": "Test Mingler",
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 600,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 5400,
+      "status": "VOIDED",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "note": "Cancelled in time",
+        "status": "VOIDED"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     },
+     {
+      "amount": 13333.34,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Startup Mixer",
+      "gateway": "Safepay",
+      "guests": 4,
+      "id": "<gen>",
+      "minglerName": "Sana Khan",
+      "payout": {
+       "accountTitle": "Kolachi Pvt",
+       "amount": 12000.01,
+       "bank": "HBL",
+       "ibanMasked": "PK36 •••• 6702",
+       "paidAt": "<iso>",
+       "platformFee": 1333.33
+      },
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 1333.33,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 12000.01,
+      "status": "RELEASED",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "IN_ESCROW"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "RELEASED"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     }
+    ],
+    "restaurants": [
+     {
+      "hasPayoutAccount": true,
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "summary": {
+     "authorized": 0,
+     "count": 4,
+     "currency": "PKR",
+     "inEscrow": 7500,
+     "platformFeePct": 10,
+     "platformFees": 1333.33,
+     "refunded": 999.99,
+     "released": 12000.01
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "console AUTHORIZED",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [],
+    "restaurants": [
+     {
+      "hasPayoutAccount": true,
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "summary": {
+     "authorized": 0,
+     "count": 4,
+     "currency": "PKR",
+     "inEscrow": 7500,
+     "platformFeePct": 10,
+     "platformFees": 1333.33,
+     "refunded": 999.99,
+     "released": 12000.01
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "console IN_ESCROW",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [
+     {
+      "amount": 7500,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Interest Table",
+      "gateway": "Safepay",
+      "guests": 3,
+      "id": "<gen>",
+      "minglerName": "Hina",
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 750,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 6750,
+      "status": "IN_ESCROW",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "IN_ESCROW"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     }
+    ],
+    "restaurants": [
+     {
+      "hasPayoutAccount": true,
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "summary": {
+     "authorized": 0,
+     "count": 4,
+     "currency": "PKR",
+     "inEscrow": 7500,
+     "platformFeePct": 10,
+     "platformFees": 1333.33,
+     "refunded": 999.99,
+     "released": 12000.01
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "console RELEASED",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [
+     {
+      "amount": 13333.34,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Startup Mixer",
+      "gateway": "Safepay",
+      "guests": 4,
+      "id": "<gen>",
+      "minglerName": "Sana Khan",
+      "payout": {
+       "accountTitle": "Kolachi Pvt",
+       "amount": 12000.01,
+       "bank": "HBL",
+       "ibanMasked": "PK36 •••• 6702",
+       "paidAt": "<iso>",
+       "platformFee": 1333.33
+      },
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 1333.33,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 12000.01,
+      "status": "RELEASED",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "IN_ESCROW"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "RELEASED"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     }
+    ],
+    "restaurants": [
+     {
+      "hasPayoutAccount": true,
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "summary": {
+     "authorized": 0,
+     "count": 4,
+     "currency": "PKR",
+     "inEscrow": 7500,
+     "platformFeePct": 10,
+     "platformFees": 1333.33,
+     "refunded": 999.99,
+     "released": 12000.01
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "console REFUNDED",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [
+     {
+      "amount": 999.99,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Interest Table",
+      "gateway": "Safepay",
+      "guests": 1,
+      "id": "<gen>",
+      "minglerName": "Osama",
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 100,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 899.99,
+      "status": "REFUNDED",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "IN_ESCROW"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "note": "Dispute upheld",
+        "status": "REFUNDED"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     }
+    ],
+    "restaurants": [
+     {
+      "hasPayoutAccount": true,
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "summary": {
+     "authorized": 0,
+     "count": 4,
+     "currency": "PKR",
+     "inEscrow": 7500,
+     "platformFeePct": 10,
+     "platformFees": 1333.33,
+     "refunded": 999.99,
+     "released": 12000.01
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "console VOIDED",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [
+     {
+      "amount": 6000,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Interest Table",
+      "gateway": "Safepay",
+      "guests": 2,
+      "id": "<gen>",
+      "minglerName": "Test Mingler",
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 600,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 5400,
+      "status": "VOIDED",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "note": "Cancelled in time",
+        "status": "VOIDED"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     }
+    ],
+    "restaurants": [
+     {
+      "hasPayoutAccount": true,
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "summary": {
+     "authorized": 0,
+     "count": 4,
+     "currency": "PKR",
+     "inEscrow": 7500,
+     "platformFeePct": 10,
+     "platformFees": 1333.33,
+     "refunded": 999.99,
+     "released": 12000.01
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "console NOPE",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [],
+    "restaurants": [
+     {
+      "hasPayoutAccount": true,
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "summary": {
+     "authorized": 0,
+     "count": 4,
+     "currency": "PKR",
+     "inEscrow": 7500,
+     "platformFeePct": 10,
+     "platformFees": 1333.33,
+     "refunded": 999.99,
+     "released": 12000.01
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner escrow",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [
+     {
+      "amount": 7500,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Interest Table",
+      "gateway": "Safepay",
+      "guests": 3,
+      "id": "<gen>",
+      "minglerName": "Hina",
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 750,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 6750,
+      "status": "IN_ESCROW",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "IN_ESCROW"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     },
+     {
+      "amount": 999.99,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Interest Table",
+      "gateway": "Safepay",
+      "guests": 1,
+      "id": "<gen>",
+      "minglerName": "Osama",
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 100,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 899.99,
+      "status": "REFUNDED",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "IN_ESCROW"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "note": "Dispute upheld",
+        "status": "REFUNDED"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     },
+     {
+      "amount": 6000,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Interest Table",
+      "gateway": "Safepay",
+      "guests": 2,
+      "id": "<gen>",
+      "minglerName": "Test Mingler",
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 600,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 5400,
+      "status": "VOIDED",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "note": "Cancelled in time",
+        "status": "VOIDED"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     },
+     {
+      "amount": 13333.34,
+      "createdAt": "<iso>",
+      "currency": "PKR",
+      "eventAt": "<iso>",
+      "eventName": "Startup Mixer",
+      "gateway": "Safepay",
+      "guests": 4,
+      "id": "<gen>",
+      "minglerName": "Sana Khan",
+      "payout": {
+       "accountTitle": "Kolachi Pvt",
+       "amount": 12000.01,
+       "bank": "HBL",
+       "ibanMasked": "PK36 •••• 6702",
+       "paidAt": "<iso>",
+       "platformFee": 1333.33
+      },
+      "payoutTo": "PK36 •••• 6702",
+      "platformFee": 1333.33,
+      "platformFeePct": 10,
+      "restaurantId": "<gen>",
+      "restaurantName": "Kolachi",
+      "restaurantNet": 12000.01,
+      "status": "RELEASED",
+      "timeline": [
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor (sandbox test booking)",
+        "status": "AUTHORIZED"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "IN_ESCROW"
+       },
+       {
+        "at": "<iso>",
+        "by": "Hira Mansoor",
+        "status": "RELEASED"
+       }
+      ],
+      "tracker": "<gen>",
+      "updatedAt": "<iso>"
+     }
+    ],
+    "payoutAccount": {
+     "accountTitle": "Kolachi Pvt",
+     "bankName": "HBL",
+     "iban": "PK36 •••• 6702"
+    },
+    "summary": {
+     "authorized": 0,
+     "count": 4,
+     "currency": "PKR",
+     "inEscrow": 7500,
+     "platformFeePct": 10,
+     "platformFees": 1333.33,
+     "refunded": 999.99,
+     "released": 12000.01
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup start",
+  "status": 200,
+  "body": {
+   "data": {
+    "codeSent": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup verify",
+  "status": 201,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "email": "owner@bbq.pk",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "id": "<gen>",
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP",
+    "session": {
+     "accessToken": "<jwt>",
+     "expiresIn": 7200,
+     "idToken": "<jwt>",
+     "refreshToken": "<gen>",
+     "tokenType": "Bearer"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "other escrow is empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "gateway": {
+     "environment": "sandbox",
+     "host": "https://sandbox.api.getsafepay.com",
+     "mode": "simulator",
+     "name": "Safepay"
+    },
+    "items": [],
+    "payoutAccount": null,
+    "summary": {
+     "authorized": 0,
+     "count": 0,
+     "currency": "PKR",
+     "inEscrow": 0,
+     "platformFeePct": 10,
+     "platformFees": 0,
+     "refunded": 0,
+     "released": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "change log",
+  "status": 200,
+  "body": [
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "<gen>",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Captured payment",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "<gen>",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Released payout",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "<gen>",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Refunded —  Dispute upheld ",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "<gen>",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Captured payment",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "<gen>",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Voided hold — Cancelled in time",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "<gen>",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Captured payment",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "test-booking",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Created sandbox booking",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "test-booking",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Created sandbox booking",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "test-booking",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Created sandbox booking",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "test-booking",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Finance",
+    "newVal": "Created sandbox booking",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Kolachi",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Approvals",
+    "newVal": "Approved",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Premium",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Categories",
+    "newVal": "Created category: Premium",
+    "timestamp": "<stamp>"
+   }
+  ]
+ },
+ {
+  "step": "dashboard bookings chart",
+  "status": 200,
+  "body": []
+ },
+ {
+  "step": "dashboard no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "overview legacy list",
+  "status": 200,
+  "body": []
+ },
+ {
+  "step": "overview legacy restaurant",
+  "status": 404,
+  "body": {
+   "message": "Not found"
+  }
+ },
+ {
+  "step": "legacy mingler",
+  "status": 404,
+  "body": {
+   "message": "Not found"
+  }
+ }
+]

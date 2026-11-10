@@ -1,0 +1,2212 @@
+[
+ {
+  "step": "login partner",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "partner empty ",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "unreadCount": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin empty ",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 0,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner empty /unread-count",
+  "status": 200,
+  "body": {
+   "data": {
+    "unreadCount": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin empty /unread-count",
+  "status": 200,
+  "body": {
+   "data": {
+    "count": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner empty /recent",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "unreadCount": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin empty /recent",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner empty /types",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "label": "Interest table cancelled",
+      "type": "IT_CANCELLED"
+     },
+     {
+      "label": "Interest table confirmed",
+      "type": "IT_CONFIRMED"
+     },
+     {
+      "label": "New interest table created",
+      "type": "IT_CREATED"
+     },
+     {
+      "label": "Mingler cancelled a booking",
+      "type": "MINGLER_CANCELLED_BOOKING"
+     },
+     {
+      "label": "Promingler updated",
+      "type": "PROMINGLER_UPDATED"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin empty /types",
+  "status": 200,
+  "body": {
+   "data": {
+    "types": [
+     {
+      "key": "<gen>",
+      "label": "New restaurant application"
+     },
+     {
+      "key": "<gen>",
+      "label": "Restaurant approved"
+     },
+     {
+      "key": "<gen>",
+      "label": "Restaurant rejected"
+     },
+     {
+      "key": "<gen>",
+      "label": "Restaurant suspended"
+     },
+     {
+      "key": "<gen>",
+      "label": "Restaurant reactivated"
+     },
+     {
+      "key": "<gen>",
+      "label": "Mingler suspended"
+     },
+     {
+      "key": "<gen>",
+      "label": "Mingler reactivated"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner read-all empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "markedCount": 0,
+    "unreadCount": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin mark-all empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "marked": 0,
+    "markedAt": "<iso>",
+    "markedByUserId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner read unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Notification not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "admin read unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOTIFICATION_NOT_FOUND",
+    "message": "Not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "admin no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "profile",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": true,
+    "isCover": true,
+    "mediaId": "<gen>",
+    "name": "dining.jpg",
+    "size": 8,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "payout",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "Kolachi",
+     "addedAt": "<iso>",
+     "bankName": "HBL",
+     "ibanMasked": "PK36 •••• 6702",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "category",
+  "status": 201,
+  "body": {
+   "commissionRate": 12,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "interestTablesPerMonth": 4,
+   "name": "Premium",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "category 2",
+  "status": 201,
+  "body": {
+   "commissionRate": 8,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "interestTablesPerMonth": 2,
+   "name": "Casual",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "submit",
+  "status": 200,
+  "body": {
+   "data": {
+    "message": "Your application has been submitted and is under review.",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "decline",
+  "status": 200,
+  "body": {
+   "data": {
+    "id": "<gen>",
+    "rejectedAt": "<iso>",
+    "status": "REJECTED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "resubmit",
+  "status": 200,
+  "body": {
+   "data": {
+    "message": "Your application has been submitted and is under review.",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "approve",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "id": "<gen>",
+    "status": "APPROVED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "category change",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Casual"
+    },
+    "id": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "suspend",
+  "status": 200,
+  "body": {
+   "data": {
+    "bookingsCancelled": 0,
+    "id": "<gen>",
+    "status": "SUSPENDED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "unsuspend",
+  "status": 200,
+  "body": {
+   "data": {
+    "id": "<gen>",
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner inbox",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 5
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner unread",
+  "status": 200,
+  "body": {
+   "data": {
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner recent",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     }
+    ],
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner sortDir=asc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     },
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 5
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner pageSize=10&page=2",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 5
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner page=0",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 5
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner search=SUSPENDED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner search=declined",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner status=UNREAD",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 5
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner status=READ",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner status=ALL",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 5
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner startDate=<today>&endDate=<today>",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 5
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner startDate=2020-01-01&endDate=2020-01-02",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner type=IT_CREATED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner type=IT_CREATED,IT_CANCELLED&type=IT_CONFIRMED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "unreadCount": 5
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner status=unread",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Please check the values and try again."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner sortDir=up",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Please check the values and try again."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner pageSize=7",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Please check the values and try again."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner type=RESTAURANT_APPROVED",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Please check the values and try again."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner startDate=<today>",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_DATE_RANGE_INCOMPLETE",
+    "details": {},
+    "message": "Please provide both a start and end date."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner endDate=<today>",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_DATE_RANGE_INCOMPLETE",
+    "details": {},
+    "message": "Please provide both a start and end date."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner startDate=<today>&endDate=<today>",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_DATE_RANGE_INVALID",
+    "details": {},
+    "message": "Please provide a valid date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner startDate=<today>&endDate=2020-01-01",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_DATE_RANGE_INVALID",
+    "details": {},
+    "message": "Please provide a valid date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner startDate=<today>&endDate=2999-01-01",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_DATE_RANGE_INVALID",
+    "details": {},
+    "message": "Please provide a valid date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner read",
+  "status": 200,
+  "body": {
+   "data": {
+    "id": "<gen>",
+    "isRead": true,
+    "unreadCount": 4
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner read again",
+  "status": 200,
+  "body": {
+   "data": {
+    "id": "<gen>",
+    "isRead": true,
+    "unreadCount": 4
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner read ones",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": true,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    },
+    "unreadCount": 4
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner unread ones",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": false,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 4
+    },
+    "unreadCount": 4
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner read all",
+  "status": 200,
+  "body": {
+   "data": {
+    "markedCount": 4,
+    "unreadCount": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner read all again",
+  "status": 200,
+  "body": {
+   "data": {
+    "markedCount": 0,
+    "unreadCount": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner all read",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Your restaurant is live on GoMingle again.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": true,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant reactivated",
+      "type": "RESTAURANT_UNSUSPENDED"
+     },
+     {
+      "body": "GoMingle suspended your restaurant: Health inspection failed",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": true,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Restaurant suspended",
+      "type": "RESTAURANT_SUSPENDED"
+     },
+     {
+      "body": "GoMingle moved your restaurant to the Casual category (8% commission).",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": true,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Category updated",
+      "type": "RESTAURANT_CATEGORY_CHANGED"
+     },
+     {
+      "body": "Kolachi was approved in the Premium category and is now visible to Minglers on GoMingle.",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": true,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Your restaurant is live",
+      "type": "RESTAURANT_APPROVED"
+     },
+     {
+      "body": "Your application was declined: Licence is unreadable",
+      "createdAt": "<gen>",
+      "deepLink": "/overview",
+      "id": "<gen>",
+      "isRead": true,
+      "metadata": {
+       "restaurantId": "<gen>"
+      },
+      "title": "Application needs changes",
+      "type": "RESTAURANT_REJECTED"
+     }
+    ],
+    "unreadCount": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin inbox",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     },
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 2,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin unread",
+  "status": 200,
+  "body": {
+   "data": {
+    "count": 2
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin recent",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     },
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin sortDir=asc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     },
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 2,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin pageSize=1&page=2",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 2,
+     "pageSize": 1,
+     "totalItems": 2,
+     "totalPages": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin search=RESUBMITTED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 1,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin search=kolachi",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     },
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 2,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin type=RESTAURANT_APPLICATION_SUBMITTED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     },
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 2,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin type=MINGLER_SUSPENDED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 0,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin status=unread",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     },
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 2,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin status=read",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 0,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin startDate=<today>",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     },
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 2,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin endDate=2020-01-01",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 0,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin startDate=<today>&endDate=<today>",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     },
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 2,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin read",
+  "status": 200,
+  "body": {
+   "data": {
+    "id": "<gen>",
+    "marked": 1,
+    "readAt": "<iso>",
+    "readByUserId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin read again",
+  "status": 200,
+  "body": {
+   "data": {
+    "id": "<gen>",
+    "marked": 0,
+    "readAt": "<iso>",
+    "readByUserId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin read ones",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": "<iso>",
+      "readByUserId": "<gen>",
+      "title": "New Restaurant Application",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 1,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin unread ones",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "body": "Kolachi (Karachi) submitted an application for approval.",
+      "createdAt": "<stamp>",
+      "deepLink": "/admin/approvals/rest1",
+      "id": "<gen>",
+      "metadata": {
+       "restaurantId": "<gen>",
+       "restaurantName": "Kolachi"
+      },
+      "readAt": null,
+      "readByUserId": null,
+      "title": "Restaurant Application Resubmitted",
+      "type": "RESTAURANT_APPLICATION_SUBMITTED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalItems": 1,
+     "totalPages": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin mark all",
+  "status": 200,
+  "body": {
+   "data": {
+    "marked": 1,
+    "markedAt": "<iso>",
+    "markedByUserId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin mark all again",
+  "status": 200,
+  "body": {
+   "data": {
+    "marked": 0,
+    "markedAt": "<iso>",
+    "markedByUserId": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "admin all read",
+  "status": 200,
+  "body": {
+   "data": {
+    "count": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup start",
+  "status": 200,
+  "body": {
+   "data": {
+    "codeSent": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup verify",
+  "status": 201,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "email": "owner@bbq.pk",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "id": "<gen>",
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP",
+    "session": {
+     "accessToken": "<jwt>",
+     "expiresIn": 7200,
+     "idToken": "<jwt>",
+     "refreshToken": "<gen>",
+     "tokenType": "Bearer"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "other inbox",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    },
+    "unreadCount": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "other cannot read ours",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Notification not found."
+   },
+   "success": false
+  }
+ }
+]

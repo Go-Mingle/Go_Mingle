@@ -19,6 +19,7 @@ import { partnerWebhookHandlers } from './partnerWebhook'
 import { partnerFinancesHandlers } from './partnerFinances'
 import { partnerEscrowHandlers } from './partnerEscrow'
 import { partnerPayoutAccountHandlers } from './partnerPayoutAccount'
+import { partnerNoShowPolicyHandlers } from './partnerNoShowPolicy'
 import { partnerRestaurantProfileHandlers } from './partnerRestaurantProfile'
 import { partnerMediaHandlers } from './partnerMedia'
 import { partnerAmenitiesHandlers } from './partnerAmenities'
@@ -67,6 +68,7 @@ export const partnerHandlers = [
   ...partnerFinancesHandlers,
   ...partnerEscrowHandlers,
   ...partnerPayoutAccountHandlers,
+  ...partnerNoShowPolicyHandlers,
   ...partnerRestaurantProfileHandlers,
   ...partnerMediaHandlers,
   ...partnerAmenitiesHandlers,

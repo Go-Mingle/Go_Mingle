@@ -617,6 +617,94 @@ export function cancelMockBooking(bookingId: string): Response {
 }
 
 // ── Endpoint 7: Invitees ───────────────────────────────────────
+/**
+ * "Guests Arrived": every open booking is checked in and the table completes.
+ * `canCheckIn` on the table is what the real server derives from the start time.
+ */
+export function markMockGuestsArrived(itId: string): Response {
+  const refused = requireActive()
+  if (refused) return refused
+
+  const table = liveTable(itId)
+  if (!table) return errorResponse('ERR_NOT_FOUND', IT_NOT_FOUND, 404)
+  if (!table.canCheckIn) {
+    return errorResponse('ERR_TOO_EARLY', 'Guests can be checked in from one hour before the table starts.', 409)
+  }
+
+  const open = (bookings[itId] ?? []).filter((row) => row.status === 'PENDING' || row.status === 'CONFIRMED')
+  let seatsArrived = 0
+  open.forEach((row) => {
+    row.status = 'COMPLETED'
+    row.attendance = 'ARRIVED'
+    row.arrivedSeats = row.seats ?? 1
+    row.emptySeats = 0
+    row.cancellable = false
+    row.canMarkNoShow = false
+    seatsArrived += row.seats ?? 1
+  })
+  table.status = 'COMPLETED'
+  table.canCheckIn = false
+
+  return HttpResponse.json({
+    success: true,
+    data: { interestTableId: itId, status: 'COMPLETED', bookingsCheckedIn: open.length, seatsArrived },
+  })
+}
+
+/** Records empty seats on a booking and "collects" the penalty for them. */
+export function markMockNoShow(bookingId: string, body: Record<string, unknown>): Response {
+  const refused = requireActive()
+  if (refused) return refused
+
+  const booking = findBooking(bookingId)
+  if (!booking) return errorResponse('ERR_NOT_FOUND', BOOKING_NOT_FOUND, 404)
+
+  const seats = booking.seats ?? 1
+  const emptySeats = body.emptySeats === undefined ? seats : Number(body.emptySeats)
+  if (!Number.isInteger(emptySeats) || emptySeats < 1 || emptySeats > seats) {
+    return errorResponse('ERR_VALIDATION', `Empty seats must be between 1 and ${String(seats)}.`, 422)
+  }
+  if (booking.status !== 'PENDING' && booking.status !== 'CONFIRMED') {
+    return errorResponse(
+      'ERR_BOOKING_NOT_ACTIVE',
+      'This booking has already been checked in or cancelled.',
+      409,
+      { status: booking.status },
+    )
+  }
+  if (!booking.canMarkNoShow) {
+    return errorResponse('ERR_TOO_EARLY', "A no-show can be recorded once the table's start time has passed.", 409)
+  }
+
+  booking.status = 'COMPLETED'
+  booking.attendance = emptySeats === seats ? 'NO_SHOW' : 'PARTIAL'
+  booking.arrivedSeats = seats - emptySeats
+  booking.emptySeats = emptySeats
+  booking.penaltyChargedPkr = (booking.penaltyPerSeatPkr ?? 0) * emptySeats
+  booking.penaltyStatus = booking.penaltyChargedPkr > 0 ? 'CHARGED' : null
+  booking.cancellable = false
+  booking.canMarkNoShow = false
+
+  return HttpResponse.json({ success: true, data: booking })
+}
+
+/** Test helper: opens (or closes) check-in on a table and its open bookings. */
+export function setMockCheckInOpen(itId: string, open = true): void {
+  const table = tables.find((item) => item.interestTableId === itId)
+  if (table) table.canCheckIn = open
+  ;(bookings[itId] ?? []).forEach((row) => {
+    row.canMarkNoShow = open && (row.status === 'PENDING' || row.status === 'CONFIRMED')
+  })
+}
+
+/** Test helper: the policy a booking was made under. */
+export function setMockBookingSeats(bookingId: string, seats: number, penaltyPerSeatPkr: number): void {
+  const booking = findBooking(bookingId)
+  if (!booking) return
+  booking.seats = seats
+  booking.penaltyPerSeatPkr = penaltyPerSeatPkr
+}
+
 export function listMockInvitees(itId: string): Response {
   const table = liveTable(itId)
   if (!table) return errorResponse('ERR_NOT_FOUND', IT_NOT_FOUND, 404)
