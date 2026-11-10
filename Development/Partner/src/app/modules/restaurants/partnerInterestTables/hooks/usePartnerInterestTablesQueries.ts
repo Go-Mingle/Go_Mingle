@@ -171,3 +171,30 @@ export function useCancelInviteMutation() {
     },
   })
 }
+
+/**
+ * "Guests Arrived" completes the table and every open booking on it, so the
+ * whole interest-tables subtree is stale: grid status, detail and bookings.
+ */
+export function useGuestsArrivedMutation() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (itId: string) => service.guestsArrived(itId),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: PARTNER_IT_QUERY_KEY })
+    },
+  })
+}
+
+/** A no-show changes the booking and may complete the table. */
+export function useMarkNoShowMutation() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ bookingId, emptySeats }: { bookingId: string; emptySeats: number }) =>
+      service.markNoShow(bookingId, emptySeats),
+    onSuccess: (_data, { bookingId }) => {
+      void qc.invalidateQueries({ queryKey: PARTNER_IT_QUERY_KEY })
+      void qc.invalidateQueries({ queryKey: partnerBookingKey(bookingId) })
+    },
+  })
+}

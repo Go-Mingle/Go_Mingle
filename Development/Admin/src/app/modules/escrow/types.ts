@@ -86,4 +86,21 @@ export interface TestBookingRequest {
   guests: number
   amountPerGuest: number
   eventName?: string
+  /**
+   * Books seats at this interest table instead of placing a plain payment hold.
+   * The hold is then the restaurant's no-show penalty × seats (none when it is zero).
+   */
+  interestTableId?: string
+}
+
+export interface InterestTableOption {
+  interestTableId: string
+  interestTableName: string
+}
+
+/** What a sandbox booking at an interest table returns. */
+export interface TableBookingResult {
+  booking: { id: string; bookingRef: string; seats: number; penaltyPerSeatPkr: number }
+  /** Null when the restaurant's no-show penalty is zero: nothing is held. */
+  hold: EscrowItem | null
 }

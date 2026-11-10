@@ -10,6 +10,8 @@ import {
   listMockInterestTableMenuOptions,
   listMockInterestTables,
   listMockInvitees,
+  markMockGuestsArrived,
+  markMockNoShow,
 } from '../data/partnerInterestTables'
 
 /**
@@ -35,6 +37,10 @@ export const partnerInterestTablesHandlers = [
     cancelMockInvite(String(params.itId), String(params.inviteeId)),
   ),
 
+  http.post(PARTNER_IT_ENDPOINTS.guestsArrived(':itId'), ({ params }) =>
+    markMockGuestsArrived(String(params.itId)),
+  ),
+
   http.get(PARTNER_IT_ENDPOINTS.invitees(':itId'), ({ params }) =>
     listMockInvitees(String(params.itId)),
   ),
@@ -49,6 +55,13 @@ export const partnerInterestTablesHandlers = [
   ),
 
   // ── Bookings: cancel before the detail read ──────────────────
+  http.post(PARTNER_IT_ENDPOINTS.markNoShow(':bookingId'), async ({ params, request }) =>
+    markMockNoShow(
+      String(params.bookingId),
+      (await request.json().catch(() => ({}))) as Record<string, unknown>,
+    ),
+  ),
+
   http.post(PARTNER_IT_ENDPOINTS.cancelBooking(':bookingId'), ({ params }) =>
     cancelMockBooking(String(params.bookingId)),
   ),

@@ -1,0 +1,1218 @@
+[
+ {
+  "step": "login wrong",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Incorrect email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "login unknown",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Incorrect email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "login",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "admin token on partner route",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "admin token rejected",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner token rejected by admin",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "refresh bad",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "REFRESH_FAILED",
+    "message": "Session expired"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "refresh",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "refresh reuse",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "REFRESH_FAILED",
+    "message": "Session expired"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "forgot",
+  "status": 204,
+  "body": null
+ },
+ {
+  "step": "confirm forgot wrong",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "CODE_MISMATCH",
+    "message": "Incorrect code"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "confirm forgot weak",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "INVALID_PASSWORD",
+    "message": "Weak password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "change password wrong",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Current password is incorrect"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "change password same",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "SAME_PASSWORD",
+    "message": "Same password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "change password weak",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "INVALID_PASSWORD",
+    "message": "Weak password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "session draft",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "designation": "Owner",
+     "email": "partner@gomingle.com",
+     "fullName": "Hira Mansoor",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "payoutReady": false,
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "login recorded",
+  "status": 200,
+  "body": {
+   "data": {
+    "lastActiveAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile draft",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": null,
+    "description": null,
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": null,
+     "city": null,
+     "fullAddress": null,
+     "latitude": null,
+     "longitude": null
+    },
+    "name": null,
+    "owner": {
+     "email": null,
+     "name": null,
+     "phone": null
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": null,
+     "phone": null,
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [
+      "name",
+      "cuisine",
+      "description",
+      "fullAddress",
+      "areaDistrict",
+      "city",
+      "gpsLocation",
+      "ownerName",
+      "ownerPhone",
+      "ownerEmail",
+      "restaurantPhone",
+      "restaurantEmail"
+     ],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "patch unknown key",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "mainPhotoKey": "Unexpected property.",
+      "status": "Unexpected property."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "patch invalid",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "dressCode": "Too long.",
+      "name": "Too long.",
+      "phone": "Invalid phone.",
+      "website": "Invalid website."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "patch visibility in draft",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Visibility is only available once active."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "patch",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": null,
+     "phone": null,
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [
+      "restaurantPhone",
+      "restaurantEmail"
+     ],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "save draft",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": false
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "save draft invalid",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "nope": "Unexpected property."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "profile filled",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": false
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "session named",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "designation": "Owner",
+     "email": "partner@gomingle.com",
+     "fullName": "Hira Mansoor",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "name": "Kolachi",
+     "payoutReady": false,
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "submit not ready",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "missingFields": [],
+     "needsCoverPhoto": true,
+     "needsPayout": true
+    },
+    "message": "Please complete your profile."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "onboarding link",
+  "status": 200,
+  "body": {
+   "data": {
+    "mode": "ONBOARDING",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contacts empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contact no name",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "name": "Contact name is required."
+     }
+    },
+    "message": "Contact name is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "contact 1",
+  "status": 201,
+  "body": {
+   "data": {
+    "email": null,
+    "id": "<gen>",
+    "name": "Sara Aziz",
+    "phone": null,
+    "title": "Events Lead"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contact 2",
+  "status": 201,
+  "body": {
+   "data": {
+    "email": "o@k.pk",
+    "id": "<gen>",
+    "name": "Osama Khalil",
+    "phone": "+923001234567",
+    "title": "GM"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contact 3",
+  "status": 201,
+  "body": {
+   "data": {
+    "email": null,
+    "id": "<gen>",
+    "name": "Bilal",
+    "phone": null,
+    "title": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contacts",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "email": null,
+      "id": "<gen>",
+      "name": "Bilal",
+      "phone": null,
+      "title": null
+     },
+     {
+      "email": "o@k.pk",
+      "id": "<gen>",
+      "name": "Osama Khalil",
+      "phone": "+923001234567",
+      "title": "GM"
+     },
+     {
+      "email": null,
+      "id": "<gen>",
+      "name": "Sara Aziz",
+      "phone": null,
+      "title": "Events Lead"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contacts desc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "email": "o@k.pk",
+      "id": "<gen>",
+      "name": "Osama Khalil",
+      "phone": "+923001234567",
+      "title": "GM"
+     },
+     {
+      "email": null,
+      "id": "<gen>",
+      "name": "Sara Aziz",
+      "phone": null,
+      "title": "Events Lead"
+     },
+     {
+      "email": null,
+      "id": "<gen>",
+      "name": "Bilal",
+      "phone": null,
+      "title": null
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contacts search",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "email": "o@k.pk",
+      "id": "<gen>",
+      "name": "Osama Khalil",
+      "phone": "+923001234567",
+      "title": "GM"
+     },
+     {
+      "email": null,
+      "id": "<gen>",
+      "name": "Sara Aziz",
+      "phone": null,
+      "title": "Events Lead"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contacts bad sort",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Invalid sort or search parameter."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "contacts bad order",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {},
+    "message": "Invalid sort or search parameter."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "contact patch",
+  "status": 200,
+  "body": {
+   "data": {
+    "email": "s@k.pk",
+    "id": "<gen>",
+    "name": "Sara A.",
+    "phone": null,
+    "title": "Events Lead"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contact patch blank",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "name": "Contact name is required."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "contact patch missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Contact not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "contact delete",
+  "status": 200,
+  "body": {
+   "data": {
+    "deleted": true,
+    "id": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contact delete again",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": {},
+    "message": "Contact not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "contact delete 3",
+  "status": 200,
+  "body": {
+   "data": {
+    "deleted": true,
+    "id": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contact delete last",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_LAST_CONTACT",
+    "details": {
+     "remaining": 1
+    },
+    "message": "At least one contact must remain."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "contact 4",
+  "status": 201,
+  "body": {
+   "data": {
+    "email": null,
+    "id": "<gen>",
+    "name": "Hina",
+    "phone": null,
+    "title": null
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contacts end",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "email": null,
+      "id": "<gen>",
+      "name": "Hina",
+      "phone": null,
+      "title": null
+     },
+     {
+      "email": "s@k.pk",
+      "id": "<gen>",
+      "name": "Sara A.",
+      "phone": null,
+      "title": "Events Lead"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup registered",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_ALREADY_REGISTERED",
+    "message": "This account already exists. Please sign in."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "signup throttled",
+  "status": 429,
+  "body": {
+   "error": {
+    "code": "ERR_TOO_MANY_REQUESTS",
+    "message": "Too many attempts. Please try again later."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "signup start",
+  "status": 200,
+  "body": {
+   "data": {
+    "codeSent": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup resend",
+  "status": 200,
+  "body": {
+   "data": {
+    "codeSent": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup wrong code",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "That code is incorrect. Check it and try again."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "signup verify",
+  "status": 201,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "email": "new@bbq.pk",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "id": "<gen>",
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP",
+    "session": {
+     "accessToken": "<jwt>",
+     "expiresIn": 7200,
+     "idToken": "<jwt>",
+     "refreshToken": "<gen>",
+     "tokenType": "Bearer"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup complete no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "signup complete weak",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Password does not meet the policy"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "signup complete",
+  "status": 200,
+  "body": {
+   "data": {
+    "passwordSet": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "newbie session",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "designation": "Owner",
+     "email": "new@bbq.pk",
+     "fullName": "Nadia BBQ",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "payoutReady": false,
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "newbie profile",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": null,
+    "description": null,
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": null,
+     "city": null,
+     "fullAddress": null,
+     "latitude": null,
+     "longitude": null
+    },
+    "name": null,
+    "owner": {
+     "email": null,
+     "name": null,
+     "phone": null
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": null,
+     "phone": null,
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [
+      "name",
+      "cuisine",
+      "description",
+      "fullAddress",
+      "areaDistrict",
+      "city",
+      "gpsLocation",
+      "ownerName",
+      "ownerPhone",
+      "ownerEmail",
+      "restaurantPhone",
+      "restaurantEmail"
+     ],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "newbie contacts are their own",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "newbie signs in",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "new@bbq.pk",
+    "fullName": "Nadia BBQ",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "signup again",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_ALREADY_REGISTERED",
+    "message": "This account already exists. Please sign in."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "lockout 1",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Incorrect email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "lockout 2",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Incorrect email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "lockout 3",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Incorrect email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "lockout 4",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Incorrect email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "lockout 5",
+  "status": 403,
+  "body": {
+   "error": {
+    "code": "PRE_AUTH_REJECTED",
+    "message": "Your account is temporarily locked. Try again in 15 minutes."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "lockout 6",
+  "status": 403,
+  "body": {
+   "error": {
+    "code": "PRE_AUTH_REJECTED",
+    "message": "Your account is temporarily locked. Try again in 15 minutes."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "locked even with right password",
+  "status": 403,
+  "body": {
+   "error": {
+    "code": "PRE_AUTH_REJECTED",
+    "message": "Your account is temporarily locked. Try again in 15 minutes."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "confirm forgot",
+  "status": 204,
+  "body": null
+ },
+ {
+  "step": "old password",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Incorrect email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "new password",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "logout",
+  "status": 204,
+  "body": null
+ }
+]

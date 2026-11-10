@@ -5,6 +5,7 @@ import type {
   BookingDetail,
   CancelBookingResponse,
   CancelInviteResponse,
+  GuestsArrivedResponse,
   InterestTableBookingRow,
   InterestTableDetail,
   InterestTableMenuOption,
@@ -70,6 +71,20 @@ export const partnerInterestTablesService = {
    */
   cancelBooking: (bookingId: string): Promise<CancelBookingResponse> =>
     httpClient.post<CancelBookingResponse>(PARTNER_IT_ENDPOINTS.cancelBooking(bookingId), {}),
+
+  /**
+   * "Guests Arrived": one action for the whole table. The server checks in every
+   * open booking, releases their card holds and completes the table.
+   */
+  guestsArrived: (itId: string): Promise<GuestsArrivedResponse> =>
+    httpClient.post<GuestsArrivedResponse>(PARTNER_IT_ENDPOINTS.guestsArrived(itId), {}),
+
+  /**
+   * Records empty seats on a booking. The server collects the penalty for those
+   * seats and releases the rest of the hold; it answers with the updated row.
+   */
+  markNoShow: (bookingId: string, emptySeats: number): Promise<InterestTableBookingRow> =>
+    httpClient.post<InterestTableBookingRow>(PARTNER_IT_ENDPOINTS.markNoShow(bookingId), { emptySeats }),
 
   /**
    * Invitees (US-04).

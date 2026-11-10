@@ -2,11 +2,11 @@
 
 NUCES MS Practicum: GoMingle social dining and restaurant booking platform (Karachi).
 
-**Version 0.5** (9 Nov 2026). See *Version history* at the end.
+**Version 0.6** (11 Nov 2026). See *Version history* at the end.
 
 ```
 GoMingle/
-├── Backend/      Backend: Node.js + Express, JWT auth, ~245 REST routes
+├── Backend/      Backend: NestJS (TypeScript) on PostgreSQL, JWT auth, Safepay escrow
 ├── Admin/         Admin Panel: React 19 + TypeScript + Ant Design
 ├── Partner/       Partner Portal: React 19 + TypeScript + Ant Design
 ├── Mingler/   Mingler app: Flutter (scaffold, rebranded)
@@ -18,7 +18,7 @@ GoMingle/
 
 1. Install **Node.js 20 or newer** (LTS from https://nodejs.org).
 2. Windows: double-click **`run-gomingle.bat`**. macOS/Linux: run `./run-gomingle.sh`.
-3. The first run installs dependencies, which takes a few minutes. Three server windows then open, and the browser opens both portals.
+3. The first run installs dependencies, which takes a few minutes, and the API creates its own PostgreSQL database (nothing to install: it is downloaded with the dependencies and kept in `Backend/data/`). Three server windows then open, and the browser opens both portals.
 
 | What | URL | Sign in |
 |---|---|---|
@@ -30,7 +30,7 @@ Both sign-in screens show the account. To stop everything, close the three serve
 
 **Light and dark mode:** use the moon / sun button in the top bar of either portal. Until you pick one, the portals follow your computer's setting; your choice is remembered. The GoMingle logo turns white in dark mode.
 
-**This is a clean install.** Apart from those two accounts, the only data is a starter set in the four pick-lists, so the platform is usable from the first sign-in: **16 amenities**, **43 interests** in 8 groups, **12 topics** and **9 preference questions**. Edit or delete any of it. There are no categories, restaurants, Minglers, interest tables or bookings. The partner account starts with an empty Draft restaurant. Everything you enter is saved and survives restarts. If you ran an earlier GoMingle build, its demo data is moved aside automatically (`Backend/data/*.v1-backup.json`) the first time this version starts.
+**This is a clean install.** Apart from those two accounts, the only data is a starter set in the four pick-lists, so the platform is usable from the first sign-in: **16 amenities**, **43 interests** in 8 groups, **12 topics** and **9 preference questions**. Edit or delete any of it. There are no categories, restaurants, Minglers, interest tables or bookings. The partner account starts with an empty Draft restaurant. Everything you enter is saved and survives restarts. **Data from version 0.5 and earlier is not carried over:** this version stores everything in PostgreSQL and starts fresh. Your old folder is not touched, so keep it if you need what you entered there.
 
 **Suggested first run (about 10 minutes):**
 0. **Admin Panel:** add a category (e.g. *Premium*, 12%) under **Categories**. Approval needs a category. Amenities, interests, topics and preference questions are already filled in.
@@ -43,6 +43,11 @@ Both sign-in screens show the account. To stop everything, close the three serve
 7. **Partner:** add table areas with timings under *Table Timings* and menu options under *Menu Options*. They appear on the restaurant's **Schedule** and **Menu** tabs in the Admin Panel straight away.
 8. **Admin → Interest Tables:** create one at the restaurant, picking a topic, one of the partner's tables and menu options. The partner sees it under *Interest Tables*.
 9. **Escrow (Safepay):** in the Admin Panel open **Finances → Escrow & payouts**. Click *Sandbox booking*, pick the new restaurant and place a card hold. Then **Capture** it into escrow and **Release** it: the restaurant is paid its share minus the 10% GoMingle fee. The partner gets a notification for each step and sees the balance on **Finances**.
+10. **No-show policy (Partner):** on the Restaurant Profile open the **No-Show Policy** tab (under the `…` at the end of the tabs if it does not fit) and set a penalty per empty seat, for example PKR 1,500. Zero is allowed.
+11. **Book a table (Admin):** create an interest table at the restaurant whose start time is a few minutes ago (today's date, Karachi time). In **Finances → Escrow & payouts → Sandbox booking** choose the restaurant and that interest table, enter a name and seats, and place the hold. Make two bookings.
+12. **Check-in (Partner):** open the interest table → **Bookings**. Use **No-show** on one booking and enter how many seats stayed empty: the penalty for those seats is collected. Then press **Guests Arrived**: the remaining bookings are checked in, their holds are released and the table is completed. The Admin Panel shows the penalty under **Escrow & payouts**, ready to release to the restaurant.
+
+> Steps 9 to 12 with the Safepay sandbox keys in `Backend/.env`: a sandbox booking then waits for a real card step in Safepay's checkout, so its hold stays *pending payment* and a no-show reports "Penalty not collected yet". To try the full money flow without a card, empty `SAFEPAY_API_KEY` and `SAFEPAY_SECRET_KEY` in that file and restart: the built-in simulator approves every hold.
 
 Everything is saved under `Backend/data/`, so it survives restarts. To wipe it and start fresh, stop the servers and run `npm run reset-data` in `Backend`.
 
@@ -69,7 +74,7 @@ Each portal's `.env.example` documents every variable (backend URL, auth mode, C
 ```bash
 cd Admin   && npm run typecheck && npm run lint && npm run test:run
 cd Partner && npm run typecheck && npm run lint && npm run test:run
-cd Backend && npm test
+cd Backend && npm run typecheck && npm test
 ```
 
 ## Notes
@@ -83,6 +88,7 @@ cd Backend && npm test
 
 | Version | Date | What changed |
 |---|---|---|
+| 0.6 | 11 Nov 2026 | Backend rebuilt as a NestJS modular monolith on PostgreSQL (GM-243, GM-244), same screens and behaviour; Guests Arrived check-in (GM-38), no-show penalty (GM-203) and no-show policy (GM-204); dashboard revenue from real data |
 | 0.5 | 9 Nov 2026 | Partner "Visible on Mingler app" switch now shows correctly in the Admin Panel; light/dark mode in both portals with a white logo in dark mode; starter Amenities, Interests, Topics and Preference Questions (Jira GM-238 to GM-241) |
 | 0.4 | 9 Nov 2026 | End-to-end test fixes (menus, tables and timings reach Admin, roles reach Users, cover photo, change log, restart-safe data); clean install without demo data (Jira GM-213 to GM-233) |
 | 0.3 | 6 Nov 2026 | Set the restaurant's map pin by pasting a Google Maps link |
@@ -90,5 +96,5 @@ cd Backend && npm test
 | 0.1 | 6 Nov 2026 | Safepay sandbox keys read from `Backend/.env` |
 | 0 | 6 Nov 2026 | First working build: both portals on the GoMingle API, Karachi/PKR rebrand, Safepay escrow |
 
-The same history is on GitHub (Go-Mingle/Go_Mingle) as tags `v0` to `v0.5`.
+The same history is on GitHub (Go-Mingle/Go_Mingle) as tags `v0` to `v0.5` and branch `release/v0.6`.
 

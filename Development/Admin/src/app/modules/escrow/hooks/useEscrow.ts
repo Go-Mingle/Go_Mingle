@@ -30,3 +30,23 @@ export function useTestBookingMutation() {
     },
   })
 }
+
+/** The interest tables of the restaurant chosen in the sandbox booking form. */
+export function useInterestTableOptions(restaurantId: string | undefined) {
+  return useQuery({
+    queryKey: [...ESCROW_QUERY_KEY, 'interest-tables', restaurantId ?? ''],
+    queryFn: () => escrowService.listInterestTables(restaurantId ?? ''),
+    enabled: Boolean(restaurantId),
+  })
+}
+
+export function useTableBookingMutation() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (body: { interestTableId: string; minglerName: string; seats: number }) =>
+      escrowService.createTableBooking(body),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
+    },
+  })
+}

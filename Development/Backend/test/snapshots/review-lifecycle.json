@@ -1,0 +1,3963 @@
+[
+ {
+  "step": "login partner",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "category premium",
+  "status": 201,
+  "body": {
+   "commissionRate": 12,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "interestTablesPerMonth": 4,
+   "name": "Premium",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "category casual",
+  "status": 201,
+  "body": {
+   "commissionRate": 8,
+   "createdAt": "<iso>",
+   "id": "<gen>",
+   "interestTablesPerMonth": 2,
+   "name": "Casual",
+   "restaurantsCount": 0
+  }
+ },
+ {
+  "step": "admin amenities",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Air conditioned",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Card payments accepted",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Designated smoking area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Family seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Free Wi-Fi",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Generator / UPS backup",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Kids play area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Laptop friendly",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Live music",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Outdoor seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Prayer area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Private dining room",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Rooftop seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Sea view",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Valet parking",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Wheelchair accessible",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 16
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue pending empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory empty",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "draft is not an application",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_APPLICATION_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "draft is not in the directory",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "draft contacts",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND",
+    "message": "Restaurant not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "draft approve",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_APPLICATION_NOT_FOUND",
+    "message": "Application not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "draft decline",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_APPLICATION_NOT_FOUND",
+    "message": "Application not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "draft suspend",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND",
+    "message": "Restaurant not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "draft unsuspend",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND",
+    "message": "Restaurant not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "unknown media",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND",
+    "message": "Restaurant not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "no admin token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner token on approvals",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "payout none",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": null,
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "payout no title",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "field": "accountTitle"
+    },
+    "message": "Enter the account title."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "payout bad bank",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "field": "bankName"
+    },
+    "message": "Choose your bank."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "payout bad iban",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "field": "iban"
+    },
+    "message": "Enter a valid Pakistani IBAN (24 characters, starting with PK)."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "payout save",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "Kolachi Pvt",
+     "addedAt": "<iso>",
+     "bankName": "HBL",
+     "ibanMasked": "PK29 •••• 0123",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "payout saved",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "Kolachi Pvt",
+     "addedAt": "<iso>",
+     "bankName": "HBL",
+     "ibanMasked": "PK29 •••• 0123",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "payout retitle keeps number",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "Kolachi Restaurants",
+     "addedAt": "<iso>",
+     "bankName": "Meezan Bank",
+     "ibanMasked": "PK29 •••• 0123",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenities",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Air conditioned",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Card payments accepted",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Designated smoking area",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Family seating",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Free Wi-Fi",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Generator / UPS backup",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Kids play area",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Laptop friendly",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Live music",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Outdoor seating",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Prayer area",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Private dining room",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Rooftop seating",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Sea view",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Valet parking",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Wheelchair accessible",
+      "selected": false
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity bad body",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Invalid request."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "amenity unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "message": "Amenity not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "amenity on",
+  "status": 200,
+  "body": {
+   "data": {
+    "amenityId": "<gen>",
+    "selected": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity 2 on",
+  "status": 200,
+  "body": {
+   "data": {
+    "amenityId": "<gen>",
+    "selected": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity 2 off",
+  "status": 200,
+  "body": {
+   "data": {
+    "amenityId": "<gen>",
+    "selected": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenities ticked",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Air conditioned",
+      "selected": true
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Card payments accepted",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Designated smoking area",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Family seating",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Free Wi-Fi",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Generator / UPS backup",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Kids play area",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Laptop friendly",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Live music",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Outdoor seating",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Prayer area",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Private dining room",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Rooftop seating",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Sea view",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Valet parking",
+      "selected": false
+     },
+     {
+      "amenityId": "<gen>",
+      "iconUrl": "<gen>",
+      "name": "Wheelchair accessible",
+      "selected": false
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity unused until submitted",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "iconUrl": "<gen>",
+    "id": "<gen>",
+    "name": "Air conditioned",
+    "restaurantsCount": 0,
+    "sampleRestaurants": [],
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": true,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": false
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [],
+     "payoutConfigured": true
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "submit without cover",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "missingFields": [],
+     "needsCoverPhoto": true,
+     "needsPayout": false
+    },
+    "message": "Please complete your profile."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "photo target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": true,
+    "isCover": true,
+    "mediaId": "<gen>",
+    "name": "dining.jpg",
+    "size": 8,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo 2 target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "photo 2 commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": false,
+    "isCover": false,
+    "mediaId": "<gen>",
+    "name": "bar.png",
+    "size": 6,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "licence target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "licence commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "name": "Trade Licence.pdf",
+    "size": 16,
+    "type": "PDF",
+    "uploadedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "floor plan target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "floor plan commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "mediaId": "<gen>",
+    "name": "Floor plan.png",
+    "size": 6,
+    "type": "PNG",
+    "uploadedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contact",
+  "status": 201,
+  "body": {
+   "data": {
+    "email": null,
+    "id": "<gen>",
+    "name": "Sara Aziz",
+    "phone": null,
+    "title": "Events Lead"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contact 2",
+  "status": 201,
+  "body": {
+   "data": {
+    "email": "o@k.pk",
+    "id": "<gen>",
+    "name": "Osama Khalil",
+    "phone": "+923001234567",
+    "title": "GM"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "draft media is readable",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "contentType": "image/png",
+      "kind": "DOCUMENT",
+      "name": "Floor plan.png",
+      "sortOrder": 0,
+      "url": "<gen>"
+     },
+     {
+      "contentType": "application/pdf",
+      "kind": "DOCUMENT",
+      "name": "Trade Licence.pdf",
+      "sortOrder": 1,
+      "url": "<gen>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "submit",
+  "status": 200,
+  "body": {
+   "data": {
+    "message": "Your application has been submitted and is under review.",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "submit again",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "details": {
+     "currentStatus": "PENDING"
+    },
+    "message": "This application can't be submitted in its current state."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "session under review",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "designation": "Owner",
+     "email": "partner@gomingle.com",
+     "fullName": "Hira Mansoor",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "name": "Kolachi",
+     "payoutReady": true,
+     "status": "PENDING"
+    },
+    "route": "UNDER_REVIEW"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "read-only amenity",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_PROFILE_READ_ONLY",
+    "details": {
+     "status": "PENDING"
+    },
+    "message": "Your application is under review and can't be edited right now."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "payout editable under review",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "Kolachi Pvt",
+     "addedAt": "<iso>",
+     "bankName": "HBL",
+     "ibanMasked": "PK29 •••• 0123",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "city": "Karachi",
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "name": "Kolachi",
+      "ownerEmail": "o@kolachi.pk",
+      "ownerName": "Raees Khan",
+      "ownerPhone": "+92 300 111 2233",
+      "submittedAt": "<gen>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue pending",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "city": "Karachi",
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "name": "Kolachi",
+      "ownerEmail": "o@kolachi.pk",
+      "ownerName": "Raees Khan",
+      "ownerPhone": "+92 300 111 2233",
+      "submittedAt": "<gen>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 1,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue rejected",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue by restaurant",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "city": "Karachi",
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "name": "Kolachi",
+      "ownerEmail": "o@kolachi.pk",
+      "ownerName": "Raees Khan",
+      "ownerPhone": "+92 300 111 2233",
+      "submittedAt": "<gen>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue by owner miss",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue page 2",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 2,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "application",
+  "status": 200,
+  "body": {
+   "data": {
+    "city": "Karachi",
+    "cuisine": "Pakistani",
+    "id": "<gen>",
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "rejectionHistory": [],
+    "status": "PENDING",
+    "submittedAt": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "application unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_APPLICATION_NOT_FOUND",
+    "message": "Not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "pending detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "areaDistrict": "DHA",
+    "avatarUrl": "<gen>",
+    "businessRegNo": "",
+    "category": null,
+    "city": "Karachi",
+    "confirmedBookings": 0,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "dressCode": "Smart casual",
+    "email": "o@kolachi.pk",
+    "fullAddress": "Do Darya, Karachi",
+    "houseRules": "Be kind",
+    "id": "<gen>",
+    "joinedAt": "<gen>",
+    "latitude": 24.78,
+    "longitude": 67.06,
+    "menuPdfUrl": null,
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "phone": "+92 21 3525 0000",
+    "seatingCapacity": 0,
+    "servesAlcohol": false,
+    "status": "PENDING",
+    "visibleOnApp": false,
+    "website": "kolachi.pk"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pending not in directory",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pending contacts",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "email": "o@k.pk",
+      "id": "<gen>",
+      "name": "Osama Khalil",
+      "phone": "+92 300 123 4567",
+      "title": "GM"
+     },
+     {
+      "email": "",
+      "id": "<gen>",
+      "name": "Sara Aziz",
+      "phone": "",
+      "title": "Events Lead"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pending amenities",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Air conditioned"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pending tables",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pending menu options",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "pending suspend",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_ALREADY_ACTIONED",
+    "message": "Restaurant is not active."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "amenity in use",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "iconUrl": "<gen>",
+    "id": "<gen>",
+    "name": "Air conditioned",
+    "restaurantsCount": 1,
+    "sampleRestaurants": [
+     {
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "media DOCUMENT",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "contentType": "image/png",
+      "kind": "DOCUMENT",
+      "name": "Floor plan.png",
+      "sortOrder": 0,
+      "url": "<gen>"
+     },
+     {
+      "contentType": "application/pdf",
+      "kind": "DOCUMENT",
+      "name": "Trade Licence.pdf",
+      "sortOrder": 1,
+      "url": "<gen>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "media PHOTO",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "contentType": "image/jpeg",
+      "kind": "PHOTO",
+      "name": "dining.jpg",
+      "sortOrder": 1,
+      "url": "<gen>"
+     },
+     {
+      "contentType": "image/jpeg",
+      "kind": "PHOTO",
+      "name": "bar.png",
+      "sortOrder": 2,
+      "url": "<gen>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "media VIDEO",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": []
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "media NOPE",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Invalid media kind."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "media default kind",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "contentType": "image/jpeg",
+      "kind": "PHOTO",
+      "name": "dining.jpg",
+      "sortOrder": 1,
+      "url": "<gen>"
+     },
+     {
+      "contentType": "image/jpeg",
+      "kind": "PHOTO",
+      "name": "bar.png",
+      "sortOrder": 2,
+      "url": "<gen>"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "decline no reason",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "A reason is required to decline."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "decline unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_APPLICATION_NOT_FOUND",
+    "message": "Application not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "decline",
+  "status": 200,
+  "body": {
+   "data": {
+    "id": "<gen>",
+    "rejectedAt": "<iso>",
+    "status": "REJECTED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue after decline",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "city": "Karachi",
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "latestReason": "Licence is unreadable",
+      "name": "Kolachi",
+      "ownerEmail": "o@kolachi.pk",
+      "ownerName": "Raees Khan",
+      "ownerPhone": "+92 300 111 2233",
+      "rejectedAt": "<gen>",
+      "submittedAt": "<gen>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "application declined",
+  "status": 200,
+  "body": {
+   "data": {
+    "city": "Karachi",
+    "cuisine": "Pakistani",
+    "id": "<gen>",
+    "latestReason": "Licence is unreadable",
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "rejectedAt": "<gen>",
+    "rejectionHistory": [],
+    "status": "REJECTED",
+    "submittedAt": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "declined detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "areaDistrict": "DHA",
+    "avatarUrl": "<gen>",
+    "businessRegNo": "",
+    "category": null,
+    "city": "Karachi",
+    "confirmedBookings": 0,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "dressCode": "Smart casual",
+    "email": "o@kolachi.pk",
+    "fullAddress": "Do Darya, Karachi",
+    "houseRules": "Be kind",
+    "id": "<gen>",
+    "joinedAt": "<gen>",
+    "latitude": 24.78,
+    "longitude": 67.06,
+    "menuPdfUrl": null,
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "phone": "+92 21 3525 0000",
+    "seatingCapacity": 0,
+    "servesAlcohol": false,
+    "status": "REJECTED",
+    "visibleOnApp": false,
+    "website": "kolachi.pk"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "session rejected",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "designation": "Owner",
+     "email": "partner@gomingle.com",
+     "fullName": "Hira Mansoor",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "name": "Kolachi",
+     "payoutReady": true,
+     "status": "REJECTED"
+    },
+    "route": "REJECTED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile rejected",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": "<gen>",
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": true,
+    "rejections": [
+     {
+      "reason": "Licence is unreadable",
+      "rejectedAt": "<stamp>"
+     }
+    ],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": false
+    },
+    "status": "REJECTED",
+    "submissionReadiness": {
+     "canSubmit": true,
+     "hasCoverPhoto": true,
+     "missingFields": [],
+     "payoutConfigured": true
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "resubmit",
+  "status": 200,
+  "body": {
+   "data": {
+    "message": "Your application has been submitted and is under review.",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "application resubmitted",
+  "status": 200,
+  "body": {
+   "data": {
+    "city": "Karachi",
+    "cuisine": "Pakistani",
+    "id": "<gen>",
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "rejectionHistory": [],
+    "status": "PENDING",
+    "submittedAt": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile resubmitted",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": "<gen>",
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": false,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": true,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": false
+    },
+    "status": "PENDING",
+    "submissionReadiness": {
+     "canSubmit": true,
+     "hasCoverPhoto": true,
+     "missingFields": [],
+     "payoutConfigured": true
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "approve no category",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Choose a category to approve."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "approve bad category",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_CATEGORY_NOT_FOUND",
+    "message": "Choose an existing category."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "approve unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_APPLICATION_NOT_FOUND",
+    "message": "Application not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "approve",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "id": "<gen>",
+    "status": "APPROVED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue after approve",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "city": "Karachi",
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "name": "Kolachi",
+      "ownerEmail": "o@kolachi.pk",
+      "ownerName": "Raees Khan",
+      "ownerPhone": "+92 300 111 2233",
+      "submittedAt": "<gen>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue pending after approve",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "session live",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "designation": "Owner",
+     "email": "partner@gomingle.com",
+     "fullName": "Hira Mansoor",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "name": "Kolachi",
+     "payoutReady": true,
+     "status": "ACTIVE"
+    },
+    "route": "FULL_PORTAL"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile live",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "commissionPercent": 12,
+    "coverPhotoUrl": "<gen>",
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": true,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": false
+    },
+    "status": "ACTIVE",
+    "submissionReadiness": {
+     "canSubmit": true,
+     "hasCoverPhoto": true,
+     "missingFields": [],
+     "payoutConfigured": true
+    },
+    "visibleOnApp": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup start",
+  "status": 200,
+  "body": {
+   "data": {
+    "codeSent": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup verify",
+  "status": 201,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "email": "owner@bbq.pk",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "id": "<gen>",
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP",
+    "session": {
+     "accessToken": "<jwt>",
+     "expiresIn": 7200,
+     "idToken": "<jwt>",
+     "refreshToken": "<gen>",
+     "tokenType": "Bearer"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup complete",
+  "status": 200,
+  "body": {
+   "data": {
+    "passwordSet": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "bbq session",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "designation": "Owner",
+     "email": "owner@bbq.pk",
+     "fullName": "Nadia BBQ",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "payoutReady": false,
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "bbq profile",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": null,
+    "commissionPercent": null,
+    "coverPhotoUrl": null,
+    "cuisine": "Barbecue",
+    "description": "Grill house.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "Clifton",
+     "city": "Lahore",
+     "fullAddress": "Boat Basin",
+     "latitude": 24.8,
+     "longitude": 67.03
+    },
+    "name": "BBQ Tonight",
+    "owner": {
+     "email": "owner@bbq.pk",
+     "name": "Nadia",
+     "phone": "+923214445566"
+    },
+    "paymentConfigured": false,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@bbq.pk",
+     "phone": "+923004445566",
+     "website": null
+    },
+    "rules": {
+     "dressCode": null,
+     "houseRules": null,
+     "servesAlcohol": null
+    },
+    "status": "DRAFT",
+    "submissionReadiness": {
+     "canSubmit": false,
+     "hasCoverPhoto": false,
+     "missingFields": [],
+     "payoutConfigured": false
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "bbq photo target",
+  "status": 200,
+  "body": {
+   "data": {
+    "expiresInSeconds": 900,
+    "key": "<gen>",
+    "maxBytes": 10485760,
+    "uploadRef": "<gen>",
+    "uploadUrl": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "bbq photo commit",
+  "status": 201,
+  "body": {
+   "data": {
+    "becameCover": true,
+    "isCover": true,
+    "mediaId": "<gen>",
+    "name": "grill.jpg",
+    "size": 8,
+    "uploadedAt": "<iso>",
+    "url": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "bbq payout",
+  "status": 200,
+  "body": {
+   "data": {
+    "account": {
+     "accountTitle": "BBQ Tonight",
+     "addedAt": "<iso>",
+     "bankName": "UBL",
+     "ibanMasked": "PK72 •••• 0987",
+     "updatedAt": "<iso>"
+    },
+    "banks": [
+     "Meezan Bank",
+     "HBL",
+     "UBL",
+     "MCB Bank",
+     "Allied Bank",
+     "Bank Alfalah",
+     "Standard Chartered Pakistan",
+     "Faysal Bank",
+     "Bank AL Habib",
+     "Askari Bank",
+     "JS Bank",
+     "Soneri Bank",
+     "BankIslami",
+     "Dubai Islamic Bank Pakistan"
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "bbq amenity",
+  "status": 200,
+  "body": {
+   "data": {
+    "amenityId": "<gen>",
+    "selected": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "bbq submit",
+  "status": 200,
+  "body": {
+   "data": {
+    "message": "Your application has been submitted and is under review.",
+    "status": "PENDING"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "queue two",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "city": "Lahore",
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "name": "BBQ Tonight",
+      "ownerEmail": "owner@bbq.pk",
+      "ownerName": "Nadia",
+      "ownerPhone": "+92 321 444 5566",
+      "submittedAt": "<gen>"
+     },
+     {
+      "city": "Karachi",
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "name": "Kolachi",
+      "ownerEmail": "o@kolachi.pk",
+      "ownerName": "Raees Khan",
+      "ownerPhone": "+92 300 111 2233",
+      "submittedAt": "<gen>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "bbq approve",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Casual"
+    },
+    "id": "<gen>",
+    "status": "APPROVED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory sortBy=name&sortOrder=desc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory sortBy=cuisine",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory sortBy=city&sortOrder=desc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory sortBy=category",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory sortBy=joinedAt",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory sortBy=status&sortOrder=desc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory sortBy=bookings",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory q=BBQ",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory cities=lah",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory pageSize=25&page=2",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 2,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory pageSize=7",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory statuses=ACTIVE",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory statuses=ACTIVE&statuses=SUSPENDED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory statuses=SUSPENDED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory statuses=PENDING",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Each status must be one of: ACTIVE, SUSPENDED."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "directory by category",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory by categories",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Premium"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Pakistani",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "areaDistrict": "DHA",
+    "avatarUrl": "<gen>",
+    "businessRegNo": "",
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "city": "Karachi",
+    "confirmedBookings": 0,
+    "cuisine": "Pakistani",
+    "description": "Seafront barbecue.",
+    "dressCode": "Smart casual",
+    "email": "o@kolachi.pk",
+    "fullAddress": "Do Darya, Karachi",
+    "houseRules": "Be kind",
+    "id": "<gen>",
+    "joinedAt": "<gen>",
+    "latitude": 24.78,
+    "longitude": 67.06,
+    "menuPdfUrl": null,
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "phone": "+92 21 3525 0000",
+    "seatingCapacity": 0,
+    "servesAlcohol": false,
+    "status": "ACTIVE",
+    "visibleOnApp": true,
+    "website": "kolachi.pk"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "detail bbq",
+  "status": 200,
+  "body": {
+   "data": {
+    "areaDistrict": "Clifton",
+    "avatarUrl": "<gen>",
+    "businessRegNo": "",
+    "category": {
+     "id": "<gen>",
+     "name": "Casual"
+    },
+    "city": "Lahore",
+    "confirmedBookings": 0,
+    "cuisine": "Barbecue",
+    "description": "Grill house.",
+    "dressCode": "",
+    "email": "owner@bbq.pk",
+    "fullAddress": "Boat Basin",
+    "houseRules": "",
+    "id": "<gen>",
+    "joinedAt": "<gen>",
+    "latitude": 24.8,
+    "longitude": 67.03,
+    "menuPdfUrl": null,
+    "name": "BBQ Tonight",
+    "ownerEmail": "owner@bbq.pk",
+    "ownerName": "Nadia",
+    "ownerPhone": "+92 321 444 5566",
+    "phone": "+92 300 444 5566",
+    "seatingCapacity": 0,
+    "servesAlcohol": null,
+    "status": "ACTIVE",
+    "visibleOnApp": true,
+    "website": ""
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "contacts",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "email": "o@k.pk",
+      "id": "<gen>",
+      "name": "Osama Khalil",
+      "phone": "+92 300 123 4567",
+      "title": "GM"
+     },
+     {
+      "email": "",
+      "id": "<gen>",
+      "name": "Sara Aziz",
+      "phone": "",
+      "title": "Events Lead"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenities",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Air conditioned"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "active bookings",
+  "status": 200,
+  "body": {
+   "data": {
+    "count": 0
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "active bookings unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND",
+    "message": "Restaurant not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "live edit",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "commissionPercent": 12,
+    "coverPhotoUrl": "<gen>",
+    "cuisine": "Seafood",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": true,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": true
+    },
+    "status": "ACTIVE",
+    "submissionReadiness": {
+     "canSubmit": true,
+     "hasCoverPhoto": true,
+     "missingFields": [],
+     "payoutConfigured": true
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "detail after edit",
+  "status": 200,
+  "body": {
+   "data": {
+    "areaDistrict": "DHA",
+    "avatarUrl": "<gen>",
+    "businessRegNo": "",
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "city": "Karachi",
+    "confirmedBookings": 0,
+    "cuisine": "Seafood",
+    "description": "Seafront barbecue.",
+    "dressCode": "Smart casual",
+    "email": "o@kolachi.pk",
+    "fullAddress": "Do Darya, Karachi",
+    "houseRules": "Be kind",
+    "id": "<gen>",
+    "joinedAt": "<gen>",
+    "latitude": 24.78,
+    "longitude": 67.06,
+    "menuPdfUrl": null,
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "phone": "+92 21 3525 0000",
+    "seatingCapacity": 0,
+    "servesAlcohol": true,
+    "status": "ACTIVE",
+    "visibleOnApp": false,
+    "website": "kolachi.pk"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "live edit back",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Premium"
+    },
+    "commissionPercent": 12,
+    "coverPhotoUrl": "<gen>",
+    "cuisine": "Seafood",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": true,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": true
+    },
+    "status": "ACTIVE",
+    "submissionReadiness": {
+     "canSubmit": true,
+     "hasCoverPhoto": true,
+     "missingFields": [],
+     "payoutConfigured": true
+    },
+    "visibleOnApp": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "category unknown restaurant",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "category unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_CATEGORY_NOT_FOUND"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "category change",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Casual"
+    },
+    "id": "<gen>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile new category",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Casual"
+    },
+    "commissionPercent": 8,
+    "coverPhotoUrl": "<gen>",
+    "cuisine": "Seafood",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": true,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": true
+    },
+    "status": "ACTIVE",
+    "submissionReadiness": {
+     "canSubmit": true,
+     "hasCoverPhoto": true,
+     "missingFields": [],
+     "payoutConfigured": true
+    },
+    "visibleOnApp": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity used by two",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "iconUrl": "<gen>",
+    "id": "<gen>",
+    "name": "Air conditioned",
+    "restaurantsCount": 2,
+    "sampleRestaurants": [
+     {
+      "id": "<gen>",
+      "name": "BBQ Tonight"
+     },
+     {
+      "id": "<gen>",
+      "name": "Kolachi"
+     }
+    ],
+    "updatedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "amenity list",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Air conditioned",
+      "restaurantsCount": 2,
+      "sampleRestaurants": [
+       {
+        "id": "<gen>",
+        "name": "BBQ Tonight"
+       },
+       {
+        "id": "<gen>",
+        "name": "Kolachi"
+       }
+      ],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Card payments accepted",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Designated smoking area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Family seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Free Wi-Fi",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Generator / UPS backup",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Kids play area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Laptop friendly",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Live music",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Outdoor seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Prayer area",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Private dining room",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Rooftop seating",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Sea view",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Valet parking",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     },
+     {
+      "createdAt": "<iso>",
+      "iconUrl": "<gen>",
+      "id": "<gen>",
+      "name": "Wheelchair accessible",
+      "restaurantsCount": 0,
+      "sampleRestaurants": [],
+      "updatedAt": "<iso>"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 16
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "suspend short reason",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "A reason of at least 10 characters is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "suspend unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_NOT_FOUND",
+    "message": "Restaurant not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "unsuspend active",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_ALREADY_ACTIONED",
+    "message": "Restaurant is not suspended."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "suspend",
+  "status": 200,
+  "body": {
+   "data": {
+    "bookingsCancelled": 0,
+    "id": "<gen>",
+    "status": "SUSPENDED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "suspend again",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_RESTAURANT_ALREADY_ACTIONED",
+    "message": "Restaurant is not active."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "suspended detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "areaDistrict": "DHA",
+    "avatarUrl": "<gen>",
+    "businessRegNo": "",
+    "category": {
+     "id": "<gen>",
+     "name": "Casual"
+    },
+    "city": "Karachi",
+    "confirmedBookings": 0,
+    "cuisine": "Seafood",
+    "description": "Seafront barbecue.",
+    "dressCode": "Smart casual",
+    "email": "o@kolachi.pk",
+    "fullAddress": "Do Darya, Karachi",
+    "houseRules": "Be kind",
+    "id": "<gen>",
+    "joinedAt": "<gen>",
+    "latitude": 24.78,
+    "longitude": 67.06,
+    "menuPdfUrl": null,
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "phone": "+92 21 3525 0000",
+    "seatingCapacity": 0,
+    "servesAlcohol": true,
+    "status": "SUSPENDED",
+    "visibleOnApp": false,
+    "website": "kolachi.pk"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory suspended",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Seafood",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "SUSPENDED",
+      "visibleOnApp": false
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "directory by status",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Lahore",
+      "confirmedBookings": 0,
+      "cuisine": "Barbecue",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "BBQ Tonight",
+      "status": "ACTIVE",
+      "visibleOnApp": true
+     },
+     {
+      "avatarUrl": "<gen>",
+      "category": {
+       "id": "<gen>",
+       "name": "Casual"
+      },
+      "city": "Karachi",
+      "confirmedBookings": 0,
+      "cuisine": "Seafood",
+      "id": "<gen>",
+      "joinedAt": "<gen>",
+      "name": "Kolachi",
+      "status": "SUSPENDED",
+      "visibleOnApp": false
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile suspended",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Casual"
+    },
+    "commissionPercent": 8,
+    "coverPhotoUrl": "<gen>",
+    "cuisine": "Seafood",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": true,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": true
+    },
+    "status": "ACTIVE",
+    "submissionReadiness": {
+     "canSubmit": true,
+     "hasCoverPhoto": true,
+     "missingFields": [],
+     "payoutConfigured": true
+    },
+    "visibleOnApp": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "session suspended",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "designation": "Owner",
+     "email": "partner@gomingle.com",
+     "fullName": "Hira Mansoor",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "name": "Kolachi",
+     "payoutReady": true,
+     "status": "ACTIVE"
+    },
+    "route": "FULL_PORTAL"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "unsuspend",
+  "status": 200,
+  "body": {
+   "data": {
+    "id": "<gen>",
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "reactivated detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "areaDistrict": "DHA",
+    "avatarUrl": "<gen>",
+    "businessRegNo": "",
+    "category": {
+     "id": "<gen>",
+     "name": "Casual"
+    },
+    "city": "Karachi",
+    "confirmedBookings": 0,
+    "cuisine": "Seafood",
+    "description": "Seafront barbecue.",
+    "dressCode": "Smart casual",
+    "email": "o@kolachi.pk",
+    "fullAddress": "Do Darya, Karachi",
+    "houseRules": "Be kind",
+    "id": "<gen>",
+    "joinedAt": "<gen>",
+    "latitude": 24.78,
+    "longitude": 67.06,
+    "menuPdfUrl": null,
+    "name": "Kolachi",
+    "ownerEmail": "o@kolachi.pk",
+    "ownerName": "Raees Khan",
+    "ownerPhone": "+92 300 111 2233",
+    "phone": "+92 21 3525 0000",
+    "seatingCapacity": 0,
+    "servesAlcohol": true,
+    "status": "ACTIVE",
+    "visibleOnApp": true,
+    "website": "kolachi.pk"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "profile reactivated",
+  "status": 200,
+  "body": {
+   "data": {
+    "category": {
+     "id": "<gen>",
+     "name": "Casual"
+    },
+    "commissionPercent": 8,
+    "coverPhotoUrl": "<gen>",
+    "cuisine": "Seafood",
+    "description": "Seafront barbecue.",
+    "editable": true,
+    "id": "<gen>",
+    "location": {
+     "areaDistrict": "DHA",
+     "city": "Karachi",
+     "fullAddress": "Do Darya, Karachi",
+     "latitude": 24.78,
+     "longitude": 67.06
+    },
+    "name": "Kolachi",
+    "owner": {
+     "email": "o@kolachi.pk",
+     "name": "Raees Khan",
+     "phone": "+923001112233"
+    },
+    "paymentConfigured": true,
+    "rejections": [],
+    "restaurant": {
+     "email": "hi@kolachi.pk",
+     "phone": "+922135250000",
+     "website": "kolachi.pk"
+    },
+    "rules": {
+     "dressCode": "Smart casual",
+     "houseRules": "Be kind",
+     "servesAlcohol": true
+    },
+    "status": "ACTIVE",
+    "submissionReadiness": {
+     "canSubmit": true,
+     "hasCoverPhoto": true,
+     "missingFields": [],
+     "payoutConfigured": true
+    },
+    "visibleOnApp": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "change log",
+  "status": 200,
+  "body": [
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Kolachi",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Restaurants",
+    "newVal": "Reactivated",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Kolachi",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Restaurants",
+    "newVal": "Suspended — Health inspection failed",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Kolachi",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Restaurants",
+    "newVal": "Changed category",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "BBQ Tonight",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Approvals",
+    "newVal": "Approved",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Kolachi",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Approvals",
+    "newVal": "Approved",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Kolachi",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Approvals",
+    "newVal": "Declined —  Licence is unreadable ",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Casual",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Categories",
+    "newVal": "Created category: Casual",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Premium",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Categories",
+    "newVal": "Created category: Premium",
+    "timestamp": "<stamp>"
+   }
+  ]
+ }
+]

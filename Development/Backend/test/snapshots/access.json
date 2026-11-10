@@ -1,0 +1,1048 @@
+[
+ {
+  "step": "login wrong password",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_CREDENTIALS",
+    "message": "Invalid email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "login unknown",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_CREDENTIALS",
+    "message": "Invalid email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "login no body",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_CREDENTIALS",
+    "message": "Invalid email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "login admin",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "admin@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": []
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "me",
+  "status": 200,
+  "body": {
+   "createdAt": "<iso>",
+   "email": "admin@gomingle.com",
+   "fullName": "Hira Mansoor",
+   "id": "<gen>",
+   "role": {
+    "fullAccess": true,
+    "id": "<gen>",
+    "name": "Super Admin",
+    "permissions": []
+   },
+   "status": "ACTIVE"
+  }
+ },
+ {
+  "step": "me no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "me bad token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "rename blank",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Full name is required (max 100 characters)"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "rename",
+  "status": 200,
+  "body": {
+   "createdAt": "<iso>",
+   "email": "admin@gomingle.com",
+   "fullName": "Hira M",
+   "id": "<gen>",
+   "role": {
+    "fullAccess": true,
+    "id": "<gen>",
+    "name": "Super Admin",
+    "permissions": []
+   },
+   "status": "ACTIVE"
+  }
+ },
+ {
+  "step": "record failure unknown",
+  "status": 200,
+  "body": {
+   "locked": false,
+   "remainingAttempts": 4
+  }
+ },
+ {
+  "step": "record success",
+  "status": 200,
+  "body": {
+   "locked": false,
+   "remainingAttempts": 5
+  }
+ },
+ {
+  "step": "refresh bad",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_REFRESH_INVALID",
+    "message": "Refresh token invalid or expired"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "forgot request",
+  "status": 200,
+  "body": {
+   "codeSentAt": "<iso>"
+  }
+ },
+ {
+  "step": "forgot verify wrong",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_CODE",
+    "message": "Invalid code"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "forgot reset bad session",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_RESET_SESSION_INVALID",
+    "message": "Reset session expired"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "change password wrong current",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_CURRENT_PASSWORD_INCORRECT",
+    "message": "Current password is incorrect"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "change password weak",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_PASSWORD",
+    "message": "Password does not meet the policy"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "change password mismatch",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_PASSWORD_MISMATCH",
+    "message": "Passwords do not match"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "permission keys",
+  "status": 200,
+  "body": {
+   "data": {
+    "sections": [
+     {
+      "permissions": [
+       {
+        "key": "<gen>",
+        "label": "Roles and Access"
+       },
+       {
+        "key": "<gen>",
+        "label": "User Management"
+       },
+       {
+        "key": "<gen>",
+        "label": "Category Management"
+       },
+       {
+        "key": "<gen>",
+        "label": "Interest Topics"
+       },
+       {
+        "key": "<gen>",
+        "label": "Loyalty Configuration"
+       },
+       {
+        "key": "<gen>",
+        "label": "Amenities"
+       },
+       {
+        "key": "<gen>",
+        "label": "Preference Questions"
+       },
+       {
+        "key": "<gen>",
+        "label": "Timer Settings"
+       }
+      ],
+      "section": "Configure"
+     },
+     {
+      "permissions": [
+       {
+        "key": "<gen>",
+        "label": "Approvals Queue"
+       },
+       {
+        "key": "<gen>",
+        "label": "Manage Restaurants"
+       },
+       {
+        "key": "<gen>",
+        "label": "Manage Minglers"
+       },
+       {
+        "key": "<gen>",
+        "label": "Bookings"
+       },
+       {
+        "key": "<gen>",
+        "label": "Reviews"
+       },
+       {
+        "key": "<gen>",
+        "label": "Finances"
+       },
+       {
+        "key": "<gen>",
+        "label": "Change Log"
+       }
+      ],
+      "section": "Manage"
+     }
+    ]
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "roles list",
+  "status": 200,
+  "body": {
+   "items": [
+    {
+     "deleted_at": null,
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": [],
+     "usersAssigned": 1
+    }
+   ],
+   "pagination": {
+    "page": 1,
+    "pageSize": 25,
+    "totalItems": 1,
+    "totalPages": 1
+   }
+  }
+ },
+ {
+  "step": "roles active",
+  "status": 200,
+  "body": {
+   "items": [
+    {
+     "id": "<gen>",
+     "name": "Super Admin"
+    }
+   ]
+  }
+ },
+ {
+  "step": "role r1",
+  "status": 200,
+  "body": {
+   "data": {
+    "deleted_at": null,
+    "fullAccess": true,
+    "id": "<gen>",
+    "name": "Super Admin",
+    "permissions": [],
+    "usersAssigned": 1
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "role missing",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_ROLE_NOT_FOUND"
+   }
+  }
+ },
+ {
+  "step": "create role",
+  "status": 201,
+  "body": {
+   "deleted_at": null,
+   "fullAccess": false,
+   "id": "<gen>",
+   "name": "Ops",
+   "permissions": [
+    "FINANCES"
+   ],
+   "usersAssigned": 0
+  }
+ },
+ {
+  "step": "create role 2",
+  "status": 201,
+  "body": {
+   "deleted_at": null,
+   "fullAccess": false,
+   "id": "<gen>",
+   "name": "Auditor",
+   "permissions": [
+    "CHANGE_LOG"
+   ],
+   "usersAssigned": 0
+  }
+ },
+ {
+  "step": "roles search",
+  "status": 200,
+  "body": {
+   "items": [
+    {
+     "deleted_at": null,
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops",
+     "permissions": [
+      "FINANCES"
+     ],
+     "usersAssigned": 0
+    }
+   ],
+   "pagination": {
+    "page": 1,
+    "pageSize": 25,
+    "totalItems": 1,
+    "totalPages": 1
+   }
+  }
+ },
+ {
+  "step": "roles paged",
+  "status": 200,
+  "body": {
+   "items": [
+    {
+     "deleted_at": null,
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops",
+     "permissions": [
+      "FINANCES"
+     ],
+     "usersAssigned": 0
+    }
+   ],
+   "pagination": {
+    "page": 2,
+    "pageSize": 1,
+    "totalItems": 3,
+    "totalPages": 3
+   }
+  }
+ },
+ {
+  "step": "patch role",
+  "status": 200,
+  "body": {
+   "deleted_at": null,
+   "fullAccess": false,
+   "id": "<gen>",
+   "name": "Ops Lead",
+   "permissions": [
+    "FINANCES"
+   ],
+   "usersAssigned": 0
+  }
+ },
+ {
+  "step": "patch missing role",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_ROLE_NOT_FOUND"
+   }
+  }
+ },
+ {
+  "step": "users list",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "user taken email",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_EMAIL_IN_USE",
+    "message": "Email already in use."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "user weak password",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_PASSWORD",
+    "message": "Password must be at least 8 characters with upper and lower case letters, a number and a symbol."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "user mismatch",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_PASSWORD_MISMATCH",
+    "message": "Passwords do not match."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "user bad role",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_ROLE_NOT_FOUND",
+    "details": {},
+    "message": "Choose an existing role."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "create user",
+  "status": 201,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "email": "ayesha@gomingle.com",
+    "fullName": "Ayesha Khan",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops Lead"
+    },
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "create user 2",
+  "status": 201,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "email": "bilal@gomingle.com",
+    "fullName": "Bilal Ahmed",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin"
+    },
+    "status": "SUSPENDED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "role counts",
+  "status": 200,
+  "body": {
+   "items": [
+    {
+     "deleted_at": null,
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Auditor",
+     "permissions": [
+      "CHANGE_LOG"
+     ],
+     "usersAssigned": 0
+    },
+    {
+     "deleted_at": null,
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops Lead",
+     "permissions": [
+      "FINANCES"
+     ],
+     "usersAssigned": 1
+    },
+    {
+     "deleted_at": null,
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin",
+     "permissions": [],
+     "usersAssigned": 2
+    }
+   ],
+   "pagination": {
+    "page": 1,
+    "pageSize": 25,
+    "totalItems": 3,
+    "totalPages": 1
+   }
+  }
+ },
+ {
+  "step": "delete held role",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_ROLE_HAS_ASSIGNED_USERS",
+    "message": "Reassign the users who hold this role before deleting it."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "users search",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "createdAt": "<iso>",
+      "email": "bilal@gomingle.com",
+      "fullName": "Bilal Ahmed",
+      "id": "<gen>",
+      "role": {
+       "fullAccess": true,
+       "id": "<gen>",
+       "name": "Super Admin"
+      },
+      "status": "SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "get user",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "email": "ayesha@gomingle.com",
+    "fullName": "Ayesha Khan",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops Lead"
+    },
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "get missing user",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_USER_NOT_FOUND",
+    "details": {},
+    "message": "User not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "rename user",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "email": "ayesha@gomingle.com",
+    "fullName": "Ayesha K",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops Lead"
+    },
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "user bad role patch",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_ROLE_NOT_FOUND",
+    "details": {},
+    "message": "Choose an existing role."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "new user signs in",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "ayesha@gomingle.com",
+    "fullName": "Ayesha K",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops Lead",
+     "permissions": [
+      "FINANCES"
+     ]
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "login ayesha",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "ayesha@gomingle.com",
+    "fullName": "Ayesha K",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops Lead",
+     "permissions": [
+      "FINANCES"
+     ]
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "ayesha me",
+  "status": 200,
+  "body": {
+   "createdAt": "<iso>",
+   "email": "ayesha@gomingle.com",
+   "fullName": "Ayesha K",
+   "id": "<gen>",
+   "role": {
+    "fullAccess": false,
+    "id": "<gen>",
+    "name": "Ops Lead",
+    "permissions": [
+     "FINANCES"
+    ]
+   },
+   "status": "ACTIVE"
+  }
+ },
+ {
+  "step": "suspended cannot sign in",
+  "status": 403,
+  "body": {
+   "error": {
+    "code": "ERR_ACCOUNT_SUSPENDED",
+    "message": "Account suspended"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "set user password weak",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_PASSWORD",
+    "message": "Password must be at least 8 characters with upper and lower case letters, a number and a symbol."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "set user password",
+  "status": 200,
+  "body": {
+   "data": {
+    "email": "ayesha@gomingle.com",
+    "id": "<gen>",
+    "passwordChangedAt": "<iso>"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "old password rejected",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_CREDENTIALS",
+    "message": "Invalid email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "new password works",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "createdAt": "<iso>",
+    "email": "ayesha@gomingle.com",
+    "fullName": "Ayesha K",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops Lead",
+     "permissions": [
+      "FINANCES"
+     ]
+    },
+    "status": "ACTIVE"
+   }
+  }
+ },
+ {
+  "step": "suspend user",
+  "status": 200,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "email": "ayesha@gomingle.com",
+    "fullName": "Ayesha K",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": false,
+     "id": "<gen>",
+     "name": "Ops Lead"
+    },
+    "status": "SUSPENDED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "suspended token rejected",
+  "status": 403,
+  "body": {
+   "error": {
+    "code": "ERR_ACCOUNT_SUSPENDED",
+    "message": "Account suspended"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "delete user",
+  "status": 204,
+  "body": null
+ },
+ {
+  "step": "deleted cannot sign in",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_CREDENTIALS",
+    "message": "Invalid email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "email reusable",
+  "status": 201,
+  "body": {
+   "data": {
+    "createdAt": "<iso>",
+    "email": "ayesha@gomingle.com",
+    "fullName": "Ayesha Two",
+    "id": "<gen>",
+    "role": {
+     "fullAccess": true,
+     "id": "<gen>",
+     "name": "Super Admin"
+    },
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "delete freed role",
+  "status": 204,
+  "body": null
+ },
+ {
+  "step": "deleted role gone",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_ROLE_NOT_FOUND"
+   }
+  }
+ },
+ {
+  "step": "roles after delete",
+  "status": 200,
+  "body": {
+   "items": [
+    {
+     "id": "<gen>",
+     "name": "Super Admin"
+    },
+    {
+     "id": "<gen>",
+     "name": "Auditor"
+    }
+   ]
+  }
+ },
+ {
+  "step": "change log",
+  "status": 200,
+  "body": [
+   {
+    "action": "delete",
+    "admin": "admin@gomingle.com",
+    "data": "Ops Lead",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Roles & Access",
+    "newVal": "Deleted role: Ops Lead",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Ayesha Two",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Users",
+    "newVal": "Created user: Ayesha Two",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "delete",
+    "admin": "admin@gomingle.com",
+    "data": "Ayesha K",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Users",
+    "newVal": "Deleted user: Ayesha K",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Ayesha K",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Users",
+    "newVal": "Changed to status: SUSPENDED",
+    "oldVal": "Was status: ACTIVE",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Ayesha K",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Users",
+    "newVal": "Changed password",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Ayesha K",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Users",
+    "newVal": "Changed to fullName: Ayesha K",
+    "oldVal": "Was fullName: Ayesha Khan",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Bilal Ahmed",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Users",
+    "newVal": "Created user: Bilal Ahmed",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Ayesha Khan",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Users",
+    "newVal": "Created user: Ayesha Khan",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "update",
+    "admin": "admin@gomingle.com",
+    "data": "Ops Lead",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Roles & Access",
+    "newVal": "Changed to name: Ops Lead",
+    "oldVal": "Was name: Ops",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Auditor",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Roles & Access",
+    "newVal": "Created role: Auditor",
+    "timestamp": "<stamp>"
+   },
+   {
+    "action": "create",
+    "admin": "admin@gomingle.com",
+    "data": "Ops",
+    "id": "<gen>",
+    "initials": "HM",
+    "module": "Roles & Access",
+    "newVal": "Created role: Ops",
+    "timestamp": "<stamp>"
+   }
+  ]
+ }
+]
