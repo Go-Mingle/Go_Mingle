@@ -48,6 +48,32 @@ export interface EscrowItem {
   timeline: EscrowTimelineEntry[]
   payout?: EscrowPayout
   payoutTo: string | null
+  /**
+   * Set on no-show penalty holds. A booking places one hold per seat (Safepay
+   * cannot collect part of a hold): a no-show collects the empty seats' holds
+   * and releases the others.
+   */
+  kind?: 'NO_SHOW_HOLD'
+  bookingId?: string | null
+  seatNo?: number | null
+}
+
+/** A collection or release the gateway refused, waiting for a person. */
+export interface PaymentFailure {
+  id: number
+  /** `capture`: a no-show penalty was not collected. `void`: a hold was not released. */
+  action: 'capture' | 'void'
+  amount: number | null
+  message: string
+  at: string
+  attempts: number
+  holdId: string | null
+  bookingId: string | null
+  bookingRef: string | null
+  seatNo: number | null
+  minglerName: string | null
+  restaurantName: string | null
+  eventName: string | null
 }
 
 export interface EscrowSummary {
@@ -78,6 +104,8 @@ export interface EscrowOverview {
   summary: EscrowSummary
   items: EscrowItem[]
   restaurants: EscrowRestaurantOption[]
+  /** Absent on older servers. */
+  paymentFailures?: PaymentFailure[]
 }
 
 export interface TestBookingRequest {
@@ -101,6 +129,7 @@ export interface InterestTableOption {
 /** What a sandbox booking at an interest table returns. */
 export interface TableBookingResult {
   booking: { id: string; bookingRef: string; seats: number; penaltyPerSeatPkr: number }
-  /** Null when the restaurant's no-show penalty is zero: nothing is held. */
-  hold: EscrowItem | null
+  /** One hold per seat; empty when the restaurant's no-show penalty is zero. */
+  holds: EscrowItem[]
+  heldTotalPkr: number
 }

@@ -38,7 +38,7 @@ function dayless(value: unknown, key = ''): unknown {
 }
 
 /** Fields added after the old API was retired from development; it never sent them. */
-const ADDED_SINCE_OLD_API = new Set(['checkInOpensAt', 'canCheckIn'])
+const ADDED_SINCE_OLD_API = new Set(['checkInOpensAt', 'canCheckIn', 'paymentFailures'])
 function withoutAdded(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(withoutAdded)
   if (value && typeof value === 'object') {
@@ -199,7 +199,7 @@ export class Parity {
     step: string,
     method: string,
     p: PathArg,
-    opts: { body?: BodyArg; as?: string; ignore?: string[]; raw?: PerSide<string | Buffer>; contentType?: string; compare?: boolean } = {},
+    opts: { body?: BodyArg; as?: string; ignore?: string[]; raw?: PerSide<string | Buffer>; contentType?: string; compare?: boolean; allowServerError?: boolean } = {},
   ): Promise<StepResult> {
     const run = (side: Side) =>
       call(this.base(side), method, typeof p === 'function' ? p(side) : p, {
@@ -212,7 +212,7 @@ export class Parity {
     // Snapshot mode: the new server stands on both sides, and its saved answer is what it is held to.
     const old = this.parity ? await run('old') : neu
     this.statuses.push(`${neu.status} ${step}`)
-    if (old.status >= 500 || neu.status >= 500) this.differences.push({ step, where: 'server error', old: old.status, neu: neu.status })
+    if (!opts.allowServerError && (old.status >= 500 || neu.status >= 500)) this.differences.push({ step, where: 'server error', old: old.status, neu: neu.status })
     if (opts.compare !== false) {
       const strip = (j: unknown) => {
         const n = normalise(j) as any

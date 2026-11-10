@@ -57,7 +57,9 @@ Copy `.env.example` to `.env`. Everything is optional.
 - Each restaurant sets a **no-show policy** in the Partner Portal (Restaurant
   Profile → No-Show Policy): a penalty per empty seat and a free-cancellation
   window. A penalty of 0 is valid. A change applies to new bookings only.
-- A booking places a Safepay hold of penalty × seats. Until the Mingler app
+- A booking places one Safepay hold per seat, each for the penalty amount.
+  Safepay cannot collect part of a hold, so a no-show collects the empty
+  seats' holds in full and releases the others. Until the Mingler app
   exists, bookings are made from the Admin Panel: Finances → Escrow & payouts →
   Sandbox booking → choose an interest table.
 - On the interest table, restaurant staff press **Guests Arrived** (from one
@@ -65,6 +67,8 @@ Copy `.env.example` to `.env`. Everything is optional.
   a **No-show** on a booking (once the start time has passed) for some or all of
   its seats. The penalty for the empty seats goes into escrow and is paid to the
   restaurant like any other payout.
+- A collection the gateway refuses is listed under Finances → Escrow & payouts →
+  Failed collections, where it can be retried or closed with a note.
 - Bookings nobody checks in within an hour of the start time become no-shows
   automatically (checked every 15 minutes).
 

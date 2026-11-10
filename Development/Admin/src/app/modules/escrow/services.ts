@@ -26,6 +26,12 @@ export const escrowService = {
   listInterestTables: (restaurantId: string): Promise<{ items: InterestTableOption[] }> =>
     httpClient.get<{ items: InterestTableOption[] }>(ESCROW_ENDPOINTS.interestTables(restaurantId)),
 
+  retryFailure: (id: number): Promise<{ id: number; resolved: boolean }> =>
+    httpClient.post<{ id: number; resolved: boolean }>(ESCROW_ENDPOINTS.retryFailure(id), {}),
+
+  resolveFailure: (id: number, note: string): Promise<{ id: number; resolved: boolean }> =>
+    httpClient.post<{ id: number; resolved: boolean }>(ESCROW_ENDPOINTS.resolveFailure(id), { note }),
+
   act: (id: string, action: EscrowAction, reason?: string): Promise<EscrowItem> =>
     httpClient.post<EscrowItem>(ESCROW_ENDPOINTS.action(id, action), reason ? { reason } : {}),
 }

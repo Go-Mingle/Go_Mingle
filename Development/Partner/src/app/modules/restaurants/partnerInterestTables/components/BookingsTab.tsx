@@ -24,7 +24,12 @@ function AttendanceCell({ row }: { row: InterestTableBookingRow }) {
         {t(`partnerInterestTables.attendance.${row.attendance}`, { empty: row.emptySeats ?? 0, seats: row.seats ?? 0 })}
       </span>
       {row.penaltyStatus === 'FAILED' ? (
-        <span className="whitespace-nowrap text-[12px] text-[var(--color-error)]">{t('partnerInterestTables.penaltyFailed')}</span>
+        <span className="whitespace-nowrap text-[12px] text-[var(--color-error)]">
+          {t('partnerInterestTables.penaltyFailed')}
+          {typeof row.penaltyChargedPkr === 'number' &&
+            row.penaltyChargedPkr > 0 &&
+            ` · ${t('partnerInterestTables.penaltyPartly', { amount: displayBill(row.penaltyChargedPkr) })}`}
+        </span>
       ) : (
         typeof row.penaltyChargedPkr === 'number' &&
         row.penaltyChargedPkr > 0 && (

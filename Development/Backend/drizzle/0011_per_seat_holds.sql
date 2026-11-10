@@ -1,0 +1,1 @@
+ALTER TABLE "escrow_holds" ADD COLUMN "seat_no" integer;
