@@ -1,0 +1,129 @@
+{
+  "section": "CONFIGURE",
+  "title": "Users",
+  "subtitle": "People who can sign in to this restaurant's portal. Everyone has the same access.",
+  "actions": {
+    "newUser": "+ New user",
+    "newUserShort": "New user",
+    "edit": "Edit",
+    "reset": "Set password",
+    "delete": "Delete"
+  },
+  "table": {
+    "headers": {
+      "name": "NAME",
+      "designation": "DESIGNATION",
+      "status": "STATUS",
+      "lastActive": "LAST ACTIVE"
+    },
+    "searchName": "Search name…",
+    "searchDesignation": "Search designation…",
+    "filterAll": "All",
+    "filterActive": "Active",
+    "filterSuspended": "Suspended",
+    "sortBy": "Sort by {{column}}",
+    "searchBy": "Search by {{column}}",
+    "filterBy": "Filter by {{column}}",
+    "lastActiveFrom": "From",
+    "lastActiveTo": "To"
+  },
+  "empty": {
+    "title": "No other users yet",
+    "description": "Add someone from your team and they'll be able to sign in to this restaurant's portal."
+  },
+  "noMatch": {
+    "title": "No users match your search",
+    "description": "Try a different name, designation, status or date range — or clear the filters to see everyone again."
+  },
+  "card": {
+    "email": "Email",
+    "lastActive": "Last Active",
+    "active": "Active",
+    "suspended": "Suspended"
+  },
+  "modals": {
+    "new": {
+      "title": "New user",
+      "fullName": "Full name",
+      "email": "Email",
+      "designation": "Designation",
+      "designationPlaceholder": "e.g. General Manager",
+      "status": "Status",
+      "selectStatus": "Select status",
+      "password": "Password",
+      "confirmPassword": "Confirm password"
+    },
+    "edit": {
+      "title": "Edit user",
+      "fullName": "Full name",
+      "email": "Email",
+      "emailHint": "Email cannot be changed",
+      "designation": "Designation",
+      "designationPlaceholder": "e.g. General Manager",
+      "status": "Status",
+      "selectStatus": "Select status"
+    },
+    "delete": {
+      "title": "Delete user?",
+      "confirmPrefix": "Are you sure you want to delete",
+      "softDeleteNote": "They'll lose access to the portal immediately.",
+      "confirm": "Delete user",
+      "cancel": "Cancel",
+      "deleted": "\"{{name}}\" no longer has access."
+    },
+    "resetPassword": {
+      "title": "Set new password",
+      "content": "Setting a new password for",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "newPlaceholder": "Enter new password",
+      "confirmPlaceholder": "Confirm new password",
+      "passwordRequired": "Password is required.",
+      "confirmRequired": "Please confirm the password.",
+      "passwordsDoNotMatch": "Passwords do not match.",
+      "setPassword": "Set password",
+      "cancel": "Cancel",
+      "set": "Password updated for {{name}}. Share it with them directly — we haven't emailed it."
+    },
+    "footer": {
+      "cancel": "Cancel",
+      "sendInvite": "Send invite",
+      "saveChanges": "Save changes"
+    }
+  },
+  "statusOptions": {
+    "active": "Active",
+    "suspended": "Suspended"
+  },
+  "tooltips": {
+    "edit": "Edit",
+    "setPassword": "Set new password",
+    "delete": "Delete"
+  },
+  "messages": {
+    "created": "User created. Their login email and password have been sent to them.",
+    "reAdded": "User re-added. Their login email and password have been sent to them.",
+    "updated": "{{name}}'s profile has been updated."
+  },
+  "guards": {
+    "title": "Action not allowed",
+    "gotIt": "Got it",
+    "primaryUser": "The primary user can't be removed here. Contact GoMingle support to change the account owner.",
+    "primaryStatusLocked": "The primary user can't be suspended here."
+  },
+  "errors": {
+    "duplicateEmail": "This email address is already registered.",
+    "forbiddenPrimary": "The primary user cannot be suspended or removed here.",
+    "notFound": "That user no longer exists. Refresh to see the current list.",
+    "validation": "Please check the highlighted fields and try again."
+  },
+  "validation": {
+    "required": "Required",
+    "emailInvalid": "Enter a valid email address",
+    "nameTooLong": "Name must be 100 characters or fewer",
+    "designationTooLong": "Designation must be 100 characters or fewer",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "passwordPolicy": "At least 8 characters, plus an uppercase letter, number, or symbol."
+  },
+  "readOnlyHint": "Email cannot be changed."
+}

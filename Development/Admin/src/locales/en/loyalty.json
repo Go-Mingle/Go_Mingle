@@ -1,0 +1,36 @@
+{
+  "section": "LOYALTY",
+  "title": "Loyalty configuration",
+  "subtitle": "Set how minglers earn and redeem points. Each rate has its own save button.",
+  "rangeHint": "Enter a whole number from 1 to {{max}}.",
+  "earnRate": {
+    "title": "Earn rate",
+    "pkrPerPoint": "PKR spent to earn 1 point",
+    "pkrPerPointHelper": "Minglers earn 1 point for every PKR {{value}} spent on a bill.",
+    "per10Bookings": "Bonus points every 10 bookings",
+    "per10BookingsHelper": "Awarded as a milestone reward after every 10 completed bookings.",
+    "perInvite": "Points per accepted invite",
+    "perInviteHelper": "Granted when an invited mingler joins and verifies their account.",
+    "perReviewWithPhoto": "Points per review with photo",
+    "perReviewWithPhotoHelper": "Granted when a mingler submits a review with at least one photo.",
+    "perCaptain": "Points per Crown Promingler role",
+    "perCaptainHelper": "Awarded when a mingler claims the Crown Promingler role on an interest table.",
+    "perShare": "Points per interest table share",
+    "perShareHelper": "Awarded when a mingler shares an interest table link from the app.",
+    "save": "Save earn rate"
+  },
+  "redeemRate": {
+    "title": "Redeem rate",
+    "pointsPerPkr": "Points needed for PKR 1 off",
+    "pointsPerPkrHelper": "{{value}} points equal PKR 1 of discount at checkout.",
+    "maxRedeemPercent": "Max redemption (% of bill)",
+    "maxRedeemPercentHelper": "Maximum portion of any single bill that can be paid with points.",
+    "save": "Save redeem rate"
+  },
+  "cancel": "Cancel",
+  "loadError": "Failed to load loyalty configuration.",
+  "messages": {
+    "earnSaved": "Earn rate saved.",
+    "redeemSaved": "Redeem rate saved."
+  }
+}

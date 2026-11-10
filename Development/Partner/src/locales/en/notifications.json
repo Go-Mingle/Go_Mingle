@@ -1,0 +1,108 @@
+{
+  "title": "Notifications",
+  "push": {
+    "title": "Notifications",
+    "newNotification": "New notification",
+    "newTitle": "New notification",
+    "editTitle": "Edit notification",
+    "empty": "No notifications yet. Create one to message Minglers.",
+    "edit": "Edit",
+    "lockedTooltip": "Sent notifications can't be edited or deleted.",
+    "cols": {
+      "title": "NOTIFICATION",
+      "audience": "AUDIENCE",
+      "scheduled": "SCHEDULED",
+      "status": "STATUS",
+      "actions": "ACTIONS"
+    },
+    "status": {
+      "scheduled": "Scheduled",
+      "sent": "Sent"
+    },
+    "audience": {
+      "all": "All Minglers",
+      "segment": "Segment",
+      "specific": "Specific Minglers"
+    },
+    "form": {
+      "title": "Title",
+      "body": "Body",
+      "audience": "Target audience",
+      "audienceDetail": "Audience detail",
+      "audienceDetailPlaceholder": "e.g. Active diners, or a comma-separated list",
+      "scheduledAt": "Scheduled date & time",
+      "required": "Required",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "schedule": "Schedule notification"
+    },
+    "delete": {
+      "confirmTitle": "Delete this scheduled notification?",
+      "ok": "Delete"
+    },
+    "messages": {
+      "created": "Notification scheduled.",
+      "updated": "Notification updated.",
+      "deleted": "Notification deleted."
+    }
+  },
+  "subtitle": "All platform activity and alerts",
+  "markAllRead": "Mark all as read",
+  "viewAll": "View all notifications",
+  "noMatch": "No notifications match your filters.",
+  "empty": "You're all caught up.",
+  "emptyHint": "New notifications will appear here.",
+  "searchPlaceholder": "Search notifications…",
+  "sortNewest": "Newest first",
+  "sortOldest": "Oldest first",
+  "filters": {
+    "typeLabel": "Type",
+    "statusLabel": "Status",
+    "dateLabel": "Date range",
+    "title": "Filters",
+    "apply": "Apply",
+    "clearAll": "Clear all",
+    "read": "Read",
+    "unread": "Unread",
+    "allTypes": "All types",
+    "statusAll": "All",
+    "dateHint": "Last 90 days",
+    "dateApply": "Apply",
+    "clearFilters": "Clear filters",
+    "sortLabel": "Sort"
+  },
+  "markAsRead": "Mark as read",
+  "emails": {
+    "title": "Email notifications",
+    "hint": "You’ll also be emailed at your partner and sub-user addresses when these happen:",
+    "approved": "Application approved — includes your commission rate and monthly interest-table limit",
+    "declined": "Application declined — includes the reason",
+    "suspended": "Restaurant suspended",
+    "categoryChanged": "Restaurant category changed",
+    "tableCreated": "New interest table created — includes date, time and max guests"
+  },
+  "bellAria_one": "Notifications, {{count}} unread",
+  "bellAria_other": "Notifications, {{count}} unread",
+  "bellAriaNone": "Notifications",
+  "unreadChip_one": "{{count}} unread",
+  "unreadChip_other": "{{count}} unread",
+  "relative": {
+    "justNow": "Just now",
+    "minutesAgo_one": "{{count}} minute ago",
+    "minutesAgo_other": "{{count}} minutes ago",
+    "hoursAgo_one": "{{count}} hour ago",
+    "hoursAgo_other": "{{count}} hours ago",
+    "daysAgo_one": "{{count}} day ago",
+    "daysAgo_other": "{{count}} days ago"
+  },
+  "screenEmptyTitle": "No notifications yet",
+  "screenEmptyBody": "Updates about your interest tables and bookings will appear here.",
+  "unavailable": "This item is no longer available.",
+  "loadError": "Couldn't load your notifications. Please try again.",
+  "errors": {
+    "dateRangeIncomplete": "Please provide both a start and end date.",
+    "dateRangeInvalid": "Please provide a valid date range.",
+    "validation": "Please check the values and try again.",
+    "notFound": "That notification is no longer available. The list has been refreshed."
+  }
+}

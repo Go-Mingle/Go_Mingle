@@ -134,12 +134,30 @@ Go_Mingle/
 │   ├── Partner/                               Partner Portal designs
 │   └── Mingler/                               Mingler App designs
 └── Development/
-    ├── Admin/                                 Admin Panel source code
-    ├── Partner/                               Partner Portal source code
-    └── Mingler/                               Mingler App source code
+    ├── Admin/                                 Admin Panel: React 19 + TypeScript + Ant Design
+    ├── Partner/                               Partner Portal: React 19 + TypeScript + Ant Design
+    ├── Mingler/                               Mingler App: Flutter (scaffold)
+    ├── Backend/                               GoMingle API: Node.js + Express, shared by both portals
+    ├── README.md                              How to run the platform locally
+    └── run-gomingle.sh / run-gomingle.bat     Install and start the API and both portals
 ```
 
-The `Design` and `Development` folders are scaffolded and filled in as work lands for each product.
+The `Design` folders are scaffolded and filled in as work lands for each product.
+
+## Releases
+
+Each release is a tagged commit. Check out a tag to get that exact version, for example `git checkout v0.5`. To run it, follow [Development/README.md](Development/README.md).
+
+| Tag | Date | Highlights |
+|---|---|---|
+| `v0.5` | 9 Nov 2026 | Partner visibility shown correctly in Admin; light/dark mode in both portals; starter amenities, interests, topics and preference questions |
+| `v0.4` | 9 Nov 2026 | End-to-end test fixes across both portals; clean install without demo data |
+| `v0.3` | 6 Nov 2026 | Restaurant map pin from a Google Maps link |
+| `v0.2` | 6 Nov 2026 | Restaurant payout bank account (IBAN) |
+| `v0.1` | 6 Nov 2026 | Safepay sandbox configuration |
+| `v0` | 6 Nov 2026 | First working build of the Admin Panel, Partner Portal and API |
+
+Secrets are never committed: `Development/Backend/.env` (Safepay keys) is git-ignored. Copy `Development/Backend/.env.example` to `.env` and add your own keys.
 
 ## Documentation Index
 

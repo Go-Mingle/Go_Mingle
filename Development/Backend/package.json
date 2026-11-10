@@ -1,0 +1,29 @@
+{
+  "name": "gomingle-api",
+  "version": "1.0.0",
+  "description": "GoMingle backend API for the Admin Panel and Partner Portal (practicum demo build).",
+  "private": true,
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "build:contracts": "node scripts/build-contracts.mjs",
+    "test": "node --test test/*.test.js",
+    "reset-data": "node -e \"require('fs').rmSync('data',{recursive:true,force:true});console.log('All GoMingle data deleted. The next start is a fresh install.')\""
+  },
+  "dependencies": {
+    "@phosphor-icons/core": "^2.1.1",
+    "bcryptjs": "2.4.3",
+    "cors": "2.8.5",
+    "express": "4.21.2",
+    "jsonwebtoken": "9.0.2",
+    "msw": "2.14.6"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.0"
+  }
+}

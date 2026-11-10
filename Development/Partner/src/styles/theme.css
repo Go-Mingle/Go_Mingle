@@ -1,0 +1,9 @@
+/* GoMingle Partner Portal design tokens — fill in once palette is finalized in design.md §7. */
+
+:root {
+  /* TODO: replace with finalized brand tokens */
+  --color-primary: #1677ff;
+  --color-success: #52c41a;
+  --color-warning: #faad14;
+  --color-error: #ff4d4f;
+}

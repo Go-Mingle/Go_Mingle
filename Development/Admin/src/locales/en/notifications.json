@@ -1,0 +1,30 @@
+{
+  "title": "Notifications",
+  "subtitle": "All platform activity and alerts",
+  "markAllRead": "Mark all as read",
+  "viewAll": "View all notifications",
+  "noMatch": "No notifications match your filters",
+  "empty": "You're all caught up!",
+  "emptyHint": "New notifications will appear here.",
+  "searchPlaceholder": "Search notifications…",
+  "sortNewest": "Newest first",
+  "sortOldest": "Oldest first",
+  "filters": {
+    "allTypes": "All Types",
+    "allStatus": "All Status",
+    "typeLabel": "Type",
+    "statusLabel": "Status",
+    "read": "Read",
+    "unread": "Unread",
+    "approval": "Approval",
+    "suspension": "Suspension",
+    "review": "Review",
+    "finance": "Finance",
+    "system": "System",
+    "restaurantUpdate": "Restaurant Update",
+    "booking": "Booking",
+    "autoCancel": "Auto Cancel",
+    "all": "All"
+  },
+  "markAsRead": "Mark as read"
+}
