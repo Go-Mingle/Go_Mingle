@@ -2,6 +2,7 @@ import { Controller, Get, HttpCode, Param, Post, UseGuards, UseInterceptors } fr
 import { apiError } from '../common/errors'
 import { Body, Query } from '../common/http'
 import { AuditInterceptor } from '../shared/changelog/audit.interceptor'
+import { BookingsService } from '../shared/bookings/bookings.service'
 import { NotificationsService } from '../shared/notifications/notifications.service'
 import { EscrowService } from '../shared/payments/escrow.service'
 import { PayoutService } from '../shared/payments/payout.service'
@@ -34,6 +35,7 @@ export class EscrowController {
     private readonly payouts: PayoutService,
     private readonly directory: AdminRestaurantsService,
     private readonly notifications: NotificationsService,
+    private readonly bookings: BookingsService,
   ) {}
 
   @Get()
@@ -46,8 +48,8 @@ export class EscrowController {
         gateway: this.safepay.gateway,
         summary: await this.escrow.summary(),
         items: await this.escrow.list({ status: q.status || undefined }),
-        // Gateway operations that failed and wait for a person. Only present when there are any.
-        ...(failures.length ? { paymentFailures: failures } : {}),
+        // Collections and releases that failed at the gateway and wait for a person.
+        paymentFailures: failures,
         restaurants: await Promise.all(
           live.map(async (r) => ({ id: r.id, name: r.name ?? '', hasPayoutAccount: Boolean(await this.payouts.account(r.id)) })),
         ),
@@ -71,6 +73,29 @@ export class EscrowController {
       }),
     )
     return { success: true, data: item }
+  }
+
+  /** Tries a failed collection or release again. */
+  @Post('failures/:failureId/retry')
+  @HttpCode(200)
+  async retryFailure(@Param('failureId') failureId: string, @CurrentAdmin() admin: AdminSession) {
+    return { success: true, data: await this.bookings.retryFailure(Number(failureId), admin.fullName) }
+  }
+
+  /** Closes a failure that was settled another way; the note says how. */
+  @Post('failures/:failureId/resolve')
+  @HttpCode(200)
+  async resolveFailure(@Param('failureId') failureId: string, @Body() body: Json, @CurrentAdmin() admin: AdminSession) {
+    const note = String(body.note ?? '').trim()
+    if (note.length < 5) throw apiError(422, 'ERR_VALIDATION', 'Add a short note on how this was settled.')
+    const f = await this.escrow.failure(Number(failureId))
+    // Nothing more will be collected on this hold, so it must not stay on the Mingler's card.
+    if (f.action === 'capture' && f.holdId) {
+      const holdId = f.holdId
+      await gateway(() => this.escrow.releaseHold(holdId, admin.fullName, `Collection closed: ${note}`))
+    }
+    await this.escrow.resolveFailure(f.seq, admin.fullName, 'DISMISSED', note)
+    return { success: true, data: { id: f.seq, resolved: true } }
   }
 
   @Post(':id/:action')

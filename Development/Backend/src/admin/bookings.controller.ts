@@ -85,7 +85,7 @@ export class BookingsController {
   @HttpCode(201)
   async sandbox(@Body() body: Record<string, unknown>, @CurrentAdmin() admin: AdminSession) {
     if (!body.interestTableId) throw apiError(422, 'ERR_VALIDATION', 'Choose an interest table.')
-    const { booking, hold } = await this.bookings.book({
+    const { booking, holds, heldTotalPkr } = await this.bookings.book({
       interestTableId: String(body.interestTableId),
       minglerName: String(body.minglerName ?? '').trim() || 'Test Mingler',
       seats: body.seats ?? 2,
@@ -94,7 +94,8 @@ export class BookingsController {
     })
     const table = await this.tables.find(booking.interestTableId)
     const names = await this.tables.restaurantNames()
-    return { success: true, data: { booking: this.row(booking, table, names.get(booking.restaurantId) ?? ''), hold } }
+    // One card hold per seat (Safepay cannot collect part of a hold).
+    return { success: true, data: { booking: this.row(booking, table, names.get(booking.restaurantId) ?? ''), holds, heldTotalPkr } }
   }
 
   /** Runs the automatic no-show check now (it also runs by itself every 15 minutes). */

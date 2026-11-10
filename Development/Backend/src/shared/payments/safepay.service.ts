@@ -43,14 +43,10 @@ export class SafepayService {
     host: this.host,
   }
 
-  private async call(method: string, path: string, body?: unknown, idempotencyKey?: string): Promise<any> {
+  private async call(method: string, path: string, body?: unknown): Promise<any> {
     const res = await fetch(`${this.host}${path}`, {
       method,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-SFPY-MERCHANT-SECRET': config.safepay.secretKey,
-        ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
-      },
+      headers: { 'Content-Type': 'application/json', 'X-SFPY-MERCHANT-SECRET': config.safepay.secretKey },
       body: body === undefined ? undefined : JSON.stringify(body),
     })
     const data: any = await res.json().catch(() => ({}))
@@ -84,14 +80,16 @@ export class SafepayService {
   }
 
   /**
-   * Collects held funds into GoMingle's merchant balance (escrow). With
-   * `amount`, only that part of the hold is collected and the rest is let go.
-   * TODO(go-live): confirm the partial-capture body and idempotency header
-   * against Safepay's current API reference before using live keys.
+   * Collects a hold, in full, into GoMingle's merchant balance (escrow).
+   * Safepay has no partial capture; anything that must be collected in part is
+   * held as several separate holds instead (see the per-seat penalty holds).
    */
-  async capture(tracker: string, amount?: number, idempotencyKey?: string): Promise<void> {
-    if (!this.live) return
-    await this.call('POST', `/order/payments/v3/${tracker}`, amount === undefined ? {} : { amount: toMinor(amount) }, idempotencyKey)
+  async capture(tracker: string): Promise<void> {
+    // Test aid for the simulator: lets the failure path be exercised without a gateway.
+    if (!this.live && process.env.GM_SIMULATE_CAPTURE_FAILURE === '1') {
+      throw new GatewayError('Simulated capture failure', 502, null)
+    }
+    if (this.live) await this.call('POST', `/order/payments/v3/${tracker}`, {})
   }
 
   /** Releases an uncaptured hold. */

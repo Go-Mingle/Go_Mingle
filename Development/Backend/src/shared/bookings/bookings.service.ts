@@ -98,13 +98,17 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
     const id = `bk-${crypto.randomBytes(4).toString('hex')}`
     const bookingRef = newBookingRef()
     const now = new Date().toISOString()
-    // The card hold comes first: no hold, no booking.
-    const hold =
-      penalty > 0
-        ? await this.escrow.createHold({
+    // The card holds come first: no holds, no booking. One hold per seat, because
+    // Safepay cannot collect part of a hold: a no-show then collects the empty
+    // seats' holds in full and lets the others go.
+    const holds: Awaited<ReturnType<EscrowService['createHold']>>[] = []
+    try {
+      for (let seatNo = 1; penalty > 0 && seatNo <= seats; seatNo++) {
+        holds.push(
+          await this.escrow.createHold({
             restaurantId: table.restaurantId,
             minglerName: input.minglerName,
-            guests: seats,
+            guests: 1,
             amountPerGuest: penalty,
             eventName: table.name ?? 'Interest Table',
             eventAt: new Date(startsAt(table)).toISOString(),
@@ -112,8 +116,15 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
             kind: 'NO_SHOW_HOLD',
             bookingId: id,
             bookingRef,
-          })
-        : null
+            seatNo,
+          }),
+        )
+      }
+    } catch (err) {
+      // A booking with only some of its seats held would under-charge: undo and refuse.
+      for (const h of holds) await this.escrow.releaseHold(h.id, input.by, 'Booking could not be completed').catch(() => undefined)
+      throw err
+    }
     const [booking] = await this.db
       .insert(bookings)
       .values({
@@ -127,13 +138,13 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
         status: 'CONFIRMED',
         penaltyPerSeatPkr: penalty,
         cancellationWindowHours: restaurant?.cancellationWindowHours ?? 24,
-        escrowHoldId: hold?.id ?? null,
+        escrowHoldId: holds[0]?.id ?? null,
         createdAt: now,
         updatedAt: now,
       })
       .returning()
     await this.db.update(interestTables).set({ seatsBooked: sql`${interestTables.seatsBooked} + ${seats}` }).where(eq(interestTables.id, table.id))
-    return { booking, hold }
+    return { booking, holds, heldTotalPkr: round(penalty * holds.length) }
   }
 
   /** Cancels a booking: the seats go back to the table and the card hold is let go. No charge. */
@@ -206,31 +217,32 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
     })
     if (!claimed) throw apiError(409, 'ERR_BOOKING_NOT_ACTIVE', 'This booking has already been checked in or cancelled.', { status: b.status })
 
+    // Collect the empty seats' holds in full, let the other seats' holds go.
     let charged = 0
-    let penaltyStatus: string | null = null
-    if (due > 0 && claimed.escrowHoldId) {
+    let failed = 0
+    const holds = due > 0 ? (await this.escrow.holdsOfBooking(b.id)).filter((h) => ['AUTHORIZED', 'PENDING_PAYMENT'].includes(h.status)) : []
+    const toCollect = holds.slice(0, emptySeats)
+    for (const h of toCollect) {
       try {
-        await this.escrow.captureNoShow(
-          claimed.escrowHoldId,
-          due,
-          by,
-          `No-show penalty: ${emptySeats} empty seat${emptySeats === 1 ? '' : 's'} × ${fmtPkr(b.penaltyPerSeatPkr)}`,
-        )
-        charged = due
-        penaltyStatus = 'CHARGED'
+        await this.escrow.captureNoShow(h.id, by, `No-show penalty: seat ${h.seatNo ?? '?'} of ${b.seats} stayed empty`)
+        charged = round(charged + h.amount)
       } catch (err) {
-        // Never silent: the booking shows the failure and it is queued for a person.
-        penaltyStatus = 'FAILED'
+        // Never silent: the booking shows the shortfall and the failure is queued for a person.
+        failed += 1
         const message = err instanceof Error ? err.message : String(err)
-        await this.escrow.recordFailure({ holdId: claimed.escrowHoldId, bookingId: b.id, action: 'capture', amount: due, message })
-        await this.notifications.notifyAdmins({
-          type: 'PAYMENT_FAILED',
-          title: 'No-show penalty could not be collected',
-          body: `${fmtPkr(due)} for booking ${b.bookingRef} was not collected: ${message}`,
-          deepLink: '/finances/escrow',
-          metadata: { bookingId: b.id, escrowId: claimed.escrowHoldId },
-        })
+        await this.escrow.recordFailure({ holdId: h.id, bookingId: b.id, action: 'capture', amount: h.amount, message })
       }
+    }
+    for (const h of holds.slice(emptySeats)) await this.letGo(h.id, b.id, by, 'Guests arrived on this seat')
+    const penaltyStatus = due === 0 ? null : failed === 0 && toCollect.length === emptySeats ? 'CHARGED' : 'FAILED'
+    if (penaltyStatus === 'FAILED') {
+      await this.notifications.notifyAdmins({
+        type: 'PAYMENT_FAILED',
+        title: 'No-show penalty could not be collected',
+        body: `${fmtPkr(round(due - charged))} of ${fmtPkr(due)} for booking ${b.bookingRef} was not collected. See Finances → Escrow & payouts → Failed collections.`,
+        deepLink: '/finances/escrow',
+        metadata: { bookingId: b.id },
+      })
     }
     const [updated] = await this.db
       .update(bookings)
@@ -297,13 +309,55 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
     return row ?? null
   }
 
+  /** Lets every open card hold of a booking go. */
   private async letHoldGo(b: Booking, by: string, note: string) {
-    if (!b.escrowHoldId) return
+    for (const h of await this.escrow.holdsOfBooking(b.id)) {
+      if (['AUTHORIZED', 'PENDING_PAYMENT'].includes(h.status)) await this.letGo(h.id, b.id, by, note)
+    }
+  }
+
+  private async letGo(holdId: string, bookingId: string, by: string, note: string) {
     try {
-      await this.escrow.releaseHold(b.escrowHoldId, by, note)
+      await this.escrow.releaseHold(holdId, by, note)
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err)
-      await this.escrow.recordFailure({ holdId: b.escrowHoldId, bookingId: b.id, action: 'void', amount: null, message })
+      await this.escrow.recordFailure({ holdId, bookingId, action: 'void', amount: null, message })
     }
+  }
+
+  // ── Failed collections ────────────────────────────────────────────────────
+
+  /**
+   * Tries a failed collection or release again. A collection that now goes
+   * through is added to what the booking was charged.
+   */
+  async retryFailure(id: number, by: string) {
+    const f = await this.escrow.failure(id)
+    if (!f.holdId) throw apiError(409, 'ERR_INVALID_STATE', 'This failure has no card hold to retry.')
+    try {
+      if (f.action === 'capture') {
+        const hold = await this.escrow.captureNoShow(f.holdId, by, 'No-show penalty collected on retry')
+        if (f.bookingId) await this.addCharge(f.bookingId, hold.amount, id)
+      } else {
+        await this.escrow.releaseHold(f.holdId, by, 'Released on retry')
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err)
+      await this.escrow.failedAgain(id, message)
+      throw apiError(502, 'ERR_GATEWAY', `Still failing: ${message}`)
+    }
+    await this.escrow.resolveFailure(id, by, 'RETRIED')
+    return { id, resolved: true }
+  }
+
+  /** The booking's penalty is complete once no collection for it is still failing. */
+  private async addCharge(bookingId: string, amount: number, resolvedFailureId: number) {
+    const b = await this.find(bookingId)
+    if (!b) return
+    const stillFailing = (await this.escrow.openFailures()).some((x) => x.bookingId === bookingId && x.action === 'capture' && x.id !== resolvedFailureId)
+    await this.db
+      .update(bookings)
+      .set({ penaltyChargedPkr: round((b.penaltyChargedPkr ?? 0) + amount), penaltyStatus: stillFailing ? 'FAILED' : 'CHARGED', updatedAt: new Date().toISOString() })
+      .where(eq(bookings.id, bookingId))
   }
 }
