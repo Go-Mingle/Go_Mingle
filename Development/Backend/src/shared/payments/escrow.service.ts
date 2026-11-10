@@ -28,12 +28,12 @@ export class EscrowService {
     const [restaurant] = await this.db.select({ name: restaurants.name }).from(restaurants).where(eq(restaurants.id, h.restaurantId))
     const account = await this.payouts.account(h.restaurantId)
     const platformFee = round((h.amount * h.platformFeePct) / 100)
-    const { seq: _seq, payout, kind, bookingId, heldAmount, idempotencyKey: _key, ...rest } = h
+    const { seq: _seq, payout, kind, bookingId, seatNo, idempotencyKey: _key, ...rest } = h
     return {
       ...rest,
       ...(payout ? { payout } : {}),
       // Only on penalty holds, so ordinary payments read as they always have.
-      ...(kind !== 'PAYMENT' ? { kind, bookingId, heldAmount: heldAmount ?? h.amount } : {}),
+      ...(kind !== 'PAYMENT' ? { kind, bookingId, seatNo } : {}),
       restaurantName: restaurant?.name ?? h.restaurantId,
       platformFee,
       restaurantNet: round(h.amount - platformFee),
@@ -75,6 +75,7 @@ export class EscrowService {
     kind?: 'PAYMENT' | 'NO_SHOW_HOLD'
     bookingId?: string
     bookingRef?: string
+    seatNo?: number
   }) {
     const amount = round(Number(input.guests) * Number(input.amountPerGuest))
     if (!(amount > 0)) throw escrowError(422, 'ERR_VALIDATION', 'Amount must be greater than zero.')
@@ -89,6 +90,7 @@ export class EscrowService {
         bookingRef: input.bookingRef ?? newBookingRef(),
         kind: input.kind ?? 'PAYMENT',
         bookingId: input.bookingId ?? null,
+        seatNo: input.seatNo ?? null,
         restaurantId: input.restaurantId,
         minglerName: input.minglerName,
         guests: Number(input.guests),
@@ -107,8 +109,16 @@ export class EscrowService {
     return this.view(h)
   }
 
+  /** A no-show hold is settled by its booking (check-in, no-show, cancel), never by hand. */
+  private notPenaltyHold(h: Hold, action: string) {
+    if (h.kind === 'NO_SHOW_HOLD') {
+      throw escrowError(409, 'ERR_INVALID_STATE', `A no-show hold can't be ${action} here. It is collected or released when the booking is checked in.`)
+    }
+  }
+
   async capture(id: string, by: string) {
     let h = await this.find(id)
+    this.notPenaltyHold(h, 'captured')
     if (h.status === 'PENDING_PAYMENT' && (await this.safepay.isAuthorized(h.tracker))) h = await this.move(h, 'AUTHORIZED', 'Safepay')
     this.expect(h, 'AUTHORIZED', 'capture')
     await this.safepay.capture(h.tracker)
@@ -117,6 +127,7 @@ export class EscrowService {
 
   async void(id: string, by: string, reason?: string) {
     const h = await this.find(id)
+    this.notPenaltyHold(h, 'voided')
     this.expect(h, 'AUTHORIZED', 'void')
     await this.safepay.void(h.tracker)
     return this.view(await this.move(h, 'VOIDED', by, reason))
@@ -130,22 +141,27 @@ export class EscrowService {
     return this.view(await this.move(h, 'REFUNDED', by, reason))
   }
 
+  /** The card holds of a booking, by seat. */
+  async holdsOfBooking(bookingId: string): Promise<Hold[]> {
+    const rows = await this.db.select().from(escrowHolds).where(eq(escrowHolds.bookingId, bookingId))
+    return rows.sort((x, y) => (x.seatNo ?? 0) - (y.seatNo ?? 0))
+  }
+
   /**
-   * No-show: collects `amount` of a penalty hold into escrow and lets the rest go.
+   * No-show: collects one seat's penalty hold, in full, into escrow.
    * Safe to call twice: the second call finds the hold already collected.
    */
-  async captureNoShow(id: string, amount: number, by: string, note: string) {
+  async captureNoShow(id: string, by: string, note: string) {
     let h = await this.find(id)
-    const key = `noshow:${h.bookingId ?? h.id}`
+    const key = `noshow:${h.id}`
     // Already collected by an earlier call with the same key.
     if (h.status === 'IN_ESCROW' && h.idempotencyKey === key) return this.view(h)
     // Live gateway: the hold exists only once the Mingler has completed the card step.
     if (h.status === 'PENDING_PAYMENT' && (await this.safepay.isAuthorized(h.tracker))) h = await this.move(h, 'AUTHORIZED', 'Safepay')
     if (h.status === 'PENDING_PAYMENT') throw new Error('The card hold was never completed by the Mingler, so there is nothing to collect.')
     if (h.status !== 'AUTHORIZED') throw new Error(`The card hold is ${h.status.replace('_', ' ').toLowerCase()} and cannot be collected.`)
-    await this.db.update(escrowHolds).set({ idempotencyKey: key }).where(eq(escrowHolds.id, id))
-    await this.safepay.capture(h.tracker, amount, key)
-    return this.view(await this.move(h, 'IN_ESCROW', by, note, { amount: round(amount), heldAmount: h.amount, idempotencyKey: key }))
+    await this.safepay.capture(h.tracker)
+    return this.view(await this.move(h, 'IN_ESCROW', by, note, { idempotencyKey: key }))
   }
 
   /** Lets a hold go without charging (guests arrived, or the booking was cancelled). */
@@ -163,9 +179,48 @@ export class EscrowService {
     await this.db.insert(paymentFailures).values({ ...f, at: new Date().toISOString() })
   }
 
+  /** Failures still waiting for a person, newest first, with what they concern. */
   async openFailures() {
-    const rows = await this.db.select().from(paymentFailures).orderBy(desc(paymentFailures.seq))
-    return rows.filter((f) => !f.resolvedAt).map(({ seq, resolvedAt: _r, ...f }) => ({ id: seq, ...f }))
+    const rows = (await this.db.select().from(paymentFailures).orderBy(desc(paymentFailures.seq))).filter((f) => !f.resolvedAt)
+    return Promise.all(
+      rows.map(async (f) => {
+        const [h] = f.holdId ? await this.db.select().from(escrowHolds).where(eq(escrowHolds.id, f.holdId)) : []
+        const [restaurant] = h ? await this.db.select({ name: restaurants.name }).from(restaurants).where(eq(restaurants.id, h.restaurantId)) : []
+        return {
+          id: f.seq,
+          action: f.action,
+          amount: f.amount,
+          message: f.message,
+          at: f.at,
+          attempts: f.attempts,
+          holdId: f.holdId,
+          bookingId: f.bookingId,
+          bookingRef: h?.bookingRef ?? null,
+          seatNo: h?.seatNo ?? null,
+          minglerName: h?.minglerName ?? null,
+          restaurantName: restaurant?.name ?? null,
+          eventName: h?.eventName ?? null,
+        }
+      }),
+    )
+  }
+
+  async failure(id: number) {
+    const [f] = Number.isInteger(id) ? await this.db.select().from(paymentFailures).where(eq(paymentFailures.seq, id)) : []
+    if (!f || f.resolvedAt) throw escrowError(404, 'ERR_NOT_FOUND', 'This failure was not found or is already resolved.')
+    return f
+  }
+
+  async failedAgain(id: number, message: string) {
+    const f = await this.failure(id)
+    await this.db.update(paymentFailures).set({ attempts: f.attempts + 1, message, at: new Date().toISOString() }).where(eq(paymentFailures.seq, id))
+  }
+
+  async resolveFailure(id: number, by: string, resolution: 'RETRIED' | 'DISMISSED', note?: string) {
+    await this.db
+      .update(paymentFailures)
+      .set({ resolvedAt: new Date().toISOString(), resolvedBy: by, resolution, resolutionNote: note ?? null })
+      .where(eq(paymentFailures.seq, id))
   }
 
   /** Pays the restaurant's share out of escrow to its registered bank account. */

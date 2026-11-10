@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { Route, Routes } from 'react-router-dom'
 import * as antd from 'antd'
 import { server } from '../../../../mocks/server'
-import { resetMockEscrow } from '../../../../mocks/handlers/escrow'
+import { resetMockEscrow, setMockPaymentFailures } from '../../../../mocks/handlers/escrow'
 import { renderWithProviders } from '../../../../test-utils/renderWithProviders'
 import { EscrowPage } from '../EscrowPage'
 
@@ -141,9 +141,14 @@ describe('EscrowPage', () => {
     expect(within(dialog).getByText('Seats')).toBeInTheDocument()
     await user.type(within(dialog).getByPlaceholderText('Zara Ali'), 'Hina Shah')
     await user.click(within(dialog).getByRole('button', { name: 'Place card hold' }))
-    expect(await screen.findByText('7 transactions')).toBeInTheDocument()
-    expect(screen.getByText(/Hina Shah · 2 guests/)).toBeInTheDocument()
-    expect(success).toHaveBeenCalledWith(expect.stringMatching(/booked: PKR 3,000 no-show hold on card/))
+    // One hold per seat: two rows, each for one seat's penalty.
+    expect(await screen.findByText('8 transactions')).toBeInTheDocument()
+    expect(screen.getAllByText(/Hina Shah · 1 guest/)).toHaveLength(2)
+    expect(screen.getByText(/no-show hold, seat 1/)).toBeInTheDocument()
+    expect(screen.getByText(/no-show hold, seat 2/)).toBeInTheDocument()
+    // No Capture / Void on these rows: the booking's check-in settles them.
+    expect(screen.getAllByText('Settled at check-in')).toHaveLength(2)
+    expect(success).toHaveBeenCalledWith(expect.stringMatching(/booked: PKR 3,000 held on card for no-shows/))
   })
 
   const tableLookup = http.get('*/api/v1/restaurants/:rid/lookups/interest-tables', () =>
@@ -166,7 +171,7 @@ describe('EscrowPage', () => {
       tableLookup,
       http.post('*/api/v1/admin/bookings/sandbox', () =>
         HttpResponse.json(
-          { success: true, data: { booking: { id: 'bk-1', bookingRef: 'GM-555555', seats: 2, penaltyPerSeatPkr: 0 }, hold: null } },
+          { success: true, data: { booking: { id: 'bk-1', bookingRef: 'GM-555555', seats: 2, penaltyPerSeatPkr: 0 }, holds: [], heldTotalPkr: 0 } },
           { status: 201 },
         ),
       ),
@@ -188,6 +193,98 @@ describe('EscrowPage', () => {
     await bookAtTable(userEvent.setup())
     await waitFor(() => expect(error).toHaveBeenCalledWith('Only 1 seat left at this table.'))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
+  })
+
+  describe('failed collections', () => {
+    const section = () => screen.getByRole('region', { name: 'Failed collections' })
+
+    it('says so when nothing has failed', async () => {
+      renderPage()
+      await screen.findByText('GM-000101')
+      expect(within(section()).getByText('Nothing has failed. Every collection and release went through.')).toBeInTheDocument()
+      expect(within(section()).queryByRole('table')).not.toBeInTheDocument()
+    })
+
+    it('lists what failed, for whom and why', async () => {
+      setMockPaymentFailures([{}, { action: 'void', amount: null, seatNo: null, attempts: 3, message: 'Timeout' }])
+      renderPage()
+      await screen.findByText('GM-90001')
+      const view = within(section())
+      expect(view.getByText('2 need attention')).toBeInTheDocument()
+      expect(view.getByText('Supper Club · seat 1')).toBeInTheDocument()
+      expect(view.getByText('Collecting the no-show penalty')).toBeInTheDocument()
+      expect(view.getByText('Releasing the card hold')).toBeInTheDocument()
+      expect(view.getByText('PKR 1,500')).toBeInTheDocument()
+      expect(view.getByText('Safepay 503')).toBeInTheDocument()
+      expect(view.getByText('3 attempts')).toBeInTheDocument()
+      expect(view.getAllByText('Farid Ahmed')).toHaveLength(2)
+    })
+
+    it('retries one and it leaves the list', async () => {
+      const success = vi.spyOn(antd.message, 'success')
+      setMockPaymentFailures([{}])
+      const user = userEvent.setup()
+      renderPage()
+      await screen.findByText('GM-90001')
+      await user.click(within(section()).getByRole('button', { name: 'Retry' }))
+      await waitFor(() => expect(success).toHaveBeenCalledWith('GM-90001: went through on retry.'))
+      expect(await within(section()).findByText(/Nothing has failed/)).toBeInTheDocument()
+    })
+
+    it("shows the gateway's answer when a retry fails again", async () => {
+      const error = vi.spyOn(antd.message, 'error')
+      setMockPaymentFailures([{ message: 'Safepay is still down' }])
+      const user = userEvent.setup()
+      renderPage()
+      await screen.findByText('GM-90001')
+      await user.click(within(section()).getByRole('button', { name: 'Retry' }))
+      await waitFor(() => expect(error).toHaveBeenCalledWith('Still failing: Safepay is still down'))
+      expect(await within(section()).findByText('2 attempts')).toBeInTheDocument()
+    })
+
+    it('closes one with a note, and needs the note', async () => {
+      const success = vi.spyOn(antd.message, 'success')
+      setMockPaymentFailures([{ bookingRef: null }])
+      const user = userEvent.setup()
+      renderPage()
+      await screen.findByText('#1')
+      await user.click(within(section()).getByRole('button', { name: 'Close…' }))
+      const dialog = await screen.findByRole('dialog')
+      expect(within(dialog).getByText('Close this failed collection?')).toBeInTheDocument()
+      await user.click(within(dialog).getByRole('button', { name: 'Close it' }))
+      expect(await within(dialog).findByText('Please enter a reason')).toBeInTheDocument()
+      await user.type(within(dialog).getByRole('textbox'), 'Paid in cash at the restaurant')
+      await user.click(within(dialog).getByRole('button', { name: 'Close it' }))
+      await waitFor(() => expect(success).toHaveBeenCalledWith('#1: closed. The card hold was released.'))
+      expect(await within(section()).findByText(/Nothing has failed/)).toBeInTheDocument()
+    })
+
+    it('reports when closing fails, and the dialog can be cancelled', async () => {
+      const error = vi.spyOn(antd.message, 'error')
+      setMockPaymentFailures([{}])
+      server.use(http.post('*/api/v1/escrow/failures/:id/resolve', () => HttpResponse.json({}, { status: 500 })))
+      const user = userEvent.setup()
+      renderPage()
+      await screen.findByText('GM-90001')
+      await user.click(within(section()).getByRole('button', { name: 'Close…' }))
+      const dialog = await screen.findByRole('dialog')
+      await user.type(within(dialog).getByRole('textbox'), 'Settled by bank transfer')
+      await user.click(within(dialog).getByRole('button', { name: 'Close it' }))
+      await waitFor(() => expect(error).toHaveBeenCalledWith('It could not be closed.'))
+      await user.click(within(dialog).getByRole('button', { name: 'Cancel' }))
+      expect(within(section()).getByText('GM-90001')).toBeInTheDocument()
+    })
+
+    it('falls back to its own words when a retry fails without a message', async () => {
+      const error = vi.spyOn(antd.message, 'error')
+      setMockPaymentFailures([{}])
+      server.use(http.post('*/api/v1/escrow/failures/:id/retry', () => HttpResponse.error()))
+      const user = userEvent.setup()
+      renderPage()
+      await screen.findByText('GM-90001')
+      await user.click(within(section()).getByRole('button', { name: 'Retry' }))
+      await waitFor(() => expect(error).toHaveBeenCalledWith('The retry did not go through.'))
+    })
   })
 
   it('surfaces a test booking failure', async () => {

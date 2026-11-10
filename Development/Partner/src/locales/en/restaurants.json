@@ -1118,7 +1118,7 @@
     "noShow": "No-show",
     "noShowAction": "Record a no-show for {{name}}",
     "noShowTitle": "Record a no-show for “{{name}}”?",
-    "noShowBody": "The penalty for the empty seats is collected from the card hold and the rest of the hold is released. This can’t be undone.",
+    "noShowBody": "The penalty for the empty seats is collected and the card holds on the other seats are released. This can’t be undone.",
     "noShowEmptySeats": "Empty seats",
     "noShowOfSeats": "of {{count}} booked",
     "noShowPenalty": "Penalty to collect: {{amount}}",
@@ -1130,7 +1130,8 @@
       "NO_SHOW": "No-show"
     },
     "penaltyCharged": "{{amount}} penalty",
-    "penaltyFailed": "Penalty not collected yet"
+    "penaltyFailed": "Penalty not collected yet",
+    "penaltyPartly": "{{amount}} collected so far"
   },
   "partnerReviews": {
     "emptyTitle": "No reviews yet",
@@ -1208,7 +1209,7 @@
   },
   "noShowPolicy": {
     "title": "No-show policy",
-    "explainer": "When a Mingler books, a hold for the penalty × seats is placed on their card. If guests arrive, the hold is released. If seats stay empty, the penalty for those seats is collected and paid to you through escrow. Changes apply to new bookings only.",
+    "explainer": "When a Mingler books, a hold for the penalty is placed on their card for each seat. If guests arrive, the holds are released. If seats stay empty, the holds for those seats are collected and paid to you through escrow. Changes apply to new bookings only.",
     "fields": {
       "penalty": "Penalty per empty seat",
       "window": "Free cancellation window"

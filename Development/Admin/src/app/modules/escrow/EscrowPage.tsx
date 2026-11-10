@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppButton } from '../../atoms/AppButton'
 import { HttpError } from '../../../shared/api/httpClient'
 import { ReasonModal, TestBookingModal } from './components/EscrowModals'
+import { FailedCollections } from './components/FailedCollections'
 import {
   useEscrowActionMutation,
   useEscrowQuery,
@@ -98,7 +99,10 @@ export function EscrowPage() {
         render: (_, r) => (
           <div>
             <div className="font-semibold">{r.bookingRef}</div>
-            <div className="text-xs text-(--color-text-muted)">{r.eventName}</div>
+            <div className="text-xs text-(--color-text-muted)">
+              {r.eventName}
+              {r.kind === 'NO_SHOW_HOLD' && ` · ${t('escrow.noShowHold', { seat: r.seatNo ?? 1 })}`}
+            </div>
           </div>
         ),
       },
@@ -146,6 +150,10 @@ export function EscrowPage() {
         key: 'actions',
         render: (_, r) => {
           const busy = actionMutation.isPending && actionMutation.variables?.id === r.id
+          // A no-show hold is settled by its booking's check-in, never by hand.
+          if (r.status === 'AUTHORIZED' && r.kind === 'NO_SHOW_HOLD') {
+            return <span className="text-xs text-(--color-text-muted)">{t('escrow.settledAtCheckIn')}</span>
+          }
           if (r.status === 'AUTHORIZED') {
             return (
               <div className="flex gap-2">
@@ -218,6 +226,7 @@ export function EscrowPage() {
       {data && (
         <>
           <SummaryCards summary={data.summary} />
+          <FailedCollections failures={data.paymentFailures ?? []} />
           <div className="flex items-center justify-between gap-3 mb-3">
             <Select
               allowClear
@@ -269,11 +278,11 @@ export function EscrowPage() {
             tableBookingMutation.mutate(
               { interestTableId: body.interestTableId, minglerName: body.minglerName, seats: body.guests },
               {
-                onSuccess: ({ booking, hold }) => {
+                onSuccess: ({ booking, heldTotalPkr }) => {
                   setTestOpen(false)
                   void message.success(
-                    hold
-                      ? t('escrow.testBooking.tableDone', { ref: booking.bookingRef, amount: formatPkr(hold.amount) })
+                    heldTotalPkr > 0
+                      ? t('escrow.testBooking.tableDone', { ref: booking.bookingRef, amount: formatPkr(heldTotalPkr) })
                       : t('escrow.testBooking.tableDoneNoHold', { ref: booking.bookingRef }),
                   )
                 },

@@ -50,3 +50,26 @@ export function useTableBookingMutation() {
     },
   })
 }
+
+/** Tries a failed collection or release again. */
+export function useRetryFailureMutation() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: number) => escrowService.retryFailure(id),
+    // Refetched either way: a failed retry still bumps the attempt count and reason.
+    onSettled: () => {
+      void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
+    },
+  })
+}
+
+/** Closes a failure that was settled another way. */
+export function useResolveFailureMutation() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, note }: { id: number; note: string }) => escrowService.resolveFailure(id, note),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
+    },
+  })
+}

@@ -74,18 +74,23 @@ describe('arrival and no-show', () => {
       expect(r.neu.status, step).toBe(201)
       return data(r).id as string
     }
+    // One card hold per seat: Safepay cannot collect part of a hold, so the empty seats' holds are
+    // collected in full and the others are let go.
+    type Hold = { id: string; amount: number; status: string; kind: string; seatNo: number }
     const book = async (step: string, interestTableId: string, body: object = {}) => {
-      const r = await p.req(step, 'POST', `${BK}/sandbox`, { ...AA, ignore: ['data.booking.bookingRef', 'data.booking.time', 'data.booking.date', 'data.hold.bookingRef', 'data.hold.eventAt'], body: { interestTableId, ...body } })
+      const r = await p.req(step, 'POST', `${BK}/sandbox`, { ...AA, compare: false, body: { interestTableId, ...body } })
       expect(r.neu.status, step).toBe(201)
-      return data(r) as { booking: { id: string; bookingRef: string }; hold: { id: string; amount: number; status: string } | null }
+      return data(r) as { booking: { id: string; bookingRef: string }; holds: Hold[]; heldTotalPkr: number }
     }
     const rows = async (step: string, tableId: string) => {
       const r = await p.req(step, 'GET', `${P}/interest-tables/${tableId}/bookings`, { ...A, compare: false })
       return data(r).items as Record<string, unknown>[]
     }
-    const hold = async (id: string) => {
-      const r = await p.req('escrow console', 'GET', `${AD}/escrow`, { ...AA, compare: false })
-      return data(r).items.find((h: { id: string }) => h.id === id)
+    const console_ = async () => data(await p.req('escrow console', 'GET', `${AD}/escrow`, { ...AA, compare: false }))
+    /** `[seatNo, status, amount]` of a booking's holds. */
+    const holdsOf = async (b: { holds: Hold[] }) => {
+      const items = (await console_()).items as Hold[]
+      return b.holds.map((h) => items.find((x) => x.id === h.id)).map((h) => [h?.seatNo, h?.status, h?.amount])
     }
 
     // ── Booking under a zero policy: no card hold ─────────────────────────
@@ -95,13 +100,21 @@ describe('arrival and no-show', () => {
     await p.req('sandbox bad seats', 'POST', `${BK}/sandbox`, { ...AA, body: { interestTableId: tonight, seats: 0 } })
     await p.req('sandbox too many seats', 'POST', `${BK}/sandbox`, { ...AA, body: { interestTableId: tonight, seats: 9 } })
     const free = await book('booking with no penalty', tonight, { minglerName: ' Sana Khan ', seats: 2 })
-    expect(free.hold).toBeNull()
+    expect(free).toMatchObject({ holds: [], heldTotalPkr: 0 })
 
     // ── The policy changes: only new bookings get it ──────────────────────
     expect(data(await p.req('policy 1500', 'PUT', policy, { ...A, body: { penaltyPerSeatPkr: 1500, cancellationWindowHours: 12 } }))).toMatchObject({ penaltyPerSeatPkr: 1500, cancellationWindowHours: 12 })
     const osama = await book('booking with penalty', tonight, { minglerName: 'Osama', seats: 3 })
-    expect(osama.hold).toMatchObject({ amount: 4500, status: 'AUTHORIZED', kind: 'NO_SHOW_HOLD' })
+    expect(osama.heldTotalPkr).toBe(4500)
+    expect(osama.holds.map((h) => [h.seatNo, h.amount, h.status, h.kind])).toEqual([
+      [1, 1500, 'AUTHORIZED', 'NO_SHOW_HOLD'],
+      [2, 1500, 'AUTHORIZED', 'NO_SHOW_HOLD'],
+      [3, 1500, 'AUTHORIZED', 'NO_SHOW_HOLD'],
+    ])
     const hina = await book('booking 3', tonight, { minglerName: 'Hina', seats: 2 })
+    // A no-show hold is settled by its booking, not by hand from the escrow console.
+    await p.req('capture a no-show hold by hand', 'POST', `${AD}/escrow/${hina.holds[0].id}/capture`, AA)
+    await p.req('void a no-show hold by hand', 'POST', `${AD}/escrow/${hina.holds[0].id}/void`, AA)
     const bilal = await book('booking 4', tonight, { seats: 1 })
     await p.req('table is full', 'POST', `${BK}/sandbox`, { ...AA, body: { interestTableId: tonight, seats: 1 } })
     let list = await rows('partner bookings', tonight)
@@ -123,10 +136,14 @@ describe('arrival and no-show', () => {
     await p.req('no-show unknown booking', 'POST', `${P}/bookings/bk-nope/no-show`, A)
     await p.req('no-show bad seats', 'POST', `${P}/bookings/${osama.booking.id}/no-show`, { ...A, body: { emptySeats: 4 } })
     await p.req('no-show zero seats', 'POST', `${P}/bookings/${osama.booking.id}/no-show`, { ...A, body: { emptySeats: 0 } })
-    // Two of Osama's three seats stayed empty: 2 × 1,500 is collected, the rest of the hold is let go.
+    // Two of Osama's three seats stayed empty: two holds are collected in full, the third is let go.
     const partial = data(await p.req('no-show two of three', 'POST', `${P}/bookings/${osama.booking.id}/no-show`, { ...A, ignore: ['data.bookingRef', 'data.date'], body: { emptySeats: 2 } }))
     expect(partial).toMatchObject({ status: 'COMPLETED', attendance: 'PARTIAL', arrivedSeats: 1, emptySeats: 2, penaltyChargedPkr: 3000, penaltyStatus: 'CHARGED', cancellable: false, canMarkNoShow: false })
-    expect(await hold(osama.hold!.id)).toMatchObject({ status: 'IN_ESCROW', amount: 3000, heldAmount: 4500, platformFee: 300, restaurantNet: 2700 })
+    expect(await holdsOf(osama)).toEqual([
+      [1, 'IN_ESCROW', 1500],
+      [2, 'IN_ESCROW', 1500],
+      [3, 'VOIDED', 1500],
+    ])
     await p.req('no-show again', 'POST', `${P}/bookings/${osama.booking.id}/no-show`, A)
     // A booking made under the zero policy: recorded, nothing charged.
     expect(data(await p.req('no-show with no penalty', 'POST', `${P}/bookings/${free.booking.id}/no-show`, { ...A, ignore: ['data.bookingRef', 'data.date'] }))).toMatchObject({
@@ -139,13 +156,16 @@ describe('arrival and no-show', () => {
     await p.req('cancel booking', 'POST', `${P}/bookings/${bilal.booking.id}/cancel`, A)
     await p.req('cancel again', 'POST', `${P}/bookings/${bilal.booking.id}/cancel`, A)
     await p.req('no-show cancelled booking', 'POST', `${P}/bookings/${bilal.booking.id}/no-show`, A)
-    expect(await hold(bilal.hold!.id)).toMatchObject({ status: 'VOIDED' })
+    expect(await holdsOf(bilal)).toEqual([[1, 'VOIDED', 1500]])
 
     // ── GM-38: Guests Arrived ─────────────────────────────────────────────
     await p.req('arrived unknown table', 'POST', `${P}/interest-tables/it-nope/guests-arrived`, A)
     const arrived = data(await p.req('guests arrived', 'POST', `${P}/interest-tables/${tonight}/guests-arrived`, A))
     expect(arrived).toEqual({ interestTableId: tonight, status: 'COMPLETED', bookingsCheckedIn: 1, seatsArrived: 2 })
-    expect(await hold(hina.hold!.id)).toMatchObject({ status: 'VOIDED' })
+    expect(await holdsOf(hina)).toEqual([
+      [1, 'VOIDED', 1500],
+      [2, 'VOIDED', 1500],
+    ])
     list = await rows('partner bookings after', tonight)
     expect(list.map((b) => [b.minglerName, b.status, b.attendance, b.penaltyChargedPkr])).toEqual([
       ['Sana Khan', 'COMPLETED', 'NO_SHOW', 0],
@@ -179,21 +199,70 @@ describe('arrival and no-show', () => {
     expect(data(await p.req('no-show check', 'POST', `${BK}/no-show-check`, AA))).toEqual({ checked: 3, noShows: 1 })
     expect(data(await p.req('no-show check again', 'POST', `${BK}/no-show-check`, AA))).toEqual({ checked: 2, noShows: 0 })
     expect((await rows('missed bookings', missed))[0]).toMatchObject({ status: 'COMPLETED', attendance: 'NO_SHOW', emptySeats: 2, penaltyChargedPkr: 3000 })
-    expect(await hold(ghost.hold!.id)).toMatchObject({ status: 'IN_ESCROW', amount: 3000 })
+    expect(await holdsOf(ghost)).toEqual([
+      [1, 'IN_ESCROW', 1500],
+      [2, 'IN_ESCROW', 1500],
+    ])
     expect(data(await p.req('missed table completed', 'GET', `${P}/interest-tables/${missed}`, { ...A, compare: false })).status).toBe('COMPLETED')
 
     // ── Money: the penalty reaches the restaurant, GoMingle's fee is "penalties" ──
-    expect((await p.req('release penalty', 'POST', `${AD}/escrow/${osama.hold!.id}/release`, { ...AA, compare: false })).neu.status).toBe(200)
+    expect((await p.req('release penalty', 'POST', `${AD}/escrow/${osama.holds[0].id}/release`, { ...AA, compare: false })).neu.status).toBe(200)
     expect((await p.req('dashboard revenue', 'GET', '/admin/api/dashboard/revenue-chart', { ...AA, compare: false })).neu.json).toMatchObject({
-      total: 300,
+      total: 150,
       commissions: 0,
-      penalties: 300,
+      penalties: 150,
       penaltyPct: 100,
     })
 
+    // ── A collection the gateway refuses is never lost ───────────────────
+    const late = await table('table five minutes ago', 'Supper Club', -5)
+    const farid = await book('booking whose collection fails', late, { minglerName: 'Farid', seats: 2 })
+    expect((await console_()).paymentFailures).toEqual([])
+    process.env.GM_SIMULATE_CAPTURE_FAILURE = '1'
+    try {
+      expect(data(await p.req('no-show, gateway down', 'POST', `${P}/bookings/${farid.booking.id}/no-show`, { ...A, ignore: ['data.bookingRef', 'data.date'] }))).toMatchObject({
+        attendance: 'NO_SHOW',
+        penaltyChargedPkr: 0,
+        penaltyStatus: 'FAILED',
+      })
+      const failures = (await console_()).paymentFailures as { id: number; seatNo: number; action: string; amount: number; minglerName: string; restaurantName: string; attempts: number; message: string }[]
+      expect(failures.map((f) => [f.seatNo, f.action, f.amount, f.minglerName, f.restaurantName, f.attempts, f.message]).sort()).toEqual([
+        [1, 'capture', 1500, 'Farid', 'Kolachi', 1, 'Simulated capture failure'],
+        [2, 'capture', 1500, 'Farid', 'Kolachi', 1, 'Simulated capture failure'],
+      ])
+      const [first, second] = failures.sort((a, b) => a.seatNo - b.seatNo)
+      await p.req('retry while still failing', 'POST', `${AD}/escrow/failures/${first.id}/retry`, { ...AA, compare: false, allowServerError: true }).then((r) => expect(r.neu.status).toBe(502))
+      expect(((await console_()).paymentFailures as { id: number; attempts: number }[]).find((f) => f.id === first.id)?.attempts).toBe(2)
+
+      // The gateway is back: the retry collects the hold and the booking shows it.
+      delete process.env.GM_SIMULATE_CAPTURE_FAILURE
+      expect((await p.req('retry', 'POST', `${AD}/escrow/failures/${first.id}/retry`, { ...AA, compare: false })).neu.json).toEqual({ success: true, data: { id: first.id, resolved: true } })
+      expect((await rows('booking after one retry', late))[0]).toMatchObject({ penaltyChargedPkr: 1500, penaltyStatus: 'FAILED' })
+      expect(await holdsOf(farid)).toEqual([
+        [1, 'IN_ESCROW', 1500],
+        [2, 'AUTHORIZED', 1500],
+      ])
+      await p.req('retry a resolved failure', 'POST', `${AD}/escrow/failures/${first.id}/retry`, { ...AA, compare: false }).then((r) => expect(r.neu.status).toBe(404))
+      await p.req('retry an unknown failure', 'POST', `${AD}/escrow/failures/nope/retry`, AA)
+      // The other one is settled by hand and closed with a note.
+      await p.req('close without a note', 'POST', `${AD}/escrow/failures/${second.id}/resolve`, { ...AA, compare: false, body: { note: ' ' } }).then((r) => expect(r.neu.status).toBe(422))
+      await p.req('close with a note', 'POST', `${AD}/escrow/failures/${second.id}/resolve`, { ...AA, compare: false, body: { note: 'Paid in cash at the restaurant' } }).then((r) => expect(r.neu.status).toBe(200))
+      expect((await console_()).paymentFailures).toEqual([])
+      // Closing it lets the hold go: nothing stays reserved on the Mingler's card.
+      expect(await holdsOf(farid)).toEqual([
+        [1, 'IN_ESCROW', 1500],
+        [2, 'VOIDED', 1500],
+      ])
+      // The booking itself is settled: it cannot be checked in a second time.
+      await p.req('no-show again after failures', 'POST', `${P}/bookings/${farid.booking.id}/no-show`, A)
+    } finally {
+      delete process.env.GM_SIMULATE_CAPTURE_FAILURE
+    }
+
     // ── Who hears about it ────────────────────────────────────────────────
     const adminInbox = data(await p.req('admin inbox', 'GET', `${AD}/notifications?pageSize=50`, { ...AA, compare: false })).items.map((n: { type: string }) => n.type)
-    expect(adminInbox.filter((t: string) => t === 'BOOKING_NO_SHOW')).toHaveLength(3)
+    expect(adminInbox.filter((t: string) => t === 'BOOKING_NO_SHOW')).toHaveLength(4)
+    expect(adminInbox.filter((t: string) => t === 'PAYMENT_FAILED')).toHaveLength(1)
     expect(adminInbox.filter((t: string) => t === 'INTEREST_TABLE_COMPLETED')).toHaveLength(2)
     const partnerInbox = data(await p.req('partner inbox', 'GET', `${P}/notifications`, { ...A, compare: false })).items.map((n: { type: string }) => n.type)
     expect(partnerInbox.filter((t: string) => t === 'BOOKING_NO_SHOW')).toHaveLength(1)
