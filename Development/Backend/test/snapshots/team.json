@@ -1,0 +1,1509 @@
+[
+ {
+  "step": "login partner",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "partner@gomingle.com",
+    "fullName": "Hira Mansoor",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "me",
+  "status": 200,
+  "body": {
+   "data": {
+    "designation": "Owner",
+    "email": "partner@gomingle.com",
+    "emailEditable": false,
+    "fullName": "Hira Mansoor",
+    "id": "<gen>",
+    "isPrimary": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "me no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "me no name",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Full name is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "me long name",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Full name is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "me long designation",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "message": "Designation must be 100 characters or fewer."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "me rename",
+  "status": 200,
+  "body": {
+   "data": {
+    "designation": "Founder",
+    "email": "partner@gomingle.com",
+    "emailEditable": false,
+    "fullName": "Raees Khan",
+    "id": "<gen>",
+    "isPrimary": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "me name only",
+  "status": 200,
+  "body": {
+   "data": {
+    "designation": "Founder",
+    "email": "partner@gomingle.com",
+    "emailEditable": false,
+    "fullName": "Raees A. Khan",
+    "id": "<gen>",
+    "isPrimary": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "me after",
+  "status": 200,
+  "body": {
+   "data": {
+    "designation": "Founder",
+    "email": "partner@gomingle.com",
+    "emailEditable": false,
+    "fullName": "Raees A. Khan",
+    "id": "<gen>",
+    "isPrimary": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "session follows",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "email": "partner@gomingle.com",
+     "fullName": "Raees A. Khan",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "payoutReady": false,
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team bad dates",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid last-active date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "team inverted dates",
+  "status": 400,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid last-active date range."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "add unexpected field",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Unexpected field."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "add no name",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Name is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "add no email",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Email is required."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "add password mismatch",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Passwords do not match."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "add owner email",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_DUPLICATE_EMAIL",
+    "details": null,
+    "message": "This email address is already registered."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "add",
+  "status": 201,
+  "body": {
+   "data": {
+    "canDelete": true,
+    "canSuspend": true,
+    "designation": "Events Lead",
+    "email": "sara@kolachi.pk",
+    "fullName": "Sara Aziz",
+    "id": "<gen>",
+    "isPrimary": false,
+    "lastActiveAt": null,
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "add suspended, no designation",
+  "status": 201,
+  "body": {
+   "data": {
+    "canDelete": true,
+    "canSuspend": true,
+    "designation": null,
+    "email": "bilal@kolachi.pk",
+    "fullName": "Bilal",
+    "id": "<gen>",
+    "isPrimary": false,
+    "lastActiveAt": null,
+    "status": "SUSPENDED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "add duplicate",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_DUPLICATE_EMAIL",
+    "details": null,
+    "message": "This email address is already registered."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "team three",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team sortBy=name",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     },
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team sortBy=name&sortOrder=desc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team sortBy=designation",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team sortBy=status&sortOrder=desc",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team sortBy=nope&page=9&pageSize=7",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team pageSize=10&page=2",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 10,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team search=LEAD",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team search=a&searchField=name",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team search=a&searchField=designation",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team status=SUSPENDED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team status=ACTIVE,SUSPENDED",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team status=ACTIVE&status=NOPE",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team lastActiveFrom=2020-01-01",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 1
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team lastActiveTo=2020-01-01",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 0
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "member signs in",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "sara@kolachi.pk",
+    "fullName": "Sara Aziz",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "member session",
+  "status": 200,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "email": "sara@kolachi.pk",
+     "fullName": "Sara Aziz",
+     "id": "<gen>"
+    },
+    "restaurant": {
+     "coverImageUrl": null,
+     "id": "<gen>",
+     "payoutReady": false,
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "member me",
+  "status": 200,
+  "body": {
+   "data": {
+    "designation": "Events Lead",
+    "email": "sara@kolachi.pk",
+    "emailEditable": false,
+    "fullName": "Sara Aziz",
+    "id": "<gen>",
+    "isPrimary": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "member renames herself",
+  "status": 200,
+  "body": {
+   "data": {
+    "designation": "Events Lead",
+    "email": "sara@kolachi.pk",
+    "emailEditable": false,
+    "fullName": "Sara A.",
+    "id": "<gen>",
+    "isPrimary": false
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "member sees the team",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "SUSPENDED"
+     },
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "Events Lead",
+      "fullName": "Sara A.",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "edit forbidden field",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "That field cannot be changed."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "edit unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": null,
+    "message": "User not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "edit",
+  "status": 200,
+  "body": {
+   "data": {
+    "canDelete": true,
+    "canSuspend": true,
+    "designation": null,
+    "email": "sara@kolachi.pk",
+    "fullName": "Sara Aziz",
+    "id": "<gen>",
+    "isPrimary": false,
+    "lastActiveAt": null,
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "edit nothing",
+  "status": 200,
+  "body": {
+   "data": {
+    "canDelete": true,
+    "canSuspend": true,
+    "designation": null,
+    "email": "sara@kolachi.pk",
+    "fullName": "Sara Aziz",
+    "id": "<gen>",
+    "isPrimary": false,
+    "lastActiveAt": null,
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "activate",
+  "status": 200,
+  "body": {
+   "data": {
+    "canDelete": true,
+    "canSuspend": true,
+    "designation": null,
+    "email": "bilal@kolachi.pk",
+    "fullName": "Bilal",
+    "id": "<gen>",
+    "isPrimary": false,
+    "lastActiveAt": null,
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "activated member signs in",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "bilal@kolachi.pk",
+    "fullName": "Bilal",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "suspend",
+  "status": 200,
+  "body": {
+   "data": {
+    "canDelete": true,
+    "canSuspend": true,
+    "designation": null,
+    "email": "sara@kolachi.pk",
+    "fullName": "Sara Aziz",
+    "id": "<gen>",
+    "isPrimary": false,
+    "lastActiveAt": null,
+    "status": "SUSPENDED"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "suspended member is cut off",
+  "status": 403,
+  "body": {
+   "error": {
+    "code": "ERR_ACCOUNT_SUSPENDED",
+    "message": "Account suspended"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "unsuspend",
+  "status": 200,
+  "body": {
+   "data": {
+    "canDelete": true,
+    "canSuspend": true,
+    "designation": null,
+    "email": "sara@kolachi.pk",
+    "fullName": "Sara Aziz",
+    "id": "<gen>",
+    "isPrimary": false,
+    "lastActiveAt": null,
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "set password mismatch",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Passwords do not match."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "set password unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": null,
+    "message": "User not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "set password",
+  "status": 200,
+  "body": {
+   "data": {
+    "passwordSet": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "old password refused",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "INVALID_CREDENTIALS",
+    "message": "Incorrect email or password"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "new password works",
+  "status": 200,
+  "body": {
+   "accessToken": "<jwt>",
+   "expiresIn": 7200,
+   "refreshToken": "<gen>",
+   "tokenType": "Bearer",
+   "user": {
+    "email": "sara@kolachi.pk",
+    "id": "<gen>"
+   }
+  }
+ },
+ {
+  "step": "team for owner id",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Founder",
+      "fullName": "Raees A. Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "suspend owner",
+  "status": 403,
+  "body": {
+   "error": {
+    "code": "ERR_FORBIDDEN_PRIMARY",
+    "details": null,
+    "message": "The primary user cannot be suspended or removed here."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "remove owner",
+  "status": 403,
+  "body": {
+   "error": {
+    "code": "ERR_FORBIDDEN_PRIMARY",
+    "details": null,
+    "message": "The primary user cannot be suspended or removed here."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "rename owner on the team screen",
+  "status": 200,
+  "body": {
+   "data": {
+    "canDelete": false,
+    "canSuspend": false,
+    "designation": "Owner",
+    "email": "partner@gomingle.com",
+    "fullName": "Raees Khan",
+    "id": "<gen>",
+    "isPrimary": true,
+    "lastActiveAt": "<gen>",
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "remove unknown",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": null,
+    "message": "User not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "remove",
+  "status": 200,
+  "body": {
+   "data": {
+    "deleted": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "remove again",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": null,
+    "message": "User not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "edit removed",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": null,
+    "message": "User not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "team after removal",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Owner",
+      "fullName": "Raees Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 2
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "revive",
+  "status": 201,
+  "body": {
+   "data": {
+    "canDelete": true,
+    "canSuspend": true,
+    "designation": "GM",
+    "email": "sara@kolachi.pk",
+    "fullName": "Sara Aziz",
+    "id": "<gen>",
+    "isPrimary": false,
+    "lastActiveAt": null,
+    "reactivated": true,
+    "status": "ACTIVE"
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "team end",
+  "status": 200,
+  "body": {
+   "data": {
+    "items": [
+     {
+      "canDelete": false,
+      "canSuspend": false,
+      "designation": "Owner",
+      "fullName": "Raees Khan",
+      "id": "<gen>",
+      "isPrimary": true,
+      "lastActiveAt": "<gen>",
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": "GM",
+      "fullName": "Sara Aziz",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     },
+     {
+      "canDelete": true,
+      "canSuspend": true,
+      "designation": null,
+      "fullName": "Bilal",
+      "id": "<gen>",
+      "isPrimary": false,
+      "lastActiveAt": null,
+      "status": "ACTIVE"
+     }
+    ],
+    "pagination": {
+     "page": 1,
+     "pageSize": 25,
+     "totalPages": 1,
+     "totalRecords": 3
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup start",
+  "status": 200,
+  "body": {
+   "data": {
+    "codeSent": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup verify",
+  "status": 201,
+  "body": {
+   "data": {
+    "partnerUser": {
+     "email": "owner@bbq.pk",
+     "id": "<gen>",
+     "isPrimary": true
+    },
+    "restaurant": {
+     "id": "<gen>",
+     "status": "DRAFT"
+    },
+    "route": "PROFILE_SETUP",
+    "session": {
+     "accessToken": "<jwt>",
+     "expiresIn": 7200,
+     "idToken": "<jwt>",
+     "refreshToken": "<gen>",
+     "tokenType": "Bearer"
+    }
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "signup complete",
+  "status": 200,
+  "body": {
+   "data": {
+    "passwordSet": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "other me",
+  "status": 200,
+  "body": {
+   "data": {
+    "designation": "Owner",
+    "email": "owner@bbq.pk",
+    "emailEditable": false,
+    "fullName": "Nadia BBQ",
+    "id": "<gen>",
+    "isPrimary": true
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "other cannot edit ours",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "details": null,
+    "message": "User not found."
+   },
+   "success": false
+  }
+ }
+]

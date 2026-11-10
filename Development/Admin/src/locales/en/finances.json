@@ -198,7 +198,14 @@
       "mingler": "Mingler name",
       "guests": "Guests",
       "amountPerGuest": "Amount per guest (PKR)",
-      "done": "{{ref}}: {{amount}} held on card"
+      "done": "{{ref}}: {{amount}} held on card",
+      "interestTable": "Interest table",
+      "interestTablePlaceholder": "Choose an interest table",
+      "interestTableOptional": "Optional. Leave empty to place a plain payment hold.",
+      "interestTableHelp": "Books seats at this table. The card hold is the restaurant's no-show penalty × seats.",
+      "seats": "Seats",
+      "tableDone": "{{ref}} booked: {{amount}} no-show hold on card",
+      "tableDoneNoHold": "{{ref}} booked. No card hold: this restaurant has no no-show penalty."
     }
   }
 }

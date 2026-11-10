@@ -44,6 +44,8 @@ interface BuildTabItemsParams {
   reviewsTab?: React.ReactNode
   /** The payout bank account; the tab only shows when the page supplies it. */
   payoutAccountTab?: React.ReactNode
+  /** The no-show policy; the tab only shows when the page supplies it. */
+  noShowPolicyTab?: React.ReactNode
 }
 
 export function buildTabItems({
@@ -60,6 +62,7 @@ export function buildTabItems({
   interestTablesTab,
   reviewsTab,
   payoutAccountTab,
+  noShowPolicyTab,
 }: BuildTabItemsParams): TabsProps['items'] {
   const tabs: TabsProps['items'] = [
     {
@@ -113,6 +116,15 @@ export function buildTabItems({
       key: 'interest-tables',
       label: t('restaurants:tabs.interestTables'),
       children: interestTablesTab,
+    })
+  }
+
+  if (noShowPolicyTab) {
+    // After the interest tables it governs.
+    tabs.push({
+      key: 'no-show-policy',
+      label: t('restaurants:tabs.noShowPolicy'),
+      children: noShowPolicyTab,
     })
   }
 

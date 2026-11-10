@@ -7,7 +7,12 @@ import { useNavigate } from 'react-router-dom'
 import { AppButton } from '../../atoms/AppButton'
 import { HttpError } from '../../../shared/api/httpClient'
 import { ReasonModal, TestBookingModal } from './components/EscrowModals'
-import { useEscrowActionMutation, useEscrowQuery, useTestBookingMutation } from './hooks/useEscrow'
+import {
+  useEscrowActionMutation,
+  useEscrowQuery,
+  useTableBookingMutation,
+  useTestBookingMutation,
+} from './hooks/useEscrow'
 import type { EscrowAction, EscrowItem, EscrowStatus, EscrowSummary } from './types'
 
 const STATUS_COLOR: Record<EscrowStatus, string> = {
@@ -70,6 +75,7 @@ export function EscrowPage() {
   const query = useEscrowQuery(status)
   const actionMutation = useEscrowActionMutation()
   const testMutation = useTestBookingMutation()
+  const tableBookingMutation = useTableBookingMutation()
 
   const run = (item: EscrowItem, action: EscrowAction, reason?: string) => {
     actionMutation.mutate(
@@ -255,17 +261,35 @@ export function EscrowPage() {
       <TestBookingModal
         open={testOpen}
         restaurants={data?.restaurants ?? []}
-        loading={testMutation.isPending}
+        loading={testMutation.isPending || tableBookingMutation.isPending}
         onCancel={() => setTestOpen(false)}
-        onSubmit={(body) =>
+        onSubmit={(body) => {
+          const onError = (err: unknown) => void message.error(errorMessage(err, t('escrow.actionFailed')))
+          if (body.interestTableId) {
+            tableBookingMutation.mutate(
+              { interestTableId: body.interestTableId, minglerName: body.minglerName, seats: body.guests },
+              {
+                onSuccess: ({ booking, hold }) => {
+                  setTestOpen(false)
+                  void message.success(
+                    hold
+                      ? t('escrow.testBooking.tableDone', { ref: booking.bookingRef, amount: formatPkr(hold.amount) })
+                      : t('escrow.testBooking.tableDoneNoHold', { ref: booking.bookingRef }),
+                  )
+                },
+                onError,
+              },
+            )
+            return
+          }
           testMutation.mutate(body, {
             onSuccess: (item) => {
               setTestOpen(false)
               void message.success(t('escrow.testBooking.done', { ref: item.bookingRef, amount: formatPkr(item.amount) }))
             },
-            onError: (err) => void message.error(errorMessage(err, t('escrow.actionFailed'))),
+            onError,
           })
-        }
+        }}
       />
     </div>
   )

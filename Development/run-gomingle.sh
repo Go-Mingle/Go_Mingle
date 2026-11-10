@@ -10,7 +10,12 @@ command -v node >/dev/null || { echo "Node.js 20+ is required: https://nodejs.or
 
 trap 'kill 0' EXIT
 (cd Backend && npm start) &
-sleep 3
+# The first start builds the server and creates its PostgreSQL database.
+echo "Waiting for the GoMingle API on http://localhost:4000 ..."
+for _ in $(seq 1 120); do
+  curl -sf http://localhost:4000/health >/dev/null 2>&1 && break
+  sleep 2
+done
 (cd Admin && VITE_MSW_ENABLED=false VITE_API_BASE_URL=http://localhost:4000/admin \
   VITE_AUTH_MODE=api VITE_SHOW_DEMO_CREDENTIALS=true npm run dev -- --port 5173 --strictPort) &
 (cd Partner && VITE_ENABLE_MOCKS=false VITE_API_BASE_URL=http://localhost:4000/partner \

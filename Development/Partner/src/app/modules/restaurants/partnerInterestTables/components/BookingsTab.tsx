@@ -1,5 +1,5 @@
 import { Alert, Grid, Spin, Table, Tooltip } from 'antd'
-import { Receipt, X } from '@phosphor-icons/react'
+import { Receipt, UserMinus, X } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import type { ColumnsType } from 'antd/es/table'
 import { getApiErrorMessage } from '../../../../../shared/utils/apiError'
@@ -11,6 +11,48 @@ import { TabEmptyState } from '../../components/TabEmptyState'
 import { bookingStatusVariant, displayBill, displayDate, prominglerBadge } from '../format'
 import type { InterestTableDetailController } from '../hooks/useInterestTableDetail'
 import type { InterestTableBookingRow } from '../types'
+
+const EM_DASH = '—'
+
+/** How the booking turned out, once it is checked in; the penalty collected, if any. */
+function AttendanceCell({ row }: { row: InterestTableBookingRow }) {
+  const { t } = useTranslation('restaurants')
+  if (!row.attendance) return <span className="text-[13px] text-[var(--color-text-muted)]">{EM_DASH}</span>
+  return (
+    <span className="flex flex-col text-[13px]">
+      <span className="whitespace-nowrap text-[var(--color-text-secondary)]">
+        {t(`partnerInterestTables.attendance.${row.attendance}`, { empty: row.emptySeats ?? 0, seats: row.seats ?? 0 })}
+      </span>
+      {row.penaltyStatus === 'FAILED' ? (
+        <span className="whitespace-nowrap text-[12px] text-[var(--color-error)]">{t('partnerInterestTables.penaltyFailed')}</span>
+      ) : (
+        typeof row.penaltyChargedPkr === 'number' &&
+        row.penaltyChargedPkr > 0 && (
+          <span className="whitespace-nowrap text-[12px] text-[var(--color-text-muted)]">
+            {t('partnerInterestTables.penaltyCharged', { amount: displayBill(row.penaltyChargedPkr) })}
+          </span>
+        )
+      )}
+    </span>
+  )
+}
+
+/** Offered strictly from the row's own `canMarkNoShow`, behind the same ACTIVE-only gate as the ×. */
+function NoShowButton({ c, row }: { c: InterestTableDetailController; row: InterestTableBookingRow }) {
+  const { t } = useTranslation('restaurants')
+  if (!c.canCancel || !row.canMarkNoShow) return null
+  return (
+    <button
+      type="button"
+      onClick={() => c.requestNoShow(row)}
+      aria-label={t('partnerInterestTables.noShowAction', { name: row.minglerName })}
+      className="inline-flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-lg border-none bg-transparent px-2 py-1 text-[13px] font-medium text-[var(--color-error)] md:hover:bg-[var(--color-error-bg)]"
+    >
+      <UserMinus size={15} />
+      {t('partnerInterestTables.noShow')}
+    </button>
+  )
+}
 
 /**
  * The Bookings tab (US-03).
@@ -95,6 +137,14 @@ function buildBookingsColumns({
       ),
     },
     {
+      title: t('restaurants:partnerInterestTables.bookingCols.seats'),
+      dataIndex: 'seats',
+      key: 'seats',
+      render: (value: number | undefined) => (
+        <span className="text-[13px] text-[var(--color-text-secondary)]">{value ?? EM_DASH}</span>
+      ),
+    },
+    {
       title: t('restaurants:partnerInterestTables.bookingCols.date'),
       dataIndex: 'date',
       key: 'date',
@@ -119,6 +169,17 @@ function buildBookingsColumns({
       dataIndex: 'status',
       key: 'status',
       render: (_value, row) => <StatusBadge variant={bookingStatusVariant(row.status)} />,
+    },
+    {
+      title: t('restaurants:partnerInterestTables.bookingCols.attendance'),
+      key: 'attendance',
+      render: (_value, row) => <AttendanceCell row={row} />,
+    },
+    {
+      title: '',
+      key: 'noShow',
+      align: 'center' as const,
+      render: (_value, row) => <NoShowButton c={c} row={row} />,
     },
     {
       title: '',
@@ -204,6 +265,16 @@ function BookingsMobileList({ c }: { c: InterestTableDetailController }) {
             label={t('restaurants:partnerInterestTables.bookingCols.bill')}
             value={displayBill(row.billPkr)}
           />
+          <CardDetailRow
+            label={t('restaurants:partnerInterestTables.bookingCols.seats')}
+            value={row.seats ?? EM_DASH}
+          />
+          {row.attendance && (
+            <CardDetailRow
+              label={t('restaurants:partnerInterestTables.bookingCols.attendance')}
+              value={<AttendanceCell row={row} />}
+            />
+          )}
 
           <div className="flex items-center justify-between gap-3 pt-1">
             <button
@@ -213,6 +284,7 @@ function BookingsMobileList({ c }: { c: InterestTableDetailController }) {
             >
               {t('restaurants:partnerInterestTables.viewDetails')}
             </button>
+            <NoShowButton c={c} row={row} />
             {c.canCancel && row.cancellable && (
               <Tooltip title={t('restaurants:partnerInterestTables.cancelBooking')}>
                 <button

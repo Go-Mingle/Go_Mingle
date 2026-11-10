@@ -28,7 +28,16 @@ if not exist "Partner\node_modules" (
 echo.
 echo === Starting the GoMingle API on http://localhost:4000 ===
 start "GoMingle API" cmd /k "cd /d %~dp0Backend && npm start"
-timeout /t 4 >nul
+echo     (the first start builds the server and creates its PostgreSQL database)
+set /a tries=0
+:waitapi
+curl -s -o nul -f http://localhost:4000/health >nul 2>nul
+if not errorlevel 1 goto apiready
+set /a tries+=1
+if %tries% geq 90 goto apiready
+timeout /t 2 >nul
+goto waitapi
+:apiready
 
 echo === Starting the Admin Panel on http://localhost:5173 ===
 start "GoMingle Admin Panel" cmd /k "cd /d %~dp0Admin && set VITE_MSW_ENABLED=false&& set VITE_API_BASE_URL=http://localhost:4000/admin&& set VITE_AUTH_MODE=api&& set VITE_SHOW_DEMO_CREDENTIALS=true&& npm run dev -- --port 5173 --strictPort"

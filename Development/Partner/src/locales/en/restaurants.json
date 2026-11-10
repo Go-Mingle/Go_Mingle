@@ -576,7 +576,8 @@
     "contacts": "Contacts",
     "interestTables": "Interest Tables",
     "availableInterestTables": "Available Interest Tables",
-    "payoutAccount": "Payout Account"
+    "payoutAccount": "Payout Account",
+    "noShowPolicy": "No-Show Policy"
   },
   "availableSlots": {
     "loading": "Loading availability…",
@@ -1056,7 +1057,9 @@
       "menuOption": "Menu Option",
       "date": "Date",
       "bill": "Bill",
-      "status": "Status"
+      "status": "Status",
+      "seats": "Seats",
+      "attendance": "Attendance"
     },
     "bookingsEmptyTitle": "No bookings yet",
     "bookingsEmptyDesc": "Bookings appear here as Minglers reserve their seats.",
@@ -1106,7 +1109,28 @@
       "inviteNotCancellable": "This invite can no longer be cancelled.",
       "readOnly": "Your restaurant needs to be active before you can cancel bookings or invites.",
       "notFound": "That interest table is no longer available."
-    }
+    },
+    "guestsArrived": "Guests Arrived",
+    "guestsArrivedTitle": "Mark guests as arrived?",
+    "guestsArrivedBody": "Every open booking on this table is checked in, the card holds are released and the table is completed. Record any no-shows first: this can’t be undone.",
+    "guestsArrivedDone_one": "{{count}} guest checked in. The table is completed.",
+    "guestsArrivedDone_other": "{{count}} guests checked in. The table is completed.",
+    "noShow": "No-show",
+    "noShowAction": "Record a no-show for {{name}}",
+    "noShowTitle": "Record a no-show for “{{name}}”?",
+    "noShowBody": "The penalty for the empty seats is collected from the card hold and the rest of the hold is released. This can’t be undone.",
+    "noShowEmptySeats": "Empty seats",
+    "noShowOfSeats": "of {{count}} booked",
+    "noShowPenalty": "Penalty to collect: {{amount}}",
+    "noShowNoPenalty": "No penalty applies to this booking.",
+    "noShowRecorded": "No-show recorded.",
+    "attendance": {
+      "ARRIVED": "Arrived",
+      "PARTIAL": "{{empty}} of {{seats}} seats empty",
+      "NO_SHOW": "No-show"
+    },
+    "penaltyCharged": "{{amount}} penalty",
+    "penaltyFailed": "Penalty not collected yet"
   },
   "partnerReviews": {
     "emptyTitle": "No reviews yet",
@@ -1181,5 +1205,28 @@
     "saved": "Payout account saved.",
     "editAria": "Edit payout account",
     "loadFailed": "Your payout account could not be loaded."
+  },
+  "noShowPolicy": {
+    "title": "No-show policy",
+    "explainer": "When a Mingler books, a hold for the penalty × seats is placed on their card. If guests arrive, the hold is released. If seats stay empty, the penalty for those seats is collected and paid to you through escrow. Changes apply to new bookings only.",
+    "fields": {
+      "penalty": "Penalty per empty seat",
+      "window": "Free cancellation window"
+    },
+    "penaltyValue": "{{amount}} per seat",
+    "noPenalty": "No penalty",
+    "windowValue_one": "Up to {{count}} hour before the table starts",
+    "windowValue_other": "Up to {{count}} hours before the table starts",
+    "penaltyHelp": "Enter 0 for no penalty. No card hold is placed and nothing is charged.",
+    "windowHelp": "Minglers can cancel free of charge until this many hours before the start.",
+    "hours": "hours",
+    "save": "Save policy",
+    "saved": "No-show policy saved.",
+    "editAria": "Edit no-show policy",
+    "loadFailed": "The no-show policy could not be loaded.",
+    "errors": {
+      "penalty": "Enter an amount of 0 or more.",
+      "window": "Enter a whole number of hours, 0 or more."
+    }
   }
 }

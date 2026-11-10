@@ -87,6 +87,9 @@ function seed(): Map<string, EscrowItem> {
 let ledger = seed()
 
 /** Restores the seeded ledger (called between tests). */
+/** The no-show penalty per seat the mock restaurant charges. */
+export const MOCK_NO_SHOW_PENALTY_PKR = 1500
+
 export function resetMockEscrow() {
   ledger = seed()
 }
@@ -145,6 +148,34 @@ export const escrowHandlers = [
     )
     ledger.set(id, item)
     return HttpResponse.json({ success: true, data: item }, { status: 201 })
+  }),
+
+  // A sandbox booking at an interest table: the hold is the no-show penalty × seats.
+  http.post('*/api/v1/admin/bookings/sandbox', async ({ request }) => {
+    const body = (await request.json()) as { interestTableId?: string; minglerName?: string; seats?: number }
+    if (!body.interestTableId) return error(422, 'ERR_VALIDATION', 'Choose an interest table.')
+    const seats = body.seats ?? 2
+    const id = `esc-${String(ledger.size + 101).padStart(6, '0')}`
+    const hold = makeItem(
+      id,
+      RESTAURANTS[0].id,
+      body.minglerName || 'Test Mingler',
+      seats,
+      MOCK_NO_SHOW_PENALTY_PKR,
+      'Friday Wine Evening',
+      'AUTHORIZED',
+    )
+    ledger.set(id, hold)
+    return HttpResponse.json(
+      {
+        success: true,
+        data: {
+          booking: { id: `bk-${id}`, bookingRef: hold.bookingRef, seats, penaltyPerSeatPkr: MOCK_NO_SHOW_PENALTY_PKR },
+          hold,
+        },
+      },
+      { status: 201 },
+    )
   }),
 
   http.post(`${BASE}/:id/:action`, async ({ params, request }) => {
