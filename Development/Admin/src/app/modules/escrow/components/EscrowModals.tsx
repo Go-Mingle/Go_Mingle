@@ -135,17 +135,16 @@ export function TestBookingModal({ open, restaurants, loading, onCancel, onSubmi
           >
             <InputNumber min={1} max={8} className="w-full" />
           </Form.Item>
-          {/* At an interest table the amount is the restaurant's no-show penalty, not a typed figure. */}
-          {!interestTableId && (
-            <Form.Item
-              name="amountPerGuest"
-              label={t('escrow.testBooking.amountPerGuest')}
-              rules={[{ required: true }]}
-            >
-              <InputNumber min={100} max={100000} step={100} className="w-full" />
-            </Form.Item>
-          )}
+          {/* At an interest table this is the dinner price; the card hold is the restaurant's no-show penalty. */}
+          <Form.Item
+            name="amountPerGuest"
+            label={interestTableId ? t('escrow.testBooking.seatPrice') : t('escrow.testBooking.amountPerGuest')}
+            rules={[{ required: true }]}
+          >
+            <InputNumber min={100} max={100000} step={100} className="w-full" />
+          </Form.Item>
         </div>
+        {interestTableId && <p className="text-xs text-(--color-text-muted) m-0">{t('escrow.testBooking.seatPriceHelp')}</p>}
       </Form>
     </Modal>
   )

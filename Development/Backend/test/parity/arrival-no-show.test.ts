@@ -208,9 +208,10 @@ describe('arrival and no-show', () => {
     // ── Money: the penalty reaches the restaurant, GoMingle's fee is "penalties" ──
     expect((await p.req('release penalty', 'POST', `${AD}/escrow/${osama.holds[0].id}/release`, { ...AA, compare: false })).neu.status).toBe(200)
     expect((await p.req('dashboard revenue', 'GET', '/admin/api/dashboard/revenue-chart', { ...AA, compare: false })).neu.json).toMatchObject({
-      total: 150,
+      // 12% of the PKR 1,500 penalty: the commission rate of the restaurant's category.
+      total: 180,
       commissions: 0,
-      penalties: 150,
+      penalties: 180,
       penaltyPct: 100,
     })
 
@@ -259,13 +260,157 @@ describe('arrival and no-show', () => {
       delete process.env.GM_SIMULATE_CAPTURE_FAILURE
     }
 
+    // ── The card step, done by an admin until the Mingler app exists (GM-255) ──
+    const cardTable = await table('table for the card step', 'Chef’s Table', -3)
+    process.env.GM_SIMULATE_PENDING_CARD = '1'
+    let waiting: Awaited<ReturnType<typeof book>>
+    let unpaid: Awaited<ReturnType<typeof book>>
+    try {
+      // As with real Safepay keys: the holds wait for a card nobody has entered.
+      waiting = await book('booking waiting for a card', cardTable, { minglerName: 'Mehwish', seats: 2 })
+      unpaid = await book('booking never paid', cardTable, { minglerName: 'Rahim', seats: 1 })
+    } finally {
+      delete process.env.GM_SIMULATE_PENDING_CARD
+    }
+    expect(waiting.holds.map((h) => h.status)).toEqual(['PENDING_PAYMENT', 'PENDING_PAYMENT'])
+    const card = (id: string) => `${AD}/escrow/${id}/test-card`
+    const visa = { cardNumber: '4111 1111 1111 1111', expMonth: 12, expYear: new Date().getFullYear() + 2, cvc: '123' }
+    await p.req('card: a real-looking number is refused', 'POST', card(waiting.holds[0].id), { ...AA, body: { ...visa, cardNumber: '4539 1488 0343 6467' } })
+    await p.req('card: bad expiry and code', 'POST', card(waiting.holds[0].id), { ...AA, body: { ...visa, expMonth: 13, cvc: '12' } })
+    await p.req('card: expired', 'POST', card(waiting.holds[0].id), { ...AA, body: { ...visa, expMonth: 1, expYear: new Date().getFullYear() - 1 } })
+    await p.req('card: declined', 'POST', card(waiting.holds[0].id), { ...AA, body: { ...visa, cardNumber: '4000000000000002' } })
+    await p.req('card: unknown hold', 'POST', card('esc-nope'), { ...AA, body: visa })
+    // One card covers every seat of the booking.
+    const added = data(await p.req('card: added', 'POST', card(waiting.holds[1].id), { ...AA, compare: false, body: visa }))
+    expect(added.items.map((h: { seatNo: number; status: string; testCard: object }) => [h.seatNo, h.status, h.testCard])).toEqual([
+      [1, 'AUTHORIZED', { brand: 'Visa', last4: '1111' }],
+      [2, 'AUTHORIZED', { brand: 'Visa', last4: '1111' }],
+    ])
+    await p.req('card: already added', 'POST', card(waiting.holds[0].id), { ...AA, body: visa })
+    expect(data(await p.req('no-show after the card', 'POST', `${P}/bookings/${waiting.booking.id}/no-show`, { ...A, compare: false }))).toMatchObject({ penaltyChargedPkr: 3000, penaltyStatus: 'CHARGED' })
+    // No card yet: the no-show cannot collect, the admin adds the card and retries.
+    expect(data(await p.req('no-show before the card', 'POST', `${P}/bookings/${unpaid.booking.id}/no-show`, { ...A, compare: false }))).toMatchObject({ penaltyChargedPkr: 0, penaltyStatus: 'FAILED' })
+    const stuck = (await console_()).paymentFailures as { id: number; message: string }[]
+    expect(stuck.map((f) => f.message)).toEqual(['No card was added for this seat, so there is nothing to collect. Add a card to the booking, then retry.'])
+    expect((await p.req('card: added late', 'POST', card(unpaid.holds[0].id), { ...AA, compare: false, body: { ...visa, cardNumber: '5555555555554444' } })).neu.status).toBe(200)
+    expect((await p.req('retry after the card', 'POST', `${AD}/escrow/failures/${stuck[0].id}/retry`, { ...AA, compare: false })).neu.status).toBe(200)
+    expect((await rows('card bookings', cardTable)).map((b) => [b.minglerName, b.penaltyChargedPkr, b.penaltyStatus])).toEqual([
+      ['Mehwish', 3000, 'CHARGED'],
+      ['Rahim', 1500, 'CHARGED'],
+    ])
+    expect((await console_()).paymentFailures).toEqual([])
+
+    // ── The dinner bill and Finances ──────────────────────────────────────
+    // Nothing above had a menu option, so nothing was billed: only the penalties are in Finances.
+    const FIN = `${AD}/admin/finances`
+    const PFIN = `${P}/finances`
+    type Fin = { bookingRef: string; totalAmountPkr: number; partnerSharePkr: number; gomingleSharePkr: number; billPkr: number; penaltyPkr: number }
+    const adminLedger = async (step: string, query = '') => data(await p.req(step, 'GET', `${FIN}${query}`, { ...AA, compare: false })).items as Fin[]
+    const before = await adminLedger('finances: penalties only')
+    expect(before.every((r) => r.billPkr === 0 && r.penaltyPkr > 0)).toBe(true)
+
+    const courses = [{ course: 'Main Course', choose: 1, options: ['Chicken Karahi', 'Grilled Fish'] }]
+    await p.req('menu option', 'POST', `${R}/menu-options`, { ...A, compare: false, body: { name: 'Seafront Set', pricePkr: 3200, courses } })
+    const dinner = await table('table with a menu', 'Seafront Supper', -10, { menuOptionIds: ['c-1'] })
+    const ayesha = await book('booking at a priced table', dinner, { minglerName: 'Ayesha', seats: 4 })
+    const zain = await book('booking that half shows', dinner, { minglerName: 'Zain', seats: 2 })
+    await p.req('admin booking with seat price', 'GET', `${BK}/${ayesha.booking.id}`, { ...AA, ignore: ['data.bookingRef', 'data.time', 'data.date', 'data.id'] })
+    // One of Zain's two seats stays empty: that seat pays the penalty, the other its dinner.
+    expect(data(await p.req('half no-show', 'POST', `${P}/bookings/${zain.booking.id}/no-show`, { ...A, compare: false, body: { emptySeats: 1 } }))).toMatchObject({
+      attendance: 'PARTIAL',
+      penaltyChargedPkr: 1500,
+      billPkr: 3200,
+    })
+    expect(data(await p.req('guests arrived at the priced table', 'POST', `${P}/interest-tables/${dinner}/guests-arrived`, { ...A, compare: false }))).toMatchObject({ status: 'COMPLETED', seatsArrived: 4 })
+    expect((await rows('billed bookings', dinner)).map((b) => [b.minglerName, b.seats, b.attendance, b.billPkr, b.penaltyChargedPkr])).toEqual([
+      ['Ayesha', 4, 'ARRIVED', 12800, null],
+      ['Zain', 2, 'PARTIAL', 3200, 1500],
+    ])
+    // The bills are in escrow, the penalty holds of the seats that arrived were let go.
+    type Line = { id: string; bookingRef: string; kind?: string; status: string; amount: number; gateway: string }
+    const bills = ((await console_()).items as Line[]).filter((h) => h.kind === 'BILL')
+    expect(bills.map((h) => [h.status, h.amount, h.gateway]).sort()).toEqual([
+      ['IN_ESCROW', 12800, 'Simulated'],
+      ['IN_ESCROW', 3200, 'Simulated'],
+    ])
+    expect(await holdsOf(ayesha)).toEqual([1, 2, 3, 4].map((n) => [n, 'VOIDED', 1500]))
+
+    // Admin Finances: one row per booking, split by the platform fee.
+    const fee = (n: number) => Math.round(n * 12) / 100 // the Premium category takes 12%
+    const mine = (await adminLedger('finances: with bills')).filter((r) => [ayesha.booking.bookingRef, zain.booking.bookingRef].includes(r.bookingRef))
+    expect(mine.map((r) => [r.bookingRef, r.totalAmountPkr, r.billPkr, r.penaltyPkr, r.gomingleSharePkr, r.partnerSharePkr]).sort()).toEqual(
+      [
+        [ayesha.booking.bookingRef, 12800, 12800, 0, fee(12800), 12800 - fee(12800)],
+        [zain.booking.bookingRef, 4700, 3200, 1500, fee(4700), 4700 - fee(4700)],
+      ].sort(),
+    )
+    expect((await adminLedger('finances: search by mingler', '?mingler=ayesh')).map((r) => r.bookingRef)).toEqual([ayesha.booking.bookingRef])
+    expect((await adminLedger('finances: sorted by total', '?sortBy=total&sortOrder=desc&pageSize=1'))[0].bookingRef).toBe(ayesha.booking.bookingRef)
+    expect(await adminLedger('finances: nothing that long ago', '?dateFrom=2020-01-01&dateTo=2020-12-31')).toEqual([])
+    await p.req('finances: bad date range', 'GET', `${FIN}?dateFrom=2026-02-01&dateTo=2026-01-01`, AA)
+    await p.req('finances: no token', 'GET', FIN)
+    await p.req('finances: detail', 'GET', `${FIN}/${ayesha.booking.bookingRef}`, { ...AA, ignore: ['data.bookingRef', 'data.date', 'data.eventStart', 'data.eventEnd'] })
+    await p.req('finances: unknown booking', 'GET', `${FIN}/GM-000000`, AA)
+    // The export is a short-lived signed link to the CSV.
+    const link = data(await p.req('finances: export link', 'GET', `${FIN}/export?mingler=Ayesha`, { ...AA, compare: false })).url as string
+    const csv = await p.req('finances: export file', 'GET', new URL(link).pathname + new URL(link).search, { compare: false })
+    expect(csv.neu.status).toBe(200)
+    expect(csv.neu.text.trim().split('\n')).toHaveLength(2)
+    expect(csv.neu.text).toContain(`Kolachi,${ayesha.booking.bookingRef},Seafront Supper,Ayesha,12800,`)
+    await p.req('finances: export link tampered', 'GET', `${new URL(link).pathname}?token=abc.def`)
+
+    // Partner Finances: the same bookings, with the restaurant's share.
+    const partnerLedger = data(await p.req('partner finances', 'GET', `${PFIN}?searchField=interestTable&search=seafront`, { ...A, compare: false })).items as {
+      bookingId: string
+      bookingRef: string
+      totalAmountPkr: number
+      mySharePkr: number
+      interestTable: { name: string }
+    }[]
+    expect(partnerLedger.map((r) => [r.bookingRef, r.totalAmountPkr, r.mySharePkr]).sort()).toEqual(
+      [
+        [ayesha.booking.bookingRef, 12800, 12800 - fee(12800)],
+        [zain.booking.bookingRef, 4700, 4700 - fee(4700)],
+      ].sort(),
+    )
+    await p.req('partner finances: detail', 'GET', `${PFIN}/${ayesha.booking.id}`, { ...A, ignore: ['data.bookingRef', 'data.date'] })
+    await p.req('partner finances: this month', 'GET', `${PFIN}?period=THIS_MONTH&pageSize=50`, { ...A, compare: false })
+    await p.req('partner finances: bad period', 'GET', `${PFIN}?period=LAST_WEEK`, A)
+    const pcsv = await p.req('partner finances: export', 'GET', `${PFIN}/export?searchField=mingler&search=Zain`, { ...A, compare: false })
+    expect(pcsv.neu.text).toContain(`${zain.booking.bookingRef},Zain,Seafront Supper,`)
+
+    // Paying the restaurant: the bill is released from escrow, less the fee.
+    const ayeshaBill = bills.find((h) => h.bookingRef === ayesha.booking.bookingRef)!
+    expect(data(await p.req('release the bill', 'POST', `${AD}/escrow/${ayeshaBill.id}/release`, { ...AA, compare: false }))).toMatchObject({
+      status: 'RELEASED',
+      payout: { amount: 12800 - fee(12800), platformFee: fee(12800) },
+    })
+    // Still one Finances row, now paid out.
+    expect((await adminLedger('finances: after payout', `?bookingRef=${ayesha.booking.bookingRef}`)).map((r) => [r.totalAmountPkr, (r as Fin & { paidOut: boolean }).paidOut])).toEqual([[12800, true]])
+
+    // A table without a menu option: a sandbox booking can bring its own dinner price.
+    const plain = await table('table without a menu', 'Chai Circle', -5)
+    const typed = await book('booking with a typed price', plain, { minglerName: 'Nida', seats: 2, seatPricePkr: 900 })
+    expect((typed.booking as unknown as { seatPricePkr: number }).seatPricePkr).toBe(900)
+    // The menu option's price wins over a typed one.
+    const menuWins = await table('second table with a menu', 'Seafront Lunch', 600, { menuOptionIds: ['c-1'] })
+    expect(((await book('typed price ignored', menuWins, { seats: 1, seatPricePkr: 5 })).booking as unknown as { seatPricePkr: number }).seatPricePkr).toBe(3200)
+    await p.req('guests arrived at the plain table', 'POST', `${P}/interest-tables/${plain}/guests-arrived`, { ...A, compare: false })
+    expect((await adminLedger('finances: typed price', `?bookingRef=${typed.booking.bookingRef}`)).map((r) => [r.totalAmountPkr, r.billPkr])).toEqual([[1800, 1800]])
+
+    // Safepay's checkout needs real keys; without them the admin is told to use a test card.
+    await p.req('checkout without keys', 'POST', `${AD}/escrow/${ayeshaBill.id}/checkout`, { ...AA, body: { returnUrl: 'http://localhost:5173/finances/escrow' } })
+    await p.req('confirm a checkout never opened', 'POST', `${AD}/escrow/${ayeshaBill.id}/checkout/confirm`, { ...AA, compare: false })
+
     // ── Who hears about it ────────────────────────────────────────────────
     const adminInbox = data(await p.req('admin inbox', 'GET', `${AD}/notifications?pageSize=50`, { ...AA, compare: false })).items.map((n: { type: string }) => n.type)
-    expect(adminInbox.filter((t: string) => t === 'BOOKING_NO_SHOW')).toHaveLength(4)
-    expect(adminInbox.filter((t: string) => t === 'PAYMENT_FAILED')).toHaveLength(1)
-    expect(adminInbox.filter((t: string) => t === 'INTEREST_TABLE_COMPLETED')).toHaveLength(2)
+    expect(adminInbox.filter((t: string) => t === 'BOOKING_NO_SHOW')).toHaveLength(7)
+    expect(adminInbox.filter((t: string) => t === 'PAYMENT_FAILED')).toHaveLength(2)
+    expect(adminInbox.filter((t: string) => t === 'INTEREST_TABLE_COMPLETED')).toHaveLength(4)
     const partnerInbox = data(await p.req('partner inbox', 'GET', `${P}/notifications`, { ...A, compare: false })).items.map((n: { type: string }) => n.type)
     expect(partnerInbox.filter((t: string) => t === 'BOOKING_NO_SHOW')).toHaveLength(1)
+    // One per dinner bill that went into escrow.
+    expect(partnerInbox.filter((t: string) => t === 'ESCROW_FUNDED')).toHaveLength(3)
 
     // ── Another restaurant cannot touch these ─────────────────────────────
     await p.req('signup start', 'POST', `${P}/signup/start`, { body: { email: 'owner@bbq.pk' } })

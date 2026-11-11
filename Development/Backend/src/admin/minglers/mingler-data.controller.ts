@@ -5,7 +5,7 @@ import { AdminGuard } from '../access/admin.guard'
 
 /**
  * Screens whose records are created by the Mingler app: Minglers, their
- * bookings and their reviews, and the per-booking finance rows.
+ * bookings and their reviews.
  *
  * Nothing writes these yet (the Mingler app is not built), so every list is
  * empty and every record is "not found", with the same validation and
@@ -111,31 +111,6 @@ export class ReviewsController {
   @Delete('reviews/:id')
   remove() {
     throw fail(404, 'ERR_REVIEW_NOT_FOUND', 'Review not found.')
-  }
-}
-
-/** Per-booking finance rows: /admin/api/v1/admin/finances */
-@Controller('admin/api/v1/admin/finances')
-@UseGuards(AdminGuard)
-export class FinancesController {
-  @Get()
-  list(@Query() q: Record<string, string>) {
-    if (q.dateFrom && q.dateTo && q.dateFrom > q.dateTo) throw rawError(400, { error: { message: 'Invalid date range.' } })
-    return { success: true, data: emptyPage(num(q.page, 1), num(q.pageSize, 25), 'totalRecords') }
-  }
-
-  /** TODO(go-live, GM-247): generate the CSV and return a real signed link; this address is the contract's sample. */
-  @Get('export')
-  export() {
-    return {
-      success: true,
-      data: { url: 'https://s3.amazonaws.com/admin-exports/finances-exports/finances-16-06-2026-1430.csv', expiresIn: 300 },
-    }
-  }
-
-  @Get(':bookingId')
-  one() {
-    throw rawError(404, { success: false, error: { message: 'Booking not found' } })
   }
 }
 

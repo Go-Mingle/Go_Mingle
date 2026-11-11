@@ -50,7 +50,10 @@ export const escrowHolds = pgTable('escrow_holds', {
   updatedAt: text('updated_at').notNull(),
   timeline: jsonb('timeline').$type<EscrowEvent[]>().notNull().default([]),
   payout: jsonb('payout').$type<EscrowPayout | null>(),
-  /** PAYMENT: money for the dinner. NO_SHOW_HOLD: the penalty reserved at booking (GM-203). */
+  /**
+   * PAYMENT: a stand-alone sandbox payment. NO_SHOW_HOLD: the penalty reserved
+   * at booking (GM-203). BILL: the dinner bill of a booking, charged at check-in.
+   */
   kind: text('kind').notNull().default('PAYMENT'),
   bookingId: text('booking_id'),
   /**
@@ -59,6 +62,21 @@ export const escrowHolds = pgTable('escrow_holds', {
    * others go. This is the seat's number within its booking.
    */
   seatNo: integer('seat_no'),
+  /**
+   * TEMPORARY (until the Mingler app takes the card, GM-255): an admin added a
+   * test card to this hold from the Admin Panel. Such a hold is settled by the
+   * built-in simulator and never sent to Safepay. Only the brand and last four
+   * digits are kept.
+   */
+  testCard: jsonb('test_card').$type<{ brand: string; last4: string } | null>(),
+  /**
+   * Set when the card step is done on Safepay's own checkout page. One checkout
+   * pays for every waiting seat of a booking, so several holds share a tracker.
+   * `paidAt` is null until Safepay confirms the payment. Safepay takes such a
+   * payment in full straight away, so collecting it needs no further call and
+   * letting it go is a refund of this hold's amount.
+   */
+  checkout: jsonb('checkout').$type<{ totalPkr: number; startedAt: string; paidAt: string | null } | null>(),
   /** Set when the capture is requested, so the same capture is never sent twice. */
   idempotencyKey: text('idempotency_key').unique(),
 })
