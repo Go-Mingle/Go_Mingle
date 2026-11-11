@@ -23,7 +23,8 @@ async function boot() {
   if (!config.databaseUrl) throw new Error('DATABASE_URL is not set. Connect a PostgreSQL database to this Vercel project.')
   // Migrations take a session lock, which a pooled (PgBouncer) connection cannot hold
   // reliably; Neon offers a direct connection for that. Requests use the pooled one.
-  const direct = new Database(process.env.DATABASE_URL_UNPOOLED || config.databaseUrl, 1)
+  // One connection holds the lock, the others run the migrations.
+  const direct = new Database(process.env.DATABASE_URL_UNPOOLED || config.databaseUrl, 3)
   const step = (what: string) => console.log(`[boot] ${what} (${Date.now() - started} ms)`)
   const started = Date.now()
   const client = await direct.pool.connect()
@@ -32,7 +33,13 @@ async function boot() {
     // Two cold starts at once must not migrate the same database together. A lock
     // left by a frozen instance is given up after a while instead of waiting forever.
     await client.query("SET lock_timeout = '20s'")
-    await client.query('SELECT pg_advisory_lock(424242)')
+    try {
+      await client.query('SELECT pg_advisory_lock(424242)')
+    } catch {
+      step('migration lock still held after 20 s; ending the stale session that holds it')
+      await client.query("SELECT pg_terminate_backend(pid) FROM pg_locks WHERE locktype = 'advisory' AND objid = 424242 AND pid <> pg_backend_pid()")
+      await client.query('SELECT pg_advisory_lock(424242)')
+    }
     step('migration lock taken')
     await direct.migrate()
     step('migrations applied')
