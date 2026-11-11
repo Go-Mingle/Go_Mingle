@@ -2,7 +2,9 @@
 
 NUCES MS Practicum: GoMingle social dining and restaurant booking platform (Karachi).
 
-**Version 0.7** (11 Nov 2026). See *Version history* at the end.
+**Version 0.7.3** (11 Nov 2026). See *Version history* at the end.
+
+**Live:** Admin Panel https://gomingle-admin.vercel.app · Partner Portal https://gomingle-partner.vercel.app · API https://gomingle-api.vercel.app. See *Online on Vercel* below.
 
 ```
 GoMingle/
@@ -78,9 +80,21 @@ cd Partner && npm run typecheck && npm run lint && npm run test:run
 cd Backend && npm run typecheck && npm test
 ```
 
+## Online on Vercel
+
+Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomingle-admin`, `Partner` → `gomingle-partner`, `Backend` → `gomingle-api`. Each has a `vercel.json` next to its `package.json`.
+
+- **Deploys:** merging a pull request into `main` deploys to production. Every other branch gets a preview link (previews ask for a Vercel sign-in).
+- **Portals:** static Vite builds. `VITE_API_BASE_URL` points at the API (`https://gomingle-api.vercel.app/admin` and `/partner`), `VITE_AUTH_MODE=api`, mocks off. These are Vercel environment variables, read at build time.
+- **API:** `Backend/api/index.js` hands every request to the compiled NestJS app (`Backend/src/serverless.ts`).
+  - Database: Neon PostgreSQL (`DATABASE_URL` pooled, `DATABASE_URL_UNPOOLED` for migrations). Migrations and first-run data are applied on start.
+  - The no-show check runs on incoming requests, at most every 5 minutes.
+- **API settings on Vercel:** `JWT_SECRET`, `SEED_ADMIN_PASSWORD`, `SEED_PARTNER_PASSWORD`, `CORS_ORIGINS` (the two portal addresses), `PUBLIC_URL`, `SAFEPAY_ENV`, `SAFEPAY_API_KEY`, `SAFEPAY_SECRET_KEY`, `PLATFORM_FEE_PCT`. Change them under the project's *Settings → Environment Variables*, then redeploy.
+- **Logs:** Vercel → project → *Logs*. The API prints `[boot]` lines on a cold start and one line per request.
+
 ## Notes
 
-- Backend details, configuration and current limits are in `Backend/README.md`. The main limits: no real e-mail, SMS or payments (codes print in the API window; Safepay uses the sandbox keys in `Backend/.env`; empty them to use the offline simulator), and Mingler bookings, reviews and finance figures stay empty until the Mingler app is connected.
+- Backend details, configuration and current limits are in `Backend/README.md`. The main limits: no real e-mail, SMS or payments (codes print in the API window; Safepay uses the sandbox keys in `Backend/.env` locally or the Vercel settings online; empty them to use the offline simulator), and Mingler bookings, reviews and finance figures stay empty until the Mingler app is connected.
 - Production sign-in is still AWS Cognito. Set `VITE_AUTH_MODE=cognito` and the pool variables.
 - The mobile app's bundle id is now `com.gomingle.customer`. Register that id in Firebase before building release apps.
 - The Flutter app still pulls the Ethr UI SDK from its original Bitbucket repository. That URL in `pubspec.yaml` is the only place the old company name remains, because the package can only be fetched from where it is hosted.
@@ -89,6 +103,10 @@ cd Backend && npm run typecheck && npm test
 
 | Version | Date | What changed |
 |---|---|---|
+| 0.7.3 | 11 Nov 2026 | Interest table times are Pakistan time in the Admin form and the API; no bookings once a table has started (GM-258); cancelling a table cancels its bookings and refunds the Minglers (GM-259); Create & publish no longer flashes "Required" (GM-260); edit and delete interest tables (GM-261); Safepay-only card step when Safepay is connected (GM-262) |
+| Vercel | 11 Nov 2026 | Online on Vercel with a Neon database (GM-257) |
+| 0.7.2 | 11 Nov 2026 | Finances on both portals from real bookings, dinner bill at check-in, Safepay checkout for the admin card step (GM-256) |
+| 0.7.1 | 11 Nov 2026 | Admin card step for holds awaiting payment (GM-255), payout column and seats-booked fixes |
 | 0.7 | 11 Nov 2026 | No-show penalties no longer need a partial capture, which Safepay does not offer: one card hold per seat, collected or released whole (GM-203); *Failed collections* in the Admin Panel with Retry and Close (GM-254) |
 | 0.6 | 11 Nov 2026 | Backend rebuilt as a NestJS modular monolith on PostgreSQL (GM-243, GM-244), same screens and behaviour; Guests Arrived check-in (GM-38), no-show penalty (GM-203) and no-show policy (GM-204); dashboard revenue from real data |
 | 0.5 | 9 Nov 2026 | Partner "Visible on Mingler app" switch now shows correctly in the Admin Panel; light/dark mode in both portals with a white logo in dark mode; starter Amenities, Interests, Topics and Preference Questions (Jira GM-238 to GM-241) |
@@ -98,5 +116,5 @@ cd Backend && npm run typecheck && npm test
 | 0.1 | 6 Nov 2026 | Safepay sandbox keys read from `Backend/.env` |
 | 0 | 6 Nov 2026 | First working build: both portals on the GoMingle API, Karachi/PKR rebrand, Safepay escrow |
 
-The same history is on GitHub (Go-Mingle/Go_Mingle) as tags `v0` to `v0.5` and branches `release/v0.6`, `release/v0.7`.
+The same history is on GitHub (Go-Mingle/Go_Mingle) as tags `v0` to `v0.5` and `release/v0.6` … `release/v0.7.3` branches, merged into `main` through pull requests.
 

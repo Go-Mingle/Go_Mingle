@@ -96,6 +96,13 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
     if (!Number.isInteger(seats) || seats < 1) throw apiError(422, 'ERR_VALIDATION', 'Seats must be a whole number of 1 or more.')
     const seatsLeft = Math.max(0, (table.maxGuests ?? 0) - table.seatsBooked)
     if (seats > seatsLeft) throw apiError(409, 'ERR_TABLE_FULL', `Only ${seatsLeft} seat${seatsLeft === 1 ? '' : 's'} left at this table.`, { seatsLeft })
+    // A table that has already started (Pakistan time) takes no more bookings; such a
+    // booking would at once be past its check-in and be marked a no-show.
+    if (Date.now() >= startsAt(table)) {
+      throw apiError(409, 'ERR_TABLE_STARTED', `This interest table already started at ${table.startTime} Pakistan time, so it can't be booked.`, {
+        startsAt: new Date(startsAt(table)).toISOString(),
+      })
+    }
 
     const [restaurant] = await this.db.select().from(restaurants).where(eq(restaurants.id, table.restaurantId))
     const menu = await this.menuOptionFor(table, input.menuOption)
@@ -164,6 +171,23 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
       .where(eq(interestTables.id, b.interestTableId))
     await this.letHoldGo(claimed, by, 'Booking cancelled')
     return claimed
+  }
+
+  /**
+   * Cancels every open booking of a table that is being cancelled. Each
+   * Mingler's card hold is voided, or their payment refunded. Returns how many
+   * bookings were cancelled and how much was given back.
+   */
+  async cancelAllOfTable(interestTableId: string, by: string) {
+    let cancelled = 0
+    let refundedPkr = 0
+    for (const b of (await this.ofTable(interestTableId)).filter((x) => ACTIVE.includes(x.status))) {
+      const before = await this.escrow.holdsOfBooking(b.id)
+      if (!(await this.cancel(b, by))) continue
+      cancelled += 1
+      refundedPkr += before.filter((h) => ['AUTHORIZED', 'IN_ESCROW'].includes(h.status)).reduce((t, h) => t + h.amount, 0)
+    }
+    return { cancelled, refundedPkr }
   }
 
   // ── Check-in ──────────────────────────────────────────────────────────────
@@ -292,7 +316,12 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
     let noShows = 0
     for (const b of open) {
       const table = await this.tables.find(b.interestTableId)
-      if (!table || table.status === 'CANCELLED') continue
+      if (!table) continue
+      // A booking left open on a cancelled table: cancel it so the Mingler's money goes back.
+      if (table.status === 'CANCELLED') {
+        await this.cancel(b, 'Table cancelled').catch((err) => this.log.error(`Booking ${b.bookingRef}: ${err instanceof Error ? err.message : err}`))
+        continue
+      }
       if (now < startsAt(table) + NO_SHOW_GRACE_MINUTES * 60_000) continue
       try {
         await this.noShow(b, undefined, 'Automatic no-show check', true)

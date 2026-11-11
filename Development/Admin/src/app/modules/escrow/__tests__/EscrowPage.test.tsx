@@ -212,6 +212,15 @@ describe('EscrowPage', () => {
       expect(within(row).queryByRole('button', { name: 'Pay on Safepay' })).not.toBeInTheDocument()
     })
 
+    it('offers no simulated test card once Safepay is connected, so every payment shows at Safepay', async () => {
+      addMockPendingBooking(1)
+      setMockGatewayLive()
+      renderPage()
+      const [row] = await pendingRows()
+      expect(within(row).getByRole('button', { name: 'Pay on Safepay' })).toBeInTheDocument()
+      expect(within(row).queryByRole('button', { name: 'Add test card' })).not.toBeInTheDocument()
+    })
+
     it("sends the admin to Safepay's page with a way back to this one", async () => {
       addMockPendingBooking(2)
       setMockGatewayLive()

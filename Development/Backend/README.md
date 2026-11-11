@@ -70,13 +70,39 @@ Copy `.env.example` to `.env`. Everything is optional.
 - A collection the gateway refuses is listed under Finances → Escrow & payouts →
   Failed collections, where it can be retried or closed with a note.
 - Bookings nobody checks in within an hour of the start time become no-shows
-  automatically (checked every 15 minutes).
+  automatically (checked every 15 minutes; on Vercel on incoming requests).
+- All table dates and times are **Pakistan time (UTC+05:00)**. A table can't be
+  published with a start that has passed in Pakistan, and takes no bookings
+  once it has started.
+- Cancelling a table cancels all its bookings and gives each Mingler's money
+  back: card holds are let go, payments taken on Safepay are refunded.
+- A table without bookings can be deleted; one with bookings must be cancelled.
 
-With Safepay keys set, a sandbox booking waits for a real card step in
-Safepay's checkout, so its hold stays "pending payment" and a no-show has
-nothing to collect (it is reported as a failed collection). To try the whole
-flow without a card, leave `SAFEPAY_API_KEY` and `SAFEPAY_SECRET_KEY` empty:
-the built-in simulator approves every hold.
+The card step (until the Mingler app does it) is done by an admin on
+Finances → Escrow & payouts, on a hold that says "Awaiting payment":
+
+- **With Safepay keys set:** **Pay on Safepay** opens Safepay's own checkout
+  page. Pay there with a Safepay sandbox test card; the payment is recorded at
+  Safepay and the holds are placed when you come back (or press **Check
+  payment**). The simulated test card is refused in this mode.
+- **Without keys:** **Add test card** (`4111 1111 1111 1111`) approves the hold
+  in the built-in simulator; nothing reaches Safepay.
+
+## On Vercel
+
+`api/index.js` is the Vercel function; it loads `dist/serverless.js`, built from
+`src/serverless.ts`. `vercel.json` builds with `npm run build` and sends every
+path to that function.
+
+On a cold start it:
+1. Opens the direct database connection (`DATABASE_URL_UNPOOLED`) and takes an
+   advisory lock, so two starts never migrate at once. A lock left behind by a
+   frozen instance is cleared after 20 s.
+2. Applies migrations and first-run data.
+3. Serves requests over the pooled connection (`DATABASE_URL`).
+
+Extra settings used online: `SEED_ADMIN_PASSWORD`, `SEED_PARTNER_PASSWORD`
+(first passwords on a fresh database), `CORS_ORIGINS`, `PUBLIC_URL`.
 
 ## Layout
 

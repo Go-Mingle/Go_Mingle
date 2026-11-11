@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Modal,
   Form,
@@ -32,7 +32,7 @@ import { useUploadFileMutation } from '../../uploads/hooks/useUploadsQuery'
 import { AppButton } from '../../../atoms/AppButton'
 import { useDebouncedValue } from '../../../../shared/hooks/useDebouncedValue'
 import { getApiErrorMessage } from '../../../../shared/utils/apiError'
-import { isPastDate, isPastTimeOnDate } from '../../../../shared/utils/dateHelpers'
+import { isPastDate, isPastTimeOnDate, pakistanNow } from '../../../../shared/utils/dateHelpers'
 
 // Weekday keys / per-day availability windows for the assigned-table picker. Defined
 // locally (previously imported from the mock module) so the modal is real-API-driven.
@@ -129,7 +129,7 @@ function timeStringToDayjs(value?: string): Dayjs | null {
 
 // TimePicker `disabledTime` for a start date of today — hides hours/minutes already past.
 function disabledPastTimesToday() {
-  const now = dayjs()
+  const now = pakistanNow()
   return {
     disabledHours: () => Array.from({ length: now.hour() }, (_, i) => i),
     disabledMinutes: (selectedHour: number) =>
@@ -321,7 +321,8 @@ export function CreateInterestTableModal({
 
   const selectedWeekday = startDate ? DAY_INDEX[dayjs(startDate).day()] : null
 
-  const isStartDateToday = !!startDate && dayjs(startDate).isSame(dayjs(), 'day')
+  // Dates and times are Pakistan time, whatever the admin's own time zone is.
+  const isStartDateToday = !!startDate && dayjs(startDate).isSame(pakistanNow(), 'day')
 
   // `disabledTime` only constrains the dropdown, and only while the date is
   // already today — a time picked before the date, or a date switched from a
@@ -434,6 +435,13 @@ export function CreateInterestTableModal({
     reset()
     onClose()
   }
+  // Closed by the parent (after a successful create or save): start clean next time.
+  const wasOpen = useRef(open)
+  useEffect(() => {
+    if (wasOpen.current && !open) reset()
+    wasOpen.current = open
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
 
   // Picking a cover image requests a signed URL and PUTs the bytes to S3; only
   // then is the storage `key` kept (submitted as coverImageKey) and the base64
@@ -525,8 +533,10 @@ export function CreateInterestTableModal({
     if (coverImageKey) {
       payload.coverImageKey = coverImageKey
     }
+    // The form is cleared once the modal closes (see below), not here: clearing it
+    // while the create request is still in flight re-ran the pending validation
+    // on empty fields and flashed "Required" on Name and Table.
     onCreate(payload)
-    reset()
   }
 
   // Edit-mode save (DRAFT edit) → PATCH via onUpdate. No `publish` flag.
@@ -743,12 +753,12 @@ export function CreateInterestTableModal({
                         style={{ width: '100%' }}
                         format="DD MMM YYYY"
                         // Today is a valid start date — only past days are blocked.
-                        disabledDate={(current) => isPastDate(current)}
+                        disabledDate={(current) => isPastDate(current, pakistanNow())}
                       />
                     </Form.Item>
                     <Form.Item
                       name="startTime"
-                      label={t('form.startTime')}
+                      label={t('form.startTimePkt')}
                       style={{ flex: 1, minWidth: 160 }}
                       rules={[
                         { required: true, message: t('form.required') },
@@ -760,7 +770,7 @@ export function CreateInterestTableModal({
                           // Today is selectable, so a start time that has already
                           // gone by must be rejected rather than sent to the API.
                           validator: (_, value?: string) =>
-                            isPastTimeOnDate(startDate, value)
+                            isPastTimeOnDate(startDate, value, pakistanNow())
                               ? Promise.reject(new Error(t('form.startTimePast')))
                               : Promise.resolve(),
                         },

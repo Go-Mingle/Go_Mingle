@@ -408,12 +408,13 @@ describe('InterestTablesPage (master list)', () => {
     renderWithProviders(<InterestTablesPage />)
     await waitFor(() => expect(screen.getByText('Coming Soon Table')).toBeInTheDocument())
 
-    // ActionIcon renders a clickable div, not a native button. Make available is
-    // the only action in the pinned cell, and only on a COMING_SOON row.
+    // ActionIcon renders a clickable div, not a native button. A COMING_SOON row
+    // offers edit, then make available — the last icon in the pinned cell.
     const row = document.querySelector('tbody tr.ant-table-row') as HTMLElement
     const actionCell = row.querySelector('td:last-child') as HTMLElement
     const icons = actionCell.querySelectorAll('svg')
-    await userEvent.click(icons[0].parentElement as HTMLElement)
+    expect(icons).toHaveLength(2)
+    await userEvent.click(icons[1].parentElement as HTMLElement)
 
     expect(await screen.findByText('Interest table is now available.')).toBeInTheDocument()
   })
@@ -433,7 +434,7 @@ describe('InterestTablesPage (master list)', () => {
 
     const row = document.querySelector('tbody tr.ant-table-row') as HTMLElement
     const icons = (row.querySelector('td:last-child') as HTMLElement).querySelectorAll('svg')
-    await userEvent.click(icons[0].parentElement as HTMLElement)
+    await userEvent.click(icons[icons.length - 1].parentElement as HTMLElement)
 
     expect(await screen.findByText('Already available.')).toBeInTheDocument()
   })
@@ -450,13 +451,26 @@ describe('InterestTablesPage (master list)', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/interest-tables/draft1?tab=overview&edit=1')
   })
 
-  it('renders no view icon — the row itself navigates', async () => {
-    mockList([baseRow({ id: 'eye1', status: 'PENDING' })])
+  it('renders no view icon — the row itself navigates; a finished table offers nothing', async () => {
+    mockList([baseRow({ id: 'eye1', status: 'COMPLETED' })])
     renderWithProviders(<InterestTablesPage />)
     await screen.findByText('Alpha Dinner')
 
     const row = document.querySelector('tbody tr.ant-table-row') as HTMLElement
     const actionCell = row.querySelector('td:last-child') as HTMLElement
     expect(actionCell.querySelectorAll('svg')).toHaveLength(0)
+  })
+
+  it('opens a live (Pending) table in edit mode from the pencil', async () => {
+    mockList([baseRow({ id: 'live1', status: 'PENDING' })])
+    renderWithProviders(<InterestTablesPage />)
+    await screen.findByText('Alpha Dinner')
+
+    const row = document.querySelector('tbody tr.ant-table-row') as HTMLElement
+    const icons = (row.querySelector('td:last-child') as HTMLElement).querySelectorAll('svg')
+    expect(icons).toHaveLength(1)
+    await userEvent.click(icons[0].parentElement as HTMLElement)
+
+    expect(mockNavigate).toHaveBeenCalledWith('/interest-tables/live1?tab=overview&edit=1')
   })
 })
