@@ -52,10 +52,10 @@ export function OverviewTab({ table }: { table: InterestTableDetail }) {
     <div className="rounded-[var(--radius-lg)] bg-[var(--color-card)] p-4 shadow-[var(--shadow-sm)] md:p-6">
       <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
         {field('name', TextAa, table.name)}
-        {field('topic', Tag, table.topic)}
-        {field('assignedTable', Storefront, table.assignedTable)}
+        {field('topic', Tag, table.topic || '—')}
+        {field('assignedTable', Storefront, table.assignedTable || '—')}
         {field('startDate', CalendarBlank, displayDate(table.startDate))}
-        {field('startTime', Clock, displayTime(table.startTime))}
+        {field('startTime', Clock, `${displayTime(table.startTime)} ${t('restaurants:partnerInterestTables.pkt')}`)}
         {field('duration', Timer, displayDuration(table.durationMinutes))}
         {field('minGuests', UsersThree, String(table.minGuests))}
         {field('maxGuests', UsersThree, String(table.maxGuests))}

@@ -1,6 +1,6 @@
-# Frontend Engineering Guidelines for claude code
+# Frontend Engineering Guidelines
 
-**Purpose:** claude code MUST enforce these guidelines **100%** while generating React/TypeScript code. Treat every rule as mandatory.
+**Purpose:** All React/TypeScript code MUST follow these guidelines **100%**. Treat every rule as mandatory.
 Backend is already developed in java, we only work on frontend integration part.
 
 ---
@@ -27,7 +27,7 @@ Backend is already developed in java, we only work on frontend integration part.
 
 ## Project Structure (Reference)
 
-Use this structure so modules can be selected and revamped independently. Claude code MUST generate code that fits this layout.
+Use this structure so modules can be selected and revamped independently. Generated code MUST that fits this layout.
 
 ### Root level
 
@@ -176,7 +176,7 @@ modules/[FeatureName]/
 
 ---
 
-## Claude code MUST Ensure — Code Generation Rules
+## Code Generation Rules — MUST Ensure
 
 ### 1. Architecture & structure
 
@@ -290,7 +290,7 @@ modules/[FeatureName]/
 
 ---
 
-## Checklist for Claude code before finalizing code
+## Checklist before finalizing code
 
 - [ ] Folder structure matches the reference (atoms, molecules, modules, pages, layout, routes, shared, styles).
 - [ ] No file over 200 lines.
@@ -310,4 +310,4 @@ modules/[FeatureName]/
 
 ---
 
-_Use this document as the single source of truth for claude code - code generation. Adapt the structure only where the project explicitly requires it (e.g. extra top-level folders) and ask from user for review._
+_Use this document as the single source of truth for frontend code. Adapt the structure only where the project explicitly requires it (e.g. extra top-level folders) and ask from user for review._

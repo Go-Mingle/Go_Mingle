@@ -60,7 +60,9 @@ export function InterestTableDetailHeader({
               )}
             </div>
             <p className="m-0 mt-1 text-[13px] text-[var(--color-text-muted)]">
-              {table.topic} · {displayDate(table.startDate)} · {displayTime(table.startTime)}
+              {[table.topic, displayDate(table.startDate), `${displayTime(table.startTime)} ${t('restaurants:partnerInterestTables.pkt')}`]
+                .filter(Boolean)
+                .join(' · ')}
             </p>
           </div>
         </div>

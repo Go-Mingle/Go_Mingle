@@ -38,9 +38,6 @@ export function EscrowPanel() {
           <ShieldCheck size={18} weight="fill" className="text-[var(--color-accent)]" />
           {t('escrow.title')}
         </h2>
-        <span className="text-xs text-[var(--color-text-secondary)]">
-          {t('escrow.gateway', { name: data.gateway.name, env: data.gateway.environment })}
-        </span>
       </div>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {tiles.map((tile) => (
