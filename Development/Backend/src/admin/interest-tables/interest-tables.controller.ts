@@ -8,7 +8,9 @@ import { AuditInterceptor } from '../../shared/changelog/audit.interceptor'
 import { ChangeLogService } from '../../shared/changelog/changelog.service'
 import { InterestTablesService, type InterestTable } from '../../shared/interest-tables/interest-tables.service'
 import { UsageService } from '../../shared/usage.service'
-import { AdminGuard } from '../access/admin.guard'
+import { AdminGuard, CurrentAdmin } from '../access/admin.guard'
+import type { AdminSession } from '../access/admin-accounts.service'
+import { BookingsService, startsAt } from '../../shared/bookings/bookings.service'
 import { AdminRestaurantsService } from '../restaurants/admin-restaurants.service'
 import { bucketObjectUrl } from '../uploads.controller'
 
@@ -16,6 +18,26 @@ type Json = Record<string, any>
 
 const fail = (status: number, code: string, message: string) => rawError(status, { success: false, error: { code, message } })
 const notFound = () => fail(404, 'ERR_INTEREST_TABLE_NOT_FOUND', 'Not found')
+
+/** Dates and times of interest tables are Pakistan time (UTC+05:00). */
+const PKT_MS = 5 * 3_600_000
+const pktNow = () => new Date(Date.now() + PKT_MS).toISOString().slice(0, 16).replace('T', ' ')
+
+/** A live table must start in the future; a draft may be saved with any time. */
+function assertStartsLater(startDate: unknown, startTime: unknown) {
+  if (typeof startDate !== 'string' || typeof startTime !== 'string') return
+  const at = startsAt({ startDate, startTime })
+  if (Number.isFinite(at) && at <= Date.now()) {
+    throw rawError(422, {
+      success: false,
+      error: {
+        code: 'ERR_START_IN_PAST',
+        message: `The start time has already passed in Pakistan (it is now ${pktNow()} there). Pick a later time.`,
+        details: { fields: { startTime: 'Start time has already passed in Pakistan.' } },
+      },
+    })
+  }
+}
 
 /** Repeated keys or comma-separated values, as one list. */
 function multi(req: Request, key: string): string[] {
@@ -45,6 +67,7 @@ export class InterestTablesController implements OnModuleInit {
     private readonly directory: AdminRestaurantsService,
     private readonly usage: UsageService,
     private readonly changeLog: ChangeLogService,
+    private readonly bookings: BookingsService,
   ) {}
 
   onModuleInit() {
@@ -223,7 +246,8 @@ export class InterestTablesController implements OnModuleInit {
     if (!restaurant) throw fail(404, 'ERR_RESTAURANT_NOT_FOUND', 'Restaurant not found.')
     const refs = await this.tables.refs(rid, body.topicId, body.restaurantTableId)
     const status = body.publish ? (body.availabilityMode === 'COMING_SOON' ? 'COMING_SOON' : 'PENDING') : 'DRAFT'
-    const hoursLeft = Math.floor((new Date(`${body.startDate}T${body.startTime}`).getTime() - Date.now()) / 3_600_000)
+    if (status !== 'DRAFT') assertStartsLater(body.startDate, body.startTime)
+    const hoursLeft = Math.floor((startsAt({ startDate: body.startDate, startTime: body.startTime }) - Date.now()) / 3_600_000)
     const [created] = await this.db
       .insert(interestTables)
       .values({
@@ -258,6 +282,15 @@ export class InterestTablesController implements OnModuleInit {
   @Patch('interest-tables/:id')
   async update(@Param('id') id: string, @Body() body: Json) {
     const existing = await this.one(id)
+    if (['CANCELLED', 'COMPLETED'].includes(existing.status)) {
+      throw fail(409, 'ERR_INVALID_STATE', `This interest table is ${existing.status.toLowerCase()} and can no longer be edited.`)
+    }
+    if ((body.startDate !== undefined || body.startTime !== undefined) && existing.status !== 'DRAFT') {
+      assertStartsLater(body.startDate ?? existing.startDate, body.startTime ?? existing.startTime)
+    }
+    if (body.maxGuests !== undefined && Number(body.maxGuests) < existing.seatsBooked) {
+      throw fail(409, 'ERR_BELOW_BOOKED', `${existing.seatsBooked} seats are already booked, so max guests can't be lower than that.`)
+    }
     const changes: Partial<InterestTable> = {}
     if (body.name !== undefined) changes.name = body.name
     if (body.maxGuests !== undefined) changes.maxGuests = body.maxGuests
@@ -283,6 +316,9 @@ export class InterestTablesController implements OnModuleInit {
   @Delete('interest-tables/:id')
   async remove(@Param('id') id: string) {
     await this.one(id)
+    if ((await this.bookings.ofTable(id)).length > 0) {
+      throw fail(409, 'ERR_HAS_BOOKINGS', 'This interest table has bookings, so it cannot be deleted. Cancel it instead; its Minglers get their money back.')
+    }
     await this.db.delete(interestTables).where(eq(interestTables.id, id))
     await this.db.delete(interestTableInvitees).where(eq(interestTableInvitees.interestTableId, id))
     return { success: true, data: { id, deleted: true } }
@@ -307,10 +343,15 @@ export class InterestTablesController implements OnModuleInit {
 
   @Post('interest-tables/:id/cancel')
   @HttpCode(200)
-  async cancel(@Param('id') id: string) {
-    await this.one(id)
-    const t = await this.tables.update(id, { status: 'CANCELLED' })
-    return { success: true, data: { id, status: 'CANCELLED', cancelledCount: t.seatsBooked } }
+  async cancel(@Param('id') id: string, @CurrentAdmin() admin: AdminSession) {
+    const existing = await this.one(id)
+    if (['CANCELLED', 'COMPLETED'].includes(existing.status)) {
+      throw fail(409, 'ERR_INVALID_STATE', `This interest table is already ${existing.status.toLowerCase()}.`)
+    }
+    // Every booking goes with it, and each Mingler's card hold or payment is given back.
+    const { cancelled, refundedPkr } = await this.bookings.cancelAllOfTable(id, `${admin.fullName} (table cancelled)`)
+    await this.tables.update(id, { status: 'CANCELLED' })
+    return { success: true, data: { id, status: 'CANCELLED', cancelledCount: cancelled, refundedPkr } }
   }
 
   @Post('interest-tables/:id/promingler')

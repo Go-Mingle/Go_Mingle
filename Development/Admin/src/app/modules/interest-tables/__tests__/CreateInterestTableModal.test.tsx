@@ -291,10 +291,11 @@ describe('CreateInterestTableModal', () => {
   // time that has already gone by must not reach the API.
   describe("Today's date (MET-1070)", () => {
     // Only `Date` is faked, so setTimeout (debounced availability check), MSW and
-    // userEvent all keep running on real timers. Pinning "now" to 14:00 today
-    // makes "a time earlier today" and "a time later today" unambiguous whenever
-    // the suite runs.
-    const NOON_ISH = dayjs().startOf('day').add(14, 'hour')
+    // userEvent all keep running on real timers. Table times are Pakistan time, so
+    // "now" is pinned to 14:00 in Pakistan (09:00 UTC) today: "a time earlier today"
+    // and "a time later today" are unambiguous whenever and wherever the suite runs.
+    const utcToday = new Date()
+    const NOON_ISH = dayjs(Date.UTC(utcToday.getUTCFullYear(), utcToday.getUTCMonth(), utcToday.getUTCDate(), 9, 0))
     const PAST_TIME = '09:00'
     const LATER_TIME = '20:00'
 
@@ -356,6 +357,10 @@ describe('CreateInterestTableModal', () => {
         startDate: todayIso(),
         startTime: LATER_TIME,
       })
+      // While the request is out the form keeps what was typed: no "Required"
+      // flashes on fields that were filled in.
+      expect(screen.queryByText('Required')).not.toBeInTheDocument()
+      expect((document.querySelector('#name') as HTMLInputElement).value).not.toBe('')
     })
 
     it('rejects a start time that already went by today, even when it was typed before the date', async () => {
@@ -374,7 +379,7 @@ describe('CreateInterestTableModal', () => {
 
       await waitFor(() =>
         expect(
-          screen.getAllByText('Start time has already passed today — pick a later time.').length,
+          screen.getAllByText('That time has already passed in Pakistan — pick a later time.').length,
         ).toBeGreaterThan(0),
       )
       expect(onCreate).not.toHaveBeenCalled()
@@ -388,7 +393,7 @@ describe('CreateInterestTableModal', () => {
       await fillDateViaInput(user, dayjs().add(2, 'day').format('DD MMM YYYY'))
       await fillTimeViaInput(user, PAST_TIME)
       expect(
-        screen.queryByText('Start time has already passed today — pick a later time.'),
+        screen.queryByText('That time has already passed in Pakistan — pick a later time.'),
       ).toBeNull()
 
       // ...but moving the date to today makes that same time invalid immediately,
@@ -396,7 +401,7 @@ describe('CreateInterestTableModal', () => {
       await fillDateViaInput(user, todayInput())
       await waitFor(() =>
         expect(
-          screen.getAllByText('Start time has already passed today — pick a later time.').length,
+          screen.getAllByText('That time has already passed in Pakistan — pick a later time.').length,
         ).toBeGreaterThan(0),
       )
     })
@@ -409,14 +414,14 @@ describe('CreateInterestTableModal', () => {
       await fillDateViaInput(user, todayInput())
       await waitFor(() =>
         expect(
-          screen.getAllByText('Start time has already passed today — pick a later time.').length,
+          screen.getAllByText('That time has already passed in Pakistan — pick a later time.').length,
         ).toBeGreaterThan(0),
       )
 
       await fillDateViaInput(user, dayjs().add(2, 'day').format('DD MMM YYYY'))
       await waitFor(() =>
         expect(
-          screen.queryByText('Start time has already passed today — pick a later time.'),
+          screen.queryByText('That time has already passed in Pakistan — pick a later time.'),
         ).toBeNull(),
       )
     })

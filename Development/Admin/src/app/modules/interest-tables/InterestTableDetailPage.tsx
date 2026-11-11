@@ -172,7 +172,15 @@ export function InterestTableDetailPage() {
 
   const handleCancel = () =>
     cancelMutation.mutate(id!, {
-      onSuccess: () => void messageApi.success(t('detailMessages.cancelled')),
+      onSuccess: (result) =>
+        void messageApi.success(
+          result?.cancelledCount
+            ? t('detailMessages.cancelledWithBookings', {
+                count: result.cancelledCount,
+                amount: (result.refundedPkr ?? 0).toLocaleString('en-PK'),
+              })
+            : t('detailMessages.cancelled'),
+        ),
       onError,
     })
 

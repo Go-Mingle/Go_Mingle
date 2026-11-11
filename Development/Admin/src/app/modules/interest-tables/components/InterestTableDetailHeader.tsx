@@ -60,6 +60,8 @@ export function InterestTableDetailHeader({
   const isDraft = table.status === 'DRAFT'
   const isComingSoon = table.status === 'COMING_SOON'
   const isCancellable = ['PENDING', 'CONFIRMED', 'COMING_SOON'].includes(table.status)
+  // Any table that has not happened yet can be edited.
+  const isEditable = isCancellable || isDraft
 
   const thumb = (
     <TableAvatar
@@ -108,7 +110,7 @@ export function InterestTableDetailHeader({
           <UploadSimple size={14} weight="bold" /> {t('detail.publish')}
         </AppButton>
       )}
-      {isDraft && onEdit && (
+      {isEditable && onEdit && (
         <AppButton variant="neutral" onClick={onEdit}>
           <PencilSimple size={14} weight="regular" /> {t('actions.edit')}
         </AppButton>
@@ -131,11 +133,9 @@ export function InterestTableDetailHeader({
           <XCircle size={14} weight="regular" /> {t('detail.cancelTable.action')}
         </AppButton>
       )}
-      {/* Deleting an interest table is disabled portal-wide. The confirm modal
-          and the delete mutation stay wired up for when it is re-enabled — drop
-          `disabled` here to restore the action. */}
+      {/* The API refuses to delete a table that has bookings; cancel it instead. */}
       {onDelete && (
-        <AppButton variant="danger" onClick={() => setConfirm('delete')} disabled>
+        <AppButton variant="danger" onClick={() => setConfirm('delete')}>
           <Trash size={14} weight="regular" /> {t('detail.deleteTable.action')}
         </AppButton>
       )}
