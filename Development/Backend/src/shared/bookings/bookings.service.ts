@@ -54,7 +54,8 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
   ) {}
 
   onModuleInit() {
-    if (process.env.NODE_ENV === 'test') return
+    // On Vercel the check runs on incoming requests instead (see serverless.ts).
+    if (process.env.NODE_ENV === 'test' || process.env.VERCEL) return
     this.timer = setInterval(() => {
       this.runNoShowCheck().catch((err) => this.log.error(`No-show check failed: ${err?.message ?? err}`))
     }, CHECK_EVERY_MS)
