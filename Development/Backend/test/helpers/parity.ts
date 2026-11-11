@@ -38,7 +38,7 @@ function dayless(value: unknown, key = ''): unknown {
 }
 
 /** Fields added after the old API was retired from development; it never sent them. */
-const ADDED_SINCE_OLD_API = new Set(['checkInOpensAt', 'canCheckIn', 'paymentFailures'])
+const ADDED_SINCE_OLD_API = new Set(['checkInOpensAt', 'canCheckIn', 'paymentFailures', 'refundedPkr'])
 function withoutAdded(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(withoutAdded)
   if (value && typeof value === 'object') {

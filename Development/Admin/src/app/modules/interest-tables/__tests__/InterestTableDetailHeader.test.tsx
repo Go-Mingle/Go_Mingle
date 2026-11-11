@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { message } from 'antd'
 import { renderWithProviders } from '../../../../test-utils/renderWithProviders'
@@ -98,17 +98,29 @@ describe('InterestTableDetailHeader', () => {
 
   // Deleting an interest table is disabled portal-wide — the button still
   // renders (so the action stays discoverable) but can never be clicked.
-  it('renders the delete button as disabled and never opens the confirm modal', async () => {
+  it('asks before deleting, then deletes', async () => {
     const onDelete = vi.fn()
     const user = userEvent.setup()
     renderWithProviders(<InterestTableDetailHeader table={makeTable()} onDelete={onDelete} />)
 
     const deleteBtn = screen.getByRole('button', { name: /delete/i })
-    expect(deleteBtn).toBeDisabled()
-
+    expect(deleteBtn).toBeEnabled()
     await user.click(deleteBtn)
-    expect(screen.queryByText('Delete this draft?')).not.toBeInTheDocument()
-    expect(onDelete).not.toHaveBeenCalled()
+    const dialog = await screen.findByRole('dialog')
+    expect(within(dialog).getByText('Delete this interest table?')).toBeInTheDocument()
+    await user.click(within(dialog).getByRole('button', { name: 'Delete' }))
+    expect(onDelete).toHaveBeenCalledTimes(1)
+  })
+
+  it('offers Edit on a live table and not on a finished one', () => {
+    const onEdit = vi.fn()
+    const { unmount } = renderWithProviders(
+      <InterestTableDetailHeader table={makeTable({ status: 'PENDING' })} onEdit={onEdit} />,
+    )
+    expect(screen.getByRole('button', { name: /edit/i })).toBeInTheDocument()
+    unmount()
+    renderWithProviders(<InterestTableDetailHeader table={makeTable({ status: 'COMPLETED' })} onEdit={onEdit} />)
+    expect(screen.queryByRole('button', { name: /edit/i })).not.toBeInTheDocument()
   })
 
   it('shows the table initials when there is no cover image', () => {

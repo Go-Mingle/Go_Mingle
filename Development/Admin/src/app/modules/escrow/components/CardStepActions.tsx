@@ -27,9 +27,9 @@ interface CardStepActionsProps {
  * What an admin can do with a hold that is waiting for a card.
  *
  * TEMPORARY (GM-255): this is the Mingler app's card step. Until that app
- * exists an admin either pays on Safepay's own checkout page (a real sandbox
- * payment, visible in the Safepay dashboard) or adds a test card (simulated,
- * nothing reaches Safepay).
+ * exists an admin pays on Safepay's own checkout page when Safepay keys are set
+ * (a real sandbox payment, visible in the Safepay dashboard), or adds a test
+ * card when they are not (simulated, nothing reaches Safepay).
  */
 export function CardStepActions({ item, live, onAddTestCard }: CardStepActionsProps) {
   const { t } = useTranslation('finances')
@@ -74,9 +74,13 @@ export function CardStepActions({ item, live, onAddTestCard }: CardStepActionsPr
           </span>
         </Tooltip>
       )}
-      <AppButton variant={live ? 'neutral' : 'primary'} onClick={() => onAddTestCard(item)}>
-        {t('escrow.testCard.open')}
-      </AppButton>
+      {/* With Safepay connected every payment goes through Safepay, so it shows there;
+          the simulated test card is only for running without Safepay keys. */}
+      {!live && (
+        <AppButton variant="primary" onClick={() => onAddTestCard(item)}>
+          {t('escrow.testCard.open')}
+        </AppButton>
+      )}
     </div>
   )
 }

@@ -281,6 +281,8 @@ export interface CancelInterestTableResult {
   id: string
   status: string
   cancelledCount?: number
+  /** Card holds and payments given back to the Minglers of the cancelled bookings, in PKR. */
+  refundedPkr?: number
 }
 
 /** Active-Promingler lookup item (GET /minglers/prominglers/active). */

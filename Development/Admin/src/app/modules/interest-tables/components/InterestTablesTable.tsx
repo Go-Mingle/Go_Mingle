@@ -13,6 +13,9 @@ import { ProminglerBadge } from '../../../molecules/ProminglerBadge'
 import { ActionIcon } from '../../minglers/components/MinglerActionIcon'
 import { TableAvatar } from '../../../molecules/TableAvatar'
 
+/** Statuses whose table has not happened yet, so it can still be edited. */
+const EDITABLE_STATUSES: string[] = ['DRAFT', 'PENDING', 'CONFIRMED', 'COMING_SOON']
+
 export type InterestTableModeFilter = 'AVAILABLE_NOW' | 'COMING_SOON'
 export type InviteOnlyFilter = 'yes' | 'no'
 
@@ -236,7 +239,7 @@ export function InterestTablesTable({
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 4 }}
           onClick={(e) => e.stopPropagation()}
         >
-          {onEdit && row.status === 'DRAFT' && (
+          {onEdit && EDITABLE_STATUSES.includes(row.status) && (
             <Tooltip title={t('actions.edit')}>
               <ActionIcon
                 hoverBg="var(--color-accent-light)"
