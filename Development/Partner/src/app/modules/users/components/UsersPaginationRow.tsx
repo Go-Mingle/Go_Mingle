@@ -39,7 +39,7 @@ export function UsersPaginationRow({
       <Select
         value={pageSize}
         onChange={(val) => onPageSizeChange(val)}
-        className="w-[100px] shrink-0"
+        className="w-[112px] shrink-0"
         size="small"
         // 10/25/50/100 are the sizes the API accepts; anything else silently
         // falls back to its default of 25, which would make this control lie.

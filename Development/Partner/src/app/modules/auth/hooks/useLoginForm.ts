@@ -325,12 +325,13 @@ export function useLoginForm() {
     handleSavePassword,
     resetToLogin,
     /**
-     * The demo box is an aid for the mock provider only. Once a real pool is
-     * configured the credentials are meaningless, so it disappears — which also
-     * keeps it out of production builds (US-01 edge case).
+     * The demo box is a local development aid only. It never shows in a built
+     * portal (the live site), unless a demo build turns it on explicitly with
+     * VITE_SHOW_DEMO_CREDENTIALS=true (US-01 edge case).
      */
     showDemoCredentials:
-      !isCognitoConfigured() || import.meta.env.VITE_SHOW_DEMO_CREDENTIALS === 'true',
+      import.meta.env.VITE_SHOW_DEMO_CREDENTIALS === 'true' ||
+      (import.meta.env.DEV && !isCognitoConfigured()),
     DEMO_EMAIL,
     DEMO_PASSWORD,
   }

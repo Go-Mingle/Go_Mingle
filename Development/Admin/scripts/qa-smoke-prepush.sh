@@ -34,7 +34,7 @@ fi
 
 if ! command -v claude >/dev/null 2>&1; then
   echo "$TAG ERROR: claude CLI not found on PATH."
-  echo "$TAG Push blocked. Install Claude Code (https://claude.com/claude-code) or bypass with: git push --no-verify"
+  echo "$TAG Push blocked. Install the QA smoke CLI or bypass with: git push --no-verify"
   exit 1
 fi
 

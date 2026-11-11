@@ -2,7 +2,7 @@
 
 **Audit Date:** 2026-05-21  
 **User Stories Version:** v5 (May 2026)  
-**Audited by:** Claude Code automated audit  
+**Audited by:** Automated code audit  
 **Project:** GoMingle MVP | GoMingle
 
 ---
