@@ -26,9 +26,12 @@ const STATUS_FILTERS: InterestTableStatus[] = [
   'CANCELLED',
 ]
 
+/** Statuses whose table has not happened yet, so it can still be edited. */
+const EDITABLE_STATUSES: string[] = ['DRAFT', 'PENDING', 'CONFIRMED', 'COMING_SOON']
+
 export interface GlobalColumnCallbacks {
   onView: (row: MasterInterestTableItem) => void
-  /** Opens the detail page in edit mode — offered on DRAFT rows only. */
+  /** Opens the detail page in edit mode — offered on tables that have not happened yet. */
   onEdit?: (row: MasterInterestTableItem) => void
   onRestaurantClick?: (restaurantId: string) => void
   onProminglerClick?: (minglerId: string) => void
@@ -206,7 +209,7 @@ export function buildGlobalInterestTablesColumns(
       render: (_: unknown, row) => (
         <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
           {/* No view icon by design — the whole row navigates to the detail page. */}
-          {onEdit && row.status === 'DRAFT' && (
+          {onEdit && EDITABLE_STATUSES.includes(row.status) && (
             <Tooltip title={t('actions.edit')}>
               <ActionIcon
                 hoverBg="var(--color-accent-light)"

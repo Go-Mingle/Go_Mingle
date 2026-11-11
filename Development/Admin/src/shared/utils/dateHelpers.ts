@@ -164,6 +164,17 @@ export function isFutureDate(date: Dayjs | null, now: Dayjs = dayjs()): boolean 
  * Today itself is always allowed (an event may still be scheduled later today).
  * `now` is injectable for tests.
  */
+/**
+ * The current wall-clock time in Pakistan (UTC+05:00, no daylight saving), as a
+ * dayjs whose hour/minute/day read as Karachi time whatever the viewer's own
+ * time zone is. Interest table dates and times are Pakistan time, so checks such
+ * as "has this start time passed?" must use this clock, not the browser's.
+ */
+export function pakistanNow(nowMs: number = Date.now()): Dayjs {
+  const offsetMinutes = new Date(nowMs).getTimezoneOffset()
+  return dayjs(nowMs + (5 * 60 + offsetMinutes) * 60_000)
+}
+
 export function isPastDate(date: Dayjs | null, now: Dayjs = dayjs()): boolean {
   return !!date && date.isBefore(now, 'day')
 }

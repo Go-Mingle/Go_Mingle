@@ -168,10 +168,10 @@ describe('GlobalInterestTablesTable (desktop)', () => {
     ).toHaveLength(1)
   })
 
-  it('offers the edit pencil on a DRAFT row only, and opens edit mode', async () => {
+  it('offers the edit pencil on tables that have not happened yet, and opens edit mode', async () => {
     const onEdit = vi.fn()
     const onView = vi.fn()
-    const { unmount } = renderTable({ items: [row({ status: 'PENDING' })], onEdit })
+    const { unmount } = renderTable({ items: [row({ status: 'CANCELLED' })], onEdit })
     expect(
       (
         document.querySelector('tbody tr.ant-table-row td:last-child') as HTMLElement
@@ -179,7 +179,7 @@ describe('GlobalInterestTablesTable (desktop)', () => {
     ).toHaveLength(0)
     unmount()
 
-    renderTable({ items: [row({ status: 'DRAFT' })], onEdit, onView })
+    renderTable({ items: [row({ status: 'PENDING' })], onEdit, onView })
     const icons = (
       document.querySelector('tbody tr.ant-table-row td:last-child') as HTMLElement
     ).querySelectorAll('svg')
@@ -196,7 +196,7 @@ describe('GlobalInterestTablesTable (desktop)', () => {
     const icons = (
       document.querySelector('tbody tr.ant-table-row td:last-child') as HTMLElement
     ).querySelectorAll('svg')
-    await userEvent.click(icons[0].parentElement as HTMLElement)
+    await userEvent.click(icons[icons.length - 1].parentElement as HTMLElement)
     expect(onMakeAvailable).toHaveBeenCalledWith('it1')
     expect(onView).not.toHaveBeenCalled()
   })

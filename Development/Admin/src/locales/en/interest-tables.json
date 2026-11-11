@@ -118,7 +118,8 @@
     "startDate": "Start date",
     "startTime": "Start time",
     "startTimePlaceholder": "Select a start time",
-    "startTimePast": "Start time has already passed today — pick a later time.",
+    "startTimePast": "That time has already passed in Pakistan — pick a later time.",
+    "startTimePkt": "Start time (Pakistan time)",
     "duration": "Duration",
     "durationPlaceholder": "Select a duration",
     "durationHelper": "1 to 3 hours, in half-hour steps.",
@@ -165,6 +166,8 @@
   "detailMessages": {
     "published": "Interest table published.",
     "cancelled": "Interest table cancelled.",
+    "cancelledWithBookings_one": "Interest table cancelled. {{count}} booking cancelled and PKR {{amount}} given back to the Mingler.",
+    "cancelledWithBookings_other": "Interest table cancelled. {{count}} bookings cancelled and PKR {{amount}} given back to the Minglers.",
     "deleted": "Interest table deleted.",
     "updated": "Changes saved.",
     "madeAvailable": "Interest table is now available.",
@@ -228,14 +231,14 @@
     "cancelTable": {
       "action": "Cancel table",
       "title": "Cancel this interest table?",
-      "desc": "All bookings on this table will be cancelled. This cannot be undone.",
+      "desc": "All bookings on this table will be cancelled and every card hold or payment of its Minglers is given back. This cannot be undone.",
       "ok": "Cancel table",
       "keep": "Keep"
     },
     "deleteTable": {
       "action": "Delete",
-      "title": "Delete this draft?",
-      "desc": "This draft interest table will be permanently deleted.",
+      "title": "Delete this interest table?",
+      "desc": "It will be permanently deleted. A table that already has bookings can't be deleted; cancel it instead, which refunds its Minglers.",
       "ok": "Delete"
     },
     "invited": {

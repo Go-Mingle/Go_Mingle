@@ -94,6 +94,10 @@ export class EscrowController {
   @Post(':id/test-card')
   @HttpCode(200)
   async testCard(@Param('id') id: string, @Body() body: Json, @CurrentAdmin() admin: AdminSession) {
+    // With Safepay connected the payment must go through Safepay, so it is recorded there.
+    if (this.safepay.isLive) {
+      throw apiError(409, 'ERR_GATEWAY_CONNECTED', 'Safepay is connected, so pay on Safepay instead; a simulated test card would never show up at Safepay.')
+    }
     const number = String(body.cardNumber ?? '').replace(/[\s-]/g, '')
     const month = Number(body.expMonth)
     const year = Number(body.expYear)

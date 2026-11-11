@@ -53,10 +53,12 @@ function seedList(items: InterestTable[]) {
   )
 }
 
+// The make-available action: the last icon (an upcoming table also offers edit before it).
 function firstActionIcon(rowText: string): SVGElement {
   const row = screen.getByText(rowText).closest('tr') as HTMLElement
   const cell = row.querySelector('td:last-child') as HTMLElement
-  return cell.querySelectorAll('svg')[0] as SVGElement
+  const icons = cell.querySelectorAll('svg')
+  return icons[icons.length - 1] as SVGElement
 }
 
 beforeEach(() => vi.clearAllMocks())

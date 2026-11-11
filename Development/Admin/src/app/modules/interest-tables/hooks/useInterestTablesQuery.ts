@@ -123,6 +123,9 @@ export function useCancelInterestTableMutation(restaurantId: string) {
     onSuccess: (_data, id) => {
       void qc.invalidateQueries({ queryKey: ['interest-tables', restaurantId] })
       void qc.invalidateQueries({ queryKey: ['interest-table', id] })
+      // Its bookings were cancelled and their money given back.
+      void qc.invalidateQueries({ queryKey: ['escrow'] })
+      void qc.invalidateQueries({ queryKey: ['bookings'] })
     },
   })
 }

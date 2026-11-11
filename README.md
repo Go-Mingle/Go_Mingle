@@ -20,6 +20,7 @@
 - [Technology Stack](#technology-stack)
 - [Delivery Plan](#delivery-plan)
 - [Scope Estimate](#scope-estimate)
+- [Live Environment](#live-environment)
 - [Repository Structure](#repository-structure)
 - [Documentation Index](#documentation-index)
 - [Key Assumptions and Dependencies](#key-assumptions-and-dependencies)
@@ -88,8 +89,8 @@ GoMingle is delivered as three products that share one backend:
 |---|---|
 | Mobile app | Flutter (single codebase for iOS and Android) |
 | Web (Partner Portal, Admin Panel) | React.js |
-| Backend | NestJS modular monolith on AWS ECS Fargate |
-| Data | Amazon RDS PostgreSQL, Redis (locking and queues), Elasticsearch / OpenSearch (discovery) |
+| Backend | NestJS modular monolith (today on Vercel, planned AWS ECS Fargate) |
+| Data | PostgreSQL (today Neon via Vercel; planned Amazon RDS), Redis (locking and queues), Elasticsearch / OpenSearch (discovery) |
 | Auth | Amazon Cognito behind an Application Load Balancer |
 | Infrastructure | AWS CDK, hosted in AWS `me-central-1` (UAE) |
 | Notifications | Firebase FCM, email and SMS gateways |
@@ -118,6 +119,24 @@ User stories were sized using T-shirt estimates (relative complexity, not hours)
 | Mingler App | 2 | 5 | 7 | 5 | 2 | 1 | 22 |
 | **Total** | **4** | **13** | **15** | **14** | **3** | **2** | **51** |
 
+## Live Environment
+
+The Admin Panel, Partner Portal and API run on **Vercel** (team `go-mingle`), deployed from this repository:
+
+| Product | Address | Vercel project | Source folder |
+|---|---|---|---|
+| Admin Panel | https://gomingle-admin.vercel.app | `gomingle-admin` | `Development/Admin` |
+| Partner Portal | https://gomingle-partner.vercel.app | `gomingle-partner` | `Development/Partner` |
+| API | https://gomingle-api.vercel.app (`/health`) | `gomingle-api` | `Development/Backend` |
+
+- **Flow:** work happens on a `release/vX.Y.Z` or `fix/...` branch, which gets a Vercel preview; merging the pull request into `main` deploys to production.
+- **Database:** Neon PostgreSQL (free tier, Washington D.C. `iad1`) from the Vercel marketplace, connected to `gomingle-api` with the prefix `DATABASE` (`DATABASE_URL` pooled, `DATABASE_URL_UNPOOLED` direct). Migrations run by themselves when the API starts.
+- **Payments:** Safepay **sandbox**. The keys live only in the `gomingle-api` project's environment variables on Vercel (and in a local `.env`), never in git.
+- **First sign-in passwords** on a fresh database come from `SEED_ADMIN_PASSWORD` and `SEED_PARTNER_PASSWORD` on Vercel; the well-known local passwords do not work online.
+- **Tracking:** every change is a Jira issue in project **GM** (Jira keys appear in commit messages and pull requests) and a row in the release table below.
+
+All times on interest tables are **Pakistan time (PKT, UTC+05:00)**, wherever the person using the portals is.
+
 ## Repository Structure
 
 ```
@@ -137,7 +156,7 @@ Go_Mingle/
     ├── Admin/                                 Admin Panel: React 19 + TypeScript + Ant Design
     ├── Partner/                               Partner Portal: React 19 + TypeScript + Ant Design
     ├── Mingler/                               Mingler App: Flutter (scaffold)
-    ├── Backend/                               GoMingle API: Node.js + Express, shared by both portals
+    ├── Backend/                               GoMingle API: NestJS + PostgreSQL, shared by both portals
     ├── README.md                              How to run the platform locally
     └── run-gomingle.sh / run-gomingle.bat     Install and start the API and both portals
 ```
@@ -146,10 +165,16 @@ The `Design` folders are scaffolded and filled in as work lands for each product
 
 ## Releases
 
-Each release is a tagged commit. Check out a tag to get that exact version, for example `git checkout v0.5`. To run it, follow [Development/README.md](Development/README.md).
+Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged into `main` through pull requests. To run any of them locally, follow [Development/README.md](Development/README.md); `main` is what runs on Vercel.
 
-| Tag | Date | Highlights |
+| Release | Date | Highlights |
 |---|---|---|
+| `v0.7.3` | 11 Nov 2026 | Interest table times are Pakistan time everywhere; tables take no bookings once started; cancelling a table cancels its bookings and gives the Minglers' money back; admins can edit and delete interest tables; Safepay-only card step when Safepay is connected (GM-258 to GM-262) |
+| Vercel | 11 Nov 2026 | Admin Panel, Partner Portal and API live on Vercel with a Neon database (GM-257) |
+| `v0.7.2` | 11 Nov 2026 | Finances on both portals from real bookings; dinner bill at check-in; Safepay checkout for the admin card step (GM-256) |
+| `v0.7.1` | 11 Nov 2026 | Admin test-card step (GM-255); payout column and seats-booked fixes |
+| `v0.7` | 11 Nov 2026 | One card hold per seat; Failed collections screen (GM-203, GM-254) |
+| `v0.6` | 11 Nov 2026 | Backend rebuilt in NestJS + PostgreSQL; Guests Arrived, no-show penalty and policy (GM-38, GM-203, GM-204, GM-243, GM-244) |
 | `v0.5` | 9 Nov 2026 | Partner visibility shown correctly in Admin; light/dark mode in both portals; starter amenities, interests, topics and preference questions |
 | `v0.4` | 9 Nov 2026 | End-to-end test fixes across both portals; clean install without demo data |
 | `v0.3` | 6 Nov 2026 | Restaurant map pin from a Google Maps link |
@@ -157,7 +182,7 @@ Each release is a tagged commit. Check out a tag to get that exact version, for 
 | `v0.1` | 6 Nov 2026 | Safepay sandbox configuration |
 | `v0` | 6 Nov 2026 | First working build of the Admin Panel, Partner Portal and API |
 
-Secrets are never committed: `Development/Backend/.env` (Safepay keys) is git-ignored. Copy `Development/Backend/.env.example` to `.env` and add your own keys.
+Secrets are never committed: `Development/Backend/.env` (Safepay keys) is git-ignored. Copy `Development/Backend/.env.example` to `.env` and add your own keys. Online, the same settings are Vercel environment variables.
 
 ## Documentation Index
 

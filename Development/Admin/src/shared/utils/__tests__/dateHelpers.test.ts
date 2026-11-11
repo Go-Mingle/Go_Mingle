@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import dayjs from 'dayjs'
 import {
+  pakistanNow,
   toDateRange,
   formatKarachiDateTime,
   formatNotificationDateTime,
@@ -304,5 +305,20 @@ describe('isPastTimeOnDate', () => {
     // The picker hands over a Dayjs that may carry any time — only the day matters.
     expect(isPastTimeOnDate(dayjs('2026-07-16T23:00:00'), '09:00', now)).toBe(true)
     expect(isPastTimeOnDate(dayjs('2026-07-16T00:00:00'), '18:00', now)).toBe(false)
+  })
+})
+
+describe('pakistanNow', () => {
+  it('reads as the wall-clock time in Pakistan (UTC+05:00), whatever the viewer\'s time zone', () => {
+    // 09:30 UTC is 14:30 in Karachi.
+    const at = Date.UTC(2026, 10, 11, 9, 30)
+    const pk = pakistanNow(at)
+    expect(pk.format('YYYY-MM-DD HH:mm')).toBe('2026-11-11 14:30')
+    // 21:00 UTC is already the next day there.
+    expect(pakistanNow(Date.UTC(2026, 10, 11, 21, 0)).format('YYYY-MM-DD HH:mm')).toBe('2026-11-12 02:00')
+  })
+
+  it('defaults to now', () => {
+    expect(Math.abs(pakistanNow().diff(pakistanNow(Date.now()), 'second'))).toBeLessThan(2)
   })
 })

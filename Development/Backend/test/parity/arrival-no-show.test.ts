@@ -65,20 +65,34 @@ describe('arrival and no-show', () => {
     const cat = (await p.req('category', 'POST', `${AD}/categories`, { ...AA, body: { name: 'Premium', commissionRate: 12, interestTablesPerMonth: 4 } })).neu.json.id
     expect((await p.req('approve', 'POST', `${AD}/admin/approvals/rest1/approve`, { ...AA, body: { categoryId: cat } })).neu.status).toBe(200)
 
+    // A table takes bookings only before it starts. Tables meant to have started already are
+    // created three hours ahead, booked there, and moved to their real time straight in the
+    // database, as if the bookings had been made earlier.
+    const intended = new Map<string, number>()
+    const moveTo = async (tableId: string, minutesFromNow: number) => {
+      const k = karachi(minutesFromNow)
+      await p.neu.database.pool.query('UPDATE interest_tables SET start_date = $1, start_time = $2 WHERE id = $3', [k.startDate, k.startTime, tableId])
+    }
     const table = async (step: string, name: string, minutesFromNow: number, extra: object = {}) => {
       const r = await p.req(step, 'POST', `${AD}/restaurants/rest1/interest-tables`, {
         ...AA,
         compare: false,
-        body: { name, maxGuests: 8, durationMinutes: 120, availabilityMode: 'AVAILABLE_NOW', publish: true, ...karachi(minutesFromNow), ...extra },
+        body: { name, maxGuests: 8, durationMinutes: 120, availabilityMode: 'AVAILABLE_NOW', publish: true, ...karachi(Math.max(minutesFromNow, 180)), ...extra },
       })
       expect(r.neu.status, step).toBe(201)
-      return data(r).id as string
+      const id = data(r).id as string
+      intended.set(id, minutesFromNow)
+      if (minutesFromNow < 180) await moveTo(id, minutesFromNow)
+      return id
     }
     // One card hold per seat: Safepay cannot collect part of a hold, so the empty seats' holds are
     // collected in full and the others are let go.
     type Hold = { id: string; amount: number; status: string; kind: string; seatNo: number }
     const book = async (step: string, interestTableId: string, body: object = {}) => {
+      const at = intended.get(interestTableId)
+      if (at !== undefined && at < 180) await moveTo(interestTableId, 180)
       const r = await p.req(step, 'POST', `${BK}/sandbox`, { ...AA, compare: false, body: { interestTableId, ...body } })
+      if (at !== undefined && at < 180) await moveTo(interestTableId, at)
       expect(r.neu.status, step).toBe(201)
       return data(r) as { booking: { id: string; bookingRef: string }; holds: Hold[]; heldTotalPkr: number }
     }
@@ -401,6 +415,52 @@ describe('arrival and no-show', () => {
     // Safepay's checkout needs real keys; without them the admin is told to use a test card.
     await p.req('checkout without keys', 'POST', `${AD}/escrow/${ayeshaBill.id}/checkout`, { ...AA, body: { returnUrl: 'http://localhost:5173/finances/escrow' } })
     await p.req('confirm a checkout never opened', 'POST', `${AD}/escrow/${ayeshaBill.id}/checkout/confirm`, { ...AA, compare: false })
+
+    // ── Times are Pakistan time; a table that started takes no bookings ──────
+    const startedTable = await table('table that started an hour ago', 'Late Lunch', -60)
+    const lateBooking = await p.req('booking a started table', 'POST', `${BK}/sandbox`, { ...AA, compare: false, body: { interestTableId: startedTable, seats: 1 } })
+    expect([lateBooking.neu.status, lateBooking.neu.json?.error?.code]).toEqual([409, 'ERR_TABLE_STARTED'])
+    const pastPublish = await p.req('publish a table in the past', 'POST', `${AD}/restaurants/rest1/interest-tables`, {
+      ...AA,
+      compare: false,
+      body: { name: 'Too Late', maxGuests: 8, durationMinutes: 60, availabilityMode: 'AVAILABLE_NOW', publish: true, ...karachi(-5) },
+    })
+    expect([pastPublish.neu.status, pastPublish.neu.json?.error?.code]).toEqual([422, 'ERR_START_IN_PAST'])
+    const pastDraft = await p.req('a draft may have any time', 'POST', `${AD}/restaurants/rest1/interest-tables`, {
+      ...AA,
+      compare: false,
+      body: { name: 'Draft Later', maxGuests: 8, durationMinutes: 60, publish: false, ...karachi(-5) },
+    })
+    expect(pastDraft.neu.status).toBe(201)
+
+    // ── Editing, deleting and cancelling a table ─────────────────────────────
+    const maxBelow = await p.req('max guests below booked seats', 'PATCH', `${AD}/interest-tables/${menuWins}`, { ...AA, compare: false, body: { maxGuests: 0 } })
+    expect([maxBelow.neu.status, maxBelow.neu.json?.error?.code]).toEqual([409, 'ERR_BELOW_BOOKED'])
+    const renamed = await p.req('rename a live table', 'PATCH', `${AD}/interest-tables/${menuWins}`, { ...AA, compare: false, body: { name: 'Seafront Long Lunch', maxGuests: 6 } })
+    expect([renamed.neu.status, data(renamed).name, data(renamed).maxGuests]).toEqual([200, 'Seafront Long Lunch', 6])
+    const deleteBooked = await p.req('delete a table with bookings', 'DELETE', `${AD}/interest-tables/${menuWins}`, { ...AA, compare: false })
+    expect([deleteBooked.neu.status, deleteBooked.neu.json?.error?.code]).toEqual([409, 'ERR_HAS_BOOKINGS'])
+    expect((await p.req('delete an empty table', 'DELETE', `${AD}/interest-tables/${data(pastDraft).id}`, { ...AA, compare: false })).neu.status).toBe(200)
+
+    // Cancelling the table cancels its bookings and gives every Mingler's money back.
+    const lunchBooking = (await rows('lunch bookings', menuWins))[0] as { bookingRef: string; status: string }
+    const cancelled = data(await p.req('cancel a booked table', 'POST', `${AD}/interest-tables/${menuWins}/cancel`, { ...AA, compare: false }))
+    expect(cancelled).toMatchObject({ status: 'CANCELLED', cancelledCount: 1, refundedPkr: 1500 })
+    expect((await rows('lunch bookings after cancel', menuWins)).map((b) => b.status)).toEqual(['CANCELLED'])
+    const lunchHolds = ((await console_()).items as (Hold & { bookingRef: string })[]).filter((h) => h.bookingRef === lunchBooking.bookingRef)
+    expect(lunchHolds.map((h) => h.status)).toEqual(['VOIDED'])
+    const again = await p.req('cancel it again', 'POST', `${AD}/interest-tables/${menuWins}/cancel`, { ...AA, compare: false })
+    expect(again.neu.status).toBe(409)
+    const editCancelled = await p.req('edit a cancelled table', 'PATCH', `${AD}/interest-tables/${menuWins}`, { ...AA, compare: false, body: { name: 'x' } })
+    expect(editCancelled.neu.status).toBe(409)
+
+    // A booking left open on a table cancelled earlier is cancelled by the next check, money back.
+    const leftOpen = await table('table cancelled the old way', 'Old Cancel', 300)
+    const oldBooking = await book('booking on it', leftOpen, { minglerName: 'Bilal', seats: 2 })
+    await p.neu.database.pool.query("UPDATE interest_tables SET status = 'CANCELLED' WHERE id = $1", [leftOpen])
+    await p.req('no-show check repairs it', 'POST', `${BK}/no-show-check`, { ...AA, compare: false })
+    expect((await rows('old cancel bookings', leftOpen)).map((b) => b.status)).toEqual(['CANCELLED'])
+    expect((await holdsOf(oldBooking)).map(([, status]) => status)).toEqual(['VOIDED', 'VOIDED'])
 
     // ── Who hears about it ────────────────────────────────────────────────
     const adminInbox = data(await p.req('admin inbox', 'GET', `${AD}/notifications?pageSize=50`, { ...AA, compare: false })).items.map((n: { type: string }) => n.type)
