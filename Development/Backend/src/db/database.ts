@@ -14,8 +14,10 @@ export class Database {
   readonly pool: Pool
   readonly db: Db
 
-  constructor(readonly url: string) {
-    this.pool = new Pool({ connectionString: url, max: 10 })
+  constructor(readonly url: string, max = 10) {
+    // Hosted databases (Neon, RDS…) need TLS; the built-in one does not.
+    const local = /@(localhost|127\.0\.0\.1)[:/]/.test(url)
+    this.pool = new Pool({ connectionString: url, max, connectionTimeoutMillis: 15_000, ...(local || /sslmode=disable/.test(url) ? {} : { ssl: { rejectUnauthorized: false } }) })
     this.db = drizzle(this.pool, { schema })
   }
 
