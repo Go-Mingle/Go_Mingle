@@ -1,18 +1,24 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Alert, Select, Spin, Table, Tag, Tooltip, message } from 'antd'
 import type { TableProps } from 'antd/es/table'
 import { ArrowLeft, Plus, ShieldCheck } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { AppButton } from '../../atoms/AppButton'
 import { HttpError } from '../../../shared/api/httpClient'
+import { CardStepActions } from './components/CardStepActions'
 import { ReasonModal, TestBookingModal } from './components/EscrowModals'
 import { FailedCollections } from './components/FailedCollections'
+import { TestCardModal } from './components/TestCardModal'
+import { CHECKOUT_RETURN_PARAM } from './constants'
+import { useAnnounceCheckout } from './hooks/useAnnounceCheckout'
 import {
+  useConfirmCheckoutMutation,
   useEscrowActionMutation,
   useEscrowQuery,
   useTableBookingMutation,
   useTestBookingMutation,
+  useTestCardMutation,
 } from './hooks/useEscrow'
 import type { EscrowAction, EscrowItem, EscrowStatus, EscrowSummary } from './types'
 
@@ -77,6 +83,26 @@ export function EscrowPage() {
   const actionMutation = useEscrowActionMutation()
   const testMutation = useTestBookingMutation()
   const tableBookingMutation = useTableBookingMutation()
+  const cardMutation = useTestCardMutation()
+  const [cardFor, setCardFor] = useState<EscrowItem | null>(null)
+  const live = query.data?.gateway.mode === 'live'
+
+  // Back from Safepay's checkout page: ask Safepay whether it was paid, once.
+  const [params, setParams] = useSearchParams()
+  const confirmCheckout = useConfirmCheckoutMutation()
+  const announceCheckout = useAnnounceCheckout()
+  const returnedFor = params.get(CHECKOUT_RETURN_PARAM)
+  const handledReturn = useRef(false)
+  useEffect(() => {
+    if (!returnedFor || handledReturn.current) return
+    handledReturn.current = true
+    setParams({}, { replace: true })
+    confirmCheckout.mutate(returnedFor, {
+      onSuccess: (result) => announceCheckout('', result),
+      onError: (err) => void message.error(errorMessage(err, t('escrow.checkout.failed'))),
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [returnedFor])
 
   const run = (item: EscrowItem, action: EscrowAction, reason?: string) => {
     actionMutation.mutate(
@@ -102,7 +128,19 @@ export function EscrowPage() {
             <div className="text-xs text-(--color-text-muted)">
               {r.eventName}
               {r.kind === 'NO_SHOW_HOLD' && ` · ${t('escrow.noShowHold', { seat: r.seatNo ?? 1 })}`}
+              {r.kind === 'BILL' && ` · ${t('escrow.bill', { count: r.guests })}`}
             </div>
+            {r.kind === 'BILL' && <div className="text-xs text-(--color-text-muted)">{t('escrow.simulatedCharge')}</div>}
+            {r.checkout && (
+              <div className="text-xs text-(--color-text-muted)">
+                {t(r.checkout.paidAt ? 'escrow.checkout.paid' : 'escrow.checkout.started')}
+              </div>
+            )}
+            {r.testCard && (
+              <div className="text-xs text-(--color-text-muted)">
+                {t('escrow.testCard.onHold', { brand: r.testCard.brand, last4: r.testCard.last4 })}
+              </div>
+            )}
           </div>
         ),
       },
@@ -122,7 +160,7 @@ export function EscrowPage() {
         title: t('escrow.col.status'),
         key: 'status',
         render: (_, r) => (
-          <Tooltip title={r.timeline.map((e) => `${e.status} · ${e.by}`).join('\n')}>
+          <Tooltip title={r.timeline.map((e) => `${e.status} · ${e.by}${e.note ? ` · ${e.note}` : ''}`).join('\n')}>
             <Tag color={STATUS_COLOR[r.status]}>{t(`escrow.status.${r.status}`)}</Tag>
           </Tooltip>
         ),
@@ -130,26 +168,47 @@ export function EscrowPage() {
       {
         title: t('escrow.col.payout'),
         key: 'payout',
-        render: (_, r) =>
-          r.payout ? (
-            <div>
-              <div className="tabular-nums">{formatPkr(r.payout.amount)}</div>
-              <div className="text-xs text-(--color-text-muted)">
-                {r.payout.bank} {r.payout.ibanMasked} · {r.payout.reference}
+        render: (_, r) => {
+          if (r.payout) {
+            return (
+              <div>
+                <div className="tabular-nums">{formatPkr(r.payout.amount)}</div>
+                <div className="text-xs text-(--color-text-muted)">
+                  {r.payout.bank} {r.payout.ibanMasked} · {r.payout.reference}
+                </div>
               </div>
-            </div>
-          ) : (
+            )
+          }
+          // Only money that is held or in escrow can still reach the restaurant.
+          if (r.status !== 'AUTHORIZED' && r.status !== 'IN_ESCROW') {
+            return <span className="text-xs text-(--color-text-muted)">—</span>
+          }
+          return (
             <div className="text-xs text-(--color-text-muted)">
               {t('escrow.netAfterFee', { net: formatPkr(r.restaurantNet), fee: formatPkr(r.platformFee) })}
               <div>{r.payoutTo ?? t('escrow.noPayoutAccount')}</div>
             </div>
-          ),
+          )
+        },
       },
       {
         title: t('escrow.col.actions'),
         key: 'actions',
         render: (_, r) => {
           const busy = actionMutation.isPending && actionMutation.variables?.id === r.id
+          // TEMPORARY (GM-255): until the Mingler app takes the card, an admin completes the card step.
+          if (r.status === 'PENDING_PAYMENT') {
+            return (
+              <CardStepActions
+                item={r}
+                live={live}
+                onAddTestCard={(item) => {
+                  cardMutation.reset()
+                  setCardFor(item)
+                }}
+              />
+            )
+          }
           // A no-show hold is settled by its booking's check-in, never by hand.
           if (r.status === 'AUTHORIZED' && r.kind === 'NO_SHOW_HOLD') {
             return <span className="text-xs text-(--color-text-muted)">{t('escrow.settledAtCheckIn')}</span>
@@ -183,7 +242,7 @@ export function EscrowPage() {
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [t, actionMutation.isPending, actionMutation.variables],
+    [t, actionMutation.isPending, actionMutation.variables, live],
   )
 
   const data = query.data
@@ -267,6 +326,26 @@ export function EscrowPage() {
         onCancel={() => setPending(null)}
         onConfirm={(reason) => pending && run(pending.item, pending.action, reason || undefined)}
       />
+      <TestCardModal
+        open={cardFor !== null}
+        bookingRef={cardFor?.bookingRef ?? ''}
+        loading={cardMutation.isPending}
+        error={cardMutation.error}
+        onCancel={() => setCardFor(null)}
+        onSubmit={(body) => {
+          if (!cardFor) return
+          const target = cardFor
+          cardMutation.mutate(
+            { id: target.id, body },
+            {
+              onSuccess: ({ items }) => {
+                setCardFor(null)
+                void message.success(t('escrow.testCard.done', { ref: target.bookingRef, count: items.length }))
+              },
+            },
+          )
+        }}
+      />
       <TestBookingModal
         open={testOpen}
         restaurants={data?.restaurants ?? []}
@@ -276,15 +355,16 @@ export function EscrowPage() {
           const onError = (err: unknown) => void message.error(errorMessage(err, t('escrow.actionFailed')))
           if (body.interestTableId) {
             tableBookingMutation.mutate(
-              { interestTableId: body.interestTableId, minglerName: body.minglerName, seats: body.guests },
+              { interestTableId: body.interestTableId, minglerName: body.minglerName, seats: body.guests, seatPricePkr: body.amountPerGuest },
               {
                 onSuccess: ({ booking, heldTotalPkr }) => {
                   setTestOpen(false)
-                  void message.success(
+                  const held =
                     heldTotalPkr > 0
                       ? t('escrow.testBooking.tableDone', { ref: booking.bookingRef, amount: formatPkr(heldTotalPkr) })
-                      : t('escrow.testBooking.tableDoneNoHold', { ref: booking.bookingRef }),
-                  )
+                      : t('escrow.testBooking.tableDoneNoHold', { ref: booking.bookingRef })
+                  const bill = booking.seatPricePkr ? t('escrow.testBooking.billNote', { price: formatPkr(booking.seatPricePkr) }) : ''
+                  void message.success(`${held}${bill}`)
                 },
                 onError,
               },

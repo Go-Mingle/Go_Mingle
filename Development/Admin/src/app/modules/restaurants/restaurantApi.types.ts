@@ -320,6 +320,8 @@ export interface BookingRow {
   time: string
   status: string
   billPkr: number | null
+  /** Seats this booking holds. Absent on older payloads, where it means one. */
+  seats?: number
 }
 
 export interface BookingsListResponse {

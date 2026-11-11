@@ -85,6 +85,20 @@
       "when": 1794347597988,
       "tag": "0011_per_seat_holds",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1794398803323,
+      "tag": "0012_test_card",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1794406521790,
+      "tag": "0013_bill_and_checkout",
+      "breakpoints": true
     }
   ]
 }

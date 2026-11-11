@@ -41,7 +41,8 @@ export class BookingsController {
       date: t?.startDate ?? '',
       time: to12h(t?.startTime),
       status: b.status,
-      billPkr: null,
+      billPkr: b.billPkr,
+      seatPricePkr: b.seatPricePkr,
       seats: b.seats,
       attendance: b.attendance,
       emptySeats: b.emptySeats,
@@ -90,6 +91,7 @@ export class BookingsController {
       minglerName: String(body.minglerName ?? '').trim() || 'Test Mingler',
       seats: body.seats ?? 2,
       menuOption: typeof body.menuOption === 'string' ? body.menuOption : '',
+      fallbackSeatPricePkr: typeof body.seatPricePkr === 'number' && Number.isFinite(body.seatPricePkr) && body.seatPricePkr <= 1_000_000 ? body.seatPricePkr : undefined,
       by: `${admin.fullName} (sandbox test booking)`,
     })
     const table = await this.tables.find(booking.interestTableId)
@@ -126,7 +128,7 @@ export class BookingsController {
         isTickProMingler: false,
         prominglerLabel: null,
         status: row.status,
-        billPkr: null,
+        billPkr: row.billPkr,
         seats: row.seats,
         attendance: row.attendance,
         emptySeats: row.emptySeats,

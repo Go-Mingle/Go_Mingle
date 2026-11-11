@@ -2,7 +2,7 @@ import crypto from 'node:crypto'
 import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { and, asc, eq, inArray, sql } from 'drizzle-orm'
 import { DB, type Db } from '../../db/database'
-import { bookings, interestTables, restaurants } from '../../db/schema'
+import { bookings, interestTables, menuOptions, restaurants } from '../../db/schema'
 import { apiError } from '../../common/errors'
 import { InterestTablesService, type InterestTable } from '../interest-tables/interest-tables.service'
 import { NotificationsService } from '../notifications/notifications.service'
@@ -28,11 +28,14 @@ export function startsAt(t: Pick<InterestTable, 'startDate' | 'startTime'>): num
 /**
  * Bookings, guest check-in and the no-show penalty (GM-38, GM-203, GM-204).
  *
- *   booking made ──► card hold for penalty × seats (none when the penalty is 0)
+ *   booking made ──► card hold for penalty × seats (none when the penalty is 0);
+ *        │           the seat price (the table's menu option) is noted on the booking
  *        │
- *        ├─ guests arrived ─► hold let go, nothing charged
+ *        ├─ guests arrived ─► hold let go; the dinner bill (seat price × seats)
+ *        │                    is charged into escrow and shows in Finances
  *        ├─ no-show (some or all seats) ─► penalty × empty seats collected into
- *        │                                 escrow, the rest of the hold let go
+ *        │                                 escrow, the rest of the hold let go;
+ *        │                                 seats that did arrive are billed
  *        └─ cancelled ─► hold let go
  *
  * A no-show is recorded by staff, or by the check that runs every 15 minutes
@@ -82,7 +85,7 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
    * Books seats at an interest table under the restaurant's current no-show
    * policy and reserves the penalty on the card.
    */
-  async book(input: { interestTableId: string; minglerName: string; seats: unknown; menuOption?: string; by: string }) {
+  async book(input: { interestTableId: string; minglerName: string; seats: unknown; menuOption?: string; fallbackSeatPricePkr?: number; by: string }) {
     const table = await this.tables.find(input.interestTableId)
     if (!table) throw apiError(404, 'ERR_INTEREST_TABLE_NOT_FOUND', 'Interest table not found.')
     if (!['PENDING', 'CONFIRMED'].includes(table.status)) {
@@ -94,6 +97,7 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
     if (seats > seatsLeft) throw apiError(409, 'ERR_TABLE_FULL', `Only ${seatsLeft} seat${seatsLeft === 1 ? '' : 's'} left at this table.`, { seatsLeft })
 
     const [restaurant] = await this.db.select().from(restaurants).where(eq(restaurants.id, table.restaurantId))
+    const menu = await this.menuOptionFor(table, input.menuOption)
     const penalty = restaurant?.noShowPenaltyPerSeatPkr ?? 0
     const id = `bk-${crypto.randomBytes(4).toString('hex')}`
     const bookingRef = newBookingRef()
@@ -134,7 +138,9 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
         restaurantId: table.restaurantId,
         minglerName: input.minglerName,
         seats,
-        menuOption: input.menuOption ?? '',
+        menuOption: menu?.name ?? input.menuOption ?? '',
+        // A table without a menu option has no price of its own; a sandbox booking may bring one.
+        seatPricePkr: menu?.pricePkr ?? (input.fallbackSeatPricePkr && input.fallbackSeatPricePkr > 0 ? round(input.fallbackSeatPricePkr) : 0),
         status: 'CONFIRMED',
         penaltyPerSeatPkr: penalty,
         cancellationWindowHours: restaurant?.cancellationWindowHours ?? 24,
@@ -182,6 +188,7 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
       if (!claimed) continue
       seats += b.seats
       await this.letHoldGo(claimed, by, 'Guests arrived')
+      await this.chargeBill(claimed, b.seats, table, by)
     }
     await this.tables.update(table.id, { status: 'COMPLETED' })
     await this.notifications.notifyAdmins({
@@ -244,11 +251,10 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
         metadata: { bookingId: b.id },
       })
     }
-    const [updated] = await this.db
-      .update(bookings)
-      .set({ penaltyChargedPkr: charged, penaltyStatus })
-      .where(eq(bookings.id, b.id))
-      .returning()
+    await this.db.update(bookings).set({ penaltyChargedPkr: charged, penaltyStatus }).where(eq(bookings.id, b.id))
+    // Seats that did arrive had their dinner.
+    if (table && emptySeats < b.seats) await this.chargeBill(claimed, b.seats - emptySeats, table, by)
+    const [updated] = await this.db.select().from(bookings).where(eq(bookings.id, b.id))
 
     const what = `${emptySeats} of ${b.seats} seat${b.seats === 1 ? '' : 's'} empty for ${b.minglerName} (${b.bookingRef}) at ${table?.name ?? 'the table'}`
     const money = charged > 0 ? ` ${fmtPkr(charged)} penalty collected into escrow.` : due > 0 ? ' The penalty could not be collected yet.' : ' No penalty applies.'
@@ -307,6 +313,44 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
       .where(and(eq(bookings.id, id), inArray(bookings.status, ACTIVE)))
       .returning()
     return row ?? null
+  }
+
+  /**
+   * The menu option a booking is priced at: the one asked for (by id or name)
+   * when the table offers it, otherwise the table's first menu option.
+   */
+  private async menuOptionFor(table: InterestTable, asked?: string) {
+    const ids = table.comboIds ?? []
+    if (ids.length === 0) return null
+    const offered = (await this.db.select().from(menuOptions).where(eq(menuOptions.restaurantId, table.restaurantId))).filter((m) => ids.includes(m.comboId))
+    const wanted = (asked ?? '').trim().toLowerCase()
+    const match = wanted ? offered.find((m) => m.comboId.toLowerCase() === wanted || m.name.toLowerCase() === wanted) : undefined
+    return match ?? ids.map((id) => offered.find((m) => m.comboId === id)).find(Boolean) ?? null
+  }
+
+  /** Charges the dinner bill for the seats that arrived and notes it on the booking. */
+  private async chargeBill(b: Booking, arrivedSeats: number, table: InterestTable, by: string) {
+    if (!(b.seatPricePkr > 0) || arrivedSeats < 1) return
+    const bill = await this.escrow.chargeBill({
+      bookingId: b.id,
+      bookingRef: b.bookingRef,
+      restaurantId: b.restaurantId,
+      minglerName: b.minglerName,
+      seats: arrivedSeats,
+      seatPricePkr: b.seatPricePkr,
+      eventName: table.name ?? 'Interest Table',
+      eventAt: new Date(startsAt(table)).toISOString(),
+      by,
+    })
+    if (!bill) return
+    await this.db.update(bookings).set({ billPkr: bill.amount, billHoldId: bill.id }).where(eq(bookings.id, b.id))
+    await this.notifications.notifyPartner(b.restaurantId, {
+      type: 'ESCROW_FUNDED',
+      title: 'Payment held in escrow',
+      body: `${fmtPkr(bill.amount)} for ${b.minglerName} (${b.bookingRef}) at ${table.name ?? 'the table'} is held in escrow and will be paid out to you, less the GoMingle fee.`,
+      deepLink: '/finances',
+      metadata: { escrowId: bill.id, bookingId: b.id },
+    })
   }
 
   /** Lets every open card hold of a booking go. */

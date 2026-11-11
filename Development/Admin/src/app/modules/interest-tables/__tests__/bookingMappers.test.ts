@@ -50,6 +50,12 @@ describe('bookingRowToInterestTableBooking', () => {
     })
   })
 
+  it('carries the seats a booking holds, one when the API does not say', () => {
+    expect(bookingRowToInterestTableBooking(row({ seats: 4 })).seats).toBe(4)
+    expect(bookingRowToInterestTableBooking(row()).seats).toBe(1)
+    expect(bookingRowToInterestTableBooking(row({ seats: 0 })).seats).toBe(1)
+  })
+
   it('falls back topic→interestTableName, null menuOption→"", null bill→0', () => {
     const v = bookingRowToInterestTableBooking(
       row({ topic: null, menuOption: null, billPkr: null }),

@@ -51,7 +51,9 @@ import { PartnerNotificationsController } from './partner/notifications.controll
 import { InterestTablesService } from './shared/interest-tables/interest-tables.service'
 import { InterestTablesController } from './admin/interest-tables/interest-tables.controller'
 import { PartnerInterestTablesController } from './partner/interest-tables/interest-tables.controller'
-import { FinancesController, MinglersController, ReviewsController, TimerSettingsController } from './admin/minglers/mingler-data.controller'
+import { FinancesController } from './admin/finances.controller'
+import { FinanceLedgerService } from './shared/payments/finance-ledger.service'
+import { MinglersController, ReviewsController, TimerSettingsController } from './admin/minglers/mingler-data.controller'
 import { PartnerFinancesController, PartnerReviewsController } from './partner/ledger.controller'
 import { WebhookController } from './partner/webhook.controller'
 import { SafepayService } from './shared/payments/safepay.service'
@@ -152,6 +154,7 @@ class RootController {
     CountersService,
     SafepayService,
     EscrowService,
+    FinanceLedgerService,
     BookingsService,
     InterestTablesService,
     AdminRestaurantsService,
