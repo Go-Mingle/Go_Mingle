@@ -53,11 +53,29 @@ export interface EscrowItem {
    * cannot collect part of a hold): a no-show collects the empty seats' holds
    * and releases the others.
    */
-  kind?: 'NO_SHOW_HOLD'
+  kind?: 'NO_SHOW_HOLD' | 'BILL'
   bookingId?: string | null
   seatNo?: number | null
   /** TEMPORARY (GM-255): a test card an admin added; such a hold is settled by the simulator. */
   testCard?: { brand: string; last4: string }
+  /** A payment opened on Safepay's own checkout page; `paidAt` is set once Safepay confirms it. */
+  checkout?: { totalPkr: number; startedAt: string; paidAt: string | null }
+}
+
+/** Where to send the payer: Safepay's hosted checkout for every waiting seat of the booking. */
+export interface CheckoutStart {
+  url: string
+  tracker: string
+  totalPkr: number
+  seats: number
+  bookingRef: string
+}
+
+/** What Safepay says about a checkout. `state` is Safepay's own word for it. */
+export interface CheckoutConfirmation {
+  paid: boolean
+  state: string
+  items: EscrowItem[]
 }
 
 /** TEMPORARY (GM-255). Test card numbers only; never stored. */
@@ -138,7 +156,7 @@ export interface InterestTableOption {
 
 /** What a sandbox booking at an interest table returns. */
 export interface TableBookingResult {
-  booking: { id: string; bookingRef: string; seats: number; penaltyPerSeatPkr: number }
+  booking: { id: string; bookingRef: string; seats: number; penaltyPerSeatPkr: number; seatPricePkr?: number }
   /** One hold per seat; empty when the restaurant's no-show penalty is zero. */
   holds: EscrowItem[]
   heldTotalPkr: number

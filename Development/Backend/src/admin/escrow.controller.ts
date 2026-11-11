@@ -113,6 +113,30 @@ export class EscrowController {
     return { success: true, data: { items } }
   }
 
+  /**
+   * Opens Safepay's own checkout page for a hold that waits for a card, so the
+   * payment really happens at Safepay (and shows there as paid). One payment
+   * covers every waiting seat of the booking. The card is typed on Safepay's
+   * page; GoMingle never sees it. Only available with Safepay keys set.
+   */
+  @Post(':id/checkout')
+  @HttpCode(200)
+  async checkout(@Param('id') id: string, @Body() body: Json, @CurrentAdmin() admin: AdminSession) {
+    if (!this.safepay.isLive) {
+      throw apiError(409, 'ERR_GATEWAY_NOT_CONFIGURED', 'Safepay keys are not set, so there is no Safepay checkout. Add a test card instead.')
+    }
+    const returnUrl = String(body.returnUrl ?? '')
+    if (!/^https?:\/\/[^\s]+$/i.test(returnUrl)) throw apiError(422, 'ERR_VALIDATION', 'A return address is required.')
+    return { success: true, data: await gateway(() => this.escrow.startCheckout(id, returnUrl, `${admin.fullName} (Safepay checkout)`)) }
+  }
+
+  /** Asks Safepay whether that checkout was paid; if so the holds are placed. */
+  @Post(':id/checkout/confirm')
+  @HttpCode(200)
+  async confirmCheckout(@Param('id') id: string) {
+    return { success: true, data: await gateway(() => this.escrow.confirmCheckout(id)) }
+  }
+
   /** Tries a failed collection or release again. */
   @Post('failures/:failureId/retry')
   @HttpCode(200)

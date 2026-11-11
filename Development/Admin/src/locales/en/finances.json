@@ -202,10 +202,13 @@
       "interestTable": "Interest table",
       "interestTablePlaceholder": "Choose an interest table",
       "interestTableOptional": "Optional. Leave empty to place a plain payment hold.",
-      "interestTableHelp": "Books seats at this table. One card hold per seat, each for the restaurant's no-show penalty.",
+      "interestTableHelp": "Books seats at this table. One card hold per seat for the restaurant's no-show penalty; the dinner itself is charged at check-in.",
       "seats": "Seats",
-      "tableDone": "{{ref}} booked: {{amount}} held on card for no-shows",
-      "tableDoneNoHold": "{{ref}} booked. No card hold: this restaurant has no no-show penalty."
+      "tableDone": "{{ref}} booked: {{amount}} held on card for no-shows.",
+      "tableDoneNoHold": "{{ref}} booked. No card hold: this restaurant has no no-show penalty.",
+      "seatPrice": "Dinner price per seat (PKR)",
+      "seatPriceHelp": "Charged for each seat that arrives when the table is checked in, and shown in Finances. If the table has a menu option, that price is used instead.",
+      "billNote": " Dinner is {{price}} per seat, charged at check-in."
     },
     "noShowHold": "no-show hold, seat {{seat}}",
     "failures": {
@@ -242,7 +245,7 @@
     },
     "settledAtCheckIn": "Settled at check-in",
     "testCard": {
-      "open": "Add card",
+      "open": "Add test card",
       "title": "Add a test card for {{ref}}",
       "submit": "Place the hold",
       "warningTitle": "Test cards only",
@@ -256,6 +259,21 @@
       "done_one": "{{ref}}: card added, {{count}} hold placed.",
       "done_other": "{{ref}}: card added, {{count}} holds placed.",
       "onHold": "{{brand}} •••• {{last4}} (test card)"
+    },
+    "bill_one": "dinner bill, {{count}} seat",
+    "bill_other": "dinner bill, {{count}} seats",
+    "simulatedCharge": "Simulated charge (not sent to Safepay)",
+    "checkout": {
+      "open": "Pay on Safepay",
+      "openHint": "Opens Safepay's own checkout page. Pay there with a Safepay sandbox test card; one payment covers every seat of this booking, and it then shows as paid in your Safepay dashboard.",
+      "check": "Check payment",
+      "started": "Safepay checkout opened, not paid yet",
+      "paid": "Paid on Safepay",
+      "confirmed_one": "{{ref}}: paid on Safepay, {{count}} hold placed.",
+      "confirmed_other": "{{ref}}: paid on Safepay, {{count}} holds placed.",
+      "alreadyConfirmed": "This payment was already confirmed.",
+      "notPaid": "Safepay has not received this payment yet (it reports {{state}}). Finish paying on the Safepay page, then check again.",
+      "failed": "Safepay could not be reached. Try again, or add a test card instead."
     }
   }
 }

@@ -92,6 +92,21 @@ let ledger = seed()
 export const MOCK_NO_SHOW_PENALTY_PKR = 1500
 
 let failures: PaymentFailure[] = []
+let gatewayMode: 'simulator' | 'live' = 'simulator'
+/** What the mock Safepay says about checkouts that were opened. */
+let checkoutState = 'TRACKER_STARTED'
+
+/** Test helper: behaves as if Safepay keys were set, so Safepay's checkout is offered. */
+export function setMockGatewayLive(state = 'TRACKER_STARTED') {
+  gatewayMode = 'live'
+  checkoutState = state
+}
+
+/** Test helper: a dinner bill charged at check-in. */
+export function addMockBill(seats = 4) {
+  const id = 'esc-000950'
+  ledger.set(id, { ...makeItem(id, 'rest1', 'Ayesha Noor', seats, 3200, 'Seafront Supper', 'IN_ESCROW'), bookingRef: 'GM-BILL01', kind: 'BILL', bookingId: 'bk-bill', gateway: 'Simulated' })
+}
 
 /** Test helper: puts failed collections on the escrow screen. */
 export function setMockPaymentFailures(next: Partial<PaymentFailure>[]) {
@@ -139,6 +154,8 @@ const TEST_CARD_BRANDS: Record<string, string> = {
 export function resetMockEscrow() {
   ledger = seed()
   failures = []
+  gatewayMode = 'simulator'
+  checkoutState = 'TRACKER_STARTED'
 }
 
 function overview(status: EscrowStatus | null): EscrowOverview {
@@ -146,7 +163,7 @@ function overview(status: EscrowStatus | null): EscrowOverview {
   const sum = (s: EscrowStatus, pick: (i: EscrowItem) => number = (i) => i.amount) =>
     round(all.filter((i) => i.status === s).reduce((t, i) => t + pick(i), 0))
   return {
-    gateway: { name: 'Safepay', environment: 'sandbox', mode: 'simulator' },
+    gateway: { name: 'Safepay', environment: 'sandbox', mode: gatewayMode },
     summary: {
       currency: 'PKR',
       authorized: sum('AUTHORIZED'),
@@ -174,6 +191,42 @@ const error = (status: number, code: string, message: string) =>
   HttpResponse.json({ success: false, error: { code, message } }, { status })
 
 export const escrowHandlers = [
+  // The card step on Safepay's own checkout page: one payment for every waiting seat of the booking.
+  http.post(`${BASE}/:id/checkout`, async ({ params, request }) => {
+    if (gatewayMode !== 'live') return error(409, 'ERR_GATEWAY_NOT_CONFIGURED', 'Safepay keys are not set, so there is no Safepay checkout. Add a test card instead.')
+    const first = ledger.get(String(params.id))
+    if (!first) return error(404, 'ERR_NOT_FOUND', 'Escrow transaction not found.')
+    const body = (await request.json()) as { returnUrl?: string }
+    if (!body.returnUrl) return error(422, 'ERR_VALIDATION', 'A return address is required.')
+    const waiting = [...ledger.values()].filter(
+      (i) => i.status === 'PENDING_PAYMENT' && (first.bookingId ? i.bookingId === first.bookingId : i.id === first.id),
+    )
+    const totalPkr = waiting.reduce((t, i) => t + i.amount, 0)
+    for (const i of waiting) {
+      ledger.set(i.id, { ...i, tracker: 'track_mock', checkout: { totalPkr, startedAt: '2026-11-11T10:00:00.000Z', paidAt: null } })
+    }
+    return HttpResponse.json({
+      success: true,
+      data: { url: `https://sandbox.api.getsafepay.com/embedded/?tracker=track_mock&redirect_url=${encodeURIComponent(body.returnUrl)}`, tracker: 'track_mock', totalPkr, seats: waiting.length, bookingRef: first.bookingRef },
+    })
+  }),
+
+  http.post(`${BASE}/:id/checkout/confirm`, ({ params }) => {
+    const first = ledger.get(String(params.id))
+    if (!first) return error(404, 'ERR_NOT_FOUND', 'Escrow transaction not found.')
+    if (first.status !== 'PENDING_PAYMENT') return HttpResponse.json({ success: true, data: { paid: true, state: 'ALREADY_CONFIRMED', items: [first] } })
+    if (!first.checkout) return error(409, 'ERR_INVALID_STATE', 'No Safepay checkout has been opened for this hold yet.')
+    if (checkoutState !== 'TRACKER_ENDED') return HttpResponse.json({ success: true, data: { paid: false, state: checkoutState, items: [] } })
+    const items = [...ledger.values()]
+      .filter((i) => i.status === 'PENDING_PAYMENT' && i.tracker === first.tracker)
+      .map((i) => {
+        const next: EscrowItem = { ...i, status: 'AUTHORIZED', checkout: { ...i.checkout!, paidAt: '2026-11-11T10:05:00.000Z' } }
+        ledger.set(i.id, next)
+        return next
+      })
+    return HttpResponse.json({ success: true, data: { paid: true, state: 'TRACKER_ENDED', items } })
+  }),
+
   // TEMPORARY (GM-255): an admin completes the card step with a test card.
   http.post(`${BASE}/:id/test-card`, async ({ params, request }) => {
     const body = (await request.json()) as { cardNumber?: string }
@@ -233,7 +286,7 @@ export const escrowHandlers = [
 
   // A sandbox booking at an interest table: one hold per seat, each for the no-show penalty.
   http.post('*/api/v1/admin/bookings/sandbox', async ({ request }) => {
-    const body = (await request.json()) as { interestTableId?: string; minglerName?: string; seats?: number }
+    const body = (await request.json()) as { interestTableId?: string; minglerName?: string; seats?: number; seatPricePkr?: number }
     if (!body.interestTableId) return error(422, 'ERR_VALIDATION', 'Choose an interest table.')
     const seats = body.seats ?? 2
     const bookingId = `bk-${String(ledger.size + 101)}`
@@ -252,7 +305,7 @@ export const escrowHandlers = [
       {
         success: true,
         data: {
-          booking: { id: bookingId, bookingRef: holds[0].bookingRef, seats, penaltyPerSeatPkr: MOCK_NO_SHOW_PENALTY_PKR },
+          booking: { id: bookingId, bookingRef: holds[0].bookingRef, seats, penaltyPerSeatPkr: MOCK_NO_SHOW_PENALTY_PKR, seatPricePkr: body.seatPricePkr ?? 0 },
           holds,
           heldTotalPkr: seats * MOCK_NO_SHOW_PENALTY_PKR,
         },

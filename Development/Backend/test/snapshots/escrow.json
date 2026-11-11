@@ -284,7 +284,7 @@
   "step": "category",
   "status": 201,
   "body": {
-   "commissionRate": 12,
+   "commissionRate": 10,
    "createdAt": "<iso>",
    "id": "<gen>",
    "interestTablesPerMonth": 4,

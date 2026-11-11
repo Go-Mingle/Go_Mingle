@@ -883,6 +883,134 @@
   }
  },
  {
+  "step": "admin booking with seat price",
+  "status": 200,
+  "body": {
+   "data": {
+    "attendance": null,
+    "billPkr": null,
+    "emptySeats": null,
+    "interestTableName": "Seafront Supper",
+    "isCrownProMingler": false,
+    "isTickProMingler": false,
+    "menuOption": "Seafront Set",
+    "penaltyChargedPkr": null,
+    "penaltyPerSeatPkr": 1500,
+    "prominglerLabel": null,
+    "restaurantName": "Kolachi",
+    "seats": 4,
+    "status": "CONFIRMED",
+    "topic": ""
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "finances: bad date range",
+  "status": 400,
+  "body": {
+   "error": {
+    "message": "Invalid date range."
+   }
+  }
+ },
+ {
+  "step": "finances: no token",
+  "status": 401,
+  "body": {
+   "error": {
+    "code": "ERR_TOKEN_INVALID",
+    "message": "Authentication required"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "finances: detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "billPkr": 12800,
+    "gomingleSharePkr": 1536,
+    "interestTableName": "Seafront Supper",
+    "loyaltyRedeemedPkr": 0,
+    "loyaltyRedeemedPoints": 0,
+    "mingler": "Ayesha",
+    "paidOut": false,
+    "partnerSharePkr": 11264,
+    "penaltyPkr": 0,
+    "restaurant": "Kolachi",
+    "totalAmountPkr": 12800
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "finances: unknown booking",
+  "status": 404,
+  "body": {
+   "error": {
+    "message": "Booking not found"
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "finances: export link tampered",
+  "status": 403,
+  "body": {
+   "error": {
+    "message": "This export link has expired. Export again."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "partner finances: detail",
+  "status": 200,
+  "body": {
+   "data": {
+    "billPkr": 12800,
+    "gomingleSharePkr": 1536,
+    "loyaltyDeductionPkr": 0,
+    "loyaltyDeductionPoints": 0,
+    "mingler": {
+     "id": "",
+     "name": "Ayesha"
+    },
+    "mySharePkr": 11264,
+    "paidOut": false,
+    "penaltyPkr": 0,
+    "restaurantName": "Kolachi",
+    "totalAmountPkr": 12800
+   },
+   "success": true
+  }
+ },
+ {
+  "step": "partner finances: bad period",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": null,
+    "message": "Invalid period."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "checkout without keys",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_GATEWAY_NOT_CONFIGURED",
+    "message": "Safepay keys are not set, so there is no Safepay checkout. Add a test card instead."
+   },
+   "success": false
+  }
+ },
+ {
   "step": "signup start",
   "status": 200,
   "body": {

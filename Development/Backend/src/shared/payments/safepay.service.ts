@@ -20,9 +20,10 @@ const toMinor = (pkr: number) => Math.round(pkr * 100)
  * Safepay gateway adapter (Pakistan; SBP-licensed; PKR).
  *
  * GoMingle uses Safepay's separate authorize / capture flow as the escrow mechanism:
- *   authorize (no capture) → funds reserved on the Mingler's card
- *   capture                → funds collected into GoMingle's Safepay balance, held in escrow
- *   void / refund          → hold released / money returned
+ *   simulator   authorize → capture → void / refund, all answered locally.
+ *   live        the payer pays on Safepay's hosted checkout page; Safepay takes
+ *               the payment in full there. GoMingle then keeps it (no-show) or
+ *               refunds it (guests arrived, cancelled), seat by seat.
  *
  * Two modes:
  *   simulator (default)  no keys, no network: every call succeeds; the escrow
@@ -50,37 +51,74 @@ export class SafepayService {
       body: body === undefined ? undefined : JSON.stringify(body),
     })
     const data: any = await res.json().catch(() => ({}))
+    // The passport token comes back as a bare string in `data`.
+    if (res.ok && typeof data?.data === 'string') return data.data
     if (!res.ok) throw new GatewayError(data?.status?.message ?? data?.message ?? `Safepay ${res.status}`, res.status, data)
     return data?.data ?? data
   }
 
+  /** True when real Safepay keys are set. */
+  get isLive(): boolean {
+    return this.live
+  }
+
   /**
-   * Places a hold for a booking. Live: creates the tracker; the Mingler then
-   * completes card entry and 3-D Secure in the app, after which `status()`
-   * reports it authorised.
+   * Places a hold for a booking.
+   *
+   * Simulator: the hold is placed at once. Live: nothing is sent to Safepay
+   * yet, because a Safepay payment only exists once somebody pays on Safepay's
+   * checkout page (see `startCheckout`); until then the hold waits for a card.
    */
-  async authorize(amount: number, orderId: string): Promise<{ tracker: string; state: string }> {
-    if (!this.live) {
-      // Test aid: behaves like the live gateway, where the hold waits for the Mingler's card step.
-      const waits = process.env.GM_SIMULATE_PENDING_CARD === '1'
-      return { tracker: `track_${crypto.randomUUID()}`, state: waits ? 'PENDING_PAYER' : 'AUTHORIZED' }
-    }
-    const data = await this.call('POST', '/order/payments/v3/', {
+  async authorize(_amount: number, _orderId: string): Promise<{ tracker: string; state: string }> {
+    // Test aid: GM_SIMULATE_PENDING_CARD=1 makes the simulator wait for the card step like the live gateway.
+    const waits = this.live || process.env.GM_SIMULATE_PENDING_CARD === '1'
+    return { tracker: this.live ? 'not-started' : `track_${crypto.randomUUID()}`, state: waits ? 'PENDING_PAYER' : 'AUTHORIZED' }
+  }
+
+  /**
+   * Opens a payment on Safepay's hosted checkout page. The card is typed on
+   * Safepay's page, never into GoMingle. Returns the page to send the payer to.
+   */
+  async startCheckout(amount: number, orderId: string, returnUrl: string, cancelUrl: string): Promise<{ tracker: string; url: string }> {
+    if (!this.live) throw new GatewayError('Safepay keys are not set, so there is no Safepay checkout to open.', 409, null)
+    const session = await this.call('POST', '/order/payments/v3/', {
       merchant_api_key: config.safepay.apiKey,
       intent: 'CYBERSOURCE',
       mode: 'payment',
+      entry_mode: 'raw',
       currency: 'PKR',
       amount: toMinor(amount),
       metadata: { order_id: orderId },
+      include_fees: false,
     })
-    return { tracker: data?.tracker?.token ?? data?.token, state: 'PENDING_PAYER' }
+    const tracker: string | undefined = session?.tracker?.token ?? session?.token
+    if (!tracker) throw new GatewayError('Safepay did not return a payment tracker.', 502, session)
+    const passport = await this.call('POST', '/client/passport/v1/token', {})
+    const tbt: string | undefined = typeof passport === 'string' ? passport : passport?.token
+    if (!tbt) throw new GatewayError('Safepay did not return a checkout token.', 502, null)
+    const production = config.safepay.environment === 'production'
+    const page = production ? 'https://getsafepay.com/embedded/' : 'https://sandbox.api.getsafepay.com/embedded/'
+    const query = new URLSearchParams({
+      environment: production ? 'production' : 'sandbox',
+      tracker,
+      tbt,
+      source: 'hosted',
+      redirect_url: returnUrl,
+      cancel_url: cancelUrl,
+    })
+    return { tracker, url: `${page}?${query.toString()}` }
   }
 
-  /** Whether the Mingler's card hold went through (live mode asks Safepay). */
-  async isAuthorized(tracker: string): Promise<boolean> {
-    if (!this.live) return false
-    const data = await this.call('GET', `/reporter/api/v1/payments/${tracker}`)
-    return ['AUTHORIZED', 'TRACKER_AUTHORIZED', 'PAID', 'TRACKER_ENDED'].includes(String(data?.state ?? 'UNKNOWN').toUpperCase())
+  /** What Safepay says about a payment, e.g. TRACKER_STARTED, TRACKER_ENDED (paid). */
+  async trackerState(tracker: string): Promise<string> {
+    if (!this.live) return 'UNKNOWN'
+    const data = await this.call('GET', `/reporter/api/v1/payments/${encodeURIComponent(tracker)}`)
+    return String(data?.tracker?.state ?? data?.state ?? 'UNKNOWN').toUpperCase()
+  }
+
+  /** Whether a checkout payment went through. */
+  async isPaid(tracker: string): Promise<boolean> {
+    return ['TRACKER_ENDED', 'PAID'].includes(await this.trackerState(tracker))
   }
 
   /**
@@ -103,6 +141,6 @@ export class SafepayService {
 
   /** Returns captured funds to the Mingler. */
   async refund(tracker: string, amount: number): Promise<void> {
-    if (this.live) await this.call('POST', `/order/payments/v3/${tracker}/refund`, { amount: toMinor(amount) })
+    if (this.live) await this.call('POST', `/order/payments/v3/${tracker}/refund`, { currency: 'PKR', amount: toMinor(amount) })
   }
 }
