@@ -1,8 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ESCROW_QUERY_KEY } from '../constants'
 import { escrowService } from '../services'
-import type {
-  TestCardRequest, EscrowAction, EscrowStatus, TestBookingRequest } from '../types'
+import type { EscrowAction, EscrowStatus, TestBookingRequest, TestCardRequest } from '../types'
 
 export function useEscrowQuery(status?: EscrowStatus) {
   return useQuery({
@@ -44,7 +43,7 @@ export function useInterestTableOptions(restaurantId: string | undefined) {
 export function useTableBookingMutation() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (body: { interestTableId: string; minglerName: string; seats: number }) =>
+    mutationFn: (body: { interestTableId: string; minglerName: string; seats: number; seatPricePkr?: number }) =>
       escrowService.createTableBooking(body),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
@@ -81,6 +80,28 @@ export function useTestCardMutation() {
   return useMutation({
     mutationFn: ({ id, body }: { id: string; body: TestCardRequest }) => escrowService.addTestCard(id, body),
     onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
+    },
+  })
+}
+
+/** Opens Safepay's own checkout page for a hold that is waiting for a card. */
+export function useStartCheckoutMutation() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, returnUrl }: { id: string; returnUrl: string }) => escrowService.startCheckout(id, returnUrl),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
+    },
+  })
+}
+
+/** Asks Safepay whether a checkout was paid. */
+export function useConfirmCheckoutMutation() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => escrowService.confirmCheckout(id),
+    onSettled: () => {
       void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
     },
   })

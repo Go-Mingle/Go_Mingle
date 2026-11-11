@@ -52,7 +52,9 @@ describe('parity: escrow', () => {
     await p.req('photo commit', 'POST', `${R}/photos`, { ...A, body: (s) => ({ uploadRef: photo.get('data.uploadRef')[s] }) })
     await p.req('payout', 'PUT', `${R}/payout-account`, { ...A, body: { accountTitle: 'Kolachi Pvt', bankName: 'HBL', iban: 'PK36SCBL0000001123456702' } })
     const submitted = await p.req('submit', 'POST', `${R}/submit`, A)
-    const cat = (await p.req('category', 'POST', `${AD}/categories`, { ...AA, body: { name: 'Premium', commissionRate: 12, interestTablesPerMonth: 4 } })).get('id')
+    const cat = (await p.req('category', 'POST', `${AD}/categories`, { ...AA, body: { name: 'Premium', commissionRate: 10, interestTablesPerMonth: 4 } })).get('id')
+    // The category takes 10%, which is also the flat fee the old API always charged, so the two agree here.
+    // The new server splits by the category's rate (see the 12% category in arrival-no-show.test.ts).
     const approved = await p.req('approve', 'POST', `${AD}/admin/approvals/rest1/approve`, { ...AA, body: (s) => ({ categoryId: cat[s] }) })
     expect([submitted.neu.status, approved.neu.status, approved.old.status]).toEqual([200, 200, 200])
     await p.req('console lists the restaurant', 'GET', E, AA)

@@ -21,6 +21,12 @@ export const bookings = pgTable('bookings', {
   minglerName: text('mingler_name').notNull(),
   seats: integer('seats').notNull(),
   menuOption: text('menu_option').notNull().default(''),
+  /** Price of one seat (the prix-fixe menu option), copied when the booking is made. 0 when the table has no menu option. */
+  seatPricePkr: doublePrecision('seat_price_pkr').notNull().default(0),
+  /** The dinner bill charged at check-in: seat price × seats that arrived. Null until then, or when nothing was due. */
+  billPkr: doublePrecision('bill_pkr'),
+  /** The escrow entry holding the bill. */
+  billHoldId: text('bill_hold_id'),
   status: text('status').notNull(),
   attendance: text('attendance'),
   arrivedSeats: integer('arrived_seats'),
