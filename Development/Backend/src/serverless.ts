@@ -24,12 +24,20 @@ async function boot() {
   // Migrations take a session lock, which a pooled (PgBouncer) connection cannot hold
   // reliably; Neon offers a direct connection for that. Requests use the pooled one.
   const direct = new Database(process.env.DATABASE_URL_UNPOOLED || config.databaseUrl, 1)
+  const step = (what: string) => console.log(`[boot] ${what} (${Date.now() - started} ms)`)
+  const started = Date.now()
   const client = await direct.pool.connect()
+  step('database connected')
   try {
-    // Two cold starts at once must not migrate the same database together.
+    // Two cold starts at once must not migrate the same database together. A lock
+    // left by a frozen instance is given up after a while instead of waiting forever.
+    await client.query("SET lock_timeout = '20s'")
     await client.query('SELECT pg_advisory_lock(424242)')
+    step('migration lock taken')
     await direct.migrate()
+    step('migrations applied')
     await seed(direct.db)
+    step('seed checked')
   } finally {
     await client.query('SELECT pg_advisory_unlock(424242)').catch(() => undefined)
     client.release()
@@ -37,6 +45,7 @@ async function boot() {
   }
   const database = new Database(config.databaseUrl, 3)
   const app = await createApp(database, { logRequests: true })
+  step('app ready')
   return { handle: app.getHttpAdapter().getInstance() as Handler, bookings: app.get(BookingsService) }
 }
 
