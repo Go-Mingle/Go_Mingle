@@ -60,7 +60,11 @@ export class SafepayService {
    * reports it authorised.
    */
   async authorize(amount: number, orderId: string): Promise<{ tracker: string; state: string }> {
-    if (!this.live) return { tracker: `track_${crypto.randomUUID()}`, state: 'AUTHORIZED' }
+    if (!this.live) {
+      // Test aid: behaves like the live gateway, where the hold waits for the Mingler's card step.
+      const waits = process.env.GM_SIMULATE_PENDING_CARD === '1'
+      return { tracker: `track_${crypto.randomUUID()}`, state: waits ? 'PENDING_PAYER' : 'AUTHORIZED' }
+    }
     const data = await this.call('POST', '/order/payments/v3/', {
       merchant_api_key: config.safepay.apiKey,
       intent: 'CYBERSOURCE',

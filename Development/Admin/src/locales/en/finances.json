@@ -240,6 +240,22 @@
       "closed": "{{ref}}: closed. The card hold was released.",
       "closeFailed": "It could not be closed."
     },
-    "settledAtCheckIn": "Settled at check-in"
+    "settledAtCheckIn": "Settled at check-in",
+    "testCard": {
+      "open": "Add card",
+      "title": "Add a test card for {{ref}}",
+      "submit": "Place the hold",
+      "warningTitle": "Test cards only",
+      "warning": "This stands in for the Mingler app's card step. Use {{cards}} (approved) or {{declined}} (declined). Never enter a real card. One card covers every seat of the booking. The hold is simulated and nothing is sent to Safepay.",
+      "number": "Card number",
+      "expiry": "Expiry",
+      "cvc": "Security code",
+      "onlyTestCards": "Only the test card numbers above are accepted.",
+      "expiryInvalid": "Enter the expiry as MM/YY.",
+      "cvcInvalid": "Enter the 3 or 4 digit security code.",
+      "done_one": "{{ref}}: card added, {{count}} hold placed.",
+      "done_other": "{{ref}}: card added, {{count}} holds placed.",
+      "onHold": "{{brand}} •••• {{last4}} (test card)"
+    }
   }
 }

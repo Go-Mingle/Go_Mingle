@@ -59,6 +59,13 @@ export const escrowHolds = pgTable('escrow_holds', {
    * others go. This is the seat's number within its booking.
    */
   seatNo: integer('seat_no'),
+  /**
+   * TEMPORARY (until the Mingler app takes the card, GM-255): an admin added a
+   * test card to this hold from the Admin Panel. Such a hold is settled by the
+   * built-in simulator and never sent to Safepay. Only the brand and last four
+   * digits are kept.
+   */
+  testCard: jsonb('test_card').$type<{ brand: string; last4: string } | null>(),
   /** Set when the capture is requested, so the same capture is never sent twice. */
   idempotencyKey: text('idempotency_key').unique(),
 })

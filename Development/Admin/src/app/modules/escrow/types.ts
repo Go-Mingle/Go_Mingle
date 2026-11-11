@@ -56,6 +56,16 @@ export interface EscrowItem {
   kind?: 'NO_SHOW_HOLD'
   bookingId?: string | null
   seatNo?: number | null
+  /** TEMPORARY (GM-255): a test card an admin added; such a hold is settled by the simulator. */
+  testCard?: { brand: string; last4: string }
+}
+
+/** TEMPORARY (GM-255). Test card numbers only; never stored. */
+export interface TestCardRequest {
+  cardNumber: string
+  expMonth: number
+  expYear: number
+  cvc: string
 }
 
 /** A collection or release the gateway refused, waiting for a person. */

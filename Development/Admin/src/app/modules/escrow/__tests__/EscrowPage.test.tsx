@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { Route, Routes } from 'react-router-dom'
 import * as antd from 'antd'
 import { server } from '../../../../mocks/server'
-import { resetMockEscrow, setMockPaymentFailures } from '../../../../mocks/handlers/escrow'
+import { addMockPendingBooking, resetMockEscrow, setMockPaymentFailures } from '../../../../mocks/handlers/escrow'
 import { renderWithProviders } from '../../../../test-utils/renderWithProviders'
 import { EscrowPage } from '../EscrowPage'
 
@@ -100,6 +100,104 @@ describe('EscrowPage', () => {
     await user.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Void' }))
     await waitFor(async () => {
       expect(within(await rowFor('GM-000103')).getByText('Voided')).toBeInTheDocument()
+    })
+  })
+
+  it('shows no payout on money that can no longer reach the restaurant', async () => {
+    renderPage()
+    // Voided and refunded rows used to say "PKR … to restaurant after fee".
+    expect(within(await rowFor('GM-000106')).queryByText(/after/)).not.toBeInTheDocument()
+    expect(within(await rowFor('GM-000105')).queryByText(/after/)).not.toBeInTheDocument()
+    // A hold that is still live keeps the projection.
+    expect(within(await rowFor('GM-000103')).getByText(/after/)).toBeInTheDocument()
+  })
+
+  describe('adding a test card (GM-255)', () => {
+    const pendingRows = async () => {
+      const cells = await screen.findAllByText('GM-PEND01')
+      return cells.map((c) => c.closest('tr') as HTMLElement)
+    }
+
+    it('lets an admin add a card once for every seat of the booking', async () => {
+      addMockPendingBooking(2)
+      const user = userEvent.setup()
+      renderPage()
+      const rows = await pendingRows()
+      expect(rows).toHaveLength(2)
+      expect(within(rows[0]).getByText('Awaiting payment')).toBeInTheDocument()
+      expect(within(rows[0]).queryByText(/after/)).not.toBeInTheDocument()
+
+      await user.click(within(rows[0]).getByRole('button', { name: 'Add card' }))
+      const dialog = await screen.findByRole('dialog')
+      expect(within(dialog).getByText('Test cards only')).toBeInTheDocument()
+      // The approved test number is pre-filled; only expiry and code are typed.
+      expect(within(dialog).getByLabelText('Card number')).toHaveValue('4111 1111 1111 1111')
+      await user.type(within(dialog).getByLabelText('Expiry'), '12/30')
+      await user.type(within(dialog).getByLabelText('Security code'), '123')
+      await user.click(within(dialog).getByRole('button', { name: 'Place the hold' }))
+
+      await waitFor(async () => {
+        const after = await pendingRows()
+        expect(within(after[0]).getByText('Held on card')).toBeInTheDocument()
+        expect(within(after[1]).getByText('Held on card')).toBeInTheDocument()
+        expect(within(after[1]).getByText(/Visa •••• 1111 \(test card\)/)).toBeInTheDocument()
+      })
+    })
+
+    it('refuses anything that is not a test card and checks expiry and code', async () => {
+      addMockPendingBooking(1)
+      const user = userEvent.setup()
+      renderPage()
+      const [row] = await pendingRows()
+      await user.click(within(row).getByRole('button', { name: 'Add card' }))
+      const dialog = await screen.findByRole('dialog')
+      const number = within(dialog).getByLabelText('Card number')
+      await user.clear(number)
+      await user.type(number, '4242 4242 4242 4242')
+      await user.click(within(dialog).getByRole('button', { name: 'Place the hold' }))
+      expect(await within(dialog).findByText('Only the test card numbers above are accepted.')).toBeInTheDocument()
+      expect(within(dialog).getByText('Enter the expiry as MM/YY.')).toBeInTheDocument()
+      expect(within(dialog).getByText('Enter the 3 or 4 digit security code.')).toBeInTheDocument()
+      expect(within(row).getByText('Awaiting payment')).toBeInTheDocument()
+    })
+
+    it('shows the decline inside the dialog and leaves the hold waiting', async () => {
+      addMockPendingBooking(1)
+      const user = userEvent.setup()
+      renderPage()
+      const [row] = await pendingRows()
+      await user.click(within(row).getByRole('button', { name: 'Add card' }))
+      const dialog = await screen.findByRole('dialog')
+      const number = within(dialog).getByLabelText('Card number')
+      await user.clear(number)
+      await user.type(number, '4000 0000 0000 0002')
+      await user.type(within(dialog).getByLabelText('Expiry'), '12/30')
+      await user.type(within(dialog).getByLabelText('Security code'), '123')
+      await user.click(within(dialog).getByRole('button', { name: 'Place the hold' }))
+      expect(await within(dialog).findByText('The card was declined.')).toBeInTheDocument()
+      expect(within(row).getByText('Awaiting payment')).toBeInTheDocument()
+    })
+
+    it("shows the server's field message when it refuses the number", async () => {
+      addMockPendingBooking(1)
+      server.use(
+        http.post('*/api/v1/escrow/:id/test-card', () =>
+          HttpResponse.json(
+            { success: false, error: { code: 'ERR_VALIDATION', message: 'Check the card details.', details: { fields: { expiry: 'This card has expired.' } } } },
+            { status: 422 },
+          ),
+        ),
+      )
+      const user = userEvent.setup()
+      renderPage()
+      const [row] = await pendingRows()
+      await user.click(within(row).getByRole('button', { name: 'Add card' }))
+      const dialog = await screen.findByRole('dialog')
+      await user.type(within(dialog).getByLabelText('Expiry'), '01/20')
+      await user.type(within(dialog).getByLabelText('Security code'), '123')
+      await user.click(within(dialog).getByRole('button', { name: 'Place the hold' }))
+      expect(await within(dialog).findByText('This card has expired.')).toBeInTheDocument()
+      await user.click(within(dialog).getByRole('button', { name: 'Cancel' }))
     })
   })
 

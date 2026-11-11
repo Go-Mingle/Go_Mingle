@@ -801,6 +801,88 @@
   }
  },
  {
+  "step": "card: a real-looking number is refused",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "cardNumber": "Only test cards are accepted here: 4111 1111 1111 1111, 5555 5555 5555 4444, 4000 0000 0000 0002. Never enter a real card."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "card: bad expiry and code",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "cvc": "Enter the 3 or 4 digit security code.",
+      "expiry": "Enter a valid expiry date."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "card: expired",
+  "status": 422,
+  "body": {
+   "error": {
+    "code": "ERR_VALIDATION",
+    "details": {
+     "fields": {
+      "expiry": "Enter a valid expiry date."
+     }
+    },
+    "message": "Please correct the highlighted fields."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "card: declined",
+  "status": 402,
+  "body": {
+   "error": {
+    "code": "ERR_CARD_DECLINED",
+    "message": "The card was declined. Try another test card."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "card: unknown hold",
+  "status": 404,
+  "body": {
+   "error": {
+    "code": "ERR_NOT_FOUND",
+    "message": "Escrow transaction not found."
+   },
+   "success": false
+  }
+ },
+ {
+  "step": "card: already added",
+  "status": 409,
+  "body": {
+   "error": {
+    "code": "ERR_INVALID_STATE",
+    "message": "This hold is authorized; it is not waiting for a card."
+   },
+   "success": false
+  }
+ },
+ {
   "step": "signup start",
   "status": 200,
   "body": {

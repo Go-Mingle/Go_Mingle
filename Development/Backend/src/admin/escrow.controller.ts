@@ -14,6 +14,14 @@ import { AdminRestaurantsService } from './restaurants/admin-restaurants.service
 type Json = Record<string, unknown>
 const fmtPkr = (n: number) => `PKR ${Number(n).toLocaleString('en-PK', { maximumFractionDigits: 2 })}`
 
+/** The only card numbers the temporary admin card step accepts (GM-255). */
+const TEST_CARDS: Record<string, { brand: string; declines?: boolean }> = {
+  '4111111111111111': { brand: 'Visa' },
+  '5555555555554444': { brand: 'Mastercard' },
+  '4000000000000002': { brand: 'Visa', declines: true },
+}
+const spaced = (n: string) => n.replace(/(.{4})/g, '$1 ').trim()
+
 /** A Safepay failure reaches the screen as 502 with Safepay's own message. */
 async function gateway<T>(work: () => Promise<T>): Promise<T> {
   try {
@@ -73,6 +81,36 @@ export class EscrowController {
       }),
     )
     return { success: true, data: item }
+  }
+
+  /**
+   * TEMPORARY (GM-255, remove when the Mingler app takes the card): an admin
+   * completes the card step of a sandbox booking with a test card.
+   *
+   * Only the published test numbers are accepted, so a real card can never be
+   * used here. The number is checked and dropped: nothing but the brand and
+   * last four digits is stored, and nothing is sent to Safepay.
+   */
+  @Post(':id/test-card')
+  @HttpCode(200)
+  async testCard(@Param('id') id: string, @Body() body: Json, @CurrentAdmin() admin: AdminSession) {
+    const number = String(body.cardNumber ?? '').replace(/[\s-]/g, '')
+    const month = Number(body.expMonth)
+    const year = Number(body.expYear)
+    const fields: Record<string, string> = {}
+    const known = TEST_CARDS[number]
+    if (!known) fields.cardNumber = `Only test cards are accepted here: ${Object.keys(TEST_CARDS).map(spaced).join(', ')}. Never enter a real card.`
+    const now = new Date()
+    if (!Number.isInteger(month) || month < 1 || month > 12 || !Number.isInteger(year) || year < now.getFullYear() || year > now.getFullYear() + 20) {
+      fields.expiry = 'Enter a valid expiry date.'
+    } else if (year === now.getFullYear() && month < now.getMonth() + 1) {
+      fields.expiry = 'This card has expired.'
+    }
+    if (!/^\d{3,4}$/.test(String(body.cvc ?? ''))) fields.cvc = 'Enter the 3 or 4 digit security code.'
+    if (Object.keys(fields).length) throw apiError(422, 'ERR_VALIDATION', 'Please correct the highlighted fields.', { fields })
+    if (known.declines) throw apiError(402, 'ERR_CARD_DECLINED', 'The card was declined. Try another test card.')
+    const items = await this.escrow.addTestCard(id, { brand: known.brand, last4: number.slice(-4) }, `${admin.fullName} (test card)`)
+    return { success: true, data: { items } }
   }
 
   /** Tries a failed collection or release again. */

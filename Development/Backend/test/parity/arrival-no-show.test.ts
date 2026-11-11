@@ -259,10 +259,50 @@ describe('arrival and no-show', () => {
       delete process.env.GM_SIMULATE_CAPTURE_FAILURE
     }
 
+    // ── The card step, done by an admin until the Mingler app exists (GM-255) ──
+    const cardTable = await table('table for the card step', 'Chef’s Table', -3)
+    process.env.GM_SIMULATE_PENDING_CARD = '1'
+    let waiting: Awaited<ReturnType<typeof book>>
+    let unpaid: Awaited<ReturnType<typeof book>>
+    try {
+      // As with real Safepay keys: the holds wait for a card nobody has entered.
+      waiting = await book('booking waiting for a card', cardTable, { minglerName: 'Mehwish', seats: 2 })
+      unpaid = await book('booking never paid', cardTable, { minglerName: 'Rahim', seats: 1 })
+    } finally {
+      delete process.env.GM_SIMULATE_PENDING_CARD
+    }
+    expect(waiting.holds.map((h) => h.status)).toEqual(['PENDING_PAYMENT', 'PENDING_PAYMENT'])
+    const card = (id: string) => `${AD}/escrow/${id}/test-card`
+    const visa = { cardNumber: '4111 1111 1111 1111', expMonth: 12, expYear: new Date().getFullYear() + 2, cvc: '123' }
+    await p.req('card: a real-looking number is refused', 'POST', card(waiting.holds[0].id), { ...AA, body: { ...visa, cardNumber: '4539 1488 0343 6467' } })
+    await p.req('card: bad expiry and code', 'POST', card(waiting.holds[0].id), { ...AA, body: { ...visa, expMonth: 13, cvc: '12' } })
+    await p.req('card: expired', 'POST', card(waiting.holds[0].id), { ...AA, body: { ...visa, expMonth: 1, expYear: new Date().getFullYear() - 1 } })
+    await p.req('card: declined', 'POST', card(waiting.holds[0].id), { ...AA, body: { ...visa, cardNumber: '4000000000000002' } })
+    await p.req('card: unknown hold', 'POST', card('esc-nope'), { ...AA, body: visa })
+    // One card covers every seat of the booking.
+    const added = data(await p.req('card: added', 'POST', card(waiting.holds[1].id), { ...AA, compare: false, body: visa }))
+    expect(added.items.map((h: { seatNo: number; status: string; testCard: object }) => [h.seatNo, h.status, h.testCard])).toEqual([
+      [1, 'AUTHORIZED', { brand: 'Visa', last4: '1111' }],
+      [2, 'AUTHORIZED', { brand: 'Visa', last4: '1111' }],
+    ])
+    await p.req('card: already added', 'POST', card(waiting.holds[0].id), { ...AA, body: visa })
+    expect(data(await p.req('no-show after the card', 'POST', `${P}/bookings/${waiting.booking.id}/no-show`, { ...A, compare: false }))).toMatchObject({ penaltyChargedPkr: 3000, penaltyStatus: 'CHARGED' })
+    // No card yet: the no-show cannot collect, the admin adds the card and retries.
+    expect(data(await p.req('no-show before the card', 'POST', `${P}/bookings/${unpaid.booking.id}/no-show`, { ...A, compare: false }))).toMatchObject({ penaltyChargedPkr: 0, penaltyStatus: 'FAILED' })
+    const stuck = (await console_()).paymentFailures as { id: number; message: string }[]
+    expect(stuck.map((f) => f.message)).toEqual(['The card hold was never completed by the Mingler, so there is nothing to collect.'])
+    expect((await p.req('card: added late', 'POST', card(unpaid.holds[0].id), { ...AA, compare: false, body: { ...visa, cardNumber: '5555555555554444' } })).neu.status).toBe(200)
+    expect((await p.req('retry after the card', 'POST', `${AD}/escrow/failures/${stuck[0].id}/retry`, { ...AA, compare: false })).neu.status).toBe(200)
+    expect((await rows('card bookings', cardTable)).map((b) => [b.minglerName, b.penaltyChargedPkr, b.penaltyStatus])).toEqual([
+      ['Mehwish', 3000, 'CHARGED'],
+      ['Rahim', 1500, 'CHARGED'],
+    ])
+    expect((await console_()).paymentFailures).toEqual([])
+
     // ── Who hears about it ────────────────────────────────────────────────
     const adminInbox = data(await p.req('admin inbox', 'GET', `${AD}/notifications?pageSize=50`, { ...AA, compare: false })).items.map((n: { type: string }) => n.type)
-    expect(adminInbox.filter((t: string) => t === 'BOOKING_NO_SHOW')).toHaveLength(4)
-    expect(adminInbox.filter((t: string) => t === 'PAYMENT_FAILED')).toHaveLength(1)
+    expect(adminInbox.filter((t: string) => t === 'BOOKING_NO_SHOW')).toHaveLength(6)
+    expect(adminInbox.filter((t: string) => t === 'PAYMENT_FAILED')).toHaveLength(2)
     expect(adminInbox.filter((t: string) => t === 'INTEREST_TABLE_COMPLETED')).toHaveLength(2)
     const partnerInbox = data(await p.req('partner inbox', 'GET', `${P}/notifications`, { ...A, compare: false })).items.map((n: { type: string }) => n.type)
     expect(partnerInbox.filter((t: string) => t === 'BOOKING_NO_SHOW')).toHaveLength(1)

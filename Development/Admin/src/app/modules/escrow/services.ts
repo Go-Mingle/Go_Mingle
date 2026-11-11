@@ -8,6 +8,7 @@ import type {
   InterestTableOption,
   TableBookingResult,
   TestBookingRequest,
+  TestCardRequest,
 } from './types'
 
 export const escrowService = {
@@ -25,6 +26,10 @@ export const escrowService = {
 
   listInterestTables: (restaurantId: string): Promise<{ items: InterestTableOption[] }> =>
     httpClient.get<{ items: InterestTableOption[] }>(ESCROW_ENDPOINTS.interestTables(restaurantId)),
+
+  /** TEMPORARY (GM-255): covers every waiting hold of the same booking. */
+  addTestCard: (id: string, body: TestCardRequest): Promise<{ items: EscrowItem[] }> =>
+    httpClient.post<{ items: EscrowItem[] }>(ESCROW_ENDPOINTS.testCard(id), body),
 
   retryFailure: (id: number): Promise<{ id: number; resolved: boolean }> =>
     httpClient.post<{ id: number; resolved: boolean }>(ESCROW_ENDPOINTS.retryFailure(id), {}),

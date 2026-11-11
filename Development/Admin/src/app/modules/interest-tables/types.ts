@@ -311,6 +311,8 @@ export interface InterestTableBooking {
   comboName: string
   status: InterestTableStatus
   bill: number
+  /** Seats this booking holds. */
+  seats?: number
   isCaptain?: boolean
   // Redesign shells — undefined until the backend returns Pro Mingler flags.
   isPromingler?: boolean
