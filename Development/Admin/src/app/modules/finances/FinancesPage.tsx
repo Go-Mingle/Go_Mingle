@@ -227,7 +227,8 @@ export function FinancesPage() {
           <div className="finances-table">
             <Table<FinanceRecord>
               dataSource={records}
-              columns={withFixedEnds(columns)}
+              // The last column is a money value, not row actions, so it is not pinned.
+              columns={withFixedEnds(columns, { firstWidth: 160, pinLast: false })}
               rowKey="id"
               size="middle"
               pagination={false}

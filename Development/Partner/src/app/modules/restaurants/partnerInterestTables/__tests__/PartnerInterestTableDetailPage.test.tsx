@@ -11,6 +11,7 @@ import {
   setMockProfileStatus,
 } from '../../../../../mocks/data/partnerRestaurantProfile'
 import {
+  getMockInterestTable,
   mockInterestTableBooking,
   mockInvitee,
   resetMockInterestTables,
@@ -58,6 +59,19 @@ describe('detail page — states', () => {
     expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
       'Friday Wine Evening',
     )
+  })
+
+  it('shows topic, date and Pakistan time in the header, and dashes for missing fields', async () => {
+    server.use(
+      http.get(PARTNER_IT_ENDPOINTS.interestTableById('it-1'), async () => {
+        const body = (await getMockInterestTable('it-1').json()) as { data: Record<string, unknown> }
+        return HttpResponse.json({ success: true, data: { ...body.data, topic: '', assignedTable: '' } })
+      }),
+    )
+    await renderLoaded()
+    // No stray separator when the topic is empty.
+    expect(screen.getByText('28-04-2026 · 7:00 PM (Pakistan time)')).toBeInTheDocument()
+    expect(screen.getAllByText('—').length).toBeGreaterThanOrEqual(2)
   })
 
   it.each([['it-draft'], ['it-nope']])(

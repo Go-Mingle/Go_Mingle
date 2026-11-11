@@ -2,7 +2,7 @@
 
 NUCES MS Practicum: GoMingle social dining and restaurant booking platform (Karachi).
 
-**Version 0.7.3** (11 Nov 2026). See *Version history* at the end.
+**Version 0.7.4** (12 Nov 2026). See *Version history* at the end.
 
 **Live:** Admin Panel https://gomingle-admin.vercel.app · Partner Portal https://gomingle-partner.vercel.app · API https://gomingle-api.vercel.app. See *Online on Vercel* below.
 
@@ -104,6 +104,7 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 | Version | Date | What changed |
 |---|---|---|
 | 0.7.3 | 11 Nov 2026 | Interest table times are Pakistan time in the Admin form and the API; no bookings once a table has started (GM-258); cancelling a table cancels its bookings and refunds the Minglers (GM-259); Create & publish no longer flashes "Required" (GM-260); edit and delete interest tables (GM-261); Safepay-only card step when Safepay is connected (GM-262) |
+| 0.7.4 | 12 Nov 2026 | A stray internal label on a live test payment renamed to "Safepay test payment" (migration 0014) and docs cleaned up (GM-267); escrow screens no longer show the gateway or sandbox line (GM-268); the Partner login never shows demo credentials in a built portal (GM-269); Admin Finances amount column no longer pinned (GM-270); partner interest table header and overview show topic, date and Pakistan time with dashes for empty fields (GM-271); wider rows-per-page picker on Users (GM-272); escrow wording tidied: no "Simulated" note on bill rows, "Payments in escrow" title, sentence-case greeting (GM-273) |
 | Vercel | 11 Nov 2026 | Online on Vercel with a Neon database (GM-257) |
 | 0.7.2 | 11 Nov 2026 | Finances on both portals from real bookings, dinner bill at check-in, Safepay checkout for the admin card step (GM-256) |
 | 0.7.1 | 11 Nov 2026 | Admin card step for holds awaiting payment (GM-255), payout column and seats-booked fixes |
@@ -116,5 +117,5 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 | 0.1 | 6 Nov 2026 | Safepay sandbox keys read from `Backend/.env` |
 | 0 | 6 Nov 2026 | First working build: both portals on the GoMingle API, Karachi/PKR rebrand, Safepay escrow |
 
-The same history is on GitHub (Go-Mingle/Go_Mingle) as tags `v0` to `v0.5` and `release/v0.6` … `release/v0.7.3` branches, merged into `main` through pull requests.
+The same history is on GitHub (Go-Mingle/Go_Mingle) as tags `v0` to `v0.5` and `release/v0.6` … `release/v0.7.4` branches, merged into `main` through pull requests.
 

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Alert, Select, Spin, Table, Tag, Tooltip, message } from 'antd'
 import type { TableProps } from 'antd/es/table'
-import { ArrowLeft, Plus, ShieldCheck } from '@phosphor-icons/react'
+import { ArrowLeft, Plus } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { AppButton } from '../../atoms/AppButton'
@@ -130,7 +130,6 @@ export function EscrowPage() {
               {r.kind === 'NO_SHOW_HOLD' && ` · ${t('escrow.noShowHold', { seat: r.seatNo ?? 1 })}`}
               {r.kind === 'BILL' && ` · ${t('escrow.bill', { count: r.guests })}`}
             </div>
-            {r.kind === 'BILL' && <div className="text-xs text-(--color-text-muted)">{t('escrow.simulatedCharge')}</div>}
             {r.checkout && (
               <div className="text-xs text-(--color-text-muted)">
                 {t(r.checkout.paidAt ? 'escrow.checkout.paid' : 'escrow.checkout.started')}
@@ -256,7 +255,7 @@ export function EscrowPage() {
       >
         <ArrowLeft size={14} /> {t('escrow.back')}
       </button>
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h1 className="m-0 text-[26px] font-bold text-(--color-text) [font-family:var(--font-ui)] leading-tight">
           {t('escrow.title')}
         </h1>
@@ -264,16 +263,6 @@ export function EscrowPage() {
           <Plus size={15} /> {t('escrow.testBooking.open')}
         </AppButton>
       </div>
-      {data && (
-        <div className="flex items-center gap-2 text-sm text-(--color-text-muted) mb-6">
-          <ShieldCheck size={16} weight="fill" className="text-(--color-accent)" />
-          {t('escrow.gateway', {
-            name: data.gateway.name,
-            env: data.gateway.environment,
-            mode: t(`escrow.mode.${data.gateway.mode}`),
-          })}
-        </div>
-      )}
 
       {query.isLoading && (
         <div className="flex justify-center py-16">

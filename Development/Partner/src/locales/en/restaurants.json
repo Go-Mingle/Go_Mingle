@@ -1000,6 +1000,7 @@
     }
   },
   "partnerInterestTables": {
+    "pkt": "(Pakistan time)",
     "emptyTitle": "No interest tables yet",
     "emptyDesc": "GoMingle schedules interest tables at your restaurant. They’ll appear here once they’re published.",
     "noMatchTitle": "No interest tables with this status",
