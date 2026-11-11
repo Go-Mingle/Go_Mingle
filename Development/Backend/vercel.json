@@ -7,9 +7,13 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 60,
-      "memory": 1024,
       "includeFiles": "{dist/**,drizzle/**,node_modules/@phosphor-icons/core/assets/regular/**}"
     }
   },
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api"
+    }
+  ]
 }
