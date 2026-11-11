@@ -28,12 +28,13 @@ export class EscrowService {
     const [restaurant] = await this.db.select({ name: restaurants.name }).from(restaurants).where(eq(restaurants.id, h.restaurantId))
     const account = await this.payouts.account(h.restaurantId)
     const platformFee = round((h.amount * h.platformFeePct) / 100)
-    const { seq: _seq, payout, kind, bookingId, seatNo, idempotencyKey: _key, ...rest } = h
+    const { seq: _seq, payout, kind, bookingId, seatNo, idempotencyKey: _key, testCard, ...rest } = h
     return {
       ...rest,
       ...(payout ? { payout } : {}),
       // Only on penalty holds, so ordinary payments read as they always have.
       ...(kind !== 'PAYMENT' ? { kind, bookingId, seatNo } : {}),
+      ...(testCard ? { testCard } : {}),
       restaurantName: restaurant?.name ?? h.restaurantId,
       platformFee,
       restaurantNet: round(h.amount - platformFee),
@@ -121,7 +122,7 @@ export class EscrowService {
     this.notPenaltyHold(h, 'captured')
     if (h.status === 'PENDING_PAYMENT' && (await this.safepay.isAuthorized(h.tracker))) h = await this.move(h, 'AUTHORIZED', 'Safepay')
     this.expect(h, 'AUTHORIZED', 'capture')
-    await this.safepay.capture(h.tracker)
+    if (!h.testCard) await this.safepay.capture(h.tracker)
     return this.view(await this.move(h, 'IN_ESCROW', by))
   }
 
@@ -129,7 +130,7 @@ export class EscrowService {
     const h = await this.find(id)
     this.notPenaltyHold(h, 'voided')
     this.expect(h, 'AUTHORIZED', 'void')
-    await this.safepay.void(h.tracker)
+    if (!h.testCard) await this.safepay.void(h.tracker)
     return this.view(await this.move(h, 'VOIDED', by, reason))
   }
 
@@ -137,8 +138,27 @@ export class EscrowService {
     const h = await this.find(id)
     this.expect(h, 'IN_ESCROW', 'refund')
     if (!reason) throw escrowError(422, 'ERR_VALIDATION', 'A reason is required to refund.')
-    await this.safepay.refund(h.tracker, h.amount)
+    if (!h.testCard) await this.safepay.refund(h.tracker, h.amount)
     return this.view(await this.move(h, 'REFUNDED', by, reason))
+  }
+
+  /**
+   * TEMPORARY (GM-255): completes the card step of holds that are waiting for
+   * it, with a test card typed in the Admin Panel. Covers every waiting hold of
+   * the same booking, so a booking needs the card once, not once per seat.
+   * From then on these holds are settled by the simulator, not by Safepay.
+   */
+  async addTestCard(id: string, card: { brand: string; last4: string }, by: string) {
+    const first = await this.find(id)
+    const holds = first.bookingId ? await this.holdsOfBooking(first.bookingId) : [first]
+    const waiting = holds.filter((h) => h.status === 'PENDING_PAYMENT')
+    if (waiting.length === 0) {
+      throw escrowError(409, 'ERR_INVALID_STATE', `This hold is ${first.status.replace('_', ' ').toLowerCase()}; it is not waiting for a card.`)
+    }
+    const note = `Test card ${card.brand} •••• ${card.last4} (simulated, not sent to Safepay)`
+    const done: Hold[] = []
+    for (const h of waiting) done.push(await this.move(h, 'AUTHORIZED', by, note, { testCard: card }))
+    return Promise.all(done.map((h) => this.view(h)))
   }
 
   /** The card holds of a booking, by seat. */
@@ -160,7 +180,7 @@ export class EscrowService {
     if (h.status === 'PENDING_PAYMENT' && (await this.safepay.isAuthorized(h.tracker))) h = await this.move(h, 'AUTHORIZED', 'Safepay')
     if (h.status === 'PENDING_PAYMENT') throw new Error('The card hold was never completed by the Mingler, so there is nothing to collect.')
     if (h.status !== 'AUTHORIZED') throw new Error(`The card hold is ${h.status.replace('_', ' ').toLowerCase()} and cannot be collected.`)
-    await this.safepay.capture(h.tracker)
+    if (!h.testCard) await this.safepay.capture(h.tracker)
     return this.view(await this.move(h, 'IN_ESCROW', by, note, { idempotencyKey: key }))
   }
 
@@ -170,7 +190,7 @@ export class EscrowService {
     // A hold the Mingler never completed has nothing on the card to let go.
     if (h.status === 'PENDING_PAYMENT') return this.view(await this.move(h, 'VOIDED', by, `${note} (card hold was never completed)`))
     if (h.status !== 'AUTHORIZED') return this.view(h)
-    await this.safepay.void(h.tracker)
+    if (!h.testCard) await this.safepay.void(h.tracker)
     return this.view(await this.move(h, 'VOIDED', by, note))
   }
 

@@ -97,6 +97,12 @@ describe('countBookedSeats', () => {
     expect(countBookedSeats([booking('cancelled'), booking('confirmed')])).toBe(1)
   })
 
+  it('counts every seat of a booking, not one per booking', () => {
+    // One Mingler booking all four seats fills the table.
+    expect(countBookedSeats([{ status: 'CONFIRMED', seats: 4 }])).toBe(4)
+    expect(countBookedSeats([{ status: 'CONFIRMED', seats: 3 }, { status: 'CANCELLED', seats: 2 }, { status: 'CONFIRMED' }])).toBe(4)
+  })
+
   it('returns 0 for a table with no bookings', () => {
     expect(countBookedSeats([])).toBe(0)
   })

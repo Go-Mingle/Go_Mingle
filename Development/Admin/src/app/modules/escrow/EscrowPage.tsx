@@ -8,11 +8,13 @@ import { AppButton } from '../../atoms/AppButton'
 import { HttpError } from '../../../shared/api/httpClient'
 import { ReasonModal, TestBookingModal } from './components/EscrowModals'
 import { FailedCollections } from './components/FailedCollections'
+import { TestCardModal } from './components/TestCardModal'
 import {
   useEscrowActionMutation,
   useEscrowQuery,
   useTableBookingMutation,
   useTestBookingMutation,
+  useTestCardMutation,
 } from './hooks/useEscrow'
 import type { EscrowAction, EscrowItem, EscrowStatus, EscrowSummary } from './types'
 
@@ -77,6 +79,8 @@ export function EscrowPage() {
   const actionMutation = useEscrowActionMutation()
   const testMutation = useTestBookingMutation()
   const tableBookingMutation = useTableBookingMutation()
+  const cardMutation = useTestCardMutation()
+  const [cardFor, setCardFor] = useState<EscrowItem | null>(null)
 
   const run = (item: EscrowItem, action: EscrowAction, reason?: string) => {
     actionMutation.mutate(
@@ -103,6 +107,11 @@ export function EscrowPage() {
               {r.eventName}
               {r.kind === 'NO_SHOW_HOLD' && ` · ${t('escrow.noShowHold', { seat: r.seatNo ?? 1 })}`}
             </div>
+            {r.testCard && (
+              <div className="text-xs text-(--color-text-muted)">
+                {t('escrow.testCard.onHold', { brand: r.testCard.brand, last4: r.testCard.last4 })}
+              </div>
+            )}
           </div>
         ),
       },
@@ -130,26 +139,42 @@ export function EscrowPage() {
       {
         title: t('escrow.col.payout'),
         key: 'payout',
-        render: (_, r) =>
-          r.payout ? (
-            <div>
-              <div className="tabular-nums">{formatPkr(r.payout.amount)}</div>
-              <div className="text-xs text-(--color-text-muted)">
-                {r.payout.bank} {r.payout.ibanMasked} · {r.payout.reference}
+        render: (_, r) => {
+          if (r.payout) {
+            return (
+              <div>
+                <div className="tabular-nums">{formatPkr(r.payout.amount)}</div>
+                <div className="text-xs text-(--color-text-muted)">
+                  {r.payout.bank} {r.payout.ibanMasked} · {r.payout.reference}
+                </div>
               </div>
-            </div>
-          ) : (
+            )
+          }
+          // Only money that is held or in escrow can still reach the restaurant.
+          if (r.status !== 'AUTHORIZED' && r.status !== 'IN_ESCROW') {
+            return <span className="text-xs text-(--color-text-muted)">—</span>
+          }
+          return (
             <div className="text-xs text-(--color-text-muted)">
               {t('escrow.netAfterFee', { net: formatPkr(r.restaurantNet), fee: formatPkr(r.platformFee) })}
               <div>{r.payoutTo ?? t('escrow.noPayoutAccount')}</div>
             </div>
-          ),
+          )
+        },
       },
       {
         title: t('escrow.col.actions'),
         key: 'actions',
         render: (_, r) => {
           const busy = actionMutation.isPending && actionMutation.variables?.id === r.id
+          // TEMPORARY (GM-255): until the Mingler app takes the card, an admin completes the card step.
+          if (r.status === 'PENDING_PAYMENT') {
+            return (
+              <AppButton variant="primary" onClick={() => { cardMutation.reset(); setCardFor(r) }}>
+                {t('escrow.testCard.open')}
+              </AppButton>
+            )
+          }
           // A no-show hold is settled by its booking's check-in, never by hand.
           if (r.status === 'AUTHORIZED' && r.kind === 'NO_SHOW_HOLD') {
             return <span className="text-xs text-(--color-text-muted)">{t('escrow.settledAtCheckIn')}</span>
@@ -266,6 +291,26 @@ export function EscrowPage() {
         loading={actionMutation.isPending}
         onCancel={() => setPending(null)}
         onConfirm={(reason) => pending && run(pending.item, pending.action, reason || undefined)}
+      />
+      <TestCardModal
+        open={cardFor !== null}
+        bookingRef={cardFor?.bookingRef ?? ''}
+        loading={cardMutation.isPending}
+        error={cardMutation.error}
+        onCancel={() => setCardFor(null)}
+        onSubmit={(body) => {
+          if (!cardFor) return
+          const target = cardFor
+          cardMutation.mutate(
+            { id: target.id, body },
+            {
+              onSuccess: ({ items }) => {
+                setCardFor(null)
+                void message.success(t('escrow.testCard.done', { ref: target.bookingRef, count: items.length }))
+              },
+            },
+          )
+        }}
       />
       <TestBookingModal
         open={testOpen}

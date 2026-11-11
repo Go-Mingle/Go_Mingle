@@ -26,6 +26,8 @@ export function bookingRowToInterestTableBooking(row: BookingRow): InterestTable
     // API statuses are UPPERCASE (match InterestTableStatus / the badge colours).
     status: row.status as InterestTableStatus,
     bill: row.billPkr ?? 0,
+    // One Mingler can hold several seats in a single booking.
+    seats: typeof row.seats === 'number' && row.seats > 0 ? row.seats : 1,
     isCaptain: row.isTickProMingler || row.isCrownProMingler,
   }
 }

@@ -50,9 +50,12 @@ export function resolveDurationMinutes(table: InterestTable): number {
 export function countBookedSeats(
   // `status` is deliberately a plain string, not `InterestTableStatus`: it
   // originates from `BookingRow.status`, which the API types as string.
-  bookings: { status: string }[] | undefined,
+  // `seats` is how many seats the booking holds; one when the API does not say.
+  bookings: { status: string; seats?: number }[] | undefined,
   fallback?: number,
 ): number {
   if (!bookings) return fallback ?? 0
-  return bookings.filter((b) => b.status?.toUpperCase() !== SEAT_RELEASING_STATUS).length
+  return bookings
+    .filter((b) => b.status?.toUpperCase() !== SEAT_RELEASING_STATUS)
+    .reduce((total, b) => total + (typeof b.seats === 'number' && b.seats > 0 ? b.seats : 1), 0)
 }

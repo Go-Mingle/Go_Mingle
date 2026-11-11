@@ -113,6 +113,29 @@ export function setMockPaymentFailures(next: Partial<PaymentFailure>[]) {
   }))
 }
 
+/**
+ * Test helper (GM-255): a booking whose holds are still waiting for a card,
+ * as happens when Safepay keys are set and no Mingler app has taken the card.
+ */
+export function addMockPendingBooking(seats = 2) {
+  const bookingId = 'bk-pending'
+  for (let seat = 1; seat <= seats; seat += 1) {
+    const id = `esc-00090${String(seat)}`
+    ledger.set(id, {
+      ...makeItem(id, 'rest1', 'Farid Ahmed', 1, MOCK_NO_SHOW_PENALTY_PKR, 'Supper Club', 'PENDING_PAYMENT'),
+      bookingRef: 'GM-PEND01',
+      kind: 'NO_SHOW_HOLD',
+      bookingId,
+      seatNo: seat,
+    })
+  }
+}
+
+const TEST_CARD_BRANDS: Record<string, string> = {
+  '4111111111111111': 'Visa',
+  '5555555555554444': 'Mastercard',
+}
+
 export function resetMockEscrow() {
   ledger = seed()
   failures = []
@@ -151,6 +174,39 @@ const error = (status: number, code: string, message: string) =>
   HttpResponse.json({ success: false, error: { code, message } }, { status })
 
 export const escrowHandlers = [
+  // TEMPORARY (GM-255): an admin completes the card step with a test card.
+  http.post(`${BASE}/:id/test-card`, async ({ params, request }) => {
+    const body = (await request.json()) as { cardNumber?: string }
+    const first = ledger.get(String(params.id))
+    if (!first) return error(404, 'ERR_NOT_FOUND', 'Escrow hold not found.')
+    const number = String(body.cardNumber ?? '')
+    if (number === '4000000000000002') return error(402, 'ERR_CARD_DECLINED', 'The card was declined.')
+    const brand = TEST_CARD_BRANDS[number]
+    if (!brand) {
+      return HttpResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'ERR_VALIDATION',
+            message: 'Check the card details.',
+            details: { fields: { cardNumber: 'Only test card numbers are accepted here.' } },
+          },
+        },
+        { status: 422 },
+      )
+    }
+    const waiting = [...ledger.values()].filter(
+      (i) => i.status === 'PENDING_PAYMENT' && (first.bookingId ? i.bookingId === first.bookingId : i.id === first.id),
+    )
+    if (waiting.length === 0) return error(409, 'ERR_INVALID_STATE', 'This hold is not waiting for a card.')
+    const items = waiting.map((i) => {
+      const next: EscrowItem = { ...i, status: 'AUTHORIZED', testCard: { brand, last4: number.slice(-4) } }
+      ledger.set(i.id, next)
+      return next
+    })
+    return HttpResponse.json({ success: true, data: { items } })
+  }),
+
   http.get(BASE, ({ request }) => {
     const status = new URL(request.url).searchParams.get('status') as EscrowStatus | null
     return HttpResponse.json({ success: true, data: overview(status) })
