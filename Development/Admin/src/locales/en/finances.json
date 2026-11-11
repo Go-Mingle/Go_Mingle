@@ -121,11 +121,6 @@
   "escrow": {
     "title": "Escrow & payouts",
     "back": "Back to Finances",
-    "gateway": "{{name}} · {{env}} · {{mode}}",
-    "mode": {
-      "simulator": "built-in sandbox simulator",
-      "live": "connected with your API keys"
-    },
     "summary": {
       "authorized": "Held on cards",
       "inEscrow": "In escrow",
@@ -262,7 +257,6 @@
     },
     "bill_one": "dinner bill, {{count}} seat",
     "bill_other": "dinner bill, {{count}} seats",
-    "simulatedCharge": "Simulated charge (not sent to Safepay)",
     "checkout": {
       "open": "Pay on Safepay",
       "openHint": "Opens Safepay's own checkout page. Pay there with a Safepay sandbox test card; one payment covers every seat of this booking, and it then shows as paid in your Safepay dashboard.",

@@ -1416,7 +1416,7 @@ Categories, Approval Queue, Restaurants (including review moderation), Roles and
 
 ## Coverage Tracking
 
-Use this section to track implementation status after running a Claude Code audit.
+Use this section to track implementation status after running an automated code audit.
 
 | Story | Module                    | Status                | Notes                      |
 | ----- | ------------------------- | --------------------- | -------------------------- |

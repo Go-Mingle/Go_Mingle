@@ -350,6 +350,17 @@ describe('useLoginForm — sign in', () => {
     const { result } = renderLoginForm()
     expect(result.current.showDemoCredentials).toBe(true)
   })
+
+  it('never shows the demo box in a built portal, unless a demo build asks for it', () => {
+    vi.stubEnv('DEV', false)
+    try {
+      expect(renderLoginForm().result.current.showDemoCredentials).toBe(false)
+      vi.stubEnv('VITE_SHOW_DEMO_CREDENTIALS', 'true')
+      expect(renderLoginForm().result.current.showDemoCredentials).toBe(true)
+    } finally {
+      vi.unstubAllEnvs()
+    }
+  })
 })
 
 describe('useLoginForm — forgot password', () => {

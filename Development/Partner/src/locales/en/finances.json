@@ -139,8 +139,7 @@
     "bookingsLabel": "Bookings"
   },
   "escrow": {
-    "title": "Safepay escrow",
-    "gateway": "{{name}} · {{env}}",
+    "title": "Payments in escrow",
     "heldOnCards": "Held on cards",
     "heldOnCardsHint": "Card holds for upcoming bookings",
     "inEscrow": "In escrow",

@@ -29,10 +29,10 @@ describe('EscrowPage', () => {
     vi.restoreAllMocks()
   })
 
-  it('shows the gateway, escrow summary and every transaction', async () => {
+  it('shows the escrow summary and every transaction, without gateway or environment labels', async () => {
     renderPage()
-    expect(await screen.findByText(/Safepay · sandbox · built-in sandbox simulator/)).toBeInTheDocument()
-    expect(screen.getByText('Held on cards')).toBeInTheDocument()
+    expect(await screen.findByText('Held on cards')).toBeInTheDocument()
+    expect(screen.queryByText(/sandbox simulator|connected with your API keys/)).not.toBeInTheDocument()
     // 2 IN_ESCROW holds: 2×2800 + 5×2600 = 18,600
     expect(screen.getByText(/PKR 18,600/)).toBeInTheDocument()
     expect(screen.getByText('6 transactions')).toBeInTheDocument()
@@ -298,7 +298,7 @@ describe('EscrowPage', () => {
     renderPage()
     const row = await rowFor('GM-BILL01')
     expect(within(row).getByText(/dinner bill, 4 seats/)).toBeInTheDocument()
-    expect(within(row).getByText('Simulated charge (not sent to Safepay)')).toBeInTheDocument()
+    expect(within(row).queryByText(/Simulated/)).not.toBeInTheDocument()
     expect(within(row).getByRole('button', { name: 'Release' })).toBeInTheDocument()
   })
 

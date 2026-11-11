@@ -16,8 +16,9 @@ beforeEach(() => {
 describe('EscrowPanel', () => {
   it('shows the escrow balances, payout account and last payout', async () => {
     renderWithProviders(<EscrowPanel />)
-    expect(await screen.findByRole('region', { name: 'Safepay escrow' })).toBeInTheDocument()
-    expect(screen.getByText('Safepay · sandbox')).toBeInTheDocument()
+    expect(await screen.findByRole('region', { name: 'Payments in escrow' })).toBeInTheDocument()
+    // No gateway or environment label on a page restaurants see.
+    expect(screen.queryByText(/sandbox/i)).not.toBeInTheDocument()
     expect(screen.getByText('Held on cards')).toBeInTheDocument()
     expect(screen.getByText('After the 10% GoMingle fee')).toBeInTheDocument()
     expect(screen.getByText(/Payouts go to Meezan Bank PK40 •••• 6702/)).toBeInTheDocument()

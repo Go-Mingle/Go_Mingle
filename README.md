@@ -170,6 +170,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 | Release | Date | Highlights |
 |---|---|---|
 | `v0.7.3` | 11 Nov 2026 | Interest table times are Pakistan time everywhere; tables take no bookings once started; cancelling a table cancels its bookings and gives the Minglers' money back; admins can edit and delete interest tables; Safepay-only card step when Safepay is connected (GM-258 to GM-262) |
+| `v0.7.4` | 12 Nov 2026 | Cleaner, more professional portals: no payment-gateway environment labels on the escrow screens, no demo sign-in box on the Partner login, partner interest table header shows topic, date and Pakistan time; UI polish on Finances and Users; Jira reorganised into Admin / Partner / Mingler / UI Enhancements epics (GM-267 to GM-273) |
 | Vercel | 11 Nov 2026 | Admin Panel, Partner Portal and API live on Vercel with a Neon database (GM-257) |
 | `v0.7.2` | 11 Nov 2026 | Finances on both portals from real bookings; dinner bill at check-in; Safepay checkout for the admin card step (GM-256) |
 | `v0.7.1` | 11 Nov 2026 | Admin test-card step (GM-255); payout column and seats-booked fixes |
