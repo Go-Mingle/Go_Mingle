@@ -21,17 +21,21 @@ const CHECK_EVERY_MS = 5 * 60_000
 
 async function boot() {
   if (!config.databaseUrl) throw new Error('DATABASE_URL is not set. Connect a PostgreSQL database to this Vercel project.')
-  const database = new Database(config.databaseUrl, 3)
-  // Two cold starts at once must not migrate the same database together.
-  const client = await database.pool.connect()
+  // Migrations take a session lock, which a pooled (PgBouncer) connection cannot hold
+  // reliably; Neon offers a direct connection for that. Requests use the pooled one.
+  const direct = new Database(process.env.DATABASE_URL_UNPOOLED || config.databaseUrl, 1)
+  const client = await direct.pool.connect()
   try {
+    // Two cold starts at once must not migrate the same database together.
     await client.query('SELECT pg_advisory_lock(424242)')
-    await database.migrate()
-    await seed(database.db)
+    await direct.migrate()
+    await seed(direct.db)
   } finally {
     await client.query('SELECT pg_advisory_unlock(424242)').catch(() => undefined)
     client.release()
+    await direct.close()
   }
+  const database = new Database(config.databaseUrl, 3)
   const app = await createApp(database, { logRequests: true })
   return { handle: app.getHttpAdapter().getInstance() as Handler, bookings: app.get(BookingsService) }
 }
