@@ -89,12 +89,12 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 - **API:** `Backend/api/index.js` hands every request to the compiled NestJS app (`Backend/src/serverless.ts`).
   - Database: Neon PostgreSQL (`DATABASE_URL` pooled, `DATABASE_URL_UNPOOLED` for migrations). Migrations and first-run data are applied on start.
   - The no-show check runs on incoming requests, at most every 5 minutes.
-- **API settings on Vercel:** `JWT_SECRET`, `SEED_ADMIN_PASSWORD`, `SEED_PARTNER_PASSWORD`, `CORS_ORIGINS` (the two portal addresses), `PUBLIC_URL`, `SAFEPAY_ENV`, `SAFEPAY_API_KEY`, `SAFEPAY_SECRET_KEY`, `PLATFORM_FEE_PCT`. Change them under the project's *Settings → Environment Variables*, then redeploy.
+- **API settings on Vercel:** `JWT_SECRET`, `SEED_ADMIN_PASSWORD`, `SEED_PARTNER_PASSWORD`, `CORS_ORIGINS` (the two portal addresses), `PUBLIC_URL`, `SAFEPAY_ENV`, `SAFEPAY_API_KEY`, `SAFEPAY_SECRET_KEY`, `PLATFORM_FEE_PCT`, `MAILTRAP_API_TOKEN`, `MAILTRAP_INBOX_ID`, `MAIL_FROM_EMAIL`, `MAIL_FROM_NAME`, `ADMIN_PORTAL_URL`, `PARTNER_PORTAL_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`. The Partner Portal also has `VITE_GOOGLE_CLIENT_ID`. Change them under the project's *Settings → Environment Variables*, then redeploy.
 - **Logs:** Vercel → project → *Logs*. The API prints `[boot]` lines on a cold start and one line per request.
 
 ## Notes
 
-- Backend details, configuration and current limits are in `Backend/README.md`. The main limits: no real e-mail, SMS or payments (codes print in the API window; Safepay uses the sandbox keys in `Backend/.env` locally or the Vercel settings online; empty them to use the offline simulator), and Mingler bookings, reviews and finance figures stay empty until the Mingler app is connected.
+- Backend details, configuration and current limits are in `Backend/README.md`. The main limits: email goes to the Mailtrap test inbox online and to the API window locally (no SMS yet), payments are Safepay sandbox ( Safepay uses the sandbox keys in `Backend/.env` locally or the Vercel settings online; empty them to use the offline simulator), and Mingler bookings, reviews and finance figures stay empty until the Mingler app is connected.
 - Production sign-in is still AWS Cognito. Set `VITE_AUTH_MODE=cognito` and the pool variables.
 - The mobile app's bundle id is now `com.gomingle.customer`. Register that id in Firebase before building release apps.
 - The Flutter app still pulls the Ethr UI SDK from its original Bitbucket repository. That URL in `pubspec.yaml` is the only place the old company name remains, because the package can only be fetched from where it is hosted.
@@ -104,6 +104,7 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 | Version | Date | What changed |
 |---|---|---|
 | 0.7.3 | 11 Nov 2026 | Interest table times are Pakistan time in the Admin form and the API; no bookings once a table has started (GM-258); cancelling a table cancels its bookings and refunds the Minglers (GM-259); Create & publish no longer flashes "Required" (GM-260); edit and delete interest tables (GM-261); Safepay-only card step when Safepay is connected (GM-262) |
+| 0.8.0 | 12 Nov 2026 | Email through Mailtrap (any SMTP provider later) with a log of every send (GM-274); Configure → Email Templates in the Admin Panel: edit, live preview, send a test, switch off, restore default, recent emails, its own Roles & Access module (GM-275); *Continue with Google* on the Partner Portal sign-in and sign-up (GM-276); the fixed demo code stops working once email is set up |
 | 0.7.4 | 12 Nov 2026 | A stray internal label on a live test payment renamed to "Safepay test payment" (migration 0014) and docs cleaned up (GM-267); escrow screens no longer show the gateway or sandbox line (GM-268); the Partner login never shows demo credentials in a built portal (GM-269); Admin Finances amount column no longer pinned (GM-270); partner interest table header and overview show topic, date and Pakistan time with dashes for empty fields (GM-271); wider rows-per-page picker on Users (GM-272); escrow wording tidied: no "Simulated" note on bill rows, "Payments in escrow" title, sentence-case greeting (GM-273) |
 | Vercel | 11 Nov 2026 | Online on Vercel with a Neon database (GM-257) |
 | 0.7.2 | 11 Nov 2026 | Finances on both portals from real bookings, dinner bill at check-in, Safepay checkout for the admin card step (GM-256) |
@@ -117,5 +118,5 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 | 0.1 | 6 Nov 2026 | Safepay sandbox keys read from `Backend/.env` |
 | 0 | 6 Nov 2026 | First working build: both portals on the GoMingle API, Karachi/PKR rebrand, Safepay escrow |
 
-The same history is on GitHub (Go-Mingle/Go_Mingle) as tags `v0` to `v0.5` and `release/v0.6` … `release/v0.7.4` branches, merged into `main` through pull requests.
+The same history is on GitHub (Go-Mingle/Go_Mingle) as tags `v0` to `v0.5` and `release/v0.6` … `release/v0.8.0` branches, merged into `main` through pull requests.
 

@@ -49,6 +49,40 @@ Copy `.env.example` to `.env`. Everything is optional.
   server talks to Safepay (sandbox or production); without them it uses the simulator.
 - `JWT_SECRET`: set it so sign-ins survive a restart.
 - `PLATFORM_FEE_PCT`: GoMingle's share of a booking (default 10).
+- Email (see *Email* below): `MAILTRAP_API_TOKEN` + `MAILTRAP_INBOX_ID`, or
+  `SMTP_HOST`/`SMTP_PORT`/`SMTP_USER`/`SMTP_PASS`; `MAIL_FROM_EMAIL`, `MAIL_FROM_NAME`;
+  `ADMIN_PORTAL_URL`, `PARTNER_PORTAL_URL` for links in emails.
+- `GOOGLE_CLIENT_ID`: turns on Google sign-in for partners.
+- `DEMO_OTP`: a fixed code accepted alongside the real one. Defaults to `123456`
+  while no email provider is set, and is off once one is (set it to force one).
+
+## Email
+
+Every email is a template in `src/shared/email/catalog.ts` (default wording and
+placeholders) that admins can edit under **Configure → Email Templates**. Sending
+goes through `MailService.send(key, recipient, values)`, which fills the stored
+template, delivers it and writes a row to `email_log` (Sent, Failed, Not
+delivered, Switched off). A failed send never blocks the action that caused it.
+
+| Provider | Settings | What happens |
+|---|---|---|
+| Mailtrap test inbox (online now) | `MAILTRAP_API_TOKEN`, `MAILTRAP_INBOX_ID` | Emails land in Mailtrap → Sandboxes, not in real inboxes |
+| Mailtrap live sending | `MAILTRAP_API_TOKEN` only | Real delivery; needs a verified domain in Mailtrap |
+| SMTP (Brevo, Amazon SES, …) | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Real delivery through that provider |
+| None (local default) | — | The email is printed in the server window |
+
+Emails sent today: partner sign-up code, partner and admin password-reset codes,
+team member added, admin user added, new restaurant application (to admins who
+can approve), restaurant approved / declined / suspended / reactivated, payout
+released. Code emails cannot be switched off.
+
+## Google sign-in (Partner Portal)
+
+`POST /partner/api/v1/partner/auth/google` takes the ID token Google Identity
+Services gives the portal (`{ credential }`), checks Google's signature, the
+`GOOGLE_CLIENT_ID` audience, issuer, expiry and that the email is verified. A
+partner with that email is signed in; a new email gets a partner account and a
+Draft restaurant (route `PROFILE_SETUP`). Admin emails cannot become partners.
 
 `npm run reset-data` deletes the built-in database (stop the server first).
 
@@ -102,7 +136,8 @@ On a cold start it:
 3. Serves requests over the pooled connection (`DATABASE_URL`).
 
 Extra settings used online: `SEED_ADMIN_PASSWORD`, `SEED_PARTNER_PASSWORD`
-(first passwords on a fresh database), `CORS_ORIGINS`, `PUBLIC_URL`.
+(first passwords on a fresh database), `CORS_ORIGINS`, `PUBLIC_URL`, plus the
+email and Google settings above.
 
 ## Layout
 

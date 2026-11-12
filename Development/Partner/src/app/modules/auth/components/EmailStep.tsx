@@ -3,6 +3,7 @@ import { Envelope as Mail, ArrowLeft } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { AuthFormError } from './AuthFormError'
+import { GoogleSignInButton } from './GoogleSignInButton'
 
 interface EmailStepProps {
   email: string
@@ -74,6 +75,7 @@ export function EmailStep({
           </button>
         )}
       </div>
+      <GoogleSignInButton context="signup" />
       <p className="text-center text-[13px] text-[var(--color-text-muted)] mt-6">
         {t('signUp.haveAccount')}{' '}
         <Link

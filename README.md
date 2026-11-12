@@ -132,6 +132,8 @@ The Admin Panel, Partner Portal and API run on **Vercel** (team `go-mingle`), de
 - **Flow:** work happens on a `release/vX.Y.Z` or `fix/...` branch, which gets a Vercel preview; merging the pull request into `main` deploys to production.
 - **Database:** Neon PostgreSQL (free tier, Washington D.C. `iad1`) from the Vercel marketplace, connected to `gomingle-api` with the prefix `DATABASE` (`DATABASE_URL` pooled, `DATABASE_URL_UNPOOLED` direct). Migrations run by themselves when the API starts.
 - **Payments:** Safepay **sandbox**. The keys live only in the `gomingle-api` project's environment variables on Vercel (and in a local `.env`), never in git.
+- **Email:** sent through **Mailtrap**. For now emails land in the team's Mailtrap test inbox (Mailtrap → Sandboxes → My Inbox), not in real inboxes; switching to real delivery is a settings change (see `Development/Backend/README.md`). Admins edit the wording under **Configure → Email Templates**.
+- **Google sign-in:** the Partner Portal offers *Continue with Google* (Google Cloud OAuth client; authorised origins `https://gomingle-partner.vercel.app` and `http://localhost:5174`).
 - **First sign-in passwords** on a fresh database come from `SEED_ADMIN_PASSWORD` and `SEED_PARTNER_PASSWORD` on Vercel; the well-known local passwords do not work online.
 - **Tracking:** every change is a Jira issue in project **GM** (Jira keys appear in commit messages and pull requests) and a row in the release table below.
 
@@ -170,6 +172,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 | Release | Date | Highlights |
 |---|---|---|
 | `v0.7.3` | 11 Nov 2026 | Interest table times are Pakistan time everywhere; tables take no bookings once started; cancelling a table cancels its bookings and gives the Minglers' money back; admins can edit and delete interest tables; Safepay-only card step when Safepay is connected (GM-258 to GM-262) |
+| `v0.8.0` | 12 Nov 2026 | Email for partners and admins: sign-up and password-reset codes, team and admin welcomes, restaurant approved / declined / suspended / reactivated, payout released and new applications, all editable under Configure → Email Templates with preview, test send and a delivery log; *Continue with Google* on the Partner Portal (GM-274 to GM-276) |
 | `v0.7.4` | 12 Nov 2026 | Cleaner, more professional portals: no payment-gateway environment labels on the escrow screens, no demo sign-in box on the Partner login, partner interest table header shows topic, date and Pakistan time; UI polish on Finances and Users; Jira reorganised into Admin / Partner / Mingler / UI Enhancements epics (GM-267 to GM-273) |
 | Vercel | 11 Nov 2026 | Admin Panel, Partner Portal and API live on Vercel with a Neon database (GM-257) |
 | `v0.7.2` | 11 Nov 2026 | Finances on both portals from real bookings; dinner bill at check-in; Safepay checkout for the admin card step (GM-256) |

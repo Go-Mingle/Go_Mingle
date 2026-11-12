@@ -4,6 +4,7 @@ import { DB, type Db } from '../../db/database'
 import { categories } from '../../db/schema'
 import { karachiStamp, today } from '../../common/time'
 import { NotificationsService } from '../notifications/notifications.service'
+import { MailService } from '../email/mail.service'
 import { RestaurantsService, type Restaurant } from './restaurants.service'
 
 /**
@@ -25,6 +26,7 @@ export class ReviewService {
     @Inject(DB) private readonly db: Db,
     private readonly restaurants: RestaurantsService,
     private readonly notifications: NotificationsService,
+    private readonly mail: MailService,
   ) {}
 
   /** Partner submitted (or resubmitted) their profile for review. */
@@ -48,6 +50,7 @@ export class ReviewService {
       deepLink: `/admin/approvals/${r.id}`,
       metadata: { restaurantId: r.id, restaurantName: r.name },
     })
+    await this.mail.toApprovers('admin_new_application', { restaurantName: r.name, city: r.city ?? 'Karachi' })
     return updated
   }
 
@@ -72,6 +75,7 @@ export class ReviewService {
       deepLink: '/overview',
       metadata: { restaurantId: id },
     })
+    await this.mail.toRestaurantOwner(id, 'restaurant_approved', { restaurantName: r.name, category: category.name })
     return { id, status: 'APPROVED', category: { id: category.id, name: category.name }, name: r.name }
   }
 
@@ -94,12 +98,13 @@ export class ReviewService {
       deepLink: '/overview',
       metadata: { restaurantId: id },
     })
+    await this.mail.toRestaurantOwner(id, 'restaurant_declined', { restaurantName: r.name, reason })
     return { id, status: 'REJECTED', rejectedAt, name: r.name }
   }
 
   /** Admin suspended a live restaurant: hidden from the Mingler app until reactivated. */
   async suspend(id: string, reason?: string) {
-    await this.restaurants.update(id, { suspended: true, visibleOnApp: false })
+    const r = await this.restaurants.update(id, { suspended: true, visibleOnApp: false })
     await this.notifications.notifyPartner(id, {
       type: 'RESTAURANT_SUSPENDED',
       title: 'Restaurant suspended',
@@ -107,10 +112,14 @@ export class ReviewService {
       deepLink: '/overview',
       metadata: { restaurantId: id },
     })
+    await this.mail.toRestaurantOwner(id, 'restaurant_suspended', {
+      restaurantName: r?.name ?? 'Your restaurant',
+      reason: reason || 'Not given. Contact GoMingle support for details.',
+    })
   }
 
   async unsuspend(id: string) {
-    await this.restaurants.update(id, { suspended: false, visibleOnApp: true })
+    const r = await this.restaurants.update(id, { suspended: false, visibleOnApp: true })
     await this.notifications.notifyPartner(id, {
       type: 'RESTAURANT_UNSUSPENDED',
       title: 'Restaurant reactivated',
@@ -118,6 +127,7 @@ export class ReviewService {
       deepLink: '/overview',
       metadata: { restaurantId: id },
     })
+    await this.mail.toRestaurantOwner(id, 'restaurant_reactivated', { restaurantName: r?.name ?? 'Your restaurant' })
   }
 
   /** Admin moved the restaurant to another category. */

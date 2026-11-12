@@ -8,6 +8,7 @@ export type ModuleKey =
   | 'AMENITIES'
   | 'PREFERENCE_QUESTIONS'
   | 'TIMER_SETTINGS'
+  | 'EMAIL_TEMPLATES'
   | 'RESTAURANT_APPROVALS'
   | 'MANAGE_RESTAURANTS'
   | 'MANAGE_MINGLERS'
@@ -72,6 +73,7 @@ export function getAccessibleModules(role: Role | null): ModuleKey[] {
       'AMENITIES',
       'PREFERENCE_QUESTIONS',
       'TIMER_SETTINGS',
+      'EMAIL_TEMPLATES',
       'RESTAURANT_APPROVALS',
       'MANAGE_RESTAURANTS',
       'MANAGE_MINGLERS',
