@@ -1,0 +1,76 @@
+{
+  "title": "Email Templates",
+  "subtitle": "The emails GoMingle sends to partners and admins. Edit the wording, preview it and send yourself a test.",
+  "tabs": {
+    "templates": "Templates",
+    "recent": "Recent emails"
+  },
+  "groups": {
+    "partner": "Partner Portal",
+    "partnerHint": "Sent to restaurant owners and their team.",
+    "admin": "Admin Panel",
+    "adminHint": "Sent to GoMingle admins."
+  },
+  "card": {
+    "subject": "Subject",
+    "edit": "Edit",
+    "alwaysOn": "Always on: people need this email to sign in.",
+    "on": "On",
+    "off": "Off",
+    "defaultWording": "Default wording",
+    "editedBy": "Edited by {{name}} · {{when}}",
+    "edited": "Edited · {{when}}"
+  },
+  "editor": {
+    "title": "Edit email: {{name}}",
+    "subject": "Subject",
+    "heading": "Heading",
+    "body": "Message",
+    "bodyHint": "Leave a blank line to start a new paragraph. A line with only {{token}} shows the code in a large box.",
+    "buttonLabel": "Button label",
+    "buttonHint": "Leave empty to send the email without a button.",
+    "placeholders": "Insert a value",
+    "placeholdersHint": "Click to insert at the cursor. Values are filled in when the email is sent.",
+    "preview": "Preview",
+    "previewHint": "Shown with sample values.",
+    "previewSubject": "Subject:",
+    "previewError": "The preview could not be shown. Check the fields on the left.",
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "sendTest": "Send test to me",
+    "restore": "Restore default",
+    "restoreConfirmTitle": "Restore the default wording?",
+    "restoreConfirmBody": "Your edits to this email are replaced with GoMingle's original wording.",
+    "restoreConfirm": "Restore",
+    "discardTitle": "Discard your changes?",
+    "discardBody": "You have edits that are not saved.",
+    "discard": "Discard",
+    "keepEditing": "Keep editing"
+  },
+  "messages": {
+    "saved": "Email saved",
+    "restored": "Default wording restored",
+    "enabled": "{{name}} is on",
+    "disabled": "{{name}} is off. It won't be sent until you turn it back on.",
+    "testSent": "Test email sent to {{email}}",
+    "loadError": "Email templates could not be loaded. Refresh the page to try again.",
+    "logError": "Recent emails could not be loaded."
+  },
+  "log": {
+    "when": "Date",
+    "email": "Email",
+    "to": "To",
+    "subject": "Subject",
+    "status": "Status",
+    "empty": "No emails sent yet.",
+    "hint": "The last 50 emails GoMingle sent, newest first.",
+    "statuses": {
+      "SENT": "Sent",
+      "FAILED": "Failed",
+      "LOGGED": "Not delivered",
+      "SKIPPED": "Switched off"
+    },
+    "loggedHint": "Email delivery isn't set up on this server, so the email was written to the server log only.",
+    "skippedHint": "This email was switched off when it would have been sent."
+  }
+}

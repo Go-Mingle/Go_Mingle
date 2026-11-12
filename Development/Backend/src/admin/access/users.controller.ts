@@ -13,6 +13,7 @@ import { ChangeLogService } from '../../shared/changelog/changelog.service'
 import { AccountDirectory } from '../../shared/accounts/account-directory.service'
 import { AdminGuard, CurrentAdmin } from './admin.guard'
 import { AdminAccountsService, type AdminSession, type AdminUserRow } from './admin-accounts.service'
+import { MailService } from '../../shared/email/mail.service'
 
 const err = (code: string, message: string, status: number) => apiError(status, code, message, {})
 
@@ -27,6 +28,7 @@ export class UsersController implements OnModuleInit {
     private readonly tokens: TokensService,
     private readonly directory: AccountDirectory,
     private readonly changeLog: ChangeLogService,
+    private readonly mail: MailService,
   ) {}
 
   onModuleInit() {
@@ -127,6 +129,7 @@ export class UsersController implements OnModuleInit {
   async create(
     @Body()
     body: { fullName?: string; email?: string; roleId?: string; status?: string; password?: string; confirmPassword?: string },
+    @CurrentAdmin() me: AdminSession,
   ) {
     const email = normaliseEmail(body.email)
     if (email && (await this.directory.emailInUse(email))) {
@@ -154,6 +157,14 @@ export class UsersController implements OnModuleInit {
         passwordHash: hashPassword(body.password),
       })
       .returning()
+    if (u.status === 'ACTIVE') {
+      await this.mail.send('admin_user_welcome', { email: u.email, name: u.fullName }, {
+        name: u.fullName,
+        roleName: role.name,
+        addedBy: me?.fullName ?? 'GoMingle',
+        email: u.email,
+      })
+    }
     return { success: true, data: await this.response(u) }
   }
 

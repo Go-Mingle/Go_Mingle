@@ -45,6 +45,11 @@ const InterestTableDetailPage = lazy(() =>
 const AmenitiesPage = lazy(() =>
   import('./modules/amenities/AmenitiesPage').then((m) => ({ default: m.AmenitiesPage })),
 )
+const EmailTemplatesPage = lazy(() =>
+  import('./modules/email-templates/EmailTemplatesPage').then((m) => ({
+    default: m.EmailTemplatesPage,
+  })),
+)
 const LoyaltyPage = lazy(() =>
   import('./modules/loyalty/LoyaltyPage').then((m) => ({ default: m.LoyaltyPage })),
 )
@@ -202,6 +207,14 @@ export const router = createBrowserRouter([
         element: wrap(
           <PermissionGuard module="TIMER_SETTINGS">
             <TimerSettingsPage />
+          </PermissionGuard>,
+        ),
+      },
+      {
+        path: '/email-templates',
+        element: wrap(
+          <PermissionGuard module="EMAIL_TEMPLATES">
+            <EmailTemplatesPage />
           </PermissionGuard>,
         ),
       },

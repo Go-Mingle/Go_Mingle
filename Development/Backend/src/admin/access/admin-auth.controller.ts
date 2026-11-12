@@ -121,7 +121,8 @@ export class AdminAuthController {
   @HttpCode(200)
   async requestCode(@Body() body: { email?: string }) {
     // Same answer for unknown addresses: no account enumeration.
-    if (await this.accounts.byEmail(body.email)) await this.codes.issue('admin-reset', String(body.email))
+    const user = await this.accounts.byEmail(body.email)
+    if (user) await this.codes.issue('admin-reset', user.email, 10, user.fullName)
     return { codeSentAt: new Date().toISOString() }
   }
 

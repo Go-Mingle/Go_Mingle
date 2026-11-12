@@ -19,6 +19,7 @@ export const PARTNER_AUTH_ENDPOINTS = {
   forgotPassword: '/api/v1/partner/auth/forgot-password',
   confirmForgotPassword: '/api/v1/partner/auth/confirm-forgot-password',
   changePassword: '/api/v1/partner/auth/change-password',
+  google: '/api/v1/partner/auth/google',
 } as const
 
 const TWO_HOURS_MS = 2 * 60 * 60 * 1000
@@ -77,8 +78,58 @@ async function post<T>(path: string, body: unknown, token?: string | null): Prom
   return data
 }
 
+/** What a Google sign-in returns on top of the session. */
+export interface GoogleSignInResult {
+  user: AuthIdentity
+  /** True when this sign-in created the partner account. */
+  isNew: boolean
+  route: string
+}
+
+const GOOGLE_ERRORS: Record<string, AuthErrorCode> = {
+  GOOGLE_TOKEN_INVALID: 'GOOGLE_REJECTED',
+  ERR_ALREADY_REGISTERED: 'EMAIL_IN_USE',
+  GOOGLE_SIGN_IN_OFF: 'GOOGLE_UNAVAILABLE',
+  GOOGLE_UNAVAILABLE: 'GOOGLE_UNAVAILABLE',
+}
+
 function expiresAt(seconds?: number): number {
   return Date.now() + (seconds ? seconds * 1000 : TWO_HOURS_MS)
+}
+
+/**
+ * Signs in (or signs up) with the ID token Google Identity Services returned.
+ * Stores the session exactly like a password sign-in.
+ */
+export async function signInWithGoogle(credential: string): Promise<GoogleSignInResult> {
+  let res: Response
+  try {
+    res = await fetch(url(PARTNER_AUTH_ENDPOINTS.google), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential }),
+    })
+  } catch {
+    throw new AuthError('NETWORK')
+  }
+  const data = (await res.json().catch(() => ({}))) as Partial<TokenResponse & GoogleSignInResult> &
+    ErrorBody
+  if (!res.ok) {
+    const code = data.error?.code ?? ''
+    if (code === 'PRE_AUTH_REJECTED') throw new AuthError('PRE_AUTH_REJECTED', data.error?.message)
+    throw new AuthError(
+      GOOGLE_ERRORS[code] ?? (res.status >= 500 ? 'NETWORK' : 'UNKNOWN'),
+      data.error?.message,
+    )
+  }
+  if (!data.accessToken || !data.refreshToken || !data.user) throw new AuthError('UNKNOWN')
+  tokenStore.setTokens({
+    accessToken: data.accessToken,
+    refreshToken: data.refreshToken,
+    expiresAt: expiresAt(data.expiresIn),
+    identity: data.user,
+  })
+  return { user: data.user, isNew: Boolean(data.isNew), route: data.route ?? '' }
 }
 
 export const apiAuthProvider: PartnerAuthProvider = {

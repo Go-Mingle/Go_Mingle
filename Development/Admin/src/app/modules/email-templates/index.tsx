@@ -1,0 +1,1 @@
+export { EmailTemplatesPage } from './EmailTemplatesPage'

@@ -58,10 +58,14 @@ export const config = {
     .map((s) => s.trim())
     .filter(Boolean),
   /**
-   * One-time codes (password reset, partner sign-up) are printed to this
-   * server's console. In demo mode the fixed code below is accepted as well.
+   * A fixed one-time code accepted alongside the real one, for local runs where
+   * codes only reach the server log. Off (empty) once email delivery is set
+   * up, unless DEMO_OTP is set explicitly.
    */
-  demoOtp: process.env.DEMO_OTP ?? '123456',
+  get demoOtp(): string {
+    if (process.env.DEMO_OTP !== undefined) return process.env.DEMO_OTP
+    return process.env.MAILTRAP_API_TOKEN || process.env.SMTP_HOST ? '' : '123456'
+  },
   lockout: { maxFailures: 5, lockMinutes: 15 },
   safepay: {
     apiKey: process.env.SAFEPAY_API_KEY ?? '',
@@ -69,6 +73,48 @@ export const config = {
     webhookSecret: process.env.SAFEPAY_WEBHOOK_SECRET ?? '',
     /** `production` uses the live Safepay host; anything else the sandbox. */
     environment: (process.env.SAFEPAY_ENV ?? process.env.SAFEPAY_ENVIRONMENT) === 'production' ? 'production' : 'sandbox',
+  },
+  /**
+   * Outgoing email. Mailtrap when MAILTRAP_API_TOKEN is set (its test inbox
+   * when MAILTRAP_INBOX_ID is set too, otherwise Mailtrap's live sending),
+   * else SMTP when SMTP_HOST is set, else emails only go to the server log.
+   */
+  mail: {
+    get mailtrapToken() {
+      return process.env.MAILTRAP_API_TOKEN ?? ''
+    },
+    get mailtrapInboxId() {
+      return process.env.MAILTRAP_INBOX_ID ?? ''
+    },
+    get smtpHost() {
+      return process.env.SMTP_HOST ?? ''
+    },
+    get smtpPort() {
+      return Number(process.env.SMTP_PORT ?? 587)
+    },
+    get smtpUser() {
+      return process.env.SMTP_USER ?? ''
+    },
+    get smtpPass() {
+      return process.env.SMTP_PASS ?? ''
+    },
+    get fromEmail() {
+      return process.env.MAIL_FROM_EMAIL ?? 'no-reply@gomingle.com'
+    },
+    get fromName() {
+      return process.env.MAIL_FROM_NAME ?? 'GoMingle'
+    },
+  },
+  /** Links in emails. */
+  get adminPortalUrl(): string {
+    return (process.env.ADMIN_PORTAL_URL ?? 'http://localhost:5173').replace(/\/+$/, '')
+  },
+  get partnerPortalUrl(): string {
+    return (process.env.PARTNER_PORTAL_URL ?? 'http://localhost:5174').replace(/\/+$/, '')
+  },
+  /** OAuth client id of the GoMingle Google Cloud project; empty turns Google sign-in off. */
+  get googleClientId(): string {
+    return process.env.GOOGLE_CLIENT_ID ?? ''
   },
   /** GoMingle's share of a booking, in percent. */
   platformFeePct: Number(process.env.PLATFORM_FEE_PCT ?? 10),

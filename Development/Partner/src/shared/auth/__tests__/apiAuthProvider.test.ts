@@ -189,3 +189,52 @@ describe('apiAuthProvider password flows', () => {
     expect(codeOf(error)).toBe('SAME_PASSWORD')
   })
 })
+
+describe('signInWithGoogle', () => {
+  it('stores the session and reports whether the account is new', async () => {
+    const { signInWithGoogle } = await import('../apiAuthProvider')
+    let sent: unknown
+    server.use(
+      http.post(E.google, async ({ request }) => {
+        sent = await request.json()
+        return HttpResponse.json({
+          accessToken: 'jwt-g',
+          refreshToken: 'refresh-g',
+          expiresIn: 7200,
+          user: USER,
+          isNew: true,
+          route: 'PROFILE_SETUP',
+        })
+      }),
+    )
+    const result = await signInWithGoogle('google-id-token')
+    expect(sent).toEqual({ credential: 'google-id-token' })
+    expect(result).toEqual({ user: USER, isNew: true, route: 'PROFILE_SETUP' })
+    expect(tokenStore.getAccessToken()).toBe('jwt-g')
+    expect(tokenStore.getIdentity()).toEqual(USER)
+  })
+
+  it.each([
+    [401, 'GOOGLE_TOKEN_INVALID', 'GOOGLE_REJECTED'],
+    [409, 'ERR_ALREADY_REGISTERED', 'EMAIL_IN_USE'],
+    [503, 'GOOGLE_SIGN_IN_OFF', 'GOOGLE_UNAVAILABLE'],
+    [403, 'PRE_AUTH_REJECTED', 'PRE_AUTH_REJECTED'],
+    [500, 'BOOM', 'NETWORK'],
+    [400, 'WHAT', 'UNKNOWN'],
+  ])('maps %i %s to %s', async (status, code, expected) => {
+    const { signInWithGoogle } = await import('../apiAuthProvider')
+    server.use(
+      http.post(E.google, () => HttpResponse.json({ error: { code, message: 'm' } }, { status })),
+    )
+    const error = await signInWithGoogle('t').catch((e: unknown) => e)
+    expect(codeOf(error)).toBe(expected)
+  })
+
+  it('rejects a reply without a session, and a network failure', async () => {
+    const { signInWithGoogle } = await import('../apiAuthProvider')
+    server.use(http.post(E.google, () => HttpResponse.json({ accessToken: 'only' })))
+    expect(codeOf(await signInWithGoogle('t').catch((e: unknown) => e))).toBe('UNKNOWN')
+    server.use(http.post(E.google, () => HttpResponse.error()))
+    expect(codeOf(await signInWithGoogle('t').catch((e: unknown) => e))).toBe('NETWORK')
+  })
+})

@@ -21,6 +21,7 @@ import interestTables from './en/interest-tables.json'
 import timerSettings from './en/timer-settings.json'
 import interests from './en/interests.json'
 import openApp from './en/open-app.json'
+import emailTemplates from './en/email-templates.json'
 
 i18n.use(initReactI18next).init({
   lng: 'en',
@@ -48,6 +49,7 @@ i18n.use(initReactI18next).init({
       'timer-settings': timerSettings,
       interests,
       'open-app': openApp,
+      'email-templates': emailTemplates,
     },
   },
   ns: [
@@ -72,6 +74,7 @@ i18n.use(initReactI18next).init({
     'timer-settings',
     'interests',
     'open-app',
+    'email-templates',
   ],
   defaultNS: 'common',
   interpolation: { escapeValue: false },

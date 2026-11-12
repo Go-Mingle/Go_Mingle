@@ -1,5 +1,6 @@
 import { Form, Input } from 'antd'
 import { Envelope as Mail, Lock, WarningCircle } from '@phosphor-icons/react'
+import { GoogleSignInButton } from './GoogleSignInButton'
 
 const labelClass =
   'text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-muted)]'
@@ -105,6 +106,8 @@ export function LoginStep({
           {loading ? t('common:status.loading') : t('signIn')}
         </button>
       </Form.Item>
+
+      <GoogleSignInButton context="signin" />
 
       <p className="text-center text-[13px] text-[var(--color-text-muted)] mt-5">
         {t('noAccount')}{' '}
