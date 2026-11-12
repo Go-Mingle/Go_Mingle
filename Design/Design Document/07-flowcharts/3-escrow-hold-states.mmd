@@ -1,0 +1,21 @@
+---
+title: Flowchart 3 – Escrow hold states
+---
+stateDiagram-v2
+  direction LR
+  [*] --> PENDING_PAYMENT : hold created (booking seat or bill)
+  PENDING_PAYMENT --> AUTHORIZED : paid on Safepay checkout
+  PENDING_PAYMENT --> VOIDED : booking cancelled / guests arrived
+  AUTHORIZED --> VOIDED : void (cancel, arrival)
+  AUTHORIZED --> IN_ESCROW : capture (no-show seat, admin capture)
+  [*] --> IN_ESCROW : dinner bill at check-in
+  IN_ESCROW --> RELEASED : release → payout to restaurant
+  IN_ESCROW --> REFUNDED : refund to Mingler
+  AUTHORIZED --> FAILED : Safepay refuses
+  PENDING_PAYMENT --> FAILED : no-show but no card added
+  FAILED --> IN_ESCROW : Retry succeeds
+  FAILED --> VOIDED : Close with note
+  RELEASED --> [*]
+  REFUNDED --> [*]
+  VOIDED --> [*]
+  note right of FAILED : not a hold status — a row in\npayment_failures shown under\nFinances → Failed collections

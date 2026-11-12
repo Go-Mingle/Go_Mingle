@@ -1,0 +1,77 @@
+---
+title: GoMingle – Database schema – Identity, access and audit
+---
+erDiagram
+  roles {
+    text id PK
+    serial seq
+    text name
+    bool full_access
+    jsonb permissions
+    text deleted_at "nullable"
+  }
+  admin_users {
+    text id PK
+    serial seq
+    text full_name
+    text username
+    text email
+    text role_id FK
+    text status
+    text last_active
+    text created_at
+    text initials
+    text password_hash "nullable"
+    int failures
+    bigint locked_until
+  }
+  partner_users {
+    text id PK
+    serial seq
+    text restaurant_id FK
+    text email
+    text full_name
+    text designation
+    text status
+    bool is_primary
+    text last_active_at "nullable"
+    text created_at
+    text password_hash "nullable"
+    int failures
+    bigint locked_until
+    text google_sub "nullable"
+  }
+  refresh_tokens {
+    text token PK
+    text user_id
+    text audience
+    bigint expires_at
+  }
+  one_time_codes {
+    text key PK
+    text code
+    bigint expires_at
+  }
+  reset_sessions {
+    text token PK
+    text user_id
+    text audience
+    bigint expires_at
+  }
+  change_logs {
+    text id PK
+    serial seq
+    text timestamp
+    text admin
+    text initials
+    text action
+    text data
+    text old_val "nullable"
+    text new_val
+    text module
+  }
+  meta {
+    text key PK
+    text value
+  }
+  roles ||--o{ admin_users : "role_id"

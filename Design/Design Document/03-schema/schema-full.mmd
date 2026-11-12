@@ -1,0 +1,431 @@
+---
+title: GoMingle – Database schema (PostgreSQL, all tables)
+---
+erDiagram
+  roles {
+    text id PK
+    serial seq
+    text name
+    bool full_access
+    jsonb permissions
+    text deleted_at "nullable"
+  }
+  admin_users {
+    text id PK
+    serial seq
+    text full_name
+    text username
+    text email
+    text role_id FK
+    text status
+    text last_active
+    text created_at
+    text initials
+    text password_hash "nullable"
+    int failures
+    bigint locked_until
+  }
+  refresh_tokens {
+    text token PK
+    text user_id
+    text audience
+    bigint expires_at
+  }
+  one_time_codes {
+    text key PK
+    text code
+    bigint expires_at
+  }
+  reset_sessions {
+    text token PK
+    text user_id
+    text audience
+    bigint expires_at
+  }
+  bookings {
+    text id PK
+    serial seq
+    text booking_ref
+    text interest_table_id FK
+    text restaurant_id FK
+    text mingler_id "nullable"
+    text mingler_name
+    int seats
+    text menu_option
+    double seat_price_pkr
+    double bill_pkr "nullable"
+    text bill_hold_id FK "nullable"
+    text status
+    text attendance "nullable"
+    int arrived_seats "nullable"
+    int empty_seats "nullable"
+    double penalty_per_seat_pkr
+    int cancellation_window_hours
+    double penalty_charged_pkr "nullable"
+    text penalty_status "nullable"
+    text escrow_hold_id FK "nullable"
+    text checked_in_by "nullable"
+    text created_at
+    text updated_at
+  }
+  categories {
+    text id PK
+    serial seq
+    text name
+    double commission_rate "nullable"
+    int interest_tables_per_month "nullable"
+    text created_at
+    text updated_at "nullable"
+  }
+  amenities {
+    text id PK
+    serial seq
+    text name
+    text icon_url "nullable"
+    text created_at
+    text updated_at
+  }
+  interests {
+    text id PK
+    serial seq
+    text name
+    text group_name "nullable"
+    text created_at
+    text updated_at "nullable"
+  }
+  topics {
+    text id PK
+    serial seq
+    text name
+    text description "nullable"
+    text graphic_url "nullable"
+    jsonb interests
+    text created_at
+  }
+  preference_questions {
+    text id PK
+    serial seq
+    text question
+    text type "nullable"
+    int question_order
+    text created_at
+  }
+  preference_options {
+    text id
+    text question_id FK
+    int position
+    text text
+    int display_order
+  }
+  settings {
+    text key PK
+    jsonb value
+  }
+  bucket_objects {
+    text key PK
+    bytea bytes
+    text content_type
+  }
+  change_logs {
+    text id PK
+    serial seq
+    text timestamp
+    text admin
+    text initials
+    text action
+    text data
+    text old_val "nullable"
+    text new_val
+    text module
+  }
+  email_templates {
+    text key PK
+    text subject
+    text heading
+    text body
+    text button_label
+    bool enabled
+    text updated_at "nullable"
+    text updated_by "nullable"
+  }
+  email_log {
+    serial id PK
+    text template_key FK
+    text to_email
+    text subject
+    text status
+    text provider
+    text provider_message_id "nullable"
+    text error "nullable"
+    text created_at
+  }
+  escrow_holds {
+    text id PK
+    serial seq
+    text booking_ref
+    text restaurant_id FK
+    text mingler_name
+    int guests
+    double amount
+    text currency
+    double platform_fee_pct
+    text event_name
+    text event_at
+    text gateway
+    text tracker
+    text status
+    text created_at
+    text updated_at
+    jsonb timeline
+    jsonb payout "nullable"
+    text kind
+    text booking_id FK "nullable"
+    int seat_no "nullable"
+    jsonb test_card "nullable"
+    jsonb checkout "nullable"
+    text idempotency_key "nullable"
+  }
+  payment_failures {
+    serial seq PK
+    text hold_id FK "nullable"
+    text booking_id FK "nullable"
+    text action
+    double amount "nullable"
+    text message
+    text at
+    int attempts
+    text resolved_at "nullable"
+    text resolved_by "nullable"
+    text resolution "nullable"
+    text resolution_note "nullable"
+  }
+  interest_tables {
+    text id PK
+    serial seq
+    text restaurant_id FK
+    text name "nullable"
+    jsonb topic "nullable"
+    jsonb assigned_table "nullable"
+    int seats_booked
+    int max_guests "nullable"
+    text start_date "nullable"
+    text start_time "nullable"
+    int duration_minutes "nullable"
+    jsonb combo_ids
+    jsonb invite_list
+    text event_image_url "nullable"
+    text availability_mode "nullable"
+    bool invite_only
+    bool promingler_enabled
+    text promingler_mingler_id "nullable"
+    text time_left
+    text status
+    text created
+  }
+  interest_table_invitees {
+    text interest_table_id FK
+    text mingler_id
+    serial seq
+    text full_name
+    bool is_promingler
+    text date_invited
+    text status
+  }
+  media_counters {
+    text restaurant_id PK,FK
+    int next_id
+    int gallery_reads
+  }
+  media_uploads {
+    text restaurant_id FK
+    text upload_ref
+    text kind
+    text name
+    text content_type
+    bool received
+    bigint size
+    bytea bytes "nullable"
+  }
+  restaurant_media {
+    text restaurant_id FK
+    text media_id
+    text kind
+    int position
+    text name
+    text content_type
+    bigint size
+    text uploaded_at
+    int sort_order "nullable"
+    int ready_after_reads "nullable"
+    bytea bytes "nullable"
+  }
+  meta {
+    text key PK
+    text value
+  }
+  partner_users {
+    text id PK
+    serial seq
+    text restaurant_id FK
+    text email
+    text full_name
+    text designation
+    text status
+    bool is_primary
+    text last_active_at "nullable"
+    text created_at
+    text password_hash "nullable"
+    int failures
+    bigint locked_until
+    text google_sub "nullable"
+  }
+  payout_accounts {
+    text restaurant_id PK,FK
+    text account_title
+    text bank_name
+    text iban
+    text added_at
+    text updated_at
+  }
+  restaurants {
+    text id PK
+    serial seq
+    text created_at
+    text name "nullable"
+    text cuisine "nullable"
+    text description "nullable"
+    text area_district "nullable"
+    text city "nullable"
+    text full_address "nullable"
+    double latitude "nullable"
+    double longitude "nullable"
+    text owner_name "nullable"
+    text owner_email "nullable"
+    text owner_phone "nullable"
+    text restaurant_phone "nullable"
+    text restaurant_email "nullable"
+    text website "nullable"
+    text house_rules "nullable"
+    text dress_code "nullable"
+    bool serves_alcohol "nullable"
+    text main_photo_key "nullable"
+    bool visible_on_app
+    jsonb amenity_ids
+    text status
+    bool suspended
+    jsonb rejections
+    bigint first_submitted_at "nullable"
+    text submitted "nullable"
+    text rejection_reason "nullable"
+    text rejected_on "nullable"
+    text joined "nullable"
+    text category_id FK "nullable"
+    text payout_account_id "nullable"
+    text menu_pdf_file "nullable"
+    text menu_pdf_name "nullable"
+    double no_show_penalty_per_seat_pkr
+    int cancellation_window_hours
+  }
+  restaurant_contacts {
+    text restaurant_id FK
+    text id
+    text name
+    text title "nullable"
+    text email "nullable"
+    text phone "nullable"
+    bool deleted
+  }
+  admin_notifications {
+    text id PK
+    serial seq
+    text type
+    text title
+    text body
+    text deep_link "nullable"
+    jsonb metadata
+    text created_at
+    text read_at "nullable"
+    text read_by_user_id "nullable"
+  }
+  partner_notifications {
+    text id PK
+    serial seq
+    text restaurant_id FK
+    text type
+    text title
+    text body
+    text deep_link "nullable"
+    jsonb metadata
+    text created_at
+    text read_at "nullable"
+  }
+  restaurant_counters {
+    text restaurant_id FK
+    text name
+    int value
+  }
+  restaurant_tables {
+    text restaurant_id FK
+    text table_id
+    serial seq
+    text name
+    bool is_hidden
+    jsonb availability
+  }
+  menu_options {
+    text restaurant_id FK
+    text combo_id
+    serial seq
+    text name
+    double price_pkr
+    bool is_hidden
+    jsonb courses
+  }
+  menu_pdfs {
+    text restaurant_id FK
+    text file
+    bytea bytes
+  }
+  webhook_configs {
+    text restaurant_id PK,FK
+    text endpoint_url "nullable"
+    text bearer_token "nullable"
+    text signing_secret "nullable"
+    bool enabled
+    text secret_rotated_at "nullable"
+  }
+  webhook_deliveries {
+    serial seq PK
+    text restaurant_id FK
+    text event_type
+    int tries
+    text reason "nullable"
+    text occurred_at
+    text status
+    bool is_test
+    bigint visible_from
+  }
+  roles ||--o{ admin_users : "role_id"
+  restaurants ||--|{ partner_users : "restaurant_id"
+  categories ||--o{ restaurants : "category_id"
+  restaurants ||--o{ restaurant_contacts : "restaurant_id"
+  restaurants ||--o| payout_accounts : "restaurant_id"
+  restaurants ||--o{ restaurant_tables : "restaurant_id"
+  restaurants ||--o{ menu_options : "restaurant_id"
+  restaurants ||--o| menu_pdfs : "restaurant_id"
+  restaurants ||--o{ restaurant_counters : "restaurant_id"
+  restaurants ||--o| media_counters : "restaurant_id"
+  restaurants ||--o{ media_uploads : "restaurant_id"
+  restaurants ||--o{ restaurant_media : "restaurant_id"
+  preference_questions ||--|{ preference_options : "question_id"
+  restaurants ||--o{ interest_tables : "restaurant_id"
+  interest_tables ||--o{ interest_table_invitees : "interest_table_id"
+  interest_tables ||--o{ bookings : "interest_table_id"
+  bookings ||--o{ escrow_holds : "booking_id"
+  restaurants ||--o{ escrow_holds : "restaurant_id"
+  escrow_holds ||--o{ payment_failures : "hold_id"
+  restaurants ||--o{ partner_notifications : "restaurant_id"
+  email_templates ||--o{ email_log : "template_key"
+  restaurants ||--o| webhook_configs : "restaurant_id"
+  restaurants ||--o{ webhook_deliveries : "restaurant_id"
+  restaurants ||--o{ bookings : "restaurant_id"

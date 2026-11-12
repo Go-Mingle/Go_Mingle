@@ -153,7 +153,8 @@ Go_Mingle/
 ├── Design/
 │   ├── Admin/                                 Admin Panel designs
 │   ├── Partner/                               Partner Portal designs
-│   └── Mingler/                               Mingler App designs
+│   ├── Mingler/                               Mingler App designs
+│   └── Design Document/                       System design diagrams (architecture, ERD, schema, class, use case, DFD, flowcharts)
 └── Development/
     ├── Admin/                                 Admin Panel: React 19 + TypeScript + Ant Design
     ├── Partner/                               Partner Portal: React 19 + TypeScript + Ant Design
@@ -208,6 +209,13 @@ Secrets are never committed: `Development/Backend/.env` (Safepay keys) is git-ig
 | [Requirement Specification Document](Documentation/Requirement%20Specification%20Document/Requirement_Specification_Document.docx) | Business context, solution architecture, traceability matrix, roadmap, cost breakdown and risk management |
 | [Legal Feasibility Assessment](Documentation/Requirement%20Specification%20Document/Legal_Feasibility_Assessment.docx) | Legal and compliance review of the booking commitment mechanic |
 | [Project Plan](Documentation/Project%20Plan/Project_Plan.xlsx) | Schedule and milestones |
+
+### Design Document
+
+| Document | Description |
+|---|---|
+| [Design Document](Design/Design%20Document/README.md) | Architecture, ERD, database schema, class diagram, use case diagram, data flow diagrams (level 0 and 1) and flowcharts, each as Mermaid source + SVG + PNG (Jira epic GM-278) |
+| Sprint capacity and velocity | On Jira: task GM-277 and every sprint goal. Team of 3 at 2 hours a day; velocity 47 points per sprint; all 61 stories estimated (271 points) |
 
 ## Key Assumptions and Dependencies
 

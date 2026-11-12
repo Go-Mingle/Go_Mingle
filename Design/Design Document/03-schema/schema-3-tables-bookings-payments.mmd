@@ -1,0 +1,157 @@
+---
+title: GoMingle – Database schema – Interest tables, bookings and payments
+---
+erDiagram
+  interest_tables {
+    text id PK
+    serial seq
+    text restaurant_id FK
+    text name "nullable"
+    jsonb topic "nullable"
+    jsonb assigned_table "nullable"
+    int seats_booked
+    int max_guests "nullable"
+    text start_date "nullable"
+    text start_time "nullable"
+    int duration_minutes "nullable"
+    jsonb combo_ids
+    jsonb invite_list
+    text event_image_url "nullable"
+    text availability_mode "nullable"
+    bool invite_only
+    bool promingler_enabled
+    text promingler_mingler_id "nullable"
+    text time_left
+    text status
+    text created
+  }
+  interest_table_invitees {
+    text interest_table_id FK
+    text mingler_id
+    serial seq
+    text full_name
+    bool is_promingler
+    text date_invited
+    text status
+  }
+  bookings {
+    text id PK
+    serial seq
+    text booking_ref
+    text interest_table_id FK
+    text restaurant_id FK
+    text mingler_id "nullable"
+    text mingler_name
+    int seats
+    text menu_option
+    double seat_price_pkr
+    double bill_pkr "nullable"
+    text bill_hold_id FK "nullable"
+    text status
+    text attendance "nullable"
+    int arrived_seats "nullable"
+    int empty_seats "nullable"
+    double penalty_per_seat_pkr
+    int cancellation_window_hours
+    double penalty_charged_pkr "nullable"
+    text penalty_status "nullable"
+    text escrow_hold_id FK "nullable"
+    text checked_in_by "nullable"
+    text created_at
+    text updated_at
+  }
+  escrow_holds {
+    text id PK
+    serial seq
+    text booking_ref
+    text restaurant_id FK
+    text mingler_name
+    int guests
+    double amount
+    text currency
+    double platform_fee_pct
+    text event_name
+    text event_at
+    text gateway
+    text tracker
+    text status
+    text created_at
+    text updated_at
+    jsonb timeline
+    jsonb payout "nullable"
+    text kind
+    text booking_id FK "nullable"
+    int seat_no "nullable"
+    jsonb test_card "nullable"
+    jsonb checkout "nullable"
+    text idempotency_key "nullable"
+  }
+  payment_failures {
+    serial seq PK
+    text hold_id FK "nullable"
+    text booking_id FK "nullable"
+    text action
+    double amount "nullable"
+    text message
+    text at
+    int attempts
+    text resolved_at "nullable"
+    text resolved_by "nullable"
+    text resolution "nullable"
+    text resolution_note "nullable"
+  }
+  payout_accounts {
+    text restaurant_id PK,FK
+    text account_title
+    text bank_name
+    text iban
+    text added_at
+    text updated_at
+  }
+  restaurants {
+    text id PK
+    serial seq
+    text created_at
+    text name "nullable"
+    text cuisine "nullable"
+    text description "nullable"
+    text area_district "nullable"
+    text city "nullable"
+    text full_address "nullable"
+    double latitude "nullable"
+    double longitude "nullable"
+    text owner_name "nullable"
+    text owner_email "nullable"
+    text owner_phone "nullable"
+    text restaurant_phone "nullable"
+    text restaurant_email "nullable"
+    text website "nullable"
+    text house_rules "nullable"
+    text dress_code "nullable"
+    bool serves_alcohol "nullable"
+    text main_photo_key "nullable"
+    bool visible_on_app
+    jsonb amenity_ids
+    text status
+    bool suspended
+    jsonb rejections
+    bigint first_submitted_at "nullable"
+    text submitted "nullable"
+    text rejection_reason "nullable"
+    text rejected_on "nullable"
+    text joined "nullable"
+    text category_id FK "nullable"
+    text payout_account_id "nullable"
+    text menu_pdf_file "nullable"
+    text menu_pdf_name "nullable"
+    double no_show_penalty_per_seat_pkr
+    int cancellation_window_hours
+  }
+  restaurants ||--o| payout_accounts : "restaurant_id"
+  restaurants ||--o{ interest_tables : "restaurant_id"
+  interest_tables ||--o{ interest_table_invitees : "interest_table_id"
+  interest_tables ||--o{ bookings : "interest_table_id"
+  bookings ||--o{ escrow_holds : "booking_id"
+  restaurants ||--o{ escrow_holds : "restaurant_id"
+  escrow_holds ||--o{ payment_failures : "hold_id"
+  restaurants ||--o{ bookings : "restaurant_id"

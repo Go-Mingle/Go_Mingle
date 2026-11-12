@@ -1,0 +1,86 @@
+---
+title: GoMingle API – Class diagram (NestJS controllers, services and gateways)
+---
+classDiagram
+  direction LR
+
+  class AdminGuard { +canActivate(ctx) bool }
+  class PartnerGuard { +canActivate(ctx) bool }
+  class AuditInterceptor { +intercept(ctx, next) }
+
+  class AdminAuthController { +login() +refresh() +logout() +requestCode() +verifyCode() +reset() +changePassword() }
+  class PartnerAuthController { +login() +google() +refresh() +logout() +forgot() +confirmForgot() +changePassword() }
+  class SignupController { +start() +resend() +verify() +complete() }
+  class ApprovalsController { +queue() +approve() +decline() }
+  class InterestTablesController { +list() +create() +update() +delete() +publish() +cancel() +invitees() }
+  class PartnerInterestTablesController { +list() +detail() +bookings() +guestsArrived() +noShow() +cancelBooking() }
+  class EscrowController { +list() +summary() +capture() +release() +void() +refund() +checkout() +failures() +retry() }
+  class EmailTemplatesController { +list() +log() +one() +update() +reset() +preview() +test() }
+  class TeamController { +list() +create() +update() +setPassword() +remove() }
+  class UsersController { +list() +create() +update() +delete() }
+
+  class TokensService { +issue(user, audience) TokenPair +verify(token, audience) +consume(refresh, audience) +revokeUser(id) }
+  class CodesService { +issue(purpose, email, minutes, name) string +check(purpose, email, code) CodeResult +clear() +openResetSession() }
+  class AdminAccountsService { +byEmail() +byId() +recordFailure() +recordSuccess() +lockRemainingMs() }
+  class PartnerAccountsService { +byEmail() +byId() +owner(restaurantId) +create() +update() +setPassword() +team() }
+  class AccountDirectory { +emailInUse(email) bool }
+
+  class RestaurantsService { +find(id) +ensure(id) +update(id, changes) +submitted() +category() +contacts() }
+  class ReviewService { +submitted(r) +approve(id, categoryId) +decline(id, reason) +suspend(id, reason) +unsuspend(id) +changeCategory() }
+  class InterestTablesService { +all() +ofRestaurant(id) +find(id) +update(id, changes) +menuOptionsOf(t) }
+  class BookingsService { +book(input) +cancel(b, by) +cancelAllOfTable(id, by) +guestsArrived(table, by) +noShow(b, emptySeats, by) +runNoShowCheck(now) +retryFailure(id, by) }
+  class EscrowService { +startCheckout() +confirmCheckout() +chargeBill() +capture() +release() +void() +refund() +captureNoShow() +releaseHold() +recordFailure() +summary() }
+  class SafepayService { +isLive bool +startCheckout(amount, ref, urls) +trackerState(tracker) +isPaid(tracker) +capture(tracker) +void(tracker) +refund(tracker, amount) }
+  class PayoutService { +account(restaurantId) +save(restaurantId, input) }
+  class FinanceLedgerService { +rows(restaurantId) +one(idOrRef, restaurantId) }
+  class NotificationsService { +notifyAdmins(item) +notifyPartner(restaurantId, item) }
+  class ChangeLogService { +registerTarget(collection, lookup) +describeTarget(path) +record(ctx) +list() }
+  class MailService { +send(key, to, values) Delivery +sendRendered() +toRestaurantOwner() +toApprovers() +update() +restore() +renderSample() +log() }
+  class MailTransport { <<module>> +deliver(to, email, category) Delivery +activeProvider() ProviderName }
+  class GoogleVerifier { <<module>> +verifyGoogleCredential(token, clientId) GoogleCheck }
+  class Database { +db Drizzle +migrate() +close() }
+
+  AdminAuthController --> AdminAccountsService
+  AdminAuthController --> TokensService
+  AdminAuthController --> CodesService
+  PartnerAuthController --> PartnerAccountsService
+  PartnerAuthController --> TokensService
+  PartnerAuthController --> CodesService
+  PartnerAuthController --> GoogleVerifier
+  PartnerAuthController --> AccountDirectory
+  SignupController --> CodesService
+  SignupController --> RestaurantsService
+  ApprovalsController --> ReviewService
+  InterestTablesController --> InterestTablesService
+  InterestTablesController --> BookingsService
+  PartnerInterestTablesController --> BookingsService
+  EscrowController --> EscrowService
+  EscrowController --> MailService
+  EmailTemplatesController --> MailService
+  TeamController --> PartnerAccountsService
+  TeamController --> MailService
+  UsersController --> MailService
+
+  CodesService --> MailService
+  ReviewService --> RestaurantsService
+  ReviewService --> NotificationsService
+  ReviewService --> MailService
+  BookingsService --> InterestTablesService
+  BookingsService --> EscrowService
+  BookingsService --> NotificationsService
+  EscrowService --> SafepayService
+  EscrowService --> PayoutService
+  FinanceLedgerService --> Database
+  MailService --> MailTransport
+
+  AdminGuard ..> TokensService : verifies JWT
+  PartnerGuard ..> TokensService : verifies JWT
+  AuditInterceptor ..> ChangeLogService : records admin changes
+
+  RestaurantsService --> Database
+  InterestTablesService --> Database
+  BookingsService --> Database
+  EscrowService --> Database
+  MailService --> Database
+  NotificationsService --> Database
+  ChangeLogService --> Database
