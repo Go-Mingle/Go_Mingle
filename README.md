@@ -215,7 +215,7 @@ Secrets are never committed: `Development/Backend/.env` (Safepay keys) is git-ig
 | Document | Description |
 |---|---|
 | [Design Document](Design/Design%20Document/README.md) | Architecture, ERD, database schema, class diagram, use case diagram, data flow diagrams (level 0 and 1) and flowcharts, each as Mermaid source + SVG + PNG (Jira epic GM-278) |
-| Sprint capacity and velocity | On Jira: task GM-277 and every sprint goal. Team of 3 at 2 hours a day; velocity 47 points per sprint; all 61 stories estimated (271 points) |
+| Sprint capacity and velocity | On Jira: task GM-277 and every sprint goal. Team of 3 at 2 hours a day; 2-week sprints (Sprint 0–15) aligned to the project plan with the semester break 19 Dec – 24 Jan; velocity 55 points per sprint; all 61 stories estimated (271 points) |
 
 ## Key Assumptions and Dependencies
 
