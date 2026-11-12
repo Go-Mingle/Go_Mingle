@@ -23,4 +23,9 @@ export const ENV = {
    * state: the picker renders a disabled placeholder instead of a map.
    */
   GOOGLE_MAPS_API_KEY: import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? '',
+  /**
+   * OAuth client id of the GoMingle Google Cloud project, for "Continue with
+   * Google". Unset hides the button.
+   */
+  GOOGLE_CLIENT_ID: import.meta.env.VITE_GOOGLE_CLIENT_ID ?? '',
 } as const

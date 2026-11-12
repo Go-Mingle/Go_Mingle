@@ -4,6 +4,7 @@ import { Body, Query } from '../common/http'
 import { AuditInterceptor } from '../shared/changelog/audit.interceptor'
 import { BookingsService } from '../shared/bookings/bookings.service'
 import { NotificationsService } from '../shared/notifications/notifications.service'
+import { MailService } from '../shared/email/mail.service'
 import { EscrowService } from '../shared/payments/escrow.service'
 import { PayoutService } from '../shared/payments/payout.service'
 import { GatewayError, SafepayService } from '../shared/payments/safepay.service'
@@ -44,6 +45,7 @@ export class EscrowController {
     private readonly directory: AdminRestaurantsService,
     private readonly notifications: NotificationsService,
     private readonly bookings: BookingsService,
+    private readonly mail: MailService,
   ) {}
 
   @Get()
@@ -195,6 +197,14 @@ export class EscrowController {
         body: `${fmtPkr(item.payout.amount)} for ${item.bookingRef} was released from escrow to ${item.payout.bank} ${item.payout.ibanMasked} (GoMingle fee ${fmtPkr(item.payout.platformFee)}).`,
         deepLink: '/finances',
         metadata: { escrowId: id, reference: item.payout.reference },
+      })
+      await this.mail.toRestaurantOwner(item.restaurantId, 'payout_released', {
+        restaurantName: item.restaurantName ?? '',
+        amount: fmtPkr(item.payout.amount),
+        fee: fmtPkr(item.payout.platformFee),
+        bookingRef: item.bookingRef,
+        bank: item.payout.bank,
+        account: item.payout.ibanMasked,
       })
     }
     return { success: true, data: item }

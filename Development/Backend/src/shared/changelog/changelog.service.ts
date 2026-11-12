@@ -31,6 +31,7 @@ const MODULES: [RegExp, string, string][] = [
   [/^\/api\/v1\/(admin\/)?reviews/, 'Reviews', 'review'],
   [/^\/api\/v1\/escrow/, 'Finance', 'escrow'],
   [/^\/api\/v1\/(admin\/)?finances/, 'Finance', 'payout'],
+  [/^\/api\/v1\/email-templates/, 'Email Templates', 'email template'],
 ]
 
 /** Sub-actions that read better as words than as "update". */
@@ -52,10 +53,11 @@ const VERBS: Record<string, string> = {
   'test-booking': 'Created sandbox booking',
   'change-password': 'Changed password',
   visibility: 'Changed visibility',
+  reset: 'Restored default wording',
 }
 
 /** Fields worth showing as before → after on an update. */
-const TRACKED = ['name', 'fullName', 'status', 'commissionRate', 'roleId', 'fullAccess', 'maxGuests', 'startDate', 'startTime', 'description']
+const TRACKED = ['name', 'fullName', 'status', 'subject', 'heading', 'enabled', 'commissionRate', 'roleId', 'fullAccess', 'maxGuests', 'startDate', 'startTime', 'description']
 
 const nameOf = (x: unknown): string | null =>
   x && typeof x === 'object'

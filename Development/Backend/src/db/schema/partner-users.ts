@@ -23,6 +23,8 @@ export const partnerUsers = pgTable(
     passwordHash: text('password_hash'),
     failures: integer('failures').notNull().default(0),
     lockedUntil: bigint('locked_until', { mode: 'number' }).notNull().default(0),
+    /** Google account id (`sub`) once the partner has signed in with Google. */
+    googleSub: text('google_sub'),
   },
   (t) => [uniqueIndex('partner_users_email_live').on(t.email).where(sql`${t.status} <> 'DELETED'`)],
 )

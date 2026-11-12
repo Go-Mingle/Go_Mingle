@@ -7,6 +7,10 @@ import { checkPassword, meetsPasswordPolicy } from '../../auth/passwords'
 import { bearer, PARTNER_AUDIENCE, TokensService } from '../../auth/tokens.service'
 import { PartnerAccountsService, type PartnerUser } from './partner-accounts.service'
 import { resolvePartner } from './partner.guard'
+import { config } from '../../config'
+import { verifyGoogleCredential } from '../../auth/google'
+import { AccountDirectory } from '../../shared/accounts/account-directory.service'
+import { newRestaurantId, routeFor, RestaurantsService } from '../../shared/restaurants/restaurants.service'
 
 function lockMessage(ms: number) {
   const minutes = Math.max(1, Math.ceil(ms / 60_000))
@@ -22,6 +26,8 @@ export class PartnerAuthController {
     private readonly accounts: PartnerAccountsService,
     private readonly tokens: TokensService,
     private readonly codes: CodesService,
+    private readonly restaurants: RestaurantsService,
+    private readonly directory: AccountDirectory,
   ) {}
 
   issue(user: PartnerUser) {
@@ -46,6 +52,42 @@ export class PartnerAuthController {
     return { ...(await this.issue(user)), user: identity(user) }
   }
 
+  /**
+   * Sign in, or sign up, with Google. The body carries the ID token Google
+   * Identity Services gave the portal (`credential`). A partner with that email
+   * is signed in; an unknown email gets a new partner account with its Draft
+   * restaurant, like a completed email sign-up (Google has verified the email).
+   */
+  @Post('google')
+  @HttpCode(200)
+  async google(@Body() body: { credential?: unknown }) {
+    if (!config.googleClientId) throw apiError(503, 'GOOGLE_SIGN_IN_OFF', 'Sign in with Google is not available right now.')
+    const check = await verifyGoogleCredential(body.credential, config.googleClientId).catch(() => null)
+    if (!check) throw apiError(503, 'GOOGLE_UNAVAILABLE', 'Google could not be reached. Try again in a moment.')
+    if (!check.ok) throw apiError(401, 'GOOGLE_TOKEN_INVALID', 'Google sign-in could not be verified. Try again.')
+    const { email, name, sub } = check.identity
+
+    let user = await this.accounts.byEmail(email)
+    let isNew = false
+    if (user) {
+      if (user.googleSub && user.googleSub !== sub) throw apiError(401, 'GOOGLE_TOKEN_INVALID', 'Google sign-in could not be verified. Try again.')
+      const locked = this.accounts.lockRemainingMs(user)
+      if (locked) throw apiError(403, 'PRE_AUTH_REJECTED', lockMessage(locked))
+      if (user.status !== 'ACTIVE') throw apiError(403, 'PRE_AUTH_REJECTED', 'This account is suspended. Contact GoMingle support.')
+      if (!user.googleSub) user = await this.accounts.update(user.id, { googleSub: sub })
+      await this.accounts.recordSuccess(user)
+    } else {
+      if (await this.directory.emailInUse(email)) {
+        throw apiError(409, 'ERR_ALREADY_REGISTERED', 'This email is used by a GoMingle Admin account and cannot be used for a partner account.')
+      }
+      user = await this.accounts.create({ email, fullName: name, restaurantId: newRestaurantId(), isPrimary: true })
+      user = await this.accounts.update(user.id, { googleSub: sub })
+      isNew = true
+    }
+    const restaurant = await this.restaurants.ensure(user.restaurantId)
+    return { ...(await this.issue(user)), user: identity(user), isNew, route: routeFor(restaurant.status) }
+  }
+
   @Post('refresh')
   @HttpCode(200)
   async refresh(@Body() body: { refreshToken?: string }) {
@@ -64,7 +106,8 @@ export class PartnerAuthController {
 
   @Post('forgot-password')
   async forgot(@Body() body: { email?: string }, @Res() res: Response) {
-    if (await this.accounts.byEmail(body.email)) await this.codes.issue('partner-reset', String(body.email))
+    const user = await this.accounts.byEmail(body.email)
+    if (user) await this.codes.issue('partner-reset', user.email, 10, user.fullName)
     res.status(204).end()
   }
 

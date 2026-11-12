@@ -38,7 +38,8 @@ describe('parity: admin access', () => {
     })
 
     // Roles
-    await p.req('permission keys', 'GET', '/admin/api/v1/roles/permission-keys', { as: 'admin' })
+    // Configure gained Email Templates (GM-275) after the old API; checked in test/features.
+    await p.req('permission keys', 'GET', '/admin/api/v1/roles/permission-keys', { as: 'admin', ignore: ['data.sections'] })
     await p.req('roles list', 'GET', '/admin/api/v1/roles', { as: 'admin' })
     await p.req('roles active', 'GET', '/admin/api/v1/roles/active', { as: 'admin' })
     await p.req('role r1', 'GET', '/admin/api/v1/roles/r1', { as: 'admin' })

@@ -24,6 +24,7 @@ export const NAV_ACCESS: readonly NavAccessEntry[] = [
   // CONFIGURE
   { key: 'amenities', path: '/amenities', module: 'AMENITIES' },
   { key: 'categories', path: '/categories', module: 'CATEGORIES' },
+  { key: 'email-templates', path: '/email-templates', module: 'EMAIL_TEMPLATES' },
   { key: 'loyalty', path: '/loyalty', module: 'LOYALTY_CONFIGURATION' },
   { key: 'preference-questions', path: '/preference-questions', module: 'PREFERENCE_QUESTIONS' },
   { key: 'roles-access', path: '/roles-access', module: 'ROLES_AND_ACCESS' },

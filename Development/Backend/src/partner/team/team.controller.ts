@@ -4,6 +4,8 @@ import { Body, Query, type Req as Request } from '../../common/http'
 import { normaliseEmail } from '../../auth/passwords'
 import { CurrentPartner, PartnerGuard } from '../access/partner.guard'
 import { PartnerAccountsService, type PartnerUser } from '../access/partner-accounts.service'
+import { MailService } from '../../shared/email/mail.service'
+import { RestaurantsService } from '../../shared/restaurants/restaurants.service'
 
 type Json = Record<string, unknown>
 
@@ -40,7 +42,23 @@ const item = (u: PartnerUser) => ({
 @Controller('partner/api/v1/partner/users')
 @UseGuards(PartnerGuard)
 export class TeamController {
-  constructor(private readonly accounts: PartnerAccountsService) {}
+  constructor(
+    private readonly accounts: PartnerAccountsService,
+    private readonly restaurants: RestaurantsService,
+    private readonly mail: MailService,
+  ) {}
+
+  /** Tells a new (or returning) active member they can sign in. */
+  private async welcome(member: PartnerUser, me: PartnerUser) {
+    if (member.status !== 'ACTIVE') return
+    const restaurant = await this.restaurants.find(me.restaurantId)
+    await this.mail.send('partner_team_welcome', { email: member.email, name: member.fullName }, {
+      name: member.fullName,
+      restaurantName: restaurant?.name || 'your restaurant',
+      addedBy: me.fullName,
+      email: member.email,
+    })
+  }
 
   private async member(me: PartnerUser, id: string): Promise<PartnerUser> {
     const user = await this.accounts.byId(id)
@@ -112,9 +130,11 @@ export class TeamController {
     if (removed) {
       await this.accounts.setPassword(removed.id, password)
       const revived = await this.accounts.update(removed.id, { fullName, designation, status, lastActiveAt: null, failures: 0, lockedUntil: 0 })
+      await this.welcome(revived, me)
       return { success: true, data: { ...item(revived), email: revived.email, reactivated: true } }
     }
     const created = await this.accounts.create({ email, fullName, restaurantId: me.restaurantId, isPrimary: false, designation, password, status, neverActive: true })
+    await this.welcome(created, me)
     return { success: true, data: { ...item(created), email: created.email } }
   }
 
