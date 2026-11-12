@@ -1,0 +1,26 @@
+---
+title: Flowchart 5 – Sending an email (MailService)
+---
+flowchart TD
+  classDef dec fill:#FFFBEB,stroke:#D97706,color:#1F2937
+  classDef end_ fill:#E9F6F4,stroke:#1A8A7A,color:#1F2937
+  classDef store fill:#EEF2FF,stroke:#4F46E5,color:#1F2937
+  E(["Event: code requested, team member added,<br/>restaurant approved/declined/suspended/reactivated,<br/>payout released, new application"]):::end_ --> T["Load template row<br/>(create from default if missing)"]
+  T --> V["Fill placeholders: values + portal links<br/>render HTML + text in GoMingle layout"]
+  V --> ON{"Template switched on?<br/>(code emails always on)"}:::dec
+  ON -- "No" --> SK["Log SKIPPED"]:::store
+  ON -- "Yes" --> P{"Provider"}:::dec
+  P -- "MAILTRAP_API_TOKEN + INBOX_ID" --> MT["Mailtrap test inbox"]
+  P -- "MAILTRAP_API_TOKEN only" --> ML["Mailtrap live sending"]
+  P -- "SMTP_HOST" --> SM["SMTP (Brevo / Amazon SES)"]
+  P -- "none" --> LG["Print to server log"]
+  MT --> R{"Delivered?"}:::dec
+  ML --> R
+  SM --> R
+  R -- "Yes" --> S1["Log SENT + message id"]:::store
+  R -- "No" --> S2["Log FAILED + reason<br/>action that triggered it still succeeds"]:::store
+  LG --> S3["Log LOGGED"]:::store
+  S1 --> A(["Visible in Admin → Email Templates → Recent emails"]):::end_
+  S2 --> A
+  S3 --> A
+  SK --> A

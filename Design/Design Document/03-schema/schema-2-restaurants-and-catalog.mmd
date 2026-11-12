@@ -1,0 +1,184 @@
+---
+title: GoMingle – Database schema – Restaurants, venue and catalogue
+---
+erDiagram
+  categories {
+    text id PK
+    serial seq
+    text name
+    double commission_rate "nullable"
+    int interest_tables_per_month "nullable"
+    text created_at
+    text updated_at "nullable"
+  }
+  restaurants {
+    text id PK
+    serial seq
+    text created_at
+    text name "nullable"
+    text cuisine "nullable"
+    text description "nullable"
+    text area_district "nullable"
+    text city "nullable"
+    text full_address "nullable"
+    double latitude "nullable"
+    double longitude "nullable"
+    text owner_name "nullable"
+    text owner_email "nullable"
+    text owner_phone "nullable"
+    text restaurant_phone "nullable"
+    text restaurant_email "nullable"
+    text website "nullable"
+    text house_rules "nullable"
+    text dress_code "nullable"
+    bool serves_alcohol "nullable"
+    text main_photo_key "nullable"
+    bool visible_on_app
+    jsonb amenity_ids
+    text status
+    bool suspended
+    jsonb rejections
+    bigint first_submitted_at "nullable"
+    text submitted "nullable"
+    text rejection_reason "nullable"
+    text rejected_on "nullable"
+    text joined "nullable"
+    text category_id FK "nullable"
+    text payout_account_id "nullable"
+    text menu_pdf_file "nullable"
+    text menu_pdf_name "nullable"
+    double no_show_penalty_per_seat_pkr
+    int cancellation_window_hours
+  }
+  restaurant_contacts {
+    text restaurant_id FK
+    text id
+    text name
+    text title "nullable"
+    text email "nullable"
+    text phone "nullable"
+    bool deleted
+  }
+  payout_accounts {
+    text restaurant_id PK,FK
+    text account_title
+    text bank_name
+    text iban
+    text added_at
+    text updated_at
+  }
+  restaurant_tables {
+    text restaurant_id FK
+    text table_id
+    serial seq
+    text name
+    bool is_hidden
+    jsonb availability
+  }
+  menu_options {
+    text restaurant_id FK
+    text combo_id
+    serial seq
+    text name
+    double price_pkr
+    bool is_hidden
+    jsonb courses
+  }
+  menu_pdfs {
+    text restaurant_id FK
+    text file
+    bytea bytes
+  }
+  restaurant_counters {
+    text restaurant_id FK
+    text name
+    int value
+  }
+  media_counters {
+    text restaurant_id PK,FK
+    int next_id
+    int gallery_reads
+  }
+  media_uploads {
+    text restaurant_id FK
+    text upload_ref
+    text kind
+    text name
+    text content_type
+    bool received
+    bigint size
+    bytea bytes "nullable"
+  }
+  restaurant_media {
+    text restaurant_id FK
+    text media_id
+    text kind
+    int position
+    text name
+    text content_type
+    bigint size
+    text uploaded_at
+    int sort_order "nullable"
+    int ready_after_reads "nullable"
+    bytea bytes "nullable"
+  }
+  amenities {
+    text id PK
+    serial seq
+    text name
+    text icon_url "nullable"
+    text created_at
+    text updated_at
+  }
+  interests {
+    text id PK
+    serial seq
+    text name
+    text group_name "nullable"
+    text created_at
+    text updated_at "nullable"
+  }
+  topics {
+    text id PK
+    serial seq
+    text name
+    text description "nullable"
+    text graphic_url "nullable"
+    jsonb interests
+    text created_at
+  }
+  preference_questions {
+    text id PK
+    serial seq
+    text question
+    text type "nullable"
+    int question_order
+    text created_at
+  }
+  preference_options {
+    text id
+    text question_id FK
+    int position
+    text text
+    int display_order
+  }
+  settings {
+    text key PK
+    jsonb value
+  }
+  bucket_objects {
+    text key PK
+    bytea bytes
+    text content_type
+  }
+  categories ||--o{ restaurants : "category_id"
+  restaurants ||--o{ restaurant_contacts : "restaurant_id"
+  restaurants ||--o| payout_accounts : "restaurant_id"
+  restaurants ||--o{ restaurant_tables : "restaurant_id"
+  restaurants ||--o{ menu_options : "restaurant_id"
+  restaurants ||--o| menu_pdfs : "restaurant_id"
+  restaurants ||--o{ restaurant_counters : "restaurant_id"
+  restaurants ||--o| media_counters : "restaurant_id"
+  restaurants ||--o{ media_uploads : "restaurant_id"
+  restaurants ||--o{ restaurant_media : "restaurant_id"
+  preference_questions ||--|{ preference_options : "question_id"

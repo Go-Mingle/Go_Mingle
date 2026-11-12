@@ -1,0 +1,73 @@
+---
+title: GoMingle – System Architecture (v0.8.0, live on Vercel)
+---
+flowchart LR
+  classDef client fill:#FFF1EF,stroke:#E8604F,color:#1F2937
+  classDef api fill:#E9F6F4,stroke:#1A8A7A,color:#1F2937
+  classDef store fill:#EEF2FF,stroke:#4F46E5,color:#1F2937
+  classDef ext fill:#F6F5F3,stroke:#9CA3AF,color:#1F2937
+  classDef planned fill:#FFFFFF,stroke:#9CA3AF,stroke-dasharray:5 4,color:#6B7280
+
+  subgraph Users["Users"]
+    A(["GoMingle admin team"])
+    P(["Restaurant owner & staff"])
+    M(["Mingler"])
+  end
+
+  subgraph Clients["Clients"]
+    AP["<b>Admin Panel</b><br/>React 19 · Vite · Ant Design 6<br/>TanStack Query · Redux Toolkit<br/>gomingle-admin.vercel.app"]:::client
+    PP["<b>Partner Portal</b><br/>React 19 · Vite · Ant Design 6<br/>TanStack Query · Redux Toolkit<br/>gomingle-partner.vercel.app"]:::client
+    MA["<b>Mingler app</b><br/>Flutter (iOS · Android)<br/>planned, Sprints 3–13"]:::planned
+  end
+
+  subgraph Vercel["Vercel (team go-mingle, region iad1)"]
+    direction TB
+    FN["<b>gomingle-api</b> serverless function<br/>api/index.js → NestJS 11 (Express)<br/>gomingle-api.vercel.app"]:::api
+    subgraph Nest["NestJS modular monolith"]
+      direction TB
+      AUTH["Auth<br/>JWT access + refresh tokens<br/>codes · lockout · Google ID token check"]:::api
+      ADM["Admin modules<br/>/admin/api/v1/*"]:::api
+      PAR["Partner modules<br/>/partner/api/v1/partner/*"]:::api
+      SH["Shared services<br/>restaurants · interest tables · bookings<br/>escrow · finance ledger · notifications<br/>change log · mail"]:::api
+      ORM["Drizzle ORM 0.45<br/>migrations on cold start (advisory lock)"]:::api
+    end
+  end
+
+  DB[("<b>Neon PostgreSQL 17</b><br/>pooled + direct connections<br/>37 tables")]:::store
+
+  SP["<b>Safepay</b><br/>hosted checkout · trackers<br/>capture · void · refund"]:::ext
+  MT["<b>Mailtrap</b> (now) / SMTP<br/>Brevo · Amazon SES (later)"]:::ext
+  GI["<b>Google Identity Services</b><br/>Sign in with Google (partners)"]:::ext
+  GM["<b>Google Maps</b><br/>map link → pin"]:::ext
+  GH["<b>GitHub</b> Go-Mingle/Go_Mingle<br/>PR → main"]:::ext
+  JI["<b>Jira</b> project GM"]:::ext
+
+  A --> AP
+  P --> PP
+  M -.-> MA
+  AP -- "HTTPS JSON + Bearer JWT" --> FN
+  PP -- "HTTPS JSON + Bearer JWT" --> FN
+  MA -.-> FN
+  PP -- "Google button → ID token" --> GI
+  PP --> GM
+  FN --> AUTH & ADM & PAR
+  ADM --> SH
+  PAR --> SH
+  AUTH --> SH
+  SH --> ORM
+  ORM -- "SQL over TLS" --> DB
+  SH -- "REST (sandbox keys)" --> SP
+  SH -- "send API / SMTP" --> MT
+  AUTH -- "verify signature (JWKS)" --> GI
+  GH -- "push / merge → build & deploy" --> Vercel
+  GH -. "keys in commits & PRs" .- JI
+
+  subgraph Target["Go-live target on AWS (GM-242, planned)"]
+    direction TB
+    T1["Amazon RDS PostgreSQL"]:::planned
+    T2["AWS Cognito (RS256)"]:::planned
+    T3["S3 + CloudFront"]:::planned
+    T4["ElastiCache Redis"]:::planned
+    T5["Amazon SES / SNS"]:::planned
+  end
+  DB -. "migrates to" .-> T1
