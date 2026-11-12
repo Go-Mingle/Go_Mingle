@@ -1,0 +1,35 @@
+---
+title: Flowchart 2 – Interest table, booking, check-in and payout
+---
+flowchart TD
+  classDef dec fill:#FFFBEB,stroke:#D97706,color:#1F2937
+  classDef end_ fill:#E9F6F4,stroke:#1A8A7A,color:#1F2937
+  classDef money fill:#EEF2FF,stroke:#4F46E5,color:#1F2937
+  A(["Admin creates interest table<br/>restaurant · topic · table · menu · date & time in PKT"]):::end_ --> B{"Publish now?"}:::dec
+  B -- "Save as draft" --> DR["Status DRAFT"] --> B
+  B -- "Publish" --> T{"Start time in the future<br/>(Pakistan time)?"}:::dec
+  T -- "No" --> X1[/"Start time has already passed"/]
+  T -- "Yes" --> OPEN["Status PENDING / CONFIRMED<br/>open for bookings"]
+  OPEN --> BK["Booking request: seats, menu option"]
+  BK --> V{"Seats left? Table not started?"}:::dec
+  V -- "No" --> X2[/"Table full / already started"/]
+  V -- "Yes" --> H["Create booking CONFIRMED<br/>one no-show hold per seat<br/>(penalty per seat)"]:::money
+  H --> CS{"Card step"}:::dec
+  CS -- "Pay on Safepay" --> AU["Hold AUTHORIZED"]:::money
+  CS -- "Not yet" --> PP["Hold PENDING_PAYMENT"]:::money
+  OPEN -. "Admin cancels table" .-> CT["Cancel every booking<br/>void / refund every hold<br/>Minglers get money back"]:::money
+  AU --> W{"At the table"}:::dec
+  PP --> W
+  W -- "Partner presses Guests Arrived<br/>(from 1 h before start)" --> GA["Release no-show holds<br/>charge dinner bill for arrived seats<br/>→ escrow IN_ESCROW"]:::money
+  W -- "Partner records no-show<br/>(after start)" --> NS["Collect hold of each empty seat<br/>release the rest · bill arrived seats"]:::money
+  W -- "Nobody checked in 60 min after start" --> AUTO["Automatic no-show for every seat"]:::money
+  AUTO --> NS
+  NS --> F{"Safepay collection OK?"}:::dec
+  F -- "No" --> FC["Failed collections queue<br/>admin Retry or Close"]
+  F -- "Yes" --> CMP
+  GA --> CMP["Table COMPLETED<br/>Finances rows on both portals"]
+  CMP --> REL{"Admin releases payout?"}:::dec
+  REL -- "Yes" --> PO["Restaurant share (minus category fee)<br/>to payout account · hold RELEASED<br/>Email 'Payout released'"]:::money
+  REL -- "Refund instead" --> RF["Hold REFUNDED"]:::money
+  PO --> END(["Done"]):::end_
+  RF --> END
