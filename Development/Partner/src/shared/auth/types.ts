@@ -64,6 +64,12 @@ export type AuthErrorCode =
    */
   | 'SAME_PASSWORD'
   | 'LIMIT_EXCEEDED'
+  /** Google sign-in: the API could not verify the Google account. */
+  | 'GOOGLE_REJECTED'
+  /** Google sign-in: the email belongs to a GoMingle admin account. */
+  | 'EMAIL_IN_USE'
+  /** Google sign-in is switched off on the server. */
+  | 'GOOGLE_UNAVAILABLE'
   /** The pool/app-client is misconfigured or the SDK failed to load — our fault, not the partner's. */
   | 'CONFIG_ERROR'
   | 'NETWORK'

@@ -65,6 +65,8 @@ import { PartnerLegacyController } from './partner/legacy.controller'
 import { BookingsService } from './shared/bookings/bookings.service'
 import { BookingsController } from './admin/bookings.controller'
 import { NoShowPolicyController } from './partner/no-show-policy.controller'
+import { MailService } from './shared/email/mail.service'
+import { EmailTemplatesController } from './admin/email-templates.controller'
 import './seed/catalog.seed'
 
 @Controller()
@@ -133,6 +135,7 @@ class RootController {
     ApprovalsController,
     RestaurantsController,
     AssetsController,
+    EmailTemplatesController,
   ],
   providers: [
     TokensService,
@@ -158,6 +161,7 @@ class RootController {
     BookingsService,
     InterestTablesService,
     AdminRestaurantsService,
+    MailService,
   ],
 })
 export class AppModule {}

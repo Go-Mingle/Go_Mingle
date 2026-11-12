@@ -83,6 +83,7 @@ export const rolesHandlers = [
               { key: 'AMENITIES', label: 'Amenities' },
               { key: 'PREFERENCE_QUESTIONS', label: 'Preference Questions' },
               { key: 'TIMER_SETTINGS', label: 'Timer Settings' },
+              { key: 'EMAIL_TEMPLATES', label: 'Email Templates' },
             ],
           },
           {

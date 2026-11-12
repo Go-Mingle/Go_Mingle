@@ -9,6 +9,7 @@ interface ImportMetaEnv {
   readonly VITE_APP_VERSION?: string
   readonly VITE_ENABLE_MOCKS?: string
   readonly VITE_GOOGLE_MAPS_API_KEY?: string
+  readonly VITE_GOOGLE_CLIENT_ID?: string
   /** GoMingle-Partners Cognito user pool id. Unset → the mock auth provider. */
   readonly VITE_COGNITO_PARTNERS_POOL_ID?: string
   /** GoMingle-Partners Cognito app client id. Unset → the mock auth provider. */

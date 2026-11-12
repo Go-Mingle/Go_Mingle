@@ -6,18 +6,31 @@ import { DB, type Db } from '../db/database'
 import { oneTimeCodes, resetSessions } from '../db/schema'
 import { normaliseEmail } from './passwords'
 import type { Audience } from './tokens.service'
+import { MailService } from '../shared/email/mail.service'
+import { mailConfigured } from '../shared/email/mail-transport'
 
 export type CodeResult = 'ok' | 'mismatch' | 'expired'
 
+/** The email each kind of code goes out in. */
+const TEMPLATE_FOR: Record<string, string> = {
+  'partner-signup': 'partner_signup_code',
+  'partner-reset': 'partner_password_reset',
+  'admin-reset': 'admin_password_reset',
+}
+
 /**
- * One-time codes (password reset, partner sign-up). Codes are printed to the
- * server console; the demo code (DEMO_OTP, default 123456) is accepted too.
+ * One-time codes (password reset, partner sign-up), emailed to the person.
+ * Until email delivery is configured they are printed to the server console
+ * and the demo code (DEMO_OTP, default 123456) is accepted as well.
  */
 @Injectable()
 export class CodesService {
-  constructor(@Inject(DB) private readonly db: Db) {}
+  constructor(
+    @Inject(DB) private readonly db: Db,
+    private readonly mail: MailService,
+  ) {}
 
-  async issue(purpose: string, email: string, minutes = 10): Promise<string> {
+  async issue(purpose: string, email: string, minutes = 10, name?: string | null): Promise<string> {
     const code = String(crypto.randomInt(0, 1_000_000)).padStart(6, '0')
     const key = `${purpose}:${normaliseEmail(email)}`
     const expiresAt = Date.now() + minutes * 60_000
@@ -25,8 +38,13 @@ export class CodesService {
       .insert(oneTimeCodes)
       .values({ key, code, expiresAt })
       .onConflictDoUpdate({ target: oneTimeCodes.key, set: { code, expiresAt } })
-    if (process.env.NODE_ENV !== 'test') {
-      console.log(`[otp] ${purpose} code for ${normaliseEmail(email)}: ${code} (demo code ${config.demoOtp} also accepted)`)
+    if (process.env.NODE_ENV !== 'test' && !mailConfigured()) {
+      const demo = config.demoOtp ? ` (demo code ${config.demoOtp} also accepted)` : ''
+      console.log(`[otp] ${purpose} code for ${normaliseEmail(email)}: ${code}${demo}`)
+    }
+    const template = TEMPLATE_FOR[purpose]
+    if (template) {
+      await this.mail.send(template, { email: normaliseEmail(email), name }, { code, minutes, name: name || normaliseEmail(email).split('@')[0] })
     }
     return code
   }
@@ -36,9 +54,10 @@ export class CodesService {
       .select()
       .from(oneTimeCodes)
       .where(eq(oneTimeCodes.key, `${purpose}:${normaliseEmail(email)}`))
-    if (!record) return code === config.demoOtp ? 'ok' : 'expired'
+    const demo = Boolean(config.demoOtp) && code === config.demoOtp
+    if (!record) return demo ? 'ok' : 'expired'
     if (record.expiresAt < Date.now()) return 'expired'
-    if (code !== record.code && code !== config.demoOtp) return 'mismatch'
+    if (code !== record.code && !demo) return 'mismatch'
     return 'ok'
   }
 

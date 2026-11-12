@@ -21,6 +21,7 @@ export const ALL_MODULES: RoleModule[] = [
   { key: 'AMENITIES', label: tRoles('modules.amenities') },
   { key: 'PREFERENCE_QUESTIONS', label: tRoles('modules.preferenceQuestions') },
   { key: 'TIMER_SETTINGS', label: tRoles('modules.timerSettings') },
+  { key: 'EMAIL_TEMPLATES', label: tRoles('modules.emailTemplates') },
   // Manage
   { key: 'RESTAURANT_APPROVALS', label: tRoles('modules.approvalQueue') },
   { key: 'MANAGE_RESTAURANTS', label: tRoles('modules.restaurants') },

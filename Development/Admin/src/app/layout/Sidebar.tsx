@@ -9,6 +9,7 @@ import {
   Tag,
   Sparkle,
   Star,
+  EnvelopeSimple,
   // Scroll, // used by the commented-out Change Log nav item
   ShieldCheck,
   UserGear,
@@ -118,6 +119,12 @@ export function Sidebar({ forDrawer = false }: SidebarProps) {
         label: t('nav.categories'),
         Icon: Tag,
         path: '/categories',
+      },
+      {
+        key: 'email-templates',
+        label: t('nav.emailTemplates'),
+        Icon: EnvelopeSimple,
+        path: '/email-templates',
       },
       {
         key: 'loyalty',
