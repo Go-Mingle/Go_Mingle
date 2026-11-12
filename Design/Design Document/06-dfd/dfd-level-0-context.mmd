@@ -1,0 +1,27 @@
+---
+title: GoMingle – Data Flow Diagram, Level 0 (context)
+---
+flowchart LR
+  classDef ext fill:#FFFFFF,stroke:#1F2937,stroke-width:1.5px,color:#1F2937
+  classDef proc fill:#FFF1EF,stroke:#E8604F,stroke-width:2px,color:#1F2937
+
+  ADM["Admin"]:::ext
+  PAR["Restaurant partner"]:::ext
+  MIN["Mingler<br/>(Mingler app, planned)"]:::ext
+  SPY["Safepay"]:::ext
+  EML["Email provider<br/>(Mailtrap / SMTP)"]:::ext
+  GGL["Google Identity"]:::ext
+
+  SYS(("<b>0</b><br/>GoMingle<br/>platform")):::proc
+
+  ADM -- "sign-in, approvals, interest tables,<br/>escrow actions, catalogue, templates" --> SYS
+  SYS -- "queues, dashboards, finances,<br/>notifications, change log" --> ADM
+  PAR -- "sign-up, profile, tables, menu,<br/>check-in, no-show, payout account" --> SYS
+  SYS -- "status, bookings, guest list,<br/>finances, notifications" --> PAR
+  MIN -. "account, bookings, card details" .-> SYS
+  SYS -. "tables, confirmations, receipts" .-> MIN
+  SYS -- "checkout, capture, void, refund" --> SPY
+  SPY -- "payment state (tracker)" --> SYS
+  SYS -- "rendered emails" --> EML
+  EML -- "message id / error" --> SYS
+  GGL -- "signed ID token, public keys" --> SYS

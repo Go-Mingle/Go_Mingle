@@ -1,0 +1,52 @@
+---
+title: GoMingle – Entity-Relationship Diagram (conceptual)
+---
+erDiagram
+  ROLE ||--o{ ADMIN_USER : "grants access to"
+  ADMIN_USER ||--o{ CHANGE_LOG : "is recorded in"
+  ADMIN_USER ||--o{ ADMIN_NOTIFICATION : "reads"
+
+  CATEGORY ||--o{ RESTAURANT : "classifies (sets commission)"
+  RESTAURANT ||--|{ PARTNER_USER : "is run by (owner + team)"
+  RESTAURANT ||--o| PAYOUT_ACCOUNT : "is paid to"
+  RESTAURANT ||--o{ RESTAURANT_CONTACT : "has"
+  RESTAURANT ||--o{ RESTAURANT_MEDIA : "shows"
+  RESTAURANT }o--o{ AMENITY : "offers"
+  RESTAURANT ||--o{ RESTAURANT_TABLE : "has"
+  RESTAURANT ||--o{ MENU_OPTION : "serves"
+  RESTAURANT ||--o{ PARTNER_NOTIFICATION : "receives"
+  RESTAURANT ||--o| WEBHOOK_CONFIG : "configures"
+  RESTAURANT ||--o{ WEBHOOK_DELIVERY : "is sent"
+
+  TOPIC }o--o{ INTEREST : "groups"
+  TOPIC ||--o{ INTEREST_TABLE : "themes"
+  RESTAURANT ||--o{ INTEREST_TABLE : "hosts"
+  RESTAURANT_TABLE ||--o{ INTEREST_TABLE : "is assigned to"
+  MENU_OPTION }o--o{ INTEREST_TABLE : "is offered at"
+  INTEREST_TABLE ||--o{ INTEREST_TABLE_INVITEE : "invites"
+
+  MINGLER ||--o{ BOOKING : "makes"
+  MINGLER ||--o{ INTEREST_TABLE_INVITEE : "is invited as"
+  MINGLER |o--o{ INTEREST_TABLE : "hosts as ProMingler"
+  INTEREST_TABLE ||--o{ BOOKING : "receives"
+  BOOKING ||--o{ ESCROW_HOLD : "is secured by (one per seat + bill)"
+  RESTAURANT ||--o{ ESCROW_HOLD : "is owed"
+  ESCROW_HOLD ||--o{ PAYMENT_FAILURE : "may fail as"
+  PAYOUT_ACCOUNT ||--o{ ESCROW_HOLD : "receives payout of"
+
+  PREFERENCE_QUESTION ||--|{ PREFERENCE_OPTION : "has"
+  EMAIL_TEMPLATE ||--o{ EMAIL_LOG : "is sent as"
+
+  ROLE { string id PK  string name  boolean fullAccess  string_list permissions }
+  ADMIN_USER { string id PK  string email UK  string fullName  string roleId FK  string status }
+  CATEGORY { string id PK  string name  float commissionRate }
+  RESTAURANT { string id PK  string name  string status  boolean suspended  boolean visibleOnApp  string categoryId FK  float noShowPenaltyPerSeatPkr }
+  PARTNER_USER { string id PK  string email UK  string restaurantId FK  boolean isPrimary  string status  string googleSub }
+  PAYOUT_ACCOUNT { string restaurantId PK  string bankName  string iban }
+  INTEREST_TABLE { string id PK  string restaurantId FK  string name  string startDate  string startTime  int maxGuests  int seatsBooked  string status }
+  BOOKING { string id PK  string bookingRef UK  string interestTableId FK  string minglerId FK  int seats  string status  string attendance }
+  ESCROW_HOLD { string id PK  string bookingId FK  string kind  int seatNo  float amount  string status  string tracker }
+  PAYMENT_FAILURE { int seq PK  string holdId FK  string action  string message  int attempts }
+  MINGLER { string id PK  string name  string email  boolean isProMingler }
+  EMAIL_TEMPLATE { string key PK  string subject  boolean enabled }
+  EMAIL_LOG { int id PK  string templateKey FK  string toEmail  string status }

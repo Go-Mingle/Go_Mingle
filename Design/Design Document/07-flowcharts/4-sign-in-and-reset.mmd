@@ -1,0 +1,22 @@
+---
+title: Flowchart 4 – Sign-in and password reset (both portals)
+---
+flowchart TD
+  classDef dec fill:#FFFBEB,stroke:#D97706,color:#1F2937
+  classDef end_ fill:#E9F6F4,stroke:#1A8A7A,color:#1F2937
+  S(["Sign-in page"]):::end_ --> M{"Method"}:::dec
+  M -- "Email + password" --> L1{"Account locked?"}:::dec
+  L1 -- "Yes" --> X1[/"Locked, try again in N minutes"/]
+  L1 -- "No" --> L2{"Password correct?"}:::dec
+  L2 -- "No" --> L3["Count failure<br/>5 failures → lock 15 min"] --> X2[/"Incorrect email or password"/]
+  L2 -- "Yes" --> L4{"Account active?"}:::dec
+  L4 -- "No" --> X3[/"Account suspended"/]
+  L4 -- "Yes" --> OK["Issue access token (2 h)<br/>+ refresh token (7 days)"] --> HOME(["Portal"]):::end_
+  M -- "Continue with Google<br/>(Partner Portal)" --> G["Verify Google ID token"] --> L4
+  M -- "Forgot password" --> F1["Enter email"]
+  F1 --> F2["If the account exists: issue 6-digit code<br/>(10 min) and email it — same reply either way"]
+  F2 --> F3["Enter code + new password"]
+  F3 --> F4{"Code valid and password<br/>meets policy?"}:::dec
+  F4 -- "No" --> F3
+  F4 -- "Yes" --> F5["Save password, clear lock,<br/>sign out other sessions"] --> S
+  HOME -. "access token expires" .-> R["Refresh token rotated<br/>(single use)"] -.-> HOME

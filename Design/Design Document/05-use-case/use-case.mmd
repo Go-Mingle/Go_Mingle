@@ -1,0 +1,68 @@
+---
+title: GoMingle – Use case diagram
+---
+flowchart LR
+  classDef actor fill:#FFFFFF,stroke:#1F2937,stroke-width:1.5px,color:#1F2937
+  classDef uc fill:#FFF1EF,stroke:#E8604F,color:#1F2937
+  classDef ucp fill:#FFFFFF,stroke:#9CA3AF,stroke-dasharray:5 4,color:#4B5563
+  classDef sys fill:#F6F5F3,stroke:#9CA3AF,color:#1F2937
+
+  Admin["🧑‍💼<br/>Admin"]:::actor
+  Partner["🧑‍🍳<br/>Restaurant partner<br/>(owner · team)"]:::actor
+  Mingler["🙋<br/>Mingler"]:::actor
+  Safepay["Safepay"]:::sys
+  Mail["Email provider"]:::sys
+  Google["Google Identity"]:::sys
+
+  subgraph AdminPanel["Admin Panel"]
+    direction TB
+    A1(["Sign in · reset password"]):::uc
+    A2(["Review restaurant applications<br/>(approve / decline)"]):::uc
+    A3(["Manage restaurants<br/>(suspend · category)"]):::uc
+    A4(["Create · edit · publish · cancel<br/>interest tables"]):::uc
+    A5(["Manage Minglers & ProMinglers"]):::uc
+    A6(["Escrow & payouts<br/>(capture · release · void · refund)"]):::uc
+    A7(["Resolve failed collections"]):::uc
+    A8(["Configure catalogues<br/>(categories · amenities · interests ·<br/>topics · questions · loyalty)"]):::uc
+    A9(["Manage users & roles"]):::uc
+    A10(["Edit email templates"]):::uc
+    A11(["View finances, dashboard,<br/>change log"]):::uc
+  end
+
+  subgraph PartnerPortal["Partner Portal"]
+    direction TB
+    P1(["Sign up / sign in<br/>(email code or Google)"]):::uc
+    P2(["Set up restaurant profile<br/>& submit for approval"]):::uc
+    P3(["Manage tables, availability,<br/>menu & media"]):::uc
+    P4(["Set payout account"]):::uc
+    P5(["View interest tables<br/>& guest list"]):::uc
+    P6(["Mark Guests Arrived"]):::uc
+    P7(["Record no-show"]):::uc
+    P8(["Set no-show policy"]):::uc
+    P9(["Manage team members"]):::uc
+    P10(["View finances & escrow"]):::uc
+  end
+
+  subgraph MinglerApp["Mingler app (planned)"]
+    direction TB
+    M1(["Register · sign in"]):::ucp
+    M2(["Discover restaurants &<br/>interest tables"]):::ucp
+    M3(["Join a table<br/>(card hold)"]):::ucp
+    M4(["Cancel a booking"]):::ucp
+    M5(["Pay after dinner"]):::ucp
+    M6(["Review & earn points"]):::ucp
+  end
+
+  Admin --- A1 & A2 & A3 & A4 & A5 & A6 & A7 & A8 & A9 & A10 & A11
+  Partner --- P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8 & P9 & P10
+  Mingler -.- M1 & M2 & M3 & M4 & M5 & M6
+
+  P1 --- Google
+  A1 --- Mail
+  P1 --- Mail
+  A2 --- Mail
+  A6 --- Safepay
+  P6 --- Safepay
+  P7 --- Safepay
+  M3 -.- Safepay
+  M5 -.- Safepay

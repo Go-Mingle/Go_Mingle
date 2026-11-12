@@ -1,0 +1,35 @@
+---
+title: Flowchart 1 – Partner sign-up, profile and approval
+---
+flowchart TD
+  classDef io fill:#FFF1EF,stroke:#E8604F,color:#1F2937
+  classDef dec fill:#FFFBEB,stroke:#D97706,color:#1F2937
+  classDef end_ fill:#E9F6F4,stroke:#1A8A7A,color:#1F2937
+  S(["Partner opens the Partner Portal"]):::end_ --> C{"Sign up with?"}:::dec
+  C -- Email --> E1["Enter email"]
+  E1 --> E2{"Email already used?"}:::dec
+  E2 -- "Yes" --> X1[/"This account already exists — sign in"/]:::io
+  E2 -- "No" --> E3["API issues 6-digit code<br/>and emails it (sign-up code template)"]
+  E3 --> E4["Partner enters the code"]
+  E4 --> E5{"Code correct and not expired?"}:::dec
+  E5 -- "No" --> E4
+  E5 -- "Yes" --> E6["Create partner account +<br/>Draft restaurant, sign in"]
+  E6 --> E7["Set password"]
+  C -- Google --> G1["Google pop-up returns ID token"]
+  G1 --> G2{"API verifies signature, client id,<br/>issuer, expiry, verified email"}:::dec
+  G2 -- "Invalid" --> X2[/"Google couldn't confirm your account"/]:::io
+  G2 -- "Valid" --> G3{"Partner with this email?"}:::dec
+  G3 -- "Yes" --> G4["Sign in"]
+  G3 -- "No, and not an admin email" --> E6b["Create partner account +<br/>Draft restaurant, sign in"]
+  E7 --> PS
+  E6b --> PS
+  G4 --> PORT(["Portal home"]):::end_
+  PS["Profile setup: details, address & map pin,<br/>tables, availability, menu, photos, payout account"] --> SUB["Submit for approval → status PENDING"]
+  SUB --> N1["Notify admins in-app + email<br/>'New restaurant application'"]
+  N1 --> R{"Admin decision"}:::dec
+  R -- "Approve + category" --> AP["Status ACTIVE, visible on app<br/>Email 'Restaurant approved'"]
+  R -- "Decline + reason" --> DE["Status REJECTED<br/>Email 'Application needs changes'"]
+  DE --> PS
+  AP --> LIVE(["Restaurant live for Minglers"]):::end_
+  LIVE -. "Admin suspends" .-> SU["Hidden from app, bookings paused<br/>Email 'Restaurant suspended'"]
+  SU -. "Admin reactivates" .-> LIVE

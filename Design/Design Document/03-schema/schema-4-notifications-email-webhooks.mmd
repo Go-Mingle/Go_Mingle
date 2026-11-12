@@ -1,0 +1,111 @@
+---
+title: GoMingle – Database schema – Notifications, email and webhooks
+---
+erDiagram
+  admin_notifications {
+    text id PK
+    serial seq
+    text type
+    text title
+    text body
+    text deep_link "nullable"
+    jsonb metadata
+    text created_at
+    text read_at "nullable"
+    text read_by_user_id "nullable"
+  }
+  partner_notifications {
+    text id PK
+    serial seq
+    text restaurant_id FK
+    text type
+    text title
+    text body
+    text deep_link "nullable"
+    jsonb metadata
+    text created_at
+    text read_at "nullable"
+  }
+  email_templates {
+    text key PK
+    text subject
+    text heading
+    text body
+    text button_label
+    bool enabled
+    text updated_at "nullable"
+    text updated_by "nullable"
+  }
+  email_log {
+    serial id PK
+    text template_key FK
+    text to_email
+    text subject
+    text status
+    text provider
+    text provider_message_id "nullable"
+    text error "nullable"
+    text created_at
+  }
+  webhook_configs {
+    text restaurant_id PK,FK
+    text endpoint_url "nullable"
+    text bearer_token "nullable"
+    text signing_secret "nullable"
+    bool enabled
+    text secret_rotated_at "nullable"
+  }
+  webhook_deliveries {
+    serial seq PK
+    text restaurant_id FK
+    text event_type
+    int tries
+    text reason "nullable"
+    text occurred_at
+    text status
+    bool is_test
+    bigint visible_from
+  }
+  restaurants {
+    text id PK
+    serial seq
+    text created_at
+    text name "nullable"
+    text cuisine "nullable"
+    text description "nullable"
+    text area_district "nullable"
+    text city "nullable"
+    text full_address "nullable"
+    double latitude "nullable"
+    double longitude "nullable"
+    text owner_name "nullable"
+    text owner_email "nullable"
+    text owner_phone "nullable"
+    text restaurant_phone "nullable"
+    text restaurant_email "nullable"
+    text website "nullable"
+    text house_rules "nullable"
+    text dress_code "nullable"
+    bool serves_alcohol "nullable"
+    text main_photo_key "nullable"
+    bool visible_on_app
+    jsonb amenity_ids
+    text status
+    bool suspended
+    jsonb rejections
+    bigint first_submitted_at "nullable"
+    text submitted "nullable"
+    text rejection_reason "nullable"
+    text rejected_on "nullable"
+    text joined "nullable"
+    text category_id FK "nullable"
+    text payout_account_id "nullable"
+    text menu_pdf_file "nullable"
+    text menu_pdf_name "nullable"
+    double no_show_penalty_per_seat_pkr
+    int cancellation_window_hours
+  }
+  restaurants ||--o{ partner_notifications : "restaurant_id"
+  email_templates ||--o{ email_log : "template_key"
+  restaurants ||--o| webhook_configs : "restaurant_id"
+  restaurants ||--o{ webhook_deliveries : "restaurant_id"
