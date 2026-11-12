@@ -24,9 +24,9 @@ GoMingle/
 
 | What | URL | Sign in |
 |---|---|---|
-| Admin Panel | http://localhost:5173 | admin@gomingle.com / Admin@123 |
-| Partner Portal | http://localhost:5174 | partner@gomingle.com / Partner@123 |
-| API | http://localhost:4000 | `GET /health` |
+| Admin Panel | https://gomingle-admin.vercel.app/ |
+| Partner Portal | https://gomingle-partner.vercel.app/login |
+| API | https://gomingle-api.vercel.app/health | `GET /health` |
 
 Both sign-in screens show the account. To stop everything, close the three server windows.
 
