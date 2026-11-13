@@ -89,6 +89,7 @@ export class BookingsController {
     const { booking, holds, heldTotalPkr } = await this.bookings.book({
       interestTableId: String(body.interestTableId),
       minglerName: String(body.minglerName ?? '').trim() || 'Test Mingler',
+      minglerEmail: typeof body.minglerEmail === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.minglerEmail.trim()) ? body.minglerEmail.trim() : null,
       seats: body.seats ?? 2,
       menuOption: typeof body.menuOption === 'string' ? body.menuOption : '',
       fallbackSeatPricePkr: typeof body.seatPricePkr === 'number' && Number.isFinite(body.seatPricePkr) && body.seatPricePkr <= 1_000_000 ? body.seatPricePkr : undefined,

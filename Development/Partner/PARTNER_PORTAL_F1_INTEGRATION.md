@@ -116,7 +116,7 @@ Mounted as the router's **root layout route**. This placement is deliberate: the
 
 You pointed at the users page and roles & access page as the completed API-integration references. **Neither is usable here**: this repo has no roles module, and its users page does all CRUD against local `useState` arrays with static `message.success/error` calls. The completed implementations live in the sibling admin repo.
 
-`CLAUDE.md` says never to reference or import from the admin portal, while also saying this repo's standards mirror it. This was resolved the only safe way: **the patterns were replicated natively and nothing was imported.** No admin-repo file is in this tree or referenced at build time. What was replicated:
+`AGENTS.md` says never to reference or import from the admin portal, while also saying this repo's standards mirror it. This was resolved the only safe way: **the patterns were replicated natively and nothing was imported.** No admin-repo file is in this tree or referenced at build time. What was replicated:
 
 ```ts
 void messageApi.error(getApiErrorMessage(err, t('common:errors.genericError')))

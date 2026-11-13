@@ -18,7 +18,7 @@ vi.mock('@sentry/react', () => ({
 }))
 
 const Sentry = await import('@sentry/react')
-const { initSentry, setSentryUser, clearSentryUser } = await import('../sentry')
+const { initSentry, setSentryUser, clearSentryUser, sentryLoaded } = await import('../sentry')
 
 /** Structurally a JWS, so `scrubTokens` recognises it. */
 const JWT =
@@ -58,28 +58,32 @@ describe('initSentry', () => {
    * A DSN-less build must behave as though Sentry were not a dependency at all
    * — no global handlers, no fetch or history instrumentation, no breadcrumbs.
    */
-  it('does not install the SDK when no DSN is configured', () => {
+  it('does not install the SDK when no DSN is configured', async () => {
     initSentry()
+    await sentryLoaded()
     expect(Sentry.init).not.toHaveBeenCalled()
   })
 
-  it('installs the SDK with the configured DSN', () => {
+  it('installs the SDK with the configured DSN', async () => {
     mockEnv.SENTRY_DSN = 'https://key@sentry.io/1'
     initSentry()
+    await sentryLoaded()
     expect(Sentry.init).toHaveBeenCalledTimes(1)
     expect(lastInitOptions().dsn).toBe('https://key@sentry.io/1')
   })
 
   /** An issue that cannot be tied to a deploy cannot be triaged against one. */
-  it('tags the release with the app version', () => {
+  it('tags the release with the app version', async () => {
     mockEnv.SENTRY_DSN = 'https://key@sentry.io/1'
     initSentry()
+    await sentryLoaded()
     expect(lastInitOptions().release).toBe('gomingle-partner-web@4.2.0')
   })
 
-  it('enables browser tracing so navigation breadcrumbs are recorded', () => {
+  it('enables browser tracing so navigation breadcrumbs are recorded', async () => {
     mockEnv.SENTRY_DSN = 'https://key@sentry.io/1'
     initSentry()
+    await sentryLoaded()
     expect(Sentry.browserTracingIntegration).toHaveBeenCalled()
     expect(lastInitOptions().integrations).toHaveLength(1)
   })
@@ -88,15 +92,17 @@ describe('initSentry', () => {
    * Leaving this at the SDK default keeps `sentry-trace`/`baggage` off
    * cross-origin API calls, which the backend's CORS policy does not allow.
    */
-  it('does not widen trace propagation to the API origin', () => {
+  it('does not widen trace propagation to the API origin', async () => {
     mockEnv.SENTRY_DSN = 'https://key@sentry.io/1'
     initSentry()
+    await sentryLoaded()
     expect(lastInitOptions().tracePropagationTargets).toBeUndefined()
   })
 
-  it('does not enable session replay', () => {
+  it('does not enable session replay', async () => {
     mockEnv.SENTRY_DSN = 'https://key@sentry.io/1'
     initSentry()
+    await sentryLoaded()
     const options = lastInitOptions()
     expect(options.replaysSessionSampleRate).toBeUndefined()
     expect(options.replaysOnErrorSampleRate).toBeUndefined()
@@ -104,12 +110,13 @@ describe('initSentry', () => {
 
   // FE1 BR-11 — the backstop for anything a call site did not scrub itself.
   describe('token redaction (BR-11)', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       mockEnv.SENTRY_DSN = 'https://key@sentry.io/1'
       initSentry()
+      await sentryLoaded()
     })
 
-    it('scrubs a token out of an outgoing event', () => {
+    it('scrubs a token out of an outgoing event', async () => {
       const event = {
         extra: { responseBody: `Bearer ${JWT}` },
       } as unknown as ErrorEvent
@@ -117,7 +124,7 @@ describe('initSentry', () => {
       expect(JSON.stringify(sent)).not.toContain('eyJ')
     })
 
-    it('scrubs a token out of a breadcrumb', () => {
+    it('scrubs a token out of a breadcrumb', async () => {
       const breadcrumb: Breadcrumb = { data: { authorization: JWT } }
       const kept = lastInitOptions().beforeBreadcrumb!(breadcrumb, {}) as Breadcrumb
       expect(JSON.stringify(kept)).not.toContain('eyJ')
@@ -126,13 +133,20 @@ describe('initSentry', () => {
 })
 
 describe('setSentryUser', () => {
-  it('identifies the partner by id and email', () => {
+  beforeEach(async () => {
+    mockEnv.SENTRY_DSN = 'https://key@sentry.io/1'
+    initSentry()
+    await sentryLoaded()
+    vi.clearAllMocks()
+  })
+
+  it('identifies the partner by id and email', async () => {
     setSentryUser(session)
     expect(Sentry.setUser).toHaveBeenCalledWith({ id: 'user-1', email: 'ayesha@example.com' })
   })
 
   /** Tenant tags are what let one broken restaurant be told from an outage. */
-  it('tags the restaurant, its status and the resolved route', () => {
+  it('tags the restaurant, its status and the resolved route', async () => {
     setSentryUser(session)
     expect(Sentry.setTags).toHaveBeenCalledWith({
       restaurantId: 'rest-9',
@@ -142,7 +156,7 @@ describe('setSentryUser', () => {
     })
   })
 
-  it('records a non-primary user as such', () => {
+  it('records a non-primary user as such', async () => {
     setSentryUser({
       ...session,
       partnerUser: { ...session.partnerUser, isPrimary: false },
@@ -150,15 +164,22 @@ describe('setSentryUser', () => {
     expect(Sentry.setTags).toHaveBeenCalledWith(expect.objectContaining({ isPrimaryUser: 'false' }))
   })
 
-  it('never sends a token, whatever the session carries', () => {
+  it('never sends a token, whatever the session carries', async () => {
     setSentryUser(session)
     expect(JSON.stringify(vi.mocked(Sentry.setUser).mock.calls)).not.toContain('eyJ')
   })
 })
 
 describe('clearSentryUser', () => {
+  beforeEach(async () => {
+    mockEnv.SENTRY_DSN = 'https://key@sentry.io/1'
+    initSentry()
+    await sentryLoaded()
+    vi.clearAllMocks()
+  })
+
   /** The tab outlives the session; the next sign-in must start anonymous. */
-  it('drops the user and every tenant tag', () => {
+  it('drops the user and every tenant tag', async () => {
     clearSentryUser()
     expect(Sentry.setUser).toHaveBeenCalledWith(null)
     expect(Sentry.setTags).toHaveBeenCalledWith({

@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react'
 import { ENV } from '../../configs/env'
 import { scrubTokens } from '../api/scrubTokens'
 import type { PartnerSession } from '../../app/modules/session/types'
@@ -9,11 +8,36 @@ import type { PartnerSession } from '../../app/modules/session/types'
  * Reporting itself stays at the call sites that already do it — `httpClient`
  * (every non-2xx and every network failure), `cognitoAuthProvider` (auth
  * failures that are our fault rather than a wrong password), `useSignUpFlow`,
- * and the `Sentry.ErrorBoundary` in App.tsx for render crashes. This module
+ * and the `ErrorBoundary` in App.tsx for render crashes. This module
  * exists so that the *context* around those reports — release, environment,
  * which partner, which restaurant — is set in one place instead of being
  * rediscovered per feature.
  */
+
+type SentrySdk = typeof import('@sentry/react')
+
+/** Set once the SDK has loaded; stays null in builds without a DSN. */
+let sdk: SentrySdk | null = null
+let loading: Promise<void> = Promise.resolve()
+
+/** Resolves once the SDK has loaded and been initialised (at once when it never will be). */
+export const sentryLoaded = () => loading
+
+/**
+ * Reports an error when telemetry is on, and does nothing otherwise. Call sites
+ * use this rather than the SDK, so the SDK is only downloaded by builds that
+ * have a DSN to send to.
+ */
+export function captureException(
+  error: unknown,
+  context?: {
+    tags?: Record<string, string>
+    extra?: Record<string, unknown>
+    fingerprint?: string[]
+  },
+): void {
+  sdk?.captureException(error, context)
+}
 
 /** Release name Sentry groups issues under. Matches the deployed bundle. */
 const RELEASE = `gomingle-partner-web@${ENV.APP_VERSION}`
@@ -31,40 +55,43 @@ const RELEASE = `gomingle-partner-web@${ENV.APP_VERSION}`
 export function initSentry(): void {
   if (!ENV.SENTRY_DSN) return
 
-  Sentry.init({
-    dsn: ENV.SENTRY_DSN,
-    environment: import.meta.env.MODE,
-    // PROD-only. `cognitoAuthProvider.reportAuthFailure` compensates in dev by
-    // also writing to the console — see the comment there before changing this.
-    enabled: import.meta.env.PROD,
-    release: RELEASE,
+  loading = import('@sentry/react').then((Sentry) => {
+    Sentry.init({
+      dsn: ENV.SENTRY_DSN,
+      environment: import.meta.env.MODE,
+      // PROD-only. `cognitoAuthProvider.reportAuthFailure` compensates in dev by
+      // also writing to the console — see the comment there before changing this.
+      enabled: import.meta.env.PROD,
+      release: RELEASE,
 
-    /**
-     * Pageload and navigation spans. Enabled mainly for what it does to error
-     * reports rather than for the performance data: it records navigation
-     * breadcrumbs, so an issue shows the route the partner was on and the
-     * screens they came through, instead of a bare stack trace.
-     *
-     * `tracePropagationTargets` is deliberately left at its default
-     * (same-origin + localhost). Naming the API origin here would add
-     * `sentry-trace` and `baggage` headers to every cross-origin API call,
-     * which the backend's CORS policy would have to allow — and until it did,
-     * the preflight would fail and every request with it.
-     */
-    integrations: [Sentry.browserTracingIntegration()],
-    tracesSampleRate: 0.2,
+      /**
+       * Pageload and navigation spans. Enabled mainly for what it does to error
+       * reports rather than for the performance data: it records navigation
+       * breadcrumbs, so an issue shows the route the partner was on and the
+       * screens they came through, instead of a bare stack trace.
+       *
+       * `tracePropagationTargets` is deliberately left at its default
+       * (same-origin + localhost). Naming the API origin here would add
+       * `sentry-trace` and `baggage` headers to every cross-origin API call,
+       * which the backend's CORS policy would have to allow — and until it did,
+       * the preflight would fail and every request with it.
+       */
+      integrations: [Sentry.browserTracingIntegration()],
+      tracesSampleRate: 0.2,
 
-    // Session Replay is intentionally not enabled. It records the DOM, and
-    // these screens carry partner financials, customer reviews and contact
-    // details; turning it on is a privacy decision for the team, not a default.
-    // To enable: add `Sentry.replayIntegration({ maskAllText: true,
-    // blockAllMedia: true })` above and set the two `replays*SampleRate` options.
+      // Session Replay is intentionally not enabled. It records the DOM, and
+      // these screens carry partner financials, customer reviews and contact
+      // details; turning it on is a privacy decision for the team, not a default.
+      // To enable: add `Sentry.replayIntegration({ maskAllText: true,
+      // blockAllMedia: true })` above and set the two `replays*SampleRate` options.
 
-    // FE1 BR-11 — no token may reach an error report. Call sites scrub what they
-    // attach; this is the backstop for breadcrumbs, request data and anything a
-    // future integration adds without knowing the rule.
-    beforeSend: (event) => scrubTokens(event),
-    beforeBreadcrumb: (breadcrumb) => scrubTokens(breadcrumb),
+      // FE1 BR-11 — no token may reach an error report. Call sites scrub what they
+      // attach; this is the backstop for breadcrumbs, request data and anything a
+      // future integration adds without knowing the rule.
+      beforeSend: (event) => scrubTokens(event),
+      beforeBreadcrumb: (breadcrumb) => scrubTokens(breadcrumb),
+    })
+    sdk = Sentry
   })
 }
 
@@ -82,11 +109,12 @@ export function initSentry(): void {
  * from these fields.
  */
 export function setSentryUser(session: PartnerSession): void {
-  Sentry.setUser({
+  if (!sdk) return
+  sdk.setUser({
     id: session.partnerUser.id,
     email: session.partnerUser.email,
   })
-  Sentry.setTags({
+  sdk.setTags({
     restaurantId: session.restaurant.id,
     restaurantStatus: session.restaurant.status,
     partnerRoute: session.route,
@@ -104,8 +132,9 @@ export function setSentryUser(session: PartnerSession): void {
  * previous partner's id, email and restaurant on their reports.
  */
 export function clearSentryUser(): void {
-  Sentry.setUser(null)
-  Sentry.setTags({
+  if (!sdk) return
+  sdk.setUser(null)
+  sdk.setTags({
     restaurantId: undefined,
     restaurantStatus: undefined,
     partnerRoute: undefined,

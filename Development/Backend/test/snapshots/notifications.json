@@ -1299,7 +1299,7 @@
   }
  },
  {
-  "step": "partner startDate=<today>&endDate=<today>",
+  "step": "partner startDate=10-11-2020&endDate=11-11-2020",
   "status": 400,
   "body": {
    "error": {

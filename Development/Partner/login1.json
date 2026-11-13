@@ -1,8 +1,0 @@
-{
-    "AuthFlow":  "USER_AUTH",
-    "ClientId":  "26g72rp6qa9fopo5usfk1gtran",
-    "AuthParameters":  {
-                           "PREFERRED_CHALLENGE":  "SMS_OTP",
-                           "USERNAME":  "+923001234570"
-                       }
-}

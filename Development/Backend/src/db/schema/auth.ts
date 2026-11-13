@@ -37,7 +37,11 @@ export const adminUsers = pgTable(
     failures: integer('failures').notNull().default(0),
     lockedUntil: bigint('locked_until', { mode: 'number' }).notNull().default(0),
   },
-  (t) => [uniqueIndex('admin_users_email_live').on(t.email).where(sql`${t.status} <> 'DELETED'`)],
+  (t) => [
+    uniqueIndex('admin_users_email_live')
+      .on(t.email)
+      .where(sql`${t.status} <> 'DELETED'`),
+  ],
 )
 
 /** Refresh tokens: opaque, single use (rotated), revocable. */
@@ -57,6 +61,8 @@ export const oneTimeCodes = pgTable('one_time_codes', {
   key: text('key').primaryKey(),
   code: text('code').notNull(),
   expiresAt: bigint('expires_at', { mode: 'number' }).notNull(),
+  /** Wrong guesses so far; the code stops working after MAX_CODE_ATTEMPTS. */
+  attempts: integer('attempts').notNull().default(0),
 })
 
 /** Short-lived sessions between "code verified" and "new password set". */

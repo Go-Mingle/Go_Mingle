@@ -113,6 +113,20 @@
       "when": 1794483176845,
       "tag": "0015_email_and_google",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1794593834047,
+      "tag": "0016_mingler_email",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1794595738557,
+      "tag": "0017_indexes_and_code_limits",
+      "breakpoints": true
     }
   ]
 }

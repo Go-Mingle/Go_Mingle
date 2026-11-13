@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react'
+import { captureException } from '../observability/sentry'
 import type { CognitoUserSession } from 'amazon-cognito-identity-js'
 import { ENV } from '../../configs/env'
 import { AuthError } from './authError'
@@ -63,7 +63,7 @@ function isPreAuthRejection(name: string | undefined, message: string | undefine
  * with an empty console. Always leave something visible for the next person.
  */
 function reportAuthFailure(error: unknown, context: Record<string, unknown>): void {
-  Sentry.captureException(error, {
+  captureException(error, {
     tags: { component: 'cognitoAuthProvider', ...context } as Record<string, string>,
     extra: { cognitoName: (error as { name?: string } | null)?.name },
   })

@@ -203,7 +203,10 @@
       "tableDoneNoHold": "{{ref}} booked. No card hold: this restaurant has no no-show penalty.",
       "seatPrice": "Dinner price per seat (PKR)",
       "seatPriceHelp": "Charged for each seat that arrives when the table is checked in, and shown in Finances. If the table has a menu option, that price is used instead.",
-      "billNote": " Dinner is {{price}} per seat, charged at check-in."
+      "billNote": " Dinner is {{price}} per seat, charged at check-in.",
+      "minglerEmail": "Mingler email (optional)",
+      "minglerEmailHelp": "If a no-show is recorded on this booking, the penalty email goes here.",
+      "minglerEmailInvalid": "Enter a valid email address."
     },
     "noShowHold": "no-show hold, seat {{seat}}",
     "failures": {

@@ -155,11 +155,13 @@ Go_Mingle/
 │   ├── Partner/                               Partner Portal designs
 │   ├── Mingler/                               Mingler App designs
 │   └── Design Document/                       System design diagrams (architecture, ERD, schema, class, use case, DFD, flowcharts)
+├── .github/                                   CI on every pull request, Dependabot, pull request and issue templates
 └── Development/
     ├── Admin/                                 Admin Panel: React 19 + TypeScript + Ant Design
     ├── Partner/                               Partner Portal: React 19 + TypeScript + Ant Design
     ├── Mingler/                               Mingler App: Flutter (scaffold)
     ├── Backend/                               GoMingle API: NestJS + PostgreSQL, shared by both portals
+    ├── E2E/                                   End-to-end tests of both portals against the API (Playwright)
     ├── README.md                              How to run the platform locally
     └── run-gomingle.sh / run-gomingle.bat     Install and start the API and both portals
 ```
@@ -172,6 +174,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 
 | Release | Date | Highlights |
 |---|---|---|
+| `v0.9.0` | 13 Nov 2026 | Quality, speed and clean-up: an end-to-end suite that checks every screen of both portals against the API, run by GitHub Actions on every pull request; first load of the Admin Panel about half the size and of the Partner Portal about a quarter smaller; faster API cold starts and database indexes; no-show penalty email to the Mingler (GM-203 done); one-time codes lock after 5 wrong guesses and an inbox can't be flooded with codes; restaurant email shown correctly in the Admin Panel; security and caching headers on both portals; dead code and stray files removed |
 | `v0.7.3` | 11 Nov 2026 | Interest table times are Pakistan time everywhere; tables take no bookings once started; cancelling a table cancels its bookings and gives the Minglers' money back; admins can edit and delete interest tables; Safepay-only card step when Safepay is connected (GM-258 to GM-262) |
 | `v0.8.0` | 12 Nov 2026 | Email for partners and admins: sign-up and password-reset codes, team and admin welcomes, restaurant approved / declined / suspended / reactivated, payout released and new applications, all editable under Configure → Email Templates with preview, test send and a delivery log; *Continue with Google* on the Partner Portal (GM-274 to GM-276) |
 | `v0.7.4` | 12 Nov 2026 | Cleaner, more professional portals: no payment-gateway environment labels on the escrow screens, no demo sign-in box on the Partner login, partner interest table header shows topic, date and Pakistan time; UI polish on Finances and Users; Jira reorganised into Admin / Partner / Mingler / UI Enhancements epics (GM-267 to GM-273) |
@@ -188,6 +191,18 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 | `v0` | 6 Nov 2026 | First working build of the Admin Panel, Partner Portal and API |
 
 Secrets are never committed: `Development/Backend/.env` (Safepay keys) is git-ignored. Copy `Development/Backend/.env.example` to `.env` and add your own keys. Online, the same settings are Vercel environment variables.
+
+## Quality Checks
+
+Every pull request runs `.github/workflows/ci.yml` on GitHub Actions before anything reaches Vercel:
+
+| Check | What it covers |
+|---|---|
+| API | Typecheck and the API test suite (every endpoint against recorded responses, emails, sign-in, no-show penalty, code limits) |
+| Admin Panel and Partner Portal | Lint, typecheck, about 6,400 unit and component tests, production build |
+| End-to-end | `Development/E2E`: starts the API and both portals, seeds one real restaurant journey, opens every screen and tab, and checks that each value on screen matches the API (see [Development/E2E/README.md](Development/E2E/README.md)) |
+
+Dependabot proposes dependency updates weekly.
 
 ## Documentation Index
 
@@ -215,7 +230,7 @@ Secrets are never committed: `Development/Backend/.env` (Safepay keys) is git-ig
 | Document | Description |
 |---|---|
 | [Design Document](Design/Design%20Document/README.md) | Architecture, ERD, database schema, class diagram, use case diagram, data flow diagrams (level 0 and 1) and flowcharts, each as Mermaid source + SVG + PNG (Jira epic GM-278) |
-| Sprint capacity and velocity | On Jira: task GM-277 and every sprint goal. Team of 3 at 2 hours a day; 2-week sprints (Sprint 0–15) aligned to the project plan with the semester break 19 Dec – 24 Jan; velocity 55 points per sprint; all 61 stories estimated (271 points) |
+| Sprint capacity and velocity | On Jira: task GM-277 and every sprint goal. Team of 3 at 2 hours a day; 2-week sprints (Sprint 0–15) aligned to the project plan with the semester break 19 Dec – 24 Jan. The web portals and API are built over four sprints (Sprint 1–4: build, sign-off, quality and performance, launch readiness); the Mingler app starts in Sprint 5 after the break |
 
 ## Key Assumptions and Dependencies
 
