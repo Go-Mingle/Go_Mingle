@@ -24,9 +24,8 @@ coverage
 # repo — they are large binaries and are revised outside this codebase.
 specs/
 
-# .claude/ is committed (project skills + CLAUDE.md travel with the repo).
+# docs/skills and AGENTS.md travel with the repo; local agent settings do not.
 # Only machine-specific local settings are ignored.
-.claude/settings.local.json
 
 # Editor directories and files
 .vscode/*

@@ -4,6 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { usePartnerEscrowQuery } from '../hooks/useFinancesLedger'
 import { formatPkr } from '../financesFormat'
 
+/** DD-MM-YYYY in Pakistan time, the portal's usual date format. */
+const pkDay = (iso: string) =>
+  new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Karachi', day: '2-digit', month: '2-digit', year: 'numeric' })
+    .format(new Date(iso))
+    .replace(/\//g, '-')
+
 /**
  * The restaurant's Safepay escrow position: money held on Minglers' cards,
  * money collected and waiting for the event, and what has been paid out.
@@ -70,7 +76,7 @@ export function EscrowPanel() {
             {t('escrow.lastPayout', {
               reference: lastPayout.reference,
               amount: formatPkr(lastPayout.amount),
-              date: new Date(lastPayout.paidAt).toLocaleDateString('en-PK'),
+              date: pkDay(lastPayout.paidAt),
             })}
           </span>
         )}

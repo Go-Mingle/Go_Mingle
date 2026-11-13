@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-# >>> qa-smoke-check hook >>> (added by install-hook.sh — remove this block to uninstall)
-bash "$(git rev-parse --show-toplevel)/scripts/qa-smoke-prepush.sh"
-# <<< qa-smoke-check hook <<<

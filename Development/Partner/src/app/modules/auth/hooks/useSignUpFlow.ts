@@ -3,7 +3,7 @@ import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQueryClient } from '@tanstack/react-query'
-import * as Sentry from '@sentry/react'
+import { captureException } from '../../../../shared/observability/sentry'
 import { HttpError } from '../../../../shared/api/httpClient'
 import { ERROR_CODES } from '../../../../shared/api/constants'
 import { tokenStore } from '../../../../shared/auth/tokenStore'
@@ -343,7 +343,7 @@ export function useSignUpFlow() {
         identity: { id: partnerUser.id, email: partnerUser.email, fullName: '' },
       })
     } catch (error) {
-      Sentry.captureException(error, {
+      captureException(error, {
         tags: { component: 'useSignUpFlow', step: 'verify' },
         extra: { sessionKeys: Object.keys(session ?? {}) },
       })

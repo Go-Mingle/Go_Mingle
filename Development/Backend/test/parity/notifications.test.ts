@@ -95,7 +95,7 @@ describe('parity: notifications', () => {
       'type=RESTAURANT_APPROVED',
       `startDate=${today}`,
       `endDate=${today}`,
-      'startDate=10-11-2026&endDate=11-11-2026',
+      'startDate=10-11-2020&endDate=11-11-2020',
       `startDate=${today}&endDate=2020-01-01`,
       `startDate=${today}&endDate=2999-01-01`,
     ]) {

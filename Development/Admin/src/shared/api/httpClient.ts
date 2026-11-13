@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react'
+import { captureException } from '../../configs/sentry'
 import { isMocksEnabled } from './mocksEnabled'
 import { getAuthToken, renewSession, terminateSession } from './sessionManager'
 
@@ -70,7 +70,7 @@ async function request<T>(
     })
   } catch (networkError) {
     // Network failure (offline, DNS, CORS, etc.)
-    Sentry.captureException(networkError, {
+    captureException(networkError, {
       tags: { component: 'httpClient', url, method },
     })
     throw networkError
@@ -95,7 +95,7 @@ async function request<T>(
       errorCode,
     )
     error.responseBody = parsedJson
-    Sentry.captureException(error, {
+    captureException(error, {
       tags: { component: 'httpClient', url, method, status: String(response.status) },
       extra: { responseBody: redactTokens(errorBody) },
     })

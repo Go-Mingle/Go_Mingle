@@ -1,4 +1,6 @@
+import fs from 'node:fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
+import path from 'node:path'
 import { BookingsService } from './shared/bookings/bookings.service'
 import { createApp } from './app'
 import { config } from './config'
@@ -19,8 +21,38 @@ let ready: Promise<{ handle: Handler; bookings: BookingsService }> | null = null
 let lastCheck = 0
 const CHECK_EVERY_MS = 5 * 60_000
 
+/** When the newest migration in this build was created (drizzle's journal). */
+function newestMigration(): number {
+  try {
+    const journal = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'drizzle', 'meta', '_journal.json'), 'utf8'))
+    return Math.max(...journal.entries.map((e: { when: number }) => e.when))
+  } catch {
+    return Number.POSITIVE_INFINITY
+  }
+}
+
+/**
+ * True when the database already has every migration of this build. Most cold
+ * starts land here and skip the lock, the migrator and the seed check, which
+ * saves several round trips to the database on the first request.
+ */
+async function upToDate(database: Database): Promise<boolean> {
+  try {
+    const { rows } = await database.pool.query('SELECT max(created_at)::bigint AS latest FROM drizzle.__drizzle_migrations')
+    return Number(rows[0]?.latest ?? 0) >= newestMigration()
+  } catch {
+    return false // first start: the migrations table does not exist yet
+  }
+}
+
 async function boot() {
   if (!config.databaseUrl) throw new Error('DATABASE_URL is not set. Connect a PostgreSQL database to this Vercel project.')
+  const database = new Database(config.databaseUrl, 3)
+  if (await upToDate(database)) {
+    const app = await createApp(database, { logRequests: true })
+    console.log('[boot] schema up to date; app ready')
+    return { handle: app.getHttpAdapter().getInstance() as Handler, bookings: app.get(BookingsService) }
+  }
   // Migrations take a session lock, which a pooled (PgBouncer) connection cannot hold
   // reliably; Neon offers a direct connection for that. Requests use the pooled one.
   // One connection holds the lock, the others run the migrations.
@@ -50,7 +82,6 @@ async function boot() {
     client.release()
     await direct.close()
   }
-  const database = new Database(config.databaseUrl, 3)
   const app = await createApp(database, { logRequests: true })
   step('app ready')
   return { handle: app.getHttpAdapter().getInstance() as Handler, bookings: app.get(BookingsService) }

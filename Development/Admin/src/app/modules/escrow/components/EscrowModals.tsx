@@ -15,7 +15,15 @@ interface ReasonModalProps {
 }
 
 /** Asks for the reason a hold is voided or a payment is refunded. */
-export function ReasonModal({ open, title, confirmLabel, required, loading, onCancel, onConfirm }: ReasonModalProps) {
+export function ReasonModal({
+  open,
+  title,
+  confirmLabel,
+  required,
+  loading,
+  onCancel,
+  onConfirm,
+}: ReasonModalProps) {
   const { t } = useTranslation('finances')
   const [form] = Form.useForm<{ reason: string }>()
 
@@ -43,7 +51,11 @@ export function ReasonModal({ open, title, confirmLabel, required, loading, onCa
         <Form.Item
           name="reason"
           label={t('escrow.reason')}
-          rules={required ? [{ required: true, whitespace: true, message: t('escrow.reasonRequired') }] : []}
+          rules={
+            required
+              ? [{ required: true, whitespace: true, message: t('escrow.reasonRequired') }]
+              : []
+          }
         >
           <Input.TextArea rows={3} maxLength={300} placeholder={t('escrow.reasonPlaceholder')} />
         </Form.Item>
@@ -61,7 +73,13 @@ interface TestBookingModalProps {
 }
 
 /** Places a sandbox card hold, as the Mingler app would when a seat is booked. */
-export function TestBookingModal({ open, restaurants, loading, onCancel, onSubmit }: TestBookingModalProps) {
+export function TestBookingModal({
+  open,
+  restaurants,
+  loading,
+  onCancel,
+  onSubmit,
+}: TestBookingModalProps) {
   const { t } = useTranslation('finances')
   const [form] = Form.useForm<TestBookingRequest>()
 
@@ -82,7 +100,10 @@ export function TestBookingModal({ open, restaurants, loading, onCancel, onSubmi
       confirmLoading={loading}
       onCancel={onCancel}
       onOk={() => {
-        form.validateFields().then(onSubmit).catch(() => undefined)
+        form
+          .validateFields()
+          .then(onSubmit)
+          .catch(() => undefined)
       }}
       destroyOnHidden
     >
@@ -112,7 +133,11 @@ export function TestBookingModal({ open, restaurants, loading, onCancel, onSubmi
         <Form.Item
           name="interestTableId"
           label={t('escrow.testBooking.interestTable')}
-          extra={interestTableId ? t('escrow.testBooking.interestTableHelp') : t('escrow.testBooking.interestTableOptional')}
+          extra={
+            interestTableId
+              ? t('escrow.testBooking.interestTableHelp')
+              : t('escrow.testBooking.interestTableOptional')
+          }
         >
           <Select
             allowClear
@@ -121,12 +146,25 @@ export function TestBookingModal({ open, restaurants, loading, onCancel, onSubmi
             disabled={!restaurantId}
             loading={tables.isFetching}
             placeholder={t('escrow.testBooking.interestTablePlaceholder')}
-            options={(tables.data?.items ?? []).map((it) => ({ value: it.interestTableId, label: it.interestTableName }))}
+            options={(tables.data?.items ?? []).map((it) => ({
+              value: it.interestTableId,
+              label: it.interestTableName,
+            }))}
           />
         </Form.Item>
         <Form.Item name="minglerName" label={t('escrow.testBooking.mingler')}>
           <Input maxLength={80} placeholder="Zara Ali" />
         </Form.Item>
+        {interestTableId && (
+          <Form.Item
+            name="minglerEmail"
+            label={t('escrow.testBooking.minglerEmail')}
+            extra={t('escrow.testBooking.minglerEmailHelp')}
+            rules={[{ type: 'email', message: t('escrow.testBooking.minglerEmailInvalid') }]}
+          >
+            <Input maxLength={120} placeholder="zara@example.com" />
+          </Form.Item>
+        )}
         <div className="grid grid-cols-2 gap-3">
           <Form.Item
             name="guests"
@@ -138,13 +176,21 @@ export function TestBookingModal({ open, restaurants, loading, onCancel, onSubmi
           {/* At an interest table this is the dinner price; the card hold is the restaurant's no-show penalty. */}
           <Form.Item
             name="amountPerGuest"
-            label={interestTableId ? t('escrow.testBooking.seatPrice') : t('escrow.testBooking.amountPerGuest')}
+            label={
+              interestTableId
+                ? t('escrow.testBooking.seatPrice')
+                : t('escrow.testBooking.amountPerGuest')
+            }
             rules={[{ required: true }]}
           >
             <InputNumber min={100} max={100000} step={100} className="w-full" />
           </Form.Item>
         </div>
-        {interestTableId && <p className="text-xs text-(--color-text-muted) m-0">{t('escrow.testBooking.seatPriceHelp')}</p>}
+        {interestTableId && (
+          <p className="text-xs text-(--color-text-muted) m-0">
+            {t('escrow.testBooking.seatPriceHelp')}
+          </p>
+        )}
       </Form>
     </Modal>
   )

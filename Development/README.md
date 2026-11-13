@@ -54,7 +54,7 @@ Both sign-in screens show the account. To stop everything, close the three serve
 
 Everything is saved under `Backend/data/`, so it survives restarts. To wipe it and start fresh, stop the servers and run `npm run reset-data` in `Backend`.
 
-The full end-to-end test report for this release is in the project (see *GoMingle – E2E Test Report*).
+The end-to-end suite in [`E2E`](E2E/README.md) plays this journey automatically in a browser and checks every screen of both portals against the API. GitHub Actions runs it on every pull request.
 
 ## Running pieces by hand
 

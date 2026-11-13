@@ -1,0 +1,16 @@
+{
+  "name": "gomingle-e2e",
+  "private": true,
+  "type": "module",
+  "description": "End-to-end tests for the Admin Panel and Partner Portal against a running GoMingle API",
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}

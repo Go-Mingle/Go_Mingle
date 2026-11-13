@@ -4,6 +4,10 @@ import { loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
+// Tests run in Pakistan time, where GoMingle operates, so date assertions mean the
+// same thing on every machine and in CI.
+if (process.env.VITEST) process.env.TZ = 'Asia/Karachi'
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const apiBase = env.VITE_API_BASE_URL
@@ -44,7 +48,7 @@ export default defineConfig(({ mode }) => {
           // pulled into an eager vendor bundle.
           manualChunks(id: string) {
             if (!id.includes('node_modules')) return
-            if (/\/(react|react-dom|scheduler|react-router|react-i18next)\//.test(id))
+            if (/node_modules\/(react|react-dom|scheduler|react-router|react-i18next)\//.test(id))
               return 'react-vendor'
           },
         },

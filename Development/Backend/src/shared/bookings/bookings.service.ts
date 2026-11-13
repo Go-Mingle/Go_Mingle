@@ -7,6 +7,7 @@ import { apiError } from '../../common/errors'
 import { InterestTablesService, type InterestTable } from '../interest-tables/interest-tables.service'
 import { NotificationsService } from '../notifications/notifications.service'
 import { EscrowService, newBookingRef } from '../payments/escrow.service'
+import { MailService } from '../email/mail.service'
 
 export type Booking = typeof bookings.$inferSelect
 
@@ -17,6 +18,11 @@ export const NO_SHOW_GRACE_MINUTES = 60
 export const CHECK_IN_OPENS_MINUTES = 60
 const CHECK_EVERY_MS = 15 * 60_000
 
+/** "Fri 20 Nov 2026, 7:30 pm" in Pakistan time. */
+const pkDateTime = (ms: number) =>
+  new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Karachi', weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
+    .format(new Date(ms))
+    .replace(' at ', ', ')
 const fmtPkr = (n: number) => `PKR ${Number(n).toLocaleString('en-PK', { maximumFractionDigits: 2 })}`
 const round = (n: number) => Math.round(n * 100) / 100
 
@@ -51,6 +57,7 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
     private readonly tables: InterestTablesService,
     private readonly escrow: EscrowService,
     private readonly notifications: NotificationsService,
+    private readonly mail: MailService,
   ) {}
 
   onModuleInit() {
@@ -86,7 +93,7 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
    * Books seats at an interest table under the restaurant's current no-show
    * policy and reserves the penalty on the card.
    */
-  async book(input: { interestTableId: string; minglerName: string; seats: unknown; menuOption?: string; fallbackSeatPricePkr?: number; by: string }) {
+  async book(input: { interestTableId: string; minglerName: string; minglerEmail?: string | null; seats: unknown; menuOption?: string; fallbackSeatPricePkr?: number; by: string }) {
     const table = await this.tables.find(input.interestTableId)
     if (!table) throw apiError(404, 'ERR_INTEREST_TABLE_NOT_FOUND', 'Interest table not found.')
     if (!['PENDING', 'CONFIRMED'].includes(table.status)) {
@@ -145,6 +152,7 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
         interestTableId: table.id,
         restaurantId: table.restaurantId,
         minglerName: input.minglerName,
+        minglerEmail: input.minglerEmail?.trim() || null,
         seats,
         menuOption: menu?.name ?? input.menuOption ?? '',
         // A table without a menu option has no price of its own; a sandbox booking may bring one.
@@ -290,6 +298,19 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
       deepLink: `/interest-tables/${b.interestTableId}`,
       metadata: { bookingId: b.id, interestTableId: b.interestTableId, emptySeats, penaltyPkr: charged },
     })
+    if (charged > 0 && b.minglerEmail) {
+      await this.mail.send('mingler_no_show_penalty', { email: b.minglerEmail, name: b.minglerName }, {
+        name: b.minglerName,
+        restaurantName: (await this.tables.restaurantNames()).get(b.restaurantId) ?? 'the restaurant',
+        eventName: table?.name ?? 'your interest table',
+        eventDate: table ? pkDateTime(startsAt(table)) : '',
+        emptySeats,
+        seats: b.seats,
+        penaltyPerSeat: fmtPkr(b.penaltyPerSeatPkr),
+        penaltyTotal: fmtPkr(charged),
+        bookingRef: b.bookingRef,
+      })
+    }
     if (automatic) {
       await this.notifications.notifyPartner(b.restaurantId, {
         type: 'BOOKING_NO_SHOW',
@@ -314,8 +335,14 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
   async runNoShowCheck(now = Date.now()) {
     const open = await this.db.select().from(bookings).where(inArray(bookings.status, ACTIVE))
     let noShows = 0
+    // Many bookings share a table: look each table up once per run.
+    const tables = new Map<string, Promise<InterestTable | null>>()
+    const tableOf = (id: string) => {
+      if (!tables.has(id)) tables.set(id, this.tables.find(id))
+      return tables.get(id)!
+    }
     for (const b of open) {
-      const table = await this.tables.find(b.interestTableId)
+      const table = await tableOf(b.interestTableId)
       if (!table) continue
       // A booking left open on a cancelled table: cancel it so the Mingler's money goes back.
       if (table.status === 'CANCELLED') {
