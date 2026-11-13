@@ -79,7 +79,7 @@ export class AdminRestaurantsService implements OnModuleInit {
       description: r.description ?? '',
       seatingCapacity: 0,
       phone: r.restaurantPhone ? displayPhone(r.restaurantPhone) : '',
-      email: r.ownerEmail ?? '',
+      email: r.restaurantEmail ?? '',
       website: r.website ?? '',
       fullAddress: r.fullAddress ?? '',
       areaDistrict: r.areaDistrict ?? '',

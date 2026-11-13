@@ -1,4 +1,4 @@
-import { bigint, boolean, integer, pgTable, serial, text } from 'drizzle-orm/pg-core'
+import { bigint, boolean, integer, pgTable, serial, text, index } from 'drizzle-orm/pg-core'
 
 /**
  * A restaurant's webhook endpoint (Integrations screen).
@@ -14,16 +14,20 @@ export const webhookConfigs = pgTable('webhook_configs', {
 })
 
 /** Delivery log of a restaurant's webhook. */
-export const webhookDeliveries = pgTable('webhook_deliveries', {
-  seq: serial('seq').primaryKey(),
-  restaurantId: text('restaurant_id').notNull(),
-  eventType: text('event_type').notNull(),
-  tries: integer('tries').notNull().default(1),
-  reason: text('reason'),
-  occurredAt: text('occurred_at').notNull(),
-  /** DELIVERED | RETRYING | FAILED | FAILED_EMAILED */
-  status: text('status').notNull(),
-  isTest: boolean('is_test').notNull().default(false),
-  /** A test delivery shows in the log a few seconds after it is sent (ms). */
-  visibleFrom: bigint('visible_from', { mode: 'number' }).notNull().default(0),
-})
+export const webhookDeliveries = pgTable(
+  'webhook_deliveries',
+  {
+    seq: serial('seq').primaryKey(),
+    restaurantId: text('restaurant_id').notNull(),
+    eventType: text('event_type').notNull(),
+    tries: integer('tries').notNull().default(1),
+    reason: text('reason'),
+    occurredAt: text('occurred_at').notNull(),
+    /** DELIVERED | RETRYING | FAILED | FAILED_EMAILED */
+    status: text('status').notNull(),
+    isTest: boolean('is_test').notNull().default(false),
+    /** A test delivery shows in the log a few seconds after it is sent (ms). */
+    visibleFrom: bigint('visible_from', { mode: 'number' }).notNull().default(0),
+  },
+  (t) => [index('webhook_deliveries_restaurant').on(t.restaurantId)],
+)

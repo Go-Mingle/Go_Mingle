@@ -139,6 +139,8 @@ export interface EscrowOverview {
 export interface TestBookingRequest {
   restaurantId: string
   minglerName: string
+  /** Interest-table bookings only: where the no-show penalty email goes. */
+  minglerEmail?: string
   guests: number
   amountPerGuest: number
   eventName?: string
@@ -156,7 +158,13 @@ export interface InterestTableOption {
 
 /** What a sandbox booking at an interest table returns. */
 export interface TableBookingResult {
-  booking: { id: string; bookingRef: string; seats: number; penaltyPerSeatPkr: number; seatPricePkr?: number }
+  booking: {
+    id: string
+    bookingRef: string
+    seats: number
+    penaltyPerSeatPkr: number
+    seatPricePkr?: number
+  }
   /** One hold per seat; empty when the restaurant's no-show penalty is zero. */
   holds: EscrowItem[]
   heldTotalPkr: number

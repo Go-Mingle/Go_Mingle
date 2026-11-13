@@ -1,4 +1,4 @@
-import { customType, doublePrecision, integer, jsonb, pgTable, serial, text } from 'drizzle-orm/pg-core'
+import { customType, doublePrecision, integer, jsonb, pgTable, serial, text, index } from 'drizzle-orm/pg-core'
 
 const bytea = customType<{ data: Buffer }>({ dataType: () => 'bytea' })
 
@@ -62,13 +62,17 @@ export const preferenceQuestions = pgTable('preference_questions', {
   createdAt: text('created_at').notNull(),
 })
 
-export const preferenceOptions = pgTable('preference_options', {
-  id: text('id').notNull(),
-  questionId: text('question_id').notNull(),
-  position: integer('position').notNull(),
-  text: text('text').notNull(),
-  displayOrder: integer('display_order').notNull(),
-})
+export const preferenceOptions = pgTable(
+  'preference_options',
+  {
+    id: text('id').notNull(),
+    questionId: text('question_id').notNull(),
+    position: integer('position').notNull(),
+    text: text('text').notNull(),
+    displayOrder: integer('display_order').notNull(),
+  },
+  (t) => [index('preference_options_question').on(t.questionId)],
+)
 
 /** Platform settings stored as one JSON value per key (loyalty configuration…). */
 export const settings = pgTable('settings', {

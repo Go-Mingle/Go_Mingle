@@ -1,5 +1,24 @@
-import * as Sentry from '@sentry/react'
 import { ENV } from './env'
+
+type SentrySdk = typeof import('@sentry/react')
+
+/** Set once the SDK has loaded; null in builds without a usable DSN. */
+let sdk: SentrySdk | null = null
+let loading: Promise<void> = Promise.resolve()
+
+/** Resolves once the SDK has loaded and been initialised (immediately when it never will be). */
+export const sentryLoaded = () => loading
+
+/**
+ * Reports an error when telemetry is on; does nothing otherwise. The SDK is only
+ * downloaded when a DSN is configured, so it costs nothing in other builds.
+ */
+export function captureException(
+  error: unknown,
+  context?: { extra?: Record<string, unknown>; tags?: Record<string, string> },
+): void {
+  sdk?.captureException(error, context)
+}
 
 /**
  * A-11 (pentest) — the portal shipped `https://your-dsn@sentry.io/0`, so
@@ -56,10 +75,11 @@ export function initSentry(): boolean {
   const dsn = ENV.SENTRY_DSN
 
   if (!isValidSentryDsn(dsn)) {
-    if (import.meta.env.PROD) {
-      // Deliberately loud: a production build with no telemetry is an
-      // operational defect that must not be discoverable only by a pentest.
-      console.error(
+    if (import.meta.env.PROD && dsn) {
+      // A DSN was set but cannot be used: say so. No DSN at all is a supported
+      // state (telemetry not set up for this deployment) and stays quiet, so
+      // visitors' consoles stay clean.
+      console.warn(
         '[sentry] VITE_SENTRY_DSN is missing or invalid — error telemetry is DISABLED for this build. ' +
           'Set a real DSN in the deployment environment.',
       )
@@ -67,23 +87,26 @@ export function initSentry(): boolean {
     return false
   }
 
-  Sentry.init({
-    dsn,
-    environment: import.meta.env.MODE,
-    enabled: import.meta.env.PROD,
-    // Ties every event to a build so regressions are attributable to a release.
-    release: ENV.APP_VERSION,
-    // Neither tracing nor replay is a default integration in SDK v8+, so the
-    // sample rates below are inert unless both are registered explicitly.
-    integrations: [
-      Sentry.browserTracingIntegration(),
-      // Super-admin screens render member and finance data, so the replay is
-      // masked at source: nothing legible leaves the browser.
-      Sentry.replayIntegration({ maskAllText: true, blockAllMedia: true }),
-    ],
-    tracesSampleRate: 0.2,
-    replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1.0,
+  loading = import('@sentry/react').then((Sentry) => {
+    Sentry.init({
+      dsn,
+      environment: import.meta.env.MODE,
+      enabled: import.meta.env.PROD,
+      // Ties every event to a build so regressions are attributable to a release.
+      release: ENV.APP_VERSION,
+      // Neither tracing nor replay is a default integration in SDK v8+, so the
+      // sample rates below are inert unless both are registered explicitly.
+      integrations: [
+        Sentry.browserTracingIntegration(),
+        // Super-admin screens render member and finance data, so the replay is
+        // masked at source: nothing legible leaves the browser.
+        Sentry.replayIntegration({ maskAllText: true, blockAllMedia: true }),
+      ],
+      tracesSampleRate: 0.2,
+      replaysSessionSampleRate: 0.1,
+      replaysOnErrorSampleRate: 1.0,
+    })
+    sdk = Sentry
   })
   return true
 }

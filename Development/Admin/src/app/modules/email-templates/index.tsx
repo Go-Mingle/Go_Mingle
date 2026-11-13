@@ -1,1 +1,0 @@
-export { EmailTemplatesPage } from './EmailTemplatesPage'

@@ -5,13 +5,10 @@
 // - Returns user claims (id, email, name) from Cognito user pool attributes
 // - Called by LoginForm and UserMenuDropdown to manage auth lifecycle
 
-import {
+import type {
   CognitoIdentityProviderClient,
-  InitiateAuthCommand,
-  GetUserCommand,
-  GlobalSignOutCommand,
+  InitiateAuthCommandInput,
 } from '@aws-sdk/client-cognito-identity-provider'
-import type { InitiateAuthCommandInput } from '@aws-sdk/client-cognito-identity-provider'
 import { ENV } from '../../../configs/env'
 import { isMocksEnabled } from '../../../shared/api/mocksEnabled'
 import type { AuthUser } from './types'
@@ -28,7 +25,14 @@ const TOKEN_REFRESH_THRESHOLD_MS = 5 * 60 * 1000
 // failure at the point of use, where it is catchable and reportable.
 let client: CognitoIdentityProviderClient | null = null
 
-function getClient(): CognitoIdentityProviderClient {
+/**
+ * The AWS SDK is loaded on first use, so deployments that sign in against the
+ * GoMingle API (VITE_AUTH_MODE=api) never download it.
+ */
+const loadSdk = () => import('@aws-sdk/client-cognito-identity-provider')
+
+async function getClient(): Promise<CognitoIdentityProviderClient> {
+  const { CognitoIdentityProviderClient } = await loadSdk()
   if (!client) {
     // Missing config means the .env file is absent or the dev server needs a
     // restart to pick up env changes. Warned here rather than at module scope so
@@ -137,8 +141,10 @@ export interface CognitoLoginResult {
 // Throws error if credentials invalid or Cognito service unavailable.
 export async function cognitoLogin(email: string, password: string): Promise<CognitoLoginResult> {
   if (isApiAuthMode()) return apiLogin(email, password)
-  const authResult = await getClient().send(
-    new InitiateAuthCommand({
+  const authResult = await (
+    await getClient()
+  ).send(
+    new (await loadSdk()).InitiateAuthCommand({
       AuthFlow: 'USER_PASSWORD_AUTH',
       ClientId: ENV.COGNITO_CLIENT_ID,
       AuthParameters: { USERNAME: email, PASSWORD: password },
@@ -158,7 +164,9 @@ export async function cognitoLogin(email: string, password: string): Promise<Cog
     localStorage.setItem('auth-refresh-token', refreshToken)
   }
 
-  const userResult = await getClient().send(new GetUserCommand({ AccessToken: accessToken }))
+  const userResult = await (
+    await getClient()
+  ).send(new (await loadSdk()).GetUserCommand({ AccessToken: accessToken }))
   // Cognito returns user attributes as array of { Name, Value } pairs; convert to object for easier access
   const attrs = Object.fromEntries(
     (userResult.UserAttributes ?? []).map((a) => [a.Name ?? '', a.Value ?? '']),
@@ -190,7 +198,9 @@ export async function cognitoSignOut(accessToken: string): Promise<void> {
     await postAuth(API_AUTH.logout, {}, accessToken)
     return
   }
-  await getClient().send(new GlobalSignOutCommand({ AccessToken: accessToken }))
+  await (
+    await getClient()
+  ).send(new (await loadSdk()).GlobalSignOutCommand({ AccessToken: accessToken }))
 }
 
 // Refreshes access token using stored refresh token from localStorage
@@ -208,8 +218,10 @@ export async function refreshAccessToken(): Promise<string> {
     return data.accessToken
   }
 
-  const authResult = await getClient().send(
-    new InitiateAuthCommand({
+  const authResult = await (
+    await getClient()
+  ).send(
+    new (await loadSdk()).InitiateAuthCommand({
       AuthFlow: 'REFRESH_TOKEN_AUTH',
       ClientId: ENV.COGNITO_CLIENT_ID,
       AuthParameters: { REFRESH_TOKEN: refreshToken },

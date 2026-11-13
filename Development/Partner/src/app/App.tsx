@@ -1,7 +1,7 @@
 import { ConfigProvider } from 'antd'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
-import * as Sentry from '@sentry/react'
+import { ErrorBoundary } from './ErrorBoundary'
 import '../locales/i18n'
 import { AppRouterProvider } from '../routes/AppRouterProvider'
 import { store } from '../shared/store/store'
@@ -15,7 +15,7 @@ const queryClient = new QueryClient({
 export function App() {
   const mode = useThemeStore((s) => s.mode)
   return (
-    <Sentry.ErrorBoundary fallback={<p>Something went wrong.</p>}>
+    <ErrorBoundary>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <ConfigProvider theme={mode === 'dark' ? antdDarkTheme : antdTheme}>
@@ -23,6 +23,6 @@ export function App() {
           </ConfigProvider>
         </QueryClientProvider>
       </Provider>
-    </Sentry.ErrorBoundary>
+    </ErrorBoundary>
   )
 }
