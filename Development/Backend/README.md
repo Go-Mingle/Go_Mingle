@@ -9,7 +9,7 @@ monolith on PostgreSQL.
 | Framework | NestJS 11 (Express) |
 | Database | PostgreSQL 17, through Drizzle ORM |
 | Payments | Safepay (authorize → capture → release), with a built-in simulator |
-| Tests | Vitest: 12 contract scenarios, about 1,000 checked answers |
+| Tests | Vitest: 12 contract scenarios (about 1,000 checked answers) and 2 feature suites |
 
 ## Run it
 
@@ -39,6 +39,12 @@ Partner Portal  VITE_API_BASE_URL=http://localhost:4000/partner
 
 One-time codes (password reset, partner sign-up) are printed in this server's
 console; `123456` is also accepted while `DEMO_OTP` is left at its default.
+A code stops working after 5 wrong guesses, and one address can be sent at most
+5 codes every 15 minutes (`429 ERR_TOO_MANY_REQUESTS` after that).
+
+`npm run dev` compiles and restarts the server on every change (Nest's
+dependency injection needs the compiler's decorator metadata, so the server
+always runs from `dist/`).
 
 ## Settings
 
@@ -164,9 +170,13 @@ partner edits and the admin reviews, so nothing is copied between them.
 ## Tests
 
 ```
-npm test          # all contract scenarios
+npm test          # all contract scenarios and feature suites
 npm run typecheck
 ```
+
+`test/features/` holds suites that test behaviour directly: email templates and
+delivery, Google sign-in, and the one-time code limits. The browser-level
+end-to-end suite for both portals is in `Development/E2E`.
 
 Each scenario plays a full story through the HTTP API (for example: partner
 fills the profile, submits, admin declines, partner resubmits, admin approves,

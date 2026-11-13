@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: npm
+    directory: /Development/Backend
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5
+  - package-ecosystem: npm
+    directory: /Development/Admin
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5
+  - package-ecosystem: npm
+    directory: /Development/Partner
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5
+  - package-ecosystem: pub
+    directory: /Development/Mingler
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5

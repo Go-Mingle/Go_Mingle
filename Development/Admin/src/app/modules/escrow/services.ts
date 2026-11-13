@@ -23,7 +23,13 @@ export const escrowService = {
     httpClient.post<EscrowItem>(ESCROW_ENDPOINTS.testBooking, body),
 
   /** Books seats at an interest table; the card hold is the no-show penalty × seats. */
-  createTableBooking: (body: { interestTableId: string; minglerName: string; seats: number; seatPricePkr?: number }): Promise<TableBookingResult> =>
+  createTableBooking: (body: {
+    interestTableId: string
+    minglerName: string
+    minglerEmail?: string
+    seats: number
+    seatPricePkr?: number
+  }): Promise<TableBookingResult> =>
     httpClient.post<TableBookingResult>(ESCROW_ENDPOINTS.tableBooking, body),
 
   listInterestTables: (restaurantId: string): Promise<{ items: InterestTableOption[] }> =>
@@ -45,7 +51,9 @@ export const escrowService = {
     httpClient.post<{ id: number; resolved: boolean }>(ESCROW_ENDPOINTS.retryFailure(id), {}),
 
   resolveFailure: (id: number, note: string): Promise<{ id: number; resolved: boolean }> =>
-    httpClient.post<{ id: number; resolved: boolean }>(ESCROW_ENDPOINTS.resolveFailure(id), { note }),
+    httpClient.post<{ id: number; resolved: boolean }>(ESCROW_ENDPOINTS.resolveFailure(id), {
+      note,
+    }),
 
   act: (id: string, action: EscrowAction, reason?: string): Promise<EscrowItem> =>
     httpClient.post<EscrowItem>(ESCROW_ENDPOINTS.action(id, action), reason ? { reason } : {}),

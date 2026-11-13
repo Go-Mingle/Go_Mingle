@@ -43,8 +43,13 @@ export function useInterestTableOptions(restaurantId: string | undefined) {
 export function useTableBookingMutation() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (body: { interestTableId: string; minglerName: string; seats: number; seatPricePkr?: number }) =>
-      escrowService.createTableBooking(body),
+    mutationFn: (body: {
+      interestTableId: string
+      minglerName: string
+      minglerEmail?: string
+      seats: number
+      seatPricePkr?: number
+    }) => escrowService.createTableBooking(body),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
     },
@@ -67,7 +72,8 @@ export function useRetryFailureMutation() {
 export function useResolveFailureMutation() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, note }: { id: number; note: string }) => escrowService.resolveFailure(id, note),
+    mutationFn: ({ id, note }: { id: number; note: string }) =>
+      escrowService.resolveFailure(id, note),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
     },
@@ -78,7 +84,8 @@ export function useResolveFailureMutation() {
 export function useTestCardMutation() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, body }: { id: string; body: TestCardRequest }) => escrowService.addTestCard(id, body),
+    mutationFn: ({ id, body }: { id: string; body: TestCardRequest }) =>
+      escrowService.addTestCard(id, body),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
     },
@@ -89,7 +96,8 @@ export function useTestCardMutation() {
 export function useStartCheckoutMutation() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, returnUrl }: { id: string; returnUrl: string }) => escrowService.startCheckout(id, returnUrl),
+    mutationFn: ({ id, returnUrl }: { id: string; returnUrl: string }) =>
+      escrowService.startCheckout(id, returnUrl),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ESCROW_QUERY_KEY })
     },

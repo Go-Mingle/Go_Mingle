@@ -93,8 +93,11 @@ describe('initSentry', () => {
   })
 
   it('initialises Sentry when the DSN is valid', async () => {
-    const { initSentry } = await loadWithDsn('https://abc123@o12345.ingest.sentry.io/4567')
+    const { initSentry, sentryLoaded } = await loadWithDsn(
+      'https://abc123@o12345.ingest.sentry.io/4567',
+    )
     expect(initSentry()).toBe(true)
+    await sentryLoaded()
     expect(initMock).toHaveBeenCalledTimes(1)
     expect(initMock.mock.calls[0][0]).toMatchObject({
       dsn: 'https://abc123@o12345.ingest.sentry.io/4567',
@@ -102,15 +105,21 @@ describe('initSentry', () => {
   })
 
   it('tags events with the build release', async () => {
-    const { initSentry } = await loadWithDsn('https://abc123@o12345.ingest.sentry.io/4567')
+    const { initSentry, sentryLoaded } = await loadWithDsn(
+      'https://abc123@o12345.ingest.sentry.io/4567',
+    )
     initSentry()
+    await sentryLoaded()
     expect(initMock.mock.calls[0][0]).toMatchObject({ release: '1.2.3' })
   })
 
   // Without these registered, tracesSampleRate/replays*SampleRate do nothing.
   it('registers the tracing and replay integrations', async () => {
-    const { initSentry } = await loadWithDsn('https://abc123@o12345.ingest.sentry.io/4567')
+    const { initSentry, sentryLoaded } = await loadWithDsn(
+      'https://abc123@o12345.ingest.sentry.io/4567',
+    )
     initSentry()
+    await sentryLoaded()
     const { integrations } = initMock.mock.calls[0][0] as {
       integrations: { name: string }[]
     }
@@ -118,8 +127,11 @@ describe('initSentry', () => {
   })
 
   it('masks all text and media in session replays', async () => {
-    const { initSentry } = await loadWithDsn('https://abc123@o12345.ingest.sentry.io/4567')
+    const { initSentry, sentryLoaded } = await loadWithDsn(
+      'https://abc123@o12345.ingest.sentry.io/4567',
+    )
     initSentry()
+    await sentryLoaded()
     const { integrations } = initMock.mock.calls[0][0] as {
       integrations: { name: string; options?: unknown }[]
     }
@@ -140,12 +152,21 @@ describe('initSentry', () => {
   })
 
   // A-11 remediation: a deployed build without telemetry must not fail silently.
-  it('logs an error in a production build when the DSN is unusable', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+  it('warns in a production build when the DSN is set but unusable', async () => {
+    const errorSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { initSentry } = await loadWithDsn('https://your-dsn@sentry.io/0', true)
     expect(initSentry()).toBe(false)
     expect(errorSpy).toHaveBeenCalledTimes(1)
     expect(String(errorSpy.mock.calls[0][0])).toMatch(/VITE_SENTRY_DSN/)
+  })
+
+  it('stays quiet in a production build with no DSN', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const { initSentry } = await loadWithDsn('', true)
+    expect(initSentry()).toBe(false)
+    expect(warnSpy).not.toHaveBeenCalled()
+    expect(errorSpy).not.toHaveBeenCalled()
   })
 
   it('stays quiet in a non-production build when the DSN is unusable', async () => {

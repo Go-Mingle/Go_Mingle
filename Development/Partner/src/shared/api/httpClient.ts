@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react'
+import { captureException } from '../observability/sentry'
 import { ENV } from '../../configs/env'
 import { refreshOnce } from '../auth/refreshCoordinator'
 import { emitSessionLost, type SessionLostReason } from '../auth/sessionEvents'
@@ -124,7 +124,7 @@ async function request<T>(
     })
   } catch (networkError) {
     // Network failure (offline, DNS, CORS, etc.)
-    Sentry.captureException(networkError, {
+    captureException(networkError, {
       tags: { component: 'httpClient', url, method },
     })
     throw networkError
@@ -154,7 +154,7 @@ async function request<T>(
       errorCode,
     )
     error.responseBody = parsedJson
-    Sentry.captureException(error, {
+    captureException(error, {
       tags: {
         component: 'httpClient',
         url,

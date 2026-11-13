@@ -1,4 +1,4 @@
-export type TemplateAudience = 'partner' | 'admin'
+export type TemplateAudience = 'partner' | 'admin' | 'mingler'
 
 export interface TemplatePlaceholder {
   name: string

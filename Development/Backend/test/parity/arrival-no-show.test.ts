@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { Parity, type StepResult } from '../helpers/parity'
+import { outbox } from '../../src/shared/email/mail-transport'
 
 const P = '/partner/api/v1/partner'
 const R = `${P}/restaurant`
@@ -118,7 +119,7 @@ describe('arrival and no-show', () => {
 
     // ── The policy changes: only new bookings get it ──────────────────────
     expect(data(await p.req('policy 1500', 'PUT', policy, { ...A, body: { penaltyPerSeatPkr: 1500, cancellationWindowHours: 12 } }))).toMatchObject({ penaltyPerSeatPkr: 1500, cancellationWindowHours: 12 })
-    const osama = await book('booking with penalty', tonight, { minglerName: 'Osama', seats: 3 })
+    const osama = await book('booking with penalty', tonight, { minglerName: 'Osama', minglerEmail: 'osama@example.com', seats: 3 })
     expect(osama.heldTotalPkr).toBe(4500)
     expect(osama.holds.map((h) => [h.seatNo, h.amount, h.status, h.kind])).toEqual([
       [1, 1500, 'AUTHORIZED', 'NO_SHOW_HOLD'],
@@ -153,6 +154,11 @@ describe('arrival and no-show', () => {
     // Two of Osama's three seats stayed empty: two holds are collected in full, the third is let go.
     const partial = data(await p.req('no-show two of three', 'POST', `${P}/bookings/${osama.booking.id}/no-show`, { ...A, ignore: ['data.bookingRef', 'data.date'], body: { emptySeats: 2 } }))
     expect(partial).toMatchObject({ status: 'COMPLETED', attendance: 'PARTIAL', arrivedSeats: 1, emptySeats: 2, penaltyChargedPkr: 3000, penaltyStatus: 'CHARGED', cancellable: false, canMarkNoShow: false })
+    // The Mingler is emailed what was charged and why.
+    const penaltyMail = outbox.find((m) => m.to === 'osama@example.com')
+    expect(penaltyMail?.email.subject).toMatch(/^No-show penalty for .+ \(GM-\d{6}\)$/)
+    expect(penaltyMail?.email.text).toContain('2 of the 3 seats')
+    expect(penaltyMail?.email.text).toContain('PKR 1,500 for each empty seat, PKR 3,000 in total')
     expect(await holdsOf(osama)).toEqual([
       [1, 'IN_ESCROW', 1500],
       [2, 'IN_ESCROW', 1500],

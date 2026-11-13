@@ -1,6 +1,6 @@
 import React from 'react'
 import { Result, Button } from 'antd'
-import * as Sentry from '@sentry/react'
+import { captureException } from '../configs/sentry'
 
 interface State {
   hasError: boolean
@@ -14,7 +14,7 @@ export class ErrorBoundary extends React.Component<{ children: React.ReactNode }
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
-    Sentry.captureException(error, { extra: { componentStack: info.componentStack } })
+    captureException(error, { extra: { componentStack: info.componentStack } })
   }
 
   render() {

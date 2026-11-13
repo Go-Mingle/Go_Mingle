@@ -21,7 +21,7 @@ import type { EmailTemplate, TemplateAudience, TemplateDraft } from './types'
 type TabKey = 'templates' | 'recent'
 type FieldErrors = Partial<Record<keyof TemplateDraft, string>>
 
-const AUDIENCES: TemplateAudience[] = ['partner', 'admin']
+const AUDIENCES: TemplateAudience[] = ['partner', 'admin', 'mingler']
 
 /** Field messages from a 422 (`details.fields`), if the error carries them. */
 function fieldErrorsOf(error: unknown): FieldErrors {

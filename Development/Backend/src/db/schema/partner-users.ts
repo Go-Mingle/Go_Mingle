@@ -26,5 +26,9 @@ export const partnerUsers = pgTable(
     /** Google account id (`sub`) once the partner has signed in with Google. */
     googleSub: text('google_sub'),
   },
-  (t) => [uniqueIndex('partner_users_email_live').on(t.email).where(sql`${t.status} <> 'DELETED'`)],
+  (t) => [
+    uniqueIndex('partner_users_email_live')
+      .on(t.email)
+      .where(sql`${t.status} <> 'DELETED'`),
+  ],
 )

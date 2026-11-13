@@ -9,7 +9,9 @@
     "partner": "Partner Portal",
     "partnerHint": "Sent to restaurant owners and their team.",
     "admin": "Admin Panel",
-    "adminHint": "Sent to GoMingle admins."
+    "adminHint": "Sent to GoMingle admins.",
+    "mingler": "Mingler app",
+    "minglerHint": "Sent to Minglers about their bookings."
   },
   "card": {
     "subject": "Subject",

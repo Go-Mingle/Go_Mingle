@@ -4,7 +4,7 @@
  * supports and the sample values its preview and test send use.
  */
 
-export type Audience = 'partner' | 'admin'
+export type Audience = 'partner' | 'admin' | 'mingler'
 
 export interface Placeholder {
   name: string
@@ -46,6 +46,12 @@ const P = {
   roleName: { name: 'roleName', description: 'Admin role', sample: 'Operations' },
   partnerPortalUrl: { name: 'partnerPortalUrl', description: 'Partner Portal link', sample: 'https://gomingle-partner.vercel.app' },
   adminPortalUrl: { name: 'adminPortalUrl', description: 'Admin Panel link', sample: 'https://gomingle-admin.vercel.app' },
+  eventName: { name: 'eventName', description: 'Interest table name', sample: 'Startup Mixer' },
+  eventDate: { name: 'eventDate', description: 'Date and time of the dinner (Pakistan time)', sample: 'Fri 20 Nov 2026, 7:30 pm' },
+  emptySeats: { name: 'emptySeats', description: 'Seats that stayed empty', sample: '2' },
+  seats: { name: 'seats', description: 'Seats booked', sample: '4' },
+  penaltyPerSeat: { name: 'penaltyPerSeat', description: 'Penalty for one empty seat', sample: 'PKR 1,500' },
+  penaltyTotal: { name: 'penaltyTotal', description: 'Total penalty charged to the card', sample: 'PKR 3,000' },
   approvalUrl: { name: 'approvalUrl', description: 'Link to the application', sample: 'https://gomingle-admin.vercel.app/approval-queue' },
 } satisfies Record<string, Placeholder>
 
@@ -195,6 +201,22 @@ export const TEMPLATE_DEFAULTS: TemplateDefault[] = [
     body: '{{restaurantName}} in {{city}} submitted its profile for approval.\n\nReview it in the Approval Queue.',
     buttonLabel: 'Review application',
     buttonUrl: 'approvalUrl',
+  },
+
+  // ── Minglers ──────────────────────────────────────────────────────────────
+  {
+    key: 'mingler_no_show_penalty',
+    audience: 'mingler',
+    name: 'No-show penalty charged',
+    description: "Sent to a Mingler when seats they booked stayed empty and the restaurant's no-show penalty was charged.",
+    required: false,
+    placeholders: [P.name, P.restaurantName, P.eventName, P.eventDate, P.emptySeats, P.seats, P.penaltyPerSeat, P.penaltyTotal, P.bookingRef],
+    subject: 'No-show penalty for {{restaurantName}} ({{bookingRef}})',
+    heading: 'We missed you at {{restaurantName}}',
+    body:
+      'Hi {{name}},\n\n{{emptySeats}} of the {{seats}} seats you booked at {{eventName}}, {{restaurantName}} on {{eventDate}} stayed empty.\n\nUnder the restaurant\'s no-show policy we charged {{penaltyPerSeat}} for each empty seat, {{penaltyTotal}} in total, to the card you booked with.\n\nBooking reference: {{bookingRef}}',
+    buttonLabel: '',
+    buttonUrl: null,
   },
 ]
 

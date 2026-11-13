@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Jira board (project GM)
+    url: https://gomingle.atlassian.net/jira/software/projects/GM/boards/1
+    about: Stories, tasks and sprint planning live on Jira.
