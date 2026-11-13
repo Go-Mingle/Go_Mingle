@@ -156,8 +156,9 @@ describe('EscrowPage', () => {
       await user.type(number, '4242 4242 4242 4242')
       await user.click(within(dialog).getByRole('button', { name: 'Place the hold' }))
       expect(await within(dialog).findByText('Only the test card numbers above are accepted.')).toBeInTheDocument()
-      expect(within(dialog).getByText('Enter the expiry as MM/YY.')).toBeInTheDocument()
-      expect(within(dialog).getByText('Enter the 3 or 4 digit security code.')).toBeInTheDocument()
+      // Each field validates on its own tick; on a slow machine they land one after another.
+      expect(await within(dialog).findByText('Enter the expiry as MM/YY.')).toBeInTheDocument()
+      expect(await within(dialog).findByText('Enter the 3 or 4 digit security code.')).toBeInTheDocument()
       expect(within(row).getByText('Awaiting payment')).toBeInTheDocument()
     })
 
