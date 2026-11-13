@@ -41,7 +41,7 @@
     "@types/nodemailer": "6.4.17",
     "@types/pg": "8.15.5",
     "drizzle-kit": "0.31.5",
-    "tsx": "4.20.5",
+    "tsx": "4.23.15",
     "typescript": "5.9.3",
     "unplugin-swc": "1.5.7",
     "vitest": "4.1.11"
