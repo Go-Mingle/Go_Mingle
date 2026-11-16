@@ -58,6 +58,10 @@ export const restaurants = pgTable(
     /** Date (YYYY-MM-DD) it joined: first submission, then the approval date. */
     joined: text('joined'),
     categoryId: text('category_id'),
+    /** When a GoMingle admin created this profile for the owner to complete (ms); null when the owner signed up. */
+    invitedAt: bigint('invited_at', { mode: 'number' }),
+    /** The admin who created it. */
+    invitedBy: text('invited_by'),
     payoutAccountId: text('payout_account_id'),
 
     // Menu PDF currently shown (file in menu_pdfs)

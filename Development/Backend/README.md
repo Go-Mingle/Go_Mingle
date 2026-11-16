@@ -85,10 +85,50 @@ released. Code emails cannot be switched off.
 ## Google sign-in (Partner Portal)
 
 `POST /partner/api/v1/partner/auth/google` takes the ID token Google Identity
-Services gives the portal (`{ credential }`), checks Google's signature, the
-`GOOGLE_CLIENT_ID` audience, issuer, expiry and that the email is verified. A
-partner with that email is signed in; a new email gets a partner account and a
-Draft restaurant (route `PROFILE_SETUP`). Admin emails cannot become partners.
+Services gives the portal and which button was used
+(`{ credential, intent: "signin" | "signup" }`). It checks Google's signature,
+the `GOOGLE_CLIENT_ID` audience, issuer, expiry and that the email is verified.
+
+- A partner with that email is signed in to their own restaurant.
+- An email a restaurant names as its **owner email** joins that restaurant.
+- Any other email gets a new account and a Draft restaurant (route
+  `PROFILE_SETUP`), but only from the sign-up button. The sign-in button answers
+  `404 GOOGLE_NO_ACCOUNT` with the email, so picking the wrong Google account
+  never opens a second, empty restaurant.
+- Admin emails cannot become partners.
+
+## One email, one restaurant
+
+A partner login belongs to one restaurant. `OwnerAccessService`
+(`src/shared/accounts/owner-access.service.ts`) keeps a person on the restaurant
+that is already theirs:
+
+- Someone who proves they hold a restaurant's owner email (Google, or the
+  emailed sign-up code) joins that restaurant; the first login stays the owner
+  login. Only restaurants GoMingle knows count (sent for approval at least once,
+  or created by an admin). An email that is the owner of several restaurants is
+  refused with `409 ERR_OWNER_OF_SEVERAL`.
+- On every sign-in, a login that only holds an untouched Draft is moved to the
+  restaurant that names its email as owner.
+
+## Restaurant profiles created by GoMingle
+
+Admin Panel → Restaurants → **Add restaurant**.
+
+| Route (under `/admin/api/v1/restaurants`) | What it does |
+|---|---|
+| `POST /` | Creates a Draft profile from `name`, `ownerName`, `ownerEmail` and optional `ownerPhone`, with a passwordless owner login, and emails the owner (`partner_restaurant_invite`) |
+| `GET /invited` | Profiles still with their owners |
+| `POST /invited/:id/resend` | Sends the email again |
+| `DELETE /invited/:id` | Cancels a profile that was not sent for approval |
+| `GET /:id/logins` | Who can sign in to a restaurant, and how (password, Google, not yet) |
+| `POST /:id/logins` | Gives an email access (`fullName`, `email`); the owner login when the restaurant has none |
+
+The owner signs up with that email (the emailed code, then a password) or
+continues with Google, completes the profile and sends it for approval through
+the usual queue. An email that already signs in to a restaurant is refused
+(`409 ERR_EMAIL_HAS_RESTAURANT`); one that only holds an untouched Draft is
+moved.
 
 `npm run reset-data` deletes the built-in database (stop the server first).
 
@@ -175,7 +215,8 @@ npm run typecheck
 ```
 
 `test/features/` holds suites that test behaviour directly: email templates and
-delivery, Google sign-in, and the one-time code limits. The browser-level
+delivery, Google sign-in, the one-time code limits, and owner access
+(Google sign-in edge cases, admin-created profiles). The browser-level
 end-to-end suite for both portals is in `Development/E2E`.
 
 Each scenario plays a full story through the HTTP API (for example: partner

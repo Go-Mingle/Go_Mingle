@@ -39,8 +39,14 @@ interface TokenResponse {
 }
 
 interface ErrorBody {
-  error?: { code?: string; message?: string }
+  error?: { code?: string; message?: string; details?: { email?: string } }
 }
+
+/**
+ * Which Google button was used. The sign-in button never opens a new account;
+ * only the sign-up button does.
+ */
+export type GoogleIntent = 'signin' | 'signup'
 
 const KNOWN_CODES = new Set<AuthErrorCode>([
   'INVALID_CREDENTIALS',
@@ -88,6 +94,8 @@ export interface GoogleSignInResult {
 
 const GOOGLE_ERRORS: Record<string, AuthErrorCode> = {
   GOOGLE_TOKEN_INVALID: 'GOOGLE_REJECTED',
+  GOOGLE_NO_ACCOUNT: 'GOOGLE_NO_ACCOUNT',
+  ERR_OWNER_OF_SEVERAL: 'OWNER_OF_SEVERAL',
   ERR_ALREADY_REGISTERED: 'EMAIL_IN_USE',
   GOOGLE_SIGN_IN_OFF: 'GOOGLE_UNAVAILABLE',
   GOOGLE_UNAVAILABLE: 'GOOGLE_UNAVAILABLE',
@@ -101,13 +109,16 @@ function expiresAt(seconds?: number): number {
  * Signs in (or signs up) with the ID token Google Identity Services returned.
  * Stores the session exactly like a password sign-in.
  */
-export async function signInWithGoogle(credential: string): Promise<GoogleSignInResult> {
+export async function signInWithGoogle(
+  credential: string,
+  intent: GoogleIntent = 'signin',
+): Promise<GoogleSignInResult> {
   let res: Response
   try {
     res = await fetch(url(PARTNER_AUTH_ENDPOINTS.google), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ credential }),
+      body: JSON.stringify({ credential, intent }),
     })
   } catch {
     throw new AuthError('NETWORK')
@@ -117,6 +128,10 @@ export async function signInWithGoogle(credential: string): Promise<GoogleSignIn
   if (!res.ok) {
     const code = data.error?.code ?? ''
     if (code === 'PRE_AUTH_REJECTED') throw new AuthError('PRE_AUTH_REJECTED', data.error?.message)
+    // No account for that Google email: the message carries which email Google sent.
+    if (code === 'GOOGLE_NO_ACCOUNT') {
+      throw new AuthError('GOOGLE_NO_ACCOUNT', data.error?.details?.email)
+    }
     throw new AuthError(
       GOOGLE_ERRORS[code] ?? (res.status >= 500 ? 'NETWORK' : 'UNKNOWN'),
       data.error?.message,

@@ -30,11 +30,7 @@ export function AuthFormError({ message, centered }: Readonly<AuthFormErrorProps
       role="alert"
       className={`flex items-start gap-1.5 ${centered ? 'justify-center' : ''}`.trim()}
     >
-      <WarningCircle
-        size={15}
-        weight="fill"
-        className="text-[var(--color-error)] shrink-0 mt-px"
-      />
+      <WarningCircle size={15} weight="fill" className="text-[var(--color-error)] shrink-0 mt-px" />
       <p className="text-[13px] text-[var(--color-error)] m-0">{message}</p>
     </div>
   )
