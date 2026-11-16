@@ -563,7 +563,7 @@ describe('FinancesPage — error and loading states', () => {
   it('shows loading spinner while fetching', () => {
     renderWithProviders(<FinancesPage />)
     // isPending is true on the first synchronous render before the fetch resolves
-    expect(document.querySelector('.ant-spin-spinning')).not.toBeNull()
+    expect(document.querySelector('.gm-skeleton')).not.toBeNull()
   })
 
   it('shows error alert when the fetch fails', async () => {

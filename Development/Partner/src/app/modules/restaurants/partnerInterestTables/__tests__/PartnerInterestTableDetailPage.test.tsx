@@ -54,7 +54,7 @@ beforeEach(() => {
 describe('detail page — states', () => {
   it('spins, then shows the table', async () => {
     const { container } = renderDetail()
-    expect(container.querySelector('.ant-spin')).toBeInTheDocument()
+    expect(container.querySelector('.gm-skeleton')).toBeInTheDocument()
 
     expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
       'Friday Wine Evening',

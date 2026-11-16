@@ -1,32 +1,88 @@
 {
-  "section": "OVERVIEW",
+  "nav": "Dashboard",
   "title": "Dashboard",
-  "activeRestaurants": "Active Restaurants",
-  "pendingApprovals": "Pending Approvals",
-  "activeMinglers": "Active Minglers",
-  "earnings": "Earnings",
-  "topRestaurants": "Top 5 Restaurants",
-  "topRestaurantsSubtitle": "By revenue contributed to GoMingle",
-  "approvalQueue": "Approval Queue",
-  "approvalQueueSubtitle": "Pending restaurant applications",
-  "openQueue": "Open queue >",
-  "bookings": "Bookings",
-  "revenueBySource": "Revenue by Source",
-  "revenueBySourceSubtitle": "This month — split between commissions and penalty fees",
-  "commissions": "Commissions",
-  "penaltyFees": "Penalty Fees",
-  "trend": "Trend (vs last month)",
-  "oldestDays": "Oldest {{days}}d",
-  "totalPkr": "Total PKR {{amount}}",
-  "total": "Total: {{count}}",
-  "periods": {
-    "today": "Today",
-    "thisWeek": "This Week",
-    "thisMonth": "This Month",
-    "allTime": "All Time"
+  "subtitleAdmin": "Bookings and money across every restaurant.",
+  "subtitlePartner": "How your interest tables are doing.",
+  "against_one": "vs the day before",
+  "against_other": "vs the {{count}} days before",
+  "range": {
+    "label": "Period",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days"
   },
-  "widgets": {
-    "search": "Search…",
-    "of": "{{count}} of {{total}}"
+  "loadFailed": "The dashboard could not be loaded.",
+  "retry": "Try again",
+  "kpi": {
+    "bookings": "Bookings",
+    "seats": "Seats booked",
+    "collected": "Collected from Minglers",
+    "fees": "GoMingle fees earned",
+    "paidToYou": "Paid to you",
+    "onTheWay": "On its way to you",
+    "onTheWayNote": "In escrow, paid out after each dinner"
+  },
+  "money": {
+    "titleAdmin": "Collected per day",
+    "titlePartner": "Paid to you per day",
+    "hintAdmin": "Card payments taken into escrow.",
+    "hintPartner": "Payouts released to your account, after the {{fee}}% GoMingle fee.",
+    "seriesAdmin": "collected",
+    "seriesPartner": "paid out",
+    "summary_one": "{{total}} in the last day.",
+    "summary_other": "{{total}} over the last {{count}} days."
+  },
+  "bookings": {
+    "title": "Bookings per day",
+    "hint": "By the day each booking was made.",
+    "series": "bookings",
+    "summary_one": "{{total}} bookings in the last day.",
+    "summary_other": "{{total}} bookings over the last {{count}} days."
+  },
+  "outcome": {
+    "title": "How bookings turned out",
+    "hint": "Bookings made in this period.",
+    "empty": "No bookings in this period yet.",
+    "arrived": "Everyone arrived",
+    "partial": "Some seats empty",
+    "noShow": "No-show",
+    "cancelled": "Cancelled",
+    "upcoming": "Still to come",
+    "summary": "{{arrived}} arrived in full, {{partial}} with empty seats, {{noShow}} no-shows, {{cancelled}} cancelled, {{upcoming}} still to come."
+  },
+  "seats": {
+    "title": "Upcoming tables",
+    "hint_one": "{{count}} table still to come.",
+    "hint_other": "{{count}} tables still to come.",
+    "hint_zero": "No tables scheduled.",
+    "filled": "{{booked}} of {{capacity}} seats booked",
+    "aria": "{{booked}} of {{capacity}} seats booked across upcoming tables",
+    "emptyAdmin": "No interest tables are scheduled. Create one from Interest Tables.",
+    "emptyPartner": "No interest tables are scheduled yet. GoMingle sets them up with you."
+  },
+  "escrow": {
+    "title": "Where the money is",
+    "hint": "All time.",
+    "held": "Held on cards",
+    "heldHint": "Reserved, not yet taken",
+    "inEscrow": "In escrow",
+    "inEscrowHint": "Collected, waiting for the dinner",
+    "paidAdmin": "Paid to restaurants",
+    "paidPartner": "Paid to you",
+    "paidHint": "After the {{fee}}% GoMingle fee"
+  },
+  "top": {
+    "title": "Top restaurants",
+    "hint_one": "By what Minglers paid in the last day.",
+    "hint_other": "By what Minglers paid in the last {{count}} days.",
+    "empty": "No bookings in this period yet.",
+    "bookings_one": "{{count}} booking",
+    "bookings_other": "{{count}} bookings"
+  },
+  "restaurants": {
+    "active_one": "{{count}} active restaurant",
+    "active_other": "{{count}} active restaurants",
+    "pending_one": "{{count}} waiting for approval",
+    "pending_other": "{{count}} waiting for approval",
+    "nonePending": "None waiting for approval"
   }
 }

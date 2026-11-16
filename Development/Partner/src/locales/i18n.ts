@@ -5,6 +5,7 @@ import auth from './en/auth.json'
 import minglers from './en/minglers.json'
 import users from './en/users.json'
 import finances from './en/finances.json'
+import dashboard from './en/dashboard.json'
 import restaurants from './en/restaurants.json'
 import notifications from './en/notifications.json'
 import profile from './en/profile.json'
@@ -22,6 +23,7 @@ i18n.use(initReactI18next).init({
       minglers,
       users,
       finances,
+      dashboard,
       restaurants,
       notifications,
       profile,
@@ -36,6 +38,7 @@ i18n.use(initReactI18next).init({
     'minglers',
     'users',
     'finances',
+    'dashboard',
     'restaurants',
     'notifications',
     'profile',

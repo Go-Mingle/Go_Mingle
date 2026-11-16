@@ -1,3 +1,4 @@
+import { LoadingState } from '../../molecules/LoadingState'
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import DOMPurify from 'dompurify'
 import { withFixedEnds } from '../../molecules/withFixedEnds'
@@ -13,7 +14,6 @@ import {
   Form,
   Grid,
   Upload,
-  Spin,
   Alert,
   message,
 } from 'antd'
@@ -393,7 +393,7 @@ export function AmenitiesPage() {
     [t, sortOrder, q, handleOpenEdit, iconVersionFor],
   )
 
-  if (isPending) return <Spin className="flex justify-center mt-20" />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
   const hasRestaurants = (deleteTarget?.restaurantsCount ?? 0) > 0

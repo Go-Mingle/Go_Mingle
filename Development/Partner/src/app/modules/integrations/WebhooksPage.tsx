@@ -1,4 +1,5 @@
-import { Alert, Grid, Spin } from 'antd'
+import { PageSkeleton } from '../../visual/PageSkeleton'
+import { Alert, Grid } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { getApiErrorMessage } from '../../../shared/utils/apiError'
 import { useWebhooksPage } from './hooks/useWebhooksPage'
@@ -14,9 +15,7 @@ export function WebhooksPage() {
 
   if (c.isPending) {
     return (
-      <div className="flex justify-center py-24">
-        <Spin />
-      </div>
+      <PageSkeleton variant="list" />
     )
   }
 

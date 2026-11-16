@@ -1,6 +1,7 @@
+import { LoadingState } from '../../molecules/LoadingState'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Spin, Alert, Form, Modal, Button, Grid, message } from 'antd'
+import { Alert, Form, Modal, Button, Grid, message } from 'antd'
 import { Trash, PencilSimple, Plus } from '@phosphor-icons/react'
 import { CategoryFormModal } from './CategoryFormModal'
 import { PageHeader } from '../../molecules/PageHeader'
@@ -92,7 +93,7 @@ export function CategoriesPage() {
     })
   }
 
-  if (isPending) return <Spin className="flex justify-center mt-20" />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
   const openNew = () => {

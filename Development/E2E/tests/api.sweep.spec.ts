@@ -68,6 +68,9 @@ function partnerRoutes(itId: string): string[] {
   return [
     '/session',
     '/me',
+    '/dashboard',
+    '/dashboard?days=7',
+    '/dashboard?days=90',
     '/users',
     '/restaurant',
     '/restaurant/contacts',
@@ -117,7 +120,7 @@ test('every read endpoint answers cleanly and quickly', async () => {
     expect.soft(r.status, `admin ${route}`).toBe(200)
     checkBody(`admin ${route}`, r)
   }
-  for (const route of ['/dashboard/stats', '/dashboard/revenue-chart', '/dashboard/bookings-chart', '/timer-settings']) {
+  for (const route of ['/dashboard/overview', '/dashboard/overview?days=7', '/dashboard/overview?days=90', '/dashboard/stats', '/dashboard/revenue-chart', '/dashboard/bookings-chart', '/timer-settings']) {
     const r = await call('GET', `${API_URL}/admin/api${route}`, A)
     timings.push({ route: `admin ${route}`, ms: r.ms, status: r.status })
     expect.soft(r.status, `admin ${route}`).toBe(200)

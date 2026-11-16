@@ -44,6 +44,9 @@ const RestaurantProfilePage = lazy(() =>
     default: m.RestaurantProfilePage,
   })),
 )
+const DashboardPage = lazy(() =>
+  import('./modules/dashboard/DashboardPage').then((m) => ({ default: m.DashboardPage })),
+)
 const FinancesPage = lazy(() =>
   import('./modules/finances/FinancesPage').then((m) => ({ default: m.FinancesPage })),
 )
@@ -81,7 +84,6 @@ export const router = createBrowserRouter([
         ),
         children: [
           { path: '/', element: <RouteResolver /> },
-          { path: '/dashboard', element: <Navigate to="/" replace /> },
           // The prototype setup wizard was replaced by the restaurant profile
           // (DRAFT state), which saves every step through the API.
           { path: '/setup', element: <Navigate to="/overview" replace /> },
@@ -140,6 +142,14 @@ export const router = createBrowserRouter([
                 element: wrap(
                   <FullPortalOnly>
                     <FinancesPage />
+                  </FullPortalOnly>,
+                ),
+              },
+              {
+                path: '/dashboard',
+                element: wrap(
+                  <FullPortalOnly>
+                    <DashboardPage />
                   </FullPortalOnly>,
                 ),
               },

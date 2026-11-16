@@ -1,5 +1,6 @@
+import { PageSkeleton } from '../../visual/PageSkeleton'
 import dayjs from 'dayjs'
-import { Alert, Flex, Spin } from 'antd'
+import { Alert, Flex } from 'antd'
 import { PencilSimple, Key, Trash, UsersThree, MagnifyingGlass } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { TabEmptyState } from '../restaurants/components/TabEmptyState'
@@ -159,9 +160,7 @@ export function UsersPage() {
       <UsersPageHeader isMobile={p.isMobile} onNew={() => p.setNewOpen(true)} />
 
       {p.isPending && (
-        <div className="flex justify-center py-20">
-          <Spin />
-        </div>
+        <PageSkeleton variant="table" />
       )}
 
       {p.isError && (

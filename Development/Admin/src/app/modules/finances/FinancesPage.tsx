@@ -1,7 +1,8 @@
+import { LoadingState } from '../../molecules/LoadingState'
 import { useState, useMemo } from 'react'
 import { withFixedEnds } from '../../molecules/withFixedEnds'
 import { useNavigate } from 'react-router-dom'
-import { Table, Select, Pagination, Grid, Spin, Alert, message } from 'antd'
+import { Table, Select, Pagination, Grid, Alert, message } from 'antd'
 import type { TableProps } from 'antd/es/table'
 import { DownloadSimple, ShieldCheck } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
@@ -168,7 +169,7 @@ export function FinancesPage() {
     }
   }
 
-  if (isPending) return <Spin className="flex justify-center mt-20" />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
   return (

@@ -1,6 +1,7 @@
+import { LoadingState } from '../../molecules/LoadingState'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form, Pagination, Grid, Modal, Button, message, Spin, Alert } from 'antd'
+import { Form, Pagination, Grid, Modal, Button, message, Alert } from 'antd'
 import type { TableProps } from 'antd/es/table'
 import type { SorterResult } from 'antd/es/table/interface'
 import { Plus, PencilSimple, Trash } from '@phosphor-icons/react'
@@ -254,7 +255,7 @@ export function RolesAccessPage() {
 
   const hasUsers = (deleteTarget?.usersAssigned ?? 0) > 0
 
-  if (rolesLoading) return <Spin className="flex justify-center mt-20" />
+  if (rolesLoading) return <LoadingState variant="table" />
   if (rolesError)
     return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 

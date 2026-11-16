@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw'
+import { mockDashboardOverview } from '../data/dashboard'
 import { rolesHandlers } from './roles'
 import { authHandlers } from './auth'
 import { usersHandlers } from './users'
@@ -26,7 +27,6 @@ import {
   mockFinances,
   mockChangeLogs,
   mockLoyalty,
-  mockBookingsChart,
   mockRestaurantBookings,
   mockInterestTopics,
   mockInterestTables,
@@ -440,30 +440,11 @@ export const handlers = [
   // Timer Settings
   http.get(`${BASE}/timer-settings`, () => HttpResponse.json([])),
 
-  // Dashboard stats
-  http.get(`${BASE}/dashboard/stats`, () =>
-    HttpResponse.json({
-      activeRestaurants: 7,
-      pendingApprovals: 5,
-      activeMinglers: 9,
-      earnings: 284600,
-      oldestPendingDays: 7,
-      trendRestaurants: '+4%',
-      trendMinglers: '+12%',
-      trendEarnings: '+8%',
-    }),
-  ),
-  http.get(`${BASE}/dashboard/bookings-chart`, () => HttpResponse.json(mockBookingsChart)),
-  http.get(`${BASE}/dashboard/revenue-chart`, () =>
-    HttpResponse.json({
-      total: 148320,
-      commissions: 118656,
-      penalties: 29664,
-      commissionPct: 80,
-      penaltyPct: 20,
-      trend: '+11%',
-    }),
-  ),
+  // Dashboard
+  http.get(`${BASE}/dashboard/overview`, ({ request }) => {
+    const days = Number(new URL(request.url).searchParams.get('days')) || 30
+    return HttpResponse.json({ success: true, data: mockDashboardOverview([7, 30, 90].includes(days) ? days : 30) })
+  }),
 ]
 
 // ── Browser Service Worker handlers ─────────────────────────────────────────

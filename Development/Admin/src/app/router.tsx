@@ -75,6 +75,9 @@ const MinglerDetailPage = lazy(() =>
 const EscrowPage = lazy(() =>
   import('./modules/escrow/EscrowPage').then((m) => ({ default: m.EscrowPage })),
 )
+const DashboardPage = lazy(() =>
+  import('./modules/dashboard/DashboardPage').then((m) => ({ default: m.DashboardPage })),
+)
 const FinancesPage = lazy(() =>
   import('./modules/finances/FinancesPage').then((m) => ({ default: m.FinancesPage })),
 )
@@ -96,7 +99,7 @@ const TimerSettingsPage = lazy(() =>
     default: m.TimerSettingsPage,
   })),
 )
-const Fallback = () => <LoadingState label="Loading…" minHeight={256} />
+const Fallback = () => <LoadingState label="Loading…" />
 
 const wrap = (el: React.JSX.Element) => <Suspense fallback={<Fallback />}>{el}</Suspense>
 
@@ -119,7 +122,14 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: '/', element: <LandingRedirect /> },
-      { path: '/dashboard', element: <LandingRedirect /> },
+      {
+        path: '/dashboard',
+        element: wrap(
+          <PermissionGuard module="FINANCES">
+            <DashboardPage />
+          </PermissionGuard>,
+        ),
+      },
       {
         path: '/roles-access',
         element: wrap(
