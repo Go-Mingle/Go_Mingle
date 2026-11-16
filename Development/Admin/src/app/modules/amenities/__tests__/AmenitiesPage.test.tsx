@@ -183,10 +183,10 @@ describe('AmenitiesPage', () => {
     expect(document.querySelector(`img[src="${detailIcon}"]`)).not.toBeNull()
   })
 
-  it('shows Spin while query is pending', () => {
+  it('shows the page outline while the query is pending', () => {
     renderWithProviders(<AmenitiesPage />)
     // isPending is true on the first synchronous render before the fetch resolves
-    expect(document.querySelector('.ant-spin-spinning')).not.toBeNull()
+    expect(document.querySelector('.gm-skeleton')).not.toBeNull()
   })
 
   it('shows noAmenities empty state when server returns 0 records with no search query', async () => {
@@ -452,10 +452,10 @@ describe('AmenitiesPage — error and loading states', () => {
     await waitFor(() => expect(document.querySelector('.ant-alert-error')).not.toBeNull())
   })
 
-  it('shows loading spinner while fetching', () => {
+  it('shows the page outline while fetching', () => {
     server.use(http.get(BASE, () => HttpResponse.json(makeList(fixture))))
     renderWithProviders(<AmenitiesPage />)
-    expect(document.querySelector('.ant-spin-spinning')).not.toBeNull()
+    expect(document.querySelector('.gm-skeleton')).not.toBeNull()
   })
 })
 

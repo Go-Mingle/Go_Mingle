@@ -20,32 +20,33 @@ const plain = (n: number) => Math.round(n).toLocaleString('en-US')
 export function CountUp({ value, format = plain, duration = 650, className }: Readonly<Props>) {
   const still = usePrefersReducedMotion()
   const [shown, setShown] = useState(0)
-  const [rolling, setRolling] = useState(false)
   const from = useRef(0)
 
   useEffect(() => {
     if (still) return
     const start = performance.now()
     const begin = from.current
-    let frame = requestAnimationFrame(function step(now: number) {
-      const t = Math.min(1, (now - start) / duration)
+    let frame = requestAnimationFrame(function step() {
+      // Read the clock ourselves: the frame's own timestamp can be on another time base.
+      const t = Math.max(0, Math.min(1, (performance.now() - start) / duration))
       // Ease out: fast at first, settling on the value.
       const eased = 1 - (1 - t) ** 3
       const next = begin + (value - begin) * eased
       from.current = next
       setShown(next)
-      setRolling(t < 1)
       if (t < 1) frame = requestAnimationFrame(step)
     })
     return () => cancelAnimationFrame(frame)
   }, [value, duration, still])
 
   const text = format(value)
+  // Marked while the figure on screen is not yet the real one, so tests wait for it.
+  const counting = !still && format(shown) !== text
   return (
     <span
       className={className}
       aria-label={text}
-      data-counting={!still && rolling ? '' : undefined}
+      data-counting={counting ? '' : undefined}
     >
       <span aria-hidden="true">{still ? text : format(shown)}</span>
     </span>

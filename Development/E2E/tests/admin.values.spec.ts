@@ -120,3 +120,27 @@ test('unread notifications badge matches the API', async ({ page }) => {
   if (count > 0) expect(bar.replace(/\s+/g, ' ')).toContain(` ${Math.min(count, 99)} `)
   expect(API_URL).toBeTruthy()
 })
+
+test('dashboard figures match the API and the escrow ledger', async ({ page }) => {
+  const d = unwrap(await ok('GET', `${API_URL}/admin/api/dashboard/overview?days=30`, A))
+  const escrow = unwrap(await ok('GET', `${ADMIN_API}/escrow`, A))
+  // The dashboard and the escrow page are two views of the same money.
+  expect(d.escrow).toMatchObject({ heldPkr: escrow.summary.authorized, inEscrowPkr: escrow.summary.inEscrow, paidOutPkr: escrow.summary.released, refundedPkr: escrow.summary.refunded })
+  expect(d.kpis.feesPkr.value).toBe(escrow.summary.platformFees)
+  expect(d.daily).toHaveLength(30)
+  expect(d.daily.reduce((n: number, x: { collectedPkr: number }) => n + x.collectedPkr, 0)).toBe(d.kpis.collectedPkr.value)
+
+  await page.goto('/dashboard')
+  await settle(page)
+  const text = await screenText(page)
+  for (const amount of [d.kpis.collectedPkr.value, d.kpis.feesPkr.value, d.escrow.heldPkr, d.escrow.inEscrowPkr, d.escrow.paidOutPkr]) expect(text, `PKR ${amount}`).toContain(`PKR ${grouped(amount)}`)
+  expect(text).toContain(`${d.kpis.upcomingSeats.booked} of ${d.kpis.upcomingSeats.capacity} seats booked`)
+  for (const t of d.upcoming) expect(text, t.name).toContain(t.name)
+  for (const r of d.topRestaurants) expect(text, r.name).toContain(r.name)
+
+  // Switching the period asks the API again and still shows the right total.
+  await page.getByLabel('Period').getByText('7 days').click()
+  await settle(page)
+  const week = unwrap(await ok('GET', `${API_URL}/admin/api/dashboard/overview?days=7`, A))
+  expect(await screenText(page)).toContain(`PKR ${grouped(week.kpis.collectedPkr.value)}`)
+})

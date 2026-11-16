@@ -1,6 +1,7 @@
+import { LoadingState } from '../../molecules/LoadingState'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Spin, Alert, message, Pagination, Grid } from 'antd'
+import { Alert, message, Pagination, Grid } from 'antd'
 import { useTranslation } from 'react-i18next'
 import {
   useMinglersQuery,
@@ -213,7 +214,7 @@ export function MinglersPage() {
     suspendModal.open,
   )
 
-  if (isPending) return <Spin className="flex justify-center mt-20" />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
   const items = data?.items ?? []

@@ -11,6 +11,39 @@ const notReady: SubmissionReadiness = {
   canSubmit: false,
 }
 
+describe('ProfileBanners progress ring', () => {
+  it('counts the steps done on a draft', () => {
+    renderWithProviders(
+      <ProfileBanners status="DRAFT" rejections={[]} blockers={null} readiness={notReady} />,
+    )
+    // Payout is set up; the Overview details and the cover photo are not.
+    expect(
+      screen.getByRole('img', { name: '1 of 3 steps done before you can send for approval' }),
+    ).toHaveAccessibleName()
+    expect(screen.getByText('1/3')).toBeInTheDocument()
+  })
+
+  it('says so when every step is done', () => {
+    renderWithProviders(
+      <ProfileBanners
+        status="DRAFT"
+        rejections={[]}
+        blockers={null}
+        readiness={{ missingFields: [], payoutConfigured: true, hasCoverPhoto: true, canSubmit: true }}
+      />,
+    )
+    expect(
+      screen.getByText('All 3 steps done. You can send your profile for approval.'),
+    ).toBeInTheDocument()
+  })
+
+  it('falls back to the plain note when readiness is unknown', () => {
+    renderWithProviders(<ProfileBanners status="DRAFT" rejections={[]} blockers={null} />)
+    expect(screen.queryByRole('img')).not.toBeInTheDocument()
+    expect(screen.getByText(/required for approval/)).toBeInTheDocument()
+  })
+})
+
 describe('ProfileBanners readiness checklist', () => {
   it('lists what is missing on a draft before any submit', () => {
     renderWithProviders(

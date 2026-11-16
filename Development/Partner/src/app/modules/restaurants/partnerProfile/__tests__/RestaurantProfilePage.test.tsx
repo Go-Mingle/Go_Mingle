@@ -102,7 +102,7 @@ beforeEach(() => {
 describe('profile shell states', () => {
   it('spins while the profile loads', () => {
     const { container } = renderWithProviders(<RestaurantProfilePage />)
-    expect(container.querySelector('.ant-spin')).toBeInTheDocument()
+    expect(container.querySelector('.gm-skeleton')).toBeInTheDocument()
   })
 
   it('shows the backend message when the read fails', async () => {

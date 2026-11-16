@@ -1,6 +1,7 @@
+import { PageSkeleton } from '../../../../visual/PageSkeleton'
 import { LifecycleBadge } from '../../../../visual/LifecycleBadge'
 import type { ReactNode } from 'react'
-import { Alert, Grid, Select, Spin, Table } from 'antd'
+import { Alert, Grid, Select, Table } from 'antd'
 import { CalendarBlank, Funnel } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -49,9 +50,7 @@ export function InterestTablesTab({ c }: { c: InterestTablesTabController }) {
 
   if (c.isPending) {
     return (
-      <div className="flex justify-center py-16">
-        <Spin />
-      </div>
+      <PageSkeleton variant="table" />
     )
   }
 

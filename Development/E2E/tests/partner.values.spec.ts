@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import { test, expect } from '@playwright/test'
 import { ADMIN_API, PARTNER_API, adminToken, grouped, itemsOf, ok, partnerToken, unwrap } from './support/api'
-import { SEED_FILE } from './support/env'
+import { API_URL, SEED_FILE } from './support/env'
 import { screenText, settle } from './support/page-checks'
 
 /**
@@ -107,4 +107,21 @@ test('team list matches the API', async ({ page }) => {
     const name = u.fullName ?? u.name
     expect(text, name).toContain(name)
   }
+})
+
+test('dashboard figures match the API and the Admin Panel', async ({ page }) => {
+  const mine = unwrap(await ok('GET', `${PARTNER_API}/dashboard?days=30`, P))
+  const platform = unwrap(await ok('GET', `${API_URL}/admin/api/dashboard/overview?days=30`, A))
+  // One restaurant on the platform: its dashboard and the platform's agree.
+  expect(mine.kpis).toEqual(platform.kpis)
+  expect(mine.escrow).toEqual(platform.escrow)
+  expect(mine.topRestaurants, 'a restaurant never sees the ranking').toBeUndefined()
+
+  await page.goto('/dashboard')
+  await settle(page)
+  const text = await screenText(page)
+  for (const amount of [mine.kpis.paidOutPkr.value, mine.escrow.inEscrowPkr]) expect(text, `PKR ${amount}`).toContain(`PKR ${grouped(amount)}`)
+  expect(text).toContain(`${mine.kpis.upcomingSeats.booked} of ${mine.kpis.upcomingSeats.capacity} seats booked`)
+  for (const t of mine.upcoming) expect(text, t.name).toContain(t.name)
+  expect(text).toContain(`${mine.escrow.feePct}% GoMingle fee`)
 })
