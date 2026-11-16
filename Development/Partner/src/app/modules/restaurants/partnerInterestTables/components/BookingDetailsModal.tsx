@@ -1,8 +1,8 @@
+import { LifecycleBadge } from '../../../../visual/LifecycleBadge'
 import { Alert, Modal, Spin } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { MODAL_WIDTH } from '../../../../atoms/modalWidth'
-import { StatusBadge } from '../../../../atoms/StatusBadge'
-import { bookingStatusVariant, displayBill, displayDate, displayTime } from '../format'
+import { displayBill, displayDate, displayTime } from '../format'
 import { useBookingQuery } from '../hooks/usePartnerInterestTablesQueries'
 import { DetailRows } from './DetailRows'
 
@@ -67,7 +67,7 @@ export function BookingDetailsModal({
             { label: label('time'), value: displayTime(booking.time) },
             {
               label: label('status'),
-              value: <StatusBadge variant={bookingStatusVariant(booking.status)} />,
+              value: <LifecycleBadge status={booking.status} kind="booking" />,
             },
             // Null until charged — an em dash, never `PKR 0`.
             { label: label('bill'), value: displayBill(booking.billPkr) },
