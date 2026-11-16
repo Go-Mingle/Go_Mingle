@@ -6,7 +6,8 @@ import { CodesService } from '../../auth/codes.service'
 import { meetsPasswordPolicy, normaliseEmail } from '../../auth/passwords'
 import { PARTNER_AUDIENCE, TokensService } from '../../auth/tokens.service'
 import { AccountDirectory } from '../../shared/accounts/account-directory.service'
-import { newRestaurantId, RestaurantsService } from '../../shared/restaurants/restaurants.service'
+import { OwnerAccessService } from '../../shared/accounts/owner-access.service'
+import { routeFor, RestaurantsService } from '../../shared/restaurants/restaurants.service'
 import { PartnerAccountsService } from './partner-accounts.service'
 import { resolvePartner } from './partner.guard'
 
@@ -30,6 +31,7 @@ export class SignupController {
     private readonly directory: AccountDirectory,
     private readonly tokens: TokensService,
     private readonly codes: CodesService,
+    private readonly ownerAccess: OwnerAccessService,
   ) {}
 
   @Post('start')
@@ -61,15 +63,22 @@ export class SignupController {
     // An account that already has a password signs in instead; an email used by an admin cannot sign up.
     if (user?.passwordHash || (!user && (await this.directory.emailInUse(email)))) throw alreadyRegistered()
     await this.codes.clear(PURPOSE, email)
-    user ??= await this.accounts.create({ email, fullName: email.split('@')[0], restaurantId: newRestaurantId(), isPrimary: true })
+    if (user) {
+      // An account opened another way (Google, or by a GoMingle admin) that has no password yet.
+      user = await this.ownerAccess.settle(user)
+    } else {
+      // The emailed code proved the mailbox: an owner a restaurant already names joins that restaurant.
+      const place = await this.ownerAccess.restaurantForNewLogin(email)
+      user = await this.accounts.create({ email, fullName: email.split('@')[0], restaurantId: place.restaurantId, isPrimary: place.isPrimary })
+    }
     const restaurant = await this.restaurants.ensure(user.restaurantId)
     const session = await this.tokens.issue({ id: user.id, email: user.email, fullName: user.fullName, roleName: 'partner' }, PARTNER_AUDIENCE)
     return {
       success: true,
       data: {
-        partnerUser: { id: user.id, email, isPrimary: true },
+        partnerUser: { id: user.id, email, isPrimary: user.isPrimary },
         restaurant: { id: restaurant.id, status: restaurant.status },
-        route: 'PROFILE_SETUP',
+        route: routeFor(restaurant.status),
         session: { ...session, idToken: session.accessToken },
       },
     }

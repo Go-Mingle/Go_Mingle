@@ -180,7 +180,51 @@ function toDetail(r: (typeof mockRestaurants)[number]): RestaurantDetail {
   }
 }
 
+// ── Profiles created by GoMingle, and Partner Portal access ─────────────────
+interface MockInvite {
+  id: string
+  name: string
+  ownerName: string
+  ownerEmail: string
+  invitedAt: string
+  invitedBy: string
+  ownerSignedIn: boolean
+  status: 'INVITED'
+}
+const mockInvited: MockInvite[] = []
+
+const accessHandlers = [
+  http.get(`${BASE}/invited`, () =>
+    HttpResponse.json({ success: true, data: { items: mockInvited } }),
+  ),
+  http.post(BASE, async ({ request }) => {
+    const body = (await request.json()) as Record<string, string>
+    const invite: MockInvite = {
+      id: `rest-${Date.now().toString(36)}`,
+      name: body.name,
+      ownerName: body.ownerName,
+      ownerEmail: body.ownerEmail,
+      invitedAt: new Date().toISOString(),
+      invitedBy: 'GoMingle Admin',
+      ownerSignedIn: false,
+      status: 'INVITED',
+    }
+    mockInvited.unshift(invite)
+    return HttpResponse.json({ success: true, data: { ...invite, emailed: true } }, { status: 201 })
+  }),
+  http.post(`${BASE}/invited/:id/resend`, ({ params }) =>
+    HttpResponse.json({ success: true, data: { id: params.id, emailed: true } }),
+  ),
+  http.delete(`${BASE}/invited/:id`, ({ params }) => {
+    const i = mockInvited.findIndex((r) => r.id === params.id)
+    if (i >= 0) mockInvited.splice(i, 1)
+    return HttpResponse.json({ success: true, data: { id: params.id, cancelled: true } })
+  }),
+  http.get(`${BASE}/:id/logins`, () => HttpResponse.json({ success: true, data: { items: [] } })),
+]
+
 export const restaurantsHandlers = [
+  ...accessHandlers,
   // GET /api/v1/restaurants — paginated list with sort/filter/search
   http.get(BASE, ({ request }) => {
     const url = new URL(request.url)

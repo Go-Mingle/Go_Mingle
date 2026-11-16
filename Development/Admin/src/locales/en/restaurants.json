@@ -293,5 +293,70 @@
     "categoryUpdated": "Category updated successfully",
     "categoryMoved": "{{name}} moved to {{category}}.",
     "reviewDeleted": "Review deleted."
+  },
+  "access": {
+    "cancel": "Cancel",
+    "keep": "Keep it",
+    "failed": "That didn't work. Please try again.",
+    "emailInvalid": "Enter a valid email address.",
+    "notEmailed": "Saved, but the email could not be sent. Share the Partner Portal link with them yourself.",
+    "add": {
+      "button": "Add restaurant",
+      "title": "Add a restaurant",
+      "intro": "Create the profile with the restaurant's name and its owner. We email the owner, who signs up with this email (or continues with Google), adds the rest of the details and sends the profile for approval.",
+      "name": "Restaurant name",
+      "nameRequired": "Enter the restaurant name.",
+      "ownerName": "Owner's name",
+      "ownerNameRequired": "Enter the owner's name.",
+      "ownerEmail": "Owner's email",
+      "ownerEmailHelp": "The owner signs in to the Partner Portal with this email.",
+      "ownerPhone": "Owner's phone (optional)",
+      "ownerPhoneInvalid": "Enter a valid phone number, or leave it empty.",
+      "submit": "Create and email the owner",
+      "failed": "The restaurant could not be created. Please try again.",
+      "created": "{{name}} created. We emailed {{email}}.",
+      "createdNoEmail": "{{name}} created, but the email could not be sent. Use Resend, or share the Partner Portal link yourself."
+    },
+    "invited": {
+      "title": "Waiting for the owner",
+      "hint": "Profiles GoMingle created. Each one moves to the Approval Queue when its owner sends it for approval.",
+      "restaurant": "Restaurant",
+      "owner": "Owner",
+      "created": "Created",
+      "progress": "Progress",
+      "notSignedIn": "Owner hasn't signed in",
+      "completing": "Owner is completing it",
+      "resend": "Resend email",
+      "resent": "Email sent again to {{email}}.",
+      "cancel": "Cancel {{name}}",
+      "cancelTitle": "Cancel {{name}}?",
+      "cancelBody": "The owner will no longer be able to sign in to this profile.",
+      "cancelConfirm": "Cancel profile",
+      "cancelled": "{{name}} cancelled.",
+      "loadFailed": "Restaurants waiting for their owner could not be loaded."
+    },
+    "logins": {
+      "title": "Partner Portal access",
+      "hint": "The people who can sign in to this restaurant.",
+      "loading": "Loading…",
+      "loadFailed": "Could not load who has access.",
+      "none": "Nobody can sign in to this restaurant. Give an email access so its owner can get in.",
+      "owner": "Owner",
+      "team": "Team member",
+      "suspended": "Suspended",
+      "pending": "Hasn't signed in yet",
+      "password": "Password"
+    },
+    "grant": {
+      "button": "Give access",
+      "title": "Give access to {{name}}",
+      "intro": "The person is emailed and signs up with this email, or continues with Google. An email that only has an empty, unfinished account is moved to this restaurant.",
+      "fullName": "Name",
+      "fullNameRequired": "Enter the person's name.",
+      "email": "Email",
+      "submit": "Give access",
+      "granted": "Access given. We emailed {{email}}.",
+      "moved": "{{email}} now signs in to {{name}}."
+    }
   }
 }

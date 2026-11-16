@@ -66,6 +66,10 @@ export type AuthErrorCode =
   | 'LIMIT_EXCEEDED'
   /** Google sign-in: the API could not verify the Google account. */
   | 'GOOGLE_REJECTED'
+  /** Sign in with Google: no partner account for that Google email. */
+  | 'GOOGLE_NO_ACCOUNT'
+  /** The email is the owner contact of more than one restaurant. */
+  | 'OWNER_OF_SEVERAL'
   /** Google sign-in: the email belongs to a GoMingle admin account. */
   | 'EMAIL_IN_USE'
   /** Google sign-in is switched off on the server. */

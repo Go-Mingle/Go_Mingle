@@ -41,6 +41,8 @@ const VERBS: Record<string, string> = {
   suspend: 'Suspended',
   unsuspend: 'Reactivated',
   category: 'Changed category',
+  resend: 'Resent the invitation',
+  logins: 'Gave portal access',
   publish: 'Published',
   cancel: 'Cancelled',
   'make-available': 'Made available',
