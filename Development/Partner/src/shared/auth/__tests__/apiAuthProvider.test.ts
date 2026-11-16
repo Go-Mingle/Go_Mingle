@@ -208,14 +208,33 @@ describe('signInWithGoogle', () => {
       }),
     )
     const result = await signInWithGoogle('google-id-token')
-    expect(sent).toEqual({ credential: 'google-id-token' })
+    expect(sent).toEqual({ credential: 'google-id-token', intent: 'signin' })
     expect(result).toEqual({ user: USER, isNew: true, route: 'PROFILE_SETUP' })
     expect(tokenStore.getAccessToken()).toBe('jwt-g')
     expect(tokenStore.getIdentity()).toEqual(USER)
   })
 
+  it('reports which Google email has no account', async () => {
+    const { signInWithGoogle } = await import('../apiAuthProvider')
+    let sent: unknown
+    server.use(
+      http.post(E.google, async ({ request }) => {
+        sent = await request.json()
+        return HttpResponse.json(
+          { error: { code: 'GOOGLE_NO_ACCOUNT', message: 'm', details: { email: 'x@gmail.com' } } },
+          { status: 404 },
+        )
+      }),
+    )
+    const error = (await signInWithGoogle('t', 'signin').catch((e: unknown) => e)) as Error
+    expect(sent).toEqual({ credential: 't', intent: 'signin' })
+    expect(codeOf(error)).toBe('GOOGLE_NO_ACCOUNT')
+    expect(error.message).toBe('x@gmail.com')
+  })
+
   it.each([
     [401, 'GOOGLE_TOKEN_INVALID', 'GOOGLE_REJECTED'],
+    [409, 'ERR_OWNER_OF_SEVERAL', 'OWNER_OF_SEVERAL'],
     [409, 'ERR_ALREADY_REGISTERED', 'EMAIL_IN_USE'],
     [503, 'GOOGLE_SIGN_IN_OFF', 'GOOGLE_UNAVAILABLE'],
     [403, 'PRE_AUTH_REJECTED', 'PRE_AUTH_REJECTED'],

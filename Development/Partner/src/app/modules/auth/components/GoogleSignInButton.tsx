@@ -25,7 +25,7 @@ export function GoogleSignInButton({ context }: Readonly<GoogleSignInButtonProps
 function GoogleButton({ context }: Readonly<GoogleSignInButtonProps>) {
   const { t } = useTranslation('auth')
   const slot = useRef<HTMLDivElement>(null)
-  const { handleCredential, loading, error, reportUnavailable } = useGoogleSignIn()
+  const { handleCredential, loading, error, reportUnavailable } = useGoogleSignIn(context)
   const onCredential = useRef(handleCredential)
 
   useEffect(() => {

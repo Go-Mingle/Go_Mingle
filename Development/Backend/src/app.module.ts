@@ -40,6 +40,8 @@ import { PayoutAccountController } from './partner/payments/payout-account.contr
 import { AdminRestaurantsService } from './admin/restaurants/admin-restaurants.service'
 import { ApprovalsController } from './admin/restaurants/approvals.controller'
 import { RestaurantsController } from './admin/restaurants/restaurants.controller'
+import { RestaurantAccessController } from './admin/restaurants/restaurant-access.controller'
+import { OwnerAccessService } from './shared/accounts/owner-access.service'
 import { PartnerAmenitiesController } from './partner/amenities/amenities.controller'
 import { CountersService } from './shared/counters.service'
 import { TablesController } from './partner/venue/tables.controller'
@@ -133,6 +135,7 @@ class RootController {
     MenuUploadController,
     ProfileController,
     ApprovalsController,
+    RestaurantAccessController,
     RestaurantsController,
     AssetsController,
     EmailTemplatesController,
@@ -141,6 +144,7 @@ class RootController {
     TokensService,
     CodesService,
     AccountDirectory,
+    OwnerAccessService,
     ChangeLogService,
     UsageService,
     AuditInterceptor,

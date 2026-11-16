@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { AddRestaurantButton, InvitedRestaurants } from './access/InvitedRestaurants'
 import { withFixedEnds } from '../../molecules/withFixedEnds'
 import { useNavigate } from 'react-router-dom'
 import { Table, Pagination, message, Flex, Grid } from 'antd'
@@ -221,7 +222,7 @@ export function RestaurantsPage() {
     <Flex vertical>
       {contextHolder}
 
-      <div style={{ marginBottom: 24 }}>
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h1
           style={{
             margin: 0,
@@ -233,7 +234,10 @@ export function RestaurantsPage() {
         >
           {t('restaurants:title')}
         </h1>
+        <AddRestaurantButton />
       </div>
+
+      <InvitedRestaurants />
 
       {isMobile ? (
         <RestaurantCardList data={rows} onCardClick={(id) => navigate(`/restaurants/${id}`)} />
