@@ -166,5 +166,31 @@
     "title": "Notifications",
     "markAllRead": "Mark all read",
     "viewAll": "View all notifications"
+  },
+  "lifecycle": {
+    "name": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "coming_soon": "Coming soon",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "table": {
+      "draft": "Not published yet. Minglers can't see it.",
+      "pending": "Published and waiting for enough bookings to go ahead.",
+      "coming_soon": "Announced to Minglers. Booking has not opened yet.",
+      "confirmed": "Going ahead. Enough Minglers have booked.",
+      "completed": "The dinner took place.",
+      "cancelled": "Called off. Any bookings were cancelled and card holds released."
+    },
+    "booking": {
+      "draft": "Not placed yet.",
+      "pending": "Placed and waiting for the table to be confirmed.",
+      "coming_soon": "Waiting for booking to open.",
+      "confirmed": "The seats are held for this Mingler.",
+      "completed": "Checked in. The dinner took place.",
+      "cancelled": "Cancelled. Nothing is held on the card."
+    }
   }
 }
