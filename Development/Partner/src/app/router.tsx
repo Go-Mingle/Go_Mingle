@@ -154,6 +154,8 @@ export const router = createBrowserRouter([
               },
             ],
           },
+          // An address that isn't a page goes home rather than to a raw error.
+          { path: '*', element: <Navigate to="/" replace /> },
         ],
       },
     ],

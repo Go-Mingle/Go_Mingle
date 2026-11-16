@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/index.css'
+import './styles/visual.css'
 import { App } from './app/App'
 import { initSentry } from './shared/observability/sentry'
 import { initTheme } from './shared/theme/themeStore'

@@ -1,10 +1,10 @@
+import { LifecycleBadge } from '../../../../visual/LifecycleBadge'
 import type { ReactNode } from 'react'
 import { Alert, Grid, Select, Spin, Table } from 'antd'
 import { CalendarBlank, Funnel } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../../../../shared/utils/apiError'
-import { StatusBadge } from '../../../../atoms/StatusBadge'
 import { LabelTag } from '../../../../atoms/LabelTag'
 import { CardDetailRow, RESPONSIVE_CARD_CLASS } from '../../../../molecules/CardDetailRow'
 import { pinEndColumns } from '../../../../molecules/tableColumns'
@@ -16,8 +16,7 @@ import {
   displayDate,
   displaySeats,
   displayTime,
-  interestTableStatusVariant,
-} from '../format'
+  } from '../format'
 import { buildInterestTablesColumns } from './interestTablesColumns'
 import { ProminglerCell } from './ProminglerCell'
 import type { InterestTablesTabController } from '../hooks/useInterestTablesTab'
@@ -212,7 +211,7 @@ function InterestTablesMobileList({
                 </span>
               )}
             </div>
-            <StatusBadge variant={interestTableStatusVariant(item.status)} />
+            <LifecycleBadge status={item.status} />
           </div>
 
           <CardDetailRow
