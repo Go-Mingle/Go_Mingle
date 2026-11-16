@@ -44,7 +44,7 @@ describe('LoginPage', () => {
     expect(screen.getByPlaceholderText(/you@gomingle\.com/i)).toBeInTheDocument()
   })
 
-  it('successful login navigates to /restaurants', async () => {
+  it('successful login navigates to the dashboard', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
     try {
       const mockUser = {
@@ -69,7 +69,7 @@ describe('LoginPage', () => {
       await user.click(signIn)
       vi.advanceTimersByTime(2000)
       await waitFor(() =>
-        expect(navigateMock).toHaveBeenCalledWith('/restaurants', { replace: true }),
+        expect(navigateMock).toHaveBeenCalledWith('/dashboard', { replace: true }),
       )
     } finally {
       vi.useRealTimers()
