@@ -56,7 +56,7 @@ describe('dashboard insights', () => {
 
     // An interest table next week, with 6 of its 8 seats booked and one booking cancelled.
     const start = new Date(Date.now() + 7 * 86_400_000).toISOString().slice(0, 10)
-    const topics = (await must('GET', `${A}/topics`, undefined, admin)) as { items?: { id: string }[] } & { id: string }[]
+    const topics = (await must('GET', `${A}/topics`, undefined, admin)) as { items?: { id: string }[] } | { id: string }[]
     const topicId = (Array.isArray(topics) ? topics : (topics.items ?? []))[0]?.id
     const it = await must('POST', `${A}/restaurants/${rid}/interest-tables`, {
       name: 'Startup Mixer', maxGuests: 8, startDate: start, startTime: '19:30', durationMinutes: 150,

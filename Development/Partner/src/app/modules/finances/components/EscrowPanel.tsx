@@ -1,3 +1,5 @@
+import { CountUp } from '../../../visual/CountUp'
+import { EscrowFlow, type FlowStep } from '../../../visual/EscrowFlow'
 import { Alert, Skeleton } from 'antd'
 import { Bank, ShieldCheck } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
@@ -24,13 +26,26 @@ export function EscrowPanel() {
   }
 
   const lastPayout = data.items.find((i) => i.payout)?.payout
-  const tiles = [
-    { label: t('escrow.heldOnCards'), value: data.summary.authorized, hint: t('escrow.heldOnCardsHint') },
-    { label: t('escrow.inEscrow'), value: data.summary.inEscrow, hint: t('escrow.inEscrowHint') },
+  const amount = (value: number) => <CountUp value={value} format={formatPkr} />
+  const steps: FlowStep[] = [
     {
+      key: 'held',
+      label: t('escrow.heldOnCards'),
+      amount: amount(data.summary.authorized),
+      hint: t('escrow.heldOnCardsHint'),
+    },
+    {
+      key: 'escrow',
+      label: t('escrow.inEscrow'),
+      amount: amount(data.summary.inEscrow),
+      hint: t('escrow.inEscrowHint'),
+    },
+    {
+      key: 'paid',
       label: t('escrow.paidOut'),
-      value: data.summary.released,
+      amount: amount(data.summary.released),
       hint: t('escrow.paidOutHint', { pct: data.summary.platformFeePct }),
+      final: true,
     },
   ]
 
@@ -45,19 +60,7 @@ export function EscrowPanel() {
           {t('escrow.title')}
         </h2>
       </div>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {tiles.map((tile) => (
-          <div key={tile.label} className="rounded-lg bg-[var(--color-bg)] p-3">
-            <div className="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
-              {tile.label}
-            </div>
-            <div className="mt-1 text-lg font-bold tabular-nums text-[var(--color-text)]">
-              {formatPkr(tile.value)}
-            </div>
-            <div className="mt-0.5 text-xs text-[var(--color-text-secondary)]">{tile.hint}</div>
-          </div>
-        ))}
-      </div>
+      <EscrowFlow steps={steps} />
       <div className="mt-3 flex flex-col gap-1 text-sm text-[var(--color-text-secondary)]">
         {data.payoutAccount ? (
           <span className="inline-flex items-center gap-1.5">

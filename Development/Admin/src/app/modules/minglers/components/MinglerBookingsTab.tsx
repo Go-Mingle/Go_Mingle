@@ -1,8 +1,9 @@
+import { LoadingState } from '../../../molecules/LoadingState'
 import { useState } from 'react'
 import { withFixedEnds } from '../../../molecules/withFixedEnds'
 import type { ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Table, Pagination, Modal, Flex, Row, Col, Grid, Spin, Alert, Tooltip, message } from 'antd'
+import { Table, Pagination, Modal, Flex, Row, Col, Grid, Alert, Tooltip, message } from 'antd'
 import type { ColumnsType, TableProps } from 'antd/es/table'
 import { useTranslation } from 'react-i18next'
 import { XCircle } from '@phosphor-icons/react'
@@ -56,7 +57,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
     isActive,
   )
 
-  if (isPending) return <Spin className="flex justify-center mt-20" />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
   const bookings = data.items

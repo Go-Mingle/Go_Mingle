@@ -1,4 +1,5 @@
 import type { Icon } from '@phosphor-icons/react'
+import { TablePlate } from '../../../visual/SeatMap'
 
 interface Props {
   /** Phosphor icon component shown in the circle. */
@@ -12,7 +13,7 @@ interface Props {
 }
 
 /**
- * Consistent empty state for detail tabs — an icon in a tinted circle, a short
+ * Consistent empty state for detail tabs — the section's icon on an empty table with its seats waiting, a short
  * title, a friendly description, and an optional action. Matches the setup /
  * feature-gate empty states so first-time partners get a clear, inviting prompt
  * to fill each section rather than a bare "no data" line.
@@ -24,8 +25,10 @@ export function TabEmptyState({ IconComp, title, description, action, compact }:
         compact ? 'py-8' : 'py-16'
       }`}
     >
-      <div className="w-14 h-14 rounded-full bg-[var(--color-accent-light)] flex items-center justify-center mb-4">
-        <IconComp size={26} className="text-[var(--color-accent)]" />
+      <div className="mb-4">
+        <TablePlate size={compact ? 84 : 104}>
+          <IconComp size={compact ? 22 : 26} />
+        </TablePlate>
       </div>
       <h3 className="text-[16px] font-bold text-[var(--color-text)] m-0 font-[var(--font-display)]">
         {title}

@@ -99,7 +99,7 @@ const TimerSettingsPage = lazy(() =>
     default: m.TimerSettingsPage,
   })),
 )
-const Fallback = () => <LoadingState label="Loading…" minHeight={256} />
+const Fallback = () => <LoadingState label="Loading…" />
 
 const wrap = (el: React.JSX.Element) => <Suspense fallback={<Fallback />}>{el}</Suspense>
 

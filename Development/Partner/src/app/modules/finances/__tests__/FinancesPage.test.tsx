@@ -56,7 +56,7 @@ beforeEach(() => {
 describe('FinancesPage states', () => {
   it('spins while the ledger loads', () => {
     const { container } = renderWithProviders(<FinancesPage />)
-    expect(container.querySelector('.ant-spin')).toBeInTheDocument()
+    expect(container.querySelector('.gm-skeleton')).toBeInTheDocument()
   })
 
   it('shows the backend message when the ledger fails', async () => {

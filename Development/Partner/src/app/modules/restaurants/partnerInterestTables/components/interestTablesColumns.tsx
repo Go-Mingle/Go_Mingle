@@ -2,6 +2,7 @@
 // A columns factory that also defines its own cell components — the same shape as
 // `ReviewsTableColumns.tsx`, which carries this disable for the same reason. The rule
 // is about HMR granularity, not correctness.
+import { SeatMap } from '../../../../visual/SeatMap'
 import { LifecycleBadge } from '../../../../visual/LifecycleBadge'
 import type { ColumnsType } from 'antd/es/table'
 import type { useTranslation } from 'react-i18next'
@@ -87,7 +88,8 @@ export function buildInterestTablesColumns({
       title: t('restaurants:partnerInterestTables.columns.seats'),
       key: 'seats',
       render: (_value, row) => (
-        <span className="whitespace-nowrap text-[13px] text-[var(--color-text-secondary)]">
+        <span className="inline-flex items-center gap-2 whitespace-nowrap text-[13px] text-[var(--color-text-secondary)]">
+          <SeatMap booked={row.seatsBooked} total={row.maxGuests} size={30} center={null} />
           {displaySeats(row.seatsBooked, row.maxGuests)}
         </span>
       ),

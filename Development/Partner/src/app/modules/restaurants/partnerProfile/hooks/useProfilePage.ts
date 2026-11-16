@@ -1,3 +1,4 @@
+import { celebrate } from '../../../../visual/celebrate'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getApiErrorMessage } from '../../../../../shared/utils/apiError'
@@ -155,6 +156,7 @@ export function useProfilePage({ showSuccess, showError, showErrorText }: Profil
     submitProfile.mutate(undefined, {
       onSuccess: (result) => {
         setSubmittedMessage(result.message)
+        celebrate()
       },
       onError: (cause) => {
         // All three blockers arrive together; render them all rather than

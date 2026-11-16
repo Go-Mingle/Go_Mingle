@@ -1,5 +1,6 @@
 import { Info, WarningCircle, Clock } from '@phosphor-icons/react'
 import { Trans, useTranslation } from 'react-i18next'
+import { ProgressRing } from '../../../../visual/ProgressRing'
 import { displayProfileDate } from '../format'
 import type {
   ProfileRejection,
@@ -17,11 +18,36 @@ const WARN_BANNER = `${BANNER_BASE} bg-[var(--color-warning-bg)] border border-[
  * Draft guidance (AC-01.2) — states plainly that only Overview gates submission,
  * so a partner does not think every tab must be filled first.
  */
-export function DraftBanner() {
+export function DraftBanner({ readiness }: { readiness?: SubmissionReadiness }) {
+  const { t } = useTranslation('restaurants')
+  // The three things approval needs: the Overview details, a payout account, a cover photo.
+  const steps = readiness
+    ? [readiness.missingFields.length === 0, readiness.payoutConfigured, readiness.hasCoverPhoto]
+    : null
+  const done = steps ? steps.filter(Boolean).length : 0
   return (
-    <div className={INFO_BANNER}>
-      <Info size={18} weight="fill" className="shrink-0 mt-px" />
+    <div className={`${INFO_BANNER} items-center`}>
+      {steps ? (
+        <ProgressRing
+          value={done}
+          max={steps.length}
+          size={52}
+          label={t('profile.banners.progress', { done, total: steps.length })}
+        >
+          {done}/{steps.length}
+        </ProgressRing>
+      ) : (
+        <Info size={18} weight="fill" className="shrink-0 mt-px" />
+      )}
       <div className="text-[13px] leading-relaxed">
+        {steps && (
+          <div className="font-semibold">
+            {t(done === steps.length ? 'profile.banners.progressReady' : 'profile.banners.progress', {
+              done,
+              total: steps.length,
+            })}
+          </div>
+        )}
         {/* `Trans` rather than `t`, so the two phrases the partner has to act on
             can carry weight without splitting the sentence into fragments — which
             would leave a translator reordering words they cannot see together. */}
@@ -147,7 +173,7 @@ export function ProfileBanners({ status, rejections, blockers, readiness }: Prof
     <>
       {status === 'REJECTED' && <RejectionHistory rejections={rejections} />}
       {status === 'PENDING' && <PendingBanner />}
-      {editableDraft && <DraftBanner />}
+      {editableDraft && <DraftBanner readiness={readiness} />}
       {blockers ? <SubmitBlockers blockers={blockers} /> : <SubmitBlockers blockers={checklist} checklist />}
     </>
   )

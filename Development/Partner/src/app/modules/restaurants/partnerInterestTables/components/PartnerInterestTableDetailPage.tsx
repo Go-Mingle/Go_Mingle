@@ -1,4 +1,5 @@
-import { Alert, Grid, Select, Spin, Tabs } from 'antd'
+import { PageSkeleton } from '../../../../visual/PageSkeleton'
+import { Alert, Grid, Select, Tabs } from 'antd'
 import type { TabsProps } from 'antd'
 import { CalendarBlank } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
@@ -37,9 +38,7 @@ export function PartnerInterestTableDetailPage() {
 
   if (c.isPending) {
     return (
-      <div className="flex justify-center py-24">
-        <Spin />
-      </div>
+      <PageSkeleton variant="detail" />
     )
   }
 

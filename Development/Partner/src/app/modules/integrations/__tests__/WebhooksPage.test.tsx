@@ -40,7 +40,7 @@ beforeEach(() => {
 describe('WebhooksPage states', () => {
   it('spins while the config loads', () => {
     const { container } = renderWithProviders(<WebhooksPage />)
-    expect(container.querySelector('.ant-spin')).toBeInTheDocument()
+    expect(container.querySelector('.gm-skeleton')).toBeInTheDocument()
   })
 
   it('shows the backend message when the config fails to load', async () => {

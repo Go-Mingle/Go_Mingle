@@ -1,5 +1,9 @@
+import { celebrate } from '../../visual/celebrate'
+import { PageSkeleton } from '../../visual/PageSkeleton'
+import { CountUp } from '../../visual/CountUp'
+import { EscrowFlow, type FlowStep } from '../../visual/EscrowFlow'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Alert, Select, Spin, Table, Tag, Tooltip, message } from 'antd'
+import { Alert, Select, Table, Tag, Tooltip, message } from 'antd'
 import type { TableProps } from 'antd/es/table'
 import { ArrowLeft, Plus } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
@@ -45,29 +49,57 @@ function errorMessage(err: unknown, fallback: string): string {
 
 function SummaryCards({ summary }: { summary: EscrowSummary }) {
   const { t } = useTranslation('finances')
-  const cards: { key: keyof EscrowSummary; hint: string }[] = [
-    { key: 'authorized', hint: t('escrow.summaryHint.authorized') },
-    { key: 'inEscrow', hint: t('escrow.summaryHint.inEscrow') },
-    { key: 'released', hint: t('escrow.summaryHint.released') },
-    { key: 'refunded', hint: t('escrow.summaryHint.refunded') },
+  const amount = (value: number) => <CountUp value={value} format={formatPkr} />
+  // The path a payment takes, left to right.
+  const steps: FlowStep[] = [
     {
-      key: 'platformFees',
-      hint: t('escrow.summaryHint.platformFees', { pct: summary.platformFeePct }),
+      key: 'authorized',
+      label: t('escrow.summary.authorized'),
+      amount: amount(summary.authorized),
+      hint: t('escrow.summaryHint.authorized'),
+    },
+    {
+      key: 'inEscrow',
+      label: t('escrow.summary.inEscrow'),
+      amount: amount(summary.inEscrow),
+      hint: t('escrow.summaryHint.inEscrow'),
+    },
+    {
+      key: 'released',
+      label: t('escrow.summary.released'),
+      amount: amount(summary.released),
+      hint: t('escrow.summaryHint.released'),
+      final: true,
     },
   ]
+  // What left the path: money given back, and GoMingle's share.
+  const aside = [
+    { key: 'refunded', value: summary.refunded, hint: t('escrow.summaryHint.refunded') },
+    {
+      key: 'platformFees',
+      value: summary.platformFees,
+      hint: t('escrow.summaryHint.platformFees', { pct: summary.platformFeePct }),
+    },
+  ] as const
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
-      {cards.map(({ key, hint }) => (
-        <div key={key} className="rounded-xl border border-(--color-border) bg-(--color-card) p-4">
-          <div className="text-xs font-semibold uppercase tracking-wider text-(--color-text-muted)">
-            {t(`escrow.summary.${key}`)}
+    <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-3 mb-6">
+      <EscrowFlow steps={steps} />
+      <div className="grid grid-cols-2 gap-3">
+        {aside.map(({ key, value, hint }) => (
+          <div
+            key={key}
+            className="rounded-(--radius-lg) border border-(--color-border) bg-(--color-card) px-4 py-3.5"
+          >
+            <div className="text-[12px] font-semibold text-(--color-text-secondary)">
+              {t(`escrow.summary.${key}`)}
+            </div>
+            <div className="text-[20px] font-bold text-(--color-text) leading-tight mt-1 tabular-nums whitespace-nowrap">
+              {amount(value)}
+            </div>
+            <div className="text-[12px] text-(--color-text-muted) mt-1">{hint}</div>
           </div>
-          <div className="text-xl font-bold text-(--color-text) mt-1 tabular-nums">
-            {formatPkr(summary[key] as number)}
-          </div>
-          <div className="text-xs text-(--color-text-muted) mt-1">{hint}</div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
@@ -116,6 +148,8 @@ export function EscrowPage() {
         onSuccess: () => {
           setPending(null)
           void message.success(t(`escrow.done.${action}`, { ref: item.bookingRef }))
+          // A payout reaching a restaurant is the moment the whole flow exists for.
+          if (action === 'release') celebrate()
         },
         onError: (err) => void message.error(errorMessage(err, t('escrow.actionFailed'))),
       },
@@ -288,11 +322,7 @@ export function EscrowPage() {
         </AppButton>
       </div>
 
-      {query.isLoading && (
-        <div className="flex justify-center py-16">
-          <Spin />
-        </div>
-      )}
+      {query.isLoading && <PageSkeleton variant="table" />}
       {query.isError && <Alert type="error" showIcon message={t('escrow.loadFailed')} />}
 
       {data && (
