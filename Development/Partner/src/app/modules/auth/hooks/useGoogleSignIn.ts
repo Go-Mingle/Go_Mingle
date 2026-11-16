@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAppDispatch } from '../../../../shared/store/hooks'
 import { loginAction } from '../../../../shared/store/authSlice'
-import { apiAuthProvider, signInWithGoogle } from '../../../../shared/auth/apiAuthProvider'
+import {
+  apiAuthProvider,
+  signInWithGoogle,
+  type GoogleIntent,
+} from '../../../../shared/auth/apiAuthProvider'
 import { getAuthProvider } from '../../../../shared/auth/authProvider'
 import { AuthError } from '../../../../shared/auth/authError'
 import { ENV } from '../../../../configs/env'
@@ -28,10 +32,12 @@ const initials = (name: string) =>
 
 /**
  * "Continue with Google" for sign-in and sign-up. An existing partner lands in
- * the portal like a password sign-in; a new one lands on profile setup with
- * their account and Draft restaurant already created.
+ * the portal like a password sign-in. From the sign-up page, an email GoMingle
+ * has not seen gets a new account and lands on profile setup; from the sign-in
+ * page it is told there is no account for that email, so a wrong Google account
+ * can never quietly open a second, empty restaurant.
  */
-export function useGoogleSignIn() {
+export function useGoogleSignIn(intent: GoogleIntent = 'signin') {
   const { t } = useTranslation(['auth', 'common'])
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -49,6 +55,12 @@ export function useGoogleSignIn() {
           return t('google.adminEmail')
         case 'GOOGLE_REJECTED':
           return t('google.rejected')
+        case 'GOOGLE_NO_ACCOUNT':
+          return err.message && err.message !== err.code
+            ? t('google.noAccount', { email: err.message })
+            : t('google.noAccountGeneric')
+        case 'OWNER_OF_SEVERAL':
+          return t('google.ownerOfSeveral')
         case 'GOOGLE_UNAVAILABLE':
           return t('google.unavailable')
         case 'NETWORK':
@@ -65,7 +77,7 @@ export function useGoogleSignIn() {
       setError('')
       setLoading(true)
       try {
-        const { user, isNew, route } = await signInWithGoogle(credential)
+        const { user, isNew, route } = await signInWithGoogle(credential, intent)
         // A new identity starts on an empty cache (see useLoginForm, MET-1305).
         queryClient.clear()
         recordLoginQuietly()
@@ -87,7 +99,7 @@ export function useGoogleSignIn() {
         setLoading(false)
       }
     },
-    [dispatch, messageFor, navigate, queryClient],
+    [dispatch, intent, messageFor, navigate, queryClient],
   )
 
   const reportUnavailable = useCallback(() => setError(t('google.unavailable')), [t])

@@ -106,8 +106,33 @@ describe('GoogleSignInButton', () => {
     expect(await screen.findByText('Profile setup')).toBeInTheDocument()
   })
 
+  it.each(['signin', 'signup'] as const)(
+    'tells the API the %s button was used, and names the email with no account',
+    async (context) => {
+      let sent: unknown
+      server.use(
+        http.post('/api/v1/partner/auth/google', async ({ request }) => {
+          sent = await request.json()
+          return HttpResponse.json(
+            { error: { code: 'GOOGLE_NO_ACCOUNT', details: { email: 'other@gmail.com' } } },
+            { status: 404 },
+          )
+        }),
+      )
+      renderAt(context)
+      await waitFor(() => expect(credentialCallback).not.toBeNull())
+      act(() => credentialCallback!({ credential: 'tok' }))
+      expect(await screen.findByRole('alert')).toHaveTextContent(
+        /no GoMingle partner account for other@gmail.com/,
+      )
+      expect(sent).toEqual({ credential: 'tok', intent: context })
+    },
+  )
+
   it.each([
     [409, 'ERR_ALREADY_REGISTERED', /admin account/],
+    [409, 'ERR_OWNER_OF_SEVERAL', /more than one restaurant/],
+    [404, 'GOOGLE_NO_ACCOUNT', /no GoMingle partner account for this Google account/],
     [401, 'GOOGLE_TOKEN_INVALID', /couldn't confirm your account/],
     [503, 'GOOGLE_SIGN_IN_OFF', /isn't available right now/],
     [403, 'PRE_AUTH_REJECTED', /locked for a while/],

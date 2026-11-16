@@ -10,7 +10,8 @@ import { resolvePartner } from './partner.guard'
 import { config } from '../../config'
 import { verifyGoogleCredential } from '../../auth/google'
 import { AccountDirectory } from '../../shared/accounts/account-directory.service'
-import { newRestaurantId, routeFor, RestaurantsService } from '../../shared/restaurants/restaurants.service'
+import { OwnerAccessService } from '../../shared/accounts/owner-access.service'
+import { routeFor, RestaurantsService } from '../../shared/restaurants/restaurants.service'
 
 function lockMessage(ms: number) {
   const minutes = Math.max(1, Math.ceil(ms / 60_000))
@@ -28,6 +29,7 @@ export class PartnerAuthController {
     private readonly codes: CodesService,
     private readonly restaurants: RestaurantsService,
     private readonly directory: AccountDirectory,
+    private readonly ownerAccess: OwnerAccessService,
   ) {}
 
   issue(user: PartnerUser) {
@@ -49,18 +51,23 @@ export class PartnerAuthController {
     }
     if (user.status !== 'ACTIVE') throw apiError(403, 'PRE_AUTH_REJECTED', 'This account is suspended. Contact GoMingle support.')
     await this.accounts.recordSuccess(user)
-    return { ...(await this.issue(user)), user: identity(user) }
+    const settled = await this.ownerAccess.settle(user)
+    return { ...(await this.issue(settled)), user: identity(settled) }
   }
 
   /**
    * Sign in, or sign up, with Google. The body carries the ID token Google
-   * Identity Services gave the portal (`credential`). A partner with that email
-   * is signed in; an unknown email gets a new partner account with its Draft
-   * restaurant, like a completed email sign-up (Google has verified the email).
+   * Identity Services gave the portal (`credential`) and which button was used
+   * (`intent`: `signin` or `signup`).
+   *
+   * - A partner with that email is signed in to their own restaurant.
+   * - An email a restaurant names as its owner joins that restaurant.
+   * - Any other email gets a new account with a Draft restaurant, but only
+   *   from the sign-up button: the sign-in button never opens a new account.
    */
   @Post('google')
   @HttpCode(200)
-  async google(@Body() body: { credential?: unknown }) {
+  async google(@Body() body: { credential?: unknown; intent?: unknown }) {
     if (!config.googleClientId) throw apiError(503, 'GOOGLE_SIGN_IN_OFF', 'Sign in with Google is not available right now.')
     const check = await verifyGoogleCredential(body.credential, config.googleClientId).catch(() => null)
     if (!check) throw apiError(503, 'GOOGLE_UNAVAILABLE', 'Google could not be reached. Try again in a moment.')
@@ -76,13 +83,18 @@ export class PartnerAuthController {
       if (user.status !== 'ACTIVE') throw apiError(403, 'PRE_AUTH_REJECTED', 'This account is suspended. Contact GoMingle support.')
       if (!user.googleSub) user = await this.accounts.update(user.id, { googleSub: sub })
       await this.accounts.recordSuccess(user)
+      user = await this.ownerAccess.settle(user)
     } else {
       if (await this.directory.emailInUse(email)) {
         throw apiError(409, 'ERR_ALREADY_REGISTERED', 'This email is used by a GoMingle Admin account and cannot be used for a partner account.')
       }
-      user = await this.accounts.create({ email, fullName: name, restaurantId: newRestaurantId(), isPrimary: true })
+      const place = await this.ownerAccess.restaurantForNewLogin(email)
+      if (!place.joined && body.intent === 'signin') {
+        throw apiError(404, 'GOOGLE_NO_ACCOUNT', `There is no GoMingle partner account for ${email}. Sign up to create one.`, { email })
+      }
+      user = await this.accounts.create({ email, fullName: name, restaurantId: place.restaurantId, isPrimary: place.isPrimary })
       user = await this.accounts.update(user.id, { googleSub: sub })
-      isNew = true
+      isNew = !place.joined
     }
     const restaurant = await this.restaurants.ensure(user.restaurantId)
     return { ...(await this.issue(user)), user: identity(user), isNew, route: routeFor(restaurant.status) }

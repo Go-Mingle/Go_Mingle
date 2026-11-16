@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next'
 import { SectionCard } from './restaurantDetail.utils'
 import { OverviewField } from './components/OverviewField'
 import { LabelTag } from '../../atoms/LabelTag'
+import { PortalAccessCard } from './access/PortalAccessCard'
 
 interface Props {
   restaurant: Record<string, unknown>
@@ -203,6 +204,13 @@ export function RestaurantOverviewTab({ restaurant }: Props) {
       </SectionCard>
 
       {/* ── House Rules / Dress Code ───────────────────────── */}
+      {typeof restaurant.id === 'string' && (
+        <PortalAccessCard
+          restaurantId={restaurant.id}
+          restaurantName={typeof restaurant.name === 'string' ? restaurant.name : ''}
+        />
+      )}
+
       <SectionCard title={t('overview.houseRules')}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: '0 16px' }}>
           <OverviewField

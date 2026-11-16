@@ -14,6 +14,7 @@ export type TemplateRow = typeof emailTemplates.$inferSelect
 const links = (): Record<string, string> => ({
   partnerPortalUrl: config.partnerPortalUrl,
   adminPortalUrl: config.adminPortalUrl,
+  partnerSignupUrl: `${config.partnerPortalUrl}/signup`,
   approvalUrl: `${config.adminPortalUrl}/approval-queue`,
 })
 
