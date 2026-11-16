@@ -1,13 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import {
-  bookingStatusVariant,
   displayAvailabilityMode,
   displayBill,
   displayDate,
   displayDuration,
   displaySeats,
   displayTime,
-  interestTableStatusVariant,
   inviteStatusVariant,
   minglerStatusVariant,
   preferenceAnswers,
@@ -124,26 +122,7 @@ describe('displayAvailabilityMode', () => {
   })
 })
 
-describe('status → StatusBadge variant', () => {
-  it.each([
-    ['PENDING', 'pending'],
-    ['COMING_SOON', 'coming-soon'],
-    ['CONFIRMED', 'confirmed'],
-    ['COMPLETED', 'completed'],
-    ['CANCELLED', 'cancelled'],
-  ] as const)('maps interest table %s to %s', (status, variant) => {
-    expect(interestTableStatusVariant(status)).toBe(variant)
-  })
-
-  it.each([
-    ['PENDING', 'pending'],
-    ['CONFIRMED', 'confirmed'],
-    ['COMPLETED', 'completed'],
-    ['CANCELLED', 'cancelled'],
-  ] as const)('maps booking %s to %s', (status, variant) => {
-    expect(bookingStatusVariant(status)).toBe(variant)
-  })
-
+describe('invite status → StatusBadge variant', () => {
   it.each([
     ['INVITED', 'invited'],
     ['TABLE_BOOKED', 'table-booked'],
@@ -154,8 +133,6 @@ describe('status → StatusBadge variant', () => {
 
   it('falls back rather than yielding an unknown variant', () => {
     // Guards against a new server-side status crashing the badge.
-    expect(interestTableStatusVariant('SOMETHING_NEW' as never)).toBe('pending')
-    expect(bookingStatusVariant('SOMETHING_NEW' as never)).toBe('pending')
     expect(inviteStatusVariant('SOMETHING_NEW' as never)).toBe('invited')
   })
 })

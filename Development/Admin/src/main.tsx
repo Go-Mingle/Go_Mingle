@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/index.css'
+import './styles/visual.css'
 import { App } from './app/App'
 import { isMocksEnabled } from './shared/api/mocksEnabled'
 import { initSessionChannel } from './shared/api/sessionManager'
