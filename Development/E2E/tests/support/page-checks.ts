@@ -44,7 +44,7 @@ export function watch(page: Page, allow4xx: RegExp[] = []): PageWatch {
   return w
 }
 
-/** Waits for the page to settle: network quiet and no loading spinners. */
+/** Waits for the page to settle: network quiet, nothing loading, and no figure still counting up. */
 export async function settle(page: Page) {
   await page.waitForLoadState('networkidle', { timeout: 20_000 }).catch(() => undefined)
   await page
@@ -52,6 +52,7 @@ export async function settle(page: Page) {
     .first()
     .waitFor({ state: 'detached', timeout: 15_000 })
     .catch(() => undefined)
+  await expect(page.locator('[data-counting]')).toHaveCount(0, { timeout: 5_000 })
 }
 
 /**

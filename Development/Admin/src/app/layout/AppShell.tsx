@@ -1,13 +1,17 @@
-import { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import { Sidebar } from './Sidebar'
 import { Topbar } from './Topbar'
 import { useAppSelector, useAppDispatch } from '../../shared/store/hooks'
 import { closeDrawer } from '../../shared/store/uiSlice'
+import { usePageEnter } from '../visual/motion'
 
 export function AppShell() {
   const dispatch = useAppDispatch()
   const drawerOpen = useAppSelector((s) => s.ui.drawerOpen)
+  // Each page fades up as it arrives; nothing inside it is remounted.
+  const page = useRef<HTMLDivElement>(null)
+  usePageEnter(page, useLocation().pathname)
 
   // Close drawer on Escape key
   useEffect(() => {
@@ -54,7 +58,9 @@ export function AppShell() {
       <div className="flex flex-col flex-1 min-w-0">
         <Topbar />
         <main className="flex-1 overflow-y-auto p-8 lg:p-6 md:p-4">
-          <Outlet />
+          <div ref={page}>
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

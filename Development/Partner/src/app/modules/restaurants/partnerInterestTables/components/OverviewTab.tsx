@@ -1,3 +1,4 @@
+import { SeatMap } from '../../../../visual/SeatMap'
 import {
   CalendarBlank,
   Clock,
@@ -59,7 +60,19 @@ export function OverviewTab({ table }: { table: InterestTableDetail }) {
         {field('duration', Timer, displayDuration(table.durationMinutes))}
         {field('minGuests', UsersThree, String(table.minGuests))}
         {field('maxGuests', UsersThree, String(table.maxGuests))}
-        {field('seatsLeft', Armchair, String(table.seatsLeft))}
+        {field(
+          'seatsLeft',
+          Armchair,
+          <span className="inline-flex items-center gap-2">
+            <SeatMap
+              booked={table.maxGuests - table.seatsLeft}
+              total={table.maxGuests}
+              size={30}
+              center={null}
+            />
+            {String(table.seatsLeft)}
+          </span>,
+        )}
         {field('availability', Hourglass, displayAvailabilityMode(table.availabilityMode))}
         {field(
           'inviteOnly',

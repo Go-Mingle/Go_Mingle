@@ -1,38 +1,18 @@
-import { Spin } from 'antd'
+import { PageSkeleton } from '../visual/PageSkeleton'
 
 interface LoadingStateProps {
-  /** Optional text shown under the spinner. */
+  /** What a screen reader hears while the page loads. */
   label?: string
-  /** Min height of the centering container (default 240). */
-  minHeight?: number | string
+  /** The shape of the page on its way: a record's detail (default) or a list. */
+  variant?: 'detail' | 'table'
   className?: string
 }
 
 /**
- * Shared loading indicator — a centered spinner with an optional label.
- * Use for route/data loading so loading states are consistent across the app.
- * Announces politely to assistive tech via role="status".
+ * Shared loading state for routes and pages: a soft grey outline of the page
+ * that is on its way, so nothing jumps when the data arrives. Announces
+ * politely to assistive tech via role="status".
  */
-export function LoadingState({ label, minHeight = 240, className }: LoadingStateProps) {
-  return (
-    <div
-      className={className}
-      role="status"
-      aria-live="polite"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 12,
-        minHeight,
-        color: 'var(--color-text-muted)',
-        fontFamily: 'var(--font-ui)',
-        fontSize: 13,
-      }}
-    >
-      <Spin />
-      {label && <span>{label}</span>}
-    </div>
-  )
+export function LoadingState({ label = 'Loading', variant = 'detail', className }: LoadingStateProps) {
+  return <PageSkeleton variant={variant} label={label} className={className} />
 }

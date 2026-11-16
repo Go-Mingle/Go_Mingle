@@ -167,7 +167,7 @@ export function InterestTablesPage() {
     return (
       <>
         {contextHolder}
-        <LoadingState />
+        <LoadingState variant="table" />
       </>
     )
   // Only when the very first load failed — otherwise the toast plus the retained

@@ -312,10 +312,11 @@ describe('InvitedTab — the per-row cancel cell', () => {
     expect(await screen.findByText('No invites sent yet')).toBeInTheDocument()
   })
 
-  it('spins while the invitees load', () => {
+  it('shows a loading state while the invitees load', () => {
     renderDetail('it-1', 'invited')
 
-    expect(document.querySelector('.ant-spin')).toBeInTheDocument()
+    // The page outline first, then the tab's own spinner.
+    expect(document.querySelector('.gm-skeleton, .ant-spin')).toBeInTheDocument()
   })
 })
 

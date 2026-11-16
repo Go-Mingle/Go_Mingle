@@ -619,7 +619,9 @@
     "banners": {
       "draft": "Only the <b>Overview</b> Section and Your <b>Payout Info</b> is required for approval. You can provide the remaining information either now or after approval.",
       "pending": "Your application is under review. Your profile is read-only until a decision is made.",
-      "rejectedTitle": "Application declined"
+      "rejectedTitle": "Application declined",
+      "progress": "{{done}} of {{total}} steps done before you can send for approval",
+      "progressReady": "All {{total}} steps done. You can send your profile for approval."
     },
     "blockers": {
       "title": "Your application can't be submitted yet",

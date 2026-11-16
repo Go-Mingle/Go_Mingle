@@ -1,5 +1,6 @@
+import { LoadingState } from '../../../molecules/LoadingState'
 import { useState } from 'react'
-import { Modal, message, Spin, Alert } from 'antd'
+import { Modal, message, Alert } from 'antd'
 import { Check, CreditCard } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { SecondaryActionButton, PrimaryActionButton } from '../../../atoms/ModalActions'
@@ -24,7 +25,7 @@ export function MinglerPaymentsTab({ minglerId, minglerName, isActive }: Mingler
   const { data, isPending, isError } = useMinglerPaymentMethodsQuery(minglerId, isActive)
   const setDefaultMutation = useSetDefaultPaymentMethodMutation()
 
-  if (isPending) return <Spin className="flex justify-center mt-20" />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
   const paymentMethods = data.items

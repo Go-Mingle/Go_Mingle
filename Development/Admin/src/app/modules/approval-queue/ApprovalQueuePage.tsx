@@ -1,6 +1,8 @@
+import { celebrate } from '../../visual/celebrate'
+import { LoadingState } from '../../molecules/LoadingState'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Spin, Alert, message, Tabs, Flex } from 'antd'
+import { Alert, message, Tabs, Flex } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useQueryClient } from '@tanstack/react-query'
 import { useActiveCategoriesQuery } from '../categories/hooks/useCategoriesQuery'
@@ -87,6 +89,7 @@ export function ApprovalQueuePage() {
         onSuccess: () => {
           closeApproveModal()
           void messageApi.success(t('messages.approved', { name: record.name }))
+          celebrate()
         },
         onError: (err) => handleActionError(err, closeApproveModal),
       },
@@ -115,7 +118,7 @@ export function ApprovalQueuePage() {
     label: c.name,
   }))
 
-  if (activeQuery.isLoading) return <Spin className="flex justify-center mt-20" />
+  if (activeQuery.isLoading) return <LoadingState variant="table" />
   if (activeQuery.isError)
     return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 

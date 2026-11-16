@@ -1,5 +1,6 @@
+import { LoadingState } from '../../../molecules/LoadingState'
 import { useTranslation } from 'react-i18next'
-import { Grid, Spin, Alert } from 'antd'
+import { Grid, Alert } from 'antd'
 import { ForkKnife } from '@phosphor-icons/react'
 import { OverviewField } from './OverviewField'
 import { useMinglerEatingPreferencesQuery } from '../hooks/useMinglersQuery'
@@ -54,7 +55,7 @@ export function MinglerEatingPreferencesTab({
   const isMobile = !screens.md
   const { data, isPending, isError } = useMinglerEatingPreferencesQuery(minglerId, isActive)
 
-  if (isPending) return <Spin className="flex justify-center mt-20" />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
   const items = data.items

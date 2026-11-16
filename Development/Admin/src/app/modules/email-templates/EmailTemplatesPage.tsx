@@ -130,7 +130,7 @@ export function EmailTemplatesPage() {
     [editingKey, previewAsync],
   )
 
-  if (isPending) return <LoadingState />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('messages.loadError')} className="m-4" />
 
   const templatesTab = (

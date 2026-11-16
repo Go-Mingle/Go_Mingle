@@ -42,6 +42,8 @@ import { ApprovalsController } from './admin/restaurants/approvals.controller'
 import { RestaurantsController } from './admin/restaurants/restaurants.controller'
 import { RestaurantAccessController } from './admin/restaurants/restaurant-access.controller'
 import { OwnerAccessService } from './shared/accounts/owner-access.service'
+import { InsightsService } from './shared/insights/insights.service'
+import { PartnerDashboardController } from './partner/dashboard.controller'
 import { PartnerAmenitiesController } from './partner/amenities/amenities.controller'
 import { CountersService } from './shared/counters.service'
 import { TablesController } from './partner/venue/tables.controller'
@@ -136,6 +138,7 @@ class RootController {
     ProfileController,
     ApprovalsController,
     RestaurantAccessController,
+    PartnerDashboardController,
     RestaurantsController,
     AssetsController,
     EmailTemplatesController,
@@ -145,6 +148,7 @@ class RootController {
     CodesService,
     AccountDirectory,
     OwnerAccessService,
+    InsightsService,
     ChangeLogService,
     UsageService,
     AuditInterceptor,

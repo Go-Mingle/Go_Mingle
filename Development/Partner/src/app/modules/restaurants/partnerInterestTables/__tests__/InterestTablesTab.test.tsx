@@ -98,7 +98,7 @@ describe('InterestTablesTab — states', () => {
   it('spins while the grid loads', () => {
     const { container } = renderTab({ isPending: true })
 
-    expect(container.querySelector('.ant-spin')).toBeInTheDocument()
+    expect(container.querySelector('.gm-skeleton')).toBeInTheDocument()
   })
 
   it("shows the backend's own message on failure", () => {

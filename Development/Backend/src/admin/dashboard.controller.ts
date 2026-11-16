@@ -1,4 +1,6 @@
 import { Controller, Get, UseGuards } from '@nestjs/common'
+import { Query } from '../common/http'
+import { InsightsService } from '../shared/insights/insights.service'
 import { EscrowService } from '../shared/payments/escrow.service'
 import { AdminGuard } from './access/admin.guard'
 import { AdminRestaurantsService } from './restaurants/admin-restaurants.service'
@@ -27,6 +29,7 @@ export class DashboardController {
   constructor(
     private readonly directory: AdminRestaurantsService,
     private readonly escrow: EscrowService,
+    private readonly insights: InsightsService,
   ) {}
 
   private async fees() {
@@ -44,6 +47,28 @@ export class DashboardController {
       penalties: sum(released.filter((r) => r.penalty)),
       last30: within(30, 0),
       previous30: within(60, 30),
+    }
+  }
+
+  /**
+   * Everything the Admin Panel dashboard draws, for the last 7, 30 or 90 days:
+   * bookings and money per day, how bookings turned out, upcoming tables, the
+   * restaurants taking the most, and the restaurant counts.
+   */
+  @Get('overview')
+  async overview(@Query() q: Record<string, string>) {
+    const restaurants = await this.directory.all()
+    const data = await this.insights.overview({ days: Number(q.days) })
+    return {
+      success: true,
+      data: {
+        ...data,
+        restaurants: {
+          active: restaurants.filter((r) => r.status === 'ACTIVE' && !r.suspended).length,
+          suspended: restaurants.filter((r) => r.status === 'ACTIVE' && r.suspended).length,
+          pendingApproval: restaurants.filter((r) => r.status === 'PENDING').length,
+        },
+      },
     }
   }
 

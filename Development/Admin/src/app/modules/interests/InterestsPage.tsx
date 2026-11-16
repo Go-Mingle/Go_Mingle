@@ -1,6 +1,7 @@
+import { LoadingState } from '../../molecules/LoadingState'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form, Grid, Spin, Alert, message } from 'antd'
+import { Form, Grid, Alert, message } from 'antd'
 import { Trash, PencilSimple } from '@phosphor-icons/react'
 import { InterestFormModal } from './InterestFormModal'
 import { ConfirmModal } from '../../molecules/ConfirmModal'
@@ -119,7 +120,7 @@ export function InterestsPage() {
     })
   }
 
-  if (isPending) return <Spin className="flex justify-center mt-20" />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
   const startRecord = total === 0 ? 0 : (currentPage - 1) * pageSize + 1

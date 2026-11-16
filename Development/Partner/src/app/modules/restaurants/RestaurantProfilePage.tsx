@@ -1,4 +1,5 @@
-import { Alert, Spin } from 'antd'
+import { PageSkeleton } from '../../visual/PageSkeleton'
+import { Alert } from 'antd'
 import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { getApiErrorMessage } from '../../../shared/utils/apiError'
@@ -84,11 +85,7 @@ export function RestaurantProfilePage() {
   }
 
   if (c.isPending) {
-    return (
-      <div className="flex justify-center py-24">
-        <Spin />
-      </div>
-    )
+    return <PageSkeleton variant="detail" />
   }
 
   if (c.isError || !c.profile) {

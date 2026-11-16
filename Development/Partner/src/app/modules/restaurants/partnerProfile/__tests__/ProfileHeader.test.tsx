@@ -37,6 +37,19 @@ function renderHeader(over: Partial<PartnerRestaurantProfile> = {}) {
   return handlers
 }
 
+describe('ProfileHeader cover banner', () => {
+  it('shows the cover photo as a banner when there is one', () => {
+    renderHeader({ coverPhotoUrl: 'https://cdn.example/cover.jpg' })
+    const banner = screen.getByTestId('cover-banner')
+    expect(banner.querySelector('img')).toHaveAttribute('src', 'https://cdn.example/cover.jpg')
+  })
+
+  it('shows no banner without a cover photo', () => {
+    renderHeader({ coverPhotoUrl: null })
+    expect(screen.queryByTestId('cover-banner')).not.toBeInTheDocument()
+  })
+})
+
 describe('ProfileHeader', () => {
   /**
    * Deliberately absent. BR-04 persists every card as it is saved, so the button

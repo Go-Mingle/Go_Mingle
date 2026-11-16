@@ -1,4 +1,5 @@
 import React from 'react'
+import { TablePlate } from '../../../visual/SeatMap'
 
 interface EmptyStateCardProps {
   title: string
@@ -6,33 +7,17 @@ interface EmptyStateCardProps {
   message: string
 }
 
+/** A titled card saying a section has nothing yet: the section's icon on an empty table. */
 export function EmptyStateCard({ title, IconComp, message }: EmptyStateCardProps) {
   return (
     <div className="pt-5">
-      <div
-        style={{
-          background: 'var(--color-card)',
-          borderRadius: 12,
-          boxShadow: 'var(--shadow-sm)',
-          padding: 24,
-        }}
-      >
-        <h3
-          style={{ margin: '0 0 16px', fontSize: 15, fontWeight: 600, color: 'var(--color-text)' }}
-        >
-          {title}
-        </h3>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '40px 0',
-            gap: 8,
-          }}
-        >
-          <IconComp size={32} color="var(--color-text-subtle)" />
-          <span style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>{message}</span>
+      <div className="bg-[var(--color-card)] rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] p-6">
+        <h3 className="m-0 mb-4 text-[15px] font-semibold text-[var(--color-text)]">{title}</h3>
+        <div className="flex flex-col items-center gap-3 py-8">
+          <TablePlate size={92}>
+            <IconComp size={24} />
+          </TablePlate>
+          <span className="text-[13px] text-[var(--color-text-muted)]">{message}</span>
         </div>
       </div>
     </div>

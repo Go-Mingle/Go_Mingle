@@ -65,7 +65,7 @@ describe('UsersPage list', () => {
 
   it('shows a spinner while the first page loads', () => {
     const { container } = renderWithProviders(<UsersPage />)
-    expect(container.querySelector('.ant-spin')).toBeInTheDocument()
+    expect(container.querySelector('.gm-skeleton')).toBeInTheDocument()
   })
 
   it('shows the backend message when the list fails', async () => {

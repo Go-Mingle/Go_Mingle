@@ -1,6 +1,7 @@
+import { LoadingState } from '../../molecules/LoadingState'
 import { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
-import { Spin, Alert, Form, message, Pagination, Flex, Row, Col, Grid, Modal } from 'antd'
+import { Alert, Form, message, Pagination, Flex, Row, Col, Grid, Modal } from 'antd'
 import { Plus, PencilSimple, Key, Trash } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { HttpError } from '../../../shared/api/httpClient'
@@ -150,7 +151,7 @@ export function UsersPage() {
     }
   }, [editTarget, editForm])
 
-  if (isPending) return <Spin className="flex justify-center mt-20" />
+  if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
   const roleOptions = activeRoles?.items.map((r) => ({ value: r.id, label: r.name })) ?? []

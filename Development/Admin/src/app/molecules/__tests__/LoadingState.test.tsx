@@ -3,27 +3,28 @@ import { render, screen } from '@testing-library/react'
 import { LoadingState } from '../LoadingState'
 
 describe('LoadingState', () => {
-  it('exposes a polite status role for assistive tech', () => {
+  it('exposes a polite, busy status for assistive tech', () => {
     render(<LoadingState />)
     const status = screen.getByRole('status')
     expect(status).toHaveAttribute('aria-live', 'polite')
+    expect(status).toHaveAttribute('aria-busy', 'true')
+    expect(status).toHaveTextContent('Loading')
   })
 
-  it('renders the label when provided', () => {
-    render(<LoadingState label="Loading…" />)
-    expect(screen.getByText('Loading…')).toBeInTheDocument()
+  it('announces the label when provided', () => {
+    render(<LoadingState label="Loading restaurant" />)
+    expect(screen.getByRole('status')).toHaveTextContent('Loading restaurant')
   })
 
-  it('omits the label span when no label is given', () => {
-    render(<LoadingState />)
-    // Only the spinner is present — no extra label text node.
-    expect(screen.queryByText('Loading…')).not.toBeInTheDocument()
+  it('draws a detail outline by default and a table outline on request', () => {
+    const { container, rerender } = render(<LoadingState />)
+    const detailBars = container.querySelectorAll('.gm-skel').length
+    rerender(<LoadingState variant="table" />)
+    expect(container.querySelectorAll('.gm-skel').length).not.toBe(detailBars)
   })
 
-  it('applies a custom class name and min-height', () => {
-    render(<LoadingState className="my-loader" minHeight={300} />)
-    const status = screen.getByRole('status')
-    expect(status).toHaveClass('my-loader')
-    expect(status).toHaveStyle({ minHeight: '300px' })
+  it('applies a custom class name', () => {
+    render(<LoadingState className="my-loader" />)
+    expect(screen.getByRole('status')).toHaveClass('my-loader', 'gm-skeleton')
   })
 })

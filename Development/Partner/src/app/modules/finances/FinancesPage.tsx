@@ -1,6 +1,7 @@
+import { PageSkeleton } from '../../visual/PageSkeleton'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Alert, Table, Select, Pagination, Grid, Spin } from 'antd'
+import { Alert, Table, Select, Pagination, Grid } from 'antd'
 import type { TableProps } from 'antd/es/table'
 import { pinEndColumns } from '../../molecules/tableColumns'
 import { DownloadSimple, MagnifyingGlass, Receipt } from '@phosphor-icons/react'
@@ -237,9 +238,7 @@ export function FinancesPage() {
 
   if (c.isPending) {
     return (
-      <div className="flex justify-center py-24">
-        <Spin />
-      </div>
+      <PageSkeleton variant="table" />
     )
   }
 
