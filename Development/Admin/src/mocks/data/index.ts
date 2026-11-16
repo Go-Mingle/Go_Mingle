@@ -3783,17 +3783,6 @@ export const mockLoyalty: LoyaltyConfigurationData = {
   redeemUpdatedBy: null,
 }
 
-// ── Dashboard bookings chart ──────────────────────────────
-export const mockBookingsChart = [
-  { day: 'Mon', count: 34 },
-  { day: 'Tue', count: 41 },
-  { day: 'Wed', count: 28 },
-  { day: 'Thu', count: 52 },
-  { day: 'Fri', count: 87 },
-  { day: 'Sat', count: 94 },
-  { day: 'Sun', count: 76 },
-]
-
 // ── Mingler bookings ──────────────────────────────────────
 export const mockMinglerBookings = [
   {

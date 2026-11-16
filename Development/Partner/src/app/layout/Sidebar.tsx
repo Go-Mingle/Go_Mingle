@@ -8,6 +8,7 @@ import {
   CaretLeft as ChevronLeft,
   CaretRight as ChevronRight,
   X,
+  ChartLineUp,
 } from '@phosphor-icons/react'
 import { GoMingleLogo } from '../atoms/GoMingleLogo'
 import { useAppSelector, useAppDispatch } from '../../shared/store/hooks'
@@ -36,6 +37,7 @@ export function Sidebar({ forDrawer = false }: SidebarProps) {
         Icon: Storefront,
         path: '/overview',
       },
+      { key: 'dashboard', label: t('nav.dashboard'), Icon: ChartLineUp, path: '/dashboard' },
       { key: 'finances', label: t('nav.finances'), Icon: Wallet, path: '/finances' },
       { key: 'users', label: t('nav.users'), Icon: UserGear, path: '/users' },
       {

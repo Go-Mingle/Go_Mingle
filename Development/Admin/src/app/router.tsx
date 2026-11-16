@@ -75,6 +75,9 @@ const MinglerDetailPage = lazy(() =>
 const EscrowPage = lazy(() =>
   import('./modules/escrow/EscrowPage').then((m) => ({ default: m.EscrowPage })),
 )
+const DashboardPage = lazy(() =>
+  import('./modules/dashboard/DashboardPage').then((m) => ({ default: m.DashboardPage })),
+)
 const FinancesPage = lazy(() =>
   import('./modules/finances/FinancesPage').then((m) => ({ default: m.FinancesPage })),
 )
@@ -119,7 +122,14 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: '/', element: <LandingRedirect /> },
-      { path: '/dashboard', element: <LandingRedirect /> },
+      {
+        path: '/dashboard',
+        element: wrap(
+          <PermissionGuard module="FINANCES">
+            <DashboardPage />
+          </PermissionGuard>,
+        ),
+      },
       {
         path: '/roles-access',
         element: wrap(

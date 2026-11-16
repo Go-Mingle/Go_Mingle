@@ -1,9 +1,7 @@
 import { formatPkr } from '../../finances/financesFormat'
 import type { StatusVariant } from '../../../atoms/StatusBadge'
 import type {
-  BookingStatus,
   EatingPreference,
-  InterestTableStatus,
   InviteStatus,
   ProminglerKind,
 } from './types'
@@ -99,36 +97,6 @@ export function displayAvailabilityMode(mode: string | null | undefined): string
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
-}
-
-/**
- * Interest-table status → `StatusBadge` variant.
- *
- * `COMING_SOON` and `CONFIRMED` are variants this change adds to the shared badge;
- * before J6F the only components rendering them were prototype forks with
- * off-token hex colours.
- */
-const IT_STATUS_VARIANTS: Record<InterestTableStatus, StatusVariant> = {
-  PENDING: 'pending',
-  COMING_SOON: 'coming-soon',
-  CONFIRMED: 'confirmed',
-  COMPLETED: 'completed',
-  CANCELLED: 'cancelled',
-}
-
-export function interestTableStatusVariant(status: InterestTableStatus): StatusVariant {
-  return IT_STATUS_VARIANTS[status] ?? 'pending'
-}
-
-const BOOKING_STATUS_VARIANTS: Record<BookingStatus, StatusVariant> = {
-  PENDING: 'pending',
-  CONFIRMED: 'confirmed',
-  COMPLETED: 'completed',
-  CANCELLED: 'cancelled',
-}
-
-export function bookingStatusVariant(status: BookingStatus): StatusVariant {
-  return BOOKING_STATUS_VARIANTS[status] ?? 'pending'
 }
 
 const INVITE_STATUS_VARIANTS: Record<InviteStatus, StatusVariant> = {

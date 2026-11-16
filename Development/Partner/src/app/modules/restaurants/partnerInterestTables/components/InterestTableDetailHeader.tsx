@@ -1,11 +1,11 @@
+import { LifecycleBadge } from '../../../../visual/LifecycleBadge'
 import { message } from 'antd'
 import { ArrowLeft, CheckCircle, LinkSimple } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { StatusBadge } from '../../../../atoms/StatusBadge'
 import { AppButton } from '../../../../atoms/AppButton'
 import { LabelTag } from '../../../../atoms/LabelTag'
-import { displayDate, displayTime, interestTableStatusVariant } from '../format'
+import { displayDate, displayTime } from '../format'
 import type { InterestTableDetail } from '../types'
 
 /**
@@ -54,7 +54,7 @@ export function InterestTableDetailHeader({
               <h1 className="m-0 truncate text-base font-bold text-[var(--color-text)] md:text-lg">
                 {table.name}
               </h1>
-              <StatusBadge variant={interestTableStatusVariant(table.status)} />
+              <LifecycleBadge status={table.status} />
               {table.inviteOnly && (
                 <LabelTag>{t('restaurants:partnerInterestTables.inviteOnly')}</LabelTag>
               )}
