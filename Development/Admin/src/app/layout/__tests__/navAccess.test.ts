@@ -34,10 +34,9 @@ describe('navAccess.firstAccessiblePath', () => {
   })
 
   it('returns the first path the scoped role can access, in NAV_ACCESS order', () => {
-    // Finance is later in the list than the manage modules; with only FINANCES
-    // granted, it should be the first accessible path.
+    // With only FINANCES granted the first path is the dashboard, which needs it.
     const role = getRoleFromUser({ role: 'Finance', permissions: ['FINANCES'], fullAccess: false })
-    expect(firstAccessiblePath(role)).toBe('/finances')
+    expect(firstAccessiblePath(role)).toBe('/dashboard')
   })
 
   it('honors NAV_ACCESS ordering when multiple modules are granted', () => {

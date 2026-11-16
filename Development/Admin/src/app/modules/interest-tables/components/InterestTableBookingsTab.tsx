@@ -146,7 +146,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
       filters: STATUS_FILTERS.map((s) => ({ text: t(`status.${s}`), value: s.toUpperCase() })),
       filterIcon: funnelIcon,
       onFilter: (value, record) => record.status === value,
-      render: (s: InterestTableBooking['status']) => <InterestTableStatusBadge status={s} />,
+      render: (s: InterestTableBooking['status']) => <InterestTableStatusBadge status={s} kind="booking" />,
     },
   ]
 
@@ -224,7 +224,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
                     <Crown size={15} weight="fill" color="#B06000" style={{ flexShrink: 0 }} />
                   )}
                 </div>
-                <InterestTableStatusBadge status={bk.status} />
+                <InterestTableStatusBadge status={bk.status} kind="booking" />
               </Flex>
 
               <Row gutter={[8, 8]} style={{ marginTop: 12 }}>

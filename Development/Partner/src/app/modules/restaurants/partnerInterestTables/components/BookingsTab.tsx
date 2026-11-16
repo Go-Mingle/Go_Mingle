@@ -1,14 +1,14 @@
+import { LifecycleBadge } from '../../../../visual/LifecycleBadge'
 import { Alert, Grid, Spin, Table, Tooltip } from 'antd'
 import { Receipt, UserMinus, X } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import type { ColumnsType } from 'antd/es/table'
 import { getApiErrorMessage } from '../../../../../shared/utils/apiError'
-import { StatusBadge } from '../../../../atoms/StatusBadge'
 import { CardDetailRow, RESPONSIVE_CARD_CLASS } from '../../../../molecules/CardDetailRow'
 import { ProminglerBadge } from '../../../../molecules/ProminglerBadge'
 import { pinEndColumns } from '../../../../molecules/tableColumns'
 import { TabEmptyState } from '../../components/TabEmptyState'
-import { bookingStatusVariant, displayBill, displayDate, prominglerBadge } from '../format'
+import { displayBill, displayDate, prominglerBadge } from '../format'
 import type { InterestTableDetailController } from '../hooks/useInterestTableDetail'
 import type { InterestTableBookingRow } from '../types'
 
@@ -173,7 +173,7 @@ function buildBookingsColumns({
       title: t('restaurants:partnerInterestTables.bookingCols.status'),
       dataIndex: 'status',
       key: 'status',
-      render: (_value, row) => <StatusBadge variant={bookingStatusVariant(row.status)} />,
+      render: (_value, row) => <LifecycleBadge status={row.status} kind="booking" />,
     },
     {
       title: t('restaurants:partnerInterestTables.bookingCols.attendance'),
@@ -255,7 +255,7 @@ function BookingsMobileList({ c }: { c: InterestTableDetailController }) {
         <div key={row.bookingId} className={RESPONSIVE_CARD_CLASS}>
           <div className="flex items-start justify-between gap-3">
             <MinglerNameCell row={row} onOpen={() => c.openMingler(row.minglerId)} />
-            <StatusBadge variant={bookingStatusVariant(row.status)} />
+            <LifecycleBadge status={row.status} kind="booking" />
           </div>
 
           <CardDetailRow

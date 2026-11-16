@@ -14,7 +14,8 @@ export interface NavAccessEntry {
 }
 
 export const NAV_ACCESS: readonly NavAccessEntry[] = [
-  // MANAGE
+  // MANAGE — the dashboard shows money, so it needs the Finances permission.
+  { key: 'dashboard', path: '/dashboard', module: 'FINANCES' },
   { key: 'restaurants', path: '/restaurants', module: 'MANAGE_RESTAURANTS' },
   { key: 'approval-queue', path: '/approval-queue', module: 'RESTAURANT_APPROVALS' },
   { key: 'interest-tables', path: '/interest-tables', module: 'MANAGE_RESTAURANTS' },

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { clsx } from 'clsx'
 import {
+  ChartLineUp,
   ForkKnife,
   ClipboardText,
   PicnicTable,
@@ -63,6 +64,12 @@ export function Sidebar({ forDrawer = false }: SidebarProps) {
   const manageGroup: NavGroup = {
     label: 'MANAGE',
     items: [
+      {
+        key: 'dashboard',
+        label: t('nav.dashboard'),
+        Icon: ChartLineUp,
+        path: '/dashboard',
+      },
       {
         key: 'restaurants',
         label: t('nav.restaurants'),

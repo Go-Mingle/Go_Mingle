@@ -1,0 +1,211 @@
+/* ============================================================================
+   Motion, skeletons and chart colours shared by every screen.
+   Everything here is short (under 250 ms unless it is loading or a one-off
+   celebration) and is switched off for people who ask for reduced motion.
+   ============================================================================ */
+
+:root {
+  /* Chart series, in fixed order. Checked for colour-blind separation and
+     contrast against the card surface in both themes. */
+  --chart-1: #0a9188;
+  --chart-2: #e5503f;
+  --chart-3: #2f6fd0;
+  --chart-4: #b9780a;
+  --chart-neutral: #94a0b1;
+  --gm-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root[data-theme='dark'] {
+  --chart-1: #0e9c93;
+  --chart-2: #d9584a;
+  --chart-3: #4580d8;
+  --chart-4: #bf8822;
+  --chart-neutral: #6c788a;
+}
+
+/* ── A page or tab arriving ─────────────────────────────── */
+@keyframes gm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.gm-page-enter {
+  animation: gm-rise 220ms var(--gm-ease) both;
+}
+.ant-tabs-tabpane-active {
+  animation: gm-rise 180ms var(--gm-ease) both;
+}
+
+/* ── Skeleton placeholders while data loads ─────────────── */
+@keyframes gm-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+.gm-skel {
+  display: block;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    90deg,
+    var(--color-divider) 25%,
+    var(--color-border) 37%,
+    var(--color-divider) 63%
+  );
+  background-size: 400% 100%;
+  animation: gm-shimmer 1.4s ease infinite;
+}
+
+/* ── A status that just changed: the badge pulses, its row glows ── */
+@keyframes gm-pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--color-focus-ring);
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.08);
+  }
+  100% {
+    box-shadow: 0 0 0 10px transparent;
+    transform: scale(1);
+  }
+}
+@keyframes gm-row-flash {
+  from {
+    background-color: var(--color-accent-light);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+.gm-status-changed {
+  animation: gm-pulse 900ms var(--gm-ease);
+}
+tr:has(.gm-status-changed) > td {
+  animation: gm-row-flash 1600ms ease-out;
+}
+
+/* ── Things you can pick up or press ────────────────────── */
+.gm-lift {
+  transition:
+    transform var(--transition-default),
+    box-shadow var(--transition-default);
+}
+.gm-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.ant-btn:not(:disabled):not(.ant-btn-link):not(.ant-btn-text):active {
+  transform: scale(0.98);
+}
+.ant-btn {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+}
+
+/* ── Rings and bars that fill ───────────────────────────── */
+.gm-ring-value {
+  transition: stroke-dashoffset 700ms var(--gm-ease);
+}
+.gm-seat {
+  transition: fill 300ms ease;
+}
+
+/* ── Celebration: a short burst of confetti ─────────────── */
+@keyframes gm-confetti {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot));
+  }
+}
+.gm-confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2000;
+  overflow: hidden;
+}
+.gm-confetti i {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--c);
+  animation: gm-confetti 1400ms cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
+  animation-delay: var(--delay);
+}
+
+/* ── Sign-in: the table fills with guests, once ─────────── */
+@keyframes gm-seat-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.gm-seat-in {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-seat-in 420ms var(--gm-ease) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-page-enter,
+  .ant-tabs-tabpane-active,
+  .gm-status-changed,
+  tr:has(.gm-status-changed) > td,
+  .gm-seat-in,
+  .gm-confetti i {
+    animation: none !important;
+  }
+  .gm-skel {
+    animation: none;
+  }
+  .gm-lift,
+  .gm-ring-value,
+  .gm-seat,
+  .ant-btn {
+    transition: none !important;
+  }
+  .gm-lift:hover,
+  .ant-btn:not(:disabled):active {
+    transform: none !important;
+  }
+}
+
+/* ── A status that is live right now: its dot beats ─────── */
+@keyframes gm-beat {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+.gm-live-dot {
+  animation: gm-beat 1.8s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gm-live-dot {
+    animation: none;
+  }
+}

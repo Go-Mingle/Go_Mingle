@@ -2,9 +2,9 @@
 // A columns factory that also defines its own cell components — the same shape as
 // `ReviewsTableColumns.tsx`, which carries this disable for the same reason. The rule
 // is about HMR granularity, not correctness.
+import { LifecycleBadge } from '../../../../visual/LifecycleBadge'
 import type { ColumnsType } from 'antd/es/table'
 import type { useTranslation } from 'react-i18next'
-import { StatusBadge } from '../../../../atoms/StatusBadge'
 import { LabelTag } from '../../../../atoms/LabelTag'
 import { statusFilterIcon } from '../../../users/components/tableHelpers'
 import { VISIBLE_IT_STATUSES } from '../constants'
@@ -14,8 +14,7 @@ import {
   displayDate,
   displaySeats,
   displayTime,
-  interestTableStatusVariant,
-} from '../format'
+  } from '../format'
 import type { InterestTableListItem, InterestTableStatus } from '../types'
 
 type Translate = ReturnType<typeof useTranslation>['t']
@@ -124,7 +123,7 @@ export function buildInterestTablesColumns({
         }),
       ),
       filteredValue: status ? [status] : null,
-      render: (_value, row) => <StatusBadge variant={interestTableStatusVariant(row.status)} />,
+      render: (_value, row) => <LifecycleBadge status={row.status} />,
     },
   ]
 }

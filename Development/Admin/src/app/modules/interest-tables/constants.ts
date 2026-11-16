@@ -22,15 +22,6 @@ export const INTEREST_TABLE_ENDPOINTS = {
     `/api/v1/restaurants/${rid}/tables/${tid}/availability-check`,
 } as const
 
-export const INTEREST_TABLE_STATUS_COLORS: Record<string, string> = {
-  PENDING: 'gold',
-  CONFIRMED: 'green',
-  COMPLETED: 'blue',
-  CANCELLED: 'red',
-  DRAFT: 'default',
-  COMING_SOON: 'purple',
-}
-
 // [MET-1296] The V7 seat range (MAX/MIN_MINGLERS 6/3) and duration range
 // (MAX/MIN_DURATION_HOURS 4/1) are gone. V8 replaced them with Max Guests 4–8
 // (GUEST_OPTIONS) and the five fixed durations (DURATION_HOUR_OPTIONS) — both

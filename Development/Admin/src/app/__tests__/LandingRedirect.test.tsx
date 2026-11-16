@@ -8,6 +8,7 @@ function renderLanding(auth: Record<string, unknown>) {
   return renderWithProviders(
     <Routes>
       <Route path="/" element={<LandingRedirect />} />
+      <Route path="/dashboard" element={<div>DASHBOARD PAGE</div>} />
       <Route path="/restaurants" element={<div>RESTAURANTS PAGE</div>} />
       <Route path="/finances" element={<div>FINANCES PAGE</div>} />
       <Route path="/login" element={<div>LOGIN PAGE</div>} />
@@ -17,7 +18,7 @@ function renderLanding(auth: Record<string, unknown>) {
 }
 
 describe('LandingRedirect', () => {
-  it('redirects a full-access user to the first module', () => {
+  it('redirects a full-access user to the dashboard', () => {
     renderLanding({
       user: {
         id: 'u',
@@ -30,7 +31,7 @@ describe('LandingRedirect', () => {
       },
       isAuthenticated: true,
     })
-    expect(screen.getByText('RESTAURANTS PAGE')).toBeInTheDocument()
+    expect(screen.getByText('DASHBOARD PAGE')).toBeInTheDocument()
   })
 
   it('redirects a scoped user to their first accessible module', () => {
@@ -46,7 +47,23 @@ describe('LandingRedirect', () => {
       },
       isAuthenticated: true,
     })
-    expect(screen.getByText('FINANCES PAGE')).toBeInTheDocument()
+    expect(screen.getByText('DASHBOARD PAGE')).toBeInTheDocument()
+  })
+
+  it('sends a user without Finances past the dashboard to their first module', () => {
+    renderLanding({
+      user: {
+        id: 'u',
+        name: 'A',
+        email: 'a@b.c',
+        role: 'Ops',
+        permissions: ['MANAGE_RESTAURANTS'],
+        fullAccess: false,
+        initials: 'A',
+      },
+      isAuthenticated: true,
+    })
+    expect(screen.getByText('RESTAURANTS PAGE')).toBeInTheDocument()
   })
 
   it('shows the unauthorized page when the user can access nothing', () => {
