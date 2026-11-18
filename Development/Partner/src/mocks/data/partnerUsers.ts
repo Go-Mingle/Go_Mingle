@@ -17,6 +17,10 @@ import type {
 interface MockPartnerUser extends PartnerUserListItem {
   email: string
   deleted: boolean
+  lastActiveAt: string | null
+  status: PartnerUserStatus
+  canSuspend: boolean
+  canDelete: boolean
 }
 
 function seed(): MockPartnerUser[] {
@@ -89,6 +93,8 @@ function toListItem(user: MockPartnerUser): PartnerUserListItem {
     lastActiveAt: user.lastActiveAt,
     status: user.status,
     isPrimary: user.isPrimary,
+    role: user.isPrimary ? 'OWNER' : 'MEMBER',
+    email: user.email,
     canSuspend: user.canSuspend,
     canDelete: user.canDelete,
   }
@@ -168,6 +174,7 @@ export function listPartnerUsers(query: ListQuery): Response {
 
   const body: PartnerUsersPage = {
     items: rows.slice(start, start + pageSize).map(toListItem),
+    canManage: true,
     pagination: { page, pageSize, totalRecords, totalPages },
   }
   return HttpResponse.json({ success: true, data: body })

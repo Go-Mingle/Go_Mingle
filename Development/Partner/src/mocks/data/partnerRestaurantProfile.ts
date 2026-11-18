@@ -51,6 +51,10 @@ interface MockProfileState {
   dressCode: string | null
   servesAlcohol: boolean | null
   mainPhotoKey: string | null
+  /** The cropped cover image's file, when the partner cropped one. */
+  coverImage?: string | null
+  /** The cropped profile picture's file; null until one is chosen. */
+  profileImage?: string | null
   status: RestaurantProfileStatus
   visibleOnApp: boolean
   payoutAccountId: string | null
@@ -184,6 +188,7 @@ export function setMockPayoutAccount(accountId = 'acct_123'): void {
  */
 export function clearMockCoverPhoto(): void {
   mockProfile.mainPhotoKey = null
+  mockProfile.coverImage = null
   mockProfile.visibleOnApp = false
 }
 
@@ -301,7 +306,8 @@ export function profileResponse(): PartnerRestaurantProfile {
       dressCode: mockProfile.dressCode,
       servesAlcohol: mockProfile.servesAlcohol,
     },
-    coverPhotoUrl: coverPhotoUrl(mockProfile.mainPhotoKey),
+    coverPhotoUrl: mockProfile.coverImage ? `${MOCK_CDN_ORIGIN}/${mockProfile.coverImage}` : coverPhotoUrl(mockProfile.mainPhotoKey),
+    profilePhotoUrl: mockProfile.profileImage ? `${MOCK_CDN_ORIGIN}/${mockProfile.profileImage}` : null,
     status: mockProfile.status,
     visibleOnApp: mockProfile.visibleOnApp,
     paymentConfigured: mockProfile.payoutAccountId !== null,

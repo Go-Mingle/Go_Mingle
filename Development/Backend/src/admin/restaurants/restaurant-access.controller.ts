@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, HttpCode, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Controller, Delete, Get, HttpCode, Param, Patch, Post, UseGuards, UseInterceptors } from '@nestjs/common'
 import { apiError } from '../../common/errors'
 import { Body } from '../../common/http'
 import { OwnerAccessService } from '../../shared/accounts/owner-access.service'
@@ -67,9 +67,23 @@ export class RestaurantAccessController {
     return { success: true, data: { name: r.name, ...(await this.access.grant(r, body)) } }
   }
 
+  /** Name, email, designation, owner or team member, active or suspended. */
+  @Patch(':id/logins/:loginId')
+  async editLogin(@Param('id') id: string, @Param('loginId') loginId: string, @Body() body: Record<string, unknown>) {
+    const r = await this.known(id)
+    return { success: true, data: { name: r.name, ...(await this.access.updateLogin(r, loginId, body)) } }
+  }
+
+  @Delete(':id/logins/:loginId')
+  async removeLogin(@Param('id') id: string, @Param('loginId') loginId: string) {
+    const r = await this.known(id)
+    return { success: true, data: { name: r.name, ...(await this.access.removeLogin(r, loginId)) } }
+  }
+
   private async known(id: string) {
     const r = await this.restaurants.find(id)
-    if (!r || (r.firstSubmittedAt === null && r.invitedAt === null)) throw notFound()
+    // A Draft nobody has sent or invited is someone's private work in progress.
+    if (!r || (r.status === 'DRAFT' && r.firstSubmittedAt === null && r.invitedAt === null)) throw notFound()
     return r
   }
 }

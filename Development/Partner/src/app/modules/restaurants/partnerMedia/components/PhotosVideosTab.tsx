@@ -3,7 +3,9 @@ import { Alert, Grid, Image, Spin, Upload } from 'antd'
 import {
   DownloadSimple,
   Images,
-  Star,
+  FrameCorners,
+  UserCircle,
+  UserCircleMinus,
   Trash,
   UploadSimple,
   VideoCamera,
@@ -14,6 +16,7 @@ import { AppButton } from '../../../../atoms/AppButton'
 import { CardActionsMenu } from '../../../../molecules/CardActionsMenu'
 import type { CardAction } from '../../../../molecules/CardActionsMenu'
 import { ConfirmModal } from '../../../../molecules/ConfirmModal'
+import { PhotoCropModal } from './PhotoCropModal'
 import { TabEmptyState } from '../../components/TabEmptyState'
 import { ACCEPT_ATTRIBUTE } from '../constants'
 import { formatBytes, formatCountOf } from '../format'
@@ -177,6 +180,16 @@ export function PhotosVideosTab({ c }: { c: Gallery }) {
         onSubmit={() => void c.submitUpload()}
       />
 
+      <PhotoCropModal
+        photo={c.cropping?.photo ?? null}
+        role={c.cropping?.role ?? 'cover'}
+        initialCrop={c.savedCrop}
+        saving={c.savingCrop}
+        error={c.cropError}
+        onSave={c.saveCrop}
+        onCancel={c.closeCrop}
+      />
+
       <ConfirmModal
         open={Boolean(c.deleteTarget)}
         onCancel={c.cancelDelete}
@@ -206,7 +219,14 @@ interface PhotoCardProps {
 
 function PhotoCard({ photo, c, isMobile }: PhotoCardProps) {
   const { t } = useTranslation(['restaurants', 'common'])
-  const canSetCover = c.editable && !photo.isCover
+  // One photo can be both, each with its own crop. Once a photo has a role,
+  // the same action reopens the editor to adjust it.
+  const coverLabel = photo.isCover
+    ? t('restaurants:partnerMedia.adjustCover')
+    : t('restaurants:partnerMedia.setCover')
+  const profileLabel = photo.isProfile
+    ? t('restaurants:partnerMedia.adjustProfile')
+    : t('restaurants:partnerMedia.setProfile')
 
   const actions: CardAction[] = [
     {
@@ -215,18 +235,30 @@ function PhotoCard({ photo, c, isMobile }: PhotoCardProps) {
       icon: <DownloadSimple size={16} />,
       onClick: () => c.downloadMedia(photo.url),
     },
-    ...(canSetCover
+    ...(c.editable
       ? [
           {
             key: 'cover',
-            label: t('restaurants:partnerMedia.setCover'),
-            icon: <Star size={16} />,
-            onClick: () => c.applyCover(photo),
+            label: coverLabel,
+            icon: <FrameCorners size={16} />,
+            onClick: () => c.openCrop(photo, 'cover'),
           },
-        ]
-      : []),
-    ...(c.editable
-      ? [
+          {
+            key: 'profile',
+            label: profileLabel,
+            icon: <UserCircle size={16} />,
+            onClick: () => c.openCrop(photo, 'profile'),
+          },
+          ...(photo.isProfile
+            ? [
+                {
+                  key: 'removeProfile',
+                  label: t('restaurants:partnerMedia.removeProfile'),
+                  icon: <UserCircleMinus size={16} />,
+                  onClick: () => c.removeProfile(),
+                },
+              ]
+            : []),
           {
             key: 'delete',
             label: t('common:buttons.delete'),
@@ -261,9 +293,20 @@ function PhotoCard({ photo, c, isMobile }: PhotoCardProps) {
           className="!h-full w-full object-cover object-center"
           preview={{ mask: false }}
         />
-        {photo.isCover && (
-          <span className="absolute left-2 top-2 rounded bg-[var(--color-accent)] px-2 py-0.5 text-[11px] font-semibold text-white">
-            {t('restaurants:partnerMedia.coverPhoto')}
+        {(photo.isCover || photo.isProfile) && (
+          <span className="absolute left-2 top-2 flex flex-wrap gap-1">
+            {photo.isCover && (
+              <span className="inline-flex items-center gap-1 rounded bg-[var(--color-accent)] px-2 py-0.5 text-[11px] font-semibold text-white">
+                <FrameCorners size={12} weight="bold" aria-hidden="true" />
+                {t('restaurants:partnerMedia.coverPhoto')}
+              </span>
+            )}
+            {photo.isProfile && (
+              <span className="inline-flex items-center gap-1 rounded bg-[var(--color-navy)] px-2 py-0.5 text-[11px] font-semibold text-white">
+                <UserCircle size={12} weight="bold" aria-hidden="true" />
+                {t('restaurants:partnerMedia.profilePhoto')}
+              </span>
+            )}
           </span>
         )}
 
@@ -279,17 +322,38 @@ function PhotoCard({ photo, c, isMobile }: PhotoCardProps) {
             >
               <DownloadSimple size={15} />
             </button>
-            {canSetCover && (
-              <button
-                type="button"
-                title={t('restaurants:partnerMedia.setCover')}
-                aria-label={t('restaurants:partnerMedia.setCover')}
-                onClick={() => c.applyCover(photo)}
-                disabled={c.settingCover}
-                className={`${OVERLAY_BTN} text-[var(--color-text)] disabled:cursor-not-allowed`}
-              >
-                <Star size={15} />
-              </button>
+            {c.editable && (
+              <>
+                <button
+                  type="button"
+                  title={coverLabel}
+                  aria-label={coverLabel}
+                  onClick={() => c.openCrop(photo, 'cover')}
+                  className={`${OVERLAY_BTN} text-[var(--color-text)]`}
+                >
+                  <FrameCorners size={15} />
+                </button>
+                <button
+                  type="button"
+                  title={profileLabel}
+                  aria-label={profileLabel}
+                  onClick={() => c.openCrop(photo, 'profile')}
+                  className={`${OVERLAY_BTN} text-[var(--color-text)]`}
+                >
+                  <UserCircle size={15} />
+                </button>
+                {photo.isProfile && (
+                  <button
+                    type="button"
+                    title={t('restaurants:partnerMedia.removeProfile')}
+                    aria-label={t('restaurants:partnerMedia.removeProfile')}
+                    onClick={() => c.removeProfile()}
+                    className={`${OVERLAY_BTN} text-[var(--color-text)]`}
+                  >
+                    <UserCircleMinus size={15} />
+                  </button>
+                )}
+              </>
             )}
             {c.editable && (
               <button

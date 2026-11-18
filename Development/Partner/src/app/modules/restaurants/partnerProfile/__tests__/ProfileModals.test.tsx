@@ -211,13 +211,24 @@ describe('RestaurantImageModal', () => {
   })
 
   /** Capped against the viewport rather than forced into a ratio, so nothing crops. */
-  it('renders the cover at its own aspect ratio', () => {
-    render({ profile: profileFixture({ coverPhotoUrl: 'https://cdn.example/cover.jpg' }) })
+  it('shows the cover in its 8:3 frame and the profile photo in a circle', () => {
+    render({
+      profile: profileFixture({
+        coverPhotoUrl: 'https://cdn.example/cover.jpg',
+        profilePhotoUrl: 'https://cdn.example/profile.jpg',
+      }),
+    })
 
-    const image = document.querySelector('.ant-modal img') as HTMLElement
-    expect(image.className).toContain('object-contain')
-    expect(image.className).toContain('max-h-[70vh]')
-    expect(image.className).not.toContain('object-cover')
+    const [cover, profile] = Array.from(document.querySelectorAll('.ant-modal img')) as HTMLElement[]
+    expect(cover).toHaveAttribute('src', 'https://cdn.example/cover.jpg')
+    expect(cover.className).toContain('aspect-[8/3]')
+    expect(profile).toHaveAttribute('src', 'https://cdn.example/profile.jpg')
+    expect(profile.className).toContain('rounded-full')
+  })
+
+  it('says when no profile photo has been chosen', () => {
+    render({ profile: profileFixture({ coverPhotoUrl: 'https://cdn.example/cover.jpg', profilePhotoUrl: null }) })
+    expect(screen.getByText(/Not chosen yet/)).toBeInTheDocument()
   })
 
   /**
@@ -231,13 +242,11 @@ describe('RestaurantImageModal', () => {
 
     expect(document.querySelector('.ant-alert')).toBeNull()
 
-    const info = screen.getByRole('button', { name: /display picture/i })
+    const info = screen.getByRole('button', { name: /choose and crop both/i })
     expect(info).toBeInTheDocument()
 
     await userEvent.setup().hover(info)
-    expect(await screen.findByRole('tooltip')).toHaveTextContent(
-      /first photo you upload becomes your display picture/i,
-    )
+    expect(await screen.findByRole('tooltip')).toHaveTextContent(/Photos & Videos tab/i)
   })
 
   /** The dialog's own X is now the only way out. */

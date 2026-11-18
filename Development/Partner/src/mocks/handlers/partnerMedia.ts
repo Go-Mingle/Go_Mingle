@@ -14,6 +14,9 @@ import {
   MOCK_UPLOAD_ORIGIN,
   receiveMockUpload,
   setMockCoverPhoto,
+  mockPhotoRoles,
+  setMockPhotoRole,
+  clearMockProfilePhoto,
 } from '../data/partnerMedia'
 
 /**
@@ -84,6 +87,18 @@ export const partnerMediaHandlers = [
   http.patch(PARTNER_MEDIA_ENDPOINTS.photoCover(':mediaId'), ({ params }) =>
     setMockCoverPhoto(String(params.mediaId)),
   ),
+
+  http.get(PARTNER_MEDIA_ENDPOINTS.photoRoles, () => mockPhotoRoles()),
+
+  http.post(PARTNER_MEDIA_ENDPOINTS.cropUploadUrl, async ({ request }) =>
+    mockUploadTarget('photo', (await request.json()) as Record<string, unknown>, { crop: true }),
+  ),
+
+  http.put(PARTNER_MEDIA_ENDPOINTS.photoRole(':mediaId', ':role' as 'cover'), async ({ params, request }) =>
+    setMockPhotoRole(String(params.mediaId), String(params.role), (await request.json()) as Record<string, unknown>),
+  ),
+
+  http.delete(PARTNER_MEDIA_ENDPOINTS.profilePhoto, () => clearMockProfilePhoto()),
 
   http.post(PARTNER_MEDIA_ENDPOINTS.photos, async ({ request }) =>
     commitMockPhoto((await request.json()) as Record<string, unknown>),

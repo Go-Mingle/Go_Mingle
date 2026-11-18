@@ -6,6 +6,14 @@ export interface Rejection {
   rejectedAt: string
 }
 
+/** A rectangle of a photo, each value a fraction (0–1) of the photo's width or height. */
+export interface Crop {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
 /**
  * Restaurants: one row per restaurant, shared by both portals.
  *
@@ -40,7 +48,18 @@ export const restaurants = pgTable(
     houseRules: text('house_rules'),
     dressCode: text('dress_code'),
     servesAlcohol: boolean('serves_alcohol'),
+    /** The cover's source photo, `photos/<mediaId>.jpg`. */
     mainPhotoKey: text('main_photo_key'),
+    /** The part of the source the partner kept for the cover (8:3), as fractions; null = the whole photo. */
+    coverCrop: jsonb('cover_crop').$type<Crop>(),
+    /** The cropped cover image (a `crop` media row); null = serve the source. */
+    coverImageId: text('cover_image_id'),
+    /** The profile picture's source photo, `photos/<mediaId>.jpg`; null = none chosen. */
+    profilePhotoKey: text('profile_photo_key'),
+    /** The square part of the source kept for the profile picture, as fractions. */
+    profileCrop: jsonb('profile_crop').$type<Crop>(),
+    /** The cropped profile picture (a `crop` media row). */
+    profileImageId: text('profile_image_id'),
     visibleOnApp: boolean('visible_on_app').notNull().default(false),
     amenityIds: jsonb('amenity_ids').$type<string[]>().notNull().default([]),
 

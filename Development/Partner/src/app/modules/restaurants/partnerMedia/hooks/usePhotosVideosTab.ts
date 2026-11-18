@@ -1,10 +1,14 @@
+import type { CropResult } from '../components/PhotoCropModal'
+import { getApiErrorMessage } from '../../../../../shared/utils/apiError'
+import { HttpError } from '../../../../../shared/api/httpClient'
+import { UploadError } from '../../../../../shared/api/uploadFile'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { usePartnerProfileQuery } from '../../partnerProfile/hooks/usePartnerProfileQueries'
 import type { ProfileFeedback } from '../../partnerProfile/hooks/useProfileFeedback'
 import { ACCEPTED_TYPES } from '../constants'
 import { isCoverReassignRequired } from '../errors'
-import type { MediaKind, PhotoItem, StagedFile, VideoItem } from '../types'
+import type { MediaKind, PhotoItem, PhotoRole, StagedFile, VideoItem } from '../types'
 import { useMediaFeedback } from './useMediaFeedback'
 import { useMediaUpload } from './useMediaUpload'
 import {
@@ -14,6 +18,9 @@ import {
   useDeleteVideoMutation,
   usePartnerMediaQuery,
   useSetCoverPhotoMutation,
+  useSetPhotoRoleMutation,
+  useClearProfilePhotoMutation,
+  usePhotoRolesQuery,
 } from './usePartnerMediaQueries'
 
 /** Which of the two galleries an action is aimed at. */
@@ -78,6 +85,11 @@ export function usePhotosVideosTab(editable: boolean, feedback: ProfileFeedback)
   const commitPhoto = useCommitPhotoMutation()
   const commitVideo = useCommitVideoMutation()
   const setCover = useSetCoverPhotoMutation()
+  const setRole = useSetPhotoRoleMutation()
+  const clearProfile = useClearProfilePhotoMutation()
+  const rolesQuery = usePhotoRolesQuery()
+  /** The photo open in the crop editor, and which frame it is being cut for. */
+  const [cropping, setCropping] = useState<{ photo: PhotoItem; role: PhotoRole } | null>(null)
   const deletePhoto = useDeletePhotoMutation()
   const deleteVideo = useDeleteVideoMutation()
 
@@ -326,6 +338,51 @@ export function usePhotosVideosTab(editable: boolean, feedback: ProfileFeedback)
     [setCover, showSuccess, showMediaError, t],
   )
 
+  const openCrop = useCallback(
+    (photo: PhotoItem, role: PhotoRole) => {
+      setRole.reset()
+      setCropping({ photo, role })
+    },
+    [setRole],
+  )
+  const closeCrop = useCallback(() => setCropping(null), [])
+
+  /** Reopens on the saved crop only when it was cut from this same photo. */
+  const savedCrop = (() => {
+    if (!cropping) return null
+    const saved = rolesQuery.data?.[cropping.role]
+    return saved && saved.mediaId === cropping.photo.mediaId ? saved.crop : null
+  })()
+
+  const saveCrop = useCallback(
+    (result: CropResult) => {
+      if (!cropping) return
+      setRole.mutate(
+        { ...cropping, result },
+        {
+          onSuccess: () => {
+            setCropping(null)
+            showSuccess(
+              t(
+                cropping.role === 'cover'
+                  ? 'restaurants:partnerMedia.coverUpdated'
+                  : 'restaurants:partnerMedia.profileUpdated',
+              ),
+            )
+          },
+        },
+      )
+    },
+    [cropping, setRole, showSuccess, t],
+  )
+
+  const removeProfile = useCallback(() => {
+    clearProfile.mutate(undefined, {
+      onSuccess: () => showSuccess(t('restaurants:partnerMedia.profileRemoved')),
+      onError: (cause) => showMediaError(cause, 'photo'),
+    })
+  }, [clearProfile, showSuccess, showMediaError, t])
+
   /**
    * Opens the asset in a new tab so the browser can save it.
    *
@@ -414,6 +471,15 @@ export function usePhotosVideosTab(editable: boolean, feedback: ProfileFeedback)
     applyCover,
     settingCover: setCover.isPending,
 
+    cropping,
+    savedCrop,
+    openCrop,
+    closeCrop,
+    saveCrop,
+    savingCrop: setRole.isPending,
+    cropError: setRole.error ? resolveCropError(setRole.error, t) : undefined,
+    removeProfile,
+
     downloadMedia,
 
     deleteTarget,
@@ -423,4 +489,11 @@ export function usePhotosVideosTab(editable: boolean, feedback: ProfileFeedback)
     confirmDelete,
     deleting: deletePhoto.isPending || deleteVideo.isPending,
   }
+}
+
+/** A failed crop save, in words: the API's reason, or why the photo could not be cut here. */
+function resolveCropError(error: unknown, t: (key: string) => string): string {
+  // Not the API: the browser could not load or cut the photo.
+  if (!(error instanceof HttpError) && !(error instanceof UploadError)) return t('restaurants:partnerMedia.crop.failedHere')
+  return getApiErrorMessage(error, t('restaurants:partnerMedia.crop.failed'))
 }

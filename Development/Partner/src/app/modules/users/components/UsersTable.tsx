@@ -1,3 +1,4 @@
+import { OwnerBadge } from './OwnerBadge'
 import { useMemo } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { Table } from 'antd'
@@ -79,10 +80,18 @@ function buildUserColumns(
         fieldLabel: t('table.searchBy', { column: nameHeader }),
       }),
       filterIcon: searchFilterIcon(t('table.searchBy', { column: nameHeader })),
-      render: (v: string) => (
-        <span className="text-[14px] font-medium text-[var(--color-text)] font-[Poppins,sans-serif]">
-          {v}
-        </span>
+      render: (v: string, row: UserRow) => (
+        <div className="flex flex-col min-w-0">
+          <span className="inline-flex items-center gap-2 text-[14px] font-medium text-[var(--color-text)] font-[Poppins,sans-serif]">
+            {v}
+            {row.isPrimary && <OwnerBadge />}
+          </span>
+          {row.email && (
+            <span className="text-[12px] text-[var(--color-text-muted)] [overflow-wrap:anywhere]">
+              {row.email}
+            </span>
+          )}
+        </div>
       ),
     },
     {
