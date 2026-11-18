@@ -1,3 +1,4 @@
+import { OwnerBadge } from './components/OwnerBadge'
 import { PageSkeleton } from '../../visual/PageSkeleton'
 import dayjs from 'dayjs'
 import { Alert, Flex } from 'antd'
@@ -88,6 +89,7 @@ function UsersCardList({ data, onEdit, onReset, onDelete, emptyState }: UsersCar
                   <span className="text-[14px] font-semibold text-[var(--color-text)] font-[Poppins,sans-serif] whitespace-nowrap overflow-hidden text-ellipsis min-w-0">
                     {u.name}
                   </span>
+                  {u.isPrimary && <OwnerBadge />}
                   <span
                     className={`shrink-0 ${
                       isActive ? 'bg-[var(--color-success)]' : 'bg-[var(--color-error)]'
@@ -110,7 +112,6 @@ function UsersCardList({ data, onEdit, onReset, onDelete, emptyState }: UsersCar
                 <span
                   className={`${VALUE_CLASS} text-right [overflow-wrap:anywhere] [word-break:break-word] min-w-0`}
                 >
-                  {/* Grid rows carry no email by design — see the note in types.ts. */}
                   {u.email ?? '—'}
                 </span>
               </div>

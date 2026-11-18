@@ -20,6 +20,10 @@ export const PARTNER_MEDIA_ENDPOINTS = {
   photoUploadUrl: `${ROOT}/photos/upload-url`,
   photoById: (mediaId: string) => `${ROOT}/photos/${mediaId}`,
   photoCover: (mediaId: string) => `${ROOT}/photos/${mediaId}/cover`,
+  photoRole: (mediaId: string, role: 'cover' | 'profile') => `${ROOT}/photos/${mediaId}/${role}`,
+  photoRoles: `${ROOT}/photo-roles`,
+  cropUploadUrl: `${ROOT}/photos/crop-upload-url`,
+  profilePhoto: `${ROOT}/profile-photo`,
 
   videos: `${ROOT}/videos`,
   videoUploadUrl: `${ROOT}/videos/upload-url`,
@@ -78,3 +82,11 @@ export const MEDIA_ERROR_CODES = {
   COVER_REASSIGN: 'ERR_COVER_PHOTO_REASSIGN',
   VIDEO_PROVIDER: 'ERR_VIDEO_PROVIDER',
 } as const
+
+/** The frame each role is cut to, width ÷ height. Matches the API. */
+export const ROLE_ASPECT = { cover: 8 / 3, profile: 1 } as const
+
+/** Pixel size of the image cut for each role; never upscaled past the source. */
+export const ROLE_OUTPUT = { cover: { width: 1600, height: 600 }, profile: { width: 640, height: 640 } } as const
+
+export const PHOTO_ROLES_QUERY_KEY = ['partner', 'restaurant', 'photo-roles'] as const

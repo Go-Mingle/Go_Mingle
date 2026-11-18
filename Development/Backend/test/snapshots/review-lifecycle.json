@@ -854,6 +854,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": true,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",
@@ -1727,6 +1728,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": true,
+    "profilePhotoUrl": null,
     "rejections": [
      {
       "reason": "Licence is unreadable",
@@ -1811,6 +1813,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": true,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",
@@ -1978,6 +1981,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": true,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",
@@ -2096,6 +2100,7 @@
      "phone": "+923214445566"
     },
     "paymentConfigured": false,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@bbq.pk",
@@ -3127,6 +3132,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": true,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",
@@ -3218,6 +3224,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": true,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",
@@ -3304,6 +3311,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": true,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",
@@ -3725,6 +3733,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": true,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",
@@ -3851,6 +3860,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": true,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",

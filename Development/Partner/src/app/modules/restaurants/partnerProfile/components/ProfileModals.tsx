@@ -88,6 +88,7 @@ export function NameLocationModal({ c }: { c: ProfileController }) {
 export function RestaurantImageModal({ c }: { c: ProfileController }) {
   const { t } = useTranslation(['restaurants', 'common'])
   const coverUrl = c.profile?.coverPhotoUrl
+  const profileUrl = c.profile?.profilePhotoUrl ?? null
 
   return (
     <Modal
@@ -108,25 +109,38 @@ export function RestaurantImageModal({ c }: { c: ProfileController }) {
         </span>
       }
       footer={null}
-      width={480}
+      width={560}
       destroyOnHidden
     >
-      {/* The image gets the whole modal: no fixed frame, no crop, no footer. It
-          is capped against the viewport rather than given a ratio, so landscape
-          and portrait both render whole. The dialog's own X closes it. */}
-      <div className="mt-3 flex items-center justify-center">
-        {coverUrl ? (
-          <img
-            src={coverUrl}
-            alt=""
-            className="max-h-[70vh] max-w-full w-auto rounded-[10px] object-contain"
-          />
-        ) : (
-          <div className="flex h-[220px] w-[320px] flex-col items-center justify-center gap-2 rounded-[10px] border border-[var(--color-border)] bg-[var(--color-page)] text-[var(--color-text-subtle)]">
-            <Storefront size={28} />
-            <span className="text-[12.5px]">{t('restaurants:profile.imageModal.none')}</span>
-          </div>
-        )}
+      {/* Both pictures as they appear: the round profile photo and the wide
+          cover. They are chosen and cropped in Photos & Videos. */}
+      <div className="mt-3 flex flex-col gap-4">
+        <figure className="m-0">
+          <figcaption className="mb-2 text-[12.5px] font-medium text-[var(--color-text-secondary)]">
+            {t('restaurants:profile.imageModal.cover')}
+          </figcaption>
+          {coverUrl ? (
+            <img src={coverUrl} alt="" className="block aspect-[8/3] w-full rounded-[10px] object-cover" />
+          ) : (
+            <div className="flex aspect-[8/3] w-full flex-col items-center justify-center gap-2 rounded-[10px] border border-[var(--color-border)] bg-[var(--color-page)] text-[var(--color-text-subtle)]">
+              <Storefront size={28} />
+              <span className="text-[12.5px]">{t('restaurants:profile.imageModal.none')}</span>
+            </div>
+          )}
+        </figure>
+        <figure className="m-0 flex items-center gap-3">
+          {profileUrl ? (
+            <img src={profileUrl} alt="" className="h-20 w-20 rounded-full object-cover" />
+          ) : (
+            <span className="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-accent-light)] text-[var(--color-accent)]">
+              <Storefront size={28} />
+            </span>
+          )}
+          <figcaption className="text-[12.5px] text-[var(--color-text-secondary)]">
+            <span className="block font-medium">{t('restaurants:profile.imageModal.profile')}</span>
+            {profileUrl ? null : t('restaurants:profile.imageModal.noProfile')}
+          </figcaption>
+        </figure>
       </div>
     </Modal>
   )

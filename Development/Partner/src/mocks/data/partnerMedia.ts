@@ -86,6 +86,11 @@ let videos: MockVideo[] = []
 let staged: StagedUpload[] = []
 let galleryReads = 0
 let idCounter = 0
+/** Where the cover and the profile picture are cut from, with their crops. */
+let roles: {
+  cover: { mediaId: string; crop: Record<string, number> | null } | null
+  profile: { mediaId: string; crop: Record<string, number> | null } | null
+} = { cover: null, profile: null }
 
 function nextId(prefix: string): string {
   idCounter += 1
@@ -152,6 +157,7 @@ function videoSeed(): MockVideo[] {
 }
 
 export function resetMockMedia(): void {
+  roles = { cover: null, profile: null }
   documents = documentSeed()
   photos = photoSeed()
   videos = videoSeed()
@@ -279,6 +285,7 @@ const LIMIT_MESSAGE: Record<StagedUpload['kind'], string> = {
 export function mockUploadTarget(
   kind: StagedUpload['kind'],
   body: Record<string, unknown>,
+  opts: { crop?: boolean } = {},
 ): Response {
   const blocked = readOnly()
   if (blocked) return blocked
@@ -289,7 +296,8 @@ export function mockUploadTarget(
     return errorResponse('ERR_VALIDATION', 'A name and content type are required.', 422)
   }
 
-  if (COUNT_OF[kind]() >= MOCK_LIMITS[kind].maxCount) {
+  // A cropped cover or profile picture is not a gallery photo.
+  if (!opts.crop && COUNT_OF[kind]() >= MOCK_LIMITS[kind].maxCount) {
     return errorResponse('ERR_MEDIA_LIMIT_REACHED', LIMIT_MESSAGE[kind], 409)
   }
 
@@ -641,4 +649,57 @@ export function deleteMockVideo(mediaId: string): Response {
   }
   videos = videos.filter((item) => item.mediaId !== mediaId)
   return HttpResponse.json({ success: true, data: { mediaId, removed: true } })
+}
+
+
+export function mockPhotoRoles(): Response {
+  const cover = photos.find((p) => p.isCover)
+  if (cover && roles.cover?.mediaId !== cover.mediaId) roles.cover = { mediaId: cover.mediaId, crop: null }
+  if (!cover) roles.cover = null
+  return HttpResponse.json({ success: true, data: roles })
+}
+
+/** Sets a photo as the cover or the profile picture, keeping the cropped image it was sent. */
+export function setMockPhotoRole(mediaId: string, role: string, body: Record<string, unknown>): Response {
+  const blocked = readOnly()
+  if (blocked) return blocked
+  if (role !== 'cover' && role !== 'profile') return errorResponse('ERR_NOT_FOUND', 'Not found.', 404)
+  if (!photos.some((p) => p.mediaId === mediaId)) return errorResponse('ERR_NOT_FOUND', 'Photo not found.', 404)
+  const crop = body.crop as Record<string, number> | undefined
+  if (!crop || [crop.x, crop.y, crop.width, crop.height].some((n) => typeof n !== 'number')) {
+    return errorResponse('ERR_VALIDATION', 'Choose the part of the photo to keep.', 422)
+  }
+  const entry = takeStaged('photo', { uploadRef: body.uploadRef })
+  if (isResponse(entry)) return entry
+  const image = `${nextId('crop')}.jpg`
+  if (role === 'cover') {
+    photos = photos.map((p) => ({ ...p, isCover: p.mediaId === mediaId }))
+    mockProfile.mainPhotoKey = `photos/${mediaId}.jpg`
+    mockProfile.coverImage = image
+    roles.cover = { mediaId, crop }
+  } else {
+    photos = photos.map((p) => ({ ...p, isProfile: p.mediaId === mediaId }))
+    mockProfile.profileImage = image
+    roles.profile = { mediaId, crop }
+  }
+  return HttpResponse.json({
+    success: true,
+    data: {
+      mediaId,
+      role,
+      crop,
+      ...roles,
+      coverPhotoUrl: mockProfile.coverImage ? `${MOCK_CDN_ORIGIN}/${mockProfile.coverImage}` : null,
+      profilePhotoUrl: mockProfile.profileImage ? `${MOCK_CDN_ORIGIN}/${mockProfile.profileImage}` : null,
+    },
+  })
+}
+
+export function clearMockProfilePhoto(): Response {
+  const blocked = readOnly()
+  if (blocked) return blocked
+  photos = photos.map((p) => ({ ...p, isProfile: false }))
+  mockProfile.profileImage = null
+  roles.profile = null
+  return HttpResponse.json({ success: true, data: { profilePhotoUrl: null } })
 }

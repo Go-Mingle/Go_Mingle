@@ -86,6 +86,8 @@ export interface PartnerRestaurantProfile {
   rules: ProfileRules
   /** Derived from `main_photo_key` by the storage seam — never a raw S3 key. */
   coverPhotoUrl: string | null
+  /** The square profile picture the partner cropped; null until they choose one. */
+  profilePhotoUrl?: string | null
   status: RestaurantProfileStatus
   visibleOnApp: boolean
   /** True when a payout-ready Safepay account is bound (BR-11). */

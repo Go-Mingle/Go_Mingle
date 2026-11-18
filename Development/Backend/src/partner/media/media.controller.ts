@@ -1,12 +1,28 @@
-import { Controller, Delete, Get, HttpCode, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Controller, Delete, Get, HttpCode, Param, Patch, Post, Put, UseGuards } from '@nestjs/common'
 import { Body, Query } from '../../common/http'
-import { RestaurantsService, type Restaurant } from '../../shared/restaurants/restaurants.service'
+import { coverPhotoUrl, profilePhotoUrl, RestaurantsService, type Restaurant } from '../../shared/restaurants/restaurants.service'
 import { CurrentPartner, PartnerGuard } from '../access/partner.guard'
 import type { PartnerUser } from '../access/partner-accounts.service'
 import { profileError, readOnly } from '../profile/profile.service'
-import { LIMITS, MediaService } from './media.service'
+import { LIMITS, MediaService, type PhotoRole } from './media.service'
+import type { Crop } from '../../db/schema'
 
 const SORT_FIELDS = ['name', 'type', 'size']
+
+/** A crop is four fractions of the photo, inside it and not empty. Anything else is refused. */
+function readCrop(value: unknown): Crop {
+  const bad = () => profileError('ERR_VALIDATION', 'Choose the part of the photo to keep.', 422)
+  if (!value || typeof value !== 'object') throw bad()
+  const c = value as Record<string, unknown>
+  const keys = ['x', 'y', 'width', 'height'] as const
+  if (Object.keys(c).some((k) => !(keys as readonly string[]).includes(k))) throw bad()
+  if (!keys.every((k) => typeof c[k] === 'number' && Number.isFinite(c[k]))) throw bad()
+  const { x, y, width, height } = c as unknown as Crop
+  const EPS = 0.001
+  if (x < 0 || y < 0 || width <= 0 || height <= 0 || x + width > 1 + EPS || y + height > 1 + EPS) throw bad()
+  const round = (n: number) => Math.round(n * 1e6) / 1e6
+  return { x: round(x), y: round(y), width: round(width), height: round(height) }
+}
 const SORT_ORDERS = ['asc', 'desc']
 type Json = Record<string, unknown>
 
@@ -102,12 +118,58 @@ export class MediaController {
     return { success: true, data: await this.media.uploadTarget(await this.mine(user), 'photo', body) }
   }
 
+  /** The whole photo as the cover, no crop. Kept for older clients; the portal uses PUT with a crop. */
   @Patch('photos/:mediaId/cover')
   async setCover(@CurrentPartner() user: PartnerUser, @Param('mediaId') mediaId: string) {
     const r = await this.editable(user)
-    if (!(await this.media.find(r.id, mediaId, 'photo'))) throw profileError('ERR_NOT_FOUND', 'Photo not found.', 404)
-    await this.restaurants.update(r.id, { mainPhotoKey: `photos/${mediaId}.jpg` })
+    const source = await this.media.find(r.id, mediaId, 'photo')
+    if (!source) throw profileError('ERR_NOT_FOUND', 'Photo not found.', 404)
+    await this.media.assignRole(r, 'cover', source, null, null)
     return { success: true, data: { mediaId, isCover: true } }
+  }
+
+  /** Where the cover and the profile picture come from, and their crops. */
+  @Get('photo-roles')
+  async photoRoles(@CurrentPartner() user: PartnerUser) {
+    return { success: true, data: this.media.roles(await this.mine(user)) }
+  }
+
+  /** An upload target for a cropped cover or profile picture. Not a gallery photo, so the gallery's limit does not apply. */
+  @Post('photos/crop-upload-url')
+  @HttpCode(200)
+  async cropUploadUrl(@CurrentPartner() user: PartnerUser, @Body() body: Json) {
+    return { success: true, data: await this.media.uploadTarget(await this.mine(user), 'photo', body, { crop: true }) }
+  }
+
+  /**
+   * Sets a gallery photo as the cover (8:3) or the profile picture (square,
+   * shown as a circle), with the part to keep. Body: `{ crop: { x, y, width,
+   * height } }` as fractions of the photo, and `uploadRef`: the cropped image,
+   * uploaded through `photos/crop-upload-url`.
+   */
+  @Put('photos/:mediaId/:role')
+  async setRole(@CurrentPartner() user: PartnerUser, @Param('mediaId') mediaId: string, @Param('role') role: string, @Body() body: Json) {
+    if (role !== 'cover' && role !== 'profile') throw profileError('ERR_NOT_FOUND', 'Not found.', 404)
+    const r = await this.editable(user)
+    const extra = Object.keys(body).filter((k) => k !== 'crop' && k !== 'uploadRef')
+    if (extra.length) throw profileError('ERR_VALIDATION', `Property ${extra.join(', ')} is not allowed on this request.`, 422)
+    const source = await this.media.find(r.id, mediaId, 'photo')
+    if (!source) throw profileError('ERR_NOT_FOUND', 'Photo not found.', 404)
+    const crop = readCrop(body.crop)
+    const cropped = await this.media.takeMedia(r, 'photo', { uploadRef: body.uploadRef })
+    const updated = await this.media.assignRole(r, role as PhotoRole, source, crop, cropped)
+    return {
+      success: true,
+      data: { mediaId, role, crop, ...this.media.roles(updated), coverPhotoUrl: coverPhotoUrl(updated), profilePhotoUrl: profilePhotoUrl(updated) },
+    }
+  }
+
+  /** No profile picture: the restaurant shows its initials. The photo stays in the gallery. */
+  @Delete('profile-photo')
+  async clearProfile(@CurrentPartner() user: PartnerUser) {
+    const r = await this.editable(user)
+    await this.media.dropProfile(r.id)
+    return { success: true, data: { profilePhotoUrl: null } }
   }
 
   @Post('photos')
@@ -119,7 +181,7 @@ export class MediaController {
     const becameCover = r.mainPhotoKey === null
     const count = (await this.media.list(r.id, 'photo')).length
     const row = await this.media.add(r, 'photo', entry, 'photo', { sortOrder: count + 1 })
-    const updated = becameCover ? await this.restaurants.update(r.id, { mainPhotoKey: `photos/${row.mediaId}.jpg` }) : r
+    const updated = becameCover ? await this.restaurants.update(r.id, { mainPhotoKey: `photos/${row.mediaId}.jpg`, coverCrop: null, coverImageId: null }) : r
     const photo = this.media.photo(row, updated)
     return {
       success: true,
@@ -139,7 +201,10 @@ export class MediaController {
     }
     await this.media.remove(r.id, mediaId)
     if (isCover) await this.media.dropCover(r.id)
-    return { success: true, data: { mediaId, removed: true } }
+    // The profile picture is optional: removing its photo just clears it.
+    const wasProfile = r.profilePhotoKey === `photos/${mediaId}.jpg`
+    if (wasProfile) await this.media.dropProfile(r.id)
+    return { success: true, data: { mediaId, removed: true, ...(wasProfile ? { profileCleared: true } : {}) } }
   }
 
   // ── Videos ────────────────────────────────────────────────────────────────

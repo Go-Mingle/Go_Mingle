@@ -9,6 +9,10 @@ import type {
   DownloadUrlResponse,
   MediaGallery,
   PhotoCommitResponse,
+  PhotoRole,
+  PhotoRoles,
+  SetPhotoRoleDto,
+  SetPhotoRoleResponse,
   RemovedResponse,
   UploadTarget,
   UploadTargetRequest,
@@ -107,6 +111,21 @@ export const partnerMediaService = {
    * cover simply stops matching — so callers refresh the gallery rather than
    * tracking the flag locally.
    */
+  /** Where the cover and the profile picture are cut from. */
+  photoRoles: (): Promise<PhotoRoles> => httpClient.get<PhotoRoles>(PARTNER_MEDIA_ENDPOINTS.photoRoles),
+
+  /** An upload target for a cropped image; it does not count against the gallery. */
+  cropUploadUrl: (body: UploadTargetRequest): Promise<UploadTarget> =>
+    httpClient.post<UploadTarget>(PARTNER_MEDIA_ENDPOINTS.cropUploadUrl, body),
+
+  /** Makes a gallery photo the cover or the profile picture, with the part to keep. */
+  setPhotoRole: (mediaId: string, role: PhotoRole, body: SetPhotoRoleDto): Promise<SetPhotoRoleResponse> =>
+    httpClient.put<SetPhotoRoleResponse>(PARTNER_MEDIA_ENDPOINTS.photoRole(mediaId, role), body),
+
+  /** No profile picture: the restaurant shows its initials. */
+  clearProfilePhoto: (): Promise<{ profilePhotoUrl: null }> =>
+    httpClient.delete<{ profilePhotoUrl: null }>(PARTNER_MEDIA_ENDPOINTS.profilePhoto),
+
   setCoverPhoto: (mediaId: string): Promise<CoverResponse> =>
     httpClient.patch<CoverResponse>(PARTNER_MEDIA_ENDPOINTS.photoCover(mediaId), {}),
 

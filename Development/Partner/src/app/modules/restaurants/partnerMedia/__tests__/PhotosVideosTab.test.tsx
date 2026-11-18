@@ -80,6 +80,14 @@ function controller(overrides: Partial<Gallery> = {}): Gallery {
     uploadIndex: 0,
     applyCover: vi.fn(),
     settingCover: false,
+    cropping: null,
+    savedCrop: null,
+    openCrop: vi.fn(),
+    closeCrop: vi.fn(),
+    saveCrop: vi.fn(),
+    savingCrop: false,
+    cropError: undefined,
+    removeProfile: vi.fn(),
     downloadMedia: vi.fn(),
     deleteTarget: null,
     deleteHidesRestaurant: false,
@@ -220,13 +228,32 @@ describe('PhotosVideosTab — photos', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('designates a new cover through the controller', async () => {
+  it('opens the crop editor for the cover or the profile photo', async () => {
     const { c } = renderTab()
-    await userEvent
-      .setup()
-      .click(within(cardFor('bar.jpg')).getByRole('button', { name: /set as cover/i }))
+    const user = userEvent.setup()
+    await user.click(within(cardFor('bar.jpg')).getByRole('button', { name: /set as cover/i }))
+    expect(c.openCrop).toHaveBeenCalledWith(expect.objectContaining({ mediaId: 'p-2' }), 'cover')
+    await user.click(within(cardFor('bar.jpg')).getByRole('button', { name: /set as profile/i }))
+    expect(c.openCrop).toHaveBeenCalledWith(expect.objectContaining({ mediaId: 'p-2' }), 'profile')
+  })
 
-    expect(c.applyCover).toHaveBeenCalledWith(expect.objectContaining({ mediaId: 'p-2' }))
+  it('labels the cover and the profile photo, and offers to adjust them', async () => {
+    const photos = PHOTOS.map((p) =>
+      p.mediaId === 'p-2' ? { ...p, isCover: false, isProfile: true } : { ...p, isProfile: false },
+    )
+    const { c } = renderTab({ photos })
+    const card = cardFor('bar.jpg')
+    expect(within(card).getByText('Profile photo')).toBeInTheDocument()
+    expect(within(card).getByRole('button', { name: 'Adjust profile photo' })).toBeInTheDocument()
+    await userEvent.setup().click(within(card).getByRole('button', { name: 'Remove profile photo' }))
+    expect(c.removeProfile).toHaveBeenCalled()
+    const cover = PHOTOS.find((p) => p.isCover)!
+    expect(within(cardFor(cover.name)).getByRole('button', { name: 'Adjust cover photo' })).toBeInTheDocument()
+  })
+
+  it('offers no cover or profile actions while the profile is read-only', () => {
+    renderTab({ editable: false })
+    expect(screen.queryByRole('button', { name: /set as cover|set as profile/i })).not.toBeInTheDocument()
   })
 
   it('requests confirmation before deleting a photo', async () => {
@@ -457,6 +484,7 @@ describe('PhotosVideosTab — thumbnail actions', () => {
   it.each([
     ['download', /download/i],
     ['set as cover', /set as cover/i],
+    ['set as profile', /set as profile/i],
     ['delete', /delete/i],
   ])('runs %s from the mobile menu', async (_label, item) => {
     setMobile()
@@ -470,7 +498,9 @@ describe('PhotosVideosTab — thumbnail actions', () => {
     if (item.source.includes('download')) {
       expect(c.downloadMedia).toHaveBeenCalledWith('https://cdn.example/bar.jpg')
     } else if (item.source.includes('cover')) {
-      expect(c.applyCover).toHaveBeenCalledWith(photo)
+      expect(c.openCrop).toHaveBeenCalledWith(photo, 'cover')
+    } else if (item.source.includes('profile')) {
+      expect(c.openCrop).toHaveBeenCalledWith(photo, 'profile')
     } else {
       expect(c.requestDelete).toHaveBeenCalledWith('photo', photo)
     }

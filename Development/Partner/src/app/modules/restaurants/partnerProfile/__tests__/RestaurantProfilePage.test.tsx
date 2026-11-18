@@ -639,7 +639,7 @@ describe('cover image modal', () => {
 
     // The explainer is a title tooltip, reachable by label rather than rendered
     // as body text, and the footer buttons are gone so the image gets the space.
-    expect(await screen.findByRole('button', { name: /display picture/i })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: /choose and crop both/i })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /go to photos & videos/i })).not.toBeInTheDocument()
   })
 })
