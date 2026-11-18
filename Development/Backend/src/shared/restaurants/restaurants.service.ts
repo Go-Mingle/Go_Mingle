@@ -43,11 +43,26 @@ export function cdnUrl(restaurantId: string, file: string): string {
   return `${config.publicUrl}/t/${encodeURIComponent(restaurantId)}/mock-cdn/${file}`
 }
 
-/** The cover's public URL. The cover key is `photos/<mediaId>.jpg`, stored on the CDN as `<mediaId>.jpg`. */
-export function coverPhotoUrl(r: Pick<Restaurant, 'id' | 'mainPhotoKey'>): string | null {
+/**
+ * The cover's public URL: the part the partner cropped when there is one,
+ * otherwise the whole source photo. The cover key is `photos/<mediaId>.jpg`,
+ * stored on the CDN as `<mediaId>.jpg`.
+ */
+export function coverPhotoUrl(r: Pick<Restaurant, 'id' | 'mainPhotoKey'> & Partial<Pick<Restaurant, 'coverImageId'>>): string | null {
   if (!r.mainPhotoKey) return null
+  if (r.coverImageId) return cdnUrl(r.id, `${r.coverImageId}.jpg`)
   return cdnUrl(r.id, r.mainPhotoKey.split('/').pop() ?? r.mainPhotoKey)
 }
+
+/** The profile picture's public URL (its square crop), or null when none was chosen. */
+export function profilePhotoUrl(r: Pick<Restaurant, 'id' | 'profilePhotoKey' | 'profileImageId'>): string | null {
+  if (!r.profilePhotoKey) return null
+  if (r.profileImageId) return cdnUrl(r.id, `${r.profileImageId}.jpg`)
+  return cdnUrl(r.id, r.profilePhotoKey.split('/').pop() ?? r.profilePhotoKey)
+}
+
+/** The media id inside a photo key, `photos/photo-3.jpg` → `photo-3`. */
+export const mediaIdOf = (key: string | null): string | null => (key ? (key.split('/').pop() ?? key).replace(/\.[^.]+$/, '') : null)
 
 export const newRestaurantId = () => `rest-${crypto.randomBytes(3).toString('hex')}`
 

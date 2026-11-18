@@ -73,7 +73,9 @@ export class AssetsController {
 
   private async serve(restaurantId: string, req: Request, res: Response) {
     const file = req.path.split('/').pop() ?? ''
-    const stored = await this.media.find(restaurantId, file.replace(/\.[^.]+$/, ''), 'photo')
+    const id = file.replace(/\.[^.]+$/, '')
+    // Gallery photos and the cropped cover and profile pictures.
+    const stored = (await this.media.find(restaurantId, id, 'photo')) ?? (await this.media.find(restaurantId, id, 'crop'))
     res.setHeader('Cache-Control', 'no-store')
     const menu = req.path.includes('/mock-cdn/menu/') ? await this.media.menuPdf(restaurantId, decodeURIComponent(file)) : null
     if (menu) {

@@ -667,9 +667,12 @@
       }
     },
     "imageModal": {
-      "title": "Restaurant image",
+      "title": "Cover and profile photo",
       "none": "No cover photo yet",
-      "managedInPhotos": "The first photo you upload becomes your display picture. You can mark any other photo as your display picture from the Photos & Videos tab."
+      "managedInPhotos": "Choose and crop both in the Photos & Videos tab.",
+      "cover": "Cover photo",
+      "profile": "Profile photo",
+      "noProfile": "Not chosen yet. Your restaurant shows this icon instead."
     },
     "overview": {
       "details": "Restaurant Details",
@@ -763,7 +766,7 @@
     "searchBy": "Search {{column}}",
     "download": "Download",
     "processing": "Processing…",
-    "coverPhoto": "Cover Photo",
+    "coverPhoto": "Cover photo",
     "setCover": "Set as cover photo",
     "coverUpdated": "Cover photo updated.",
     "firstPhotoBecameCover": "Photo uploaded and set as your cover photo — you can now send your profile for approval.",
@@ -822,6 +825,26 @@
         "photo": "Photo not found.",
         "video": "Video not found."
       }
+    },
+    "adjustCover": "Adjust cover photo",
+    "setProfile": "Set as profile photo",
+    "adjustProfile": "Adjust profile photo",
+    "removeProfile": "Remove profile photo",
+    "profilePhoto": "Profile photo",
+    "profileUpdated": "Profile photo updated.",
+    "profileRemoved": "Profile photo removed. Your restaurant shows its initials instead.",
+    "crop": {
+      "coverTitle": "Cover photo",
+      "profileTitle": "Profile photo",
+      "coverHint": "Choose the part of the photo for the wide banner at the top of your profile and in the Mingler app.",
+      "profileHint": "Choose the part of the photo for the circle that stands for your restaurant across GoMingle.",
+      "howTo": "Drag the photo to move it. Zoom with the slider or by scrolling. Arrow keys move it too.",
+      "frameLabel": "Photo to crop",
+      "zoom": "Zoom",
+      "save": "Save",
+      "cancel": "Cancel",
+      "failed": "The photo could not be saved. Please try again.",
+      "failedHere": "This photo could not be cropped in your browser. Try again, or upload it again."
     }
   },
   "partnerAmenities": {

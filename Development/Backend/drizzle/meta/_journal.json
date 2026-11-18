@@ -134,6 +134,13 @@
       "when": 1794827331317,
       "tag": "0018_restaurant_invites",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1795023557790,
+      "tag": "0019_photo_roles",
+      "breakpoints": true
     }
   ]
 }

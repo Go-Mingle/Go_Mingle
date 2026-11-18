@@ -6,6 +6,8 @@ import type {
   GrantAccessResult,
   InvitedRestaurant,
   PortalLogin,
+  UpdateLoginPayload,
+  UpdateLoginResult,
 } from './types'
 
 const BASE = '/api/v1/restaurants'
@@ -27,4 +29,10 @@ export const restaurantAccessService = {
 
   grant: (restaurantId: string, data: GrantAccessPayload): Promise<GrantAccessResult> =>
     httpClient.post(`${BASE}/${restaurantId}/logins`, data),
+
+  updateLogin: (restaurantId: string, loginId: string, data: UpdateLoginPayload): Promise<UpdateLoginResult> =>
+    httpClient.patch(`${BASE}/${restaurantId}/logins/${loginId}`, data),
+
+  removeLogin: (restaurantId: string, loginId: string): Promise<{ id: string; removed: boolean }> =>
+    httpClient.delete(`${BASE}/${restaurantId}/logins/${loginId}`),
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { apiError } from '../../common/errors'
-import { coverPhotoUrl, RestaurantsService, type Restaurant } from '../../shared/restaurants/restaurants.service'
+import { coverPhotoUrl, profilePhotoUrl, RestaurantsService, type Restaurant } from '../../shared/restaurants/restaurants.service'
 
 /** The mandatory-for-submission set, in the order the client highlights them. */
 const MANDATORY_FIELDS = [
@@ -90,6 +90,7 @@ export class ProfileService {
       restaurant: { phone: r.restaurantPhone, email: r.restaurantEmail, website: r.website },
       rules: { houseRules: r.houseRules, dressCode: r.dressCode, servesAlcohol: r.servesAlcohol },
       coverPhotoUrl: coverPhotoUrl(r),
+      profilePhotoUrl: profilePhotoUrl(r),
       status: r.status,
       visibleOnApp: r.visibleOnApp,
       paymentConfigured: r.payoutAccountId !== null,

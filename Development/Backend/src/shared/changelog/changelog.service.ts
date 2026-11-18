@@ -58,6 +58,26 @@ const VERBS: Record<string, string> = {
   reset: 'Restored default wording',
 }
 
+/**
+ * A change to who can sign in to a restaurant
+ * (`/api/v1/restaurants/:id/logins/:loginId`), in words: whose access and what
+ * changed. Without it the entry would read as a change to the restaurant itself.
+ */
+function accessChange(segments: string[], method: string, body: Rec, result: unknown): string | null {
+  if (segments[1] !== 'v1' || segments[2] !== 'restaurants' || segments[4] !== 'logins' || segments.length !== 6) return null
+  const login = (result as { login?: Rec } | null)?.login
+  const who = (login?.email as string | undefined) ?? (body?.email as string | undefined) ?? decodeURIComponent(segments[5])
+  if (method === 'DELETE') return `Removed portal access: ${who}`
+  const parts: string[] = []
+  if (body?.isOwner === true) parts.push('made owner')
+  if (body?.isOwner === false) parts.push('made team member')
+  if (body?.status === 'SUSPENDED') parts.push('suspended')
+  if (body?.status === 'ACTIVE') parts.push('reactivated')
+  if (body?.email !== undefined) parts.push('email changed')
+  if (body?.fullName !== undefined || body?.designation !== undefined) parts.push('details edited')
+  return `Changed portal access for ${who}${parts.length ? `: ${parts.join(', ')}` : ''}`
+}
+
 /** Fields worth showing as before → after on an update. */
 const TRACKED = ['name', 'fullName', 'status', 'subject', 'heading', 'enabled', 'commissionRate', 'roleId', 'fullAccess', 'maxGuests', 'startDate', 'startTime', 'description']
 
@@ -131,7 +151,12 @@ export class ChangeLogService {
       (segments[3] ? decodeURIComponent(segments[3]) : noun)
 
     let { oldVal, newVal } = action === 'update' && !verb ? diff(target?.record, after) : ({} as { oldVal?: string; newVal?: string })
-    if (action === 'create') newVal = `Created ${noun}: ${data}`
+    const access = accessChange(segments, method, body, result)
+    if (access) {
+      action = 'update'
+      oldVal = undefined
+      newVal = access
+    } else if (action === 'create') newVal = `Created ${noun}: ${data}`
     else if (action === 'delete') newVal = `Deleted ${noun}: ${data}`
     else if (verb) {
       const reason = body?.reason ? ` — ${body.reason}` : ''

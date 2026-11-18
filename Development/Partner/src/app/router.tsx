@@ -6,11 +6,11 @@ import { AuthGuard } from './AuthGuard'
 import { SessionWatcher } from './SessionWatcher'
 import {
   FullPortalOnly,
-  RequirePrimaryUser,
   RequireRoute,
   RouteResolver,
   SessionBoundary,
 } from './modules/session/SessionGate'
+import { useIsPrimaryUser } from './modules/session/SessionContext'
 import { PORTAL_ROUTES } from './modules/session/routePaths'
 
 const LoginPage = lazy(() =>
@@ -30,6 +30,14 @@ const ReviewStatusScreen = lazy(() =>
 const UsersPage = lazy(() =>
   import('./modules/users/UsersPage').then((m) => ({ default: m.UsersPage })),
 )
+const TeamDirectory = lazy(() =>
+  import('./modules/users/TeamDirectory').then((m) => ({ default: m.TeamDirectory })),
+)
+
+/** Owners get the management page; team members get the read-only directory. */
+function UsersRoute() {
+  return useIsPrimaryUser() ? <UsersPage /> : <TeamDirectory />
+}
 // J6F: the contract-backed detail. Reached from the profile tab, Finances, Reviews,
 // the mingler tables and notification deep links — all six land on this one page.
 const PartnerInterestTableDetailPage = lazy(() =>
@@ -122,12 +130,11 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: '/users',
+                // Owners manage the team; everyone else sees who is on it.
                 element: wrap(
-                  <RequirePrimaryUser>
-                    <FullPortalOnly>
-                      <UsersPage />
-                    </FullPortalOnly>
-                  </RequirePrimaryUser>,
+                  <FullPortalOnly>
+                    <UsersRoute />
+                  </FullPortalOnly>,
                 ),
               },
               // Restaurant Profile — single page with a tab strip for every section.

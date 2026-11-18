@@ -40,8 +40,8 @@ export function toUserRow(item: PartnerUserListItem): UserRow {
     lastActive: item.lastActiveAt ?? undefined,
     initials: initialsOf(item.fullName),
     isPrimary: item.isPrimary,
-    canSuspend: item.canSuspend,
-    canDelete: item.canDelete,
+    canSuspend: item.canSuspend ?? false,
+    canDelete: item.canDelete ?? false,
     email: item.email,
   }
 }
