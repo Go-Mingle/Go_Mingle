@@ -248,6 +248,7 @@
      "phone": null
     },
     "paymentConfigured": false,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": null,
@@ -369,6 +370,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": false,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": null,
@@ -421,6 +423,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": false,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",
@@ -486,6 +489,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": false,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",
@@ -1030,6 +1034,7 @@
      "phone": null
     },
     "paymentConfigured": false,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": null,

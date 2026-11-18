@@ -145,15 +145,18 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      }
     ],
@@ -264,6 +267,7 @@
     "id": "<gen>",
     "isPrimary": false,
     "lastActiveAt": null,
+    "role": "MEMBER",
     "status": "ACTIVE"
    },
    "success": true
@@ -282,6 +286,7 @@
     "id": "<gen>",
     "isPrimary": false,
     "lastActiveAt": null,
+    "role": "MEMBER",
     "status": "SUSPENDED"
    },
    "success": true
@@ -304,35 +309,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      }
     ],
@@ -351,35 +363,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      },
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      }
     ],
@@ -398,35 +417,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      }
     ],
@@ -445,35 +471,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      }
     ],
@@ -492,35 +525,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      }
     ],
@@ -539,35 +579,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      }
     ],
@@ -586,35 +633,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      }
     ],
@@ -633,15 +687,18 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      }
     ],
@@ -660,35 +717,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      }
     ],
@@ -707,15 +771,18 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      }
     ],
@@ -734,15 +801,18 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      }
     ],
@@ -761,35 +831,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "SUSPENDED"
      }
     ],
@@ -808,25 +885,30 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      }
     ],
@@ -845,15 +927,18 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      }
     ],
@@ -872,6 +957,7 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [],
     "pagination": {
      "page": 1,
@@ -954,43 +1040,30 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": false,
     "items": [
      {
-      "canDelete": true,
-      "canSuspend": true,
-      "designation": null,
-      "fullName": "Bilal",
-      "id": "<gen>",
-      "isPrimary": false,
-      "lastActiveAt": null,
-      "status": "SUSPENDED"
-     },
-     {
-      "canDelete": false,
-      "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
-      "lastActiveAt": "<gen>",
-      "status": "ACTIVE"
+      "role": "OWNER"
      },
      {
-      "canDelete": true,
-      "canSuspend": true,
       "designation": "Events Lead",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara A.",
       "id": "<gen>",
       "isPrimary": false,
-      "lastActiveAt": null,
-      "status": "ACTIVE"
+      "role": "MEMBER"
      }
     ],
     "pagination": {
      "page": 1,
      "pageSize": 25,
      "totalPages": 1,
-     "totalRecords": 3
+     "totalRecords": 2
     }
    },
    "success": true
@@ -1033,6 +1106,7 @@
     "id": "<gen>",
     "isPrimary": false,
     "lastActiveAt": null,
+    "role": "MEMBER",
     "status": "ACTIVE"
    },
    "success": true
@@ -1051,6 +1125,7 @@
     "id": "<gen>",
     "isPrimary": false,
     "lastActiveAt": null,
+    "role": "MEMBER",
     "status": "ACTIVE"
    },
    "success": true
@@ -1069,6 +1144,7 @@
     "id": "<gen>",
     "isPrimary": false,
     "lastActiveAt": null,
+    "role": "MEMBER",
     "status": "ACTIVE"
    },
    "success": true
@@ -1102,6 +1178,7 @@
     "id": "<gen>",
     "isPrimary": false,
     "lastActiveAt": null,
+    "role": "MEMBER",
     "status": "SUSPENDED"
    },
    "success": true
@@ -1131,6 +1208,7 @@
     "id": "<gen>",
     "isPrimary": false,
     "lastActiveAt": null,
+    "role": "MEMBER",
     "status": "ACTIVE"
    },
    "success": true
@@ -1200,35 +1278,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Founder",
+      "email": "partner@gomingle.com",
       "fullName": "Raees A. Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      }
     ],
@@ -1249,7 +1334,7 @@
    "error": {
     "code": "ERR_FORBIDDEN_PRIMARY",
     "details": null,
-    "message": "The primary user cannot be suspended or removed here."
+    "message": "An owner cannot be suspended or removed here."
    },
    "success": false
   }
@@ -1261,7 +1346,7 @@
    "error": {
     "code": "ERR_FORBIDDEN_PRIMARY",
     "details": null,
-    "message": "The primary user cannot be suspended or removed here."
+    "message": "An owner cannot be suspended or removed here."
    },
    "success": false
   }
@@ -1279,6 +1364,7 @@
     "id": "<gen>",
     "isPrimary": true,
     "lastActiveAt": "<gen>",
+    "role": "OWNER",
     "status": "ACTIVE"
    },
    "success": true
@@ -1335,25 +1421,30 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Owner",
+      "email": "partner@gomingle.com",
       "fullName": "Raees Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      }
     ],
@@ -1381,6 +1472,7 @@
     "isPrimary": false,
     "lastActiveAt": null,
     "reactivated": true,
+    "role": "MEMBER",
     "status": "ACTIVE"
    },
    "success": true
@@ -1391,35 +1483,42 @@
   "status": 200,
   "body": {
    "data": {
+    "canManage": true,
     "items": [
      {
       "canDelete": false,
       "canSuspend": false,
       "designation": "Owner",
+      "email": "partner@gomingle.com",
       "fullName": "Raees Khan",
       "id": "<gen>",
       "isPrimary": true,
       "lastActiveAt": "<gen>",
+      "role": "OWNER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": "GM",
+      "email": "sara@kolachi.pk",
       "fullName": "Sara Aziz",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      },
      {
       "canDelete": true,
       "canSuspend": true,
       "designation": null,
+      "email": "bilal@kolachi.pk",
       "fullName": "Bilal",
       "id": "<gen>",
       "isPrimary": false,
       "lastActiveAt": null,
+      "role": "MEMBER",
       "status": "ACTIVE"
      }
     ],

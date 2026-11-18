@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { restaurantAccessService } from './services'
-import type { CreateRestaurantPayload, GrantAccessPayload } from './types'
+import type { CreateRestaurantPayload, GrantAccessPayload, UpdateLoginPayload } from './types'
 
 export const INVITED_RESTAURANTS_QUERY_KEY = ['restaurants', 'invited'] as const
 export const portalLoginsQueryKey = (restaurantId: string) =>
@@ -52,6 +52,23 @@ export function useGrantAccessMutation(restaurantId: string) {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (data: GrantAccessPayload) => restaurantAccessService.grant(restaurantId, data),
+    onSuccess: () => qc.invalidateQueries({ queryKey: portalLoginsQueryKey(restaurantId) }),
+  })
+}
+
+export function useUpdateLoginMutation(restaurantId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ loginId, data }: { loginId: string; data: UpdateLoginPayload }) =>
+      restaurantAccessService.updateLogin(restaurantId, loginId, data),
+    onSuccess: () => qc.invalidateQueries({ queryKey: portalLoginsQueryKey(restaurantId) }),
+  })
+}
+
+export function useRemoveLoginMutation(restaurantId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (loginId: string) => restaurantAccessService.removeLogin(restaurantId, loginId),
     onSuccess: () => qc.invalidateQueries({ queryKey: portalLoginsQueryKey(restaurantId) }),
   })
 }

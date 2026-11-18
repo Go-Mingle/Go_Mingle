@@ -1,7 +1,7 @@
 {
   "section": "CONFIGURE",
   "title": "Users",
-  "subtitle": "People who can sign in to this restaurant's portal. Everyone has the same access.",
+  "subtitle": "People who can sign in to this restaurant's portal. Owners add and manage them.",
   "actions": {
     "newUser": "+ New user",
     "newUserShort": "New user",
@@ -14,7 +14,9 @@
       "name": "NAME",
       "designation": "DESIGNATION",
       "status": "STATUS",
-      "lastActive": "LAST ACTIVE"
+      "lastActive": "LAST ACTIVE",
+      "role": "ROLE",
+      "email": "EMAIL"
     },
     "searchName": "Search name…",
     "searchDesignation": "Search designation…",
@@ -125,5 +127,16 @@
     "passwordsDoNotMatch": "Passwords do not match",
     "passwordPolicy": "At least 8 characters, plus an uppercase letter, number, or symbol."
   },
-  "readOnlyHint": "Email cannot be changed."
+  "readOnlyHint": "Email cannot be changed.",
+  "roles": {
+    "owner": "Owner",
+    "member": "Team member"
+  },
+  "directory": {
+    "subtitle": "Everyone who can sign in to this restaurant's portal.",
+    "emptyTitle": "Nobody else here yet",
+    "emptyBody": "When an owner adds someone from your team, they show up here.",
+    "ownerNote": "Only an owner can add people or change their access. If no owner can sign in, contact GoMingle support.",
+    "loadFailed": "The team couldn't be loaded. Try again in a moment."
+  }
 }

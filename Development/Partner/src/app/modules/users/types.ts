@@ -1,8 +1,9 @@
 /**
- * There are no roles for partner users (BR-01 / F1 BR-08) — every authenticated
- * user has identical access. `designation` is a free-text label with no access
- * meaning, so nothing here gates on it.
+ * Two roles: owners manage the team, everyone else sees who is on it. A
+ * restaurant can have several owners, and only GoMingle changes who they are.
+ * `designation` is a free-text label with no access meaning.
  */
+export type PartnerUserRole = 'OWNER' | 'MEMBER'
 export type PartnerUserStatus = 'ACTIVE' | 'SUSPENDED'
 
 /**
@@ -11,20 +12,21 @@ export type PartnerUserStatus = 'ACTIVE' | 'SUSPENDED'
  * The caller's own row is never present (BR-02) — self-management lives in J2's
  * My Profile / Change Password — so there is no "is this me?" case to handle.
  *
- * `email` is absent from grid rows by design: the grid is readable by everyone
- * in the restaurant. It arrives on the create and update responses instead.
+ * Owners get every field; team members get the colleague card only (name,
+ * role, designation, email), so the status and sign-in fields are optional.
  */
 export interface PartnerUserListItem {
   id: string
   fullName: string
   designation: string | null
   /** Date-only (`YYYY-MM-DD`) or null when the user has never logged in (BR-13). */
-  lastActiveAt: string | null
-  status: PartnerUserStatus
+  lastActiveAt?: string | null
+  status?: PartnerUserStatus
   isPrimary: boolean
-  /** UI hints for the primary-user guard (BR-03). The server enforces it regardless. */
-  canSuspend: boolean
-  canDelete: boolean
+  role?: PartnerUserRole
+  /** UI hints for the owner guard (BR-03). The server enforces it regardless. */
+  canSuspend?: boolean
+  canDelete?: boolean
   email?: string
 }
 
@@ -38,6 +40,8 @@ export interface PartnerUsersPagination {
 export interface PartnerUsersPage {
   items: PartnerUserListItem[]
   pagination: PartnerUsersPagination
+  /** True for owners: they can add, edit, suspend and remove people. */
+  canManage?: boolean
 }
 
 export type PartnerUsersSortBy = 'name' | 'designation' | 'lastActive' | 'status'

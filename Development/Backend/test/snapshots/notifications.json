@@ -275,6 +275,7 @@
      "phone": "+923001112233"
     },
     "paymentConfigured": false,
+    "profilePhotoUrl": null,
     "rejections": [],
     "restaurant": {
      "email": "hi@kolachi.pk",

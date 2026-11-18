@@ -109,7 +109,7 @@ export class OwnerAccessService {
 
   // ── Admin: create a profile, give access ───────────────────────────────────
 
-  /** Sign-in accounts of a restaurant, owner first. */
+  /** Sign-in accounts of a restaurant, owners first. */
   async logins(restaurantId: string) {
     const team = (await this.accounts.team(restaurantId)).filter((u) => u.status !== 'DELETED')
     return team
@@ -119,6 +119,7 @@ export class OwnerAccessService {
         fullName: u.fullName,
         email: u.email,
         isOwner: u.isPrimary,
+        designation: u.designation || null,
         status: u.status,
         hasPassword: Boolean(u.passwordHash),
         hasGoogle: Boolean(u.googleSub),
@@ -162,8 +163,11 @@ export class OwnerAccessService {
     return { ...this.invited(restaurant, owner), emailed }
   }
 
-  /** Gives an email a login on an existing restaurant (the owner login when it has none). */
-  async grant(restaurant: Restaurant, input: { fullName?: unknown; email?: unknown }) {
+  /**
+   * Gives an email a login on an existing restaurant. It is an owner login when
+   * the admin asks for one, or when the restaurant has no owner yet.
+   */
+  async grant(restaurant: Restaurant, input: { fullName?: unknown; email?: unknown; isOwner?: unknown }) {
     const fullName = text(input.fullName)
     const email = normaliseEmail(input.email)
     if (fullName.length < 2 || fullName.length > 120) throw invalid('fullName', "Enter the person's name (2 to 120 characters).")
@@ -171,19 +175,141 @@ export class OwnerAccessService {
     const here = (await this.accounts.team(restaurant.id)).find((u) => u.email === email)
     if (here && here.status !== 'DELETED') throw apiError(409, 'ERR_ALREADY_HAS_ACCESS', 'This email already has access to this restaurant.')
 
+    if (input.isOwner !== undefined && typeof input.isOwner !== 'boolean') throw invalid('isOwner', 'isOwner must be true or false.')
     const existing = await this.checkEmail(email)
-    const isPrimary = !(await this.liveOwner(restaurant.id))
+    const isPrimary = input.isOwner === true || !(await this.liveOwner(restaurant.id))
     let login: PartnerUser
     if (existing) {
       login = await this.accounts.update(existing.id, { restaurantId: restaurant.id, isPrimary, designation: isPrimary ? 'Owner' : existing.designation })
     } else if (here) {
       // Someone the restaurant removed earlier: bring that login back.
-      login = await this.accounts.update(here.id, { status: 'ACTIVE', fullName, isPrimary, failures: 0, lockedUntil: 0 })
+      login = await this.accounts.update(here.id, { status: 'ACTIVE', fullName, isPrimary, designation: isPrimary ? here.designation || 'Owner' : here.designation, failures: 0, lockedUntil: 0 })
     } else {
       login = await this.accounts.create({ email, fullName, restaurantId: restaurant.id, isPrimary, designation: isPrimary ? 'Owner' : '', neverActive: true })
     }
     const emailed = await this.invite(login, restaurant)
     return { login: (await this.logins(restaurant.id)).find((l) => l.id === login.id), moved: Boolean(existing), emailed }
+  }
+
+  /**
+   * An admin changes a login: name, email, designation, role (owner or team
+   * member) or status. A restaurant always keeps at least one active owner, so
+   * a locked-out owner's restaurant can be handed to someone else but never
+   * left with nobody in charge. Takes effect on the person's next request.
+   */
+  async updateLogin(restaurant: Restaurant, loginId: string, input: Record<string, unknown>) {
+    const allowed = ['fullName', 'email', 'designation', 'isOwner', 'status']
+    const extra = Object.keys(input).filter((k) => !allowed.includes(k))
+    if (extra.length) throw invalid(extra[0], `${extra[0]} cannot be changed here.`)
+
+    const changes: Partial<PartnerUser> = {}
+    if (input.fullName !== undefined) {
+      const fullName = text(input.fullName)
+      if (fullName.length < 2 || fullName.length > 120) throw invalid('fullName', "Enter the person's name (2 to 120 characters).")
+      changes.fullName = fullName
+    }
+    if (input.designation !== undefined) {
+      if (typeof input.designation !== 'string' || text(input.designation).length > 100) throw invalid('designation', 'Designation can be at most 100 characters.')
+      changes.designation = text(input.designation)
+    }
+    if (input.isOwner !== undefined && typeof input.isOwner !== 'boolean') throw invalid('isOwner', 'isOwner must be true or false.')
+    if (input.status !== undefined && input.status !== 'ACTIVE' && input.status !== 'SUSPENDED') throw invalid('status', 'Status must be ACTIVE or SUSPENDED.')
+
+    const login = await this.loginOf(restaurant.id, loginId)
+    let emailChanged = false
+    if (input.email !== undefined) {
+      const email = normaliseEmail(input.email)
+      if (!EMAIL.test(email) || email.length > 200) throw invalid('email', 'Enter an email address.')
+      if (email !== login.email) {
+        await this.emailFree(email, restaurant.id)
+        changes.email = email
+        // A Google account was linked to the old address; it must not keep signing in.
+        changes.googleSub = null
+        changes.failures = 0
+        changes.lockedUntil = 0
+        emailChanged = true
+      }
+    }
+
+    const isOwner = input.isOwner === undefined ? login.isPrimary : input.isOwner
+    const status = (input.status as string | undefined) ?? login.status
+    if (isOwner !== login.isPrimary) {
+      changes.isPrimary = isOwner
+      // Keep the label in step with the role unless the admin set one.
+      if (changes.designation === undefined) {
+        if (isOwner && !login.designation) changes.designation = 'Owner'
+        if (!isOwner && login.designation === 'Owner') changes.designation = ''
+      }
+    }
+    if (status !== login.status) {
+      changes.status = status
+      if (status === 'ACTIVE') Object.assign(changes, { failures: 0, lockedUntil: 0 })
+    }
+
+    const stillLeads = isOwner && status === 'ACTIVE'
+    const leadsNow = login.isPrimary && login.status === 'ACTIVE'
+    await this.withOwnersLocked(restaurant.id, async (activeOwners, save) => {
+      if (leadsNow && !stillLeads && activeOwners.filter((o) => o.id !== login.id).length === 0) throw lastOwner()
+      if (Object.keys(changes).length) await save(login.id, changes)
+    })
+
+    const updated = (await this.logins(restaurant.id)).find((l) => l.id === login.id)
+    const emailed = emailChanged ? await this.invite({ ...login, ...changes } as PartnerUser, restaurant) : false
+    return { login: updated, emailed }
+  }
+
+  /** An admin takes a login's access away. Kept on record; it can be given back. */
+  async removeLogin(restaurant: Restaurant, loginId: string) {
+    const login = await this.loginOf(restaurant.id, loginId)
+    await this.withOwnersLocked(restaurant.id, async (activeOwners, save) => {
+      const leads = login.isPrimary && login.status === 'ACTIVE'
+      if (leads && activeOwners.filter((o) => o.id !== login.id).length === 0) throw lastOwner()
+      await save(login.id, { status: 'DELETED', isPrimary: false })
+    })
+    return { id: login.id, login: { id: login.id, email: login.email, fullName: login.fullName }, removed: true }
+  }
+
+  private async loginOf(restaurantId: string, loginId: string): Promise<PartnerUser> {
+    const login = await this.accounts.byId(loginId)
+    if (!login || login.restaurantId !== restaurantId || login.status === 'DELETED') {
+      throw apiError(404, 'ERR_LOGIN_NOT_FOUND', 'This login was not found on this restaurant.')
+    }
+    return login
+  }
+
+  /**
+   * Runs a change with the restaurant's logins locked, handing it the active
+   * owners as they are inside the lock and a `save` that writes inside it, so
+   * two admins changing owners at the same moment cannot leave none.
+   */
+  private async withOwnersLocked(
+    restaurantId: string,
+    change: (activeOwners: PartnerUser[], save: (id: string, values: Partial<PartnerUser>) => Promise<unknown>) => Promise<void>,
+  ) {
+    await this.db.transaction(async (tx) => {
+      const rows = await tx.select().from(partnerUsers).where(eq(partnerUsers.restaurantId, restaurantId)).for('update')
+      await change(
+        rows.filter((u) => u.isPrimary && u.status === 'ACTIVE'),
+        (id, values) => tx.update(partnerUsers).set(values).where(eq(partnerUsers.id, id)),
+      )
+    })
+  }
+
+  /** An email a login can move to: no other partner or admin account uses it, and no other restaurant names it. */
+  private async emailFree(email: string, restaurantId: string) {
+    const admins = await this.db.$count(adminUsers, and(eq(adminUsers.email, email), ne(adminUsers.status, 'DELETED')))
+    if (admins) throw apiError(409, 'ERR_EMAIL_IS_ADMIN', 'This email belongs to a GoMingle Admin account and cannot be used for a restaurant.')
+    const partner = await this.accounts.byEmail(email)
+    if (partner) {
+      const theirs = partner.restaurantId === restaurantId ? null : await this.restaurants.find(partner.restaurantId)
+      throw apiError(
+        409,
+        'ERR_EMAIL_IN_USE',
+        theirs?.name ? `This email already signs in to "${theirs.name}". One email can sign in to one restaurant.` : 'This email already has a login.',
+      )
+    }
+    const named = await this.restaurantNaming(email, restaurantId)
+    if (named) throw apiError(409, 'ERR_EMAIL_IN_USE', 'Another restaurant names this email as its owner. One email can sign in to one restaurant.')
   }
 
   /** Profiles an admin created that the owner has not sent for approval yet. */
@@ -259,3 +385,5 @@ export class OwnerAccessService {
 
 const text = (v: unknown) => (typeof v === 'string' ? v.trim().replace(/\s+/g, ' ') : '')
 const invalid = (field: string, message: string) => apiError(422, 'ERR_VALIDATION', message, { field })
+const lastOwner = () =>
+  apiError(409, 'ERR_LAST_OWNER', 'A restaurant needs at least one active owner. Make someone else an owner first.')

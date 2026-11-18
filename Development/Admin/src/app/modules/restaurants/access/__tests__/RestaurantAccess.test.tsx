@@ -29,6 +29,7 @@ const owner: PortalLogin = {
   fullName: 'Rahim Ahmed',
   email: 'rahim@xanders.pk',
   isOwner: true,
+  designation: 'Owner',
   status: 'ACTIVE',
   hasPassword: true,
   hasGoogle: true,
@@ -270,6 +271,26 @@ describe('PortalAccessCard', () => {
     expect(sent).toEqual({ fullName: 'Saad Ali', email: 'saad@gmail.com' })
   })
 
+  it('can make the new login an owner straight away', async () => {
+    let sent: unknown
+    server.use(
+      http.get(`${BASE}/rest-9/logins`, () => ok({ items: [owner] })),
+      http.post(`${BASE}/rest-9/logins`, async ({ request }) => {
+        sent = await request.json()
+        return ok({ login: { ...owner, id: 'pu-6', email: 'ayesha@xanders.pk' }, moved: false, emailed: true }, 201)
+      }),
+    )
+    const user = userEvent.setup()
+    render()
+    await user.click(await screen.findByRole('button', { name: 'Give access' }))
+    const dialog = await screen.findByRole('dialog')
+    await user.type(within(dialog).getByLabelText('Name'), 'Ayesha Malik')
+    await user.type(within(dialog).getByLabelText('Email'), 'ayesha@xanders.pk')
+    await user.click(within(dialog).getByLabelText('Make this person an owner'))
+    await user.click(within(dialog).getByRole('button', { name: 'Give access' }))
+    await waitFor(() => expect(sent).toEqual({ fullName: 'Ayesha Malik', email: 'ayesha@xanders.pk', isOwner: true }))
+  })
+
   it.each([
     [{ moved: false, emailed: true }, 'Access given. We emailed saad@gmail.com.'],
     [{ moved: false, emailed: false }, /the email could not be sent/],
@@ -291,5 +312,128 @@ describe('PortalAccessCard', () => {
     await user.type(within(dialog).getByLabelText('Email'), 'saad@gmail.com')
     await user.click(within(dialog).getByRole('button', { name: 'Give access' }))
     expect(await screen.findByText(text)).toBeInTheDocument()
+  })
+})
+
+describe('PortalAccessCard: editing and removing a login (GM-319)', () => {
+  const member: PortalLogin = {
+    ...owner,
+    id: 'pu-2',
+    fullName: 'Sara Khan',
+    email: 'sara@xanders.pk',
+    isOwner: false,
+    designation: 'Floor Manager',
+    hasGoogle: false,
+  }
+  const render = () =>
+    renderWithProviders(<PortalAccessCard restaurantId="rest-9" restaurantName="Xanders" />)
+
+  it('shows the designation beside the name', async () => {
+    server.use(http.get(`${BASE}/rest-9/logins`, () => ok({ items: [owner, member] })))
+    render()
+    expect(await screen.findByText(/Floor Manager/)).toBeInTheDocument()
+  })
+
+  it('makes a team member an owner, sending only what changed', async () => {
+    let sent: unknown
+    server.use(
+      http.get(`${BASE}/rest-9/logins`, () => ok({ items: [owner, member] })),
+      http.patch(`${BASE}/rest-9/logins/pu-2`, async ({ request }) => {
+        sent = await request.json()
+        return ok({ login: { ...member, isOwner: true }, emailed: false })
+      }),
+    )
+    const user = userEvent.setup()
+    render()
+    await user.click(await screen.findByRole('button', { name: 'Edit Sara Khan' }))
+    const dialog = await screen.findByRole('dialog')
+    expect(within(dialog).getByLabelText('Email')).toHaveValue('sara@xanders.pk')
+    expect(within(dialog).getByText(/cannot change who has access/)).toBeInTheDocument()
+    await user.click(within(dialog).getByText('Owner'))
+    expect(within(dialog).getByText(/Owners add and manage/)).toBeInTheDocument()
+    await user.click(within(dialog).getByRole('button', { name: 'Save' }))
+    expect(await screen.findByText('Sara Khan updated.')).toBeInTheDocument()
+    expect(sent).toEqual({ isOwner: true })
+  })
+
+  it('changes email and suspends, and says the new address was emailed', async () => {
+    let sent: unknown
+    server.use(
+      http.get(`${BASE}/rest-9/logins`, () => ok({ items: [owner, member] })),
+      http.patch(`${BASE}/rest-9/logins/pu-2`, async ({ request }) => {
+        sent = await request.json()
+        return ok({ login: { ...member, email: 'sara.k@xanders.pk' }, emailed: true })
+      }),
+    )
+    const user = userEvent.setup()
+    render()
+    await user.click(await screen.findByRole('button', { name: 'Edit Sara Khan' }))
+    const dialog = await screen.findByRole('dialog')
+    const email = within(dialog).getByLabelText('Email')
+    await user.clear(email)
+    await user.type(email, 'Sara.K@Xanders.pk')
+    await user.click(within(dialog).getByRole('switch'))
+    await user.click(within(dialog).getByRole('button', { name: 'Save' }))
+    expect(await screen.findByText('Saved. We emailed sara.k@xanders.pk so they can sign in.')).toBeInTheDocument()
+    expect(sent).toEqual({ email: 'sara.k@xanders.pk', status: 'SUSPENDED' })
+  })
+
+  it("explains why the last owner can't be demoted, and closes when nothing changed", async () => {
+    const calls: string[] = []
+    server.use(
+      http.get(`${BASE}/rest-9/logins`, () => ok({ items: [owner, member] })),
+      http.patch(`${BASE}/rest-9/logins/pu-1`, () => {
+        calls.push('patch')
+        return fail(409, 'ERR_LAST_OWNER', 'A restaurant needs at least one active owner. Make someone else an owner first.')
+      }),
+    )
+    const user = userEvent.setup()
+    render()
+    await user.click(await screen.findByRole('button', { name: 'Edit Rahim Ahmed' }))
+    let dialog = await screen.findByRole('dialog')
+    // Nothing changed: the dialog just closes, without calling the API.
+    await user.click(within(dialog).getByRole('button', { name: 'Save' }))
+    await new Promise((r) => setTimeout(r, 200))
+    expect(calls).toEqual([])
+
+    await user.click(screen.getByRole('button', { name: 'Edit Rahim Ahmed' }))
+    dialog = (await screen.findAllByRole('dialog')).at(-1)!
+    await user.click(within(dialog).getByText('Team member'))
+    await user.click(within(dialog).getByRole('button', { name: 'Save' }))
+    expect(await within(dialog).findByText(/needs at least one active owner/)).toBeInTheDocument()
+  })
+
+  it('removes access after confirming', async () => {
+    let removed = false
+    server.use(
+      http.get(`${BASE}/rest-9/logins`, () => ok({ items: removed ? [owner] : [owner, member] })),
+      http.delete(`${BASE}/rest-9/logins/pu-2`, () => {
+        removed = true
+        return ok({ id: 'pu-2', removed: true })
+      }),
+    )
+    const user = userEvent.setup()
+    render()
+    await user.click(await screen.findByRole('button', { name: 'Remove access for Sara Khan' }))
+    const dialog = await screen.findByRole('dialog')
+    expect(within(dialog).getByText(/sara@xanders.pk will no longer be able to sign in/)).toBeInTheDocument()
+    await user.click(within(dialog).getByRole('button', { name: 'Remove access' }))
+    expect(await screen.findByText('Access removed for sara@xanders.pk.')).toBeInTheDocument()
+    await waitFor(() => expect(screen.queryByText('sara@xanders.pk')).not.toBeInTheDocument())
+  })
+
+  it('shows a refusal to remove the last owner', async () => {
+    server.use(
+      http.get(`${BASE}/rest-9/logins`, () => ok({ items: [owner] })),
+      http.delete(`${BASE}/rest-9/logins/pu-1`, () =>
+        fail(409, 'ERR_LAST_OWNER', 'A restaurant needs at least one active owner. Make someone else an owner first.'),
+      ),
+    )
+    const user = userEvent.setup()
+    render()
+    await user.click(await screen.findByRole('button', { name: 'Remove access for Rahim Ahmed' }))
+    const dialog = await screen.findByRole('dialog')
+    await user.click(within(dialog).getByRole('button', { name: 'Remove access' }))
+    expect(await within(dialog).findByText(/needs at least one active owner/)).toBeInTheDocument()
   })
 })

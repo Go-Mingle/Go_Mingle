@@ -3,9 +3,24 @@ import { partnerRetryPolicy } from '../../../../../shared/api/retryPolicy'
 import { tokenStore } from '../../../../../shared/auth/tokenStore'
 import { PARTNER_PROFILE_QUERY_KEY } from '../../partnerProfile/constants'
 import type { PartnerRestaurantProfile } from '../../partnerProfile/types'
-import { PARTNER_DOCUMENTS_QUERY_KEY, PARTNER_MEDIA_QUERY_KEY, VIDEO_POLL_MS } from '../constants'
+import {
+  PARTNER_DOCUMENTS_QUERY_KEY,
+  PARTNER_MEDIA_QUERY_KEY,
+  PHOTO_ROLES_QUERY_KEY,
+  VIDEO_POLL_MS,
+} from '../constants'
+import { cropToBlob, toFractions } from '../cropImage'
+import type { CropResult } from '../components/PhotoCropModal'
+import { uploadFile } from '../../../../../shared/api/uploadFile'
 import { partnerMediaService } from '../services'
-import type { CommitMediaDto, DocumentItem, DocumentListParams, MediaGallery } from '../types'
+import type {
+  CommitMediaDto,
+  DocumentItem,
+  DocumentListParams,
+  MediaGallery,
+  PhotoItem,
+  PhotoRole,
+} from '../types'
 
 /**
  * J6B's server state.
@@ -89,6 +104,7 @@ function useGalleryWriteCache() {
     // prefix of every sibling key in this module, and React Query invalidates by
     // prefix — so without it a cover change refetched all eight.
     void qc.invalidateQueries({ queryKey: PARTNER_PROFILE_QUERY_KEY, exact: true })
+    void qc.invalidateQueries({ queryKey: PHOTO_ROLES_QUERY_KEY })
   }
 }
 
@@ -195,6 +211,67 @@ export function useDeleteVideoMutation() {
   const invalidate = useGalleryWriteCache()
   return useMutation({
     mutationFn: (mediaId: string) => partnerMediaService.deleteVideo(mediaId),
+    onSuccess: invalidate,
+  })
+}
+
+/** Where the cover and the profile picture are cut from, to reopen the editor on them. */
+export function usePhotoRolesQuery() {
+  return useQuery({
+    queryKey: PHOTO_ROLES_QUERY_KEY,
+    queryFn: () => partnerMediaService.photoRoles(),
+    enabled: tokenStore.hasSession(),
+    ...partnerRetryPolicy,
+  })
+}
+
+/** Everything a cover or profile change touches: the gallery badges, the header images, the saved crops. */
+function usePhotoRoleWriteCache() {
+  const qc = useQueryClient()
+  return () => {
+    void qc.invalidateQueries({ queryKey: PARTNER_MEDIA_QUERY_KEY })
+    void qc.invalidateQueries({ queryKey: PARTNER_PROFILE_QUERY_KEY, exact: true })
+    void qc.invalidateQueries({ queryKey: PHOTO_ROLES_QUERY_KEY })
+  }
+}
+
+export interface SetPhotoRoleVars {
+  photo: PhotoItem
+  role: PhotoRole
+  result: CropResult
+}
+
+/**
+ * Cuts the chosen part of the photo in the browser, uploads it, then tells
+ * the API which photo it came from and where. The original stays untouched.
+ * Never retried, like every commit: a consumed uploadRef cannot be reused.
+ */
+export function useSetPhotoRoleMutation() {
+  const invalidate = usePhotoRoleWriteCache()
+  return useMutation({
+    mutationFn: async ({ photo, role, result }: SetPhotoRoleVars) => {
+      const blob = await cropToBlob(photo.url, result.pixels, role)
+      const name = `${role}.jpg`
+      const target = await partnerMediaService.cropUploadUrl({ name, contentType: 'image/jpeg' })
+      await uploadFile({
+        uploadUrl: target.uploadUrl,
+        file: new File([blob], name, { type: 'image/jpeg' }),
+        strategy: 'put-bytes',
+      })
+      return partnerMediaService.setPhotoRole(photo.mediaId, role, {
+        crop: toFractions(result.percentages),
+        uploadRef: target.uploadRef,
+      })
+    },
+    onSuccess: invalidate,
+    ...NEVER_RETRY,
+  })
+}
+
+export function useClearProfilePhotoMutation() {
+  const invalidate = usePhotoRoleWriteCache()
+  return useMutation({
+    mutationFn: () => partnerMediaService.clearProfilePhoto(),
     onSuccess: invalidate,
   })
 }

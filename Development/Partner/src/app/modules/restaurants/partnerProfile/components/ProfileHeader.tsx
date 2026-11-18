@@ -61,7 +61,7 @@ export function ProfileHeader({
     <div className="mb-6 overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-card)] shadow-[var(--shadow-sm)] md:mb-5">
       {/* The cover photo as a banner, so the page opens on the restaurant itself. */}
       {profile.coverPhotoUrl && (
-        <div className="relative h-28 md:h-36" data-testid="cover-banner">
+        <div className="relative aspect-[8/3] max-h-56 w-full" data-testid="cover-banner">
           <img src={profile.coverPhotoUrl} alt="" className="h-full w-full object-cover" />
           <span
             className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent"
@@ -76,17 +76,19 @@ export function ProfileHeader({
             type="button"
             onClick={onOpenImage}
             aria-label={t('restaurants:profile.coverAria')}
-            className="relative shrink-0 rounded-[12px] border-none bg-transparent p-0 cursor-pointer"
+            className="relative shrink-0 rounded-full border-none bg-transparent p-0 cursor-pointer"
           >
-            {profile.coverPhotoUrl ? (
+            {/* The profile picture, round like everywhere else it appears. */}
+            {profile.profilePhotoUrl ? (
               <img
-                src={profile.coverPhotoUrl}
+                src={profile.profilePhotoUrl}
                 alt=""
-                className="h-16 w-16 rounded-[12px] border border-[var(--color-border)] object-cover"
+                className="h-16 w-16 rounded-full border-2 border-[var(--color-card)] object-cover shadow-[var(--shadow-sm)]"
                 loading="lazy"
+                data-testid="profile-photo"
               />
             ) : (
-              <span className="flex h-16 w-16 items-center justify-center rounded-[12px] bg-[var(--color-accent-light)]">
+              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-accent-light)]">
                 <Storefront size={26} className="text-[var(--color-accent)]" />
               </span>
             )}

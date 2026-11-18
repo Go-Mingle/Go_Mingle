@@ -4,7 +4,7 @@ import { asc, eq } from 'drizzle-orm'
 import { amenities, categories, menuOptions, restaurantTables } from '../../db/schema'
 import { menuPdfUrl } from '../../partner/venue/menu.controller'
 import { ChangeLogService } from '../../shared/changelog/changelog.service'
-import { adminStatus, coverPhotoUrl, displayPhone, RestaurantsService, type Restaurant } from '../../shared/restaurants/restaurants.service'
+import { adminStatus, coverPhotoUrl, displayPhone, profilePhotoUrl, RestaurantsService, type Restaurant } from '../../shared/restaurants/restaurants.service'
 import { UsageService } from '../../shared/usage.service'
 
 type Category = typeof categories.$inferSelect
@@ -64,7 +64,8 @@ export class AdminRestaurantsService implements OnModuleInit {
       joinedAt: r.joined,
       status: adminStatus(r),
       visibleOnApp: r.visibleOnApp,
-      avatarUrl: coverPhotoUrl(r),
+      // The profile picture the partner chose; the cover until they choose one.
+      avatarUrl: profilePhotoUrl(r) ?? coverPhotoUrl(r),
     }
   }
 
@@ -95,7 +96,8 @@ export class AdminRestaurantsService implements OnModuleInit {
       dressCode: r.dressCode ?? '',
       joinedAt: r.joined,
       confirmedBookings: 0,
-      avatarUrl: coverPhotoUrl(r),
+      // The profile picture the partner chose; the cover until they choose one.
+      avatarUrl: profilePhotoUrl(r) ?? coverPhotoUrl(r),
       menuPdfUrl: menuPdfUrl(r),
     }
   }

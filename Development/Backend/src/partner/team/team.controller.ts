@@ -12,7 +12,9 @@ type Json = Record<string, unknown>
 /** Team errors always carry `details: null`. */
 const fail = (status: number, code: string, message: string) => apiError(status, code, message, null)
 const notFound = () => fail(404, 'ERR_NOT_FOUND', 'User not found.')
-const primary = () => fail(403, 'ERR_FORBIDDEN_PRIMARY', 'The primary user cannot be suspended or removed here.')
+const primary = () => fail(403, 'ERR_FORBIDDEN_PRIMARY', 'An owner cannot be suspended or removed here.')
+const ownerOnly = () => fail(403, 'ERR_OWNER_ONLY', 'Only an owner can manage users.')
+const otherOwner = () => fail(403, 'ERR_FORBIDDEN_PRIMARY', "Only GoMingle can change another owner's sign-in.")
 
 const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/
 const SORTERS: Record<string, (a: PartnerUser, b: PartnerUser) => number> = {
@@ -22,22 +24,38 @@ const SORTERS: Record<string, (a: PartnerUser, b: PartnerUser) => number> = {
   status: (a, b) => a.status.localeCompare(b.status),
 }
 
-/** A row of the Team grid. The owner can be renamed but not suspended or removed. */
-const item = (u: PartnerUser) => ({
+/** What everyone on the team sees about a colleague. */
+const card = (u: PartnerUser) => ({
   id: u.id,
   fullName: u.fullName,
   designation: u.designation || null,
+  email: u.email,
+  role: u.isPrimary ? ('OWNER' as const) : ('MEMBER' as const),
+  isPrimary: u.isPrimary,
+})
+
+/** A row of the owners' Team grid. Owners can be renamed but not suspended or removed here. */
+const item = (u: PartnerUser) => ({
+  ...card(u),
   lastActiveAt: u.lastActiveAt,
   status: u.status,
-  isPrimary: u.isPrimary,
   canSuspend: !u.isPrimary,
   canDelete: !u.isPrimary,
 })
+
+/** Writes on the team are for owners only; the portal hides them from others, and this is the real check. */
+function requireOwner(me: PartnerUser) {
+  if (!me.isPrimary) throw ownerOnly()
+}
 
 /**
  * The restaurant's team: /partner/api/v1/partner/users
  * Every member is a sign-in account for the same restaurant, so suspending,
  * removing or resetting a password here takes effect on their next request.
+ *
+ * Everyone on the team can read the list; only owners can change it. A
+ * restaurant can have several owners, and only a GoMingle admin can change
+ * who they are.
  */
 @Controller('partner/api/v1/partner/users')
 @UseGuards(PartnerGuard)
@@ -78,7 +96,8 @@ export class TeamController {
     const raw = req.query.status
     const statuses = (raw === undefined ? [] : Array.isArray(raw) ? raw : [raw]).flatMap((v) => String(v).split(',')).filter(Boolean)
 
-    let rows = (await this.accounts.team(me.restaurantId)).filter((u) => u.status !== 'DELETED')
+    // Owners manage everyone; the rest of the team sees who is active.
+    let rows = (await this.accounts.team(me.restaurantId)).filter((u) => (me.isPrimary ? u.status !== 'DELETED' : u.status === 'ACTIVE'))
     const search = q.search?.trim().toLowerCase()
     if (search) {
       rows = rows.filter((u) => {
@@ -105,12 +124,17 @@ export class TeamController {
     const wanted = Number(q.page)
     const page = !Number.isInteger(wanted) || wanted < 1 ? 1 : Math.min(wanted, totalPages)
     const start = (page - 1) * pageSize
-    return { success: true, data: { items: rows.slice(start, start + pageSize).map(item), pagination: { page, pageSize, totalRecords, totalPages } } }
+    const shape = me.isPrimary ? item : card
+    return {
+      success: true,
+      data: { items: rows.slice(start, start + pageSize).map(shape), pagination: { page, pageSize, totalRecords, totalPages }, canManage: me.isPrimary },
+    }
   }
 
   @Post()
   @HttpCode(201)
   async create(@CurrentPartner() me: PartnerUser, @Body() body: Json) {
+    requireOwner(me)
     const fullName = String(body.fullName ?? '').trim()
     const email = normaliseEmail(body.email)
     const password = String(body.password ?? '')
@@ -142,7 +166,10 @@ export class TeamController {
   @Post(':userId/set-password')
   @HttpCode(200)
   async setPassword(@CurrentPartner() me: PartnerUser, @Param('userId') userId: string, @Body() body: Json) {
+    requireOwner(me)
     const user = await this.member(me, userId)
+    // Taking over a fellow owner's sign-in is for GoMingle, not the portal.
+    if (user.isPrimary && user.id !== me.id) throw otherOwner()
     const password = String(body.password ?? '')
     if (!password || password !== String(body.confirmPassword ?? '')) throw fail(422, 'ERR_VALIDATION', 'Passwords do not match.')
     await this.accounts.setPassword(user.id, password)
@@ -151,7 +178,8 @@ export class TeamController {
 
   @Patch(':userId')
   async update(@CurrentPartner() me: PartnerUser, @Param('userId') userId: string, @Body() body: Json) {
-    if ('role' in body || 'email' in body) throw fail(422, 'ERR_VALIDATION', 'That field cannot be changed.')
+    requireOwner(me)
+    if ('role' in body || 'email' in body || 'isPrimary' in body) throw fail(422, 'ERR_VALIDATION', 'That field cannot be changed.')
     const user = await this.member(me, userId)
     if (body.status === 'SUSPENDED' && user.isPrimary) throw primary()
     const changes: Partial<PartnerUser> = {}
@@ -166,6 +194,7 @@ export class TeamController {
   /** Removed members are kept on record and can no longer sign in. */
   @Delete(':userId')
   async remove(@CurrentPartner() me: PartnerUser, @Param('userId') userId: string) {
+    requireOwner(me)
     const user = await this.member(me, userId)
     if (user.isPrimary) throw primary()
     await this.accounts.update(user.id, { status: 'DELETED' })

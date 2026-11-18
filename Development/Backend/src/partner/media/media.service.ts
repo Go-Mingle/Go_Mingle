@@ -3,10 +3,16 @@ import { and, asc, eq, sql, ne } from 'drizzle-orm'
 import { config } from '../../config'
 import { DB, type Db } from '../../db/database'
 import { mediaCounters, mediaUploads, restaurantMedia, menuPdfs } from '../../db/schema'
-import { cdnUrl, RestaurantsService, type Restaurant } from '../../shared/restaurants/restaurants.service'
+import { cdnUrl, mediaIdOf, RestaurantsService, type Restaurant } from '../../shared/restaurants/restaurants.service'
+import type { Crop } from '../../db/schema'
 import { profileError, readOnly } from '../profile/profile.service'
 
 export type MediaKind = 'document' | 'photo' | 'video'
+/** Cover and profile picture: where each one is cropped from. */
+export type PhotoRole = 'cover' | 'profile'
+
+/** The frame each role is cropped to, width ÷ height: a wide banner, and a square shown as a circle. */
+export const ROLE_ASPECT: Record<PhotoRole, number> = { cover: 8 / 3, profile: 1 }
 export type MediaRow = typeof restaurantMedia.$inferSelect
 export type UploadRow = typeof mediaUploads.$inferSelect
 
@@ -92,7 +98,7 @@ export class MediaService {
     return row?.galleryReads ?? 0
   }
 
-  list(restaurantId: string, kind: MediaKind): Promise<MediaRow[]> {
+  list(restaurantId: string, kind: MediaKind | 'crop'): Promise<MediaRow[]> {
     return this.db
       .select()
       .from(restaurantMedia)
@@ -100,7 +106,7 @@ export class MediaService {
       .orderBy(asc(restaurantMedia.position))
   }
 
-  async find(restaurantId: string, mediaId: string, kind?: MediaKind): Promise<MediaRow | null> {
+  async find(restaurantId: string, mediaId: string, kind?: MediaKind | 'crop'): Promise<MediaRow | null> {
     const [row] = await this.db
       .select()
       .from(restaurantMedia)
@@ -112,13 +118,17 @@ export class MediaService {
     await this.db.delete(restaurantMedia).where(and(eq(restaurantMedia.restaurantId, restaurantId), eq(restaurantMedia.mediaId, mediaId)))
   }
 
-  /** Step 1: issues an upload target, refusing at the count limit before one exists. */
-  async uploadTarget(r: Restaurant, kind: MediaKind, body: Record<string, unknown>) {
+  /**
+   * Step 1: issues an upload target, refusing at the count limit before one
+   * exists. A cropped cover or profile picture is not a gallery photo, so
+   * `{ crop: true }` skips the gallery's count.
+   */
+  async uploadTarget(r: Restaurant, kind: MediaKind, body: Record<string, unknown>, opts: { crop?: boolean } = {}) {
     if (r.status === 'PENDING') throw readOnly()
     const contentType = typeof body.contentType === 'string' ? body.contentType : ''
     const name = typeof body.name === 'string' ? body.name : ''
     if (!name || !contentType) throw profileError('ERR_VALIDATION', 'A name and content type are required.', 422)
-    if ((await this.list(r.id, kind)).length >= LIMITS[kind].maxCount) throw profileError('ERR_MEDIA_LIMIT_REACHED', LIMIT_MESSAGE[kind], 409)
+    if (!opts.crop && (await this.list(r.id, kind)).length >= LIMITS[kind].maxCount) throw profileError('ERR_MEDIA_LIMIT_REACHED', LIMIT_MESSAGE[kind], 409)
 
     const uploadRef = await this.nextId(r.id, 'u')
     await this.db.insert(mediaUploads).values({ restaurantId: r.id, uploadRef, kind, name, contentType })
@@ -168,7 +178,7 @@ export class MediaService {
     return this.takeStaged(r, kind, body, LIMITS[kind], BAD_TYPE_DETAIL[kind])
   }
 
-  async add(r: Restaurant, kind: MediaKind, entry: UploadRow, prefix: string, extra: Partial<MediaRow> = {}): Promise<MediaRow> {
+  async add(r: Restaurant, kind: MediaKind | 'crop', entry: UploadRow, prefix: string, extra: Partial<MediaRow> = {}): Promise<MediaRow> {
     const existing = await this.list(r.id, kind)
     const [row] = await this.db
       .insert(restaurantMedia)
@@ -194,13 +204,14 @@ export class MediaService {
     return { mediaId: d.mediaId, name: d.name, type: (d.name.split('.').pop() ?? '').toUpperCase(), size: d.size, uploadedAt: d.uploadedAt }
   }
 
-  photo(p: MediaRow, r: Pick<Restaurant, 'id' | 'mainPhotoKey'>) {
+  photo(p: MediaRow, r: Pick<Restaurant, 'id' | 'mainPhotoKey'> & Partial<Pick<Restaurant, 'profilePhotoKey'>>) {
     return {
       mediaId: p.mediaId,
       name: p.name,
       // Always `.jpg`, whatever was uploaded: the served Content-Type decides how it renders.
       url: cdnUrl(r.id, `${p.mediaId}.jpg`),
       isCover: r.mainPhotoKey === `photos/${p.mediaId}.jpg`,
+      isProfile: r.profilePhotoKey === `photos/${p.mediaId}.jpg`,
       size: p.size,
       uploadedAt: p.uploadedAt,
       sortOrder: p.sortOrder,
@@ -241,7 +252,45 @@ export class MediaService {
   }
 
   /** Dropping the cover takes the restaurant off the app: visibility cannot stand without a cover photo. */
-  dropCover(restaurantId: string) {
-    return this.restaurants.update(restaurantId, { mainPhotoKey: null, visibleOnApp: false })
+  async dropCover(restaurantId: string) {
+    const r = await this.restaurants.find(restaurantId)
+    if (r?.coverImageId) await this.remove(restaurantId, r.coverImageId)
+    return this.restaurants.update(restaurantId, { mainPhotoKey: null, coverCrop: null, coverImageId: null, visibleOnApp: false })
+  }
+
+  /** The restaurant has no profile picture any more; it falls back to its initials. */
+  async dropProfile(restaurantId: string) {
+    const r = await this.restaurants.find(restaurantId)
+    if (r?.profileImageId) await this.remove(restaurantId, r.profileImageId)
+    return this.restaurants.update(restaurantId, { profilePhotoKey: null, profileCrop: null, profileImageId: null })
+  }
+
+  /**
+   * Makes a gallery photo the cover or the profile picture, keeping the part
+   * the partner chose. The cropped image arrives as its own upload (cut in the
+   * browser from the original), so every surface can show it as a plain
+   * picture; the crop rectangle is kept so the editor can reopen on it. The
+   * original stays in the gallery untouched. Without a crop, the whole photo
+   * is used.
+   */
+  async assignRole(r: Restaurant, role: PhotoRole, source: MediaRow, crop: Crop | null, cropped: UploadRow | null) {
+    const previous = role === 'cover' ? r.coverImageId : r.profileImageId
+    const image = cropped ? await this.add(r, 'crop', cropped, 'crop') : null
+    if (previous) await this.remove(r.id, previous)
+    const key = `photos/${source.mediaId}.jpg`
+    return this.restaurants.update(
+      r.id,
+      role === 'cover'
+        ? { mainPhotoKey: key, coverCrop: crop, coverImageId: image?.mediaId ?? null }
+        : { profilePhotoKey: key, profileCrop: crop, profileImageId: image?.mediaId ?? null },
+    )
+  }
+
+  /** Where the cover and the profile picture come from, for the editor to reopen on. */
+  roles(r: Restaurant) {
+    return {
+      cover: r.mainPhotoKey ? { mediaId: mediaIdOf(r.mainPhotoKey), crop: r.coverCrop ?? null } : null,
+      profile: r.profilePhotoKey ? { mediaId: mediaIdOf(r.profilePhotoKey), crop: r.profileCrop ?? null } : null,
+    }
   }
 }

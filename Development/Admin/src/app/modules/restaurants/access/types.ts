@@ -30,6 +30,7 @@ export interface PortalLogin {
   fullName: string
   email: string
   isOwner: boolean
+  designation: string | null
   status: string
   hasPassword: boolean
   hasGoogle: boolean
@@ -41,6 +42,23 @@ export interface PortalLogin {
 export interface GrantAccessPayload {
   fullName: string
   email: string
+  /** Make the new login an owner straight away. */
+  isOwner?: boolean
+}
+
+/** What an admin can change on a login. Leave a field out to keep it. */
+export interface UpdateLoginPayload {
+  fullName?: string
+  email?: string
+  designation?: string
+  isOwner?: boolean
+  status?: 'ACTIVE' | 'SUSPENDED'
+}
+
+export interface UpdateLoginResult {
+  login: PortalLogin
+  /** True when the login's email changed and the new address was emailed. */
+  emailed: boolean
 }
 
 export interface GrantAccessResult {

@@ -42,6 +42,8 @@ export interface PhotoItem extends MediaItemBase {
   /** Public CloudFront URL — cacheable and safe in an `<img src>`. */
   url: string
   isCover: boolean
+  /** The restaurant's profile picture is cut from this photo. */
+  isProfile?: boolean
   /** Display order within the tab. Returned but read-only in this release. */
   sortOrder: number
 }
@@ -191,4 +193,35 @@ export interface RemovedResponse {
 export interface CoverResponse {
   mediaId: string
   isCover: boolean
+}
+
+/** Cover (a wide 8:3 banner) or profile picture (a square shown as a circle). */
+export type PhotoRole = 'cover' | 'profile'
+
+/** A rectangle of a photo, each value a fraction (0 to 1) of its width or height. */
+export interface PhotoCrop {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
+/** Where the cover and the profile picture are cut from, so the editor can reopen on them. */
+export interface PhotoRoles {
+  cover: { mediaId: string; crop: PhotoCrop | null } | null
+  profile: { mediaId: string; crop: PhotoCrop | null } | null
+}
+
+export interface SetPhotoRoleDto {
+  crop: PhotoCrop
+  /** The cropped image, staged through `photos/crop-upload-url`. */
+  uploadRef: string
+}
+
+export interface SetPhotoRoleResponse extends PhotoRoles {
+  mediaId: string
+  role: PhotoRole
+  crop: PhotoCrop
+  coverPhotoUrl: string | null
+  profilePhotoUrl: string | null
 }

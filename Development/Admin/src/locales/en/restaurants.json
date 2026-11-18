@@ -337,7 +337,7 @@
     },
     "logins": {
       "title": "Partner Portal access",
-      "hint": "The people who can sign in to this restaurant.",
+      "hint": "The people who can sign in to this restaurant. A restaurant can have more than one owner.",
       "loading": "Loading…",
       "loadFailed": "Could not load who has access.",
       "none": "Nobody can sign in to this restaurant. Give an email access so its owner can get in.",
@@ -356,7 +356,30 @@
       "email": "Email",
       "submit": "Give access",
       "granted": "Access given. We emailed {{email}}.",
-      "moved": "{{email}} now signs in to {{name}}."
+      "moved": "{{email}} now signs in to {{name}}.",
+      "makeOwner": "Make this person an owner"
+    },
+    "edit": {
+      "button": "Edit {{name}}",
+      "title": "Edit {{name}}",
+      "submit": "Save",
+      "emailHint": "They sign in with this email. Changing it unlinks Google and emails the new address.",
+      "designation": "Designation",
+      "designationPlaceholder": "e.g. General Manager",
+      "role": "Role",
+      "ownerHint": "Owners add and manage the restaurant's team on the Partner Portal.",
+      "memberHint": "Team members can use the portal and see the team, but cannot change who has access.",
+      "canSignIn": "Can sign in",
+      "active": "Active",
+      "saved": "{{name}} updated.",
+      "savedEmailed": "Saved. We emailed {{email}} so they can sign in."
+    },
+    "remove": {
+      "button": "Remove access for {{name}}",
+      "title": "Remove access for {{name}}?",
+      "body": "{{email}} will no longer be able to sign in to this restaurant. You can give access again later.",
+      "confirm": "Remove access",
+      "done": "Access removed for {{email}}."
     }
   }
 }
