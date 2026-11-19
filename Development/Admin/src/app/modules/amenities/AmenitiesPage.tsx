@@ -15,6 +15,7 @@ import {
   Grid,
   Upload,
   Alert,
+  Segmented,
   message,
 } from 'antd'
 import type { UploadProps } from 'antd'
@@ -41,6 +42,8 @@ import {
   useDeleteAmenityMutation,
 } from './hooks/useAmenitiesQuery'
 import { AmenityIconBadge } from './components/AmenityIconBadge'
+import { IconLibraryPicker } from './components/IconLibraryPicker'
+import { findLibraryIcon } from './iconLibrary'
 import { SecondaryActionButton, PrimaryActionButton } from '../../atoms/ModalActions'
 import { AppButton } from '../../atoms/AppButton'
 import { ConfirmModal } from '../../molecules/ConfirmModal'
@@ -77,6 +80,10 @@ export function AmenitiesPage() {
   const [amenityForm] = Form.useForm()
   const [iconFile, setIconFile] = useState<File | null>(null)
   const [iconPreviewSvg, setIconPreviewSvg] = useState<string | null>(null)
+  // A library icon picked in the modal (a Phosphor name), and which tab is open.
+  const [iconName, setIconName] = useState<string | null>(null)
+  // null: follow the icon the amenity has now (library name or uploaded file).
+  const [iconSource, setIconSource] = useState<'library' | 'upload' | null>(null)
   // Staged "reset to default" — set when the user clicks Reset while editing an
   // amenity that has an icon. The reset is not sent until the Save CTA fires, so
   // it can be batched with any name edit and cancelled by closing the modal.
@@ -124,6 +131,8 @@ export function AmenitiesPage() {
   // Once a reset is staged the preview should read as icon-less (empty upload
   // state) even though the amenity still has an icon on the server.
   const effectiveEditIconUrl = resetIconStaged ? null : editIconUrl
+  const activeIconSource =
+    iconSource ?? (!editIconUrl || findLibraryIcon(editIconUrl) ? 'library' : 'upload')
 
   // Prefer the locally bumped token (set the moment an upload succeeds), and
   // fall back to the server's updatedAt so a replacement made in another
@@ -172,11 +181,12 @@ export function AmenitiesPage() {
     const fd = new FormData()
     fd.append('name', trimmed)
     if (iconFile) fd.append('icon', iconFile)
+    else if (iconName) fd.append('iconName', iconName)
     else if (resetIconStaged) fd.append('resetIcon', 'true')
 
     if (editTarget) {
       const targetId = editTarget.id
-      const uploadedIcon = iconFile !== null
+      const uploadedIcon = iconFile !== null || iconName !== null
       updateMutation.mutate(
         { id: targetId, formData: fd },
         {
@@ -190,6 +200,7 @@ export function AmenitiesPage() {
             amenityForm.resetFields()
             setIconFile(null)
             setIconPreviewSvg(null)
+            setIconName(null)
             setResetIconStaged(false)
             void messageApi.success(t('form.updatedToast', { name: trimmed }))
           },
@@ -211,6 +222,7 @@ export function AmenitiesPage() {
         amenityForm.resetFields()
         setIconFile(null)
         setIconPreviewSvg(null)
+        setIconName(null)
         setResetIconStaged(false)
         void messageApi.success(t('form.createdToast', { name: trimmed }))
       },
@@ -230,6 +242,8 @@ export function AmenitiesPage() {
     amenityForm.resetFields()
     setIconFile(null)
     setIconPreviewSvg(null)
+    setIconName(null)
+    setIconSource(null)
     setResetIconStaged(false)
     setPendingSvgError(null)
     setSvgProcessing(false)
@@ -240,6 +254,8 @@ export function AmenitiesPage() {
       amenityForm.setFieldsValue({ name: record.name })
       setIconFile(null)
       setIconPreviewSvg(null)
+      setIconName(null)
+      setIconSource(null)
       setResetIconStaged(false)
       setPendingSvgError(null)
       setSvgProcessing(false)
@@ -263,6 +279,7 @@ export function AmenitiesPage() {
         return Upload.LIST_IGNORE
       }
       setIconFile(file)
+      setIconName(null)
       setResetIconStaged(false)
       setPendingSvgError(null)
       setSvgProcessing(true)
@@ -541,7 +558,7 @@ export function AmenitiesPage() {
         open={modalOpen}
         onCancel={handleCloseFormModal}
         title={isEditing ? t('form.editTitle') : t('form.newTitle')}
-        width={480}
+        width={560}
         footer={null}
         closable
         destroyOnClose
@@ -571,58 +588,88 @@ export function AmenitiesPage() {
             <Input placeholder={t('form.amenityNamePlaceholder')} className="h-10 rounded-lg" />
           </Form.Item>
 
-          {/* SVG upload */}
           <Form.Item label={t('form.iconLabel')}>
-            <Upload.Dragger {...uploadProps} className="app-upload-dragger">
-              <div className="flex flex-col items-center gap-2 py-1">
-                {iconPreviewSvg ? (
-                  <div className="w-12 h-12 rounded-lg bg-[var(--color-page)] flex items-center justify-center border border-[var(--color-border)] text-[var(--color-accent)] overflow-hidden">
-                    <div
-                      aria-hidden
-                      className="w-6 h-6 flex items-center justify-center text-[var(--color-accent)]"
-                      dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(iconPreviewSvg, {
-                          USE_PROFILES: { svg: true, svgFilters: true },
-                        }),
-                      }}
-                    />
-                  </div>
-                ) : isEditing && effectiveEditIconUrl ? (
-                  <AmenityIconBadge
-                    iconUrl={effectiveEditIconUrl}
-                    version={editIconVersion}
-                    containerSize={48}
-                    size={22}
-                    bgClassName="bg-[var(--color-page)]"
-                  />
-                ) : (
-                  <div className="w-10 h-10 rounded-full bg-[var(--color-accent-light)] flex items-center justify-center">
-                    <UploadSimple size={20} weight="regular" color="var(--color-accent)" />
-                  </div>
-                )}
-                <div className="text-[13px] font-semibold text-[var(--color-text)] font-[var(--font-ui)]">
-                  {iconPreviewSvg || (isEditing && effectiveEditIconUrl)
-                    ? t('form.iconReplace')
-                    : t('form.iconUploadTitle')}
-                </div>
-                <div className="text-xs text-[var(--color-text-muted)] font-[var(--font-ui)] leading-normal text-center">
-                  {t('form.iconHelper')}
-                </div>
-              </div>
-            </Upload.Dragger>
-            {iconPreviewSvg && (
-              <button
-                type="button"
-                onClick={() => {
+            <Segmented
+              block
+              aria-label={t('form.iconSourceLabel')}
+              value={activeIconSource}
+              onChange={(v) => setIconSource(v as 'library' | 'upload')}
+              options={[
+                { label: t('form.iconFromLibrary'), value: 'library' },
+                { label: t('form.iconUpload'), value: 'upload' },
+              ]}
+              className="mb-3"
+            />
+            {activeIconSource === 'library' ? (
+              <IconLibraryPicker
+                value={
+                  iconName ??
+                  (iconFile || resetIconStaged
+                    ? null
+                    : (findLibraryIcon(editIconUrl)?.name ?? null))
+                }
+                onChange={(name) => {
+                  setIconName(name)
                   setIconFile(null)
                   setIconPreviewSvg(null)
+                  setPendingSvgError(null)
+                  setResetIconStaged(false)
                 }}
-                className="mt-2 bg-transparent border-none p-0 text-[var(--color-error)] font-[var(--font-ui)] text-xs font-medium cursor-pointer"
-              >
-                {t('form.removeButton')}
-              </button>
+              />
+            ) : (
+              <>
+                <Upload.Dragger {...uploadProps} className="app-upload-dragger">
+                  <div className="flex flex-col items-center gap-2 py-1">
+                    {iconPreviewSvg ? (
+                      <div className="w-12 h-12 rounded-lg bg-[var(--color-page)] flex items-center justify-center border border-[var(--color-border)] text-[var(--color-accent)] overflow-hidden">
+                        <div
+                          aria-hidden
+                          className="w-6 h-6 flex items-center justify-center text-[var(--color-accent)]"
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(iconPreviewSvg, {
+                              USE_PROFILES: { svg: true, svgFilters: true },
+                            }),
+                          }}
+                        />
+                      </div>
+                    ) : isEditing && effectiveEditIconUrl ? (
+                      <AmenityIconBadge
+                        iconUrl={effectiveEditIconUrl}
+                        version={editIconVersion}
+                        containerSize={48}
+                        size={22}
+                        bgClassName="bg-[var(--color-page)]"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-[var(--color-accent-light)] flex items-center justify-center">
+                        <UploadSimple size={20} weight="regular" color="var(--color-accent)" />
+                      </div>
+                    )}
+                    <div className="text-[13px] font-semibold text-[var(--color-text)] font-[var(--font-ui)]">
+                      {iconPreviewSvg || (isEditing && effectiveEditIconUrl)
+                        ? t('form.iconReplace')
+                        : t('form.iconUploadTitle')}
+                    </div>
+                    <div className="text-xs text-[var(--color-text-muted)] font-[var(--font-ui)] leading-normal text-center">
+                      {t('form.iconHelper')}
+                    </div>
+                  </div>
+                </Upload.Dragger>
+                {iconPreviewSvg && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIconFile(null)
+                      setIconPreviewSvg(null)
+                    }}
+                    className="mt-2 bg-transparent border-none p-0 text-[var(--color-error)] font-[var(--font-ui)] text-xs font-medium cursor-pointer"
+                  >
+                    {t('form.removeButton')}
+                  </button>
+                )}
+              </>
             )}
-            {isEditing && effectiveEditIconUrl && (
+            {isEditing && (effectiveEditIconUrl || iconName) && (
               <button
                 type="button"
                 onClick={() => {
@@ -630,6 +677,7 @@ export function AmenitiesPage() {
                   // be batched with a name edit and cancelled by closing the modal.
                   setResetIconStaged(true)
                   setIconFile(null)
+                  setIconName(null)
                   setIconPreviewSvg(null)
                 }}
                 className="mt-2 block bg-transparent border-none p-0 text-(--color-text-muted) text-xs font-medium cursor-pointer hover:text-(--color-error) transition-colors duration-150"
