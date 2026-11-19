@@ -1,0 +1,28 @@
+{
+  "/login": [
+    "Create an account > action:Back to sign in",
+    "Create an account > action:Send code",
+    "Create an account > action:Sign in",
+    "Create an account > heading:Create your account",
+    "Create an account > heading:Fill your tables with good company.",
+    "Create an account > input:you@yourrestaurant.com",
+    "action:Create an account",
+    "action:Forgot password?",
+    "action:Show",
+    "action:Sign in",
+    "field:Email",
+    "field:Password",
+    "heading:Fill your tables with good company.",
+    "heading:Welcome back",
+    "input:Enter your password",
+    "input:you@yourrestaurant.com"
+  ],
+  "/signup": [
+    "action:Back to sign in",
+    "action:Send code",
+    "action:Sign in",
+    "heading:Create your account",
+    "heading:Fill your tables with good company.",
+    "input:you@yourrestaurant.com"
+  ]
+}

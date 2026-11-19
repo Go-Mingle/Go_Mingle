@@ -14,10 +14,20 @@ export class Database {
   readonly pool: Pool
   readonly db: Db
 
-  constructor(readonly url: string, max = 10) {
+  constructor(
+    readonly url: string,
+    max = 10,
+  ) {
     // Hosted databases (Neon, RDS…) need TLS; the built-in one does not.
     const local = /@(localhost|127\.0\.0\.1)[:/]/.test(url)
     this.pool = new Pool({ connectionString: url, max, connectionTimeoutMillis: 15_000, ...(local || /sslmode=disable/.test(url) ? {} : { ssl: { rejectUnauthorized: false } }) })
+    // An idle connection the server closes (Neon does this routinely, so does a
+    // restart) is reported here. Without a listener Node treats it as unhandled
+    // and stops the whole API; the pool already drops the dead client and opens
+    // a new one on the next query (GM-347).
+    this.pool.on('error', (err) => {
+      if (process.env.NODE_ENV !== 'test') console.warn(`database connection dropped: ${err.message}`)
+    })
     this.db = drizzle(this.pool, { schema })
   }
 
