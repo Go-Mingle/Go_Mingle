@@ -90,6 +90,8 @@ export interface RestaurantDetail {
   joinedAt: string
   confirmedBookings: number
   avatarUrl: string | null
+  /** Cover photo for the page banner; null until the partner picks one. */
+  coverUrl?: string | null
   /** The partner's uploaded menu PDF, when there is one. */
   menuPdfUrl?: string | null
 }
