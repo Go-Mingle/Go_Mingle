@@ -293,7 +293,9 @@ export function ContactsTab({ c }: { c: Contacts }) {
       )}
 
       <ContactFormModal c={c} />
-      {c.editable && <ImportContactsDialog open={importOpen} onClose={() => setImportOpen(false)} />}
+      {c.editable && (
+        <ImportContactsDialog open={importOpen} onClose={() => setImportOpen(false)} />
+      )}
 
       <ConfirmModal
         open={!!c.deleteTarget}

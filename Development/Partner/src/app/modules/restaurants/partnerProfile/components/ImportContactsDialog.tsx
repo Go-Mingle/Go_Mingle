@@ -32,10 +32,31 @@ export function ImportContactsDialog({ open, onClose }: Props) {
       intro={t('restaurants:contacts.import.intro')}
       templateFileName="gomingle-restaurant-contacts.csv"
       columns={[
-        { key: 'name', label: t('restaurants:contacts.import.columns.name'), headers: ['name', 'full name', 'contact name'], required: true, example: 'Bilal Ahmed' },
-        { key: 'title', label: t('restaurants:contacts.import.columns.title'), headers: ['title', 'designation', 'job title', 'role'], example: 'Head chef' },
-        { key: 'email', label: t('restaurants:contacts.import.columns.email'), headers: ['email', 'email address'], example: 'bilal@restaurant.pk' },
-        { key: 'phone', label: t('restaurants:contacts.import.columns.phone'), headers: ['phone', 'phone number', 'mobile', 'contact number'], example: '+92 300 1234567' },
+        {
+          key: 'name',
+          label: t('restaurants:contacts.import.columns.name'),
+          headers: ['name', 'full name', 'contact name'],
+          required: true,
+          example: 'Bilal Ahmed',
+        },
+        {
+          key: 'title',
+          label: t('restaurants:contacts.import.columns.title'),
+          headers: ['title', 'designation', 'job title', 'role'],
+          example: 'Head chef',
+        },
+        {
+          key: 'email',
+          label: t('restaurants:contacts.import.columns.email'),
+          headers: ['email', 'email address'],
+          example: 'bilal@restaurant.pk',
+        },
+        {
+          key: 'phone',
+          label: t('restaurants:contacts.import.columns.phone'),
+          headers: ['phone', 'phone number', 'mobile', 'contact number'],
+          example: '+92 300 1234567',
+        },
       ]}
       validate={(r, seen) => {
         const errors = validateContact(r, t)

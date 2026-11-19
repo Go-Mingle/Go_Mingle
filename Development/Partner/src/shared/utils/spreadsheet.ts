@@ -6,7 +6,8 @@
 
 export const IMPORT_MAX_ROWS = 500
 export const IMPORT_MAX_BYTES = 2 * 1024 * 1024
-export const IMPORT_ACCEPT = '.xlsx,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv'
+export const IMPORT_ACCEPT =
+  '.xlsx,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv'
 
 export type SheetError = 'type' | 'size' | 'empty' | 'tooMany' | 'unreadable'
 
