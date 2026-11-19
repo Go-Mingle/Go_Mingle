@@ -216,7 +216,7 @@ export function Sidebar({ forDrawer = false }: SidebarProps) {
 
   return (
     <aside
-      className="flex flex-col h-full bg-[var(--color-sidebar)] border-r border-[var(--color-border)]"
+      className="gm-dock flex flex-col h-full bg-[var(--color-sidebar)] border-r border-[var(--color-border)]"
       style={{
         width: forDrawer ? 280 : isIconOnly ? 64 : 240,
         transition: forDrawer ? 'none' : 'width 200ms ease-in-out',
@@ -229,7 +229,7 @@ export function Sidebar({ forDrawer = false }: SidebarProps) {
           isIconOnly ? 'justify-center px-0' : 'justify-between px-5',
         )}
       >
-        <GoMingleLogo collapsed={isIconOnly} height={34} animated={drawLogo} />
+        <GoMingleLogo collapsed={isIconOnly} height={30} animated={drawLogo} light />
 
         {/* Close button — drawer mode only */}
         {forDrawer && (

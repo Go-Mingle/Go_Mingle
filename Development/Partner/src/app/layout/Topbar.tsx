@@ -19,7 +19,7 @@ export function Topbar() {
   const [bellOpen, setBellOpen] = useState(false)
 
   return (
-    <header className="h-16 bg-[var(--color-topbar)] border-b border-[var(--color-border)] px-4 lg:px-6 flex items-center justify-between shrink-0 sticky top-0 z-10">
+    <header className="gm-topbar h-16 bg-[var(--color-topbar)] border-b border-[var(--color-border)] px-4 lg:px-6 flex items-center justify-between shrink-0 sticky top-0 z-10">
       <div className="flex items-center gap-3">
         {/* Hamburger — visible only below lg (tablet + mobile) */}
         {!screens.lg && (

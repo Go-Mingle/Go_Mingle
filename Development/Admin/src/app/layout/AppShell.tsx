@@ -33,7 +33,7 @@ export function AppShell() {
   return (
     <div className="flex h-screen overflow-hidden bg-[var(--color-page)]">
       {/* ── Desktop sidebar — always in the flex layout at lg+ ── */}
-      <div className="hidden lg:flex lg:flex-col shrink-0">
+      <div className="gm-dock-slot hidden lg:flex lg:flex-col shrink-0">
         <Sidebar />
       </div>
 

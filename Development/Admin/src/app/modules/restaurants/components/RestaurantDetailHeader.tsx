@@ -157,54 +157,57 @@ export function RestaurantDetailHeader({
           </div>
         </div>
       ) : (
-        <div className="flex items-start justify-between gap-4 mb-6 pb-6 border-b border-[var(--color-border)]">
-          <div className="flex items-start gap-5">
-            {restaurant.avatarUrl ? (
+        <div className="gm-profile-cover relative mb-6 overflow-hidden rounded-[28px] bg-[#14102A] shadow-[var(--shadow-md)]">
+          {/* The restaurant's cover photo as the page banner (GM-337). */}
+          <div className="relative h-[220px] w-full" data-testid="admin-cover-banner">
+            {restaurant.coverUrl ? (
               <img
-                src={restaurant.avatarUrl as string}
-                alt={restaurant.name as string}
-                className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] object-cover"
+                src={restaurant.coverUrl as string}
+                alt=""
+                className="h-full w-full object-cover"
               />
             ) : (
-              <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] flex items-center justify-center text-(--color-on-accent) font-bold font-(--font-ui) bg-[var(--color-accent)]">
-                {getRestaurantInitials((restaurant.name as string) ?? '')}
-              </div>
+              <span className="gm-cover-fallback absolute inset-0" aria-hidden="true" />
             )}
-            <div>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  flexWrap: 'wrap',
-                  marginBottom: 6,
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: 24,
-                    fontWeight: 700,
-                    color: 'var(--color-text)',
-                    fontFamily: 'var(--font-ui)',
-                  }}
-                >
-                  {restaurant.name as string}
-                </span>
-                {statusBadge(platformStatusStyle)}
-                {statusBadge(visibilityStyle)}
-              </div>
-              <p className="text-[13px] text-[var(--color-text-muted)] m-0">
-                {restaurant.cuisine as string} · {restaurant.areaDistrict as string}
-              </p>
-            </div>
+            <span
+              className="absolute inset-0 bg-gradient-to-t from-[rgba(20,16,42,0.92)] via-[rgba(20,16,42,0.3)] to-transparent"
+              aria-hidden="true"
+            />
           </div>
-          <div className="flex items-center gap-2 shrink-0">
-            {actions ?? (
-              <>
-                {changeCategoryBtn}
-                {isActive ? suspendBtn : unsuspendBtn}
-              </>
-            )}
+          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
+            <div className="flex items-end gap-5 min-w-0">
+              {restaurant.avatarUrl ? (
+                <img
+                  src={restaurant.avatarUrl as string}
+                  alt={restaurant.name as string}
+                  className="w-[84px] h-[84px] rounded-[22px] shrink-0 border-4 border-white object-cover shadow-[var(--shadow-md)]"
+                />
+              ) : (
+                <div className="w-[84px] h-[84px] rounded-[22px] shrink-0 border-4 border-white flex items-center justify-center text-(--color-on-accent) text-[22px] font-bold font-(--font-ui) bg-[var(--color-accent)]">
+                  {getRestaurantInitials((restaurant.name as string) ?? '')}
+                </div>
+              )}
+              <div className="min-w-0">
+                <div className="flex items-center gap-2.5 flex-wrap mb-1.5">
+                  <h1 className="m-0 text-[28px] leading-tight font-bold text-white truncate">
+                    {restaurant.name as string}
+                  </h1>
+                  {statusBadge(platformStatusStyle)}
+                  {statusBadge(visibilityStyle)}
+                </div>
+                <p className="text-[14px] text-white/85 m-0">
+                  {restaurant.cuisine as string} · {restaurant.areaDistrict as string}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              {actions ?? (
+                <>
+                  {changeCategoryBtn}
+                  {isActive ? suspendBtn : unsuspendBtn}
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
