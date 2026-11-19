@@ -7,8 +7,106 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GoMingle Admin Portal</title>
+    <script>
+      // Theme before first paint, so the splash and the app open in the right colours.
+      try {
+        var t = localStorage.getItem('gomingle.theme')
+        if (t !== 'light' && t !== 'dark')
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.dataset.theme = t
+      } catch (e) {}
+    </script>
+    <style>
+      /* App start (GM-338): the table draws and guests take their seats while the app loads. */
+      #gm-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f7f5fc;
+        transition:
+          opacity 320ms ease,
+          visibility 320ms;
+      }
+      [data-theme='dark'] #gm-splash {
+        background: #14102a;
+      }
+      #gm-splash.gm-splash--out {
+        opacity: 0;
+        visibility: hidden;
+      }
+      #gm-splash .t {
+        fill: none;
+        stroke: #e8432e;
+        stroke-width: 5;
+        stroke-linecap: round;
+        stroke-dasharray: 88;
+        stroke-dashoffset: 88;
+        animation: gms-draw 700ms cubic-bezier(0.2, 0, 0, 1) 80ms forwards;
+      }
+      #gm-splash .s {
+        transform-box: fill-box;
+        transform-origin: center;
+        transform: scale(0);
+        animation: gms-pop 340ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+      #gm-splash .w {
+        fill: #d98a12;
+      }
+      #gm-splash .c {
+        fill: #13a386;
+      }
+      #gm-splash .o {
+        fill: none;
+        stroke: #d98a12;
+        stroke-width: 2;
+      }
+      [data-theme='dark'] #gm-splash .t {
+        stroke: #ff5a44;
+      }
+      [data-theme='dark'] #gm-splash .w {
+        fill: #ffb547;
+      }
+      [data-theme='dark'] #gm-splash .c {
+        fill: #3fd6b4;
+      }
+      [data-theme='dark'] #gm-splash .o {
+        stroke: #ffb547;
+      }
+      @keyframes gms-draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes gms-pop {
+        to {
+          transform: scale(1);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #gm-splash .t,
+        #gm-splash .s {
+          animation: none;
+          stroke-dashoffset: 0;
+          transform: none;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="gm-splash" aria-hidden="true">
+      <svg width="96" height="96" viewBox="0 0 64 64">
+        <circle class="t" cx="32" cy="32" r="14" transform="rotate(-90 32 32)" />
+        <circle class="s w" style="animation-delay: 600ms" cx="32" cy="7" r="4.6" />
+        <circle class="s c" style="animation-delay: 680ms" cx="53.7" cy="19.5" r="4.6" />
+        <circle class="s w" style="animation-delay: 760ms" cx="53.7" cy="44.5" r="4.6" />
+        <circle class="s c" style="animation-delay: 840ms" cx="32" cy="57" r="4.6" />
+        <circle class="s w" style="animation-delay: 920ms" cx="10.3" cy="44.5" r="4.6" />
+        <circle class="s o" style="animation-delay: 1000ms" cx="10.3" cy="19.5" r="3.8" />
+      </svg>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

@@ -14,6 +14,22 @@ initSentry()
 // Light / dark theme on <html> before the first paint (no flash of the wrong theme).
 initTheme()
 
+/**
+ * Fades out the app-start splash in index.html once the app has painted. It
+ * stays at least long enough for the table to finish drawing (about a second),
+ * so a fast load does not flash it.
+ */
+function hideSplash() {
+  const splash = document.getElementById('gm-splash')
+  if (!splash) return
+  const shownFor = performance.now()
+  const wait = Math.max(0, 1100 - shownFor)
+  window.setTimeout(() => {
+    splash.classList.add('gm-splash--out')
+    window.setTimeout(() => splash.remove(), 400)
+  }, wait)
+}
+
 async function bootstrap() {
   // FE1 BR-09 — a termination in any tab signs every tab out.
   initSessionChannel()
@@ -27,6 +43,7 @@ async function bootstrap() {
       <App />
     </StrictMode>,
   )
+  requestAnimationFrame(hideSplash)
 }
 
 bootstrap()
