@@ -55,7 +55,7 @@ export function AppShell() {
       <div className="flex flex-col flex-1 min-w-0">
         <Topbar />
         {/* Horizontal: 16px mobile & tablet, 24px desktop. Vertical: 32px mobile, 16px tablet, 24px desktop. */}
-        <main className="flex-1 overflow-y-auto px-4 py-8 md:py-4 lg:px-6 lg:py-6">
+        <main className="gm-app-main flex-1 overflow-y-auto px-4 py-8 md:py-4 lg:px-6 lg:py-6">
           <div ref={page}>
             <Outlet />
           </div>
