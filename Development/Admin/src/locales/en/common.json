@@ -36,7 +36,10 @@
     "signOutTitle": "Sign out?",
     "signOutContent": "You will be signed out of GoMingle Admin.",
     "switchToDark": "Switch to dark mode",
-    "switchToLight": "Switch to light mode"
+    "switchToLight": "Switch to light mode",
+    "theme": "Theme",
+    "themeLight": "Light theme",
+    "themeDark": "Dark theme"
   },
   "buttons": {
     "save": "Save",

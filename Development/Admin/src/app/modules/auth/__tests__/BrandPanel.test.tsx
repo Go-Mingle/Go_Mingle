@@ -4,16 +4,21 @@ import { renderWithProviders } from '../../../../test-utils/renderWithProviders'
 import { BrandPanel } from '../components/BrandPanel'
 
 describe('BrandPanel', () => {
-  it('renders the GoMingle logo lockup', () => {
-    renderWithProviders(<BrandPanel />)
-    const logo = screen.getByRole('img', { name: 'GoMingle' })
-    expect(logo).toHaveClass('gm-wordmark--light')
+  it('renders the light logo lockup and the animated table mark', () => {
+    const { container } = renderWithProviders(<BrandPanel />)
+    expect(screen.getByRole('img', { name: 'GoMingle' })).toHaveClass('gm-wordmark--light')
+    expect(container.querySelector('.gm-mark--animated')).not.toBeNull()
   })
 
-  it('renders the tagline and chips', () => {
+  it('says what the admin panel is for', () => {
     renderWithProviders(<BrandPanel />)
-    expect(screen.getByText('Elevated')).toBeInTheDocument()
-    expect(screen.getByText('Connected')).toBeInTheDocument()
-    expect(screen.getByText('Effortless')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Every table, every seat, at a glance.',
+    )
+    expect(screen.getByText('Approve and manage every restaurant')).toBeInTheDocument()
+    expect(
+      screen.getByText('Hold payments in escrow until each dinner is done'),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Tune interests, amenities and timers')).toBeInTheDocument()
   })
 })
