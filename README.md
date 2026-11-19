@@ -174,6 +174,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 
 | Release | Date | Highlights |
 |---|---|---|
+| `v0.13.1` | 20 Nov 2026 | Inside both portals: the navigation is now a floating midnight dock with rounded corners and the restaurant profile opens with a full-width cover banner (the cover photo, or a warm gradient when none is uploaded) with the profile photo, name, status and actions laid over it; section tabs are a pill bar. Works in light and dark and on phones; every field and action is unchanged (GM-337) |
 | `v0.13.0` | 19 Nov 2026 | New sign-in and sign-up in both portals ("Gathering lights"): one full-screen background in light or dark, no split. Guests glide in from the edges and take their seats around the GoMingle table, the headline names who might be sitting there ("Founders. Poets. Chess players. Tonight, at one table."), then the form rises in; everything settles within about 4 seconds and respects reduced motion (GM-336) |
 | `v0.12.3` | 19 Nov 2026 | Fix: in the Admin amenity dialog, the icon search's magnifier sat out of line with its text (GM-348) |
 | `v0.12.2` | 19 Nov 2026 | App start: the GoMingle table draws itself and seats its guests while the app loads, in light or dark. Every spinner is now the table filling up; seat dots on tables use the brand's candle and mint; page titles in the display face; the sidebar logo draws once per visit (GM-338, GM-337) |

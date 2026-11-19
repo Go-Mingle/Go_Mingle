@@ -58,37 +58,42 @@ export function ProfileHeader({
   })()
 
   return (
-    <div className="mb-6 overflow-hidden rounded-[var(--radius-lg)] bg-[var(--color-card)] shadow-[var(--shadow-sm)] md:mb-5">
-      {/* The cover photo as a banner, so the page opens on the restaurant itself. */}
-      {profile.coverPhotoUrl && (
-        <div className="relative aspect-[8/3] max-h-56 w-full" data-testid="cover-banner">
+    <div className="gm-profile-cover relative mb-6 overflow-hidden rounded-[28px] bg-[#14102A] shadow-[var(--shadow-md)] md:mb-5">
+      {/* The cover photo is the page's banner; the details sit on it (GM-337). */}
+      <div
+        className="relative h-[150px] w-full md:h-[240px]"
+        data-testid={profile.coverPhotoUrl ? 'cover-banner' : undefined}
+      >
+        {profile.coverPhotoUrl ? (
           <img src={profile.coverPhotoUrl} alt="" className="h-full w-full object-cover" />
-          <span
-            className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent"
-            aria-hidden="true"
-          />
-        </div>
-      )}
-      <div className="flex flex-col gap-4 p-6 md:flex-row md:items-start md:justify-between">
-        <div className="flex min-w-0 items-start gap-4 md:items-center">
+        ) : (
+          <span className="gm-cover-fallback absolute inset-0" aria-hidden="true" />
+        )}
+        <span
+          className="absolute inset-0 bg-gradient-to-t from-[rgba(20,16,42,0.92)] via-[rgba(20,16,42,0.3)] to-transparent"
+          aria-hidden="true"
+        />
+      </div>
+      <div className="relative flex flex-col gap-4 px-5 pb-5 -mt-10 md:absolute md:inset-x-0 md:bottom-0 md:mt-0 md:flex-row md:items-end md:justify-between md:p-6">
+        <div className="flex min-w-0 items-end gap-4">
           {/* Cover thumbnail — opens the Restaurant image modal (BR-08). */}
           <button
             type="button"
             onClick={onOpenImage}
             aria-label={t('restaurants:profile.coverAria')}
-            className="relative shrink-0 rounded-full border-none bg-transparent p-0 cursor-pointer"
+            className="relative shrink-0 rounded-[22px] border-none bg-transparent p-0 cursor-pointer"
           >
             {/* The profile picture, round like everywhere else it appears. */}
             {profile.profilePhotoUrl ? (
               <img
                 src={profile.profilePhotoUrl}
                 alt=""
-                className="h-16 w-16 rounded-full border-2 border-[var(--color-card)] object-cover shadow-[var(--shadow-sm)]"
+                className="h-[84px] w-[84px] rounded-[22px] border-4 border-white object-cover shadow-[var(--shadow-md)]"
                 loading="lazy"
                 data-testid="profile-photo"
               />
             ) : (
-              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-accent-light)]">
+              <span className="flex h-[84px] w-[84px] items-center justify-center rounded-[22px] border-4 border-white bg-[var(--color-accent-light)]">
                 <Storefront size={26} className="text-[var(--color-accent)]" />
               </span>
             )}
@@ -101,11 +106,11 @@ export function ProfileHeader({
             <div className="flex flex-wrap items-center gap-2.5">
               {/* Placeholders are driven off null, not empty string — a fresh
                 Draft returns null for the name, shown muted like the source. */}
-              <h1 className="m-0 truncate text-[22px] font-bold font-[var(--font-display)] leading-tight text-[var(--color-text)]">
+              <h1 className="m-0 truncate text-[24px] md:text-[28px] font-bold font-[var(--font-display)] leading-tight text-white">
                 {profile.name ? (
                   profile.name
                 ) : (
-                  <span className="font-semibold text-[var(--color-text-subtle)]">
+                  <span className="font-semibold text-white/70">
                     {t('restaurants:profile.namePlaceholder')}
                   </span>
                 )}
@@ -120,13 +125,13 @@ export function ProfileHeader({
                   type="button"
                   onClick={onEditName}
                   aria-label={t('restaurants:profile.editNameAria')}
-                  className="shrink-0 border-none bg-transparent p-1 text-[var(--color-text-muted)] cursor-pointer md:hover:text-[var(--color-accent)]"
+                  className="shrink-0 border-none bg-transparent p-1 text-white/80 cursor-pointer md:hover:text-white"
                 >
                   <PencilSimple size={16} />
                 </button>
               )}
             </div>
-            <div className="mt-1.5 truncate text-[14px] text-[var(--color-text-secondary)]">
+            <div className="mt-1.5 truncate text-[14px] text-white/85">
               {displayOr(
                 [profile.location.areaDistrict, profile.location.city].filter(Boolean).join(', '),
                 t('restaurants:profile.locationPlaceholder'),
