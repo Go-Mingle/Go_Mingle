@@ -4,7 +4,7 @@
     "Create an account > action:Send code",
     "Create an account > action:Sign in",
     "Create an account > heading:Create your account",
-    "Create an account > heading:Fill your tables with good company.",
+    "Create an account > heading:Fill your tables with people who came to talk.",
     "Create an account > input:you@yourrestaurant.com",
     "action:Create an account",
     "action:Forgot password?",
@@ -12,7 +12,7 @@
     "action:Sign in",
     "field:Email",
     "field:Password",
-    "heading:Fill your tables with good company.",
+    "heading:Fill your tables with people who came to talk.",
     "heading:Welcome back",
     "input:Enter your password",
     "input:you@yourrestaurant.com"
@@ -22,7 +22,7 @@
     "action:Send code",
     "action:Sign in",
     "heading:Create your account",
-    "heading:Fill your tables with good company.",
+    "heading:Fill your tables with people who came to talk.",
     "input:you@yourrestaurant.com"
   ]
 }
