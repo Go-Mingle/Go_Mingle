@@ -89,7 +89,7 @@ export function InterestFormModal({
               style={{
                 fontSize: 11,
                 color: 'var(--color-text-subtle)',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
               }}
             >
               {t('form.categoryHelper')}

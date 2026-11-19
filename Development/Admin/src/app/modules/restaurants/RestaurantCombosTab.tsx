@@ -39,7 +39,7 @@ export function RestaurantCombosTab({ restaurant }: Props) {
               color: menuPdfUrl ? 'var(--color-text-secondary)' : 'var(--color-text-subtle)',
               fontSize: 13,
               fontWeight: 600,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               cursor: menuPdfUrl ? 'pointer' : 'not-allowed',
               pointerEvents: menuPdfUrl ? 'auto' : 'none',
               whiteSpace: 'nowrap',
@@ -69,7 +69,7 @@ export function RestaurantCombosTab({ restaurant }: Props) {
             style={{
               fontSize: 13,
               color: 'var(--color-text-muted)',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {t('menu.combosEmpty')}

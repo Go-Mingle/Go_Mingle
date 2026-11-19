@@ -91,11 +91,7 @@ export function InterestTableOverviewTab({ table }: Props) {
             IconComp={CheckCircle}
             label={t('detail.fields.seatsBooked')}
             value={
-              maxGuests === undefined ? (
-                '—'
-              ) : (
-                <SeatSquares booked={seatsBooked} total={maxGuests} />
-              )
+              maxGuests === undefined ? '—' : <SeatSquares booked={seatsBooked} total={maxGuests} />
             }
           />
           <OverviewField

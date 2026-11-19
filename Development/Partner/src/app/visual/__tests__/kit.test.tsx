@@ -176,7 +176,10 @@ describe('ProgressRing', () => {
       </ProgressRing>,
     )
     expect(container).toHaveTextContent('3/3')
-    expect(container.querySelector('.gm-ring-value')).toHaveAttribute('stroke', 'var(--color-success)')
+    expect(container.querySelector('.gm-ring-value')).toHaveAttribute(
+      'stroke',
+      'var(--color-success)',
+    )
   })
 
   it('is empty when there is nothing to do', () => {
@@ -193,7 +196,9 @@ describe('DeltaChip', () => {
     [50, 100, '-50%'],
     [100, 100, '0%'],
   ])('%d against %d reads %s', (value, previous, text) => {
-    const { container } = render(<DeltaChip value={value} previous={previous} against="vs before" />)
+    const { container } = render(
+      <DeltaChip value={value} previous={previous} against="vs before" />,
+    )
     expect(container).toHaveTextContent(text)
   })
 })
@@ -217,18 +222,23 @@ describe('EscrowFlow', () => {
 })
 
 describe('PageSkeleton', () => {
-  it.each(['table', 'cards', 'detail', 'list'] as const)('draws the %s outline as a busy status', (variant) => {
-    const { container } = render(<PageSkeleton variant={variant} label="Loading tables" />)
-    const status = screen.getByRole('status')
-    expect(status).toHaveAttribute('aria-busy', 'true')
-    expect(status).toHaveTextContent('Loading tables')
-    expect(container.querySelectorAll('.gm-skel').length).toBeGreaterThan(3)
-  })
+  it.each(['table', 'cards', 'detail', 'list'] as const)(
+    'draws the %s outline as a busy status',
+    (variant) => {
+      const { container } = render(<PageSkeleton variant={variant} label="Loading tables" />)
+      const status = screen.getByRole('status')
+      expect(status).toHaveAttribute('aria-busy', 'true')
+      expect(status).toHaveTextContent('Loading tables')
+      expect(container.querySelectorAll('.gm-skel').length).toBeGreaterThan(3)
+    },
+  )
 
   it('draws as many rows as asked', () => {
     const { container: three } = render(<PageSkeleton count={3} />)
     const { container: six } = render(<PageSkeleton count={6} />)
-    expect(six.querySelectorAll('.gm-skel').length).toBeGreaterThan(three.querySelectorAll('.gm-skel').length)
+    expect(six.querySelectorAll('.gm-skel').length).toBeGreaterThan(
+      three.querySelectorAll('.gm-skel').length,
+    )
   })
 })
 
@@ -252,7 +262,9 @@ describe('charts', () => {
   ]
 
   it('TrendArea and DayBars carry a text summary for screen readers', () => {
-    render(<TrendArea data={days} series="collected" summary="PKR 23,100 over 3 days" format={pkr} />)
+    render(
+      <TrendArea data={days} series="collected" summary="PKR 23,100 over 3 days" format={pkr} />,
+    )
     render(<DayBars data={days} series="bookings" summary="3 bookings over 3 days" />)
     expect(screen.getByRole('figure', { name: 'PKR 23,100 over 3 days' })).toBeInTheDocument()
     expect(screen.getByRole('figure', { name: '3 bookings over 3 days' })).toBeInTheDocument()
@@ -264,11 +276,15 @@ describe('charts', () => {
       { key: 'b', label: 'No-show', value: 0, colour: '#e5503f' },
       { key: 'c', label: 'Cancelled', value: 1, colour: '#2f6fd0' },
     ]
-    const { container, rerender } = render(<ShareBar parts={parts} summary="3 arrived" empty="Nothing yet" />)
+    const { container, rerender } = render(
+      <ShareBar parts={parts} summary="3 arrived" empty="Nothing yet" />,
+    )
     const bar = screen.getByRole('img', { name: '3 arrived' })
     expect(bar.querySelectorAll('rect')).toHaveLength(2)
     expect(screen.getAllByRole('listitem')).toHaveLength(3)
-    rerender(<ShareBar parts={parts.map((p) => ({ ...p, value: 0 }))} summary="" empty="Nothing yet" />)
+    rerender(
+      <ShareBar parts={parts.map((p) => ({ ...p, value: 0 }))} summary="" empty="Nothing yet" />,
+    )
     expect(container).toHaveTextContent('Nothing yet')
   })
 

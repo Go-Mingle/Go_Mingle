@@ -56,7 +56,7 @@ export function RestaurantColumnFilter({
   }
 
   return (
-    <div className="w-[260px] p-3 font-[Poppins]">
+    <div className="w-[260px] p-3 font-(--font-ui)">
       <Input
         autoFocus
         allowClear

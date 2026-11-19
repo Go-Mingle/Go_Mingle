@@ -73,7 +73,7 @@ export function SidebarNavGroup({ group, collapsed, onNavItemClick }: Props) {
                   </span>
                 )}
                 {!collapsed && item.badge != null && item.badge > 0 && (
-                  <span className="h-[18px] min-w-[22px] bg-[var(--color-coral)] text-white rounded-[100px] text-[11px] font-semibold inline-flex items-center justify-center px-[5px]">
+                  <span className="h-[18px] min-w-[22px] bg-[var(--color-coral)] text-(--color-on-accent) rounded-[100px] text-[11px] font-semibold inline-flex items-center justify-center px-[5px]">
                     {item.badge}
                   </span>
                 )}

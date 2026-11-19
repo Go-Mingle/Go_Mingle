@@ -11,7 +11,7 @@ import {
 } from './financeFilterHelpers'
 import { LedgerLinkCell } from './LedgerLinkCell'
 
-const baseTextClass = 'font-[Poppins,sans-serif] text-sm font-medium'
+const baseTextClass = 'font-(--font-ui) text-sm font-medium'
 
 interface ColumnHandlers {
   onMinglerClick: (row: FinanceLedgerRow) => void

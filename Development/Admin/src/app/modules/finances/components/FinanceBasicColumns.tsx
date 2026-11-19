@@ -23,7 +23,7 @@ const API_DATE_FORMAT = 'DD-MM-YYYY'
 
 const textStyle = {
   base: {
-    fontFamily: 'Poppins, sans-serif',
+    fontFamily: 'var(--font-ui)',
     fontSize: 14,
     fontWeight: 500,
   },
@@ -141,7 +141,7 @@ function buildBasicColumns(
     render: (val: number) => (
       <span
         style={{
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           fontSize: 14,
           fontWeight: 500,
           color: 'var(--color-text)',

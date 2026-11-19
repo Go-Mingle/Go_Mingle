@@ -140,7 +140,7 @@ export function InterestTopicsPage() {
                       fontSize: 15,
                       fontWeight: 600,
                       color: 'var(--color-text)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {topic.name}
@@ -162,7 +162,7 @@ export function InterestTopicsPage() {
                         borderRadius: 6,
                         background: 'var(--color-coral-light)',
                         color: 'var(--color-coral-dark)',
-                        fontFamily: 'Poppins, sans-serif',
+                        fontFamily: 'var(--font-ui)',
                         fontSize: 11,
                         fontWeight: 600,
                       }}
@@ -196,7 +196,7 @@ export function InterestTopicsPage() {
                     color: 'var(--color-accent-dark)',
                     border: '1.5px solid var(--color-accent)',
                     borderRadius: 12,
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                     fontSize: 12,
                     fontWeight: 600,
                     cursor: 'pointer',
@@ -219,7 +219,7 @@ export function InterestTopicsPage() {
                     color: 'var(--color-error)',
                     border: '1.5px solid var(--color-error-border)',
                     borderRadius: 12,
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                     fontSize: 12,
                     fontWeight: 600,
                     cursor: 'pointer',
@@ -337,7 +337,7 @@ export function InterestTopicsPage() {
           style={{
             fontSize: 14,
             color: deleteBlockedMessage ? 'var(--color-error)' : 'var(--color-text-muted)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             margin: '4px 0 0',
             lineHeight: 1.6,
           }}
@@ -353,7 +353,7 @@ export function InterestTopicsPage() {
             style={{
               height: 36,
               borderRadius: 12,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 13,
             }}
           >
@@ -413,7 +413,7 @@ export function InterestTopicsPage() {
                 color: 'white',
                 border: 'none',
                 borderRadius: 12,
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
                 fontSize: 13,
                 fontWeight: 600,
                 cursor: 'pointer',

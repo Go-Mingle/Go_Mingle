@@ -23,7 +23,7 @@ export function DetailRow({ label, value, noBorder, labelStyle, valueStyle }: De
         style={{
           fontSize: 13,
           color: 'var(--color-text-muted)',
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           ...labelStyle,
         }}
       >
@@ -33,7 +33,7 @@ export function DetailRow({ label, value, noBorder, labelStyle, valueStyle }: De
         style={{
           fontSize: 13,
           color: 'var(--color-text)',
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           ...valueStyle,
         }}
       >

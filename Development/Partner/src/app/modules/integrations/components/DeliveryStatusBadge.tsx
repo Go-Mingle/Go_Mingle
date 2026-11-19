@@ -27,7 +27,7 @@ export function DeliveryStatusBadge({ status }: { status: DeliveryRowStatus }) {
 
   return (
     <span
-      className={`inline-flex items-center h-6 px-2.5 rounded-[4px] text-[#fff] text-xs font-semibold font-[Poppins,sans-serif] whitespace-nowrap ${STATUS_BG_CLASS[status]}`}
+      className={`inline-flex items-center h-6 px-2.5 rounded-[4px] text-[#fff] text-xs font-semibold font-(--font-ui) whitespace-nowrap ${STATUS_BG_CLASS[status]}`}
     >
       {t(style.labelKey)}
     </span>

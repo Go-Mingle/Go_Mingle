@@ -5,7 +5,7 @@
    import sequence. Heavy !important here keeps the design system stable.
    IMPORTANT: never copy !important onto inline style={{}} props. */
 
-/* ── Fonts: enforce Poppins across all Ant Design surfaces ───── */
+/* ── Fonts: enforce the UI font across all Ant Design surfaces ───── */
 .ant-btn,
 .ant-input,
 .ant-input-affix-wrapper,
@@ -22,7 +22,7 @@
 .ant-tooltip,
 .ant-message,
 .ant-pagination {
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 
 /* ── Table ───────────────────────────────────────────────────── */
@@ -36,7 +36,7 @@
   text-transform: uppercase !important;
   border-bottom: 1px solid var(--color-border) !important;
   padding: 10px var(--table-cell-padding-h) !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .ant-table-wrapper .ant-table .ant-table-tbody > tr > td,
 .ant-table-wrapper .ant-table .ant-table-tbody > tr > td.ant-table-cell,
@@ -44,7 +44,7 @@
   border-bottom: 1px solid var(--color-divider) !important;
   padding: 12px var(--table-cell-padding-h) !important;
   font-size: var(--table-body-font-size) !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
   line-height: 1.5 !important;
 }
 .ant-table .ant-table-tbody > tr:last-child > td {
@@ -128,7 +128,7 @@
   background: var(--color-accent) !important;
   border-color: var(--color-accent) !important;
   border-radius: var(--radius-lg) !important;
-  color: #fff !important;
+  color: var(--color-on-accent) !important;
 }
 .ant-table-filter-dropdown .ant-btn-primary:hover {
   background: var(--color-accent-dark) !important;
@@ -144,7 +144,7 @@
 .app-profile-menu .ant-dropdown-menu-item {
   padding: 10px 12px !important;
   border-radius: 8px !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .app-profile-menu .ant-dropdown-menu-item .ant-dropdown-menu-item-icon {
   margin-inline-end: 10px !important;
@@ -153,7 +153,7 @@
 /* ── Buttons ─────────────────────────────────────────────────── */
 .ant-btn {
   border-radius: var(--radius-lg) !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
   font-weight: 500 !important;
   height: var(--btn-height-md) !important;
   font-size: 13px !important;
@@ -171,7 +171,7 @@
 .ant-btn-primary {
   background-color: var(--color-accent) !important;
   border-color: var(--color-accent) !important;
-  color: #fff !important;
+  color: var(--color-on-accent) !important;
 }
 .ant-btn-primary:hover {
   background-color: var(--color-accent-dark) !important;
@@ -197,7 +197,7 @@
 }
 .ant-btn-dangerous.ant-btn-primary {
   background: var(--color-coral) !important;
-  color: #fff !important;
+  color: var(--color-on-accent) !important;
 }
 .ant-btn-dangerous.ant-btn-primary:hover {
   background: var(--color-coral-dark) !important;
@@ -217,10 +217,10 @@
 .ant-btn.btn-coral {
   background-color: var(--color-accent) !important;
   border: 1px solid var(--color-accent) !important;
-  color: #fff !important;
+  color: var(--color-on-accent) !important;
   border-radius: var(--radius-lg) !important;
   cursor: pointer;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 /* Hover darken only on hover-capable/desktop widths — touch has no hover, so
    mobile taps don't leave a stuck darkened state (auth submit buttons etc.). */
@@ -245,7 +245,7 @@
   border-color: var(--color-input-border) !important;
   border-radius: var(--radius-md) !important;
   background: var(--color-input-bg) !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .ant-input::placeholder,
 .ant-input-affix-wrapper input::placeholder {
@@ -270,7 +270,7 @@
   border-color: var(--color-input-border) !important;
   border-radius: var(--radius-md) !important;
   background: var(--color-input-bg) !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .ant-select:hover .ant-select-selector {
   border-color: var(--color-input-border-hover) !important;
@@ -298,7 +298,7 @@
 .ant-card .ant-card-head {
   border-bottom: 1px solid var(--color-divider) !important;
   padding: 16px 24px !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .ant-card .ant-card-body {
   padding: 24px !important;
@@ -307,7 +307,7 @@
 /* ── Pagination ──────────────────────────────────────────────── */
 .ant-pagination-item {
   border-radius: var(--radius-md) !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .ant-pagination-prev .ant-pagination-item-link,
 .ant-pagination-next .ant-pagination-item-link {
@@ -355,7 +355,7 @@
   font-size: 18px !important;
   font-weight: 700 !important;
   color: var(--color-text) !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .ant-modal .ant-modal-footer {
   border-top: none !important;
@@ -365,7 +365,7 @@
 
 /* ── Form labels ─────────────────────────────────────────────── */
 .ant-form-item .ant-form-item-label > label {
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
   font-size: 13px !important;
   font-weight: 500 !important;
   color: var(--color-text-secondary) !important;
@@ -374,7 +374,7 @@
 
 /* ── Tabs ────────────────────────────────────────────────────── */
 .ant-tabs-tab {
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
 }
@@ -394,7 +394,7 @@
 .ant-message .ant-message-notice-content {
   border-radius: var(--radius-md) !important;
   box-shadow: var(--shadow-md) !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
   font-size: 13px !important;
   padding: 10px 16px !important;
 }
@@ -402,7 +402,7 @@
 /* ── Tooltips ────────────────────────────────────────────────── */
 .ant-tooltip .ant-tooltip-inner {
   border-radius: var(--radius-md) !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
   font-size: 12px !important;
   padding: 6px 10px !important;
   background: var(--color-navy) !important;
@@ -552,7 +552,7 @@
   padding: 14px 16px !important;
   border-bottom: 1px solid var(--color-divider) !important;
   vertical-align: middle;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .restaurant-contacts-table .ant-table-tbody > tr:last-child > td {
   border-bottom: none !important;
@@ -1021,13 +1021,13 @@ tr.ant-table-measure-row {
   color: var(--color-text-placeholder) !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .app-form .ant-select-input,
 .app-form .ant-select-selection-item,
 .app-form .ant-select-content-item {
   font-size: 14px !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 
 /* Footer action row — divider bleeds to the full modal width (24px body padding) */
@@ -1081,7 +1081,7 @@ tr.ant-table-measure-row {
   transition: all 150ms ease-out;
 }
 .finances-period-select .ant-select-selection-item {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-ui);
   font-size: 13px;
   font-weight: 500;
   color: var(--color-text-secondary);
@@ -1200,7 +1200,7 @@ tr.ant-table-measure-row {
   padding: 14px 16px !important;
   border-bottom: 1px solid var(--color-divider) !important;
   vertical-align: middle !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 .profile-data-table .ant-table-tbody > tr:last-child > td {
   border-bottom: none !important;

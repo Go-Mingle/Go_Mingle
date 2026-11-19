@@ -37,14 +37,14 @@ const LABEL_STYLE: React.CSSProperties = {
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   color: 'var(--color-text-subtle)',
-  fontFamily: 'Poppins, sans-serif',
+  fontFamily: 'var(--font-ui)',
   marginBottom: 3,
 }
 
 const VALUE_STYLE: React.CSSProperties = {
   fontSize: 13,
   fontWeight: 400,
-  fontFamily: 'Poppins, sans-serif',
+  fontFamily: 'var(--font-ui)',
 }
 
 // ── ChangeLogCardList ─────────────────────────────────────────
@@ -102,7 +102,7 @@ function ChangeLogCardList({ data }: ChangeLogCardListProps) {
                 style={{
                   fontSize: 13,
                   color: 'var(--color-text-secondary)',
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                   minWidth: 0,
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -115,7 +115,7 @@ function ChangeLogCardList({ data }: ChangeLogCardListProps) {
                 style={{
                   fontSize: 12,
                   color: 'var(--color-text-muted)',
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                   flexShrink: 0,
                   whiteSpace: 'nowrap',
                 }}
@@ -255,7 +255,7 @@ export function ChangeLogPage() {
             fontSize: isMobile ? 20 : 26,
             fontWeight: 700,
             color: 'var(--color-text)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             lineHeight: 1.2,
           }}
         >

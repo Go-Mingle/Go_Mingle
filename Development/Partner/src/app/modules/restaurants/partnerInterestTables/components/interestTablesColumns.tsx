@@ -10,12 +10,7 @@ import { LabelTag } from '../../../../atoms/LabelTag'
 import { statusFilterIcon } from '../../../users/components/tableHelpers'
 import { VISIBLE_IT_STATUSES } from '../constants'
 import { ProminglerCell } from './ProminglerCell'
-import {
-  displayAvailabilityMode,
-  displayDate,
-  displaySeats,
-  displayTime,
-  } from '../format'
+import { displayAvailabilityMode, displayDate, displaySeats, displayTime } from '../format'
 import type { InterestTableListItem, InterestTableStatus } from '../types'
 
 type Translate = ReturnType<typeof useTranslation>['t']

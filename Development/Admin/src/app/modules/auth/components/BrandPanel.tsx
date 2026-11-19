@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { GoMingleLogo } from '../../../atoms/GoMingleLogo'
-import markUrl from '../../../../assets/gomingle-mark.png'
 
 /** Landing hero in the GoMingle brand colours: logo navy with coral accents. */
 export function BrandPanel() {
@@ -14,13 +13,6 @@ export function BrandPanel() {
       {/* Decorative ring — bottom left */}
       <div className="absolute pointer-events-none w-[260px] h-[260px] rounded-full border border-white/[0.07] -bottom-[70px] -left-[50px]" />
       {/* Brand star watermark */}
-      <img
-        src={markUrl}
-        alt=""
-        aria-hidden="true"
-        draggable={false}
-        className="absolute pointer-events-none w-[220px] h-[220px] right-[48px] bottom-[56px] opacity-[0.08]"
-      />
 
       {/* Logo */}
       <div className="mb-14">

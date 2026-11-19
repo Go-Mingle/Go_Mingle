@@ -57,7 +57,7 @@ export function MediaVideosCard({ videos }: MediaVideosCardProps) {
                 aspectRatio: '3 / 2',
                 borderRadius: 8,
                 overflow: 'hidden',
-                background: '#0D2233',
+                background: 'var(--color-navy)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -113,7 +113,7 @@ export function MediaVideosCard({ videos }: MediaVideosCardProps) {
                     color: '#fff',
                     fontSize: 12,
                     fontWeight: 500,
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {video.caption ?? video.filename}

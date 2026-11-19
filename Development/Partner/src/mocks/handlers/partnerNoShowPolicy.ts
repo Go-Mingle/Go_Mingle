@@ -30,7 +30,8 @@ export const partnerNoShowPolicyHandlers = [
     const fields: Record<string, string> = {}
     const penalty = body.penaltyPerSeatPkr
     const hours = body.cancellationWindowHours
-    if (typeof penalty !== 'number' || penalty < 0) fields.penaltyPerSeatPkr = 'Enter an amount of 0 or more.'
+    if (typeof penalty !== 'number' || penalty < 0)
+      fields.penaltyPerSeatPkr = 'Enter an amount of 0 or more.'
     else if (penalty > LIMITS.penaltyMaxPkr) {
       fields.penaltyPerSeatPkr = 'The penalty can be at most PKR 100,000 per seat.'
     }
@@ -43,12 +44,20 @@ export const partnerNoShowPolicyHandlers = [
       return HttpResponse.json(
         {
           success: false,
-          error: { code: 'ERR_VALIDATION', message: 'Please correct the highlighted fields.', details: { fields } },
+          error: {
+            code: 'ERR_VALIDATION',
+            message: 'Please correct the highlighted fields.',
+            details: { fields },
+          },
         },
         { status: 422 },
       )
     }
-    policy = { penaltyPerSeatPkr: penalty as number, cancellationWindowHours: hours as number, limits: LIMITS }
+    policy = {
+      penaltyPerSeatPkr: penalty as number,
+      cancellationWindowHours: hours as number,
+      limits: LIMITS,
+    }
     return HttpResponse.json({ success: true, data: policy })
   }),
 ]

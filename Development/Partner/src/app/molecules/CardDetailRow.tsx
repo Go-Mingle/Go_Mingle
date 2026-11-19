@@ -5,10 +5,10 @@ import { clsx } from 'clsx'
 // share the same 12px size — only the shade differs (label lighter, value
 // darker). Matches the Users module cards. Tailwind-only (was CSSProperties).
 export const CARD_VALUE_CLASS =
-  'text-[12px] font-medium font-[Poppins,sans-serif] text-[var(--color-text-secondary)]'
+  'text-[12px] font-medium font-(--font-ui) text-[var(--color-text-secondary)]'
 
 export const CARD_LABEL_CLASS =
-  'text-[12px] font-medium font-[Poppins,sans-serif] text-[var(--color-text-muted)] whitespace-nowrap shrink-0'
+  'text-[12px] font-medium font-(--font-ui) text-[var(--color-text-muted)] whitespace-nowrap shrink-0'
 
 // Container class for a single responsive card (border via shadow, 12px radius).
 export const RESPONSIVE_CARD_CLASS =
@@ -28,7 +28,10 @@ export function CardDetailRow({ label, value, valueClassName, valueStyle }: Card
   return (
     <div className="flex justify-between items-center gap-3">
       <span className={CARD_LABEL_CLASS}>{label}</span>
-      <span className={clsx(CARD_VALUE_CLASS, 'text-right min-w-0', valueClassName)} style={valueStyle}>
+      <span
+        className={clsx(CARD_VALUE_CLASS, 'text-right min-w-0', valueClassName)}
+        style={valueStyle}
+      >
         {value}
       </span>
     </div>

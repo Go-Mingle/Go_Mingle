@@ -31,7 +31,7 @@ export function ProminglerBadge({
       )}
       <CrownSimple size={size} weight="regular" color={CROWN_COLOR} className="shrink-0" />
       {label && (
-        <span className="text-[13px] font-semibold font-[Poppins,sans-serif] text-[var(--color-warning)]">
+        <span className="text-[13px] font-semibold font-(--font-ui) text-[var(--color-warning)]">
           Pro Mingler
         </span>
       )}

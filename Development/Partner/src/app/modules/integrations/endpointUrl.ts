@@ -18,7 +18,8 @@
 const DOTTED_HOST = /^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i
 
 /** A literal IPv4 address is deliverable even though its last label is numeric. */
-const IPV4_HOST = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/
+const IPV4_HOST =
+  /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/
 
 /** `new URL()` keeps IPv6 literals bracketed — `[2001:db8::1]`. */
 const IPV6_HOST = /^\[[0-9a-f:.]+\]$/i

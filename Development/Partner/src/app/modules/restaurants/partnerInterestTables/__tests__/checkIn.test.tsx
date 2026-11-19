@@ -6,7 +6,10 @@ import userEvent from '@testing-library/user-event'
 import { server } from '../../../../../mocks/server'
 import { renderWithProviders } from '../../../../../test-utils/renderWithProviders'
 import { tokenStore } from '../../../../../shared/auth/tokenStore'
-import { resetMockProfile, setMockProfileStatus } from '../../../../../mocks/data/partnerRestaurantProfile'
+import {
+  resetMockProfile,
+  setMockProfileStatus,
+} from '../../../../../mocks/data/partnerRestaurantProfile'
 import {
   mockInterestTableBooking,
   resetMockInterestTables,
@@ -61,7 +64,9 @@ describe('Guests Arrived', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'Guests Arrived' }))
     const dialog = await screen.findByRole('dialog')
     expect(within(dialog).getByText('Mark guests as arrived?')).toBeInTheDocument()
-    expect(within(dialog).getByText(/card holds are released and the table is completed/)).toBeInTheDocument()
+    expect(
+      within(dialog).getByText(/card holds are released and the table is completed/),
+    ).toBeInTheDocument()
     await userEvent.click(within(dialog).getByRole('button', { name: 'Guests Arrived' }))
 
     expect(await screen.findByText(/checked in\. The table is completed\./)).toBeInTheDocument()
@@ -70,7 +75,11 @@ describe('Guests Arrived', () => {
     // The table is done: the button goes, and the rows say who came.
     // (Scoped to the header: the confirm dialog's own button lingers while it closes.)
     const header = screen.getByRole('heading', { level: 1 }).closest('.mb-4') as HTMLElement
-    await waitFor(() => expect(within(header).queryByRole('button', { name: 'Guests Arrived' })).not.toBeInTheDocument())
+    await waitFor(() =>
+      expect(
+        within(header).queryByRole('button', { name: 'Guests Arrived' }),
+      ).not.toBeInTheDocument(),
+    )
     expect((await screen.findAllByText('Arrived')).length).toBeGreaterThan(0)
   })
 
@@ -88,15 +97,25 @@ describe('Guests Arrived', () => {
     server.use(
       http.post(PARTNER_IT_ENDPOINTS.guestsArrived(':itId'), () =>
         HttpResponse.json(
-          { success: false, error: { code: 'ERR_TOO_EARLY', message: 'Guests can be checked in from one hour before the table starts.' } },
+          {
+            success: false,
+            error: {
+              code: 'ERR_TOO_EARLY',
+              message: 'Guests can be checked in from one hour before the table starts.',
+            },
+          },
           { status: 409 },
         ),
       ),
     )
     await renderLoaded()
     await userEvent.click(await screen.findByRole('button', { name: 'Guests Arrived' }))
-    await userEvent.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Guests Arrived' }))
-    expect(await screen.findByText('Guests can be checked in from one hour before the table starts.')).toBeInTheDocument()
+    await userEvent.click(
+      within(await screen.findByRole('dialog')).getByRole('button', { name: 'Guests Arrived' }),
+    )
+    expect(
+      await screen.findByText('Guests can be checked in from one hour before the table starts.'),
+    ).toBeInTheDocument()
   })
 })
 
@@ -134,7 +153,11 @@ describe('No-show', () => {
 
     expect(await screen.findByText('No-show recorded.')).toBeInTheDocument()
     await waitFor(() => expect(mockInterestTableBooking('bk-2')?.attendance).toBe('PARTIAL'))
-    expect(mockInterestTableBooking('bk-2')).toMatchObject({ emptySeats: 2, arrivedSeats: 1, penaltyChargedPkr: 3000 })
+    expect(mockInterestTableBooking('bk-2')).toMatchObject({
+      emptySeats: 2,
+      arrivedSeats: 1,
+      penaltyChargedPkr: 3000,
+    })
     expect(await screen.findByText('2 of 3 seats empty')).toBeInTheDocument()
     expect(screen.getByText(/PKR 3,000 penalty/)).toBeInTheDocument()
   })
@@ -157,20 +180,32 @@ describe('No-show', () => {
     setMockCheckInOpen('it-1')
     await renderLoaded('bookings')
     await userEvent.click(await screen.findByLabelText('Record a no-show for Parveen Rizvi'))
-    await userEvent.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Close' }))
+    await userEvent.click(
+      within(await screen.findByRole('dialog')).getByRole('button', { name: 'Close' }),
+    )
     expect(mockInterestTableBooking('bk-2')?.status).toBe('CONFIRMED')
 
     server.use(
       http.post(PARTNER_IT_ENDPOINTS.markNoShow(':bookingId'), () =>
         HttpResponse.json(
-          { success: false, error: { code: 'ERR_BOOKING_NOT_ACTIVE', message: 'This booking has already been checked in or cancelled.' } },
+          {
+            success: false,
+            error: {
+              code: 'ERR_BOOKING_NOT_ACTIVE',
+              message: 'This booking has already been checked in or cancelled.',
+            },
+          },
           { status: 409 },
         ),
       ),
     )
     await userEvent.click(await screen.findByLabelText('Record a no-show for Parveen Rizvi'))
-    await userEvent.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'No-show' }))
-    expect(await screen.findByText('This booking has already been checked in or cancelled.')).toBeInTheDocument()
+    await userEvent.click(
+      within(await screen.findByRole('dialog')).getByRole('button', { name: 'No-show' }),
+    )
+    expect(
+      await screen.findByText('This booking has already been checked in or cancelled.'),
+    ).toBeInTheDocument()
   })
 
   it('shows a penalty that could not be collected', async () => {
@@ -242,6 +277,8 @@ describe('No-show', () => {
       ),
     )
     await renderLoaded('bookings')
-    expect(await screen.findByText('Penalty not collected yet · PKR 1,500 collected so far')).toBeInTheDocument()
+    expect(
+      await screen.findByText('Penalty not collected yet · PKR 1,500 collected so far'),
+    ).toBeInTheDocument()
   })
 })

@@ -2,7 +2,7 @@
 // Previously duplicated per-module (minglers, restaurants, approval-queue, …);
 // this is the single source of truth. Module-local copies re-export from here.
 
-export const AVATAR_PALETTE = ['#FF6B5B', '#0FA79D', '#1565C0', '#B06000', '#6B21A8']
+export const AVATAR_PALETTE = ['#D63A25', '#0B7A64', '#2453C4', '#8A4F00', '#5B3CC4']
 
 /** Deterministically map a name to a palette colour (stable across renders). */
 export function getAvatarBg(name: string): string {

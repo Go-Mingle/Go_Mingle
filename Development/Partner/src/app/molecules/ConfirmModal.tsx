@@ -85,10 +85,10 @@ export function ConfirmModal({
             />
           )}
         </div>
-        <p className="m-0 mb-2 text-[15px] font-semibold text-[var(--color-text)] text-center font-[Poppins,sans-serif]">
+        <p className="m-0 mb-2 text-[15px] font-semibold text-[var(--color-text)] text-center font-(--font-ui)">
           {title}
         </p>
-        <div className="m-0 mb-6 text-[13px] text-[var(--color-text-muted)] text-center font-[Poppins,sans-serif] leading-[1.6]">
+        <div className="m-0 mb-6 text-[13px] text-[var(--color-text-muted)] text-center font-(--font-ui) leading-[1.6]">
           {content}
         </div>
         <div className="flex gap-2.5 w-full">

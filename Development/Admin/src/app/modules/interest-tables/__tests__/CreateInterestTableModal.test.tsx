@@ -295,7 +295,9 @@ describe('CreateInterestTableModal', () => {
     // "now" is pinned to 14:00 in Pakistan (09:00 UTC) today: "a time earlier today"
     // and "a time later today" are unambiguous whenever and wherever the suite runs.
     const utcToday = new Date()
-    const NOON_ISH = dayjs(Date.UTC(utcToday.getUTCFullYear(), utcToday.getUTCMonth(), utcToday.getUTCDate(), 9, 0))
+    const NOON_ISH = dayjs(
+      Date.UTC(utcToday.getUTCFullYear(), utcToday.getUTCMonth(), utcToday.getUTCDate(), 9, 0),
+    )
     const PAST_TIME = '09:00'
     const LATER_TIME = '20:00'
 
@@ -379,7 +381,8 @@ describe('CreateInterestTableModal', () => {
 
       await waitFor(() =>
         expect(
-          screen.getAllByText('That time has already passed in Pakistan — pick a later time.').length,
+          screen.getAllByText('That time has already passed in Pakistan — pick a later time.')
+            .length,
         ).toBeGreaterThan(0),
       )
       expect(onCreate).not.toHaveBeenCalled()
@@ -401,7 +404,8 @@ describe('CreateInterestTableModal', () => {
       await fillDateViaInput(user, todayInput())
       await waitFor(() =>
         expect(
-          screen.getAllByText('That time has already passed in Pakistan — pick a later time.').length,
+          screen.getAllByText('That time has already passed in Pakistan — pick a later time.')
+            .length,
         ).toBeGreaterThan(0),
       )
     })
@@ -414,7 +418,8 @@ describe('CreateInterestTableModal', () => {
       await fillDateViaInput(user, todayInput())
       await waitFor(() =>
         expect(
-          screen.getAllByText('That time has already passed in Pakistan — pick a later time.').length,
+          screen.getAllByText('That time has already passed in Pakistan — pick a later time.')
+            .length,
         ).toBeGreaterThan(0),
       )
 

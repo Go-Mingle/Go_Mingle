@@ -34,13 +34,13 @@ function MinglerCardList({ data, onCardClick }: MinglerCardListProps) {
     textTransform: 'uppercase',
     letterSpacing: '0.06em',
     color: 'var(--color-text-muted)',
-    fontFamily: 'Poppins, sans-serif',
+    fontFamily: 'var(--font-ui)',
     marginBottom: 2,
   }
   const valueStyle: React.CSSProperties = {
     fontSize: 13,
     color: 'var(--color-text-secondary)',
-    fontFamily: 'Poppins, sans-serif',
+    fontFamily: 'var(--font-ui)',
   }
 
   return (
@@ -77,7 +77,7 @@ function MinglerCardList({ data, onCardClick }: MinglerCardListProps) {
                   color: '#fff',
                   fontSize: 13,
                   fontWeight: 700,
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                 }}
               >
                 {m.avatarUrl ? (
@@ -96,7 +96,7 @@ function MinglerCardList({ data, onCardClick }: MinglerCardListProps) {
                     fontSize: 15,
                     fontWeight: 600,
                     color: 'var(--color-text)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -123,7 +123,7 @@ function MinglerCardList({ data, onCardClick }: MinglerCardListProps) {
                   fontWeight: 600,
                   whiteSpace: 'nowrap',
                   flexShrink: 0,
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                 }}
               >
                 {statusLabel}
@@ -286,7 +286,7 @@ export function MinglersPage() {
             fontSize: isMobile ? 20 : 26,
             fontWeight: 700,
             color: 'var(--color-text)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           {t('title')}

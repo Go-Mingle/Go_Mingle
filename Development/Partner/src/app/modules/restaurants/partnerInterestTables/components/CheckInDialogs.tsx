@@ -36,7 +36,13 @@ export function CheckInDialogs({ c }: { c: InterestTableDetailController }) {
   )
 }
 
-function NoShowDialog({ c, row }: { c: InterestTableDetailController; row: InterestTableBookingRow }) {
+function NoShowDialog({
+  c,
+  row,
+}: {
+  c: InterestTableDetailController
+  row: InterestTableBookingRow
+}) {
   const { t } = useTranslation(['restaurants', 'common'])
   const seats = row.seats ?? 1
   const [emptySeats, setEmptySeats] = useState<number>(seats)
@@ -56,7 +62,10 @@ function NoShowDialog({ c, row }: { c: InterestTableDetailController; row: Inter
         <span className="flex flex-col gap-3">
           <span>{t('restaurants:partnerInterestTables.noShowBody')}</span>
           <span className="flex items-center justify-center gap-2">
-            <label htmlFor="no-show-empty-seats" className="text-[13px] font-medium text-[var(--color-text)]">
+            <label
+              htmlFor="no-show-empty-seats"
+              className="text-[13px] font-medium text-[var(--color-text)]"
+            >
               {t('restaurants:partnerInterestTables.noShowEmptySeats')}
             </label>
             <InputNumber
@@ -67,11 +76,15 @@ function NoShowDialog({ c, row }: { c: InterestTableDetailController; row: Inter
               value={emptySeats}
               onChange={(value) => setEmptySeats(Math.min(seats, Math.max(1, value ?? seats)))}
             />
-            <span className="text-[13px]">{t('restaurants:partnerInterestTables.noShowOfSeats', { count: seats })}</span>
+            <span className="text-[13px]">
+              {t('restaurants:partnerInterestTables.noShowOfSeats', { count: seats })}
+            </span>
           </span>
           <span className="font-semibold text-[var(--color-text)]">
             {penalty > 0
-              ? t('restaurants:partnerInterestTables.noShowPenalty', { amount: displayBill(penalty) })
+              ? t('restaurants:partnerInterestTables.noShowPenalty', {
+                  amount: displayBill(penalty),
+                })
               : t('restaurants:partnerInterestTables.noShowNoPenalty')}
           </span>
         </span>

@@ -3,10 +3,7 @@ import { createElement } from 'react'
 import type { ReactNode } from 'react'
 import { act, renderHook } from '@testing-library/react'
 import { AllProviders, makeQueryClient } from '../../../../../test-utils/renderWithProviders'
-import {
-  TEST_DELIVERY_CLOCK_SKEW_MS,
-  TEST_DELIVERY_CONFIRM_WINDOW_MS,
-} from '../../constants'
+import { TEST_DELIVERY_CLOCK_SKEW_MS, TEST_DELIVERY_CONFIRM_WINDOW_MS } from '../../constants'
 import type { WebhookDeliveriesPage, WebhookDelivery, WebhookEventType } from '../../types'
 import {
   usePendingDeliveryRow,
@@ -170,10 +167,9 @@ describe('usePendingDeliveryRow', () => {
 
   /** The heart of the ticket: a 202 with an empty log is now a visible state. */
   it('shows a queued marker while the log has not caught up', () => {
-    const { result } = renderHook(
-      () => usePendingDeliveryRow(pendingFor(), page([]), vi.fn()),
-      { wrapper },
-    )
+    const { result } = renderHook(() => usePendingDeliveryRow(pendingFor(), page([]), vi.fn()), {
+      wrapper,
+    })
 
     const row = result.current.pendingRow
     expect(row?.status).toBe('QUEUED')
@@ -186,10 +182,9 @@ describe('usePendingDeliveryRow', () => {
 
   /** Neither delivered nor failed — the outcome genuinely is not known yet. */
   it('claims no attempt count or failure reason for a queued marker', () => {
-    const { result } = renderHook(
-      () => usePendingDeliveryRow(pendingFor(), page([]), vi.fn()),
-      { wrapper },
-    )
+    const { result } = renderHook(() => usePendingDeliveryRow(pendingFor(), page([]), vi.fn()), {
+      wrapper,
+    })
 
     expect(result.current.pendingRow?.tries).toBe(0)
     expect(result.current.pendingRow?.reason).toBeNull()
@@ -234,9 +229,12 @@ describe('usePendingDeliveryRow', () => {
   /** Otherwise yesterday's test would clear today's marker on sight. */
   it('is not satisfied by an earlier test of the same event', () => {
     const stale = serverRow({ occurredAt: new Date(Date.now() - 60 * 60_000).toISOString() })
-    const { result } = renderHook(() => usePendingDeliveryRow(pendingFor(), page([stale]), vi.fn()), {
-      wrapper,
-    })
+    const { result } = renderHook(
+      () => usePendingDeliveryRow(pendingFor(), page([stale]), vi.fn()),
+      {
+        wrapper,
+      },
+    )
     expect(result.current.pendingRow).not.toBeNull()
   })
 
@@ -245,15 +243,23 @@ describe('usePendingDeliveryRow', () => {
     const skewed = serverRow({
       occurredAt: new Date(Date.now() - (TEST_DELIVERY_CLOCK_SKEW_MS - 5_000)).toISOString(),
     })
-    const { result } = renderHook(() => usePendingDeliveryRow(pendingFor(), page([skewed]), vi.fn()), {
-      wrapper,
-    })
+    const { result } = renderHook(
+      () => usePendingDeliveryRow(pendingFor(), page([skewed]), vi.fn()),
+      {
+        wrapper,
+      },
+    )
     expect(result.current.pendingRow).toBeNull()
   })
 
   it('ignores a row with an unparseable timestamp rather than matching it', () => {
     const { result } = renderHook(
-      () => usePendingDeliveryRow(pendingFor(), page([serverRow({ occurredAt: 'not-a-date' })]), vi.fn()),
+      () =>
+        usePendingDeliveryRow(
+          pendingFor(),
+          page([serverRow({ occurredAt: 'not-a-date' })]),
+          vi.fn(),
+        ),
       { wrapper },
     )
     expect(result.current.pendingRow).not.toBeNull()
@@ -269,7 +275,12 @@ describe('usePendingDeliveryRow', () => {
   /** "Stop implying it will arrive" — the row says so instead of going green. */
   it('says the record never arrived once the wait is over', () => {
     const { result } = renderHook(
-      () => usePendingDeliveryRow(pendingFor('BOOKING_CREATED', { unconfirmed: true }), page([]), vi.fn()),
+      () =>
+        usePendingDeliveryRow(
+          pendingFor('BOOKING_CREATED', { unconfirmed: true }),
+          page([]),
+          vi.fn(),
+        ),
       { wrapper },
     )
 

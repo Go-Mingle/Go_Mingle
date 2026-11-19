@@ -49,7 +49,11 @@ describe('PayoutAccountTab', () => {
   })
 
   it('edits the title and bank while keeping the IBAN on file, and can cancel', async () => {
-    setMockPayoutAccount({ accountTitle: 'Aurelia Dining', bankName: 'Meezan Bank', iban: 'PK40MEZN0000001123456702' })
+    setMockPayoutAccount({
+      accountTitle: 'Aurelia Dining',
+      bankName: 'Meezan Bank',
+      iban: 'PK40MEZN0000001123456702',
+    })
     const { user } = setup()
     expect(await screen.findByText('PK40 •••• 6702')).toBeInTheDocument()
 
@@ -75,7 +79,14 @@ describe('PayoutAccountTab', () => {
     server.use(
       http.put(PAYOUT_ACCOUNT_ENDPOINT, () =>
         HttpResponse.json(
-          { success: false, error: { code: 'ERR_VALIDATION', message: 'That bank is not supported.', details: { field: 'bankName' } } },
+          {
+            success: false,
+            error: {
+              code: 'ERR_VALIDATION',
+              message: 'That bank is not supported.',
+              details: { field: 'bankName' },
+            },
+          },
           { status: 422 },
         ),
       ),
@@ -102,7 +113,10 @@ describe('PayoutAccountTab', () => {
   it('shows an error when the account cannot be loaded', async () => {
     server.use(
       http.get(PAYOUT_ACCOUNT_ENDPOINT, () =>
-        HttpResponse.json({ success: false, error: { code: 'ERR_FORBIDDEN', message: 'Nope' } }, { status: 403 }),
+        HttpResponse.json(
+          { success: false, error: { code: 'ERR_FORBIDDEN', message: 'Nope' } },
+          { status: 403 },
+        ),
       ),
     )
     setup()

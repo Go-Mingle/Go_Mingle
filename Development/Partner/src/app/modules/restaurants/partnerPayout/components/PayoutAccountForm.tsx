@@ -20,7 +20,14 @@ interface PayoutAccountFormProps {
  * Account title, bank and IBAN. When editing, the IBAN starts as the masked
  * number on file; leaving it as is keeps that number.
  */
-export function PayoutAccountForm({ account, banks, saving, serverError, onSave, onCancel }: PayoutAccountFormProps) {
+export function PayoutAccountForm({
+  account,
+  banks,
+  saving,
+  serverError,
+  onSave,
+  onCancel,
+}: PayoutAccountFormProps) {
   const { t } = useTranslation('restaurants')
   const [form] = Form.useForm<SavePayoutAccountDto>()
 
@@ -52,9 +59,14 @@ export function PayoutAccountForm({ account, banks, saving, serverError, onSave,
       <Form.Item
         name="accountTitle"
         label={t('payoutAccount.fields.accountTitle')}
-        rules={[{ required: true, whitespace: true, message: t('payoutAccount.errors.accountTitle') }]}
+        rules={[
+          { required: true, whitespace: true, message: t('payoutAccount.errors.accountTitle') },
+        ]}
       >
-        <Input maxLength={ACCOUNT_TITLE_MAX} placeholder={t('payoutAccount.placeholders.accountTitle')} />
+        <Input
+          maxLength={ACCOUNT_TITLE_MAX}
+          placeholder={t('payoutAccount.placeholders.accountTitle')}
+        />
       </Form.Item>
       <Form.Item
         name="bankName"

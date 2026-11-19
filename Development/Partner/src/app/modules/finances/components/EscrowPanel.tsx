@@ -8,7 +8,12 @@ import { formatPkr } from '../financesFormat'
 
 /** DD-MM-YYYY in Pakistan time, the portal's usual date format. */
 const pkDay = (iso: string) =>
-  new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Karachi', day: '2-digit', month: '2-digit', year: 'numeric' })
+  new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Karachi',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
     .format(new Date(iso))
     .replace(/\//g, '-')
 

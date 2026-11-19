@@ -160,7 +160,7 @@ export function InterestsPage() {
                     fontSize: 15,
                     fontWeight: 600,
                     color: 'var(--color-text)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {interest.name}
@@ -169,7 +169,7 @@ export function InterestsPage() {
                   style={{
                     fontSize: 12,
                     color: 'var(--color-text-muted)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {interest.groupName}
@@ -188,7 +188,7 @@ export function InterestsPage() {
                     color: 'var(--color-accent-dark)',
                     border: '1.5px solid var(--color-accent)',
                     borderRadius: 12,
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                     fontSize: 12,
                     fontWeight: 600,
                     cursor: 'pointer',
@@ -209,7 +209,7 @@ export function InterestsPage() {
                     color: 'var(--color-error)',
                     border: '1.5px solid var(--color-error-border)',
                     borderRadius: 12,
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                     fontSize: 12,
                     fontWeight: 600,
                     cursor: 'pointer',

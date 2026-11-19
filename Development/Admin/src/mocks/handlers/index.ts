@@ -443,7 +443,10 @@ export const handlers = [
   // Dashboard
   http.get(`${BASE}/dashboard/overview`, ({ request }) => {
     const days = Number(new URL(request.url).searchParams.get('days')) || 30
-    return HttpResponse.json({ success: true, data: mockDashboardOverview([7, 30, 90].includes(days) ? days : 30) })
+    return HttpResponse.json({
+      success: true,
+      data: mockDashboardOverview([7, 30, 90].includes(days) ? days : 30),
+    })
   }),
 ]
 

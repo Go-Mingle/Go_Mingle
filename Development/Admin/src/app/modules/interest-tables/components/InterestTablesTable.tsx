@@ -58,7 +58,7 @@ interface InterestTablesTableProps {
 }
 
 const textCell = (value: string, color: string) => (
-  <span style={{ fontFamily: 'Poppins, sans-serif', fontSize: 14, fontWeight: 500, color }}>
+  <span style={{ fontFamily: 'var(--font-ui)', fontSize: 14, fontWeight: 500, color }}>
     {value}
   </span>
 )
@@ -69,7 +69,7 @@ const CARD_LABEL: React.CSSProperties = {
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   color: 'var(--color-text-subtle)',
-  fontFamily: 'Poppins, sans-serif',
+  fontFamily: 'var(--font-ui)',
   marginBottom: 3,
 }
 
@@ -140,7 +140,7 @@ export function InterestTablesTable({
           <TableAvatar name={v} imageUrl={row.eventImageUrl} size={40} shape="rounded" />
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 600,
               color: 'var(--color-text)',
@@ -318,7 +318,7 @@ export function InterestTablesTable({
                       fontSize: 14,
                       fontWeight: 600,
                       color: 'var(--color-text)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',

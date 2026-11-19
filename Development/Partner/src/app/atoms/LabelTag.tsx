@@ -23,7 +23,7 @@ export function LabelTag({ children, className, style, title }: LabelTagProps) {
       className={clsx(
         'inline-flex items-center h-6 px-2 rounded-[4px] whitespace-nowrap',
         'bg-[var(--color-divider)] text-[var(--color-text-secondary)]',
-        'text-[12px] font-medium font-[Poppins,sans-serif]',
+        'text-[12px] font-medium font-(--font-ui)',
         className,
       )}
       style={style}

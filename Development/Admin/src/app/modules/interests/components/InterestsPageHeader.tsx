@@ -26,7 +26,7 @@ export function InterestsPageHeader({ onNew }: InterestsPageHeaderProps) {
           fontSize: isMobile ? 20 : 26,
           fontWeight: 700,
           color: 'var(--color-text)',
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           lineHeight: 1.2,
         }}
       >
@@ -43,10 +43,10 @@ export function InterestsPageHeader({ onNew }: InterestsPageHeaderProps) {
           borderRadius: 12,
           border: 'none',
           background: 'var(--color-accent)',
-          color: '#ffffff',
+          color: 'var(--color-on-accent)',
           fontSize: isMobile ? 12 : 13,
           fontWeight: 600,
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           cursor: 'pointer',
           transition: 'background 150ms ease-out',
           whiteSpace: 'nowrap',

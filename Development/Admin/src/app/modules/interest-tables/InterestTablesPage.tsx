@@ -205,7 +205,7 @@ export function InterestTablesPage() {
       {total === 0 && !hasFilters ? (
         <div className="flex flex-col items-center gap-2.5 py-12">
           <PicnicTable size={32} weight="regular" className="text-[var(--color-text-subtle)]" />
-          <span className="text-[13px] text-[var(--color-text-muted)] font-[Poppins]">
+          <span className="text-[13px] text-[var(--color-text-muted)] font-(--font-ui)">
             {t('emptyAll')}
           </span>
         </div>

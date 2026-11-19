@@ -12,12 +12,7 @@ import { pinEndColumns } from '../../../../molecules/tableColumns'
 import { UsersPagination } from '../../../users/components/UsersPagination'
 import { TabEmptyState } from '../../components/TabEmptyState'
 import { VISIBLE_IT_STATUSES } from '../constants'
-import {
-  displayAvailabilityMode,
-  displayDate,
-  displaySeats,
-  displayTime,
-  } from '../format'
+import { displayAvailabilityMode, displayDate, displaySeats, displayTime } from '../format'
 import { buildInterestTablesColumns } from './interestTablesColumns'
 import { ProminglerCell } from './ProminglerCell'
 import type { InterestTablesTabController } from '../hooks/useInterestTablesTab'
@@ -49,9 +44,7 @@ export function InterestTablesTab({ c }: { c: InterestTablesTabController }) {
   }
 
   if (c.isPending) {
-    return (
-      <PageSkeleton variant="table" />
-    )
+    return <PageSkeleton variant="table" />
   }
 
   if (c.isError) {

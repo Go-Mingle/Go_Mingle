@@ -111,9 +111,7 @@ export function PreferenceQuestionsTable({
       width: 100,
       align: 'left' as const,
       render: (v: number) => (
-        <span className="font-[Poppins,sans-serif] text-sm font-semibold text-(--color-text)">
-          {v}
-        </span>
+        <span className="font-(--font-ui) text-sm font-semibold text-(--color-text)">{v}</span>
       ),
     },
     {
@@ -140,9 +138,7 @@ export function PreferenceQuestionsTable({
         />
       ),
       render: (v: string) => (
-        <span className="font-[Poppins,sans-serif] text-sm font-medium text-(--color-text)">
-          {v}
-        </span>
+        <span className="font-(--font-ui) text-sm font-medium text-(--color-text)">{v}</span>
       ),
     },
     {

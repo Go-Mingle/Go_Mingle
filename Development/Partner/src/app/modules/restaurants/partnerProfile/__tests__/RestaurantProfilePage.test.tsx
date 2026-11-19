@@ -570,7 +570,9 @@ describe('submit gate', () => {
 
     const alert = await screen.findByRole('alert')
     expect(within(alert).getByText(/^Add: Cuisine Type, Map Location/i)).toBeInTheDocument()
-    expect(within(alert).getByText(/payout bank account on the payout account tab/i)).toBeInTheDocument()
+    expect(
+      within(alert).getByText(/payout bank account on the payout account tab/i),
+    ).toBeInTheDocument()
     expect(within(alert).getByText(/add a cover photo/i)).toBeInTheDocument()
   })
 

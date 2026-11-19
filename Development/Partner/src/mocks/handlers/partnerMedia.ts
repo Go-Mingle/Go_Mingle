@@ -94,8 +94,14 @@ export const partnerMediaHandlers = [
     mockUploadTarget('photo', (await request.json()) as Record<string, unknown>, { crop: true }),
   ),
 
-  http.put(PARTNER_MEDIA_ENDPOINTS.photoRole(':mediaId', ':role' as 'cover'), async ({ params, request }) =>
-    setMockPhotoRole(String(params.mediaId), String(params.role), (await request.json()) as Record<string, unknown>),
+  http.put(
+    PARTNER_MEDIA_ENDPOINTS.photoRole(':mediaId', ':role' as 'cover'),
+    async ({ params, request }) =>
+      setMockPhotoRole(
+        String(params.mediaId),
+        String(params.role),
+        (await request.json()) as Record<string, unknown>,
+      ),
   ),
 
   http.delete(PARTNER_MEDIA_ENDPOINTS.profilePhoto, () => clearMockProfilePhoto()),

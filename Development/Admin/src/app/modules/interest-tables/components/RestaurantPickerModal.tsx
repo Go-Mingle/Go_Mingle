@@ -108,7 +108,7 @@ export function RestaurantPickerModal({
       width={460}
       destroyOnClose
     >
-      <div className="font-[Poppins]">
+      <div className="font-(--font-ui)">
         <p className="mt-0 mb-4 text-[13px] leading-relaxed text-[var(--color-text-muted)]">
           {t('pickRestaurant.helper')}
         </p>

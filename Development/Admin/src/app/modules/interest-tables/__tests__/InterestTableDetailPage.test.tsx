@@ -239,7 +239,13 @@ describe('InterestTableDetailPage', () => {
     server.use(
       http.delete('/api/v1/interest-tables/it1', () =>
         HttpResponse.json(
-          { success: false, error: { code: 'ERR_HAS_BOOKINGS', message: 'This interest table has bookings, so it cannot be deleted.' } },
+          {
+            success: false,
+            error: {
+              code: 'ERR_HAS_BOOKINGS',
+              message: 'This interest table has bookings, so it cannot be deleted.',
+            },
+          },
           { status: 409 },
         ),
       ),
@@ -248,8 +254,12 @@ describe('InterestTableDetailPage', () => {
     renderPage()
     await screen.findByRole('button', { name: /publish/i })
     await user.click(screen.getByRole('button', { name: /delete/i }))
-    await user.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Delete' }))
-    expect(await screen.findByText('This interest table has bookings, so it cannot be deleted.')).toBeInTheDocument()
+    await user.click(
+      within(await screen.findByRole('dialog')).getByRole('button', { name: 'Delete' }),
+    )
+    expect(
+      await screen.findByText('This interest table has bookings, so it cannot be deleted.'),
+    ).toBeInTheDocument()
   })
 
   it('auto-opens the edit modal from ?edit=1 and PATCHes on save', async () => {
@@ -341,15 +351,22 @@ describe('InterestTableDetailPage', () => {
     )
     server.use(
       http.post('/api/v1/interest-tables/it1/cancel', () =>
-        HttpResponse.json({ success: true, data: { id: 'it1', status: 'CANCELLED', cancelledCount: 2, refundedPkr: 3000 } }),
+        HttpResponse.json({
+          success: true,
+          data: { id: 'it1', status: 'CANCELLED', cancelledCount: 2, refundedPkr: 3000 },
+        }),
       ),
     )
     const user = userEvent.setup()
     renderPage()
     await user.click(await screen.findByRole('button', { name: /cancel table/i }))
-    await user.click(within(await screen.findByRole('dialog')).getByRole('button', { name: /cancel table/i }))
+    await user.click(
+      within(await screen.findByRole('dialog')).getByRole('button', { name: /cancel table/i }),
+    )
     expect(
-      await screen.findByText('Interest table cancelled. 2 bookings cancelled and PKR 3,000 given back to the Minglers.'),
+      await screen.findByText(
+        'Interest table cancelled. 2 bookings cancelled and PKR 3,000 given back to the Minglers.',
+      ),
     ).toBeInTheDocument()
   })
 

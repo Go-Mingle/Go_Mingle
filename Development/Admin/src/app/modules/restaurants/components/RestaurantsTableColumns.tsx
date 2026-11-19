@@ -40,7 +40,7 @@ export function buildRestaurantsColumns(
       render: (city: string) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-secondary)',
@@ -61,7 +61,10 @@ export function buildRestaurantsColumns(
       filters: categoryOptions,
       filterIcon: funnelIcon,
       render: (cat: string) => {
-        const colors = categoryColors[cat] ?? { bg: 'var(--tint-neutral-bg)', text: 'var(--color-text-secondary)' }
+        const colors = categoryColors[cat] ?? {
+          bg: 'var(--tint-neutral-bg)',
+          text: 'var(--color-text-secondary)',
+        }
         return (
           <span
             style={{
@@ -93,7 +96,7 @@ export function buildRestaurantsColumns(
       render: (n: number) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-secondary)',

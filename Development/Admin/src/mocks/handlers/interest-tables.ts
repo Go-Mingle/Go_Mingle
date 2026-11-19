@@ -278,7 +278,10 @@ export const interestTablesV1Handlers = [
     const record = mockRestaurants.find((r) => r.id === rid)
     if (!record) {
       return HttpResponse.json(
-        { success: false, error: { code: 'ERR_RESTAURANT_NOT_FOUND', message: 'Restaurant not found.' } },
+        {
+          success: false,
+          error: { code: 'ERR_RESTAURANT_NOT_FOUND', message: 'Restaurant not found.' },
+        },
         { status: 404 },
       )
     }
