@@ -296,7 +296,7 @@ function PhotoCard({ photo, c, isMobile }: PhotoCardProps) {
         {(photo.isCover || photo.isProfile) && (
           <span className="absolute left-2 top-2 flex flex-wrap gap-1">
             {photo.isCover && (
-              <span className="inline-flex items-center gap-1 rounded bg-[var(--color-accent)] px-2 py-0.5 text-[11px] font-semibold text-white">
+              <span className="inline-flex items-center gap-1 rounded bg-[var(--color-accent)] px-2 py-0.5 text-[11px] font-semibold text-(--color-on-accent)">
                 <FrameCorners size={12} weight="bold" aria-hidden="true" />
                 {t('restaurants:partnerMedia.coverPhoto')}
               </span>

@@ -59,7 +59,7 @@ export function CategoriesTable({ pagedData, onEdit, onDeleteTarget }: Categorie
       sorter: (a, b) => a.commissionRate - b.commissionRate,
       sortIcon: tableSortIcon,
       render: (v: number) => (
-        <span className="text-sm font-medium text-[var(--color-text-secondary)] [font-family:Poppins,sans-serif]">
+        <span className="text-sm font-medium text-[var(--color-text-secondary)] font-(--font-ui)">
           {v}%
         </span>
       ),

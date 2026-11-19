@@ -24,9 +24,9 @@ import { getApiErrorMessage } from '../../../shared/utils/apiError'
 // ── card class constants ──────────────────────────────────────
 const CARD_CLS = 'bg-[var(--color-card)] rounded-xl p-4 flex flex-col gap-3'
 const LABEL_CLS =
-  'text-[10px] font-semibold uppercase tracking-[0.06em] text-[var(--color-text-subtle)] font-[Poppins] mb-[3px]'
+  'text-[10px] font-semibold uppercase tracking-[0.06em] text-[var(--color-text-subtle)] font-(--font-ui) mb-[3px]'
 const ACTION_BTN_CLS =
-  'flex-1 h-[34px] px-[14px] rounded-xl text-xs font-semibold font-[Poppins] inline-flex items-center justify-center gap-[6px] cursor-pointer'
+  'flex-1 h-[34px] px-[14px] rounded-xl text-xs font-semibold font-(--font-ui) inline-flex items-center justify-center gap-[6px] cursor-pointer'
 
 // ── RolesCardList ─────────────────────────────────────────────
 interface RolesCardListProps {
@@ -54,10 +54,10 @@ function RolesCardList({ data, onEdit, onDelete }: RolesCardListProps) {
           <div key={role.id} className={CARD_CLS}>
             {/* Row 1: role name + users count pill */}
             <div className="flex justify-between items-center">
-              <div className="text-sm font-semibold text-[var(--color-text)] font-[Poppins]">
+              <div className="text-sm font-semibold text-[var(--color-text)] font-(--font-ui)">
                 {name}
               </div>
-              <span className="bg-[var(--color-page)] border border-[var(--color-border)] rounded-xl px-2.5 py-[3px] text-xs font-medium text-[var(--color-text-secondary)] font-[Poppins] whitespace-nowrap">
+              <span className="bg-[var(--color-page)] border border-[var(--color-border)] rounded-xl px-2.5 py-[3px] text-xs font-medium text-[var(--color-text-secondary)] font-(--font-ui) whitespace-nowrap">
                 {usersAssigned} {t('card.users')}
               </span>
             </div>
@@ -67,14 +67,14 @@ function RolesCardList({ data, onEdit, onDelete }: RolesCardListProps) {
               <div className={LABEL_CLS}>{t('table.headers.modules')}</div>
               <div className="flex flex-wrap gap-[6px]">
                 {moduleLabels.length === 0 ? (
-                  <span className="text-xs text-[var(--color-text-muted)] font-[Poppins]">
+                  <span className="text-xs text-[var(--color-text-muted)] font-(--font-ui)">
                     {t('card.noModules')}
                   </span>
                 ) : (
                   moduleLabels.map((label) => (
                     <span
                       key={label}
-                      className="inline-flex items-center h-[22px] px-2 rounded text-[11px] font-medium font-[Poppins] bg-[var(--color-divider)] text-[var(--color-text-secondary)]"
+                      className="inline-flex items-center h-[22px] px-2 rounded text-[11px] font-medium font-(--font-ui) bg-[var(--color-divider)] text-[var(--color-text-secondary)]"
                     >
                       {label}
                     </span>
@@ -265,13 +265,13 @@ export function RolesAccessPage() {
       {/* Page header */}
       <div className="flex items-center justify-between mb-6 gap-3">
         <h1
-          className={`m-0 font-bold text-[var(--color-text)] font-[Poppins] leading-tight ${isMobile ? 'text-xl' : 'text-[26px]'}`}
+          className={`m-0 font-bold text-[var(--color-text)] font-(--font-ui) leading-tight ${isMobile ? 'text-xl' : 'text-[26px]'}`}
         >
           {t('title')}
         </h1>
         <button
           onClick={openNew}
-          className={`inline-flex items-center gap-[6px] border-0 rounded-xl font-[Poppins] font-semibold cursor-pointer shrink-0 whitespace-nowrap bg-[var(--color-accent)] text-white ${isMobile ? 'h-[34px] px-3 text-xs' : 'h-9 px-4 text-[13px]'}`}
+          className={`inline-flex items-center gap-[6px] border-0 rounded-xl font-(--font-ui) font-semibold cursor-pointer shrink-0 whitespace-nowrap bg-[var(--color-accent)] text-(--color-on-accent) ${isMobile ? 'h-[34px] px-3 text-xs' : 'h-9 px-4 text-[13px]'}`}
         >
           <Plus size={isMobile ? 13 : 15} weight="bold" />
           {t('actions.newRoleShort')}
@@ -346,12 +346,12 @@ export function RolesAccessPage() {
           onCancel={() => setDeleteTarget(null)}
           footer={null}
           closable
-          title={<span className="text-lg font-bold font-[Poppins]">{t('delete.title')}</span>}
+          title={<span className="text-lg font-bold font-(--font-ui)">{t('delete.title')}</span>}
           width={420}
           destroyOnClose
           centered
         >
-          <p className="text-sm text-[var(--color-text-muted)] mb-6 font-[Poppins]">
+          <p className="text-sm text-[var(--color-text-muted)] mb-6 font-(--font-ui)">
             {t('delete.confirmContent', { name: deleteTarget?.name })}
           </p>
           <div className="app-modal-footer">
@@ -371,7 +371,7 @@ export function RolesAccessPage() {
                   onError: handleMutationError,
                 })
               }}
-              className="h-9 px-3 bg-[var(--color-error)] hover:bg-[var(--color-error-dark)] text-white border-0 rounded-xl font-[Poppins] text-[13px] font-semibold cursor-pointer inline-flex items-center gap-[6px] transition-[background] duration-150 ease-out"
+              className="h-9 px-3 bg-[var(--color-error)] hover:bg-[var(--color-error-dark)] text-white border-0 rounded-xl font-(--font-ui) text-[13px] font-semibold cursor-pointer inline-flex items-center gap-[6px] transition-[background] duration-150 ease-out"
             >
               <Trash size={14} />
               {t('delete.confirm')}

@@ -54,13 +54,13 @@ export function RestaurantSuspendModal({
         onChange={(e) => onReasonChange(e.target.value)}
         placeholder={t('restaurants:suspend.placeholder')}
         rows={3}
-        style={{ borderRadius: 8, fontFamily: 'Poppins, sans-serif' }}
+        style={{ borderRadius: 8, fontFamily: 'var(--font-ui)' }}
       />
       <div
         style={{
           fontSize: 11,
           color: minMet ? 'var(--color-text-muted)' : 'var(--color-error)',
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           textAlign: 'right',
           marginTop: 4,
         }}

@@ -35,7 +35,10 @@ export function toPercentages(crop: PhotoCrop): PixelArea {
 export function outputSize(role: PhotoRole, area: PixelArea) {
   const target = ROLE_OUTPUT[role]
   const scale = Math.min(1, area.width / target.width, area.height / target.height)
-  return { width: Math.max(1, Math.round(target.width * scale)), height: Math.max(1, Math.round(target.height * scale)) }
+  return {
+    width: Math.max(1, Math.round(target.width * scale)),
+    height: Math.max(1, Math.round(target.height * scale)),
+  }
 }
 
 function loadImage(url: string): Promise<HTMLImageElement> {
@@ -64,6 +67,10 @@ export async function cropToBlob(url: string, area: PixelArea, role: PhotoRole):
   ctx.imageSmoothingQuality = 'high'
   ctx.drawImage(image, area.x, area.y, area.width, area.height, 0, 0, size.width, size.height)
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('The photo could not be cropped.'))), 'image/jpeg', 0.9)
+    canvas.toBlob(
+      (blob) => (blob ? resolve(blob) : reject(new Error('The photo could not be cropped.'))),
+      'image/jpeg',
+      0.9,
+    )
   })
 }

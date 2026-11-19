@@ -75,7 +75,7 @@ const TEST_TAG_STYLE = {
 
 // Uniform table cell text — matches the finances module (14 / 500 / secondary).
 const CELL_STYLE = {
-  fontFamily: 'Poppins, sans-serif',
+  fontFamily: 'var(--font-ui)',
   fontSize: 14,
   fontWeight: 500,
   color: 'var(--color-text-secondary)',
@@ -266,7 +266,7 @@ function MobileDeliveries({
               onClick={() => onStatusFilterChange(f)}
               className={`text-[12.5px] font-medium px-3 py-1.5 rounded-full border cursor-pointer whitespace-nowrap shrink-0 ${
                 active
-                  ? 'bg-[var(--color-accent)] border-[var(--color-accent)] text-white'
+                  ? 'bg-[var(--color-accent)] border-[var(--color-accent)] text-(--color-on-accent)'
                   : 'bg-transparent border-[var(--color-border-strong)] text-[var(--color-text-secondary)]'
               }`}
             >

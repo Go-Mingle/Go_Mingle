@@ -219,7 +219,9 @@ describe('RestaurantImageModal', () => {
       }),
     })
 
-    const [cover, profile] = Array.from(document.querySelectorAll('.ant-modal img')) as HTMLElement[]
+    const [cover, profile] = Array.from(
+      document.querySelectorAll('.ant-modal img'),
+    ) as HTMLElement[]
     expect(cover).toHaveAttribute('src', 'https://cdn.example/cover.jpg')
     expect(cover.className).toContain('aspect-[8/3]')
     expect(profile).toHaveAttribute('src', 'https://cdn.example/profile.jpg')
@@ -227,7 +229,12 @@ describe('RestaurantImageModal', () => {
   })
 
   it('says when no profile photo has been chosen', () => {
-    render({ profile: profileFixture({ coverPhotoUrl: 'https://cdn.example/cover.jpg', profilePhotoUrl: null }) })
+    render({
+      profile: profileFixture({
+        coverPhotoUrl: 'https://cdn.example/cover.jpg',
+        profilePhotoUrl: null,
+      }),
+    })
     expect(screen.getByText(/Not chosen yet/)).toBeInTheDocument()
   })
 

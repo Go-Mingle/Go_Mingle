@@ -84,7 +84,9 @@ export const partnerInterestTablesService = {
    * seats and releases the rest of the hold; it answers with the updated row.
    */
   markNoShow: (bookingId: string, emptySeats: number): Promise<InterestTableBookingRow> =>
-    httpClient.post<InterestTableBookingRow>(PARTNER_IT_ENDPOINTS.markNoShow(bookingId), { emptySeats }),
+    httpClient.post<InterestTableBookingRow>(PARTNER_IT_ENDPOINTS.markNoShow(bookingId), {
+      emptySeats,
+    }),
 
   /**
    * Invitees (US-04).

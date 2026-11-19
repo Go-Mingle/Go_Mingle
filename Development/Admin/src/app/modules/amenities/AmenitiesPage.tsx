@@ -342,7 +342,7 @@ export function AmenitiesPage() {
               <button
                 type="button"
                 onClick={() => confirm()}
-                className="h-7 cursor-pointer rounded-xl border-none bg-[var(--color-accent)] px-3 font-[var(--font-ui)] text-xs font-semibold text-white transition-colors duration-150 hover:bg-[var(--color-accent-dark)]"
+                className="h-7 cursor-pointer rounded-xl border-none bg-[var(--color-accent)] px-3 font-[var(--font-ui)] text-xs font-semibold text-(--color-on-accent) transition-colors duration-150 hover:bg-[var(--color-accent-dark)]"
               >
                 {t('filters.search')}
               </button>

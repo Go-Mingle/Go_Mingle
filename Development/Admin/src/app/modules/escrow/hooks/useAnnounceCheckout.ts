@@ -11,7 +11,12 @@ export function useAnnounceCheckout() {
     } else if (result.state === 'ALREADY_CONFIRMED') {
       void message.info(t('escrow.checkout.alreadyConfirmed'))
     } else {
-      void message.success(t('escrow.checkout.confirmed', { ref: result.items[0]?.bookingRef ?? ref, count: result.items.length }))
+      void message.success(
+        t('escrow.checkout.confirmed', {
+          ref: result.items[0]?.bookingRef ?? ref,
+          count: result.items.length,
+        }),
+      )
     }
   }
 }

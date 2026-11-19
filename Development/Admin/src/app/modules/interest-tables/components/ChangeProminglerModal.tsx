@@ -52,7 +52,7 @@ export function ChangeProminglerModal({ open, candidates, currentId, onClose, on
         style={{
           fontSize: 13,
           color: 'var(--color-text-muted)',
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           marginBottom: 16,
         }}
       >

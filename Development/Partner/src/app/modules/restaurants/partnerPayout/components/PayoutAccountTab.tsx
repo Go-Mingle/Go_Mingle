@@ -17,7 +17,9 @@ const FIELD_GRID = 'grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0'
 /** The field a 422 points at, so its message shows under that input. */
 function fieldError(error: unknown): { field: PayoutAccountField; message: string } | null {
   if (!(error instanceof HttpError) || error.status !== 422) return null
-  const body = error.responseBody as { error?: { message?: string; details?: { field?: string } } } | null
+  const body = error.responseBody as {
+    error?: { message?: string; details?: { field?: string } }
+  } | null
   const field = body?.error?.details?.field
   if (field !== 'accountTitle' && field !== 'bankName' && field !== 'iban') return null
   return { field, message: body?.error?.message ?? '' }
@@ -27,8 +29,16 @@ function SavedAccount({ account }: { account: PayoutAccount }) {
   const { t } = useTranslation('restaurants')
   return (
     <div className={FIELD_GRID}>
-      <OverviewField IconComp={IdentificationCard} label={t('payoutAccount.fields.accountTitle')} value={account.accountTitle} />
-      <OverviewField IconComp={Bank} label={t('payoutAccount.fields.bankName')} value={account.bankName} />
+      <OverviewField
+        IconComp={IdentificationCard}
+        label={t('payoutAccount.fields.accountTitle')}
+        value={account.accountTitle}
+      />
+      <OverviewField
+        IconComp={Bank}
+        label={t('payoutAccount.fields.bankName')}
+        value={account.bankName}
+      />
       <OverviewField
         IconComp={Hash}
         label={t('payoutAccount.fields.iban')}
@@ -55,7 +65,13 @@ export function PayoutAccountTab({ feedback }: { feedback: ProfileFeedback }) {
 
   if (query.isPending) return <Skeleton active paragraph={{ rows: 4 }} />
   if (query.isError) {
-    return <Alert type="error" showIcon message={getApiErrorMessage(query.error, t('payoutAccount.loadFailed'))} />
+    return (
+      <Alert
+        type="error"
+        showIcon
+        message={getApiErrorMessage(query.error, t('payoutAccount.loadFailed'))}
+      />
+    )
   }
 
   const { account, banks } = query.data

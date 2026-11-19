@@ -129,7 +129,9 @@ describe('Partner DashboardPage', () => {
       }),
     )
     renderWithProviders(<DashboardPage />)
-    expect(await screen.findByText('The dashboard could not be loaded.', {}, { timeout: 8000 })).toBeInTheDocument()
+    expect(
+      await screen.findByText('The dashboard could not be loaded.', {}, { timeout: 8000 }),
+    ).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Try again' }))
     expect(await screen.findByRole('heading', { name: 'Dashboard' })).toBeInTheDocument()
   })

@@ -9,7 +9,7 @@ import { clsx } from 'clsx'
  *  - danger    → light red tint                (destructive: Suspend, Delete, Cancel, Decline)
  *  - neutral   → white + gray outline          (Cancel / dismiss / Export / Download)
  *
- * All variants: 36px tall, 12px radius, Poppins, 150ms hover. Hover darkens the
+ * All variants: 36px tall, 12px radius, the UI font, 150ms hover. Hover darkens the
  * fill one step (primary → accent-dark, tints → *-hover) except neutral, which
  * shifts its border + text to teal. Hover is applied at md+ only (touch has no
  * hover), mirroring the previous Grid.useBreakpoint() gate.
@@ -55,7 +55,7 @@ export function AppButton({
       disabled={disabled}
       className={clsx(
         'app-btn inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-lg min-w-0',
-        'font-[Poppins,sans-serif] text-[13px] whitespace-nowrap transition-all duration-150 ease-out',
+        'font-(--font-ui) text-[13px] whitespace-nowrap transition-all duration-150 ease-out',
         'cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
         fillContainer && 'flex-1',
         VARIANT_BASE[variant],

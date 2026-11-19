@@ -56,7 +56,7 @@ export function buildRestaurantColumn(
               fontSize: 14,
               fontWeight: 500,
               color: clickable ? 'var(--color-accent)' : 'var(--color-text)',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               cursor: clickable ? 'pointer' : 'default',
             }}
             onMouseEnter={(e) => {

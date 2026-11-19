@@ -60,7 +60,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           {v}
@@ -81,7 +81,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
       render: (v: string | null) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-secondary)',
@@ -108,7 +108,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
           <a
             href={`mailto:${v}`}
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-accent)',
@@ -120,7 +120,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
         ) : (
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-text-muted)',
@@ -144,7 +144,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
       render: (v: string | null) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-muted)',
@@ -166,7 +166,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
             fontSize: 13,
             fontStyle: 'italic',
             color: 'var(--color-text-muted)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             padding: '32px 0',
             textAlign: 'center',
           }}
@@ -199,7 +199,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
                     fontSize: 14,
                     fontWeight: 600,
                     color: 'var(--color-text)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {c.name}
@@ -217,7 +217,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
                       fontWeight: 500,
                       display: 'inline-flex',
                       alignItems: 'center',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {c.title}
@@ -227,7 +227,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
                     style={{
                       fontSize: 13,
                       color: 'var(--color-text-muted)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {EM_DASH}
@@ -243,7 +243,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
                       color: 'var(--color-text-muted)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                       marginBottom: 2,
                     }}
                   >
@@ -256,7 +256,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
                         fontSize: 13,
                         color: 'var(--color-accent)',
                         textDecoration: 'none',
-                        fontFamily: 'Poppins, sans-serif',
+                        fontFamily: 'var(--font-ui)',
                       }}
                     >
                       {c.email}
@@ -266,7 +266,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
                       style={{
                         fontSize: 13,
                         color: 'var(--color-text-muted)',
-                        fontFamily: 'Poppins, sans-serif',
+                        fontFamily: 'var(--font-ui)',
                       }}
                     >
                       {EM_DASH}
@@ -281,7 +281,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
                       color: 'var(--color-text-muted)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                       marginBottom: 2,
                     }}
                   >
@@ -291,7 +291,7 @@ export function ContactDetailsTab({ contacts }: ContactDetailsTabProps) {
                     style={{
                       fontSize: 13,
                       color: 'var(--color-text-muted)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {c.phone ?? EM_DASH}

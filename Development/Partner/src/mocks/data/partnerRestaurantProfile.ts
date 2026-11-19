@@ -255,8 +255,10 @@ function readiness(): SubmissionReadiness {
  * the Admin Panel's decision; until then an Active restaurant shows the
  * fixture's Premium tier.
  */
-export let mockAssignment: { category: { id: string; name: string }; commissionPercent: number } | null =
-  null
+export let mockAssignment: {
+  category: { id: string; name: string }
+  commissionPercent: number
+} | null = null
 
 export function setMockAssignment(value: typeof mockAssignment) {
   mockAssignment = value
@@ -306,8 +308,12 @@ export function profileResponse(): PartnerRestaurantProfile {
       dressCode: mockProfile.dressCode,
       servesAlcohol: mockProfile.servesAlcohol,
     },
-    coverPhotoUrl: mockProfile.coverImage ? `${MOCK_CDN_ORIGIN}/${mockProfile.coverImage}` : coverPhotoUrl(mockProfile.mainPhotoKey),
-    profilePhotoUrl: mockProfile.profileImage ? `${MOCK_CDN_ORIGIN}/${mockProfile.profileImage}` : null,
+    coverPhotoUrl: mockProfile.coverImage
+      ? `${MOCK_CDN_ORIGIN}/${mockProfile.coverImage}`
+      : coverPhotoUrl(mockProfile.mainPhotoKey),
+    profilePhotoUrl: mockProfile.profileImage
+      ? `${MOCK_CDN_ORIGIN}/${mockProfile.profileImage}`
+      : null,
     status: mockProfile.status,
     visibleOnApp: mockProfile.visibleOnApp,
     paymentConfigured: mockProfile.payoutAccountId !== null,

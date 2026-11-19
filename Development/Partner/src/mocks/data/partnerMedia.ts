@@ -651,20 +651,26 @@ export function deleteMockVideo(mediaId: string): Response {
   return HttpResponse.json({ success: true, data: { mediaId, removed: true } })
 }
 
-
 export function mockPhotoRoles(): Response {
   const cover = photos.find((p) => p.isCover)
-  if (cover && roles.cover?.mediaId !== cover.mediaId) roles.cover = { mediaId: cover.mediaId, crop: null }
+  if (cover && roles.cover?.mediaId !== cover.mediaId)
+    roles.cover = { mediaId: cover.mediaId, crop: null }
   if (!cover) roles.cover = null
   return HttpResponse.json({ success: true, data: roles })
 }
 
 /** Sets a photo as the cover or the profile picture, keeping the cropped image it was sent. */
-export function setMockPhotoRole(mediaId: string, role: string, body: Record<string, unknown>): Response {
+export function setMockPhotoRole(
+  mediaId: string,
+  role: string,
+  body: Record<string, unknown>,
+): Response {
   const blocked = readOnly()
   if (blocked) return blocked
-  if (role !== 'cover' && role !== 'profile') return errorResponse('ERR_NOT_FOUND', 'Not found.', 404)
-  if (!photos.some((p) => p.mediaId === mediaId)) return errorResponse('ERR_NOT_FOUND', 'Photo not found.', 404)
+  if (role !== 'cover' && role !== 'profile')
+    return errorResponse('ERR_NOT_FOUND', 'Not found.', 404)
+  if (!photos.some((p) => p.mediaId === mediaId))
+    return errorResponse('ERR_NOT_FOUND', 'Photo not found.', 404)
   const crop = body.crop as Record<string, number> | undefined
   if (!crop || [crop.x, crop.y, crop.width, crop.height].some((n) => typeof n !== 'number')) {
     return errorResponse('ERR_VALIDATION', 'Choose the part of the photo to keep.', 422)
@@ -690,7 +696,9 @@ export function setMockPhotoRole(mediaId: string, role: string, body: Record<str
       crop,
       ...roles,
       coverPhotoUrl: mockProfile.coverImage ? `${MOCK_CDN_ORIGIN}/${mockProfile.coverImage}` : null,
-      profilePhotoUrl: mockProfile.profileImage ? `${MOCK_CDN_ORIGIN}/${mockProfile.profileImage}` : null,
+      profilePhotoUrl: mockProfile.profileImage
+        ? `${MOCK_CDN_ORIGIN}/${mockProfile.profileImage}`
+        : null,
     },
   })
 }

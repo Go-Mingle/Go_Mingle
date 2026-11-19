@@ -31,7 +31,7 @@ function NotProvided({ label }: { label: string }) {
         fontSize: 13,
         fontStyle: 'italic',
         color: 'var(--color-text-subtle)',
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
       }}
     >
       {label}
@@ -119,7 +119,7 @@ export function RestaurantOverviewTab({ restaurant }: Props) {
                       textDecoration: 'none',
                       fontSize: 12,
                       fontWeight: 500,
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     <NavigationArrow size={13} color="var(--color-accent)" />

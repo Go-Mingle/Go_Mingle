@@ -29,7 +29,12 @@ describe('ProfileBanners progress ring', () => {
         status="DRAFT"
         rejections={[]}
         blockers={null}
-        readiness={{ missingFields: [], payoutConfigured: true, hasCoverPhoto: true, canSubmit: true }}
+        readiness={{
+          missingFields: [],
+          payoutConfigured: true,
+          hasCoverPhoto: true,
+          canSubmit: true,
+        }}
       />,
     )
     expect(
@@ -62,10 +67,17 @@ describe('ProfileBanners readiness checklist', () => {
         status="REJECTED"
         rejections={[]}
         blockers={null}
-        readiness={{ missingFields: [], payoutConfigured: false, hasCoverPhoto: true, canSubmit: false }}
+        readiness={{
+          missingFields: [],
+          payoutConfigured: false,
+          hasCoverPhoto: true,
+          canSubmit: false,
+        }}
       />,
     )
-    expect(screen.getByRole('status')).toHaveTextContent(/Add your payout bank account on the Payout Account tab/)
+    expect(screen.getByRole('status')).toHaveTextContent(
+      /Add your payout bank account on the Payout Account tab/,
+    )
   })
 
   it('shows nothing extra when the draft is ready', () => {

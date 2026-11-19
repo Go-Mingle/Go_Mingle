@@ -152,7 +152,10 @@ export function PortalAccessCard({ restaurantId, restaurantName }: Readonly<Prop
                   {login.fullName}
                 </span>
                 {login.designation && (
-                  <span className="text-[12px] text-[var(--color-text-muted)]"> · {login.designation}</span>
+                  <span className="text-[12px] text-[var(--color-text-muted)]">
+                    {' '}
+                    · {login.designation}
+                  </span>
                 )}
                 <br />
                 <span className="text-[13px] text-[var(--color-text-muted)] break-all">
@@ -253,7 +256,11 @@ export function PortalAccessCard({ restaurantId, restaurantName }: Readonly<Prop
           {t('access.remove.body', { email: removing?.email ?? '' })}
         </p>
         {remove.error && (
-          <Alert type="error" showIcon title={getApiErrorMessage(remove.error, t('access.failed'))} />
+          <Alert
+            type="error"
+            showIcon
+            title={getApiErrorMessage(remove.error, t('access.failed'))}
+          />
         )}
       </Modal>
     </div>

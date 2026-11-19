@@ -48,7 +48,7 @@ export function RestaurantScheduleTab({ restaurant }: Props) {
           style={{
             fontSize: 13,
             color: 'var(--color-text-muted)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           {t('schedule.empty')}
@@ -89,7 +89,7 @@ export function RestaurantScheduleTab({ restaurant }: Props) {
                   fontSize: 15,
                   fontWeight: 700,
                   color: 'var(--color-text)',
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                 }}
               >
                 {tbl.name}
@@ -123,7 +123,7 @@ export function RestaurantScheduleTab({ restaurant }: Props) {
                             color: isOpen
                               ? 'var(--color-text-secondary)'
                               : 'var(--color-text-subtle)',
-                            fontFamily: 'Poppins, sans-serif',
+                            fontFamily: 'var(--font-ui)',
                           }}
                         >
                           {t(`schedule.dayShort.${d.key}`)}
@@ -150,7 +150,7 @@ export function RestaurantScheduleTab({ restaurant }: Props) {
                                   padding: '3px 10px',
                                   fontSize: 12,
                                   fontWeight: 600,
-                                  fontFamily: 'Poppins, sans-serif',
+                                  fontFamily: 'var(--font-ui)',
                                 }}
                               >
                                 <Clock size={12} weight="bold" style={{ flexShrink: 0 }} />
@@ -163,7 +163,7 @@ export function RestaurantScheduleTab({ restaurant }: Props) {
                             style={{
                               fontSize: 12,
                               color: 'var(--color-text-subtle)',
-                              fontFamily: 'Poppins, sans-serif',
+                              fontFamily: 'var(--font-ui)',
                             }}
                           >
                             {t('schedule.closed')}
@@ -188,5 +188,5 @@ const LABEL: React.CSSProperties = {
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   color: 'var(--color-text-subtle)',
-  fontFamily: 'Poppins, sans-serif',
+  fontFamily: 'var(--font-ui)',
 }

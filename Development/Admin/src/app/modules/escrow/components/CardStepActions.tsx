@@ -40,7 +40,10 @@ export function CardStepActions({ item, live, onAddTestCard }: CardStepActionsPr
 
   const pay = () => {
     // This page's own address (with the router's base path), naming the hold that is being paid for.
-    const back = new URL(`${here}?${CHECKOUT_RETURN_PARAM}=${encodeURIComponent(item.id)}`, window.location.origin)
+    const back = new URL(
+      `${here}?${CHECKOUT_RETURN_PARAM}=${encodeURIComponent(item.id)}`,
+      window.location.origin,
+    )
     start.mutate(
       { id: item.id, returnUrl: back.toString() },
       {
@@ -68,7 +71,11 @@ export function CardStepActions({ item, live, onAddTestCard }: CardStepActionsPr
       {live && (
         <Tooltip title={t('escrow.checkout.openHint')}>
           <span>
-            <AppButton variant={item.checkout ? 'neutral' : 'primary'} loading={start.isPending} onClick={pay}>
+            <AppButton
+              variant={item.checkout ? 'neutral' : 'primary'}
+              loading={start.isPending}
+              onClick={pay}
+            >
               {t('escrow.checkout.open')}
             </AppButton>
           </span>

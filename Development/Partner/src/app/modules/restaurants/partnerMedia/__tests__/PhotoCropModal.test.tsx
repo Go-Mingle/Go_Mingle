@@ -46,7 +46,9 @@ describe('PhotoCropModal', () => {
   })
 
   it('offers a zoom slider and shows a save error', () => {
-    renderWithProviders(<PhotoCropModal {...props} role="cover" error="The photo could not be saved." />)
+    renderWithProviders(
+      <PhotoCropModal {...props} role="cover" error="The photo could not be saved." />,
+    )
     expect(screen.getByRole('slider', { name: 'Zoom' })).toBeInTheDocument()
     expect(screen.getByText('The photo could not be saved.')).toBeInTheDocument()
   })

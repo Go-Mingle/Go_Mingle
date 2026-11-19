@@ -92,7 +92,7 @@ export function ProfileHeader({
                 <Storefront size={26} className="text-[var(--color-accent)]" />
               </span>
             )}
-            <span className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 items-center justify-center rounded-full border-2 border-[var(--color-card)] bg-[var(--color-accent)] text-white">
+            <span className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 items-center justify-center rounded-full border-2 border-[var(--color-card)] bg-[var(--color-accent)] text-(--color-on-accent)">
               <Camera size={14} weight="fill" />
             </span>
           </button>

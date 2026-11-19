@@ -162,16 +162,10 @@ export function QuestionFormModal({
             style={{ marginBottom: 12 }}
           >
             <Radio.Group>
-              <Radio
-                value="SINGLE_SELECT"
-                style={{ fontFamily: 'Poppins, sans-serif', fontSize: 13 }}
-              >
+              <Radio value="SINGLE_SELECT" style={{ fontFamily: 'var(--font-ui)', fontSize: 13 }}>
                 {t('type.single')}
               </Radio>
-              <Radio
-                value="MULTI_SELECT"
-                style={{ fontFamily: 'Poppins, sans-serif', fontSize: 13 }}
-              >
+              <Radio value="MULTI_SELECT" style={{ fontFamily: 'var(--font-ui)', fontSize: 13 }}>
                 {t('type.multi')}
               </Radio>
             </Radio.Group>
@@ -260,7 +254,7 @@ export function QuestionFormModal({
                       background: 'var(--color-accent-light)',
                       color: 'var(--color-accent-dark)',
                       border: '1.5px solid var(--color-accent)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: 'pointer',
@@ -286,7 +280,7 @@ export function QuestionFormModal({
                   width: '100%',
                   fontSize: 11,
                   color: 'var(--color-text-subtle)',
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                 }}
               >
                 {t('form.orderHelper')}
@@ -317,7 +311,7 @@ export function QuestionFormModal({
               style={{
                 fontSize: 12,
                 color: 'var(--color-accent-dark)',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
                 lineHeight: 1.6,
               }}
             >
@@ -331,7 +325,7 @@ export function QuestionFormModal({
               style={{
                 height: 36,
                 borderRadius: 12,
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
                 fontSize: 13,
               }}
             >

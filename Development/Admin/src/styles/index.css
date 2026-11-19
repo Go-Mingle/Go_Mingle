@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&family=JetBrains+Mono:wght@400&display=swap');
 @import 'tailwindcss';
 @import './antd-overrides.css';
+@import './brand.css';
 
 /* ----------------------------------------------------------------------------
-   Tailwind v4 @theme — Inter only, plus mono. design.md says no DM Serif.
+   Tailwind v4 @theme — Candlelit type: Manrope for the interface, Unbounded for display, plus mono.
    `@theme` is a Tailwind v4 directive (not a standard CSS at-rule). Both
    SonarQube's CSS analyser and stylelint flag it via `at-rule-no-unknown`.
    The stylelint-disable comment silences both (Sonar's CSS analyser is
@@ -12,65 +13,66 @@
 
 /* stylelint-disable-next-line at-rule-no-unknown */
 @theme {
-  --font-ui: 'Poppins', sans-serif;
-  --font-display: 'Poppins', sans-serif;
+  --font-ui: 'Manrope', system-ui, sans-serif;
+  --font-display: 'Unbounded', 'Manrope', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --color-accent: #0fa79d;
-  --color-accent-dark: #0c8c84;
-  --color-coral: #ff6b5b;
-  --color-coral-dark: #e5503f;
-  --color-navy: #0d2233;
+  --color-accent: #d63a25;
+  --color-accent-dark: #b92e1c;
+  --color-coral: #ff5a44;
+  --color-coral-dark: #d63a25;
+  --color-navy: #14102a;
 }
 
 :root {
-  --color-page: #f5f7fa;
+  --color-on-accent: #ffffff;
+  --color-page: #f7f5fc;
   --color-sidebar: #ffffff;
   --color-topbar: #ffffff;
   --color-card: #ffffff;
-  --color-border: #e8ecf0;
-  --color-border-strong: #d1d9e0;
-  --color-divider: #f0f3f6;
-  --color-text: #1a2332;
-  --color-text-secondary: #4a5568;
-  --color-text-muted: #5a6678; /* WCAG AA on white (~5.8:1); was #718096 (4.0:1) */
-  --color-text-subtle: #6b7787; /* WCAG AA on white (~4.5:1); kept lighter than -muted for hierarchy. Was #a0aec0 (2.3:1) */
-  --color-text-placeholder: #8792a3; /* ~3:1 — accessible yet still reads as placeholder (not entered text). Was #cbd5e0 (1.5:1) */
-  --color-accent: #0fa79d;
-  --color-accent-dark: #0c8c84;
-  --color-accent-light: #e6f7f6;
-  --color-accent-light-hover: #d0efec;
-  --color-accent-mid: #5ecec9;
-  --color-coral: #ff6b5b;
-  --color-coral-dark: #e5503f;
-  --color-coral-light: #fff0ee;
-  --color-navy: #0d2233;
-  --color-success: #147d4d; /* WCAG AA on white (~5.2:1); was #1a8a5a (4.35:1) */
-  --color-success-bg: #ebf8f1;
-  --color-success-border: #c3e8d5;
-  --color-warning: #b06000;
-  --color-warning-bg: #fff8ec;
-  --color-warning-border: #ffe4ac;
-  --color-error: #c0392b;
-  --color-error-bg: #fef2f1;
-  --color-error-bg-hover: #fbdedb;
-  --color-error-border: #fccac7;
-  --color-error-dark: #a93226;
-  --color-disabled-bg: #d1d9e0;
-  --color-info: #1565c0;
-  --color-info-bg: #eef4ff;
-  --color-info-border: #bfcfee;
-  --color-amber: #f59e0b;
-  --color-amber-bg: #fef9ec;
-  --color-violet: #7c3aed;
-  --color-neutral: #6b7280;
-  --color-hover: rgba(15, 167, 157, 0.05);
-  --color-hover-neutral: rgba(26, 35, 50, 0.04);
-  --color-focus-ring: rgba(15, 167, 157, 0.2);
-  --color-selected: rgba(15, 167, 157, 0.08);
+  --color-border: #e6e2f0;
+  --color-border-strong: #d9d4e8;
+  --color-divider: #efecf5;
+  --color-text: #1a1530;
+  --color-text-secondary: #3a3456;
+  --color-text-muted: #5c5677;
+  --color-text-subtle: #6e6889;
+  --color-text-placeholder: #8e87b3; /* ~3:1 — accessible yet still reads as placeholder (not entered text). Was #cbd5e0 (1.5:1) */
+  --color-accent: #d63a25;
+  --color-accent-dark: #b92e1c;
+  --color-accent-light: #ffece8;
+  --color-accent-light-hover: #ffdcd5;
+  --color-accent-mid: #ff8a78;
+  --color-coral: #ff5a44;
+  --color-coral-dark: #d63a25;
+  --color-coral-light: #fff1ee;
+  --color-navy: #14102a;
+  --color-success: #0b7a64;
+  --color-success-bg: #e3f6f1;
+  --color-success-border: #b5e6d9;
+  --color-warning: #8a4f00;
+  --color-warning-bg: #fff3df;
+  --color-warning-border: #ffd9a0;
+  --color-error: #b42318;
+  --color-error-bg: #fef0ee;
+  --color-error-bg-hover: #fddcd8;
+  --color-error-border: #f9c3bd;
+  --color-error-dark: #912018;
+  --color-disabled-bg: #d9d4e8;
+  --color-info: #2453c4;
+  --color-info-bg: #eef2ff;
+  --color-info-border: #c7d2fe;
+  --color-amber: #d98a12;
+  --color-amber-bg: #fff3df;
+  --color-violet: #6d4bd8;
+  --color-neutral: #6e6889;
+  --color-hover: rgba(214, 58, 37, 0.05);
+  --color-hover-neutral: rgba(26, 21, 48, 0.04);
+  --color-focus-ring: rgba(214, 58, 37, 0.22);
+  --color-selected: rgba(214, 58, 37, 0.08);
   --color-input-bg: #ffffff;
-  --color-input-border: #d1d9e0;
-  --color-input-border-hover: #a0aec0;
-  --color-input-border-focus: #0fa79d;
+  --color-input-border: #d9d4e8;
+  --color-input-border-hover: #b9b3d6;
+  --color-input-border-focus: #d63a25;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -93,29 +95,29 @@
   --btn-height-sm: 28px;
   --btn-height-md: 36px;
   --btn-height-lg: 40px;
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
-  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.15);
+  --shadow-xs: 0 1px 2px rgba(26, 21, 48, 0.05);
+  --shadow-sm: 0 1px 4px rgba(26, 21, 48, 0.06), 0 0 0 1px rgba(26, 21, 48, 0.03);
+  --shadow-md: 0 6px 16px rgba(26, 21, 48, 0.08), 0 0 0 1px rgba(26, 21, 48, 0.04);
+  --shadow-lg: 0 12px 32px rgba(26, 21, 48, 0.12), 0 0 0 1px rgba(26, 21, 48, 0.04);
+  --shadow-modal: 0 24px 64px rgba(20, 16, 42, 0.22);
   --transition-fast: 120ms ease-out;
   --transition-default: 200ms ease-in-out;
   --transition-slow: 300ms cubic-bezier(0.2, 0, 0, 1);
-  --font-display: 'Poppins', sans-serif;
-  --font-ui: 'Poppins', sans-serif;
+  --font-display: 'Unbounded', 'Manrope', sans-serif;
+  --font-ui: 'Manrope', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   /* Soft tints for category pills and initials avatars (theme-aware). */
-  --tint-teal-bg: #e6f7f6;
-  --tint-teal-fg: #0c8c84;
-  --tint-coral-bg: #fff0ee;
-  --tint-coral-fg: #e5503f;
-  --tint-blue-bg: #eef4ff;
-  --tint-blue-fg: #1565c0;
-  --tint-amber-bg: #fff8ec;
-  --tint-amber-fg: #b06000;
-  --tint-violet-bg: #f5f0ff;
-  --tint-violet-fg: #6b21a8;
-  --tint-neutral-bg: #f1f3f6;
+  --tint-teal-bg: #e3f6f1;
+  --tint-teal-fg: #0b7a64;
+  --tint-coral-bg: #ffece8;
+  --tint-coral-fg: #b92e1c;
+  --tint-blue-bg: #eef2ff;
+  --tint-blue-fg: #2453c4;
+  --tint-amber-bg: #fff3df;
+  --tint-amber-fg: #8a4f00;
+  --tint-violet-bg: #f1ecff;
+  --tint-violet-fg: #5b3cc4;
+  --tint-neutral-bg: #f2eff8;
 }
 
 /* ── Global reset ───────────────────────────────────────── */
@@ -140,7 +142,7 @@ body {
 .ant-btn.btn-primary {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
   border-radius: 12px;
 }
 .ant-btn.btn-primary:hover {
@@ -164,31 +166,16 @@ body {
   border-radius: 2px;
 }
 
-/* ── GoMingle landing (auth) theme ─────────────────────────────────────────
-   Scoped re-map of the accent tokens so every Tailwind accent utility inside
-   the login / sign-up / password screens renders in the GoMingle brand
-   colours (logo navy #1C1730 + coral #FF5A44). The rest of the app keeps its
-   existing palette. */
-.gm-auth {
-  --color-accent: #e8432e; /* coral-dark: WCAG AA for text on white */
-  --color-accent-dark: #c9351f;
-  --color-accent-light: #fff1ee;
-  --color-accent-light-hover: #ffe2dc;
-  --color-accent-mid: #ff8a78;
-  --color-input-border-focus: #ff5a44;
-  --color-navy: #1c1730;
-}
-
 /* ── Theme surfaces used by antd-overrides.css ─────────────────────────────
    Table header and default-button fills, so the overrides follow the theme
    instead of hard-coding light hex values. */
 :root {
-  --color-table-head: #f5f7fa;
-  --color-table-head-alt: #f8fafb;
+  --color-table-head: #f7f5fc;
+  --color-table-head-alt: #faf8fd;
   --color-btn-default-bg: #ffffff;
-  --color-scrim: rgba(0, 0, 0, 0.35);
+  --color-scrim: rgba(20, 16, 42, 0.45);
   /* Neutral fill for solid status badges with white text. */
-  --color-badge-neutral: #4a5568;
+  --color-badge-neutral: #5c5677;
 }
 
 /* ── Dark theme ────────────────────────────────────────────────────────────
@@ -196,91 +183,78 @@ body {
    colour tokens change; every component reads them, so the whole portal
    follows. Status colours keep their meaning with tinted, low-alpha fills. */
 :root[data-theme='dark'] {
+  --color-on-accent: #14102a;
   color-scheme: dark;
-  --color-page: #0e141c;
-  --color-sidebar: #141b25;
-  --color-topbar: #141b25;
-  --color-card: #18202b;
-  --color-border: #273241;
-  --color-border-strong: #364356;
-  --color-divider: #1f2834;
-  --color-text: #e7ebf1;
-  --color-text-secondary: #bcc5d2;
-  --color-text-muted: #9aa5b5;
-  --color-text-subtle: #8591a3;
-  --color-text-placeholder: #6c788a;
-  --color-accent: #0fa79d;
-  --color-accent-dark: #0c8c84;
-  --color-accent-light: rgba(20, 173, 162, 0.16);
-  --color-accent-light-hover: rgba(20, 173, 162, 0.24);
-  --color-accent-mid: #5ecec9;
-  --color-coral: #ef5f4f;
-  --color-coral-dark: #e5503f;
-  --color-coral-light: rgba(255, 107, 91, 0.16);
-  --color-success: #2f9e6a;
-  --color-success-bg: rgba(76, 195, 138, 0.14);
-  --color-success-border: rgba(76, 195, 138, 0.34);
-  --color-warning: #c27a1a;
-  --color-warning-bg: rgba(240, 163, 68, 0.14);
-  --color-warning-border: rgba(240, 163, 68, 0.34);
-  --color-error: #e05a4c;
-  --color-error-bg: rgba(242, 120, 107, 0.14);
-  --color-error-bg-hover: rgba(242, 120, 107, 0.22);
-  --color-error-border: rgba(242, 120, 107, 0.36);
-  --color-error-dark: #ff9488;
-  --color-disabled-bg: #2c3747;
-  --color-info: #3d87e6;
-  --color-info-bg: rgba(106, 168, 255, 0.14);
-  --color-info-border: rgba(106, 168, 255, 0.34);
-  --color-amber: #f5b13d;
-  --color-amber-bg: rgba(245, 177, 61, 0.14);
-  --color-rating: #f5b13d;
-  --color-rating-bg: rgba(245, 177, 61, 0.14);
-  --color-violet: #a78bfa;
-  --color-neutral: #6b7787;
-  --color-hover: rgba(20, 173, 162, 0.08);
+  --color-page: #14102a;
+  --color-sidebar: #1a1535;
+  --color-topbar: #1a1535;
+  --color-card: #1e1838;
+  --color-border: #2e2752;
+  --color-border-strong: #3a3263;
+  --color-divider: #251f44;
+  --color-text: #f4f1ff;
+  --color-text-secondary: #d6d1ee;
+  --color-text-muted: #b9b3d6;
+  --color-text-subtle: #a39dc4;
+  --color-text-placeholder: #8e87b3;
+  --color-accent: #ff6f5a;
+  --color-accent-dark: #ff8a78;
+  --color-accent-light: rgba(255, 111, 90, 0.16);
+  --color-accent-light-hover: rgba(255, 111, 90, 0.24);
+  --color-accent-mid: #ff8a78;
+  --color-coral: #ff6f5a;
+  --color-coral-dark: #ff5a44;
+  --color-coral-light: rgba(255, 90, 68, 0.16);
+  --color-success: #3fd6b4;
+  --color-success-bg: rgba(63, 214, 180, 0.14);
+  --color-success-border: rgba(63, 214, 180, 0.34);
+  --color-warning: #ffb547;
+  --color-warning-bg: rgba(255, 181, 71, 0.14);
+  --color-warning-border: rgba(255, 181, 71, 0.34);
+  --color-error: #ff7b6b;
+  --color-error-bg: rgba(255, 123, 107, 0.14);
+  --color-error-bg-hover: rgba(255, 123, 107, 0.22);
+  --color-error-border: rgba(255, 123, 107, 0.36);
+  --color-error-dark: #ffa094;
+  --color-disabled-bg: #2e2752;
+  --color-info: #8ab8ff;
+  --color-info-bg: rgba(138, 184, 255, 0.14);
+  --color-info-border: rgba(138, 184, 255, 0.34);
+  --color-amber: #ffb547;
+  --color-amber-bg: rgba(255, 181, 71, 0.14);
+  --color-rating: #ffb547;
+  --color-rating-bg: rgba(255, 181, 71, 0.14);
+  --color-violet: #b9a4ff;
+  --color-neutral: #8e87b3;
+  --color-hover: rgba(255, 111, 90, 0.08);
   --color-hover-neutral: rgba(255, 255, 255, 0.05);
-  --color-hover-solid: #18292f;
-  --color-focus-ring: rgba(20, 173, 162, 0.32);
-  --color-selected: rgba(20, 173, 162, 0.14);
-  --color-teal-light: rgba(20, 173, 162, 0.16);
-  --color-input-bg: #121922;
-  --color-input-border: #364356;
-  --color-input-border-hover: #4a5a70;
-  --color-input-border-focus: #0fa79d;
-  --color-table-head: #1d2633;
-  --color-table-head-alt: #1d2633;
-  --color-btn-default-bg: #1d2633;
-  --color-scrim: rgba(0, 0, 0, 0.6);
-  --color-badge-neutral: #6b7787;
+  --color-hover-solid: #231c3f;
+  --color-focus-ring: rgba(255, 111, 90, 0.35);
+  --color-selected: rgba(255, 111, 90, 0.14);
+  --color-teal-light: rgba(255, 111, 90, 0.16);
+  --color-input-bg: #17122f;
+  --color-input-border: #3a3263;
+  --color-input-border-hover: #4e4580;
+  --color-input-border-focus: #ff6f5a;
+  --color-table-head: #221c40;
+  --color-table-head-alt: #221c40;
+  --color-btn-default-bg: #221c40;
+  --color-scrim: rgba(8, 6, 20, 0.65);
+  --color-badge-neutral: #6e6889;
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.03);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.04);
   --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.6);
-  --tint-teal-bg: rgba(20, 173, 162, 0.16);
-  --tint-teal-fg: #5ecec9;
-  --tint-coral-bg: rgba(255, 107, 91, 0.16);
-  --tint-coral-fg: #ff9488;
-  --tint-blue-bg: rgba(106, 168, 255, 0.16);
+  --tint-teal-bg: rgba(63, 214, 180, 0.16);
+  --tint-teal-fg: #3fd6b4;
+  --tint-coral-bg: rgba(255, 111, 90, 0.16);
+  --tint-coral-fg: #ff8a78;
+  --tint-blue-bg: rgba(138, 184, 255, 0.16);
   --tint-blue-fg: #8ab8ff;
-  --tint-amber-bg: rgba(245, 177, 61, 0.16);
-  --tint-amber-fg: #f5b13d;
-  --tint-violet-bg: rgba(167, 139, 250, 0.16);
-  --tint-violet-fg: #c4b5fd;
-  --tint-neutral-bg: #1d2633;
-}
-
-/* The landing screens keep their coral brand accent, with dark-safe fills. */
-:root[data-theme='dark'] .gm-auth {
-  --color-accent: #ef5f4f;
-  --color-accent-dark: #e5503f;
-  --color-accent-light: rgba(255, 90, 68, 0.16);
-  --color-accent-light-hover: rgba(255, 90, 68, 0.24);
-  --color-input-border-focus: #ff5a44;
-}
-
-/* The GoMingle logo turns white in dark mode; light mode keeps the brand colours. */
-:root[data-theme='dark'] .gm-logo {
-  filter: brightness(0) invert(1);
+  --tint-amber-bg: rgba(255, 181, 71, 0.16);
+  --tint-amber-fg: #ffb547;
+  --tint-violet-bg: rgba(185, 164, 255, 0.16);
+  --tint-violet-fg: #c9b8ff;
+  --tint-neutral-bg: #251f44;
 }

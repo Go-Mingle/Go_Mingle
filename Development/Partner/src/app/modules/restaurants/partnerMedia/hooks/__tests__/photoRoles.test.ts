@@ -4,7 +4,10 @@ import type { ReactNode } from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
 import { server } from '../../../../../../mocks/server'
-import { resetMockProfile, setMockProfileStatus } from '../../../../../../mocks/data/partnerRestaurantProfile'
+import {
+  resetMockProfile,
+  setMockProfileStatus,
+} from '../../../../../../mocks/data/partnerRestaurantProfile'
 import { resetMockMedia } from '../../../../../../mocks/data/partnerMedia'
 import { AllProviders, makeQueryClient } from '../../../../../../test-utils/renderWithProviders'
 import { installXhrOverFetch } from '../../../../../../test-utils/xhrOverFetch'
@@ -17,7 +20,10 @@ vi.mock('../../cropImage', async (importOriginal) => {
   const real = await importOriginal<typeof import('../../cropImage')>()
   return {
     ...real,
-    cropToBlob: vi.fn(async () => new Blob([new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 1, 2, 3])], { type: 'image/jpeg' })),
+    cropToBlob: vi.fn(
+      async () =>
+        new Blob([new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 1, 2, 3])], { type: 'image/jpeg' }),
+    ),
   }
 })
 import { cropToBlob } from '../../cropImage'
@@ -32,7 +38,8 @@ const result = {
 
 async function renderLoaded() {
   const view = renderHook(() => usePhotosVideosTab(true, feedback), {
-    wrapper: ({ children }: { children: ReactNode }) => createElement(AllProviders, { queryClient: makeQueryClient(), children }),
+    wrapper: ({ children }: { children: ReactNode }) =>
+      createElement(AllProviders, { queryClient: makeQueryClient(), children }),
   })
   await waitFor(() => expect(view.result.current.isPending).toBe(false))
   return view
@@ -64,10 +71,16 @@ describe('cover and profile photo (GM-320)', () => {
   it('cuts, uploads and saves a profile photo, then labels it in the gallery', async () => {
     let sent: Record<string, unknown> | undefined
     server.use(
-      http.put(PARTNER_MEDIA_ENDPOINTS.photoRole(':mediaId', 'profile'), async ({ request, params }) => {
-        sent = { ...((await request.clone().json()) as Record<string, unknown>), mediaId: params.mediaId }
-        return undefined
-      }),
+      http.put(
+        PARTNER_MEDIA_ENDPOINTS.photoRole(':mediaId', 'profile'),
+        async ({ request, params }) => {
+          sent = {
+            ...((await request.clone().json()) as Record<string, unknown>),
+            mediaId: params.mediaId,
+          }
+          return undefined
+        },
+      ),
     )
     const { result: r } = await renderLoaded()
     const photo = r.current.photos[1]
@@ -75,13 +88,22 @@ describe('cover and profile photo (GM-320)', () => {
     act(() => r.current.saveCrop(result))
     await waitFor(() => expect(showSuccess).toHaveBeenCalledWith('Profile photo updated.'))
     expect(cropToBlob).toHaveBeenCalledWith(photo.url, result.pixels, 'profile')
-    expect(sent).toMatchObject({ mediaId: photo.mediaId, crop: { x: 0, y: 0.125, width: 1, height: 0.75 } })
+    expect(sent).toMatchObject({
+      mediaId: photo.mediaId,
+      crop: { x: 0, y: 0.125, width: 1, height: 0.75 },
+    })
     expect(r.current.cropping).toBeNull()
-    await waitFor(() => expect(r.current.photos.find((p) => p.mediaId === photo.mediaId)?.isProfile).toBe(true))
+    await waitFor(() =>
+      expect(r.current.photos.find((p) => p.mediaId === photo.mediaId)?.isProfile).toBe(true),
+    )
 
     // Reopening the same photo starts from the saved crop.
-    act(() => r.current.openCrop(r.current.photos.find((p) => p.mediaId === photo.mediaId)!, 'profile'))
-    await waitFor(() => expect(r.current.savedCrop).toEqual({ x: 0, y: 0.125, width: 1, height: 0.75 }))
+    act(() =>
+      r.current.openCrop(r.current.photos.find((p) => p.mediaId === photo.mediaId)!, 'profile'),
+    )
+    await waitFor(() =>
+      expect(r.current.savedCrop).toEqual({ x: 0, y: 0.125, width: 1, height: 0.75 }),
+    )
   })
 
   it('saves a cover crop and says so', async () => {
@@ -90,7 +112,9 @@ describe('cover and profile photo (GM-320)', () => {
     act(() => r.current.openCrop(photo, 'cover'))
     act(() => r.current.saveCrop(result))
     await waitFor(() => expect(showSuccess).toHaveBeenCalledWith('Cover photo updated.'))
-    await waitFor(() => expect(r.current.photos.find((p) => p.mediaId === photo.mediaId)?.isCover).toBe(true))
+    await waitFor(() =>
+      expect(r.current.photos.find((p) => p.mediaId === photo.mediaId)?.isCover).toBe(true),
+    )
   })
 
   it("explains an API refusal inside the editor, and a photo the browser couldn't cut", async () => {
@@ -119,16 +143,26 @@ describe('cover and profile photo (GM-320)', () => {
     act(() => r.current.saveCrop(result))
     await waitFor(() => expect(r.current.photos.some((p) => p.isProfile)).toBe(true))
     act(() => r.current.removeProfile())
-    await waitFor(() => expect(showSuccess).toHaveBeenCalledWith(expect.stringMatching(/Profile photo removed/)))
+    await waitFor(() =>
+      expect(showSuccess).toHaveBeenCalledWith(expect.stringMatching(/Profile photo removed/)),
+    )
     await waitFor(() => expect(r.current.photos.some((p) => p.isProfile)).toBe(false))
   })
 
   it('reports a failed removal', async () => {
-    server.use(http.delete(PARTNER_MEDIA_ENDPOINTS.profilePhoto, () => HttpResponse.json({ error: { message: 'No' } }, { status: 400 })))
+    server.use(
+      http.delete(PARTNER_MEDIA_ENDPOINTS.profilePhoto, () =>
+        HttpResponse.json({ error: { message: 'No' } }, { status: 400 }),
+      ),
+    )
     const showError = vi.fn()
-    const view = renderHook(() => usePhotosVideosTab(true, { ...feedback, showError, showErrorText: showError }), {
-      wrapper: ({ children }: { children: ReactNode }) => createElement(AllProviders, { queryClient: makeQueryClient(), children }),
-    })
+    const view = renderHook(
+      () => usePhotosVideosTab(true, { ...feedback, showError, showErrorText: showError }),
+      {
+        wrapper: ({ children }: { children: ReactNode }) =>
+          createElement(AllProviders, { queryClient: makeQueryClient(), children }),
+      },
+    )
     await waitFor(() => expect(view.result.current.isPending).toBe(false))
     act(() => view.result.current.removeProfile())
     await waitFor(() => expect(showError).toHaveBeenCalled())

@@ -41,7 +41,7 @@ export function ProminglerBadge({
             fontSize: 13,
             fontWeight: 600,
             color: CROWN_COLOR,
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           Pro Mingler

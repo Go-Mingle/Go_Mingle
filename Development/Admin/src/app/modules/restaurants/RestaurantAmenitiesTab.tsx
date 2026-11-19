@@ -16,7 +16,7 @@ export function RestaurantAmenitiesTab({ amenities }: Props) {
       <div className="pt-5">
         <div className="flex flex-col items-center gap-3 rounded-xl bg-[var(--color-card)] p-12">
           <ShieldCheck size={32} weight="regular" className="text-[var(--color-text-subtle)]" />
-          <span className="font-[Poppins] text-[13px] text-[var(--color-text-muted)]">
+          <span className="font-(--font-ui) text-[13px] text-[var(--color-text-muted)]">
             {t('amenities.empty')}
           </span>
         </div>
@@ -35,7 +35,7 @@ export function RestaurantAmenitiesTab({ amenities }: Props) {
             >
               <AmenityIconBadge iconUrl={a.iconUrl} containerSize={48} size={22} />
               <div className="flex min-w-0 flex-col">
-                <span className="overflow-hidden text-ellipsis font-[Poppins] text-sm font-medium text-[var(--color-text)]">
+                <span className="overflow-hidden text-ellipsis font-(--font-ui) text-sm font-medium text-[var(--color-text)]">
                   {a.name}
                 </span>
               </div>

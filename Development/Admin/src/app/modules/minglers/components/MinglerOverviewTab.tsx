@@ -51,7 +51,7 @@ export function MinglerOverviewTab({
         <OverviewField IconComp={User} label={t('overview.fullName')}>
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-text)',
@@ -65,7 +65,7 @@ export function MinglerOverviewTab({
           <a
             href={`mailto:${email}`}
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-accent)',
@@ -79,7 +79,7 @@ export function MinglerOverviewTab({
         <OverviewField IconComp={Phone} label={t('overview.phone')}>
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-text)',
@@ -92,7 +92,7 @@ export function MinglerOverviewTab({
         <OverviewField IconComp={CalendarBlank} label={t('overview.memberSince')}>
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-text)',
@@ -105,7 +105,7 @@ export function MinglerOverviewTab({
         <OverviewField IconComp={BookOpen} label={t('overview.totalBookings')}>
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-text)',
@@ -118,7 +118,7 @@ export function MinglerOverviewTab({
         <OverviewField IconComp={Star} label={t('overview.loyaltyPoints')}>
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-text)',
@@ -138,7 +138,7 @@ export function MinglerOverviewTab({
               />
               <span
                 style={{
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                   fontSize: 14,
                   fontWeight: 500,
                   color: 'var(--color-text)',

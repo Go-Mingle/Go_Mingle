@@ -22,7 +22,9 @@ function mockMatchMedia(dark: boolean) {
     'matchMedia',
     vi.fn(() => query),
   )
-  return { emit: (matches: boolean) => listeners.forEach((fn) => fn({ matches } as MediaQueryListEvent)) }
+  return {
+    emit: (matches: boolean) => listeners.forEach((fn) => fn({ matches } as MediaQueryListEvent)),
+  }
 }
 
 beforeEach(() => {

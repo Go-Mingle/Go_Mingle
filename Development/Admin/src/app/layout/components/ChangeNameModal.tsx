@@ -99,7 +99,7 @@ export function ChangeNameModal({ open, onClose }: ChangeNameModalProps) {
           </button>
           <button
             type="submit"
-            className="h-9 px-4 rounded-[12px] bg-[var(--color-accent)] text-white border-none text-[13px] font-semibold cursor-pointer hover:bg-[var(--color-accent-dark)]"
+            className="h-9 px-4 rounded-[12px] bg-[var(--color-accent)] text-(--color-on-accent) border-none text-[13px] font-semibold cursor-pointer hover:bg-[var(--color-accent-dark)]"
           >
             {t('saveChanges')}
           </button>

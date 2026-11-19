@@ -33,6 +33,8 @@ describe('isDeliverableWebhookHost', () => {
 
   it('agrees with what URL reports for the reported endpoint', () => {
     expect(isDeliverableWebhookHost(new URL('https://no-tld').hostname)).toBe(false)
-    expect(isDeliverableWebhookHost(new URL('https://api.yourdomain.com/hooks').hostname)).toBe(true)
+    expect(isDeliverableWebhookHost(new URL('https://api.yourdomain.com/hooks').hostname)).toBe(
+      true,
+    )
   })
 })

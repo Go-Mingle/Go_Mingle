@@ -28,7 +28,7 @@ export function LabelTag({ children, style, title }: LabelTagProps) {
         color: 'var(--color-text-secondary)',
         fontSize: 12,
         fontWeight: 500,
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         whiteSpace: 'nowrap',
         ...style,
       }}

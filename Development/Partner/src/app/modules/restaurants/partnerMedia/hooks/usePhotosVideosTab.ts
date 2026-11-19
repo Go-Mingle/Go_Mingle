@@ -318,10 +318,7 @@ export function usePhotosVideosTab(editable: boolean, feedback: ProfileFeedback)
       .reduce((bytes, staged) => bytes + staged.file.size, 0)
     const inFlight = files[uploadIndex]?.file.size ?? 0
 
-    return Math.min(
-      Math.round(((settled + (inFlight * active.progress) / 100) / total) * 100),
-      100,
-    )
+    return Math.min(Math.round(((settled + (inFlight * active.progress) / 100) / total) * 100), 100)
   }, [pending, uploadIndex, active.progress])
 
   const applyCover = useCallback(
@@ -494,6 +491,7 @@ export function usePhotosVideosTab(editable: boolean, feedback: ProfileFeedback)
 /** A failed crop save, in words: the API's reason, or why the photo could not be cut here. */
 function resolveCropError(error: unknown, t: (key: string) => string): string {
   // Not the API: the browser could not load or cut the photo.
-  if (!(error instanceof HttpError) && !(error instanceof UploadError)) return t('restaurants:partnerMedia.crop.failedHere')
+  if (!(error instanceof HttpError) && !(error instanceof UploadError))
+    return t('restaurants:partnerMedia.crop.failedHere')
   return getApiErrorMessage(error, t('restaurants:partnerMedia.crop.failed'))
 }

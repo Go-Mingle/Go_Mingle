@@ -6,9 +6,8 @@ import { BrandPanel } from '../components/BrandPanel'
 describe('BrandPanel', () => {
   it('renders the GoMingle logo lockup', () => {
     renderWithProviders(<BrandPanel />)
-    const logo = screen.getByAltText('GoMingle')
-    expect(logo).toBeInTheDocument()
-    expect(logo).toHaveAttribute('src', expect.stringContaining('gomingle-logo-light'))
+    const logo = screen.getByRole('img', { name: 'GoMingle' })
+    expect(logo).toHaveClass('gm-wordmark--light')
   })
 
   it('renders the tagline and chips', () => {

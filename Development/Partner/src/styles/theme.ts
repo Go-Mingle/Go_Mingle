@@ -1,90 +1,102 @@
 import { theme as antdThemeApi, type ThemeConfig } from 'antd'
 
+/**
+ * Candlelit palette for Ant Design (GM-334). The same values live as CSS tokens
+ * in styles/index.css; antd needs real colours here because it derives hover,
+ * active and tint shades from them.
+ */
+const FONT = "'Manrope', system-ui, sans-serif"
+
 export const antdTheme: ThemeConfig = {
   token: {
-    fontFamily: "'Poppins', sans-serif",
-    colorPrimary: '#0FA79D',
-    colorError: '#C0392B',
-    colorWarning: '#B06000',
-    colorSuccess: '#1A8A5A',
-    // Links render teal (accent), matching the source portal. AntD's default
-    // colorLink is blue #1677ff, and its unlayered global `a` rule beats
-    // Tailwind's layered color utilities — so this token, not a class, is what
-    // makes raw <a> links teal. Hover/active kept equal to the base color so
-    // links stay static like the source's inline-styled anchors.
-    colorLink: '#0FA79D',
-    colorLinkHover: '#0FA79D',
-    colorLinkActive: '#0FA79D',
-    borderRadius: 6,
-    borderRadiusLG: 12,
+    fontFamily: FONT,
+    colorPrimary: '#D63A25',
+    colorError: '#B42318',
+    colorWarning: '#8A4F00',
+    colorSuccess: '#0B7A64',
+    colorInfo: '#2453C4',
+    colorTextBase: '#1A1530',
+    colorBgLayout: '#F7F5FC',
+    colorBorder: '#D9D4E8',
+    colorBorderSecondary: '#E6E2F0',
+    // AntD's global `a` rule beats Tailwind's layered utilities, so this token
+    // is what colours raw links. Hover/active match so links stay calm.
+    colorLink: '#C8361F',
+    colorLinkHover: '#C8361F',
+    colorLinkActive: '#C8361F',
+    borderRadius: 8,
+    borderRadiusLG: 14,
   },
   components: {
     Table: {
-      headerBg: '#F8FAFB',
-      headerColor: '#718096',
-      borderColor: '#E8ECF0',
-      rowHoverBg: 'rgba(26, 35, 50, 0.04)',
+      headerBg: '#F7F5FC',
+      headerColor: '#5C5677',
+      borderColor: '#E6E2F0',
+      rowHoverBg: 'rgba(26, 21, 48, 0.04)',
     },
     Button: {
-      borderRadius: 6,
-      defaultBorderColor: '#D1D9E0',
+      borderRadius: 10,
+      defaultBorderColor: '#D9D4E8',
     },
     Input: {
-      borderRadius: 6,
-      activeBorderColor: '#0FA79D',
-      hoverBorderColor: '#A0AEC0',
+      borderRadius: 10,
+      activeBorderColor: '#D63A25',
+      hoverBorderColor: '#B9B3D6',
     },
     Modal: {
-      borderRadiusLG: 16,
+      borderRadiusLG: 18,
     },
   },
 }
 
 /**
- * Dark theme: antd's dark algorithm, tuned to the same surfaces as the dark
- * CSS tokens in styles/index.css so antd components and Tailwind utilities
- * sit on one palette.
+ * Dark theme: antd's dark algorithm on the Midnight surfaces, matching the dark
+ * CSS tokens in styles/index.css. Solid fills (primary buttons, badges) carry
+ * Midnight text, because white on the bright ember fails contrast.
  */
 export const antdDarkTheme: ThemeConfig = {
   algorithm: antdThemeApi.darkAlgorithm,
   token: {
     ...antdTheme.token,
-    colorPrimary: '#0FA79D',
-    colorError: '#E05A4C',
-    colorWarning: '#C27A1A',
-    colorSuccess: '#2F9E6A',
-    colorInfo: '#3D87E6',
-    colorBgLayout: '#0E141C',
-    colorBgContainer: '#18202B',
-    colorBgElevated: '#1D2633',
-    colorBorder: '#364356',
-    colorBorderSecondary: '#273241',
-    colorText: '#E7EBF1',
-    colorTextSecondary: '#BCC5D2',
-    colorTextTertiary: '#9AA5B5',
-    colorTextQuaternary: '#6C788A',
-    colorTextPlaceholder: '#6C788A',
-    colorLink: '#19B5AA',
-    colorLinkHover: '#19B5AA',
-    colorLinkActive: '#19B5AA',
+    colorPrimary: '#FF6F5A',
+    colorError: '#FF7B6B',
+    colorWarning: '#FFB547',
+    colorSuccess: '#3FD6B4',
+    colorInfo: '#8AB8FF',
+    colorTextBase: '#F4F1FF',
+    colorTextLightSolid: '#14102A',
+    colorBgBase: '#14102A',
+    colorBgLayout: '#14102A',
+    colorBgContainer: '#1E1838',
+    colorBgElevated: '#241D45',
+    colorBorder: '#3A3263',
+    colorBorderSecondary: '#2E2752',
+    colorText: '#F4F1FF',
+    colorTextSecondary: '#D6D1EE',
+    colorTextTertiary: '#B9B3D6',
+    colorTextQuaternary: '#8E87B3',
+    colorTextPlaceholder: '#8E87B3',
+    colorLink: '#FF8A78',
+    colorLinkHover: '#FF8A78',
+    colorLinkActive: '#FF8A78',
   },
   components: {
     ...antdTheme.components,
     Table: {
-      headerBg: '#1D2633',
-      headerColor: '#9AA5B5',
-      borderColor: '#273241',
+      headerBg: '#221C40',
+      headerColor: '#B9B3D6',
+      borderColor: '#2E2752',
       rowHoverBg: 'rgba(255, 255, 255, 0.04)',
     },
     Button: {
-      borderRadius: 6,
-      defaultBorderColor: '#364356',
-      defaultBg: '#1D2633',
+      borderRadius: 10,
+      defaultBorderColor: '#3A3263',
+      defaultBg: '#221C40',
     },
     Input: {
-      borderRadius: 6,
-      activeBorderColor: '#0FA79D',
-      hoverBorderColor: '#4A5A70',
+      borderRadius: 10,
+      activeBorderColor: '#FF6F5A',
+      hoverBorderColor: '#4E4580',
     },
   },
 }

@@ -52,7 +52,7 @@ function FinancesPageHeader({
 
   return (
     <div className="flex flex-col items-stretch justify-between gap-3 min-h-9 mb-4 md:mb-6 md:flex-row md:items-center">
-      <h1 className="m-0 inline-flex items-center text-xl font-bold font-[Poppins,sans-serif] leading-[1.2] text-[var(--color-text)] md:text-[26px]">
+      <h1 className="m-0 inline-flex items-center text-xl font-bold font-(--font-ui) leading-[1.2] text-[var(--color-text)] md:text-[26px]">
         {t('finances:title')}
       </h1>
       <div className="flex w-full shrink-0 items-center gap-2 md:w-auto">
@@ -109,10 +109,10 @@ function FinancesCards({ rows, onOpenDetail, t, noMatch }: FinancesCardsProps) {
           className={`${RESPONSIVE_CARD_CLASS} cursor-pointer`}
         >
           <div className="flex items-start justify-between gap-3">
-            <span className="truncate text-sm font-semibold font-[Poppins,sans-serif] text-[var(--color-text)]">
+            <span className="truncate text-sm font-semibold font-(--font-ui) text-[var(--color-text)]">
               {row.bookingRef}
             </span>
-            <span className="shrink-0 text-sm font-semibold font-[Poppins,sans-serif] text-[var(--color-text)]">
+            <span className="shrink-0 text-sm font-semibold font-(--font-ui) text-[var(--color-text)]">
               {formatPkr(row.totalAmountPkr)}
             </span>
           </div>
@@ -237,9 +237,7 @@ export function FinancesPage() {
   }
 
   if (c.isPending) {
-    return (
-      <PageSkeleton variant="table" />
-    )
+    return <PageSkeleton variant="table" />
   }
 
   if (c.isError) {

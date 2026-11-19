@@ -32,7 +32,7 @@ export function RestaurantCell({ name, cuisine }: RestaurantCellProps) {
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           {name}
@@ -42,7 +42,7 @@ export function RestaurantCell({ name, cuisine }: RestaurantCellProps) {
             fontSize: 12,
             fontWeight: 400,
             color: 'var(--color-text-muted)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           {cuisine}

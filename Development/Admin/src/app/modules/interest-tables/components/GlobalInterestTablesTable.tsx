@@ -21,7 +21,7 @@ interface Props extends GlobalColumnCallbacks {
 }
 
 const CARD_LABEL =
-  'mb-[3px] font-[Poppins] text-[10px] font-semibold uppercase tracking-[0.06em] text-[var(--color-text-subtle)]'
+  'mb-[3px] font-(--font-ui) text-[10px] font-semibold uppercase tracking-[0.06em] text-[var(--color-text-subtle)]'
 
 /**
  * Cross-restaurant Interest Tables grid (CR-43). Purpose-built for the master
@@ -66,7 +66,7 @@ export function GlobalInterestTablesTable({
                   shape="rounded"
                 />
                 <div className="flex min-w-0 flex-col gap-[3px]">
-                  <span className="truncate font-[Poppins] text-[14px] font-semibold text-[var(--color-text)]">
+                  <span className="truncate font-(--font-ui) text-[14px] font-semibold text-[var(--color-text)]">
                     {row.name}
                   </span>
                   <LinkCell
@@ -84,13 +84,13 @@ export function GlobalInterestTablesTable({
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <div className={CARD_LABEL}>{t('table.headers.dateTime')}</div>
-                <span className="font-[Poppins] text-[14px] font-medium text-[var(--color-text-secondary)]">
+                <span className="font-(--font-ui) text-[14px] font-medium text-[var(--color-text-secondary)]">
                   {formatMasterListDateTime(row.startDate, row.startTime)}
                 </span>
               </div>
               <div>
                 <div className={CARD_LABEL}>{t('table.headers.maxGuests')}</div>
-                <span className="font-[Poppins] text-[14px] font-medium text-[var(--color-text-secondary)]">
+                <span className="font-(--font-ui) text-[14px] font-medium text-[var(--color-text-secondary)]">
                   {row.maxGuests ?? EM_DASH}
                 </span>
               </div>
@@ -103,7 +103,7 @@ export function GlobalInterestTablesTable({
                 {row.availabilityMode ? (
                   <LabelTag>{t(`mode.${row.availabilityMode.toLowerCase()}`)}</LabelTag>
                 ) : (
-                  <span className="font-[Poppins] text-[14px] font-medium text-[var(--color-text-subtle)]">
+                  <span className="font-(--font-ui) text-[14px] font-medium text-[var(--color-text-subtle)]">
                     {EM_DASH}
                   </span>
                 )}

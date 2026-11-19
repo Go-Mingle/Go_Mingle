@@ -38,7 +38,7 @@ const textCell = (
 ) => (
   <span
     style={{
-      fontFamily: 'Poppins, sans-serif',
+      fontFamily: 'var(--font-ui)',
       fontSize: options.fontSize ?? 14,
       fontWeight: options.fontWeight ?? 500,
       color,
@@ -110,7 +110,7 @@ export function buildMinglerColumns({
               color: '#fff',
               fontSize: 12,
               fontWeight: 700,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {record.avatarUrl ? (
@@ -128,7 +128,7 @@ export function buildMinglerColumns({
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-text)',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {v}

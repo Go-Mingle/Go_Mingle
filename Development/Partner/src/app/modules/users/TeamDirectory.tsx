@@ -20,7 +20,9 @@ export function TeamDirectory() {
   const isMobile = !Grid.useBreakpoint().md
   const query = usePartnerUsersQuery({ pageSize: 100, sortBy: 'name', sortOrder: 'asc' })
   // Owners first, then everyone by name.
-  const people = [...(query.data?.items ?? [])].sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))
+  const people = [...(query.data?.items ?? [])].sort(
+    (a, b) => Number(b.isPrimary) - Number(a.isPrimary),
+  )
 
   const role = (p: PartnerUserListItem) => (p.isPrimary ? t('roles.owner') : t('roles.member'))
   const email = (p: PartnerUserListItem) =>
@@ -53,26 +55,47 @@ export function TeamDirectory() {
   const columns: ColumnsType<PartnerUserListItem> = [
     { title: t('table.headers.name'), key: 'name', render: (_, p) => person(p) },
     { title: t('table.headers.role'), key: 'role', render: (_, p) => role(p) },
-    { title: t('table.headers.designation'), key: 'designation', render: (_, p) => p.designation ?? '—' },
+    {
+      title: t('table.headers.designation'),
+      key: 'designation',
+      render: (_, p) => p.designation ?? '—',
+    },
     { title: t('table.headers.email'), key: 'email', render: (_, p) => email(p) },
   ]
 
   return (
     <div>
-      <h1 className={`m-0 mb-1 ${isMobile ? 'text-[20px]' : 'text-[26px]'} font-bold text-[var(--color-text)] leading-[1.2]`}>
+      <h1
+        className={`m-0 mb-1 ${isMobile ? 'text-[20px]' : 'text-[26px]'} font-bold text-[var(--color-text)] leading-[1.2]`}
+      >
         {t('title')}
       </h1>
-      <p className="m-0 mb-6 text-[14px] text-[var(--color-text-secondary)]">{t('directory.subtitle')}</p>
+      <p className="m-0 mb-6 text-[14px] text-[var(--color-text-secondary)]">
+        {t('directory.subtitle')}
+      </p>
 
       {query.isPending && <PageSkeleton variant="table" />}
-      {query.isError && <Alert type="error" showIcon title={getApiErrorMessage(query.error, t('directory.loadFailed'))} />}
+      {query.isError && (
+        <Alert
+          type="error"
+          showIcon
+          title={getApiErrorMessage(query.error, t('directory.loadFailed'))}
+        />
+      )}
       {query.isSuccess &&
         (people.length === 0 ? (
-          <TabEmptyState IconComp={UsersThree} title={t('directory.emptyTitle')} description={t('directory.emptyBody')} />
+          <TabEmptyState
+            IconComp={UsersThree}
+            title={t('directory.emptyTitle')}
+            description={t('directory.emptyBody')}
+          />
         ) : isMobile ? (
           <ul className="m-0 p-0 list-none flex flex-col gap-3" aria-label={t('title')}>
             {people.map((p) => (
-              <li key={p.id} className="rounded-xl bg-[var(--color-card)] p-4 shadow-[var(--shadow-sm)] flex flex-col gap-2">
+              <li
+                key={p.id}
+                className="rounded-xl bg-[var(--color-card)] p-4 shadow-[var(--shadow-sm)] flex flex-col gap-2"
+              >
                 {person(p)}
                 <div className="flex justify-between gap-3 text-[12px]">
                   <span className="text-[var(--color-text-muted)]">{t('table.headers.role')}</span>

@@ -27,7 +27,7 @@ export function InterestTableMenuOptionsTab({ menuOptions }: Props) {
             style={{
               fontSize: 13,
               color: 'var(--color-text-muted)',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {t('detail.menuOptionsEmpty')}

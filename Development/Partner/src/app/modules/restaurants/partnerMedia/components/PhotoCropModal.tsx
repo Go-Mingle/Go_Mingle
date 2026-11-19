@@ -30,7 +30,15 @@ interface Props {
  * Facebook cover, or a circle for the profile picture, like Instagram. Drag to
  * move, scroll or use the slider to zoom; arrow keys move the photo too.
  */
-export function PhotoCropModal({ photo, role, initialCrop, saving, error, onSave, onCancel }: Readonly<Props>) {
+export function PhotoCropModal({
+  photo,
+  role,
+  initialCrop,
+  saving,
+  error,
+  onSave,
+  onCancel,
+}: Readonly<Props>) {
   const { t } = useTranslation('restaurants')
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
@@ -78,7 +86,11 @@ export function PhotoCropModal({ photo, role, initialCrop, saving, error, onSave
         </div>
       )}
       <div className="mt-4 flex items-center gap-3">
-        <MagnifyingGlassMinus size={18} aria-hidden="true" className="text-[var(--color-text-muted)]" />
+        <MagnifyingGlassMinus
+          size={18}
+          aria-hidden="true"
+          className="text-[var(--color-text-muted)]"
+        />
         <Slider
           className="flex-1"
           min={1}
@@ -89,9 +101,15 @@ export function PhotoCropModal({ photo, role, initialCrop, saving, error, onSave
           tooltip={{ formatter: (v) => `${Math.round((v ?? 1) * 100)}%` }}
           ariaLabelForHandle={t('partnerMedia.crop.zoom')}
         />
-        <MagnifyingGlassPlus size={18} aria-hidden="true" className="text-[var(--color-text-muted)]" />
+        <MagnifyingGlassPlus
+          size={18}
+          aria-hidden="true"
+          className="text-[var(--color-text-muted)]"
+        />
       </div>
-      <p className="mt-1 mb-0 text-[12px] text-[var(--color-text-muted)]">{t('partnerMedia.crop.howTo')}</p>
+      <p className="mt-1 mb-0 text-[12px] text-[var(--color-text-muted)]">
+        {t('partnerMedia.crop.howTo')}
+      </p>
       {error && <Alert className="mt-3" type="error" showIcon title={error} />}
     </Modal>
   )

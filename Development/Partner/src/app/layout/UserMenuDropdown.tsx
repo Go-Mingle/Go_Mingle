@@ -113,7 +113,7 @@ export function UserMenuDropdown({ onChangePassword }: Props) {
         closable
         destroyOnHidden
       >
-        <p className="m-0 mt-1 text-[14px] text-[var(--color-text-muted)] font-[Poppins,sans-serif]">
+        <p className="m-0 mt-1 text-[14px] text-[var(--color-text-muted)] font-(--font-ui)">
           {t('topbar.signOutContent')}
         </p>
         <div className="app-modal-footer">

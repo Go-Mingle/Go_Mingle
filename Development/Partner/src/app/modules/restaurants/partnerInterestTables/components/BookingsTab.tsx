@@ -17,11 +17,15 @@ const EM_DASH = '—'
 /** How the booking turned out, once it is checked in; the penalty collected, if any. */
 function AttendanceCell({ row }: { row: InterestTableBookingRow }) {
   const { t } = useTranslation('restaurants')
-  if (!row.attendance) return <span className="text-[13px] text-[var(--color-text-muted)]">{EM_DASH}</span>
+  if (!row.attendance)
+    return <span className="text-[13px] text-[var(--color-text-muted)]">{EM_DASH}</span>
   return (
     <span className="flex flex-col text-[13px]">
       <span className="whitespace-nowrap text-[var(--color-text-secondary)]">
-        {t(`partnerInterestTables.attendance.${row.attendance}`, { empty: row.emptySeats ?? 0, seats: row.seats ?? 0 })}
+        {t(`partnerInterestTables.attendance.${row.attendance}`, {
+          empty: row.emptySeats ?? 0,
+          seats: row.seats ?? 0,
+        })}
       </span>
       {row.penaltyStatus === 'FAILED' ? (
         <span className="whitespace-nowrap text-[12px] text-[var(--color-error)]">
@@ -34,7 +38,9 @@ function AttendanceCell({ row }: { row: InterestTableBookingRow }) {
         typeof row.penaltyChargedPkr === 'number' &&
         row.penaltyChargedPkr > 0 && (
           <span className="whitespace-nowrap text-[12px] text-[var(--color-text-muted)]">
-            {t('partnerInterestTables.penaltyCharged', { amount: displayBill(row.penaltyChargedPkr) })}
+            {t('partnerInterestTables.penaltyCharged', {
+              amount: displayBill(row.penaltyChargedPkr),
+            })}
           </span>
         )
       )}
@@ -43,7 +49,13 @@ function AttendanceCell({ row }: { row: InterestTableBookingRow }) {
 }
 
 /** Offered strictly from the row's own `canMarkNoShow`, behind the same ACTIVE-only gate as the ×. */
-function NoShowButton({ c, row }: { c: InterestTableDetailController; row: InterestTableBookingRow }) {
+function NoShowButton({
+  c,
+  row,
+}: {
+  c: InterestTableDetailController
+  row: InterestTableBookingRow
+}) {
   const { t } = useTranslation('restaurants')
   if (!c.canCancel || !row.canMarkNoShow) return null
   return (

@@ -69,7 +69,7 @@ export function TableAvatar({
         fontSize: Math.round(size * 0.375),
         fontWeight: 600,
         letterSpacing: '0.02em',
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         flexShrink: 0,
       }}
     >

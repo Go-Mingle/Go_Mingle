@@ -114,10 +114,10 @@ export function RestaurantInterestTablesTab({ restaurant }: Props) {
             borderRadius: 12,
             border: 'none',
             background: 'var(--color-accent)',
-            color: '#fff',
+            color: 'var(--color-on-accent)',
             fontSize: 13,
             fontWeight: 600,
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             cursor: isSuspended ? 'not-allowed' : 'pointer',
             opacity: isSuspended ? 0.5 : 1,
             whiteSpace: 'nowrap',
@@ -150,7 +150,7 @@ export function RestaurantInterestTablesTab({ restaurant }: Props) {
             style={{
               fontSize: 13,
               color: 'var(--color-text-muted)',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {t('emptyForRestaurant')}

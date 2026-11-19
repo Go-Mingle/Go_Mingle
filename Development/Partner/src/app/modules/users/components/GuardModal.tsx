@@ -22,7 +22,7 @@ export function GuardModal({ message, onClose }: GuardModalProps) {
       footer={null}
       destroyOnHidden
     >
-      <p className="text-[14px] text-[var(--color-text-muted)] mt-1 mb-0 mx-0 font-[Poppins,sans-serif] leading-[1.5]">
+      <p className="text-[14px] text-[var(--color-text-muted)] mt-1 mb-0 mx-0 font-(--font-ui) leading-[1.5]">
         {message}
       </p>
       <div className="app-modal-footer">

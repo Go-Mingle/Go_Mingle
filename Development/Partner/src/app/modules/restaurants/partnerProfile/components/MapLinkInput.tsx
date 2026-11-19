@@ -30,7 +30,8 @@ export function MapLinkInput({ latitude, longitude, onChange, error }: MapLinkIn
     if (p.ok) onChange(p.latitude.toFixed(6), p.longitude.toFixed(6))
   }
 
-  const problem = !parsed.ok && parsed.reason !== 'empty' ? t(`profile.mapLink.errors.${parsed.reason}`) : error
+  const problem =
+    !parsed.ok && parsed.reason !== 'empty' ? t(`profile.mapLink.errors.${parsed.reason}`) : error
 
   return (
     <div>
@@ -46,7 +47,9 @@ export function MapLinkInput({ latitude, longitude, onChange, error }: MapLinkIn
         placeholder={t('profile.mapLink.placeholder')}
         onChange={(e) => handleChange(e.target.value)}
       />
-      <div className="mt-1 text-[12px] text-[var(--color-text-subtle)]">{t('profile.mapLink.hint')}</div>
+      <div className="mt-1 text-[12px] text-[var(--color-text-subtle)]">
+        {t('profile.mapLink.hint')}
+      </div>
       {problem && <div className="mt-1 text-[12px] text-[var(--color-error)]">{problem}</div>}
       {parsed.ok && !parsed.precise && (
         <div className="mt-1 flex items-start gap-1 text-[12px] text-[var(--color-warning)]">

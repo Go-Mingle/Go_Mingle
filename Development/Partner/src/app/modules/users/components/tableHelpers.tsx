@@ -17,7 +17,7 @@ export const userStatusColours: Record<string, { bg: string }> = {
 
 /** Small caps label inside a filter dropdown. */
 export const FILTER_LABEL_CLASS =
-  'mb-2 block font-[Poppins,sans-serif] text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-muted)]'
+  'mb-2 block font-(--font-ui) text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-muted)]'
 
 /**
  * Every column affordance below is wrapped in a *named* span.
@@ -123,7 +123,7 @@ function dropdownFooter({
       <button
         type="button"
         onClick={() => confirm()}
-        className="h-7 px-3 bg-[var(--color-accent)] text-white border-none rounded-lg font-[Poppins,sans-serif] text-xs font-semibold cursor-pointer hover:bg-[var(--color-accent-dark)]"
+        className="h-7 px-3 bg-[var(--color-accent)] text-(--color-on-accent) border-none rounded-lg font-(--font-ui) text-xs font-semibold cursor-pointer hover:bg-[var(--color-accent-dark)]"
       >
         {submit}
       </button>

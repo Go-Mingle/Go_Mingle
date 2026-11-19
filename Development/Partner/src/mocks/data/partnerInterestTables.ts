@@ -628,10 +628,16 @@ export function markMockGuestsArrived(itId: string): Response {
   const table = liveTable(itId)
   if (!table) return errorResponse('ERR_NOT_FOUND', IT_NOT_FOUND, 404)
   if (!table.canCheckIn) {
-    return errorResponse('ERR_TOO_EARLY', 'Guests can be checked in from one hour before the table starts.', 409)
+    return errorResponse(
+      'ERR_TOO_EARLY',
+      'Guests can be checked in from one hour before the table starts.',
+      409,
+    )
   }
 
-  const open = (bookings[itId] ?? []).filter((row) => row.status === 'PENDING' || row.status === 'CONFIRMED')
+  const open = (bookings[itId] ?? []).filter(
+    (row) => row.status === 'PENDING' || row.status === 'CONFIRMED',
+  )
   let seatsArrived = 0
   open.forEach((row) => {
     row.status = 'COMPLETED'
@@ -647,7 +653,12 @@ export function markMockGuestsArrived(itId: string): Response {
 
   return HttpResponse.json({
     success: true,
-    data: { interestTableId: itId, status: 'COMPLETED', bookingsCheckedIn: open.length, seatsArrived },
+    data: {
+      interestTableId: itId,
+      status: 'COMPLETED',
+      bookingsCheckedIn: open.length,
+      seatsArrived,
+    },
   })
 }
 
@@ -662,7 +673,11 @@ export function markMockNoShow(bookingId: string, body: Record<string, unknown>)
   const seats = booking.seats ?? 1
   const emptySeats = body.emptySeats === undefined ? seats : Number(body.emptySeats)
   if (!Number.isInteger(emptySeats) || emptySeats < 1 || emptySeats > seats) {
-    return errorResponse('ERR_VALIDATION', `Empty seats must be between 1 and ${String(seats)}.`, 422)
+    return errorResponse(
+      'ERR_VALIDATION',
+      `Empty seats must be between 1 and ${String(seats)}.`,
+      422,
+    )
   }
   if (booking.status !== 'PENDING' && booking.status !== 'CONFIRMED') {
     return errorResponse(
@@ -673,7 +688,11 @@ export function markMockNoShow(bookingId: string, body: Record<string, unknown>)
     )
   }
   if (!booking.canMarkNoShow) {
-    return errorResponse('ERR_TOO_EARLY', "A no-show can be recorded once the table's start time has passed.", 409)
+    return errorResponse(
+      'ERR_TOO_EARLY',
+      "A no-show can be recorded once the table's start time has passed.",
+      409,
+    )
   }
 
   booking.status = 'COMPLETED'
@@ -698,7 +717,11 @@ export function setMockCheckInOpen(itId: string, open = true): void {
 }
 
 /** Test helper: the policy a booking was made under. */
-export function setMockBookingSeats(bookingId: string, seats: number, penaltyPerSeatPkr: number): void {
+export function setMockBookingSeats(
+  bookingId: string,
+  seats: number,
+  penaltyPerSeatPkr: number,
+): void {
   const booking = findBooking(bookingId)
   if (!booking) return
   booking.seats = seats

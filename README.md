@@ -174,6 +174,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 
 | Release | Date | Highlights |
 |---|---|---|
+| `v0.12.0` | 19 Nov 2026 | Candlelit brand foundation in both portals: the new open-seat logo (the O is a table with guests and one open seat) and favicon, Candlelit colours for light and dark, Manrope and Unbounded type, colour-blind-checked chart colours, and the light/dark switch on the sign-in screens (GM-334, GM-335). Layouts are unchanged in this release |
 | `v0.11.3` | 19 Nov 2026 | Quality: a UI inventory of both portals (every screen, tab, field, column, button and dialog field: about 1,800 items, the map link included) is now checked on every build, so the redesign can change the look but never drop anything (GM-343). Fix: the API no longer stops when the database drops an idle connection (GM-347) |
 | `v0.11.2` | 19 Nov 2026 | Admin Panel: amenities get an icon library of 160+ icons in 8 categories with search; admins upload their own SVG only when nothing fits. Partners keep ticking the amenities admins create (GM-333) |
 | `v0.11.1` | 19 Nov 2026 | Fix: two people booking the last seat at the same moment could both get it (a table for 4 could take 10); seats are now claimed in one database step, and a failed booking gives its seats and card holds back (GM-330). Partner Portal: Integrations hidden until webhooks are delivered (GM-331) |

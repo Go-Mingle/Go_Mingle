@@ -229,7 +229,7 @@ function MinglerCell({
     <div className="flex items-center gap-2.5">
       <span
         aria-hidden
-        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-coral)] text-[11px] font-bold text-white"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-coral)] text-[11px] font-bold text-(--color-on-accent)"
       >
         {minglerInitials(review.mingler.name)}
       </span>

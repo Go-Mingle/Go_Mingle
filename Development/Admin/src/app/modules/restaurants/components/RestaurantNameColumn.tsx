@@ -53,10 +53,10 @@ export const buildRestaurantNameColumn = (t: TFunction): ColumnType<Restaurant> 
             height: 28,
             padding: '0 12px',
             background: 'var(--color-accent)',
-            color: 'white',
+            color: 'var(--color-on-accent)',
             border: 'none',
             borderRadius: 12,
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 12,
             fontWeight: 600,
             cursor: 'pointer',
@@ -98,7 +98,7 @@ export const buildRestaurantNameColumn = (t: TFunction): ColumnType<Restaurant> 
               fontSize: 11,
               fontWeight: 700,
               letterSpacing: '0.03em',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {getInitials(record.name)}
@@ -111,14 +111,14 @@ export const buildRestaurantNameColumn = (t: TFunction): ColumnType<Restaurant> 
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           {record.name}
         </span>
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-muted)',

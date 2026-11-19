@@ -5,7 +5,13 @@ import userEvent from '@testing-library/user-event'
 import { Route, Routes } from 'react-router-dom'
 import * as antd from 'antd'
 import { server } from '../../../../mocks/server'
-import { addMockBill, addMockPendingBooking, resetMockEscrow, setMockGatewayLive, setMockPaymentFailures } from '../../../../mocks/handlers/escrow'
+import {
+  addMockBill,
+  addMockPendingBooking,
+  resetMockEscrow,
+  setMockGatewayLive,
+  setMockPaymentFailures,
+} from '../../../../mocks/handlers/escrow'
 import { renderWithProviders } from '../../../../test-utils/renderWithProviders'
 import { EscrowPage } from '../EscrowPage'
 
@@ -32,7 +38,9 @@ describe('EscrowPage', () => {
   it('shows the escrow summary and every transaction, without gateway or environment labels', async () => {
     renderPage()
     expect(await screen.findByText('Held on cards')).toBeInTheDocument()
-    expect(screen.queryByText(/sandbox simulator|connected with your API keys/)).not.toBeInTheDocument()
+    expect(
+      screen.queryByText(/sandbox simulator|connected with your API keys/),
+    ).not.toBeInTheDocument()
     // 2 IN_ESCROW holds: 2×2800 + 5×2600 = 18,600
     expect(screen.getByText(/PKR 18,600/)).toBeInTheDocument()
     expect(screen.getByText('6 transactions')).toBeInTheDocument()
@@ -69,7 +77,9 @@ describe('EscrowPage', () => {
     const error = vi.spyOn(antd.message, 'error')
     await user.click(within(row).getByRole('button', { name: 'Release' }))
     await waitFor(() =>
-      expect(error).toHaveBeenCalledWith(expect.stringMatching(/has not added a payout bank account/)),
+      expect(error).toHaveBeenCalledWith(
+        expect.stringMatching(/has not added a payout bank account/),
+      ),
     )
   })
 
@@ -94,10 +104,14 @@ describe('EscrowPage', () => {
     renderPage()
     let row = await rowFor('GM-000103')
     await user.click(within(row).getByRole('button', { name: 'Void' }))
-    await user.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Cancel' }))
+    await user.click(
+      within(await screen.findByRole('dialog')).getByRole('button', { name: 'Cancel' }),
+    )
     row = await rowFor('GM-000103')
     await user.click(within(row).getByRole('button', { name: 'Void' }))
-    await user.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Void' }))
+    await user.click(
+      within(await screen.findByRole('dialog')).getByRole('button', { name: 'Void' }),
+    )
     await waitFor(async () => {
       expect(within(await rowFor('GM-000103')).getByText('Voided')).toBeInTheDocument()
     })
@@ -155,10 +169,14 @@ describe('EscrowPage', () => {
       await user.clear(number)
       await user.type(number, '4242 4242 4242 4242')
       await user.click(within(dialog).getByRole('button', { name: 'Place the hold' }))
-      expect(await within(dialog).findByText('Only the test card numbers above are accepted.')).toBeInTheDocument()
+      expect(
+        await within(dialog).findByText('Only the test card numbers above are accepted.'),
+      ).toBeInTheDocument()
       // Each field validates on its own tick; on a slow machine they land one after another.
       expect(await within(dialog).findByText('Enter the expiry as MM/YY.')).toBeInTheDocument()
-      expect(await within(dialog).findByText('Enter the 3 or 4 digit security code.')).toBeInTheDocument()
+      expect(
+        await within(dialog).findByText('Enter the 3 or 4 digit security code.'),
+      ).toBeInTheDocument()
       expect(within(row).getByText('Awaiting payment')).toBeInTheDocument()
     })
 
@@ -184,7 +202,14 @@ describe('EscrowPage', () => {
       server.use(
         http.post('*/api/v1/escrow/:id/test-card', () =>
           HttpResponse.json(
-            { success: false, error: { code: 'ERR_VALIDATION', message: 'Check the card details.', details: { fields: { expiry: 'This card has expired.' } } } },
+            {
+              success: false,
+              error: {
+                code: 'ERR_VALIDATION',
+                message: 'Check the card details.',
+                details: { fields: { expiry: 'This card has expired.' } },
+              },
+            },
             { status: 422 },
           ),
         ),
@@ -203,7 +228,8 @@ describe('EscrowPage', () => {
   })
 
   describe("paying on Safepay's checkout page", () => {
-    const pendingRows = async () => (await screen.findAllByText('GM-PEND01')).map((c) => c.closest('tr') as HTMLElement)
+    const pendingRows = async () =>
+      (await screen.findAllByText('GM-PEND01')).map((c) => c.closest('tr') as HTMLElement)
 
     it('is offered only when Safepay keys are set', async () => {
       addMockPendingBooking(1)
@@ -238,7 +264,9 @@ describe('EscrowPage', () => {
       // Both seats now wait on the same Safepay payment and can be checked.
       await waitFor(async () => {
         const rows = await pendingRows()
-        expect(within(rows[1]).getByText('Safepay checkout opened, not paid yet')).toBeInTheDocument()
+        expect(
+          within(rows[1]).getByText('Safepay checkout opened, not paid yet'),
+        ).toBeInTheDocument()
         expect(within(rows[1]).getByRole('button', { name: 'Check payment' })).toBeInTheDocument()
       })
     })
@@ -253,7 +281,9 @@ describe('EscrowPage', () => {
       const [row] = await pendingRows()
       await user.click(within(row).getByRole('button', { name: 'Pay on Safepay' }))
       await user.click(await within(row).findByRole('button', { name: 'Check payment' }))
-      await waitFor(() => expect(warning).toHaveBeenCalledWith(expect.stringContaining('it reports TRACKER_STARTED')))
+      await waitFor(() =>
+        expect(warning).toHaveBeenCalledWith(expect.stringContaining('it reports TRACKER_STARTED')),
+      )
       expect(within(row).getByText('Awaiting payment')).toBeInTheDocument()
     })
 
@@ -270,7 +300,9 @@ describe('EscrowPage', () => {
       first.unmount()
       // Safepay sends the admin back with the hold in the address.
       renderPage('/finances/escrow?checkout=esc-000901')
-      await waitFor(() => expect(success).toHaveBeenCalledWith('GM-PEND01: paid on Safepay, 2 holds placed.'))
+      await waitFor(() =>
+        expect(success).toHaveBeenCalledWith('GM-PEND01: paid on Safepay, 2 holds placed.'),
+      )
       await waitFor(async () => {
         const rows = await pendingRows()
         expect(within(rows[0]).getByText('Held on card')).toBeInTheDocument()
@@ -281,7 +313,14 @@ describe('EscrowPage', () => {
     it('reports a checkout Safepay could not open, and an unknown hold on return', async () => {
       addMockPendingBooking(1)
       setMockGatewayLive()
-      server.use(http.post('*/api/v1/escrow/:id/checkout', () => HttpResponse.json({ success: false, error: { code: 'ERR_GATEWAY', message: 'Safepay: unauthorized' } }, { status: 502 })))
+      server.use(
+        http.post('*/api/v1/escrow/:id/checkout', () =>
+          HttpResponse.json(
+            { success: false, error: { code: 'ERR_GATEWAY', message: 'Safepay: unauthorized' } },
+            { status: 502 },
+          ),
+        ),
+      )
       const failed = vi.spyOn(antd.message, 'error')
       const user = userEvent.setup()
       const first = renderPage()
@@ -323,7 +362,10 @@ describe('EscrowPage', () => {
     const success = vi.spyOn(antd.message, 'success')
     server.use(
       http.get('*/api/v1/restaurants/:rid/lookups/interest-tables', () =>
-        HttpResponse.json({ success: true, data: { items: [{ interestTableId: 'it-1', interestTableName: 'Friday Wine Evening' }] } }),
+        HttpResponse.json({
+          success: true,
+          data: { items: [{ interestTableId: 'it-1', interestTableName: 'Friday Wine Evening' }] },
+        }),
       ),
     )
     const user = userEvent.setup()
@@ -331,13 +373,17 @@ describe('EscrowPage', () => {
     await screen.findByText('GM-000101')
     await user.click(screen.getByRole('button', { name: /Sandbox booking/ }))
     const dialog = await screen.findByRole('dialog')
-    expect(within(dialog).getByText('Optional. Leave empty to place a plain payment hold.')).toBeInTheDocument()
+    expect(
+      within(dialog).getByText('Optional. Leave empty to place a plain payment hold.'),
+    ).toBeInTheDocument()
     await user.click(within(dialog).getAllByRole('combobox')[0])
     await user.click(await screen.findByTitle('Aurelia Dining'))
     await user.click(within(dialog).getAllByRole('combobox')[1])
     await user.click(await screen.findByTitle('Friday Wine Evening'))
     // The typed amount is now the dinner price; the card hold is the restaurant's penalty.
-    await waitFor(() => expect(within(dialog).queryByText('Amount per guest (PKR)')).not.toBeInTheDocument())
+    await waitFor(() =>
+      expect(within(dialog).queryByText('Amount per guest (PKR)')).not.toBeInTheDocument(),
+    )
     expect(within(dialog).getByText('Dinner price per seat (PKR)')).toBeInTheDocument()
     expect(within(dialog).getByText(/Charged for each seat that arrives/)).toBeInTheDocument()
     expect(within(dialog).getByText('Seats')).toBeInTheDocument()
@@ -350,11 +396,18 @@ describe('EscrowPage', () => {
     expect(screen.getByText(/no-show hold, seat 2/)).toBeInTheDocument()
     // No Capture / Void on these rows: the booking's check-in settles them.
     expect(screen.getAllByText('Settled at check-in')).toHaveLength(2)
-    expect(success).toHaveBeenCalledWith(expect.stringMatching(/booked: PKR 3,000 held on card for no-shows\. Dinner is PKR 3,000 per seat, charged at check-in\./))
+    expect(success).toHaveBeenCalledWith(
+      expect.stringMatching(
+        /booked: PKR 3,000 held on card for no-shows\. Dinner is PKR 3,000 per seat, charged at check-in\./,
+      ),
+    )
   })
 
   const tableLookup = http.get('*/api/v1/restaurants/:rid/lookups/interest-tables', () =>
-    HttpResponse.json({ success: true, data: { items: [{ interestTableId: 'it-1', interestTableName: 'Friday Wine Evening' }] } }),
+    HttpResponse.json({
+      success: true,
+      data: { items: [{ interestTableId: 'it-1', interestTableName: 'Friday Wine Evening' }] },
+    }),
   )
   const bookAtTable = async (user: ReturnType<typeof userEvent.setup>) => {
     await screen.findByText('GM-000101')
@@ -373,14 +426,25 @@ describe('EscrowPage', () => {
       tableLookup,
       http.post('*/api/v1/admin/bookings/sandbox', () =>
         HttpResponse.json(
-          { success: true, data: { booking: { id: 'bk-1', bookingRef: 'GM-555555', seats: 2, penaltyPerSeatPkr: 0 }, holds: [], heldTotalPkr: 0 } },
+          {
+            success: true,
+            data: {
+              booking: { id: 'bk-1', bookingRef: 'GM-555555', seats: 2, penaltyPerSeatPkr: 0 },
+              holds: [],
+              heldTotalPkr: 0,
+            },
+          },
           { status: 201 },
         ),
       ),
     )
     renderPage()
     await bookAtTable(userEvent.setup())
-    await waitFor(() => expect(success).toHaveBeenCalledWith('GM-555555 booked. No card hold: this restaurant has no no-show penalty.'))
+    await waitFor(() =>
+      expect(success).toHaveBeenCalledWith(
+        'GM-555555 booked. No card hold: this restaurant has no no-show penalty.',
+      ),
+    )
   })
 
   it('surfaces a table booking failure and keeps the form open', async () => {
@@ -388,7 +452,13 @@ describe('EscrowPage', () => {
     server.use(
       tableLookup,
       http.post('*/api/v1/admin/bookings/sandbox', () =>
-        HttpResponse.json({ success: false, error: { code: 'ERR_TABLE_FULL', message: 'Only 1 seat left at this table.' } }, { status: 409 }),
+        HttpResponse.json(
+          {
+            success: false,
+            error: { code: 'ERR_TABLE_FULL', message: 'Only 1 seat left at this table.' },
+          },
+          { status: 409 },
+        ),
       ),
     )
     renderPage()
@@ -403,12 +473,19 @@ describe('EscrowPage', () => {
     it('says so when nothing has failed', async () => {
       renderPage()
       await screen.findByText('GM-000101')
-      expect(within(section()).getByText('Nothing has failed. Every collection and release went through.')).toBeInTheDocument()
+      expect(
+        within(section()).getByText(
+          'Nothing has failed. Every collection and release went through.',
+        ),
+      ).toBeInTheDocument()
       expect(within(section()).queryByRole('table')).not.toBeInTheDocument()
     })
 
     it('lists what failed, for whom and why', async () => {
-      setMockPaymentFailures([{}, { action: 'void', amount: null, seatNo: null, attempts: 3, message: 'Timeout' }])
+      setMockPaymentFailures([
+        {},
+        { action: 'void', amount: null, seatNo: null, attempts: 3, message: 'Timeout' },
+      ])
       renderPage()
       await screen.findByText('GM-90001')
       const view = within(section())
@@ -440,7 +517,9 @@ describe('EscrowPage', () => {
       renderPage()
       await screen.findByText('GM-90001')
       await user.click(within(section()).getByRole('button', { name: 'Retry' }))
-      await waitFor(() => expect(error).toHaveBeenCalledWith('Still failing: Safepay is still down'))
+      await waitFor(() =>
+        expect(error).toHaveBeenCalledWith('Still failing: Safepay is still down'),
+      )
       expect(await within(section()).findByText('2 attempts')).toBeInTheDocument()
     })
 
@@ -457,14 +536,20 @@ describe('EscrowPage', () => {
       expect(await within(dialog).findByText('Please enter a reason')).toBeInTheDocument()
       await user.type(within(dialog).getByRole('textbox'), 'Paid in cash at the restaurant')
       await user.click(within(dialog).getByRole('button', { name: 'Close it' }))
-      await waitFor(() => expect(success).toHaveBeenCalledWith('#1: closed. The card hold was released.'))
+      await waitFor(() =>
+        expect(success).toHaveBeenCalledWith('#1: closed. The card hold was released.'),
+      )
       expect(await within(section()).findByText(/Nothing has failed/)).toBeInTheDocument()
     })
 
     it('reports when closing fails, and the dialog can be cancelled', async () => {
       const error = vi.spyOn(antd.message, 'error')
       setMockPaymentFailures([{}])
-      server.use(http.post('*/api/v1/escrow/failures/:id/resolve', () => HttpResponse.json({}, { status: 500 })))
+      server.use(
+        http.post('*/api/v1/escrow/failures/:id/resolve', () =>
+          HttpResponse.json({}, { status: 500 }),
+        ),
+      )
       const user = userEvent.setup()
       renderPage()
       await screen.findByText('GM-90001')

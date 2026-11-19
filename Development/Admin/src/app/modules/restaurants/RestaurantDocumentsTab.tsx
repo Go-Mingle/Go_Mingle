@@ -86,7 +86,7 @@ export function RestaurantDocumentsTab({ documents }: Props) {
                   fontSize: 14,
                   fontWeight: 500,
                   color: 'var(--color-text)',
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',

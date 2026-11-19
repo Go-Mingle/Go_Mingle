@@ -56,7 +56,11 @@ export function OverviewTab({ table }: { table: InterestTableDetail }) {
         {field('topic', Tag, table.topic || '—')}
         {field('assignedTable', Storefront, table.assignedTable || '—')}
         {field('startDate', CalendarBlank, displayDate(table.startDate))}
-        {field('startTime', Clock, `${displayTime(table.startTime)} ${t('restaurants:partnerInterestTables.pkt')}`)}
+        {field(
+          'startTime',
+          Clock,
+          `${displayTime(table.startTime)} ${t('restaurants:partnerInterestTables.pkt')}`,
+        )}
         {field('duration', Timer, displayDuration(table.durationMinutes))}
         {field('minGuests', UsersThree, String(table.minGuests))}
         {field('maxGuests', UsersThree, String(table.maxGuests))}

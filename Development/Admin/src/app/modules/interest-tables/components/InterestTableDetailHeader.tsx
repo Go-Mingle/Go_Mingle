@@ -78,7 +78,7 @@ export function InterestTableDetailHeader({
         fontSize: 24,
         fontWeight: 700,
         color: 'var(--color-text)',
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
       }}
     >
       {table.name}
@@ -96,7 +96,7 @@ export function InterestTableDetailHeader({
         fontSize: 13,
         color: 'var(--color-text-muted)',
         margin: 0,
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
       }}
     >
       {t('detail.createdOn', { date: createdOn })}
@@ -279,7 +279,7 @@ export function InterestTableDetailHeader({
                 fontWeight: 600,
                 color: 'var(--color-text)',
                 textAlign: 'center',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
               }}
             >
               {active.title}
@@ -290,7 +290,7 @@ export function InterestTableDetailHeader({
                 fontSize: 13,
                 color: 'var(--color-text-muted)',
                 textAlign: 'center',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
               }}
             >
               {active.desc}

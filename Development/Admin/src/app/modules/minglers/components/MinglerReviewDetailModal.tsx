@@ -51,7 +51,7 @@ export function MinglerReviewDetailModal({
       )}
 
       {!isLoading && review && (
-        <div style={{ fontFamily: 'Poppins, sans-serif' }}>
+        <div style={{ fontFamily: 'var(--font-ui)' }}>
           {onDelete && (
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
               <button
@@ -66,7 +66,7 @@ export function MinglerReviewDetailModal({
                   color: 'var(--color-error)',
                   border: '1.5px solid var(--color-error-border)',
                   borderRadius: 12,
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                   fontSize: 12,
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -87,7 +87,7 @@ export function MinglerReviewDetailModal({
                   height: 32,
                   borderRadius: '50%',
                   background: 'var(--color-coral)',
-                  color: '#fff',
+                  color: 'var(--color-on-accent)',
                   fontSize: 11,
                   fontWeight: 700,
                   display: 'flex',
@@ -134,7 +134,7 @@ export function MinglerReviewDetailModal({
               fontWeight: 400,
               color: 'var(--color-text)',
               lineHeight: 1.7,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {review.body}

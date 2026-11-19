@@ -9,7 +9,7 @@ import { CircleNotch } from '@phosphor-icons/react'
  *  - danger    → light red tint                (destructive: Suspend, Delete, Cancel, Decline)
  *  - neutral   → white + gray outline          (Cancel / dismiss / Export / Download)
  *
- * All variants: 36px tall, 12px radius, Poppins, 150ms hover. Hover darkens the
+ * All variants: 36px tall, 12px radius, the UI font, 150ms hover. Hover darkens the
  * fill one step (primary → accent-dark, tints → *-hover) except neutral, which
  * shifts its border + text to teal.
  */
@@ -105,7 +105,7 @@ export function AppButton({
         color: v.color,
         border: variant === 'primary' ? 'none' : `1.5px solid ${v.border}`,
         borderRadius: 12,
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         fontSize: 13,
         fontWeight: v.weight,
         cursor: isDisabled ? 'not-allowed' : 'pointer',

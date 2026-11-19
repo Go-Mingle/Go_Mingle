@@ -18,7 +18,7 @@ export function CountdownTimer({ timeLeft, status, size = 'md' }: CountdownTimer
     return (
       <span
         style={{
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           fontSize: 14,
           fontWeight: 500,
           color: 'var(--color-text-muted)',
@@ -38,7 +38,7 @@ export function CountdownTimer({ timeLeft, status, size = 'md' }: CountdownTimer
         display: 'inline-flex',
         alignItems: 'center',
         gap: 5,
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         fontSize,
         fontWeight: 600,
         color,
