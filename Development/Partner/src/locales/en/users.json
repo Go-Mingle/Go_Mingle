@@ -7,7 +7,8 @@
     "newUserShort": "New user",
     "edit": "Edit",
     "reset": "Set password",
-    "delete": "Delete"
+    "delete": "Delete",
+    "import": "Import"
   },
   "table": {
     "headers": {
@@ -138,5 +139,21 @@
     "emptyBody": "When an owner adds someone from your team, they show up here.",
     "ownerNote": "Only an owner can add people or change their access. If no owner can sign in, contact GoMingle support.",
     "loadFailed": "The team couldn't be loaded. Try again in a moment."
+  },
+  "import": {
+    "title": "Import team users",
+    "intro": "Add several people at once from an Excel or CSV file. Each person gets their own sign-in for this restaurant and a welcome email. Rows that already exist or have problems are skipped.",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "designation": "Designation",
+      "status": "Status"
+    },
+    "passwordTitle": "Temporary password for everyone in this file",
+    "passwordHint": "Share it with them yourself; the welcome email asks them to use the password you gave them. They can change it under My Account.",
+    "password": "Temporary password",
+    "confirm": "Confirm password",
+    "done_one": "Imported {{count}} user",
+    "done_other": "Imported {{count}} users"
   }
 }
