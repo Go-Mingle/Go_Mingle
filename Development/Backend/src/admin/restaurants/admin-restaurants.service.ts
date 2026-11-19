@@ -98,6 +98,8 @@ export class AdminRestaurantsService implements OnModuleInit {
       confirmedBookings: 0,
       // The profile picture the partner chose; the cover until they choose one.
       avatarUrl: profilePhotoUrl(r) ?? coverPhotoUrl(r),
+      // The cover banner on the Admin restaurant page (GM-337).
+      coverUrl: coverPhotoUrl(r) ?? null,
       menuPdfUrl: menuPdfUrl(r),
     }
   }

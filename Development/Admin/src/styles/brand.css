@@ -416,3 +416,87 @@
     opacity: 0;
   }
 }
+
+/* ── Floating dock (GM-337, inside option A) ─────────────────────────────
+   The sidebar is a rounded Midnight dock floating on the page in both
+   themes, the top row sits on the page with no bar, and page tabs are a
+   pill bar. Only tokens change inside the dock, so every nav item, badge and
+   tooltip keeps working as before. */
+.gm-dock-slot {
+  padding: 14px 0 14px 14px;
+}
+.gm-dock {
+  --color-sidebar: #14102a;
+  --color-text: #f4f1ff;
+  --color-text-secondary: #d6d1ee;
+  --color-text-muted: #b9b3d6;
+  --color-text-subtle: #b9b3d6;
+  --color-border: #2e2752;
+  --color-divider: #2e2752;
+  --color-hover-neutral: rgba(255, 255, 255, 0.07);
+  --color-accent-light: #ff5a44;
+  --color-accent-dark: #14102a;
+  --color-accent: #14102a;
+  border-right-color: transparent !important;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(20, 16, 42, 0.28);
+}
+:root[data-theme='dark'] .gm-dock {
+  --color-sidebar: #0e0b20;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45),
+    0 0 0 1px #2e2752;
+}
+/* The drawer on phones and tablets keeps square inner edges against the screen. */
+.fixed > .gm-dock {
+  border-radius: 0 28px 28px 0;
+}
+.gm-topbar {
+  background: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
+/* Page tabs as a pill bar: the current tab is a solid ink pill. */
+.gm-app-main .ant-tabs-top > .ant-tabs-nav {
+  margin-bottom: 18px;
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+}
+.gm-app-main .ant-tabs-top > .ant-tabs-nav::before {
+  display: none;
+}
+.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar {
+  display: none;
+}
+.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab {
+  margin: 0 !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition:
+    background-color 200ms var(--gm-ease),
+    color 200ms var(--gm-ease);
+}
+.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab {
+  margin-left: 4px !important;
+}
+.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab:hover {
+  background: var(--color-hover-neutral);
+}
+.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active {
+  background: var(--color-text);
+}
+.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--color-card) !important;
+  text-shadow: none;
+}
+
+/* No cover yet: a warm brand banner until the partner picks one. */
+.gm-cover-fallback {
+  background:
+    radial-gradient(420px 260px at 22% 30%, rgba(255, 181, 71, 0.55), transparent 70%),
+    radial-gradient(520px 320px at 80% 20%, rgba(255, 90, 68, 0.6), transparent 70%),
+    #3a1e3f;
+}
