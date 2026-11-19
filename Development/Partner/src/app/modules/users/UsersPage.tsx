@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { OwnerBadge } from './components/OwnerBadge'
 import { PageSkeleton } from '../../visual/PageSkeleton'
 import dayjs from 'dayjs'
@@ -9,6 +10,7 @@ import { getApiErrorMessage } from '../../../shared/utils/apiError'
 import type { UserRow } from './components/types'
 import { UsersTable } from './components/UsersTable'
 import { NewUserModal } from './components/NewUserModal'
+import { ImportUsersDialog } from './components/ImportUsersDialog'
 import { EditUserModal } from './components/EditUserModal'
 import { DeleteUserModal } from './components/DeleteUserModal'
 import { ResetPasswordModal } from './components/ResetPasswordModal'
@@ -131,6 +133,7 @@ function UsersCardList({ data, onEdit, onReset, onDelete, emptyState }: UsersCar
 // ── Page ──────────────────────────────────────────────────────
 export function UsersPage() {
   const p = useUsersPage()
+  const [importOpen, setImportOpen] = useState(false)
   const { t } = useTranslation(['users', 'common'])
 
   // A filter that matched nothing and a restaurant that has no other users are
@@ -157,7 +160,8 @@ export function UsersPage() {
     <Flex vertical>
       {p.contextHolder}
 
-      <UsersPageHeader isMobile={p.isMobile} onNew={() => p.setNewOpen(true)} />
+      <UsersPageHeader isMobile={p.isMobile} onNew={() => p.setNewOpen(true)} onImport={() => setImportOpen(true)} />
+      <ImportUsersDialog open={importOpen} onClose={() => setImportOpen(false)} onImported={() => undefined} />
 
       {p.isPending && <PageSkeleton variant="table" />}
 
