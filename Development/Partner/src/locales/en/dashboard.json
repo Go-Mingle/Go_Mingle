@@ -57,7 +57,11 @@
     "filled": "{{booked}} of {{capacity}} seats booked",
     "aria": "{{booked}} of {{capacity}} seats booked across upcoming tables",
     "emptyAdmin": "No interest tables are scheduled. Create one from Interest Tables.",
-    "emptyPartner": "No interest tables are scheduled yet. GoMingle sets them up with you."
+    "emptyPartner": "No interest tables are scheduled yet. GoMingle sets them up with you.",
+    "tableFor": "Table for {{count}}",
+    "full": "Full",
+    "open_one": "{{count}} open",
+    "open_other": "{{count}} open"
   },
   "escrow": {
     "title": "Where the money is",
