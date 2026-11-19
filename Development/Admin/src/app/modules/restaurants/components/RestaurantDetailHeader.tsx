@@ -101,53 +101,48 @@ export function RestaurantDetailHeader({
       </button>
 
       {isMobile ? (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: 12,
-            marginBottom: 24,
-            paddingBottom: 24,
-            borderBottom: '1px solid var(--color-border)',
-          }}
-        >
-          {restaurant.avatarUrl ? (
-            <img
-              src={restaurant.avatarUrl as string}
-              alt={restaurant.name as string}
-              className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] object-cover"
-            />
-          ) : (
-            <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] flex items-center justify-center text-(--color-on-accent) font-bold font-(--font-ui) bg-[var(--color-accent)]">
-              {getRestaurantInitials((restaurant.name as string) ?? '')}
+        <div className="mb-6">
+          <div className="gm-profile-cover relative overflow-hidden rounded-[24px] bg-[#14102A] shadow-[var(--shadow-md)]">
+            <div className="relative h-[150px] w-full" data-testid="admin-cover-banner">
+              {restaurant.coverUrl ? (
+                <img
+                  src={restaurant.coverUrl as string}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <span className="gm-cover-fallback absolute inset-0" aria-hidden="true" />
+              )}
+              <span
+                className="absolute inset-0 bg-gradient-to-t from-[rgba(20,16,42,0.95)] via-[rgba(20,16,42,0.35)] to-transparent"
+                aria-hidden="true"
+              />
             </div>
-          )}
-          <span
-            style={{
-              fontSize: 22,
-              fontWeight: 700,
-              color: 'var(--color-text)',
-              fontFamily: 'var(--font-ui)',
-            }}
-          >
-            {restaurant.name as string}
-          </span>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {statusBadge(platformStatusStyle)}
-            {statusBadge(visibilityStyle)}
+            <div className="relative -mt-10 flex flex-col gap-2 px-4 pb-4">
+              {restaurant.avatarUrl ? (
+                <img
+                  src={restaurant.avatarUrl as string}
+                  alt={restaurant.name as string}
+                  className="h-[68px] w-[68px] shrink-0 rounded-[18px] border-4 border-white object-cover"
+                />
+              ) : (
+                <div className="flex h-[68px] w-[68px] shrink-0 items-center justify-center rounded-[18px] border-4 border-white bg-[var(--color-accent)] text-[18px] font-bold text-(--color-on-accent)">
+                  {getRestaurantInitials((restaurant.name as string) ?? '')}
+                </div>
+              )}
+              <h1 className="m-0 text-[22px] font-bold leading-tight text-white">
+                {restaurant.name as string}
+              </h1>
+              <div className="flex flex-wrap gap-2">
+                {statusBadge(platformStatusStyle)}
+                {statusBadge(visibilityStyle)}
+              </div>
+              <p className="m-0 text-[13px] text-white/85">
+                {restaurant.cuisine as string} · {restaurant.areaDistrict as string}
+              </p>
+            </div>
           </div>
-          <p
-            style={{
-              fontSize: 13,
-              color: 'var(--color-text-muted)',
-              margin: 0,
-              fontFamily: 'var(--font-ui)',
-            }}
-          >
-            {restaurant.cuisine as string} · {restaurant.areaDistrict as string}
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, width: '100%' }}>
+          <div className="mt-3 flex w-full flex-wrap gap-2">
             {actions ?? (
               <>
                 {changeCategoryBtn}

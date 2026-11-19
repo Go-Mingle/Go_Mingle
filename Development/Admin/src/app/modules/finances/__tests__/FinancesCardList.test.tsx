@@ -126,13 +126,9 @@ describe('FinancesCardList', () => {
     expect(saraElement.getAttribute('role')).not.toBe('button')
   })
 
-  it('handles empty list without crashing', () => {
-    const onView = vi.fn()
-    const onMinglerClick = vi.fn()
-    const { container } = renderWithProviders(
-      <FinancesCardList data={[]} onView={onView} onMinglerClick={onMinglerClick} />,
-    )
-    expect(container.querySelector('.finances-card-list')).toBeInTheDocument()
+  it('says so when there is nothing to list, instead of showing a blank screen', () => {
+    renderWithProviders(<FinancesCardList data={[]} onView={vi.fn()} onMinglerClick={vi.fn()} />)
+    expect(screen.getByTestId('mobile-empty')).toHaveTextContent('No bookings match these filters')
   })
 
   it('renders avatar with custom color when provided', () => {

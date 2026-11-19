@@ -195,5 +195,45 @@
       "completed": "Checked in. The dinner took place.",
       "cancelled": "Cancelled. Nothing is held on the card."
     }
+  },
+  "mobileEmpty": {
+    "users": {
+      "title": "No other admin users yet",
+      "hint": "Add one with New user."
+    },
+    "pending": {
+      "title": "No restaurants are waiting for approval",
+      "hint": "New applications appear here as soon as they're sent."
+    },
+    "rejected": {
+      "title": "No rejected applications"
+    },
+    "minglers": {
+      "title": "No Minglers yet",
+      "hint": "They appear here once they sign up in the app, or when a search matches."
+    },
+    "changeLog": {
+      "title": "No changes recorded yet"
+    },
+    "finances": {
+      "title": "No bookings match these filters"
+    },
+    "restaurants": {
+      "title": "No restaurants yet",
+      "hint": "Add one with Add restaurant, or clear the search."
+    },
+    "categories": {
+      "title": "No categories match"
+    },
+    "interests": {
+      "title": "No interests match"
+    },
+    "interestTables": {
+      "title": "No interest tables match"
+    }
+  },
+  "mobileSearch": {
+    "restaurants": "Search restaurants by name",
+    "minglers": "Search Minglers by name"
   }
 }

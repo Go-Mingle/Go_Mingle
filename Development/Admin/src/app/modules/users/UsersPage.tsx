@@ -1,4 +1,5 @@
 import { LoadingState } from '../../molecules/LoadingState'
+import { MobileEmpty } from '../../molecules/MobileEmpty'
 import { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import { Alert, Form, message, Pagination, Flex, Row, Col, Grid, Modal } from 'antd'
@@ -42,6 +43,14 @@ interface UsersCardListProps {
 
 function UsersCardList({ data, onEdit, onReset, onDelete }: UsersCardListProps) {
   const { t } = useTranslation('users')
+
+  if (data.length === 0)
+    return (
+      <MobileEmpty
+        title={t('common:mobileEmpty.users.title')}
+        hint={t('common:mobileEmpty.users.hint')}
+      />
+    )
 
   return (
     <div className="users-card-list">
