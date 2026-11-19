@@ -200,8 +200,8 @@
 /* ── Sign-in stage, option B "Gathering lights" (GM-336) ─────────────────
    One full-screen background in the current theme. Guests glide in from the
    edges and take their seats around the table, the headline names who might
-   be sitting there, then everything settles (all motion ends by ~4.5s, so no
-   pause control is needed under WCAG 2.2.2). */
+   be sitting there, one guest after another (with a pause button, WCAG
+   2.2.2). Layout D: the story and the form sit side by side on one screen. */
 :root {
   --stage-bg: #f7f5fc;
   --stage-glow: rgba(255, 181, 71, 0.26);
@@ -315,15 +315,40 @@
 }
 .gm-cycle__word--0 {
   color: var(--brand-warm);
-  animation: gm-word-pass 1.1s var(--gm-ease) 1.4s both;
 }
 .gm-cycle__word--1 {
   color: var(--brand-cool);
-  animation: gm-word-pass 1.1s var(--gm-ease) 2.5s both;
 }
 .gm-cycle__word--2 {
   color: var(--color-accent);
-  animation: gm-word-stay 600ms var(--gm-ease) 3.6s both;
+}
+/* One guest at a time, forever (GM-336 follow-up): each word rises in, holds and
+   lifts away; BrandPanel swaps the word on the same beat. */
+.gm-cycle__word.is-live {
+  animation: gm-word-turn var(--gm-word-ms, 2400ms) var(--gm-ease) both;
+}
+.gm-cycle.is-paused .gm-cycle__word.is-live {
+  animation: none;
+  opacity: 1;
+}
+.gm-motion-pause {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.gm-motion-pause:hover {
+  color: var(--color-text);
 }
 .gm-stage-body {
   margin: -4px 0 6px;
@@ -365,55 +390,109 @@
     transform: none;
   }
 }
-@keyframes gm-word-pass {
+@keyframes gm-word-turn {
   0% {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
-  20%,
-  75% {
+  14%,
+  84% {
     opacity: 1;
     transform: none;
   }
   100% {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-12px);
   }
 }
-@keyframes gm-word-stay {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+/* Layout D (approved): story left, form right, one screen. Below 1024px the
+   story becomes a compact row (small table + headline) above the form. */
+.gm-stage-story {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+@media (min-width: 1024px) {
+  .gm-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 440px);
+    align-items: center;
+    column-gap: clamp(48px, 6vw, 104px);
+    padding: 88px clamp(40px, 8vw, 120px) 40px;
   }
-  to {
-    opacity: 1;
-    transform: none;
+  .gm-stage-story {
+    align-items: flex-start;
+    max-width: 620px;
+  }
+  .gm-stage-story .gm-gather {
+    transform: scale(0.75);
+    transform-origin: top left;
+    margin: 0 -50px -50px 0;
+  }
+  .gm-stage-title {
+    text-align: left;
+    font-size: clamp(32px, 3.3vw, 46px);
+    line-height: 1.12;
+  }
+  .gm-stage-body {
+    text-align: left;
+    font-size: 17px;
+    margin: 0;
+  }
+  .gm-stage .gm-auth-form {
+    justify-self: end;
+  }
+}
+@media (max-width: 1023px) {
+  .gm-stage {
+    justify-content: flex-start;
+    padding: 84px 20px 32px;
+  }
+  .gm-stage-story {
+    width: 100%;
+    max-width: 440px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 14px;
+    row-gap: 10px;
+  }
+  .gm-stage-story .gm-gather {
+    transform: scale(0.36);
+    transform-origin: top left;
+    margin: 0 -128px -128px 0;
+  }
+  .gm-stage-title {
+    text-align: left;
+    font-size: clamp(20px, 5.4vw, 26px);
+  }
+  .gm-stage-body {
+    grid-column: 1 / -1;
+    text-align: left;
+    font-size: 14px;
+    margin: 0;
   }
 }
 @media (max-width: 640px) {
-  .gm-stage {
-    padding-top: 80px;
-    justify-content: flex-start;
+  .gm-stage-body {
+    display: none;
   }
-  .gm-gather {
-    transform: scale(0.7);
-    margin: -30px 0;
+  .gm-motion-pause {
+    left: auto;
+    right: 16px;
+    bottom: 16px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .gm-ember,
   .gm-guest,
   .gm-gather__table,
-  .gm-cycle__word--2,
+  .gm-cycle__word.is-live,
   .gm-stage .gm-auth-form {
     animation: none;
     opacity: 1;
     transform: none;
-  }
-  .gm-cycle__word--0,
-  .gm-cycle__word--1 {
-    animation: none;
-    opacity: 0;
   }
 }
 
@@ -482,10 +561,13 @@
 .gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab {
   margin-left: 4px !important;
 }
-.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab:hover {
+.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab:not(.ant-tabs-tab-active):hover {
   background: var(--color-hover-neutral);
 }
-.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active {
+/* The selected pill keeps its colours on hover and focus, so its label never
+   disappears into the background. */
+.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active,
+.gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active:hover {
   background: var(--color-text);
 }
 .gm-app-main .ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn {
@@ -497,6 +579,32 @@
 .gm-cover-fallback {
   background:
     radial-gradient(420px 260px at 22% 30%, rgba(255, 181, 71, 0.55), transparent 70%),
-    radial-gradient(520px 320px at 80% 20%, rgba(255, 90, 68, 0.6), transparent 70%),
-    #3a1e3f;
+    radial-gradient(520px 320px at 80% 20%, rgba(255, 90, 68, 0.6), transparent 70%), #3a1e3f;
+}
+
+/* ── Theme change (light <-> dark) ───────────────────────────────────────
+   With View Transitions the new theme spreads out in a circle from the
+   switch (themeTransition.ts); elsewhere the colours fade. */
+html.gm-theme-vt::view-transition-old(root),
+html.gm-theme-vt::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html.gm-theme-vt::view-transition-old(root) {
+  z-index: 1;
+}
+html.gm-theme-vt::view-transition-new(root) {
+  z-index: 2;
+}
+html.gm-theme-fade,
+html.gm-theme-fade *,
+html.gm-theme-fade *::before,
+html.gm-theme-fade *::after {
+  transition:
+    background-color 400ms ease,
+    color 400ms ease,
+    border-color 400ms ease,
+    fill 400ms ease,
+    stroke 400ms ease,
+    box-shadow 400ms ease !important;
 }
