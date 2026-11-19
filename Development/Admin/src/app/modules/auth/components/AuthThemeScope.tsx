@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { ConfigProvider } from 'antd'
 import { goMingleAuthTheme } from '../../../../styles/brandTheme'
-import { ThemeToggle } from '../../../atoms/ThemeToggle'
+import { ThemeSwitch } from '../../../atoms/ThemeSwitch'
 
 /**
  * Wraps the landing screens (sign in, sign up, password reset). They follow the
@@ -12,8 +12,8 @@ export function AuthThemeScope({ children }: { children: ReactNode }) {
   return (
     <ConfigProvider theme={goMingleAuthTheme}>
       <div className="gm-auth relative" data-testid="gm-auth-scope">
-        <div className="absolute top-4 right-4 z-10 rounded-full bg-(--color-card) shadow-(--shadow-sm)">
-          <ThemeToggle />
+        <div className="absolute top-5 right-5 z-10">
+          <ThemeSwitch />
         </div>
         {children}
       </div>

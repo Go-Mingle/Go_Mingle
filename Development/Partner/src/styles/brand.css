@@ -107,3 +107,56 @@
     opacity: 1;
   }
 }
+
+/* ── Landing screens (GM-336) ─────────────────────────────────────────────
+   Midnight hero lit by one warm candle glow; the form slides in; the sample
+   tables rise one after another once the logo has drawn. */
+.gm-auth-hero {
+  background:
+    radial-gradient(560px 480px at 26% 46%, rgba(255, 181, 71, 0.14), transparent 70%), #14102a;
+}
+.gm-auth-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: var(--shadow-lg);
+}
+.gm-auth-form {
+  animation: gm-slide-in 600ms var(--gm-ease) 300ms both;
+}
+.gm-rise {
+  animation: gm-rise-in 500ms var(--gm-ease) var(--rise-delay, 0ms) both;
+}
+.gm-seat-now {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-seat-breathe 2400ms ease-in-out infinite;
+}
+@keyframes gm-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes gm-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gm-auth-form,
+  .gm-rise,
+  .gm-seat-now {
+    animation: none;
+  }
+}

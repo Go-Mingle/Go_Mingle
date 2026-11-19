@@ -418,15 +418,15 @@ export function LoginForm() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-6 py-12 bg-[var(--color-page)]">
-      <div className="w-full max-w-[440px]">
-        <div className="flex justify-center mb-8">
+      <div className="gm-auth-form w-full max-w-[440px]">
+        <div className="flex justify-center mb-8 lg:hidden">
           <GoMingleLogo collapsed={false} />
         </div>
 
         {/* Why the previous session ended, when it ended involuntarily (FE1 AC-04.4). */}
         <SessionNotice />
 
-        <div className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-[12px] p-8 shadow-[var(--shadow-md)]">
+        <div className="gm-auth-card">
           {step === 'login' && (
             <Form form={form} layout="vertical" onFinish={onFinish} requiredMark={false}>
               <LoginStep
