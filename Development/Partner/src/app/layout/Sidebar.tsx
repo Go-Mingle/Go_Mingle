@@ -42,7 +42,14 @@ export function Sidebar({ forDrawer = false }: SidebarProps) {
       { key: 'finances', label: t('nav.finances'), Icon: Wallet, path: '/finances' },
       { key: 'users', label: t('nav.users'), Icon: UserGear, path: '/users' },
       ...(FEATURES.integrations
-        ? [{ key: 'integrations', label: t('nav.integrations'), Icon: PlugsConnected, path: '/integrations' }]
+        ? [
+            {
+              key: 'integrations',
+              label: t('nav.integrations'),
+              Icon: PlugsConnected,
+              path: '/integrations',
+            },
+          ]
         : []),
     ],
   }

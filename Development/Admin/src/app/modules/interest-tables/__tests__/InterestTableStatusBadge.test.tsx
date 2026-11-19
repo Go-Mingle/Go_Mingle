@@ -35,7 +35,9 @@ describe('InterestTableStatusBadge', () => {
   it('explains the status on hover', async () => {
     renderWithProviders(<InterestTableStatusBadge status="PENDING" />)
     await userEvent.hover(screen.getByText('Pending'))
-    expect(await screen.findByText('Published and waiting for enough bookings to go ahead.')).toBeInTheDocument()
+    expect(
+      await screen.findByText('Published and waiting for enough bookings to go ahead.'),
+    ).toBeInTheDocument()
   })
 
   it('uses the booking explanation for a booking', async () => {

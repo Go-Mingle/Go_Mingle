@@ -85,7 +85,7 @@ export function MediaPhotosCard({ photos }: MediaPhotosCardProps) {
                     color: '#fff',
                     fontSize: 12,
                     fontWeight: 500,
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {photo.caption ?? photo.filename}

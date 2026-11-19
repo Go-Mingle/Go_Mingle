@@ -165,7 +165,7 @@ export function PreferenceQuestionsPage() {
                         borderRadius: 6,
                         background: 'var(--color-divider)',
                         color: 'var(--color-text-secondary)',
-                        fontFamily: 'Poppins, sans-serif',
+                        fontFamily: 'var(--font-ui)',
                         fontSize: 12,
                         fontWeight: 700,
                         flexShrink: 0,
@@ -175,7 +175,7 @@ export function PreferenceQuestionsPage() {
                     </span>
                     <span
                       style={{
-                        fontFamily: 'Poppins, sans-serif',
+                        fontFamily: 'var(--font-ui)',
                         fontSize: 14,
                         fontWeight: 600,
                         color: 'var(--color-text)',
@@ -197,7 +197,7 @@ export function PreferenceQuestionsPage() {
                       borderRadius: 4,
                       background: colors.bg,
                       color: colors.color,
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                       fontSize: 11,
                       fontWeight: 600,
                       whiteSpace: 'nowrap',
@@ -230,7 +230,7 @@ export function PreferenceQuestionsPage() {
                       color: 'var(--color-accent-dark)',
                       border: '1.5px solid var(--color-accent)',
                       borderRadius: 12,
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: 'pointer',
@@ -253,7 +253,7 @@ export function PreferenceQuestionsPage() {
                       color: 'var(--color-error)',
                       border: '1.5px solid var(--color-error-border)',
                       borderRadius: 12,
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: 'pointer',
@@ -315,7 +315,7 @@ export function PreferenceQuestionsPage() {
           style={{
             fontSize: 14,
             color: 'var(--color-text-muted)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             margin: '4px 0 0',
             lineHeight: 1.6,
           }}
@@ -328,7 +328,7 @@ export function PreferenceQuestionsPage() {
             style={{
               height: 36,
               borderRadius: 12,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 13,
             }}
           >
@@ -355,7 +355,7 @@ export function PreferenceQuestionsPage() {
                 color: 'white',
                 border: 'none',
                 borderRadius: 12,
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
                 fontSize: 13,
                 fontWeight: 600,
                 cursor: 'pointer',

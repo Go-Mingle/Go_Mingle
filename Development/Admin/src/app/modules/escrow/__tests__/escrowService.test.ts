@@ -21,7 +21,12 @@ describe('escrowService', () => {
       guests: 2,
       amountPerGuest: 3000,
     })
-    expect(hold).toMatchObject({ status: 'AUTHORIZED', amount: 6000, restaurantNet: 5400, platformFee: 600 })
+    expect(hold).toMatchObject({
+      status: 'AUTHORIZED',
+      amount: 6000,
+      restaurantNet: 5400,
+      platformFee: 600,
+    })
     const captured = await escrowService.act(hold.id, 'capture')
     expect(captured.status).toBe('IN_ESCROW')
     const released = await escrowService.act(hold.id, 'release')
@@ -33,7 +38,12 @@ describe('escrowService', () => {
     await expect(escrowService.act('esc-000102', 'refund')).rejects.toBeInstanceOf(HttpError)
     await expect(escrowService.act('missing', 'capture')).rejects.toMatchObject({ status: 404 })
     await expect(
-      escrowService.createTestBooking({ restaurantId: 'nope', minglerName: '', guests: 1, amountPerGuest: 100 }),
+      escrowService.createTestBooking({
+        restaurantId: 'nope',
+        minglerName: '',
+        guests: 1,
+        amountPerGuest: 100,
+      }),
     ).rejects.toMatchObject({ status: 422 })
     const refunded = await escrowService.act('esc-000102', 'refund', 'Cancelled')
     expect(refunded.timeline.at(-1)).toMatchObject({ status: 'REFUNDED', note: 'Cancelled' })

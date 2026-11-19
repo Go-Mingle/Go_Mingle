@@ -100,7 +100,9 @@ export function useInterestTableDetail(itId: string | undefined, feedback: Profi
     if (!itId) return
     guestsArrived.mutate(itId, {
       onSuccess: (result) => {
-        showSuccess(t('restaurants:partnerInterestTables.guestsArrivedDone', { count: result.seatsArrived }))
+        showSuccess(
+          t('restaurants:partnerInterestTables.guestsArrivedDone', { count: result.seatsArrived }),
+        )
         setArrivalOpen(false)
       },
       onError: (cause) => {

@@ -120,7 +120,11 @@ export function RestaurantImageModal({ c }: { c: ProfileController }) {
             {t('restaurants:profile.imageModal.cover')}
           </figcaption>
           {coverUrl ? (
-            <img src={coverUrl} alt="" className="block aspect-[8/3] w-full rounded-[10px] object-cover" />
+            <img
+              src={coverUrl}
+              alt=""
+              className="block aspect-[8/3] w-full rounded-[10px] object-cover"
+            />
           ) : (
             <div className="flex aspect-[8/3] w-full flex-col items-center justify-center gap-2 rounded-[10px] border border-[var(--color-border)] bg-[var(--color-page)] text-[var(--color-text-subtle)]">
               <Storefront size={28} />

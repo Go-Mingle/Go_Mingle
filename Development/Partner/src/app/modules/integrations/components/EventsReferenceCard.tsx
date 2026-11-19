@@ -68,9 +68,7 @@ export function EventsReferenceCard() {
                           className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-[6px] bg-[#1c2532] border border-[#2e3948] text-[11px] text-[#c9cfda] cursor-pointer md:hover:text-white transition-colors"
                         />
                       </div>
-                      <pre
-                        className="rounded-[12px] bg-[#1a2332] text-[#e6e9ef] px-4 py-4 m-0 overflow-x-auto text-[12px] leading-[1.65] font-[ui-monospace,SFMono-Regular,Menlo,monospace]"
-                      >
+                      <pre className="rounded-[12px] bg-[#1a2332] text-[#e6e9ef] px-4 py-4 m-0 overflow-x-auto text-[12px] leading-[1.65] font-[ui-monospace,SFMono-Regular,Menlo,monospace]">
                         {json}
                       </pre>
                     </div>

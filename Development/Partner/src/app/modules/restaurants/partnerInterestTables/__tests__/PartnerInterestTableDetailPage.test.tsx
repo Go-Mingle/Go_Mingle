@@ -64,8 +64,13 @@ describe('detail page — states', () => {
   it('shows topic, date and Pakistan time in the header, and dashes for missing fields', async () => {
     server.use(
       http.get(PARTNER_IT_ENDPOINTS.interestTableById('it-1'), async () => {
-        const body = (await getMockInterestTable('it-1').json()) as { data: Record<string, unknown> }
-        return HttpResponse.json({ success: true, data: { ...body.data, topic: '', assignedTable: '' } })
+        const body = (await getMockInterestTable('it-1').json()) as {
+          data: Record<string, unknown>
+        }
+        return HttpResponse.json({
+          success: true,
+          data: { ...body.data, topic: '', assignedTable: '' },
+        })
       }),
     )
     await renderLoaded()

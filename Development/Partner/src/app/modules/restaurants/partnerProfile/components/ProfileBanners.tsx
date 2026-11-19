@@ -42,10 +42,13 @@ export function DraftBanner({ readiness }: { readiness?: SubmissionReadiness }) 
       <div className="text-[13px] leading-relaxed">
         {steps && (
           <div className="font-semibold">
-            {t(done === steps.length ? 'profile.banners.progressReady' : 'profile.banners.progress', {
-              done,
-              total: steps.length,
-            })}
+            {t(
+              done === steps.length ? 'profile.banners.progressReady' : 'profile.banners.progress',
+              {
+                done,
+                total: steps.length,
+              },
+            )}
           </div>
         )}
         {/* `Trans` rather than `t`, so the two phrases the partner has to act on
@@ -156,7 +159,9 @@ interface ProfileBannersProps {
  * blocker list only ever appeared after a failed submit, which a disabled
  * button can never make.
  */
-function readinessBlockers(readiness: SubmissionReadiness | undefined): SubmitBlockedDetails | null {
+function readinessBlockers(
+  readiness: SubmissionReadiness | undefined,
+): SubmitBlockedDetails | null {
   if (!readiness || readiness.canSubmit) return null
   return {
     missingFields: readiness.missingFields,
@@ -174,7 +179,11 @@ export function ProfileBanners({ status, rejections, blockers, readiness }: Prof
       {status === 'REJECTED' && <RejectionHistory rejections={rejections} />}
       {status === 'PENDING' && <PendingBanner />}
       {editableDraft && <DraftBanner readiness={readiness} />}
-      {blockers ? <SubmitBlockers blockers={blockers} /> : <SubmitBlockers blockers={checklist} checklist />}
+      {blockers ? (
+        <SubmitBlockers blockers={blockers} />
+      ) : (
+        <SubmitBlockers blockers={checklist} checklist />
+      )}
     </>
   )
 }

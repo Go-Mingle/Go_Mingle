@@ -98,7 +98,7 @@ export function ChangeCategoryModal({
               fontSize: 13,
               fontWeight: 600,
               cursor: isDisabled ? 'not-allowed' : 'pointer',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {confirmLoading ? <ButtonSpinner /> : <Check size={14} weight="bold" />}

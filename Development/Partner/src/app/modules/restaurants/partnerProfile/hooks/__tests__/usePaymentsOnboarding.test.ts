@@ -108,7 +108,10 @@ describe('usePaymentsOnboarding launch', () => {
     act(() => result.current.launch())
 
     await waitFor(() => {
-      expect(open).toHaveBeenCalledWith('https://sandbox.api.getsafepay.com/payouts/setup/abc', '_blank')
+      expect(open).toHaveBeenCalledWith(
+        'https://sandbox.api.getsafepay.com/payouts/setup/abc',
+        '_blank',
+      )
     })
     // The portal stays put in this tab.
     expect(assign).not.toHaveBeenCalled()
@@ -127,7 +130,9 @@ describe('usePaymentsOnboarding launch', () => {
     act(() => result.current.launch())
 
     await waitFor(() => {
-      expect(assign).toHaveBeenCalledWith('https://sandbox.api.getsafepay.com/payouts/setup/blocked')
+      expect(assign).toHaveBeenCalledWith(
+        'https://sandbox.api.getsafepay.com/payouts/setup/blocked',
+      )
     })
   })
 
@@ -373,7 +378,10 @@ describe('usePaymentsOnboarding return state', () => {
     renderOnboarding('/overview?payments=refresh')
 
     await waitFor(() => {
-      expect(open).toHaveBeenCalledWith('https://sandbox.api.getsafepay.com/payouts/setup/second', '_blank')
+      expect(open).toHaveBeenCalledWith(
+        'https://sandbox.api.getsafepay.com/payouts/setup/second',
+        '_blank',
+      )
     })
     expect(onReturned).not.toHaveBeenCalled()
     expect(onError).not.toHaveBeenCalled()

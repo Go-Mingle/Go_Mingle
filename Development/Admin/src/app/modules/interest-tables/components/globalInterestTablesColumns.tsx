@@ -81,7 +81,7 @@ export function buildGlobalInterestTablesColumns(
       render: (value: string, row) => (
         <div className="flex items-center gap-3">
           <TableAvatar name={value} imageUrl={row.coverImageUrl} size={40} shape="rounded" />
-          <span className="font-[Poppins] text-[14px] font-semibold text-[var(--color-text)]">
+          <span className="font-(--font-ui) text-[14px] font-semibold text-[var(--color-text)]">
             {value}
           </span>
         </div>

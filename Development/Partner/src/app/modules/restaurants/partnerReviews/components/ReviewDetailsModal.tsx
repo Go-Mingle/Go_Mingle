@@ -57,7 +57,7 @@ export function ReviewDetailsModal({ c }: { c: ReviewsTabController }) {
             <div className="flex min-w-0 items-center gap-2.5">
               <span
                 aria-hidden
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-coral)] text-[11px] font-bold text-white"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-coral)] text-[11px] font-bold text-(--color-on-accent)"
               >
                 {minglerInitials(detail.mingler.name)}
               </span>

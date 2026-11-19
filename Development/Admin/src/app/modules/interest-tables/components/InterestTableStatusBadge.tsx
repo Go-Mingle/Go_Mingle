@@ -8,6 +8,9 @@ interface InterestTableStatusBadgeProps {
 }
 
 /** The status pill used across the interest table screens. */
-export function InterestTableStatusBadge({ status, kind = 'table' }: Readonly<InterestTableStatusBadgeProps>) {
+export function InterestTableStatusBadge({
+  status,
+  kind = 'table',
+}: Readonly<InterestTableStatusBadgeProps>) {
   return <LifecycleBadge status={status} kind={kind} />
 }

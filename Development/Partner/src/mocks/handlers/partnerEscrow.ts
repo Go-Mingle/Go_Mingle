@@ -5,8 +5,19 @@ import type { PartnerEscrowOverview } from '../../app/modules/finances/escrowTyp
 /** Mock of the restaurant's Safepay escrow position (tests and mock-only demos). */
 export const mockPartnerEscrow: PartnerEscrowOverview = {
   gateway: { name: 'Safepay', environment: 'sandbox', mode: 'simulator' },
-  summary: { authorized: 10500, inEscrow: 5600, released: 11520, refunded: 0, platformFeePct: 10, count: 3 },
-  payoutAccount: { accountTitle: 'Aurelia Dining (Pvt) Ltd', bankName: 'Meezan Bank', iban: 'PK40 •••• 6702' },
+  summary: {
+    authorized: 10500,
+    inEscrow: 5600,
+    released: 11520,
+    refunded: 0,
+    platformFeePct: 10,
+    count: 3,
+  },
+  payoutAccount: {
+    accountTitle: 'Aurelia Dining (Pvt) Ltd',
+    bankName: 'Meezan Bank',
+    iban: 'PK40 •••• 6702',
+  },
   items: [
     {
       id: 'esc-1',

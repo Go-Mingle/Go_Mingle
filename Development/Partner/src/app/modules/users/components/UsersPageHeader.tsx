@@ -16,7 +16,7 @@ export function UsersPageHeader({ isMobile, onNew }: UsersPageHeaderProps) {
       <h1
         className={`m-0 ${
           isMobile ? 'text-[20px]' : 'text-[26px]'
-        } font-bold text-[var(--color-text)] font-[Poppins,sans-serif] leading-[1.2]`}
+        } font-bold text-[var(--color-text)] font-(--font-ui) leading-[1.2]`}
       >
         {t('title')}
       </h1>

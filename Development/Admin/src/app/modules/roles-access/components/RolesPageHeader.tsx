@@ -20,7 +20,7 @@ export function RolesPageHeader({ onNew }: RolesPageHeaderProps) {
           fontSize: 26,
           fontWeight: 700,
           color: 'var(--color-text)',
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           margin: 0,
         }}
       >

@@ -14,8 +14,8 @@ const TONE = {
  * there keeps the card's hierarchy instead of blowing up to row size.
  */
 const SIZE = {
-  cell: 'font-[Poppins] text-[14px] font-medium',
-  label: 'font-[Poppins] text-[10px] font-semibold uppercase tracking-[0.06em]',
+  cell: 'font-(--font-ui) text-[14px] font-medium',
+  label: 'font-(--font-ui) text-[10px] font-semibold uppercase tracking-[0.06em]',
 } as const
 
 export type CellSize = keyof typeof SIZE

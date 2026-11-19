@@ -61,7 +61,7 @@ function StatusBadge({ joined }: { joined: boolean }) {
         color: '#fff',
         fontSize: 12,
         fontWeight: 600,
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         whiteSpace: 'nowrap',
       }}
     >
@@ -148,7 +148,7 @@ export function InterestTableInvitedTab({
               })
             }
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-accent)',
@@ -171,7 +171,7 @@ export function InterestTableInvitedTab({
       render: (v: string) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-muted)',
@@ -270,7 +270,7 @@ export function InterestTableInvitedTab({
             style={{
               fontSize: 13,
               color: 'var(--color-text-muted)',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {t('detail.invited.empty')}
@@ -375,7 +375,7 @@ export function InterestTableInvitedTab({
                 fontWeight: 600,
                 color: 'var(--color-text)',
                 textAlign: 'center',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
               }}
             >
               {t('detail.invited.cancelTitle')}
@@ -386,7 +386,7 @@ export function InterestTableInvitedTab({
                 fontSize: 13,
                 color: 'var(--color-text-muted)',
                 textAlign: 'center',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
               }}
             >
               {t('detail.invited.cancelDesc', { name: cancelling.name })}

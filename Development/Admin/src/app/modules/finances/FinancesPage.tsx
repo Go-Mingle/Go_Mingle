@@ -279,7 +279,10 @@ export function FinancesPage() {
                 onChange={(val) => setQueryParams((prev) => ({ ...prev, pageSize: val, page: 1 }))}
                 className="w-25 shrink-0"
                 size="small"
-                options={FINANCES_PAGE_SIZE_OPTIONS.map((v) => ({ value: v, label: `${v} / page` }))}
+                options={FINANCES_PAGE_SIZE_OPTIONS.map((v) => ({
+                  value: v,
+                  label: `${v} / page`,
+                }))}
               />
             </div>
           )}

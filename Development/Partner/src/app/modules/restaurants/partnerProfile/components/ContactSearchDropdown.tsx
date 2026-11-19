@@ -71,7 +71,7 @@ export function ContactSearchDropdown({
         <button
           type="button"
           onClick={apply}
-          className="h-7 cursor-pointer rounded-lg border-none bg-[var(--color-accent)] px-3 font-[Poppins,sans-serif] text-xs font-semibold text-white hover:bg-[var(--color-accent-dark)]"
+          className="h-7 cursor-pointer rounded-lg border-none bg-[var(--color-accent)] px-3 font-(--font-ui) text-xs font-semibold text-(--color-on-accent) hover:bg-[var(--color-accent-dark)]"
         >
           {t('common:buttons.search')}
         </button>

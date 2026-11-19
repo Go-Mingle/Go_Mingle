@@ -25,11 +25,10 @@ const CARD_CLASS =
 
 // Detail rows: label and value share the same size — only the shade differs
 // (label lighter, value darker).
-const VALUE_CLASS =
-  'text-[12px] font-medium font-[Poppins,sans-serif] text-[var(--color-text-secondary)]'
+const VALUE_CLASS = 'text-[12px] font-medium font-(--font-ui) text-[var(--color-text-secondary)]'
 
 const ROW_LABEL_CLASS =
-  'text-[12px] font-medium font-[Poppins,sans-serif] text-[var(--color-text-muted)] whitespace-nowrap shrink-0'
+  'text-[12px] font-medium font-(--font-ui) text-[var(--color-text-muted)] whitespace-nowrap shrink-0'
 
 // ── UsersCardList ─────────────────────────────────────────────
 interface UsersCardListProps {
@@ -86,19 +85,19 @@ function UsersCardList({ data, onEdit, onReset, onDelete, emptyState }: UsersCar
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="text-[14px] font-semibold text-[var(--color-text)] font-[Poppins,sans-serif] whitespace-nowrap overflow-hidden text-ellipsis min-w-0">
+                  <span className="text-[14px] font-semibold text-[var(--color-text)] font-(--font-ui) whitespace-nowrap overflow-hidden text-ellipsis min-w-0">
                     {u.name}
                   </span>
                   {u.isPrimary && <OwnerBadge />}
                   <span
                     className={`shrink-0 ${
                       isActive ? 'bg-[var(--color-success)]' : 'bg-[var(--color-error)]'
-                    } text-white h-[22px] px-2 rounded-[4px] text-[12px] font-semibold font-[Poppins,sans-serif] inline-flex items-center`}
+                    } text-white h-[22px] px-2 rounded-[4px] text-[12px] font-semibold font-(--font-ui) inline-flex items-center`}
                   >
                     {isActive ? t('card.active') : t('card.suspended')}
                   </span>
                 </div>
-                <div className="text-[12px] text-[var(--color-text-muted)] font-[Poppins,sans-serif] mt-0.5">
+                <div className="text-[12px] text-[var(--color-text-muted)] font-(--font-ui) mt-0.5">
                   {u.designation ?? '—'}
                 </div>
               </div>
@@ -160,9 +159,7 @@ export function UsersPage() {
 
       <UsersPageHeader isMobile={p.isMobile} onNew={() => p.setNewOpen(true)} />
 
-      {p.isPending && (
-        <PageSkeleton variant="table" />
-      )}
+      {p.isPending && <PageSkeleton variant="table" />}
 
       {p.isError && (
         <Alert

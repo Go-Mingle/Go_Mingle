@@ -198,7 +198,7 @@ function GuestChips({ value, onChange }: { value?: number; onChange?: (v: number
               height: 40,
               borderRadius: 12,
               cursor: 'pointer',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 600,
               background: active ? 'var(--color-coral-light)' : 'var(--color-card)',
@@ -231,7 +231,7 @@ function PanelHeader({ title, summary }: { title: string; summary: string }) {
           fontSize: 14,
           fontWeight: 600,
           color: 'var(--color-text)',
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
         }}
       >
         {title}
@@ -240,7 +240,7 @@ function PanelHeader({ title, summary }: { title: string; summary: string }) {
         style={{
           fontSize: 12,
           color: 'var(--color-text-muted)',
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -600,7 +600,7 @@ export function CreateInterestTableModal({
           style={{
             fontSize: 11,
             color: 'var(--color-error)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           {t('form.noTables')}
@@ -617,7 +617,7 @@ export function CreateInterestTableModal({
             gap: 6,
             fontSize: 11,
             color: 'var(--color-text-muted)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           <Spin size="small" /> Checking...
@@ -630,7 +630,7 @@ export function CreateInterestTableModal({
           style={{
             fontSize: 11,
             color: 'var(--color-success)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           Slot available
@@ -643,7 +643,7 @@ export function CreateInterestTableModal({
           style={{
             fontSize: 11,
             color: 'var(--color-warning)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           Slot unavailable: {availability.reason ?? 'Selected table cannot be assigned'}
@@ -721,7 +721,7 @@ export function CreateInterestTableModal({
                         style={{
                           fontSize: 11,
                           color: 'var(--color-text-subtle)',
-                          fontFamily: 'Poppins, sans-serif',
+                          fontFamily: 'var(--font-ui)',
                         }}
                       >
                         {t('form.minGuestsFixed')}
@@ -796,7 +796,7 @@ export function CreateInterestTableModal({
                         style={{
                           fontSize: 11,
                           color: 'var(--color-text-subtle)',
-                          fontFamily: 'Poppins, sans-serif',
+                          fontFamily: 'var(--font-ui)',
                         }}
                       >
                         {t('form.durationHelper')}
@@ -821,7 +821,7 @@ export function CreateInterestTableModal({
                           fontSize: 13,
                           fontWeight: 600,
                           color: 'var(--color-text)',
-                          fontFamily: 'Poppins, sans-serif',
+                          fontFamily: 'var(--font-ui)',
                         }}
                       >
                         {dayjs(startDate).format('DD MMM YYYY')} · {timeRange}
@@ -957,7 +957,7 @@ export function CreateInterestTableModal({
                             fontSize: 13,
                             fontWeight: 600,
                             color: 'var(--color-text)',
-                            fontFamily: 'Poppins, sans-serif',
+                            fontFamily: 'var(--font-ui)',
                           }}
                         >
                           {uploadMutation.isPending
@@ -970,7 +970,7 @@ export function CreateInterestTableModal({
                           style={{
                             fontSize: 12,
                             color: 'var(--color-text-muted)',
-                            fontFamily: 'Poppins, sans-serif',
+                            fontFamily: 'var(--font-ui)',
                             lineHeight: 1.5,
                             textAlign: 'center',
                           }}
@@ -1007,7 +1007,7 @@ export function CreateInterestTableModal({
                             style={{
                               fontSize: 11,
                               color: 'var(--color-text-subtle)',
-                              fontFamily: 'Poppins, sans-serif',
+                              fontFamily: 'var(--font-ui)',
                             }}
                           >
                             {t('inviteOnly.helper')}
@@ -1042,7 +1042,7 @@ export function CreateInterestTableModal({
                             style={{
                               fontSize: 11,
                               color: 'var(--color-text-subtle)',
-                              fontFamily: 'Poppins, sans-serif',
+                              fontFamily: 'var(--font-ui)',
                             }}
                           >
                             {t('promingler.helper')}
@@ -1113,6 +1113,6 @@ const SUBLABEL: React.CSSProperties = {
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   color: 'var(--color-text-subtle)',
-  fontFamily: 'Poppins, sans-serif',
+  fontFamily: 'var(--font-ui)',
   marginBottom: 4,
 }

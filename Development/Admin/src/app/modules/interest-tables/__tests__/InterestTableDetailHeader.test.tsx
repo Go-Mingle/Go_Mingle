@@ -119,7 +119,9 @@ describe('InterestTableDetailHeader', () => {
     )
     expect(screen.getByRole('button', { name: /edit/i })).toBeInTheDocument()
     unmount()
-    renderWithProviders(<InterestTableDetailHeader table={makeTable({ status: 'COMPLETED' })} onEdit={onEdit} />)
+    renderWithProviders(
+      <InterestTableDetailHeader table={makeTable({ status: 'COMPLETED' })} onEdit={onEdit} />,
+    )
     expect(screen.queryByRole('button', { name: /edit/i })).not.toBeInTheDocument()
   })
 

@@ -28,7 +28,7 @@ export const labelStyle: React.CSSProperties = {
 
 export const coralBtn: React.CSSProperties = {
   background: 'var(--color-accent)',
-  color: '#fff',
+  color: 'var(--color-on-accent)',
   border: 'none',
   borderRadius: 12,
   height: 36,

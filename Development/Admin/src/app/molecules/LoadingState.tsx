@@ -13,6 +13,10 @@ interface LoadingStateProps {
  * that is on its way, so nothing jumps when the data arrives. Announces
  * politely to assistive tech via role="status".
  */
-export function LoadingState({ label = 'Loading', variant = 'detail', className }: LoadingStateProps) {
+export function LoadingState({
+  label = 'Loading',
+  variant = 'detail',
+  className,
+}: LoadingStateProps) {
   return <PageSkeleton variant={variant} label={label} className={className} />
 }

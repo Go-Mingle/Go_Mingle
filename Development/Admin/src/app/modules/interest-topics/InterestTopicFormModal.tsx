@@ -220,7 +220,7 @@ export function InterestTopicFormModal({
                     fontSize: 13,
                     fontWeight: 600,
                     color: 'var(--color-text)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {uploadMutation.isPending
@@ -233,7 +233,7 @@ export function InterestTopicFormModal({
                   style={{
                     fontSize: 12,
                     color: 'var(--color-text-muted)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                     lineHeight: 1.5,
                     textAlign: 'center',
                   }}
@@ -290,7 +290,7 @@ export function InterestTopicFormModal({
               style={{
                 height: 36,
                 borderRadius: 12,
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
                 fontSize: 13,
               }}
             >

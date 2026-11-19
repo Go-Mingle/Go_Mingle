@@ -99,7 +99,7 @@ export function ConfirmModal({
             fontWeight: 600,
             color: 'var(--color-text)',
             textAlign: 'center',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           {title}
@@ -110,7 +110,7 @@ export function ConfirmModal({
             fontSize: 13,
             color: 'var(--color-text-muted)',
             textAlign: 'center',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             lineHeight: 1.6,
           }}
         >

@@ -43,11 +43,7 @@ export function CountUp({ value, format = plain, duration = 650, className }: Re
   // Marked while the figure on screen is not yet the real one, so tests wait for it.
   const counting = !still && format(shown) !== text
   return (
-    <span
-      className={className}
-      aria-label={text}
-      data-counting={counting ? '' : undefined}
-    >
+    <span className={className} aria-label={text} data-counting={counting ? '' : undefined}>
       <span aria-hidden="true">{still ? text : format(shown)}</span>
     </span>
   )

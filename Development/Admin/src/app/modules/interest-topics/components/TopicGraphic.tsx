@@ -38,7 +38,7 @@ export const TopicGraphic = React.memo(function TopicGraphic({
   return (
     <div
       aria-label={name}
-      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--color-coral-light)] font-[Poppins] text-sm font-semibold text-[var(--color-coral-dark)]"
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--color-coral-light)] font-(--font-ui) text-sm font-semibold text-[var(--color-coral-dark)]"
     >
       {initial}
     </div>

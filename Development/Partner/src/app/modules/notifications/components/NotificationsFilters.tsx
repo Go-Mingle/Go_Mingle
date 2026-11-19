@@ -28,13 +28,13 @@ interface FilterOption<V extends string> {
 const NEUTRAL_BTN =
   'inline-flex items-center justify-center gap-1.5 h-10 px-4 rounded-[12px] border-[1.5px] ' +
   'bg-[var(--color-card)] border-[var(--color-border-strong)] text-[var(--color-text-secondary)] ' +
-  "font-['Poppins',sans-serif] text-[13px] font-medium cursor-pointer transition-colors " +
+  'font-(--font-ui) text-[13px] font-medium cursor-pointer transition-colors ' +
   'md:hover:border-[var(--color-text-muted)] md:hover:text-[var(--color-text)] whitespace-nowrap'
 
 const ACCENT_BTN =
   'inline-flex items-center justify-center gap-1.5 h-10 px-4 rounded-[12px] border-[1.5px] ' +
   'bg-[var(--color-accent-light)] border-[var(--color-accent)] text-[var(--color-accent-dark)] ' +
-  "font-['Poppins',sans-serif] text-[13px] font-medium cursor-pointer transition-colors " +
+  'font-(--font-ui) text-[13px] font-medium cursor-pointer transition-colors ' +
   'md:hover:bg-[var(--color-accent)] md:hover:text-white whitespace-nowrap'
 
 const MODAL_LABEL =
@@ -411,7 +411,7 @@ function MobileFilters({
         >
           <Funnel size={16} weight={activeFilterCount > 0 ? 'fill' : 'regular'} />
           {activeFilterCount > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 inline-flex items-center justify-center rounded-full bg-[var(--color-coral)] text-white text-[10px] font-bold leading-none">
+            <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 inline-flex items-center justify-center rounded-full bg-[var(--color-coral)] text-(--color-on-accent) text-[10px] font-bold leading-none">
               {activeFilterCount}
             </span>
           )}

@@ -14,9 +14,7 @@ export function WebhooksPage() {
   const c = useWebhooksPage()
 
   if (c.isPending) {
-    return (
-      <PageSkeleton variant="list" />
-    )
+    return <PageSkeleton variant="list" />
   }
 
   if (c.isError || !c.config) {

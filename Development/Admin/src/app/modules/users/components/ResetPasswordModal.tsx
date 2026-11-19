@@ -129,7 +129,7 @@ export function ResetPasswordModal({ target, onConfirm, onCancel }: ResetPasswor
           </Button>
           <button
             type="submit"
-            className="h-9 px-3 bg-(--color-accent) hover:bg-(--color-accent-dark) text-white border-none rounded-xl text-[13px] font-semibold cursor-pointer inline-flex items-center gap-1.5 transition-[background] duration-150 ease-out"
+            className="h-9 px-3 bg-(--color-accent) hover:bg-(--color-accent-dark) text-(--color-on-accent) border-none rounded-xl text-[13px] font-semibold cursor-pointer inline-flex items-center gap-1.5 transition-[background] duration-150 ease-out"
           >
             <Key size={14} weight="regular" color="white" />
             {t('modals.resetPassword.setPassword')}

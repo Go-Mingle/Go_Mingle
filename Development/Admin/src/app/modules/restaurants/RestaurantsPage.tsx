@@ -229,7 +229,7 @@ export function RestaurantsPage() {
             fontSize: isMobile ? 20 : 26,
             fontWeight: 700,
             color: 'var(--color-text)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
           }}
         >
           {t('restaurants:title')}

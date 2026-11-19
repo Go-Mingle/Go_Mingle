@@ -31,7 +31,10 @@ export function ViewProfileModal({
       footer={null}
     >
       <div className="text-center py-2 pb-4">
-        <Avatar size={64} className="bg-[var(--color-accent)] text-white text-[20px] font-bold">
+        <Avatar
+          size={64}
+          className="bg-[var(--color-accent)] text-(--color-on-accent) text-[20px] font-bold"
+        >
           {initials}
         </Avatar>
         <p className="text-[18px] font-bold text-[var(--color-text)] mt-3 mb-0">

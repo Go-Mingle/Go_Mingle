@@ -58,7 +58,9 @@ describe('Admin DashboardPage', () => {
       }),
     )
     renderWithProviders(<DashboardPage />)
-    expect(await screen.findByText('The dashboard could not be loaded.', {}, { timeout: 5000 })).toBeInTheDocument()
+    expect(
+      await screen.findByText('The dashboard could not be loaded.', {}, { timeout: 5000 }),
+    ).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Try again' }))
     expect(await screen.findByText('Collected from Minglers')).toBeInTheDocument()
   })

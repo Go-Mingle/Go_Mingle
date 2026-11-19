@@ -94,7 +94,7 @@ export function RoleFormModal({
         />
         <span
           className={[
-            'font-[Poppins] text-[13px]',
+            'font-(--font-ui) text-[13px]',
             selected
               ? 'font-semibold text-accent-dark'
               : 'font-normal text-(--color-text-secondary)',
@@ -107,7 +107,7 @@ export function RoleFormModal({
   }
 
   const sectionHeading = (label: string) => (
-    <div className="font-[Poppins] text-[11px] font-bold tracking-widest uppercase text-(--color-text-subtle) mt-4 mb-2.5">
+    <div className="font-(--font-ui) text-[11px] font-bold tracking-widest uppercase text-(--color-text-subtle) mt-4 mb-2.5">
       {label}
     </div>
   )
@@ -170,10 +170,10 @@ export function RoleFormModal({
               className="mt-0.5 shrink-0"
             />
             <div className="min-w-0 flex-1">
-              <div className="font-[Poppins] text-sm font-semibold text-(--color-text) leading-[1.4]">
+              <div className="font-(--font-ui) text-sm font-semibold text-(--color-text) leading-[1.4]">
                 {t('form.fullAccess')}
               </div>
-              <div className="mt-1 font-[Poppins] text-xs font-normal text-(--color-text-muted) leading-normal">
+              <div className="mt-1 font-(--font-ui) text-xs font-normal text-(--color-text-muted) leading-normal">
                 {t('form.fullAccessLabel')}
               </div>
             </div>

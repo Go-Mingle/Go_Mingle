@@ -102,7 +102,7 @@ export function EditProfileModal({
                 src={previewUrl ?? undefined}
                 style={{
                   backgroundColor: 'var(--color-accent)',
-                  color: '#fff',
+                  color: 'var(--color-on-accent)',
                   fontSize: 26,
                   fontWeight: 700,
                 }}

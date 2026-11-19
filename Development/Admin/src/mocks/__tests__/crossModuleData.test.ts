@@ -34,12 +34,17 @@ afterEach(() => {
 
 describe('roles and users', () => {
   it('a new user carries the real role, and the role counts them', async () => {
-    const role = (await call<RoleBody>('POST', '/api/v1/roles', {
-      name: 'Night Manager',
-      fullAccess: false,
-      permissions: ['BOOKINGS'],
-    })).json
-    const active = await call<{ items: { id: string; name: string }[] }>('GET', '/api/v1/roles/active')
+    const role = (
+      await call<RoleBody>('POST', '/api/v1/roles', {
+        name: 'Night Manager',
+        fullAccess: false,
+        permissions: ['BOOKINGS'],
+      })
+    ).json
+    const active = await call<{ items: { id: string; name: string }[] }>(
+      'GET',
+      '/api/v1/roles/active',
+    )
     expect(active.json.items).toContainEqual({ id: role.id, name: 'Night Manager' })
 
     const created = await call<Envelope<UserBody>>('POST', '/api/v1/users', {
@@ -50,7 +55,11 @@ describe('roles and users', () => {
       confirmPassword: 'Secret@123',
     })
     expect(created.status).toBe(201)
-    expect(created.json.data.role).toEqual({ id: role.id, name: 'Night Manager', fullAccess: false })
+    expect(created.json.data.role).toEqual({
+      id: role.id,
+      name: 'Night Manager',
+      fullAccess: false,
+    })
 
     const detail = await call<Envelope<RoleBody>>('GET', `/api/v1/roles/${role.id}`)
     expect(detail.json.data.usersAssigned).toBe(1)
@@ -61,7 +70,9 @@ describe('roles and users', () => {
     await call('PATCH', `/api/v1/roles/${role.id}`, { name: 'Night Lead', usersAssigned: 99 })
     const user = await call<Envelope<UserBody>>('GET', `/api/v1/users/${created.json.data.id}`)
     expect(user.json.data.role.name).toBe('Night Lead')
-    expect((await call<Envelope<RoleBody>>('GET', `/api/v1/roles/${role.id}`)).json.data.usersAssigned).toBe(1)
+    expect(
+      (await call<Envelope<RoleBody>>('GET', `/api/v1/roles/${role.id}`)).json.data.usersAssigned,
+    ).toBe(1)
 
     // A role still held cannot be deleted.
     const blocked = await call<Envelope<null>>('DELETE', `/api/v1/roles/${role.id}`)
@@ -88,7 +99,10 @@ describe('roles and users', () => {
 
   it('hides and protects whoever is signed in', async () => {
     setMockCurrentUserId('u2')
-    const list = await call<Envelope<{ items: { id: string }[] }>>('GET', '/api/v1/users?page=1&pageSize=50')
+    const list = await call<Envelope<{ items: { id: string }[] }>>(
+      'GET',
+      '/api/v1/users?page=1&pageSize=50',
+    )
     const ids = list.json.data.items.map((u) => u.id)
     expect(ids).not.toContain('u2')
     expect(ids).toContain('u1')
@@ -102,12 +116,14 @@ describe('interest tables created by the admin', () => {
     const topic = mockInterestTopics[0]
     const table = restaurant.tables[0]
     const combo = restaurant.combos[0]
-    const res = await call<Envelope<{
-      id: string
-      restaurant: { name: string }
-      topic: { id: string; name: string } | null
-      assignedTable: { id: string; name: string } | null
-    }>>('POST', `/api/v1/restaurants/${restaurant.id}/interest-tables`, {
+    const res = await call<
+      Envelope<{
+        id: string
+        restaurant: { name: string }
+        topic: { id: string; name: string } | null
+        assignedTable: { id: string; name: string } | null
+      }>
+    >('POST', `/api/v1/restaurants/${restaurant.id}/interest-tables`, {
       name: 'Founders Supper',
       topicId: topic.id,
       maxGuests: 6,
@@ -132,16 +148,21 @@ describe('interest tables created by the admin', () => {
     expect(menu.json.data.items.map((m) => m.id)).toEqual([combo.id])
 
     // Nobody is invited to a brand-new table.
-    const invitees = await call<Envelope<{ items: unknown[] }>>('GET', `/api/v1/interest-tables/${it.id}/invitees`)
+    const invitees = await call<Envelope<{ items: unknown[] }>>(
+      'GET',
+      `/api/v1/interest-tables/${it.id}/invitees`,
+    )
     expect(invitees.json.data.items).toEqual([])
 
     // Editing the topic and table re-resolves their names.
     const otherTable = restaurant.tables[1]
-    const edited = await call<Envelope<{ assignedTable: { name: string }; durationMinutes: number }>>(
-      'PATCH',
-      `/api/v1/interest-tables/${it.id}`,
-      { restaurantTableId: otherTable.id, durationMinutes: 90, menuOptionIds: [] },
-    )
+    const edited = await call<
+      Envelope<{ assignedTable: { name: string }; durationMinutes: number }>
+    >('PATCH', `/api/v1/interest-tables/${it.id}`, {
+      restaurantTableId: otherTable.id,
+      durationMinutes: 90,
+      menuOptionIds: [],
+    })
     expect(edited.json.data.assignedTable.name).toBe(otherTable.name)
     expect(edited.json.data.durationMinutes).toBe(90)
   })
@@ -194,7 +215,10 @@ describe('amenity icons', () => {
     const res = await upload<Envelope<{ id: string; iconUrl: string }>>(
       'POST',
       '/api/v1/amenities',
-      multipart({ name: 'Rooftop Shisha', icon: { name: 'shisha.svg', type: 'image/svg+xml', text: svg } }),
+      multipart({
+        name: 'Rooftop Shisha',
+        icon: { name: 'shisha.svg', type: 'image/svg+xml', text: svg },
+      }),
     )
     expect(res.status).toBe(201)
     expect(res.json.data.iconUrl).toBe(`data:image/svg+xml;base64,${btoa(svg)}`)
@@ -210,13 +234,21 @@ describe('amenity icons', () => {
 
 describe('uploads', () => {
   it('serve the uploaded bytes back from the public URL used for topic graphics', async () => {
-    const signed = await call<Envelope<{ uploadUrl: string; key: string }>>('POST', '/api/v1/uploads/signed-url', {
-      fileName: 'g.png',
-      contentType: 'image/png',
-      purpose: 'TOPIC_GRAPHIC',
-    })
+    const signed = await call<Envelope<{ uploadUrl: string; key: string }>>(
+      'POST',
+      '/api/v1/uploads/signed-url',
+      {
+        fileName: 'g.png',
+        contentType: 'image/png',
+        purpose: 'TOPIC_GRAPHIC',
+      },
+    )
     const { uploadUrl, key } = signed.json.data
-    const put = await fetch(uploadUrl, { method: 'PUT', headers: { 'Content-Type': 'image/png' }, body: 'PNGDATA' })
+    const put = await fetch(uploadUrl, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'image/png' },
+      body: 'PNGDATA',
+    })
     expect(put.status).toBe(200)
 
     const topic = await call<{ graphicUrl: string } & Partial<Envelope<{ graphicUrl: string }>>>(

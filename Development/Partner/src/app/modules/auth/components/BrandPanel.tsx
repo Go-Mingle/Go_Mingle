@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { ChartLineUp, ShieldCheck, UsersThree } from '@phosphor-icons/react'
 import { GoMingleLogo } from '../../../atoms/GoMingleLogo'
-import markUrl from '../../../../assets/gomingle-mark.png'
 
 /** Landing hero in the GoMingle brand colours: logo navy with coral accents. */
 export function BrandPanel() {
@@ -49,13 +48,6 @@ export function BrandPanel() {
           />
         ))}
       </svg>
-      <img
-        src={markUrl}
-        alt=""
-        aria-hidden="true"
-        draggable={false}
-        className="absolute pointer-events-none w-[44px] h-[44px] right-[88px] bottom-[78px] opacity-[0.55]"
-      />
 
       {/* Logo */}
       <div className="mb-14">

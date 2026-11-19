@@ -245,15 +245,21 @@ describe('PhotosVideosTab — photos', () => {
     const card = cardFor('bar.jpg')
     expect(within(card).getByText('Profile photo')).toBeInTheDocument()
     expect(within(card).getByRole('button', { name: 'Adjust profile photo' })).toBeInTheDocument()
-    await userEvent.setup().click(within(card).getByRole('button', { name: 'Remove profile photo' }))
+    await userEvent
+      .setup()
+      .click(within(card).getByRole('button', { name: 'Remove profile photo' }))
     expect(c.removeProfile).toHaveBeenCalled()
     const cover = PHOTOS.find((p) => p.isCover)!
-    expect(within(cardFor(cover.name)).getByRole('button', { name: 'Adjust cover photo' })).toBeInTheDocument()
+    expect(
+      within(cardFor(cover.name)).getByRole('button', { name: 'Adjust cover photo' }),
+    ).toBeInTheDocument()
   })
 
   it('offers no cover or profile actions while the profile is read-only', () => {
     renderTab({ editable: false })
-    expect(screen.queryByRole('button', { name: /set as cover|set as profile/i })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: /set as cover|set as profile/i }),
+    ).not.toBeInTheDocument()
   })
 
   it('requests confirmation before deleting a photo', async () => {

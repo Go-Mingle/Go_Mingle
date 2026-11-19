@@ -21,7 +21,7 @@ function NeutralChip({ label }: { label: string }) {
         padding: '3px 10px',
         marginRight: 6,
         marginBottom: 4,
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         fontSize: 12,
         fontWeight: 500,
       }}
@@ -35,7 +35,7 @@ function MutedText({ children }: { children: string }) {
   return (
     <span
       style={{
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         fontSize: 14,
         fontWeight: 500,
         color: 'var(--color-text-muted)',
@@ -64,7 +64,7 @@ export function MinglerEatingPreferencesTab({
     return (
       <p
         style={{
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           fontSize: 14,
           color: 'var(--color-text-muted)',
           padding: '24px 0',
@@ -82,12 +82,12 @@ export function MinglerEatingPreferencesTab({
         borderRadius: 12,
         boxShadow: 'var(--shadow-sm)',
         padding: 24,
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
       }}
     >
       <h3
         style={{
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           fontSize: 16,
           fontWeight: 700,
           color: 'var(--color-text)',

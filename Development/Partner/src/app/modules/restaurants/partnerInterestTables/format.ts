@@ -1,10 +1,6 @@
 import { formatPkr } from '../../finances/financesFormat'
 import type { StatusVariant } from '../../../atoms/StatusBadge'
-import type {
-  EatingPreference,
-  InviteStatus,
-  ProminglerKind,
-} from './types'
+import type { EatingPreference, InviteStatus, ProminglerKind } from './types'
 
 /**
  * Display helpers for the Interest Tables surface.
