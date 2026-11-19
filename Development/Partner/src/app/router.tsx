@@ -11,6 +11,7 @@ import {
   SessionBoundary,
 } from './modules/session/SessionGate'
 import { useIsPrimaryUser } from './modules/session/SessionContext'
+import { FEATURES } from '../shared/config/features'
 import { PORTAL_ROUTES } from './modules/session/routePaths'
 
 const LoginPage = lazy(() =>
@@ -161,12 +162,17 @@ export const router = createBrowserRouter([
                 ),
               },
               { path: '/notifications', element: wrap(<NotificationsPage />) },
+              // Webhooks are hidden until the API delivers them; the address goes home.
               {
                 path: '/integrations',
-                element: wrap(
-                  <FullPortalOnly>
-                    <WebhooksPage />
-                  </FullPortalOnly>,
+                element: FEATURES.integrations ? (
+                  wrap(
+                    <FullPortalOnly>
+                      <WebhooksPage />
+                    </FullPortalOnly>,
+                  )
+                ) : (
+                  <Navigate to="/" replace />
                 ),
               },
             ],

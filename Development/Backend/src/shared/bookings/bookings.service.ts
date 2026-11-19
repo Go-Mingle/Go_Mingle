@@ -20,7 +20,16 @@ const CHECK_EVERY_MS = 15 * 60_000
 
 /** "Fri 20 Nov 2026, 7:30 pm" in Pakistan time. */
 const pkDateTime = (ms: number) =>
-  new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Karachi', weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
+  new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Karachi',
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })
     .format(new Date(ms))
     .replace(' at ', ', ')
 const fmtPkr = (n: number) => `PKR ${Number(n).toLocaleString('en-PK', { maximumFractionDigits: 2 })}`
@@ -93,7 +102,15 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
    * Books seats at an interest table under the restaurant's current no-show
    * policy and reserves the penalty on the card.
    */
-  async book(input: { interestTableId: string; minglerName: string; minglerEmail?: string | null; seats: unknown; menuOption?: string; fallbackSeatPricePkr?: number; by: string }) {
+  async book(input: {
+    interestTableId: string
+    minglerName: string
+    minglerEmail?: string | null
+    seats: unknown
+    menuOption?: string
+    fallbackSeatPricePkr?: number
+    by: string
+  }) {
     const table = await this.tables.find(input.interestTableId)
     if (!table) throw apiError(404, 'ERR_INTEREST_TABLE_NOT_FOUND', 'Interest table not found.')
     if (!['PENDING', 'CONFIRMED'].includes(table.status)) {
@@ -101,6 +118,7 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
     }
     const seats = Number(input.seats)
     if (!Number.isInteger(seats) || seats < 1) throw apiError(422, 'ERR_VALIDATION', 'Seats must be a whole number of 1 or more.')
+    // A quick answer from what was just read; the claim below is the real check.
     const seatsLeft = Math.max(0, (table.maxGuests ?? 0) - table.seatsBooked)
     if (seats > seatsLeft) throw apiError(409, 'ERR_TABLE_FULL', `Only ${seatsLeft} seat${seatsLeft === 1 ? '' : 's'} left at this table.`, { seatsLeft })
     // A table that has already started (Pakistan time) takes no more bookings; such a
@@ -110,6 +128,27 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
         startsAt: new Date(startsAt(table)).toISOString(),
       })
     }
+
+    // Claim the seats first, in one statement that only succeeds while they are
+    // free. Two people reaching for the last seat at the same moment cannot both
+    // get it: the database applies one update, and the other finds the table full.
+    const claimed = await this.db
+      .update(interestTables)
+      .set({ seatsBooked: sql`${interestTables.seatsBooked} + ${seats}` })
+      .where(and(eq(interestTables.id, table.id), sql`${interestTables.seatsBooked} + ${seats} <= coalesce(${interestTables.maxGuests}, 0)`))
+      .returning({ seatsBooked: interestTables.seatsBooked })
+    if (claimed.length === 0) {
+      const now = await this.tables.find(table.id)
+      const left = Math.max(0, (now?.maxGuests ?? 0) - (now?.seatsBooked ?? 0))
+      throw apiError(409, 'ERR_TABLE_FULL', `Only ${left} seat${left === 1 ? '' : 's'} left at this table.`, { seatsLeft: left })
+    }
+    // From here on, anything that fails gives the seats back.
+    const giveSeatsBack = () =>
+      this.db
+        .update(interestTables)
+        .set({ seatsBooked: sql`greatest(0, ${interestTables.seatsBooked} - ${seats})` })
+        .where(eq(interestTables.id, table.id))
+        .catch(() => undefined)
 
     const [restaurant] = await this.db.select().from(restaurants).where(eq(restaurants.id, table.restaurantId))
     const menu = await this.menuOptionFor(table, input.menuOption)
@@ -142,30 +181,37 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
     } catch (err) {
       // A booking with only some of its seats held would under-charge: undo and refuse.
       for (const h of holds) await this.escrow.releaseHold(h.id, input.by, 'Booking could not be completed').catch(() => undefined)
+      await giveSeatsBack()
       throw err
     }
-    const [booking] = await this.db
-      .insert(bookings)
-      .values({
-        id,
-        bookingRef,
-        interestTableId: table.id,
-        restaurantId: table.restaurantId,
-        minglerName: input.minglerName,
-        minglerEmail: input.minglerEmail?.trim() || null,
-        seats,
-        menuOption: menu?.name ?? input.menuOption ?? '',
-        // A table without a menu option has no price of its own; a sandbox booking may bring one.
-        seatPricePkr: menu?.pricePkr ?? (input.fallbackSeatPricePkr && input.fallbackSeatPricePkr > 0 ? round(input.fallbackSeatPricePkr) : 0),
-        status: 'CONFIRMED',
-        penaltyPerSeatPkr: penalty,
-        cancellationWindowHours: restaurant?.cancellationWindowHours ?? 24,
-        escrowHoldId: holds[0]?.id ?? null,
-        createdAt: now,
-        updatedAt: now,
-      })
-      .returning()
-    await this.db.update(interestTables).set({ seatsBooked: sql`${interestTables.seatsBooked} + ${seats}` }).where(eq(interestTables.id, table.id))
+    let booking: Booking
+    try {
+      ;[booking] = await this.db
+        .insert(bookings)
+        .values({
+          id,
+          bookingRef,
+          interestTableId: table.id,
+          restaurantId: table.restaurantId,
+          minglerName: input.minglerName,
+          minglerEmail: input.minglerEmail?.trim() || null,
+          seats,
+          menuOption: menu?.name ?? input.menuOption ?? '',
+          // A table without a menu option has no price of its own; a sandbox booking may bring one.
+          seatPricePkr: menu?.pricePkr ?? (input.fallbackSeatPricePkr && input.fallbackSeatPricePkr > 0 ? round(input.fallbackSeatPricePkr) : 0),
+          status: 'CONFIRMED',
+          penaltyPerSeatPkr: penalty,
+          cancellationWindowHours: restaurant?.cancellationWindowHours ?? 24,
+          escrowHoldId: holds[0]?.id ?? null,
+          createdAt: now,
+          updatedAt: now,
+        })
+        .returning()
+    } catch (err) {
+      for (const h of holds) await this.escrow.releaseHold(h.id, input.by, 'Booking could not be completed').catch(() => undefined)
+      await giveSeatsBack()
+      throw err
+    }
     return { booking, holds, heldTotalPkr: round(penalty * holds.length) }
   }
 
@@ -299,17 +345,21 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
       metadata: { bookingId: b.id, interestTableId: b.interestTableId, emptySeats, penaltyPkr: charged },
     })
     if (charged > 0 && b.minglerEmail) {
-      await this.mail.send('mingler_no_show_penalty', { email: b.minglerEmail, name: b.minglerName }, {
-        name: b.minglerName,
-        restaurantName: (await this.tables.restaurantNames()).get(b.restaurantId) ?? 'the restaurant',
-        eventName: table?.name ?? 'your interest table',
-        eventDate: table ? pkDateTime(startsAt(table)) : '',
-        emptySeats,
-        seats: b.seats,
-        penaltyPerSeat: fmtPkr(b.penaltyPerSeatPkr),
-        penaltyTotal: fmtPkr(charged),
-        bookingRef: b.bookingRef,
-      })
+      await this.mail.send(
+        'mingler_no_show_penalty',
+        { email: b.minglerEmail, name: b.minglerName },
+        {
+          name: b.minglerName,
+          restaurantName: (await this.tables.restaurantNames()).get(b.restaurantId) ?? 'the restaurant',
+          eventName: table?.name ?? 'your interest table',
+          eventDate: table ? pkDateTime(startsAt(table)) : '',
+          emptySeats,
+          seats: b.seats,
+          penaltyPerSeat: fmtPkr(b.penaltyPerSeatPkr),
+          penaltyTotal: fmtPkr(charged),
+          bookingRef: b.bookingRef,
+        },
+      )
     }
     if (automatic) {
       await this.notifications.notifyPartner(b.restaurantId, {
