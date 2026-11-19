@@ -3,7 +3,10 @@ import { http, HttpResponse } from 'msw'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { server } from '../../../../../mocks/server'
-import { mockNoShowPolicy, setMockNoShowPolicy } from '../../../../../mocks/handlers/partnerNoShowPolicy'
+import {
+  mockNoShowPolicy,
+  setMockNoShowPolicy,
+} from '../../../../../mocks/handlers/partnerNoShowPolicy'
 import { tokenStore } from '../../../../../shared/auth/tokenStore'
 import { renderWithProviders } from '../../../../../test-utils/renderWithProviders'
 import { NO_SHOW_POLICY_ENDPOINT } from '../constants'
@@ -41,7 +44,10 @@ describe('NoShowPolicyTab', () => {
     expect(await screen.findByText('PKR 1,500 per seat')).toBeInTheDocument()
     expect(screen.getByText('Up to 1 hour before the table starts')).toBeInTheDocument()
     expect(feedback.showSuccess).toHaveBeenCalledWith('No-show policy saved.')
-    expect(mockNoShowPolicy()).toMatchObject({ penaltyPerSeatPkr: 1500, cancellationWindowHours: 1 })
+    expect(mockNoShowPolicy()).toMatchObject({
+      penaltyPerSeatPkr: 1500,
+      cancellationWindowHours: 1,
+    })
   })
 
   it('accepts a zero penalty', async () => {
@@ -77,7 +83,9 @@ describe('NoShowPolicyTab', () => {
             error: {
               code: 'ERR_VALIDATION',
               message: 'Please correct the highlighted fields.',
-              details: { fields: { penaltyPerSeatPkr: 'The penalty can be at most PKR 100,000 per seat.' } },
+              details: {
+                fields: { penaltyPerSeatPkr: 'The penalty can be at most PKR 100,000 per seat.' },
+              },
             },
           },
           { status: 422 },
@@ -87,12 +95,21 @@ describe('NoShowPolicyTab', () => {
     const { feedback, user } = setup()
     await user.click(await screen.findByRole('button', { name: 'Edit no-show policy' }))
     await user.click(screen.getByRole('button', { name: 'Save policy' }))
-    expect(await screen.findByText('The penalty can be at most PKR 100,000 per seat.')).toBeInTheDocument()
+    expect(
+      await screen.findByText('The penalty can be at most PKR 100,000 per seat.'),
+    ).toBeInTheDocument()
     expect(feedback.showError).not.toHaveBeenCalled()
   })
 
   it('reports a failed save and a failed load', async () => {
-    server.use(http.put(NO_SHOW_POLICY_ENDPOINT, () => HttpResponse.json({ success: false, error: { code: 'ERR_INTERNAL', message: 'Boom' } }, { status: 500 })))
+    server.use(
+      http.put(NO_SHOW_POLICY_ENDPOINT, () =>
+        HttpResponse.json(
+          { success: false, error: { code: 'ERR_INTERNAL', message: 'Boom' } },
+          { status: 500 },
+        ),
+      ),
+    )
     const { feedback, user } = setup()
     await user.click(await screen.findByRole('button', { name: 'Edit no-show policy' }))
     await user.click(screen.getByRole('button', { name: 'Save policy' }))
@@ -100,7 +117,14 @@ describe('NoShowPolicyTab', () => {
   })
 
   it('shows an error when the policy cannot be loaded', async () => {
-    server.use(http.get(NO_SHOW_POLICY_ENDPOINT, () => HttpResponse.json({ success: false, error: { code: 'ERR_INTERNAL', message: 'Could not load.' } }, { status: 500 })))
+    server.use(
+      http.get(NO_SHOW_POLICY_ENDPOINT, () =>
+        HttpResponse.json(
+          { success: false, error: { code: 'ERR_INTERNAL', message: 'Could not load.' } },
+          { status: 500 },
+        ),
+      ),
+    )
     setup()
     expect(await screen.findByText('Could not load.', {}, { timeout: 8000 })).toBeInTheDocument()
   })

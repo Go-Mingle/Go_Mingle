@@ -24,7 +24,7 @@ import {
 
 type Contacts = ReturnType<typeof useProfileContacts>
 
-const CELL = 'font-[Poppins,sans-serif] text-sm font-medium text-[var(--color-text-secondary)]'
+const CELL = 'font-(--font-ui) text-sm font-medium text-[var(--color-text-secondary)]'
 
 /** antd's third click clears the sort; the endpoint has no unsorted state. */
 const TWO_WAY_SORT: SortOrder[] = ['ascend', 'descend']
@@ -161,7 +161,7 @@ export function ContactsTab({ c }: { c: Contacts }) {
         value ? (
           <a
             href={`mailto:${value}`}
-            className="font-[Poppins,sans-serif] text-sm font-medium text-[var(--color-accent)] no-underline"
+            className="font-(--font-ui) text-sm font-medium text-[var(--color-accent)] no-underline"
           >
             {value}
           </a>

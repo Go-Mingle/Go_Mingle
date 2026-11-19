@@ -31,7 +31,10 @@ export function mockDashboardOverview(days: number): Insights {
     })
   const daily = make(0)
   const before = make(days)
-  const pair = (pick: (r: Insights['daily'][number]) => number) => ({ value: sum(daily, pick), previous: sum(before, pick) })
+  const pair = (pick: (r: Insights['daily'][number]) => number) => ({
+    value: sum(daily, pick),
+    previous: sum(before, pick),
+  })
   const bookings = sum(daily, (r) => r.bookings)
   const at = (d: number, h: number) => new Date(today + d * DAY + h * 3_600_000).toISOString()
   return {
@@ -53,21 +56,89 @@ export function mockDashboardOverview(days: number): Insights {
       partial: Math.round(bookings * 0.12),
       noShow: Math.round(bookings * 0.04),
       cancelled: Math.round(bookings * 0.07),
-      upcoming: bookings - Math.round(bookings * 0.62) - Math.round(bookings * 0.12) - Math.round(bookings * 0.04) - Math.round(bookings * 0.07),
+      upcoming:
+        bookings -
+        Math.round(bookings * 0.62) -
+        Math.round(bookings * 0.12) -
+        Math.round(bookings * 0.04) -
+        Math.round(bookings * 0.07),
     },
-    escrow: { heldPkr: 42_000, inEscrowPkr: 96_600, paidOutPkr: 1_284_300, refundedPkr: 31_500, feePct: 12 },
+    escrow: {
+      heldPkr: 42_000,
+      inEscrowPkr: 96_600,
+      paidOutPkr: 1_284_300,
+      refundedPkr: 31_500,
+      feePct: 12,
+    },
     upcoming: [
-      { id: 'it-1', name: 'Startup Mixer', restaurantId: 'r1', restaurantName: 'Kolachi', startsAt: at(1, 2), maxGuests: 8, bookedSeats: 6 },
-      { id: 'it-2', name: 'Book Club Supper', restaurantId: 'r2', restaurantName: 'Café Flo', startsAt: at(3, 3), maxGuests: 6, bookedSeats: 4 },
-      { id: 'it-3', name: 'Chess & Chai', restaurantId: 'r3', restaurantName: 'Tuscany Courtyard', startsAt: at(5, 1), maxGuests: 6, bookedSeats: 6 },
-      { id: 'it-4', name: 'Founders Breakfast', restaurantId: 'r1', restaurantName: 'Kolachi', startsAt: at(8, -6), maxGuests: 8, bookedSeats: 3 },
+      {
+        id: 'it-1',
+        name: 'Startup Mixer',
+        restaurantId: 'r1',
+        restaurantName: 'Kolachi',
+        startsAt: at(1, 2),
+        maxGuests: 8,
+        bookedSeats: 6,
+      },
+      {
+        id: 'it-2',
+        name: 'Book Club Supper',
+        restaurantId: 'r2',
+        restaurantName: 'Café Flo',
+        startsAt: at(3, 3),
+        maxGuests: 6,
+        bookedSeats: 4,
+      },
+      {
+        id: 'it-3',
+        name: 'Chess & Chai',
+        restaurantId: 'r3',
+        restaurantName: 'Tuscany Courtyard',
+        startsAt: at(5, 1),
+        maxGuests: 6,
+        bookedSeats: 6,
+      },
+      {
+        id: 'it-4',
+        name: 'Founders Breakfast',
+        restaurantId: 'r1',
+        restaurantName: 'Kolachi',
+        startsAt: at(8, -6),
+        maxGuests: 8,
+        bookedSeats: 3,
+      },
     ],
     topRestaurants: [
-      { id: 'r1', name: 'Kolachi', bookings: Math.round(bookings * 0.34), collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.34) },
-      { id: 'r3', name: 'Tuscany Courtyard', bookings: Math.round(bookings * 0.25), collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.26) },
-      { id: 'r2', name: 'Café Flo', bookings: Math.round(bookings * 0.21), collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.19) },
-      { id: 'r4', name: 'Xanders', bookings: Math.round(bookings * 0.12), collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.13) },
-      { id: 'r5', name: 'Okra', bookings: Math.round(bookings * 0.08), collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.08) },
+      {
+        id: 'r1',
+        name: 'Kolachi',
+        bookings: Math.round(bookings * 0.34),
+        collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.34),
+      },
+      {
+        id: 'r3',
+        name: 'Tuscany Courtyard',
+        bookings: Math.round(bookings * 0.25),
+        collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.26),
+      },
+      {
+        id: 'r2',
+        name: 'Café Flo',
+        bookings: Math.round(bookings * 0.21),
+        collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.19),
+      },
+      {
+        id: 'r4',
+        name: 'Xanders',
+        bookings: Math.round(bookings * 0.12),
+        collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.13),
+      },
+      {
+        id: 'r5',
+        name: 'Okra',
+        bookings: Math.round(bookings * 0.08),
+        collectedPkr: Math.round(sum(daily, (r) => r.collectedPkr) * 0.08),
+      },
     ],
     restaurants: { active: 7, suspended: 1, pendingApproval: 5 },
   }

@@ -35,7 +35,9 @@ describe('partnerProfileService.get', () => {
 
   it('points the cover at the photo the partner chose, on the CDN', async () => {
     setMockCoverPhoto('photos/photo-7.jpg')
-    expect((await partnerProfileService.get()).coverPhotoUrl).toBe('https://cdn.mock.local/photo-7.jpg')
+    expect((await partnerProfileService.get()).coverPhotoUrl).toBe(
+      'https://cdn.mock.local/photo-7.jpg',
+    )
   })
 
   it('shows the category and commission GoMingle assigned on approval', async () => {

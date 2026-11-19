@@ -128,7 +128,7 @@ export const UserMenuDropdown: FC<Props> = () => {
           style={{
             fontSize: 14,
             color: 'var(--color-text-muted)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             margin: '4px 0 0',
           }}
         >
@@ -140,7 +140,7 @@ export const UserMenuDropdown: FC<Props> = () => {
             style={{
               height: 36,
               borderRadius: 12,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 13,
             }}
           >
@@ -158,7 +158,7 @@ export const UserMenuDropdown: FC<Props> = () => {
               color: 'white',
               border: 'none',
               borderRadius: 12,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 13,
               fontWeight: 600,
               cursor: 'pointer',

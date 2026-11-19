@@ -46,9 +46,7 @@ describe('useUpdateRestaurantCardMutation', () => {
 
   it('merges the updated record into an existing ["restaurant", id] cache entry', async () => {
     server.use(
-      http.put('/api/restaurants/:id', () =>
-        HttpResponse.json({ name: 'Updated', rating: 5 }),
-      ),
+      http.put('/api/restaurants/:id', () => HttpResponse.json({ name: 'Updated', rating: 5 })),
     )
     const queryClient = makeQueryClient()
     queryClient.setQueryData(['restaurant', 'r-1'], {

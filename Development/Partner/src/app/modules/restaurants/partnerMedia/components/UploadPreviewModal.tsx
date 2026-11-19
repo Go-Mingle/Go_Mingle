@@ -40,7 +40,7 @@ interface Props {
 }
 
 const LABEL = 'text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-muted)]'
-const VALUE = 'font-[Poppins,sans-serif] text-sm font-medium text-[var(--color-text-secondary)]'
+const VALUE = 'font-(--font-ui) text-sm font-medium text-[var(--color-text-secondary)]'
 
 /**
  * The preview → submit step every upload goes through (BR-07).

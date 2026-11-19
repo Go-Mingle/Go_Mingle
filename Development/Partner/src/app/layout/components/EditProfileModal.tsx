@@ -73,7 +73,7 @@ export function EditProfileModal({
               <Avatar
                 size={80}
                 src={previewUrl ?? undefined}
-                className="bg-[var(--color-accent)] text-white text-[26px] font-bold"
+                className="bg-[var(--color-accent)] text-(--color-on-accent) text-[26px] font-bold"
               >
                 {!previewUrl && initials}
               </Avatar>

@@ -116,8 +116,8 @@ export function sanitiseLedgerParams(raw: RawParams = {}): FinancesLedgerParams 
 export function hasNarrowingFilters(params: FinancesLedgerParams): boolean {
   return Boolean(
     params.search?.trim() ||
-      (params.dateFrom && params.dateTo) ||
-      (params.period && params.period !== FINANCES_DEFAULT_PERIOD),
+    (params.dateFrom && params.dateTo) ||
+    (params.period && params.period !== FINANCES_DEFAULT_PERIOD),
   )
 }
 

@@ -1,4 +1,4 @@
-const baseTextClass = 'font-[Poppins,sans-serif] text-sm font-medium'
+const baseTextClass = 'font-(--font-ui) text-sm font-medium'
 const LINK_CLASS = 'text-[var(--color-accent)] cursor-pointer hover:underline'
 
 interface LedgerLinkCellProps {

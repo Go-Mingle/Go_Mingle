@@ -34,9 +34,7 @@ describe('WebhookStatusHeader', () => {
   })
 
   it('enables the switch and hides the locked hint when it can be enabled', () => {
-    renderWithProviders(
-      <WebhookStatusHeader {...makeProps({ enabled: false, canEnable: true })} />,
-    )
+    renderWithProviders(<WebhookStatusHeader {...makeProps({ enabled: false, canEnable: true })} />)
 
     expect(screen.getByRole('switch')).toBeEnabled()
     expect(
@@ -56,9 +54,7 @@ describe('WebhookStatusHeader', () => {
   })
 
   it('keeps the switch enabled and hides the hint when already on even if it cannot be enabled', () => {
-    renderWithProviders(
-      <WebhookStatusHeader {...makeProps({ enabled: true, canEnable: false })} />,
-    )
+    renderWithProviders(<WebhookStatusHeader {...makeProps({ enabled: true, canEnable: false })} />)
 
     expect(screen.getByRole('switch')).toBeEnabled()
     expect(
@@ -68,9 +64,7 @@ describe('WebhookStatusHeader', () => {
 
   it('requests turning the webhook on when the off switch is toggled', async () => {
     const onToggleRequest = vi.fn()
-    renderWithProviders(
-      <WebhookStatusHeader {...makeProps({ enabled: false, onToggleRequest })} />,
-    )
+    renderWithProviders(<WebhookStatusHeader {...makeProps({ enabled: false, onToggleRequest })} />)
 
     await userEvent.click(screen.getByRole('switch'))
     expect(onToggleRequest).toHaveBeenCalledWith(true)
@@ -78,9 +72,7 @@ describe('WebhookStatusHeader', () => {
 
   it('requests turning the webhook off when the on switch is toggled', async () => {
     const onToggleRequest = vi.fn()
-    renderWithProviders(
-      <WebhookStatusHeader {...makeProps({ enabled: true, onToggleRequest })} />,
-    )
+    renderWithProviders(<WebhookStatusHeader {...makeProps({ enabled: true, onToggleRequest })} />)
 
     await userEvent.click(screen.getByRole('switch'))
     expect(onToggleRequest).toHaveBeenCalledWith(false)
@@ -89,9 +81,7 @@ describe('WebhookStatusHeader', () => {
   it('does not fire a toggle request while the switch is locked', async () => {
     const onToggleRequest = vi.fn()
     renderWithProviders(
-      <WebhookStatusHeader
-        {...makeProps({ enabled: false, canEnable: false, onToggleRequest })}
-      />,
+      <WebhookStatusHeader {...makeProps({ enabled: false, canEnable: false, onToggleRequest })} />,
     )
 
     await userEvent.click(screen.getByRole('switch'))

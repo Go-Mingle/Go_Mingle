@@ -46,7 +46,7 @@ export function buildReviewsColumns(
       render: (v: string) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-muted)',
@@ -74,7 +74,7 @@ export function buildReviewsColumns(
                 height: 28,
                 borderRadius: '50%',
                 background: 'var(--color-coral)',
-                color: '#fff',
+                color: 'var(--color-on-accent)',
                 fontSize: 11,
                 fontWeight: 700,
                 display: 'flex',
@@ -96,7 +96,7 @@ export function buildReviewsColumns(
                   : undefined
               }
               style={{
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
                 fontSize: 14,
                 fontWeight: 500,
                 color: clickable ? 'var(--color-accent)' : 'var(--color-text)',
@@ -124,7 +124,7 @@ export function buildReviewsColumns(
       render: (v?: string) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-secondary)',
@@ -176,7 +176,7 @@ export function buildReviewsColumns(
             <Tooltip title={text} placement="topLeft">
               <span
                 style={{
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                   fontSize: 14,
                   fontWeight: 500,
                   color: 'var(--color-text)',
@@ -306,7 +306,7 @@ function ReviewPhotoStrip({ photos }: { photos: string[] }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
               }}
             >
               +{overflow}

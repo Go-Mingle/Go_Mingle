@@ -42,7 +42,7 @@ function PopoverContent({ onViewAll, onClose }: { onViewAll: () => void; onClose
         <div className="flex items-center gap-2">
           <span className="text-sm font-bold text-[var(--color-text)]">{t('title')}</span>
           {unreadCount > 0 && (
-            <span className="bg-[var(--color-coral)] text-white text-[10px] font-bold rounded-[100px] px-[7px] py-[1px]">
+            <span className="bg-[var(--color-coral)] text-(--color-on-accent) text-[10px] font-bold rounded-[100px] px-[7px] py-[1px]">
               {unreadCount > 99 ? '99+' : String(unreadCount)}
             </span>
           )}
@@ -172,7 +172,7 @@ export function NotificationPopover({ open, onOpenChange, onViewAll }: Props) {
       <div className="relative w-9 h-9 rounded-[8px] flex items-center justify-center cursor-pointer text-[var(--color-text-muted)] hover:bg-[var(--color-hover)]">
         <Bell size={18} />
         {unreadCount > 0 && (
-          <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[var(--color-coral)] text-white text-[9px] font-bold flex items-center justify-center leading-none">
+          <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[var(--color-coral)] text-(--color-on-accent) text-[9px] font-bold flex items-center justify-center leading-none">
             {unreadCount > 99 ? '99+' : String(unreadCount)}
           </span>
         )}

@@ -37,9 +37,7 @@ export function PartnerInterestTableDetailPage() {
   const c = useInterestTableDetail(id, feedback)
 
   if (c.isPending) {
-    return (
-      <PageSkeleton variant="detail" />
-    )
+    return <PageSkeleton variant="detail" />
   }
 
   /**

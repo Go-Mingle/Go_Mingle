@@ -82,7 +82,7 @@ function buildUserColumns(
       filterIcon: searchFilterIcon(t('table.searchBy', { column: nameHeader })),
       render: (v: string, row: UserRow) => (
         <div className="flex flex-col min-w-0">
-          <span className="inline-flex items-center gap-2 text-[14px] font-medium text-[var(--color-text)] font-[Poppins,sans-serif]">
+          <span className="inline-flex items-center gap-2 text-[14px] font-medium text-[var(--color-text)] font-(--font-ui)">
             {v}
             {row.isPrimary && <OwnerBadge />}
           </span>
@@ -109,7 +109,7 @@ function buildUserColumns(
       filterIcon: searchFilterIcon(t('table.searchBy', { column: designationHeader })),
       render: (v?: string) => (
         <span
-          className={`font-[Poppins,sans-serif] text-[14px] font-medium ${
+          className={`font-(--font-ui) text-[14px] font-medium ${
             v ? 'text-[var(--color-text-secondary)]' : 'text-[var(--color-text-subtle)]'
           }`}
         >
@@ -134,7 +134,7 @@ function buildUserColumns(
       filterIcon: dateFilterIcon(t('table.filterBy', { column: lastActiveHeader })),
       // Blank for a user who has never logged in (BR-13).
       render: (v?: string) => (
-        <span className="font-[Poppins,sans-serif] text-[14px] font-medium text-[var(--color-text-secondary)]">
+        <span className="font-(--font-ui) text-[14px] font-medium text-[var(--color-text-secondary)]">
           {v ? dayjs(v).format('DD-MM-YYYY') : '—'}
         </span>
       ),

@@ -6,13 +6,15 @@ import { BrandPanel } from '../components/BrandPanel'
 describe('BrandPanel', () => {
   it('renders the brand logo', () => {
     renderWithProviders(<BrandPanel />)
-    expect(screen.getByAltText('GoMingle')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'GoMingle' })).toBeInTheDocument()
   })
 
   it('speaks to restaurant owners, not GoMingle staff', () => {
     renderWithProviders(<BrandPanel />)
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Fill your tables')
-    expect(screen.getByText('Payments held in escrow, paid out after each dinner')).toBeInTheDocument()
+    expect(
+      screen.getByText('Payments held in escrow, paid out after each dinner'),
+    ).toBeInTheDocument()
     expect(screen.queryByText(/operations hub/i)).not.toBeInTheDocument()
   })
 })

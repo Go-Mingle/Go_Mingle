@@ -87,6 +87,9 @@ export const MEDIA_ERROR_CODES = {
 export const ROLE_ASPECT = { cover: 8 / 3, profile: 1 } as const
 
 /** Pixel size of the image cut for each role; never upscaled past the source. */
-export const ROLE_OUTPUT = { cover: { width: 1600, height: 600 }, profile: { width: 640, height: 640 } } as const
+export const ROLE_OUTPUT = {
+  cover: { width: 1600, height: 600 },
+  profile: { width: 640, height: 640 },
+} as const
 
 export const PHOTO_ROLES_QUERY_KEY = ['partner', 'restaurant', 'photo-roles'] as const

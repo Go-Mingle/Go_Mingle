@@ -56,7 +56,7 @@ export function ResetPasswordModal({
       footer={null}
       destroyOnHidden
     >
-      <p className="mx-0 mt-1 mb-4 font-[Poppins,sans-serif] text-sm text-[var(--color-text-muted)]">
+      <p className="mx-0 mt-1 mb-4 font-(--font-ui) text-sm text-[var(--color-text-muted)]">
         {t('modals.resetPassword.content')} <strong>{name}</strong>.
       </p>
 

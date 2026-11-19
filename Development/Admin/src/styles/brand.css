@@ -1,0 +1,109 @@
+/* ── GoMingle brand: the open-seat logo and its motion (GM-334, GM-338) ────
+   The O in GoMingle is a round table: guests sit around it and one seat is
+   left open. Colours follow the theme; `--light` forces the dark-background
+   palette (e.g. on the Midnight brand panel in light mode). */
+:root {
+  --brand-table: #e8432e;
+  --brand-warm: #d98a12;
+  --brand-cool: #13a386;
+  --gm-ease: cubic-bezier(0.2, 0, 0, 1);
+  --gm-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+:root[data-theme='dark'],
+.gm-mark--light {
+  --brand-table: #ff5a44;
+  --brand-warm: #ffb547;
+  --brand-cool: #3fd6b4;
+}
+
+.gm-wordmark {
+  gap: calc(var(--logo-h, 36px) * 0.02);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(var(--logo-h, 36px) * 0.62);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+.gm-wordmark--light {
+  color: #f4f1ff;
+}
+
+.gm-mark {
+  display: block;
+  flex-shrink: 0;
+  overflow: visible;
+}
+.gm-mark__table {
+  stroke: var(--brand-table);
+}
+.gm-mark__seat--warm {
+  fill: var(--brand-warm);
+}
+.gm-mark__seat--cool {
+  fill: var(--brand-cool);
+}
+.gm-mark__open {
+  stroke: var(--brand-warm);
+}
+
+/* Drawn once on mount: the table appears, guests take their seats, and the
+   open seat breathes to say there is room for one more. */
+.gm-mark--animated .gm-mark__table {
+  stroke-dasharray: 88;
+  stroke-dashoffset: 88;
+  animation: gm-table-draw 800ms var(--gm-ease) 100ms forwards;
+}
+.gm-mark--animated .gm-mark__seat {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  animation: gm-seat-pop 380ms var(--gm-spring) calc(700ms + var(--seat-i, 0) * 90ms) forwards;
+}
+.gm-mark--animated .gm-mark__open {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation:
+    gm-seat-appear 300ms var(--gm-ease) 1200ms forwards,
+    gm-seat-breathe 2800ms ease-in-out 1600ms infinite;
+}
+
+@keyframes gm-table-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes gm-seat-pop {
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes gm-seat-appear {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes gm-seat-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-mark--animated .gm-mark__table,
+  .gm-mark--animated .gm-mark__seat,
+  .gm-mark--animated .gm-mark__open {
+    animation: none;
+    stroke-dashoffset: 0;
+    transform: none;
+    opacity: 1;
+  }
+}

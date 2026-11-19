@@ -13,7 +13,7 @@ export function PendingTabLabel({ count }: PendingTabLabelProps) {
         display: 'inline-flex',
         alignItems: 'center',
         gap: 8,
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
       }}
     >
       {t('tabs.pending')}
@@ -21,7 +21,7 @@ export function PendingTabLabel({ count }: PendingTabLabelProps) {
         <span
           style={{
             background: 'var(--color-coral)',
-            color: '#fff',
+            color: 'var(--color-on-accent)',
             fontSize: 10,
             fontWeight: 700,
             borderRadius: 12,

@@ -68,7 +68,8 @@ function PolicyForm({
   const [touched, setTouched] = useState(false)
 
   const errors: FieldErrors = {}
-  if (penalty === null || penalty < 0) errors.penaltyPerSeatPkr = t('restaurants:noShowPolicy.errors.penalty')
+  if (penalty === null || penalty < 0)
+    errors.penaltyPerSeatPkr = t('restaurants:noShowPolicy.errors.penalty')
   if (hours === null || hours < 0 || !Number.isInteger(hours)) {
     errors.cancellationWindowHours = t('restaurants:noShowPolicy.errors.window')
   }
@@ -152,7 +153,13 @@ export function NoShowPolicyTab({ feedback }: { feedback: ProfileFeedback }) {
 
   if (query.isPending) return <Skeleton active paragraph={{ rows: 4 }} />
   if (query.isError) {
-    return <Alert type="error" showIcon message={getApiErrorMessage(query.error, t('noShowPolicy.loadFailed'))} />
+    return (
+      <Alert
+        type="error"
+        showIcon
+        message={getApiErrorMessage(query.error, t('noShowPolicy.loadFailed'))}
+      />
+    )
   }
 
   const policy = query.data

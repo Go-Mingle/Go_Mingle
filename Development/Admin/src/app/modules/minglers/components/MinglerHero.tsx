@@ -88,7 +88,7 @@ export function MinglerHero({
               color: '#fff',
               fontSize: 18,
               fontWeight: 700,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               overflow: 'hidden',
             }}
           >
@@ -109,7 +109,7 @@ export function MinglerHero({
                 fontSize: 18,
                 fontWeight: 700,
                 color: 'var(--color-text)',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'var(--font-ui)',
                 marginBottom: 4,
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -208,7 +208,7 @@ export function MinglerHero({
               fontSize: 24,
               fontWeight: 700,
               color: 'var(--color-text)',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {name}

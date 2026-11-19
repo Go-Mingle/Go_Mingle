@@ -1,31 +1,43 @@
 import { describe, it, expect } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithProviders } from '../../../test-utils/renderWithProviders'
-import { GoMingleLogo } from '../GoMingleLogo'
+import { GoMingleLogo, GoMingleMark } from '../GoMingleLogo'
 
 describe('GoMingleLogo', () => {
-  it('renders img element with default props', () => {
+  it('renders the wordmark with the table mark as its O, named once for screen readers', () => {
     renderWithProviders(<GoMingleLogo />)
-    expect(screen.getByRole('img', { name: /gomingle/i })).toBeInTheDocument()
+    const logo = screen.getByRole('img', { name: 'GoMingle' })
+    expect(logo).toHaveStyle({ '--logo-h': '36px' })
+    expect(logo).toHaveTextContent('GMingle')
+    expect(logo.querySelector('svg.gm-mark')).not.toBeNull()
+    expect(logo.querySelector('svg')).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('renders the compact mark image when collapsed, distinct from the full logo', () => {
-    const { unmount: unmountDefault } = renderWithProviders(<GoMingleLogo />)
-    const defaultSrc = screen.getByRole('img', { name: /gomingle/i }).getAttribute('src')
-    unmountDefault()
-
-    renderWithProviders(<GoMingleLogo collapsed />)
-    const collapsedSrc = screen.getByRole('img', { name: /gomingle/i }).getAttribute('src')
-    expect(collapsedSrc).not.toBe(defaultSrc)
+  it('draws five seated guests and one open seat', () => {
+    const { container } = renderWithProviders(<GoMingleMark />)
+    expect(container.querySelectorAll('.gm-mark__seat')).toHaveLength(5)
+    expect(container.querySelectorAll('.gm-mark__open')).toHaveLength(1)
+    expect(container.querySelectorAll('.gm-mark__table')).toHaveLength(1)
   })
 
-  it('renders a distinct light wordmark image when light is true', () => {
-    const { unmount: unmountDefault } = renderWithProviders(<GoMingleLogo />)
-    const defaultSrc = screen.getByRole('img', { name: /gomingle/i }).getAttribute('src')
-    unmountDefault()
+  it('shows only the mark, 4px taller, when collapsed', () => {
+    renderWithProviders(<GoMingleLogo collapsed height={40} />)
+    const logo = screen.getByRole('img', { name: 'GoMingle' })
+    expect(logo).not.toHaveTextContent('Mingle')
+    expect(logo.querySelector('svg')).toHaveAttribute('width', '44')
+  })
 
-    renderWithProviders(<GoMingleLogo light />)
-    const lightSrc = screen.getByRole('img', { name: /gomingle/i }).getAttribute('src')
-    expect(lightSrc).not.toBe(defaultSrc)
+  it('uses the light lockup on dark backgrounds and animates only when asked', () => {
+    const { container, rerender } = renderWithProviders(<GoMingleLogo light />)
+    expect(container.querySelector('.gm-wordmark--light')).not.toBeNull()
+    expect(container.querySelector('.gm-mark--light')).not.toBeNull()
+    expect(container.querySelector('.gm-mark--animated')).toBeNull()
+    rerender(<GoMingleLogo animated />)
+    expect(container.querySelector('.gm-mark--animated')).not.toBeNull()
+  })
+
+  it('honours a custom height', () => {
+    renderWithProviders(<GoMingleLogo height={50} />)
+    expect(screen.getByRole('img', { name: 'GoMingle' })).toHaveStyle({ '--logo-h': '50px' })
   })
 })

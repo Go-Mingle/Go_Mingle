@@ -39,7 +39,7 @@ function NotProvided({ label }: { label: string }) {
   return (
     <span
       aria-label={label}
-      className="text-[14px] text-[var(--color-text-subtle)] font-[Poppins,sans-serif]"
+      className="text-[14px] text-[var(--color-text-subtle)] font-(--font-ui)"
     >
       —
     </span>
@@ -179,7 +179,7 @@ function DetailsBody({ profile, notProvided }: CardBodyProps) {
             ) : (
               <div className="flex flex-col gap-[3px]">
                 <LabelTag>{t('overview.commissionPending')}</LabelTag>
-                <span className="text-[11px] text-[var(--color-text-subtle)] font-[Poppins,sans-serif] leading-[1.4]">
+                <span className="text-[11px] text-[var(--color-text-subtle)] font-(--font-ui) leading-[1.4]">
                   {t('overview.commissionPendingHint')}
                 </span>
               </div>
@@ -216,7 +216,7 @@ function LocationBody({ profile, notProvided }: CardBodyProps) {
                 href={`https://maps.google.com/?q=${encodeURIComponent(mapQuery)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-1 text-[12px] font-medium font-[Poppins,sans-serif] ${LINK}`}
+                className={`inline-flex items-center gap-1 text-[12px] font-medium font-(--font-ui) ${LINK}`}
               >
                 <NavigationArrow size={13} color="var(--color-accent)" />
                 {t('overview.fields.viewOnMap')}

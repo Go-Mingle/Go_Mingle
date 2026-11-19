@@ -44,7 +44,7 @@ export function ReviewPhotoStrip({ photos, size = 40, maxVisible = 3 }: ReviewPh
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                 }}
               >
                 +{overflow}

@@ -76,8 +76,24 @@ function seed(): Map<string, EscrowItem> {
   return new Map(
     [
       makeItem('esc-000101', 'rest1', 'Sana Khan', 4, 3200, 'Founders & Filter Coffee', 'RELEASED'),
-      makeItem('esc-000102', 'rest1', 'Osama Khalil', 2, 2800, 'Sufi Night Supper Club', 'IN_ESCROW'),
-      makeItem('esc-000103', 'rest1', 'Hira Mansoor', 3, 3500, 'Startup Founders Brunch', 'AUTHORIZED'),
+      makeItem(
+        'esc-000102',
+        'rest1',
+        'Osama Khalil',
+        2,
+        2800,
+        'Sufi Night Supper Club',
+        'IN_ESCROW',
+      ),
+      makeItem(
+        'esc-000103',
+        'rest1',
+        'Hira Mansoor',
+        3,
+        3500,
+        'Startup Founders Brunch',
+        'AUTHORIZED',
+      ),
       makeItem('esc-000104', 'rest2', 'Laiba Hassan', 5, 2600, 'Book Club Biryani', 'IN_ESCROW'),
       makeItem('esc-000105', 'rest3', 'Parveen Rizvi', 2, 4100, 'Tasting Table', 'REFUNDED'),
       makeItem('esc-000106', 'rest2', 'Danish Ahmed', 4, 2900, 'Gaming Night', 'VOIDED'),
@@ -105,7 +121,13 @@ export function setMockGatewayLive(state = 'TRACKER_STARTED') {
 /** Test helper: a dinner bill charged at check-in. */
 export function addMockBill(seats = 4) {
   const id = 'esc-000950'
-  ledger.set(id, { ...makeItem(id, 'rest1', 'Ayesha Noor', seats, 3200, 'Seafront Supper', 'IN_ESCROW'), bookingRef: 'GM-BILL01', kind: 'BILL', bookingId: 'bk-bill', gateway: 'Simulated' })
+  ledger.set(id, {
+    ...makeItem(id, 'rest1', 'Ayesha Noor', seats, 3200, 'Seafront Supper', 'IN_ESCROW'),
+    bookingRef: 'GM-BILL01',
+    kind: 'BILL',
+    bookingId: 'bk-bill',
+    gateway: 'Simulated',
+  })
 }
 
 /** Test helper: puts failed collections on the escrow screen. */
@@ -137,7 +159,15 @@ export function addMockPendingBooking(seats = 2) {
   for (let seat = 1; seat <= seats; seat += 1) {
     const id = `esc-00090${String(seat)}`
     ledger.set(id, {
-      ...makeItem(id, 'rest1', 'Farid Ahmed', 1, MOCK_NO_SHOW_PENALTY_PKR, 'Supper Club', 'PENDING_PAYMENT'),
+      ...makeItem(
+        id,
+        'rest1',
+        'Farid Ahmed',
+        1,
+        MOCK_NO_SHOW_PENALTY_PKR,
+        'Supper Club',
+        'PENDING_PAYMENT',
+      ),
       bookingRef: 'GM-PEND01',
       kind: 'NO_SHOW_HOLD',
       bookingId,
@@ -193,34 +223,68 @@ const error = (status: number, code: string, message: string) =>
 export const escrowHandlers = [
   // The card step on Safepay's own checkout page: one payment for every waiting seat of the booking.
   http.post(`${BASE}/:id/checkout`, async ({ params, request }) => {
-    if (gatewayMode !== 'live') return error(409, 'ERR_GATEWAY_NOT_CONFIGURED', 'Safepay keys are not set, so there is no Safepay checkout. Add a test card instead.')
+    if (gatewayMode !== 'live')
+      return error(
+        409,
+        'ERR_GATEWAY_NOT_CONFIGURED',
+        'Safepay keys are not set, so there is no Safepay checkout. Add a test card instead.',
+      )
     const first = ledger.get(String(params.id))
     if (!first) return error(404, 'ERR_NOT_FOUND', 'Escrow transaction not found.')
     const body = (await request.json()) as { returnUrl?: string }
     if (!body.returnUrl) return error(422, 'ERR_VALIDATION', 'A return address is required.')
     const waiting = [...ledger.values()].filter(
-      (i) => i.status === 'PENDING_PAYMENT' && (first.bookingId ? i.bookingId === first.bookingId : i.id === first.id),
+      (i) =>
+        i.status === 'PENDING_PAYMENT' &&
+        (first.bookingId ? i.bookingId === first.bookingId : i.id === first.id),
     )
     const totalPkr = waiting.reduce((t, i) => t + i.amount, 0)
     for (const i of waiting) {
-      ledger.set(i.id, { ...i, tracker: 'track_mock', checkout: { totalPkr, startedAt: '2026-11-11T10:00:00.000Z', paidAt: null } })
+      ledger.set(i.id, {
+        ...i,
+        tracker: 'track_mock',
+        checkout: { totalPkr, startedAt: '2026-11-11T10:00:00.000Z', paidAt: null },
+      })
     }
     return HttpResponse.json({
       success: true,
-      data: { url: `https://sandbox.api.getsafepay.com/embedded/?tracker=track_mock&redirect_url=${encodeURIComponent(body.returnUrl)}`, tracker: 'track_mock', totalPkr, seats: waiting.length, bookingRef: first.bookingRef },
+      data: {
+        url: `https://sandbox.api.getsafepay.com/embedded/?tracker=track_mock&redirect_url=${encodeURIComponent(body.returnUrl)}`,
+        tracker: 'track_mock',
+        totalPkr,
+        seats: waiting.length,
+        bookingRef: first.bookingRef,
+      },
     })
   }),
 
   http.post(`${BASE}/:id/checkout/confirm`, ({ params }) => {
     const first = ledger.get(String(params.id))
     if (!first) return error(404, 'ERR_NOT_FOUND', 'Escrow transaction not found.')
-    if (first.status !== 'PENDING_PAYMENT') return HttpResponse.json({ success: true, data: { paid: true, state: 'ALREADY_CONFIRMED', items: [first] } })
-    if (!first.checkout) return error(409, 'ERR_INVALID_STATE', 'No Safepay checkout has been opened for this hold yet.')
-    if (checkoutState !== 'TRACKER_ENDED') return HttpResponse.json({ success: true, data: { paid: false, state: checkoutState, items: [] } })
+    if (first.status !== 'PENDING_PAYMENT')
+      return HttpResponse.json({
+        success: true,
+        data: { paid: true, state: 'ALREADY_CONFIRMED', items: [first] },
+      })
+    if (!first.checkout)
+      return error(
+        409,
+        'ERR_INVALID_STATE',
+        'No Safepay checkout has been opened for this hold yet.',
+      )
+    if (checkoutState !== 'TRACKER_ENDED')
+      return HttpResponse.json({
+        success: true,
+        data: { paid: false, state: checkoutState, items: [] },
+      })
     const items = [...ledger.values()]
       .filter((i) => i.status === 'PENDING_PAYMENT' && i.tracker === first.tracker)
       .map((i) => {
-        const next: EscrowItem = { ...i, status: 'AUTHORIZED', checkout: { ...i.checkout!, paidAt: '2026-11-11T10:05:00.000Z' } }
+        const next: EscrowItem = {
+          ...i,
+          status: 'AUTHORIZED',
+          checkout: { ...i.checkout!, paidAt: '2026-11-11T10:05:00.000Z' },
+        }
         ledger.set(i.id, next)
         return next
       })
@@ -233,7 +297,8 @@ export const escrowHandlers = [
     const first = ledger.get(String(params.id))
     if (!first) return error(404, 'ERR_NOT_FOUND', 'Escrow hold not found.')
     const number = String(body.cardNumber ?? '')
-    if (number === '4000000000000002') return error(402, 'ERR_CARD_DECLINED', 'The card was declined.')
+    if (number === '4000000000000002')
+      return error(402, 'ERR_CARD_DECLINED', 'The card was declined.')
     const brand = TEST_CARD_BRANDS[number]
     if (!brand) {
       return HttpResponse.json(
@@ -249,11 +314,18 @@ export const escrowHandlers = [
       )
     }
     const waiting = [...ledger.values()].filter(
-      (i) => i.status === 'PENDING_PAYMENT' && (first.bookingId ? i.bookingId === first.bookingId : i.id === first.id),
+      (i) =>
+        i.status === 'PENDING_PAYMENT' &&
+        (first.bookingId ? i.bookingId === first.bookingId : i.id === first.id),
     )
-    if (waiting.length === 0) return error(409, 'ERR_INVALID_STATE', 'This hold is not waiting for a card.')
+    if (waiting.length === 0)
+      return error(409, 'ERR_INVALID_STATE', 'This hold is not waiting for a card.')
     const items = waiting.map((i) => {
-      const next: EscrowItem = { ...i, status: 'AUTHORIZED', testCard: { brand, last4: number.slice(-4) } }
+      const next: EscrowItem = {
+        ...i,
+        status: 'AUTHORIZED',
+        testCard: { brand, last4: number.slice(-4) },
+      }
       ledger.set(i.id, next)
       return next
     })
@@ -286,14 +358,27 @@ export const escrowHandlers = [
 
   // A sandbox booking at an interest table: one hold per seat, each for the no-show penalty.
   http.post('*/api/v1/admin/bookings/sandbox', async ({ request }) => {
-    const body = (await request.json()) as { interestTableId?: string; minglerName?: string; seats?: number; seatPricePkr?: number }
+    const body = (await request.json()) as {
+      interestTableId?: string
+      minglerName?: string
+      seats?: number
+      seatPricePkr?: number
+    }
     if (!body.interestTableId) return error(422, 'ERR_VALIDATION', 'Choose an interest table.')
     const seats = body.seats ?? 2
     const bookingId = `bk-${String(ledger.size + 101)}`
     const holds = Array.from({ length: seats }, (_unused, index) => {
       const id = `esc-${String(ledger.size + 101).padStart(6, '0')}`
       const hold: EscrowItem = {
-        ...makeItem(id, RESTAURANTS[0].id, body.minglerName || 'Test Mingler', 1, MOCK_NO_SHOW_PENALTY_PKR, 'Friday Wine Evening', 'AUTHORIZED'),
+        ...makeItem(
+          id,
+          RESTAURANTS[0].id,
+          body.minglerName || 'Test Mingler',
+          1,
+          MOCK_NO_SHOW_PENALTY_PKR,
+          'Friday Wine Evening',
+          'AUTHORIZED',
+        ),
         kind: 'NO_SHOW_HOLD',
         bookingId,
         seatNo: index + 1,
@@ -305,7 +390,13 @@ export const escrowHandlers = [
       {
         success: true,
         data: {
-          booking: { id: bookingId, bookingRef: holds[0].bookingRef, seats, penaltyPerSeatPkr: MOCK_NO_SHOW_PENALTY_PKR, seatPricePkr: body.seatPricePkr ?? 0 },
+          booking: {
+            id: bookingId,
+            bookingRef: holds[0].bookingRef,
+            seats,
+            penaltyPerSeatPkr: MOCK_NO_SHOW_PENALTY_PKR,
+            seatPricePkr: body.seatPricePkr ?? 0,
+          },
           holds,
           heldTotalPkr: seats * MOCK_NO_SHOW_PENALTY_PKR,
         },
@@ -317,7 +408,8 @@ export const escrowHandlers = [
   http.post(`${BASE}/failures/:id/retry`, ({ params }) => {
     const id = Number(params.id)
     const failure = failures.find((f) => f.id === id)
-    if (!failure) return error(404, 'ERR_NOT_FOUND', 'This failure was not found or is already resolved.')
+    if (!failure)
+      return error(404, 'ERR_NOT_FOUND', 'This failure was not found or is already resolved.')
     if (failure.message.includes('still down')) {
       failure.attempts += 1
       return error(502, 'ERR_GATEWAY', `Still failing: ${failure.message}`)
@@ -329,8 +421,10 @@ export const escrowHandlers = [
   http.post(`${BASE}/failures/:id/resolve`, async ({ params, request }) => {
     const id = Number(params.id)
     const body = (await request.json()) as { note?: string }
-    if (!failures.some((f) => f.id === id)) return error(404, 'ERR_NOT_FOUND', 'This failure was not found or is already resolved.')
-    if ((body.note ?? '').trim().length < 5) return error(422, 'ERR_VALIDATION', 'Add a short note on how this was settled.')
+    if (!failures.some((f) => f.id === id))
+      return error(404, 'ERR_NOT_FOUND', 'This failure was not found or is already resolved.')
+    if ((body.note ?? '').trim().length < 5)
+      return error(422, 'ERR_VALIDATION', 'Add a short note on how this was settled.')
     failures = failures.filter((f) => f.id !== id)
     return HttpResponse.json({ success: true, data: { id, resolved: true } })
   }),
@@ -341,7 +435,11 @@ export const escrowHandlers = [
     const rule = TRANSITIONS[action]
     if (!item || !rule) return error(404, 'ERR_NOT_FOUND', 'Escrow transaction not found.')
     if (item.status !== rule.from) {
-      return error(409, 'ERR_INVALID_STATE', `Cannot ${action} a transaction that is ${item.status}.`)
+      return error(
+        409,
+        'ERR_INVALID_STATE',
+        `Cannot ${action} a transaction that is ${item.status}.`,
+      )
     }
     const body = (await request.json().catch(() => ({}))) as { reason?: string }
     if (action === 'refund' && !body.reason) {
@@ -349,14 +447,21 @@ export const escrowHandlers = [
     }
     const restaurant = RESTAURANTS.find((r) => r.id === item.restaurantId)
     if (action === 'release' && !restaurant?.hasPayoutAccount) {
-      return error(409, 'ERR_NO_PAYOUT_ACCOUNT', 'This restaurant has not added a payout bank account yet.')
+      return error(
+        409,
+        'ERR_NO_PAYOUT_ACCOUNT',
+        'This restaurant has not added a payout bank account yet.',
+      )
     }
     const at = new Date().toISOString()
     const next: EscrowItem = {
       ...item,
       status: rule.to,
       updatedAt: at,
-      timeline: [...item.timeline, { status: rule.to, at, by: 'Admin', ...(body.reason && { note: body.reason }) }],
+      timeline: [
+        ...item.timeline,
+        { status: rule.to, at, by: 'Admin', ...(body.reason && { note: body.reason }) },
+      ],
       ...(action === 'release' && {
         payout: {
           reference: `PO-${item.id.slice(-6).toUpperCase()}`,

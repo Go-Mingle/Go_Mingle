@@ -63,7 +63,7 @@ export function MinglerPaymentsTab({ minglerId, minglerName, isActive }: Mingler
         {paymentMethods.length === 0 ? (
           <p
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               color: 'var(--color-text-muted)',
               padding: '24px 0',
@@ -168,7 +168,7 @@ export function MinglerPaymentsTab({ minglerId, minglerName, isActive }: Mingler
           style={{
             fontSize: 14,
             color: 'var(--color-text-muted)',
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             margin: '4px 0 0',
             lineHeight: 1.6,
           }}

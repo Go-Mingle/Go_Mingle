@@ -127,7 +127,7 @@ export function ApprovalQueuePage() {
       {contextHolder}
 
       <div className="mb-6">
-        <h1 className="m-0 text-[20px] md:text-[26px] font-bold text-(--color-text) [font-family:Poppins,sans-serif]">
+        <h1 className="m-0 text-[20px] md:text-[26px] font-bold text-(--color-text) font-(--font-ui)">
           {t('title')}
         </h1>
       </div>
@@ -141,7 +141,7 @@ export function ApprovalQueuePage() {
           { key: 'pending', label: <PendingTabLabel count={pendingCount} /> },
           {
             key: 'rejected',
-            label: <span className="[font-family:Poppins,sans-serif]">{t('tabs.rejected')}</span>,
+            label: <span className="font-(--font-ui)">{t('tabs.rejected')}</span>,
           },
         ]}
       />

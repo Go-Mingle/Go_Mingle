@@ -277,7 +277,14 @@ describe('PortalAccessCard', () => {
       http.get(`${BASE}/rest-9/logins`, () => ok({ items: [owner] })),
       http.post(`${BASE}/rest-9/logins`, async ({ request }) => {
         sent = await request.json()
-        return ok({ login: { ...owner, id: 'pu-6', email: 'ayesha@xanders.pk' }, moved: false, emailed: true }, 201)
+        return ok(
+          {
+            login: { ...owner, id: 'pu-6', email: 'ayesha@xanders.pk' },
+            moved: false,
+            emailed: true,
+          },
+          201,
+        )
       }),
     )
     const user = userEvent.setup()
@@ -288,7 +295,9 @@ describe('PortalAccessCard', () => {
     await user.type(within(dialog).getByLabelText('Email'), 'ayesha@xanders.pk')
     await user.click(within(dialog).getByLabelText('Make this person an owner'))
     await user.click(within(dialog).getByRole('button', { name: 'Give access' }))
-    await waitFor(() => expect(sent).toEqual({ fullName: 'Ayesha Malik', email: 'ayesha@xanders.pk', isOwner: true }))
+    await waitFor(() =>
+      expect(sent).toEqual({ fullName: 'Ayesha Malik', email: 'ayesha@xanders.pk', isOwner: true }),
+    )
   })
 
   it.each([
@@ -374,7 +383,9 @@ describe('PortalAccessCard: editing and removing a login (GM-319)', () => {
     await user.type(email, 'Sara.K@Xanders.pk')
     await user.click(within(dialog).getByRole('switch'))
     await user.click(within(dialog).getByRole('button', { name: 'Save' }))
-    expect(await screen.findByText('Saved. We emailed sara.k@xanders.pk so they can sign in.')).toBeInTheDocument()
+    expect(
+      await screen.findByText('Saved. We emailed sara.k@xanders.pk so they can sign in.'),
+    ).toBeInTheDocument()
     expect(sent).toEqual({ email: 'sara.k@xanders.pk', status: 'SUSPENDED' })
   })
 
@@ -384,7 +395,11 @@ describe('PortalAccessCard: editing and removing a login (GM-319)', () => {
       http.get(`${BASE}/rest-9/logins`, () => ok({ items: [owner, member] })),
       http.patch(`${BASE}/rest-9/logins/pu-1`, () => {
         calls.push('patch')
-        return fail(409, 'ERR_LAST_OWNER', 'A restaurant needs at least one active owner. Make someone else an owner first.')
+        return fail(
+          409,
+          'ERR_LAST_OWNER',
+          'A restaurant needs at least one active owner. Make someone else an owner first.',
+        )
       }),
     )
     const user = userEvent.setup()
@@ -416,7 +431,9 @@ describe('PortalAccessCard: editing and removing a login (GM-319)', () => {
     render()
     await user.click(await screen.findByRole('button', { name: 'Remove access for Sara Khan' }))
     const dialog = await screen.findByRole('dialog')
-    expect(within(dialog).getByText(/sara@xanders.pk will no longer be able to sign in/)).toBeInTheDocument()
+    expect(
+      within(dialog).getByText(/sara@xanders.pk will no longer be able to sign in/),
+    ).toBeInTheDocument()
     await user.click(within(dialog).getByRole('button', { name: 'Remove access' }))
     expect(await screen.findByText('Access removed for sara@xanders.pk.')).toBeInTheDocument()
     await waitFor(() => expect(screen.queryByText('sara@xanders.pk')).not.toBeInTheDocument())
@@ -426,7 +443,11 @@ describe('PortalAccessCard: editing and removing a login (GM-319)', () => {
     server.use(
       http.get(`${BASE}/rest-9/logins`, () => ok({ items: [owner] })),
       http.delete(`${BASE}/rest-9/logins/pu-1`, () =>
-        fail(409, 'ERR_LAST_OWNER', 'A restaurant needs at least one active owner. Make someone else an owner first.'),
+        fail(
+          409,
+          'ERR_LAST_OWNER',
+          'A restaurant needs at least one active owner. Make someone else an owner first.',
+        ),
       ),
     )
     const user = userEvent.setup()

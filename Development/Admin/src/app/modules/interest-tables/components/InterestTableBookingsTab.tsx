@@ -37,7 +37,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
   const bookingRecord = bookingQuery.data ? bookingDetailToBooking(bookingQuery.data) : null
 
   const billCell = (v: number, align: 'left' | 'right') => {
-    const base = { fontFamily: 'Poppins, sans-serif', fontSize: 14, fontWeight: 500 } as const
+    const base = { fontFamily: 'var(--font-ui)', fontSize: 14, fontWeight: 500 } as const
     if (!v) return <span style={{ ...base, color: 'var(--color-text-subtle)' }}>—</span>
     return (
       <span
@@ -74,7 +74,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
               })
             }}
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: row.minglerId ? 'var(--color-accent)' : 'var(--color-text)',
@@ -100,7 +100,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
       render: (v: string) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-secondary)',
@@ -120,7 +120,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
       render: (v: string) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-secondary)',
@@ -146,7 +146,9 @@ export function InterestTableBookingsTab({ bookings }: Props) {
       filters: STATUS_FILTERS.map((s) => ({ text: t(`status.${s}`), value: s.toUpperCase() })),
       filterIcon: funnelIcon,
       onFilter: (value, record) => record.status === value,
-      render: (s: InterestTableBooking['status']) => <InterestTableStatusBadge status={s} kind="booking" />,
+      render: (s: InterestTableBooking['status']) => (
+        <InterestTableStatusBadge status={s} kind="booking" />
+      ),
     },
   ]
 
@@ -165,7 +167,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
         style={{
           fontSize: 13,
           color: 'var(--color-text-muted)',
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
         }}
       >
         {t('detail.bookingsEmpty')}
@@ -181,7 +183,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
         textTransform: 'uppercase',
         letterSpacing: '0.06em',
         color: 'var(--color-text-muted)',
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         marginBottom: 2,
       }}
     >
@@ -215,7 +217,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
                       fontSize: 14,
                       fontWeight: 600,
                       color: 'var(--color-text)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {bk.guest}
@@ -234,7 +236,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
                     style={{
                       fontSize: 13,
                       color: 'var(--color-text-secondary)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {bk.comboName}
@@ -246,7 +248,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
                     style={{
                       fontSize: 13,
                       color: 'var(--color-text-muted)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {dayjs(bk.date).format('DD-MM-YYYY')}
@@ -267,7 +269,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
                   style={{
                     fontSize: 12,
                     color: 'var(--color-text-subtle)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {bk.bookingId}
@@ -277,7 +279,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
                     fontSize: 13,
                     fontWeight: 600,
                     color: 'var(--color-text)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {bk.bill > 0 ? `PKR ${bk.bill.toLocaleString()}` : '—'}

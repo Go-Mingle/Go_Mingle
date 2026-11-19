@@ -7,19 +7,19 @@
 :root {
   /* Chart series, in fixed order. Checked for colour-blind separation and
      contrast against the card surface in both themes. */
-  --chart-1: #0a9188;
-  --chart-2: #e5503f;
-  --chart-3: #2f6fd0;
-  --chart-4: #b9780a;
+  --chart-1: #d63a25;
+  --chart-2: #13a386;
+  --chart-3: #2453c4;
+  --chart-4: #b07000;
   --chart-neutral: #94a0b1;
   --gm-ease: cubic-bezier(0.2, 0, 0, 1);
 }
 
 :root[data-theme='dark'] {
-  --chart-1: #0e9c93;
-  --chart-2: #d9584a;
-  --chart-3: #4580d8;
-  --chart-4: #bf8822;
+  --chart-1: #ee5a44;
+  --chart-2: #1fa889;
+  --chart-3: #5b8ce6;
+  --chart-4: #c2801a;
   --chart-neutral: #6c788a;
 }
 

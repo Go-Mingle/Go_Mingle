@@ -47,7 +47,7 @@ export function MinglerReviewMobileCard({
               height: 28,
               borderRadius: '50%',
               background: 'var(--color-coral)',
-              color: '#fff',
+              color: 'var(--color-on-accent)',
               fontSize: 10,
               fontWeight: 700,
               display: 'flex',

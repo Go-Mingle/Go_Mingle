@@ -182,7 +182,7 @@ export function RestaurantReviewsTab({ restaurantId, onDeleteReviewRequest }: Pr
             <Spin />
           </div>
         ) : detail ? (
-          <div className="font-[Poppins,sans-serif]">
+          <div className="font-(--font-ui)">
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-[var(--color-text)]">
                 {detail.minglerName}

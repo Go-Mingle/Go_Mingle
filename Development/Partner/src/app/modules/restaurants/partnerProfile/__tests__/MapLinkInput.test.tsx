@@ -19,7 +19,9 @@ describe('MapLinkInput', () => {
 
   it('warns that a city-zoom search link is approximate', () => {
     const { onChange, input } = setup()
-    fireEvent.change(input, { target: { value: 'https://www.google.com/maps/search/x/@24.8701269,67.0484728,13z' } })
+    fireEvent.change(input, {
+      target: { value: 'https://www.google.com/maps/search/x/@24.8701269,67.0484728,13z' },
+    })
     expect(onChange).toHaveBeenCalledWith('24.870127', '67.048473')
     expect(screen.getByText(/location may be off/)).toBeInTheDocument()
   })
@@ -34,7 +36,11 @@ describe('MapLinkInput', () => {
   })
 
   it('shows the pinned position and a server error', () => {
-    setup({ latitude: '24.9214', longitude: '67.0937', error: 'Enter both latitude and longitude.' })
+    setup({
+      latitude: '24.9214',
+      longitude: '67.0937',
+      error: 'Enter both latitude and longitude.',
+    })
     expect(screen.getByText('Location set: 24.92140, 67.09370')).toBeInTheDocument()
     expect(screen.getByText('Enter both latitude and longitude.')).toBeInTheDocument()
   })

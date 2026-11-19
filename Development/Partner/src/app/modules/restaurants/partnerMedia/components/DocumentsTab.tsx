@@ -28,7 +28,7 @@ import { UploadPreviewModal } from './UploadPreviewModal'
 
 type Documents = ReturnType<typeof useDocumentsTab>
 
-const CELL = 'font-[Poppins,sans-serif] text-sm font-medium text-[var(--color-text-secondary)]'
+const CELL = 'font-(--font-ui) text-sm font-medium text-[var(--color-text-secondary)]'
 
 /** The controller's order, spelled the way `aria-sort` wants it. */
 const ARIA_SORT: Record<SortOrder, 'ascending' | 'descending'> = {
@@ -166,7 +166,7 @@ export function DocumentsTab({ c }: { c: Documents }) {
                 c.applySearch(String(selectedKeys[0] ?? ''))
                 confirm()
               }}
-              className="h-7 cursor-pointer rounded-lg border-none bg-[var(--color-accent)] px-3 font-[Poppins,sans-serif] text-xs font-semibold text-white hover:bg-[var(--color-accent-dark)]"
+              className="h-7 cursor-pointer rounded-lg border-none bg-[var(--color-accent)] px-3 font-(--font-ui) text-xs font-semibold text-(--color-on-accent) hover:bg-[var(--color-accent-dark)]"
             >
               {t('common:buttons.search')}
             </button>

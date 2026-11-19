@@ -7,7 +7,7 @@ import { ACTION_CONFIG, tableSortIcon, funnelIcon, makeSearchFilter } from './ch
 import { LabelTag } from '../../../atoms/LabelTag'
 
 const BODY_CELL: React.CSSProperties = {
-  fontFamily: 'Poppins, sans-serif',
+  fontFamily: 'var(--font-ui)',
   fontSize: 14,
   fontWeight: 500,
 }

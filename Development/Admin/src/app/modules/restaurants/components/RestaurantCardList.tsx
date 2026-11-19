@@ -59,7 +59,7 @@ export function RestaurantCardList({ data, onCardClick }: RestaurantCardListProp
                       color: '#fff',
                       fontSize: 13,
                       fontWeight: 700,
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {getRestaurantInitials(r.name)}
@@ -72,7 +72,7 @@ export function RestaurantCardList({ data, onCardClick }: RestaurantCardListProp
                     fontSize: 15,
                     fontWeight: 600,
                     color: 'var(--color-text)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -84,7 +84,7 @@ export function RestaurantCardList({ data, onCardClick }: RestaurantCardListProp
                   style={{
                     fontSize: 12,
                     color: 'var(--color-text-muted)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                     marginTop: 2,
                   }}
                 >
@@ -106,7 +106,7 @@ export function RestaurantCardList({ data, onCardClick }: RestaurantCardListProp
                   color: catColors.text,
                   fontSize: 11,
                   fontWeight: 500,
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                 }}
               >
                 {r.category}
@@ -122,7 +122,7 @@ export function RestaurantCardList({ data, onCardClick }: RestaurantCardListProp
                   color: '#fff',
                   fontSize: 11,
                   fontWeight: 600,
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                 }}
               >
                 {statusLabel}
@@ -132,7 +132,7 @@ export function RestaurantCardList({ data, onCardClick }: RestaurantCardListProp
                   marginLeft: 'auto',
                   fontSize: 12,
                   color: 'var(--color-text-secondary)',
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                 }}
               >
                 {r.bookings.toLocaleString()} {t('restaurants:table.headers.bookings', 'bookings')}

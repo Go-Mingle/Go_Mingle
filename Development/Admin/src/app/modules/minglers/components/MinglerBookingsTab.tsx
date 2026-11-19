@@ -103,7 +103,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
       render: (v: string) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-secondary)',
@@ -129,7 +129,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
           role="button"
           onClick={(e) => goToRestaurant(e, record.restaurantId)}
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-accent)',
@@ -161,7 +161,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-accent)',
@@ -175,7 +175,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
           </span>
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 12,
               color: 'var(--color-text-muted)',
             }}
@@ -193,7 +193,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
       render: (v: string) => (
         <span
           style={{
-            fontFamily: 'Poppins, sans-serif',
+            fontFamily: 'var(--font-ui)',
             fontSize: 14,
             fontWeight: 500,
             color: 'var(--color-text-secondary)',
@@ -218,7 +218,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
         <span style={{ display: 'flex', flexDirection: 'column' }}>
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 14,
               fontWeight: 500,
               color: 'var(--color-text-secondary)',
@@ -228,7 +228,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
           </span>
           <span
             style={{
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
               fontSize: 12,
               color: 'var(--color-text-muted)',
             }}
@@ -245,7 +245,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
       align: 'left' as const,
       render: (v: number | null) => {
         const base = {
-          fontFamily: 'Poppins, sans-serif',
+          fontFamily: 'var(--font-ui)',
           fontSize: 14,
           fontWeight: 500,
         } as const
@@ -394,7 +394,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
         textTransform: 'uppercase',
         letterSpacing: '0.06em',
         color: 'var(--color-text-muted)',
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         marginBottom: 2,
       }}
     >
@@ -427,7 +427,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
                     fontWeight: 600,
                     color: 'var(--color-accent)',
                     cursor: 'pointer',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {bk.restaurantName}
@@ -445,7 +445,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
                       gap: 6,
                       fontSize: 13,
                       color: 'var(--color-text)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {bk.interestTableName}
@@ -458,7 +458,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
                     style={{
                       fontSize: 13,
                       color: 'var(--color-text-secondary)',
-                      fontFamily: 'Poppins, sans-serif',
+                      fontFamily: 'var(--font-ui)',
                     }}
                   >
                     {bk.menuOption}
@@ -475,7 +475,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
                   style={{
                     fontSize: 12,
                     color: 'var(--color-text-subtle)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {bk.date} {bk.time}
@@ -485,7 +485,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
                     fontSize: 13,
                     fontWeight: 600,
                     color: 'var(--color-text)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {bk.billPkr != null ? `PKR ${bk.billPkr.toLocaleString()}` : '—'}
@@ -536,7 +536,7 @@ export function MinglerBookingsTab({ minglerId, isActive }: MinglerBookingsTabPr
         destroyOnClose
       >
         {selectedBooking && (
-          <div style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <div style={{ fontFamily: 'var(--font-ui)' }}>
             {detailRows.map(({ label, value, isLast }) => (
               <div
                 key={label}

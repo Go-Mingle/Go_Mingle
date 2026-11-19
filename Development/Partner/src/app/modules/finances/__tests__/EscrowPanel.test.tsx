@@ -28,7 +28,10 @@ describe('EscrowPanel', () => {
   it('asks for a payout account when none is on file', async () => {
     server.use(
       http.get(FINANCES_ENDPOINTS.escrow, () =>
-        HttpResponse.json({ success: true, data: { ...mockPartnerEscrow, payoutAccount: null, items: [] } }),
+        HttpResponse.json({
+          success: true,
+          data: { ...mockPartnerEscrow, payoutAccount: null, items: [] },
+        }),
       ),
     )
     renderWithProviders(<EscrowPanel />)
@@ -39,7 +42,10 @@ describe('EscrowPanel', () => {
   it('shows a warning when the balance cannot be loaded', async () => {
     server.use(
       http.get(FINANCES_ENDPOINTS.escrow, () =>
-        HttpResponse.json({ success: false, error: { code: 'ERR_VALIDATION', message: 'x' } }, { status: 422 }),
+        HttpResponse.json(
+          { success: false, error: { code: 'ERR_VALIDATION', message: 'x' } },
+          { status: 422 },
+        ),
       ),
     )
     renderWithProviders(<EscrowPanel />)

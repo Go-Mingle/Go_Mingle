@@ -1,28 +1,22 @@
 import type { ThemeConfig } from 'antd'
 
 /**
- * GoMingle brand palette, sampled from the official logo.
- * Navy is the "Mingle" wordmark and the left half of the star; coral is "Go"
- * and the right half. Used on the landing (auth) screens.
+ * The Candlelit palette (GM-334): Midnight and Ember from the logo's table,
+ * Candle and Mint from the guests around it. The whole app now wears these
+ * colours, so the landing screens need no palette of their own.
  */
 export const GOMINGLE_BRAND = {
-  navy: '#1C1730',
-  navyDeep: '#120F22',
-  coral: '#FF5A44',
-  coralDark: '#E8432E',
-  coralLight: '#FFF1EE',
+  midnight: '#14102A',
+  booth: '#221C40',
+  ember: '#FF5A44',
+  emberDeep: '#D63A25',
+  candle: '#FFB547',
+  mint: '#3FD6B4',
+  brass: '#D98A12',
+  sage: '#13A386',
+  linen: '#F7F5FC',
+  ink: '#1A1530',
 } as const
 
-/** Nested antd theme for the landing screens — primary actions turn coral. */
-export const goMingleAuthTheme: ThemeConfig = {
-  token: {
-    colorPrimary: GOMINGLE_BRAND.coral,
-    colorPrimaryHover: GOMINGLE_BRAND.coralDark,
-    colorPrimaryActive: GOMINGLE_BRAND.coralDark,
-    colorLink: GOMINGLE_BRAND.coralDark,
-    colorLinkHover: GOMINGLE_BRAND.coral,
-  },
-  components: {
-    Input: { activeBorderColor: GOMINGLE_BRAND.coral, hoverBorderColor: GOMINGLE_BRAND.coral },
-  },
-}
+/** The landing screens inherit the app theme (light or dark); kept as a hook for screen-only tweaks. */
+export const goMingleAuthTheme: ThemeConfig = {}

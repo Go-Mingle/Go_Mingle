@@ -154,7 +154,7 @@ function TableTimingDays({ availability }: { availability: PartnerTable['availab
         return (
           <div key={day} className="flex items-start gap-3 min-h-[28px]">
             <span
-              className={`w-11 shrink-0 pt-[5px] text-xs font-semibold uppercase tracking-[0.04em] font-[Poppins,sans-serif] ${
+              className={`w-11 shrink-0 pt-[5px] text-xs font-semibold uppercase tracking-[0.04em] font-(--font-ui) ${
                 isOpen ? 'text-[var(--color-text-secondary)]' : 'text-[var(--color-text-subtle)]'
               }`}
             >
@@ -167,7 +167,7 @@ function TableTimingDays({ availability }: { availability: PartnerTable['availab
                 ))}
               </div>
             ) : (
-              <span className="pt-[5px] text-xs text-[var(--color-text-subtle)] font-[Poppins,sans-serif]">
+              <span className="pt-[5px] text-xs text-[var(--color-text-subtle)] font-(--font-ui)">
                 {t('restaurants:partnerTables.closed')}
               </span>
             )}

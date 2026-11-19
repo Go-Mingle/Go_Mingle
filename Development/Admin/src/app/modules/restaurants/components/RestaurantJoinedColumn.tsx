@@ -10,7 +10,7 @@ export const restaurantJoinedColumn: ColumnType<Restaurant> = {
   sorter: true,
   sortIcon: tableSortIcon,
   render: (date: string) => (
-    <span className="font-[Poppins] text-[14px] font-medium text-[var(--color-text-muted)]">
+    <span className="font-(--font-ui) text-[14px] font-medium text-[var(--color-text-muted)]">
       {formatShortDate(date)}
     </span>
   ),

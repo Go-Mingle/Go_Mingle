@@ -114,7 +114,7 @@ export function BookingDetailTabsModal({
       destroyOnClose
     >
       {booking && (
-        <div style={{ fontFamily: 'Poppins, sans-serif' }}>
+        <div style={{ fontFamily: 'var(--font-ui)' }}>
           {CANCELLABLE.has(booking.status) && onCancelBooking && (
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
               <button
@@ -129,7 +129,7 @@ export function BookingDetailTabsModal({
                   color: 'var(--color-error)',
                   border: '1.5px solid var(--color-error-border)',
                   borderRadius: 12,
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'var(--font-ui)',
                   fontSize: 12,
                   fontWeight: 600,
                   cursor: 'pointer',

@@ -18,7 +18,11 @@ export function resetMockPayoutAccount() {
   stored = null
 }
 
-export function setMockPayoutAccount(account: { accountTitle: string; bankName: string; iban: string }) {
+export function setMockPayoutAccount(account: {
+  accountTitle: string
+  bankName: string
+  iban: string
+}) {
   const iban = normaliseIban(account.iban)
   stored = {
     ...account,
@@ -50,7 +54,8 @@ export const partnerPayoutAccountHandlers = [
   ),
   http.put(PAYOUT_ACCOUNT_ENDPOINT, async ({ request }) => {
     const body = (await request.json()) as SavePayoutAccountDto
-    const iban = stored && body.iban.trim() === stored.ibanMasked ? stored.iban : normaliseIban(body.iban)
+    const iban =
+      stored && body.iban.trim() === stored.ibanMasked ? stored.iban : normaliseIban(body.iban)
     if (!body.accountTitle?.trim()) return invalid('accountTitle', 'Enter the account title.')
     if (!MOCK_PAYOUT_BANKS.includes(body.bankName)) return invalid('bankName', 'Choose your bank.')
     if (!isValidPkIban(iban)) {

@@ -104,7 +104,9 @@ export function usePendingDeliveryRow(
    * for a frame.
    */
   const recorded =
-    !!pending && !!deliveriesPage && deliveriesPage.items.some((r) => matchesPendingTest(r, pending))
+    !!pending &&
+    !!deliveriesPage &&
+    deliveriesPage.items.some((r) => matchesPendingTest(r, pending))
 
   useEffect(() => {
     if (recorded) onRecorded()

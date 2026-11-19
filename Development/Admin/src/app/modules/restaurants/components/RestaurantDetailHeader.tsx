@@ -63,7 +63,7 @@ export function RestaurantDetailHeader({
         borderRadius: 4,
         fontSize: 12,
         fontWeight: 600,
-        fontFamily: 'Poppins, sans-serif',
+        fontFamily: 'var(--font-ui)',
         background: style.bg,
         color: style.text,
         flexShrink: 0,
@@ -119,7 +119,7 @@ export function RestaurantDetailHeader({
               className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] object-cover"
             />
           ) : (
-            <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] flex items-center justify-center text-white font-bold font-[Poppins] bg-[var(--color-accent)]">
+            <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] flex items-center justify-center text-(--color-on-accent) font-bold font-(--font-ui) bg-[var(--color-accent)]">
               {getRestaurantInitials((restaurant.name as string) ?? '')}
             </div>
           )}
@@ -128,7 +128,7 @@ export function RestaurantDetailHeader({
               fontSize: 22,
               fontWeight: 700,
               color: 'var(--color-text)',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {restaurant.name as string}
@@ -142,7 +142,7 @@ export function RestaurantDetailHeader({
               fontSize: 13,
               color: 'var(--color-text-muted)',
               margin: 0,
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'var(--font-ui)',
             }}
           >
             {restaurant.cuisine as string} · {restaurant.areaDistrict as string}
@@ -166,7 +166,7 @@ export function RestaurantDetailHeader({
                 className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] object-cover"
               />
             ) : (
-              <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] flex items-center justify-center text-white font-bold font-[Poppins] bg-[var(--color-accent)]">
+              <div className="w-16 h-16 rounded-[12px] shrink-0 border border-[var(--color-border)] flex items-center justify-center text-(--color-on-accent) font-bold font-(--font-ui) bg-[var(--color-accent)]">
                 {getRestaurantInitials((restaurant.name as string) ?? '')}
               </div>
             )}
@@ -185,7 +185,7 @@ export function RestaurantDetailHeader({
                     fontSize: 24,
                     fontWeight: 700,
                     color: 'var(--color-text)',
-                    fontFamily: 'Poppins, sans-serif',
+                    fontFamily: 'var(--font-ui)',
                   }}
                 >
                   {restaurant.name as string}

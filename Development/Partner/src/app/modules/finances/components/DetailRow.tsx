@@ -16,15 +16,12 @@ export function DetailRow({ label, value, noBorder, labelStyle, valueStyle }: De
       }`}
     >
       <span
-        className="text-[13px] text-[var(--color-text-muted)] font-[Poppins,sans-serif]"
+        className="text-[13px] text-[var(--color-text-muted)] font-(--font-ui)"
         style={labelStyle}
       >
         {label}
       </span>
-      <span
-        className="text-[13px] text-[var(--color-text)] font-[Poppins,sans-serif]"
-        style={valueStyle}
-      >
+      <span className="text-[13px] text-[var(--color-text)] font-(--font-ui)" style={valueStyle}>
         {value}
       </span>
     </div>
