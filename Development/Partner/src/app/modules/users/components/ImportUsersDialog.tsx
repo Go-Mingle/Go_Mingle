@@ -11,7 +11,11 @@ import { partnerUsersService } from '../services'
 
 type Col = 'name' | 'email' | 'designation' | 'status'
 
-const STATUS: Record<string, 'ACTIVE' | 'SUSPENDED'> = { '': 'ACTIVE', active: 'ACTIVE', suspended: 'SUSPENDED' }
+const STATUS: Record<string, 'ACTIVE' | 'SUSPENDED'> = {
+  '': 'ACTIVE',
+  active: 'ACTIVE',
+  suspended: 'SUSPENDED',
+}
 
 interface Props {
   open: boolean
@@ -49,10 +53,32 @@ export function ImportUsersDialog({ open, onClose, onImported }: Props) {
       intro={t('users:import.intro')}
       templateFileName="gomingle-team-users.csv"
       columns={[
-        { key: 'name', label: t('users:import.columns.name'), headers: ['name', 'full name', 'fullName'], required: true, example: 'Ayesha Siddiqui' },
-        { key: 'email', label: t('users:import.columns.email'), headers: ['email', 'email address', 'work email'], required: true, example: 'ayesha@restaurant.pk' },
-        { key: 'designation', label: t('users:import.columns.designation'), headers: ['designation', 'title', 'job title', 'role'], example: 'Floor manager' },
-        { key: 'status', label: t('users:import.columns.status'), headers: ['status'], example: 'Active' },
+        {
+          key: 'name',
+          label: t('users:import.columns.name'),
+          headers: ['name', 'full name', 'fullName'],
+          required: true,
+          example: 'Ayesha Siddiqui',
+        },
+        {
+          key: 'email',
+          label: t('users:import.columns.email'),
+          headers: ['email', 'email address', 'work email'],
+          required: true,
+          example: 'ayesha@restaurant.pk',
+        },
+        {
+          key: 'designation',
+          label: t('users:import.columns.designation'),
+          headers: ['designation', 'title', 'job title', 'role'],
+          example: 'Floor manager',
+        },
+        {
+          key: 'status',
+          label: t('users:import.columns.status'),
+          headers: ['status'],
+          example: 'Active',
+        },
       ]}
       validate={(r, seen) => {
         if (!r.name) return p('nameRequired')
@@ -81,7 +107,9 @@ export function ImportUsersDialog({ open, onClose, onImported }: Props) {
       extra={
         <div className="flex flex-col gap-2 rounded-[14px] border border-[var(--color-border)] p-4">
           <span className="text-[14px] font-semibold">{t('users:import.passwordTitle')}</span>
-          <span className="text-[13px] text-[var(--color-text-muted)]">{t('users:import.passwordHint')}</span>
+          <span className="text-[13px] text-[var(--color-text-muted)]">
+            {t('users:import.passwordHint')}
+          </span>
           <div className="flex flex-col gap-3 md:flex-row">
             <Input.Password
               aria-label={t('users:import.password')}
@@ -98,8 +126,16 @@ export function ImportUsersDialog({ open, onClose, onImported }: Props) {
               status={confirm && !matches ? 'error' : undefined}
             />
           </div>
-          {password && !policyOk && <span className="text-[12px] text-[var(--color-error)]">{t('users:validation.passwordPolicy')}</span>}
-          {confirm && policyOk && !matches && <span className="text-[12px] text-[var(--color-error)]">{t('users:validation.passwordsDoNotMatch')}</span>}
+          {password && !policyOk && (
+            <span className="text-[12px] text-[var(--color-error)]">
+              {t('users:validation.passwordPolicy')}
+            </span>
+          )}
+          {confirm && policyOk && !matches && (
+            <span className="text-[12px] text-[var(--color-error)]">
+              {t('users:validation.passwordsDoNotMatch')}
+            </span>
+          )}
         </div>
       }
     />
