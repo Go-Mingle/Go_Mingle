@@ -160,8 +160,16 @@ export function UsersPage() {
     <Flex vertical>
       {p.contextHolder}
 
-      <UsersPageHeader isMobile={p.isMobile} onNew={() => p.setNewOpen(true)} onImport={() => setImportOpen(true)} />
-      <ImportUsersDialog open={importOpen} onClose={() => setImportOpen(false)} onImported={() => undefined} />
+      <UsersPageHeader
+        isMobile={p.isMobile}
+        onNew={() => p.setNewOpen(true)}
+        onImport={() => setImportOpen(true)}
+      />
+      <ImportUsersDialog
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        onImported={() => undefined}
+      />
 
       {p.isPending && <PageSkeleton variant="table" />}
 

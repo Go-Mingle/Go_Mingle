@@ -5,13 +5,24 @@ import { renderWithProviders } from '../../../../../test-utils/renderWithProvide
 import { ImportContactsDialog } from '../components/ImportContactsDialog'
 import { partnerProfileService } from '../services'
 
-vi.mock('../services', () => ({ partnerProfileService: { createContact: vi.fn().mockResolvedValue({}) } }))
+vi.mock('../services', () => ({
+  partnerProfileService: { createContact: vi.fn().mockResolvedValue({}) },
+}))
 
 describe('ImportContactsDialog', () => {
   it('checks rows like the contact form and sends phones in E.164', async () => {
     renderWithProviders(<ImportContactsDialog open onClose={vi.fn()} />)
     const input = document.querySelector('input[type=file]') as HTMLInputElement
-    await userEvent.upload(input, new File(['Name,Title,Email,Phone\nBilal Ahmed,Head chef,bilal@r.pk,+92 300 1234567\n,Manager,,\nBilal Ahmed,Head chef,bilal@r.pk,+92 300 1234567'], 'c.csv', { type: 'text/csv' }))
+    await userEvent.upload(
+      input,
+      new File(
+        [
+          'Name,Title,Email,Phone\nBilal Ahmed,Head chef,bilal@r.pk,+92 300 1234567\n,Manager,,\nBilal Ahmed,Head chef,bilal@r.pk,+92 300 1234567',
+        ],
+        'c.csv',
+        { type: 'text/csv' },
+      ),
+    )
 
     expect(await screen.findByText('Repeated in this file')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: /import 1 row/i }))

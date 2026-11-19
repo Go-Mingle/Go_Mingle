@@ -19,7 +19,9 @@ describe('ImportUsersDialog', () => {
   it('needs a valid shared password, then creates each ready row', async () => {
     const onImported = vi.fn()
     renderWithProviders(<ImportUsersDialog open onClose={vi.fn()} onImported={onImported} />)
-    await upload('Full name,Email,Designation,Status\nAyesha,ayesha@r.pk,Floor manager,Suspended\nBilal,not-an-email,,\nSara,sara@r.pk,,maybe')
+    await upload(
+      'Full name,Email,Designation,Status\nAyesha,ayesha@r.pk,Floor manager,Suspended\nBilal,not-an-email,,\nSara,sara@r.pk,,maybe',
+    )
 
     expect(await screen.findByText('Email looks wrong')).toBeInTheDocument()
     expect(screen.getByText('Status must be Active or Suspended')).toBeInTheDocument()

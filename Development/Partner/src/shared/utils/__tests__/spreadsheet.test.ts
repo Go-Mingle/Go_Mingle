@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest'
-import { IMPORT_MAX_ROWS, SpreadsheetError, mapRows, parseCsv, readSheet, toCsv } from '../spreadsheet'
+import { TEAM_XLSX_BASE64 } from '../../../test-utils/fixtures/teamXlsx'
+import {
+  IMPORT_MAX_ROWS,
+  SpreadsheetError,
+  mapRows,
+  parseCsv,
+  readSheet,
+  toCsv,
+} from '../spreadsheet'
 
 const file = (name: string, text: string) => new File([text], name, { type: 'text/csv' })
 
@@ -13,11 +21,17 @@ describe('parseCsv', () => {
   })
 
   it('keeps newlines inside quotes and drops blank lines', () => {
-    expect(parseCsv('a,b\n\n"x\ny",z')).toEqual([['a', 'b'], ['x\ny', 'z']])
+    expect(parseCsv('a,b\n\n"x\ny",z')).toEqual([
+      ['a', 'b'],
+      ['x\ny', 'z'],
+    ])
   })
 
   it('round-trips through toCsv', () => {
-    const rows = [['a,b', 'c"d'], ['e', '']]
+    const rows = [
+      ['a,b', 'c"d'],
+      ['e', ''],
+    ]
     expect(parseCsv(toCsv(rows))).toEqual(rows)
   })
 })
@@ -30,7 +44,13 @@ describe('mapRows', () => {
   ]
 
   it('matches headers regardless of case, spaces and punctuation', () => {
-    const { records, missing } = mapRows([['Full Name', 'E-mail Address'], ['Ali', 'a@b.pk']], cols)
+    const { records, missing } = mapRows(
+      [
+        ['Full Name', 'E-mail Address'],
+        ['Ali', 'a@b.pk'],
+      ],
+      cols,
+    )
     expect(missing).toEqual([])
     expect(records).toEqual([{ name: 'Ali', email: 'a@b.pk', title: '' }])
   })
@@ -42,7 +62,10 @@ describe('mapRows', () => {
 
 describe('readSheet', () => {
   it('reads a CSV', async () => {
-    expect(await readSheet(file('team.csv', 'Name,Email\nAli,a@b.pk'))).toEqual([['Name', 'Email'], ['Ali', 'a@b.pk']])
+    expect(await readSheet(file('team.csv', 'Name,Email\nAli,a@b.pk'))).toEqual([
+      ['Name', 'Email'],
+      ['Ali', 'a@b.pk'],
+    ])
   })
 
   it.each([
@@ -56,9 +79,7 @@ describe('readSheet', () => {
 
 describe('readSheet with Excel', () => {
   it('reads the first sheet of an .xlsx', async () => {
-    const { readFileSync } = await import('node:fs')
-    const { resolve } = await import('node:path')
-    const bytes = readFileSync(resolve(process.cwd(), 'src/test-utils/fixtures/team.xlsx'))
+    const bytes = Uint8Array.from(atob(TEAM_XLSX_BASE64), (c) => c.charCodeAt(0))
     const rows = await readSheet(new File([bytes], 'team.xlsx'))
     expect(rows).toEqual([
       ['Full Name', 'Email', 'Designation', 'Status'],
