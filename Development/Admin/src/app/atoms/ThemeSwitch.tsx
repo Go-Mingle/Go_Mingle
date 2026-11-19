@@ -1,6 +1,7 @@
 import { Moon, Sun } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { useThemeStore, type ThemeMode } from '../../shared/theme/themeStore'
+import { originOf, transitionTheme } from '../../shared/theme/themeTransition'
 
 /**
  * Sun / moon pill for the landing screens (GM-335). Both choices are visible, so
@@ -9,7 +10,6 @@ import { useThemeStore, type ThemeMode } from '../../shared/theme/themeStore'
 export function ThemeSwitch() {
   const { t } = useTranslation()
   const mode = useThemeStore((s) => s.mode)
-  const setMode = useThemeStore((s) => s.setMode)
   const options: { value: ThemeMode; label: string; Icon: typeof Sun }[] = [
     { value: 'light', label: t('topbar.themeLight'), Icon: Sun },
     { value: 'dark', label: t('topbar.themeDark'), Icon: Moon },
@@ -30,7 +30,7 @@ export function ThemeSwitch() {
             type="button"
             aria-label={label}
             aria-pressed={active}
-            onClick={() => setMode(value)}
+            onClick={(e) => transitionTheme(value, originOf(e))}
             className={`w-11 h-9 flex items-center justify-center rounded-full border-none cursor-pointer transition-colors duration-200 ${
               active
                 ? 'bg-(--color-accent) text-(--color-on-accent)'
