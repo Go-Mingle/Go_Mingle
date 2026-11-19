@@ -6,7 +6,8 @@ import { expectCleanScreen, settle, watch } from './support/page-checks'
 /** Every screen of the Partner Portal, opened one after another with the seeded data. */
 const seed = () => JSON.parse(fs.readFileSync(SEED_FILE, 'utf8'))
 
-const ROUTES = ['/overview', '/dashboard', '/finances', '/users', '/integrations', '/notifications']
+// /integrations is hidden until webhooks are delivered (it redirects home).
+const ROUTES = ['/overview', '/dashboard', '/finances', '/users', '/notifications']
 
 for (const route of ROUTES) {
   test(`partner ${route} opens cleanly`, async ({ page }) => {

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { FEATURES } from '../../shared/config/features'
 import { clsx } from 'clsx'
 import {
   Storefront,
@@ -40,12 +41,9 @@ export function Sidebar({ forDrawer = false }: SidebarProps) {
       { key: 'dashboard', label: t('nav.dashboard'), Icon: ChartLineUp, path: '/dashboard' },
       { key: 'finances', label: t('nav.finances'), Icon: Wallet, path: '/finances' },
       { key: 'users', label: t('nav.users'), Icon: UserGear, path: '/users' },
-      {
-        key: 'integrations',
-        label: t('nav.integrations'),
-        Icon: PlugsConnected,
-        path: '/integrations',
-      },
+      ...(FEATURES.integrations
+        ? [{ key: 'integrations', label: t('nav.integrations'), Icon: PlugsConnected, path: '/integrations' }]
+        : []),
     ],
   }
 
