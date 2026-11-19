@@ -47,6 +47,8 @@ export function watch(page: Page, allow4xx: RegExp[] = []): PageWatch {
 /** Waits for the page to settle: network quiet, nothing loading, and no figure still counting up. */
 export async function settle(page: Page) {
   await page.waitForLoadState('networkidle', { timeout: 20_000 }).catch(() => undefined)
+  // The app-start splash (GM-338) fades out about a second after load.
+  await page.locator('#gm-splash').waitFor({ state: 'detached', timeout: 10_000 }).catch(() => undefined)
   await page
     .locator('.ant-spin-spinning, .ant-skeleton-active, [aria-busy="true"]')
     .first()

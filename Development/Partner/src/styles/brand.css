@@ -160,3 +160,39 @@
     animation: none;
   }
 }
+
+/* ── App shell (GM-337): page titles in the display face ─────────────────── */
+.gm-app-main h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ── Loader: guests fill the table one by one (GM-338) ───────────────────── */
+.gm-loader-seat {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-loader-seat 2100ms var(--gm-ease) calc(var(--seat-i, 0) * 180ms) infinite;
+}
+@keyframes gm-loader-seat {
+  0%,
+  8% {
+    opacity: 0.15;
+    transform: scale(0.6);
+  }
+  22%,
+  72% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.6);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gm-loader-seat {
+    animation: none;
+  }
+}
