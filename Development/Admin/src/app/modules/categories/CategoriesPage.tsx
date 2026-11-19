@@ -1,4 +1,5 @@
 import { LoadingState } from '../../molecules/LoadingState'
+import { MobileEmpty } from '../../molecules/MobileEmpty'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert, Form, Modal, Button, Grid, message } from 'antd'
@@ -142,7 +143,9 @@ export function CategoriesPage() {
         }
       />
 
-      {isMobile ? (
+      {isMobile && pagedData.length === 0 ? (
+        <MobileEmpty title={t('common:mobileEmpty.categories.title')} />
+      ) : isMobile ? (
         <div className="categories-card-list">
           {pagedData.map((record) => {
             return (

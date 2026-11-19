@@ -1,4 +1,5 @@
 import { ImageWithFallback } from '../../../atoms/ImageWithFallback'
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import { Flex } from 'antd'
 import { useTranslation } from 'react-i18next'
 import type { Restaurant } from './restaurantsPage.types'
@@ -12,6 +13,14 @@ interface RestaurantCardListProps {
 
 export function RestaurantCardList({ data, onCardClick }: RestaurantCardListProps) {
   const { t } = useTranslation('restaurants')
+  if (data.length === 0)
+    return (
+      <MobileEmpty
+        title={t('common:mobileEmpty.restaurants.title')}
+        hint={t('common:mobileEmpty.restaurants.hint')}
+      />
+    )
+
   return (
     <div className="restaurant-card-list">
       {data.map((r) => {

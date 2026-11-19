@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { AddRestaurantButton, InvitedRestaurants } from './access/InvitedRestaurants'
 import { withFixedEnds } from '../../molecules/withFixedEnds'
 import { useNavigate } from 'react-router-dom'
-import { Table, Pagination, message, Flex, Grid } from 'antd'
+import { Table, Pagination, message, Flex, Grid, Input } from 'antd'
 import type { TablePaginationConfig } from 'antd'
 import type { FilterValue, SorterResult } from 'antd/es/table/interface'
 import { useTranslation } from 'react-i18next'
@@ -240,7 +240,23 @@ export function RestaurantsPage() {
       <InvitedRestaurants />
 
       {isMobile ? (
-        <RestaurantCardList data={rows} onCardClick={(id) => navigate(`/restaurants/${id}`)} />
+        <>
+          <Input.Search
+            allowClear
+            className="mb-3"
+            aria-label={t('common:mobileSearch.restaurants')}
+            placeholder={t('common:mobileSearch.restaurants')}
+            onSearch={(v) =>
+              setQueryParams((prev) => ({
+                ...prev,
+                page: 1,
+                q: v.trim() || undefined,
+                searchField: v.trim() ? 'name' : undefined,
+              }))
+            }
+          />
+          <RestaurantCardList data={rows} onCardClick={(id) => navigate(`/restaurants/${id}`)} />
+        </>
       ) : (
         <div className="restaurants-table">
           <Table<Restaurant>
