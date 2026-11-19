@@ -29,13 +29,13 @@
     "nameMaxLength": "Name can't be more than 60 characters.",
     "nameInUse": "This amenity name is already in use.",
     "nameInvalid": "Enter a valid Amenity Name",
-    "iconLabel": "Custom icon (SVG, optional)",
-    "iconHelper": "Upload an SVG file to use as this amenity's icon. Defaults to a standard icon if left empty.",
+    "iconLabel": "Icon",
+    "iconHelper": "Upload an SVG under 100 KB. Square icons look best.",
     "uploadButton": "Upload SVG",
     "replaceButton": "Replace",
     "removeButton": "Remove",
     "resetToDefault": "Reset to default",
-    "resetToDefaultHelper": "Removes the custom icon. The built-in shield icon will be shown instead.",
+    "resetToDefaultHelper": "Removes the icon. The built-in shield icon will be shown instead.",
     "iconUploadTitle": "Click or drag SVG to upload",
     "iconReplace": "Click or drag to replace",
     "invalidSvg": "Please upload a valid SVG file.",
@@ -45,7 +45,10 @@
     "saveAmenity": "Save changes",
     "cancel": "Cancel",
     "createdToast": "\"{{name}}\" has been added.",
-    "updatedToast": "\"{{name}}\" has been updated."
+    "updatedToast": "\"{{name}}\" has been updated.",
+    "iconSourceLabel": "Icon source",
+    "iconFromLibrary": "Choose an icon",
+    "iconUpload": "Upload your own"
   },
   "delete": {
     "title": "Delete amenity?",
@@ -62,5 +65,23 @@
   "emptyState": {
     "noAmenities": "No amenities yet. Create one to enable restaurants to describe their offering.",
     "noResults": "No amenities match your search."
+  },
+  "library": {
+    "searchPlaceholder": "Search icons, e.g. parking, wifi, prayer",
+    "searchLabel": "Search icons",
+    "categoriesLabel": "Icon categories",
+    "gridLabel": "Icons",
+    "noMatch": "No icon matches that. Try another word, or upload your own.",
+    "categories": {
+      "all": "All",
+      "comfort": "Comfort",
+      "food": "Food and drink",
+      "access": "Access and safety",
+      "family": "Family and friends",
+      "transport": "Getting there",
+      "entertainment": "Entertainment",
+      "work": "Work and payments",
+      "other": "Other"
+    }
   }
 }
