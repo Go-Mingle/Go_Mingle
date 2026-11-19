@@ -1,11 +1,13 @@
 {
   "/login": [
+    "action:Dark theme",
     "action:Forgot password?",
+    "action:Light theme",
     "action:Show",
     "action:Sign in",
     "field:Email",
     "field:Password",
-    "heading:Every table, every seat, at a glance.",
+    "heading:Restaurants.Tables.Minglers.Restaurants. Tables. Minglers. All at one table.",
     "heading:Welcome back",
     "input:Enter your password",
     "input:you@gomingle.com"
