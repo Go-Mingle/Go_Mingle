@@ -1047,3 +1047,27 @@ a:focus-visible,
   width: 100%;
   min-width: 0;
 }
+
+/* ── Amenity dialog: icon search ─────────────────────────────────
+   The global input rules give the inner <input> its own height and border,
+   which pushes it off the magnifier inside the affix wrapper. Same fix as
+   the category modal: the wrapper owns the box, the input just fills it. */
+.amenity-modal .ant-input-affix-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.amenity-modal .ant-input-affix-wrapper > input.ant-input {
+  height: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+.amenity-modal .ant-input-affix-wrapper .ant-input-prefix {
+  margin-inline-end: 8px;
+  color: var(--color-text-muted);
+}
