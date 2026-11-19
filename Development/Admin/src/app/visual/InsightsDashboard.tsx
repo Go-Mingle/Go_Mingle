@@ -75,6 +75,52 @@ function Tile({ icon, label, pair, value, format, against, note }: Readonly<Tile
  * bookings per day, how bookings turned out, where the money is, and how full
  * the tables still to come are.
  */
+/** One dot per seat (up to 12), guests filled in, open seats as outlines. */
+function SeatDots({ booked, total }: { booked: number; total: number }) {
+  const shown = Math.min(total, 12)
+  return (
+    <span className="flex flex-wrap gap-1 mt-1.5" aria-hidden="true">
+      {Array.from({ length: shown }, (_, i) => (
+        <span
+          key={i}
+          className={`w-2.5 h-2.5 rounded-full ${
+            i < booked
+              ? i % 2
+                ? 'bg-[var(--brand-cool)]'
+                : 'bg-[var(--brand-warm)]'
+              : 'border-[1.5px] border-[var(--brand-warm)] opacity-70'
+          }`}
+        />
+      ))}
+    </span>
+  )
+}
+
+/** "Full" or "3 open", so a full table reads at a glance. */
+function OpenSeatsPill({ booked, total }: { booked: number; total: number }) {
+  const { t } = useTranslation('dashboard')
+  const open = Math.max(0, total - booked)
+  return (
+    <span
+      className={`shrink-0 self-center text-[12px] font-bold rounded-full px-2.5 py-1 ${
+        open
+          ? 'text-[var(--color-warning)] bg-[var(--color-warning-bg)]'
+          : 'text-[var(--color-success)] bg-[var(--color-success-bg)]'
+      }`}
+    >
+      {open ? t('seats.open', { count: open }) : t('seats.full')}
+    </span>
+  )
+}
+
+/** Clock time in Pakistan, e.g. "7:30 PM". */
+const timePk = (iso: string) =>
+  new Date(iso).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'Asia/Karachi',
+  })
+
 export function InsightsDashboard({ audience, data, range, onRange, tableHref }: Readonly<Props>) {
   const { t } = useTranslation('dashboard')
   const k = data.kpis
@@ -193,17 +239,21 @@ export function InsightsDashboard({ audience, data, range, onRange, tableHref }:
                     to={tableHref(u)}
                     className="flex items-center gap-3 py-2.5 no-underline rounded-[var(--radius-md)] hover:bg-[var(--color-hover)] -mx-2 px-2"
                   >
-                    <SeatMap booked={u.bookedSeats} total={u.maxGuests} size={40} />
-                    <span className="min-w-0">
-                      <span className="block text-[13px] font-medium text-[var(--color-text)] truncate">
+                    <span className="w-[68px] shrink-0 text-[13px] font-bold text-[var(--color-text)]">
+                      {timePk(u.startsAt)}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[13px] font-semibold text-[var(--color-text)] truncate">
                         {u.name}
                       </span>
                       <span className="block text-[12px] text-[var(--color-text-muted)] truncate">
                         {isAdmin
                           ? `${u.restaurantName}, ${whenPk(u.startsAt)}`
-                          : whenPk(u.startsAt)}
+                          : `${t('seats.tableFor', { count: u.maxGuests })} · ${whenPk(u.startsAt)}`}
                       </span>
+                      <SeatDots booked={u.bookedSeats} total={u.maxGuests} />
                     </span>
+                    <OpenSeatsPill booked={u.bookedSeats} total={u.maxGuests} />
                   </Link>
                 </li>
               ))}

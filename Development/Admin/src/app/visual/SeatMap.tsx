@@ -82,8 +82,10 @@ export function SeatMap({
               cx={c + Math.cos(angle) * ring}
               cy={c + Math.sin(angle) * ring}
               r={seats > 10 ? 5.5 : 7}
-              fill={filled ? 'var(--chart-1)' : 'var(--color-card)'}
-              stroke={filled ? 'var(--chart-1)' : 'var(--color-border-strong)'}
+              // Guests in the brand's candle and mint; open seats wait as outlines.
+              fill={filled ? (i % 2 ? 'var(--brand-cool)' : 'var(--brand-warm)') : 'var(--color-card)'}
+              stroke={filled ? (i % 2 ? 'var(--brand-cool)' : 'var(--brand-warm)') : 'var(--brand-warm)'}
+              strokeOpacity={filled ? 1 : 0.55}
               strokeWidth={2}
               className={animate ? 'gm-seat gm-seat-in' : 'gm-seat'}
               style={

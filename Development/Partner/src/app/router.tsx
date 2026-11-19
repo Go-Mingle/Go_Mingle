@@ -3,6 +3,7 @@ import React, { lazy, Suspense } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { AppShell } from './layout/AppShell'
 import { AuthGuard } from './AuthGuard'
+import { TableLoader } from './atoms/TableLoader'
 import { SessionWatcher } from './SessionWatcher'
 import {
   FullPortalOnly,
@@ -68,8 +69,8 @@ const WebhooksPage = lazy(() =>
   import('./modules/integrations/WebhooksPage').then((m) => ({ default: m.WebhooksPage })),
 )
 const Fallback = () => (
-  <div className="flex items-center justify-center h-64 text-[var(--color-text-muted)] text-sm">
-    Loading…
+  <div className="flex items-center justify-center h-64">
+    <TableLoader label="Loading…" />
   </div>
 )
 
