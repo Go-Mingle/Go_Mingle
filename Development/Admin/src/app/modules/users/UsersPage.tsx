@@ -46,10 +46,12 @@ function UsersCardList({ data, onEdit, onReset, onDelete }: UsersCardListProps) 
 
   if (data.length === 0)
     return (
-      <MobileEmpty
-        title={t('common:mobileEmpty.users.title')}
-        hint={t('common:mobileEmpty.users.hint')}
-      />
+      <div className="mt-4">
+        <MobileEmpty
+          title={t('common:mobileEmpty.users.title')}
+          hint={t('common:mobileEmpty.users.hint')}
+        />
+      </div>
     )
 
   return (
