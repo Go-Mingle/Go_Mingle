@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../../../shared/store/hooks'
 import { cognitoLogin, mapCognitoErrorToCode } from '../cognitoService'
 import { loginAction, setPermissionsUnavailableAction } from '../../../../shared/store/authSlice'
-import { GoMingleLogo } from '../../../atoms/GoMingleLogo'
 import { getStrength } from '../../../../shared/utils/passwordStrength'
 import { isValidEmail } from '../../../../shared/utils/email'
 import { authService } from '../services'
@@ -417,12 +416,8 @@ export function LoginForm() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-6 py-12 bg-[var(--color-page)]">
+    <div className="contents">
       <div className="gm-auth-form w-full max-w-[440px]">
-        <div className="flex justify-center mb-8 lg:hidden">
-          <GoMingleLogo collapsed={false} />
-        </div>
-
         {/* Why the previous session ended, when it ended involuntarily (FE1 AC-04.4). */}
         <SessionNotice />
 

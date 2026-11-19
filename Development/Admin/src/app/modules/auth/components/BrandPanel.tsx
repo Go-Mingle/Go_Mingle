@@ -1,45 +1,101 @@
 import type { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ShieldCheck, SlidersHorizontal, Storefront } from '@phosphor-icons/react'
-import { GoMingleLogo, GoMingleMark } from '../../../atoms/GoMingleLogo'
+import { GoMingleLogo } from '../../../atoms/GoMingleLogo'
 
-/** Landing hero for GoMingle staff (GM-336): the table mark draws itself beside what the panel is for. */
+/**
+ * Where each guest starts (off towards the edges) and the seat they fly to
+ * around the table. Seats sit on a 64-unit grid around a table of radius 14,
+ * the same geometry as the logo; the last one is the open seat.
+ */
+const GUESTS = [
+  { sx: -560, sy: -220, x: 32, y: 7, tone: 'warm' },
+  { sx: 600, sy: -180, x: 53.7, y: 19.5, tone: 'cool' },
+  { sx: 640, sy: 360, x: 53.7, y: 44.5, tone: 'warm' },
+  { sx: 40, sy: 560, x: 32, y: 57, tone: 'cool' },
+  { sx: -620, sy: 400, x: 10.3, y: 44.5, tone: 'warm' },
+  { sx: -660, sy: 40, x: 10.3, y: 19.5, tone: 'open' },
+] as const
+
+/** Drifting embers in the background: position, size and drift delay. */
+const EMBERS = [
+  [8, 78, 6, 0],
+  [18, 20, 4, 1],
+  [85, 71, 5, 2],
+  [92, 24, 3, 0.5],
+  [5, 40, 4, 3],
+  [77, 91, 6, 1.5],
+  [34, 88, 3, 2.5],
+  [64, 12, 4, 3.5],
+] as const
+
+/**
+ * The full-screen sign-in hero (GM-336, option B "Gathering lights"): guests
+ * glide in from the edges and take their seats around the GoMingle table, then
+ * the headline names who might be sitting there. Every motion runs once and
+ * settles within about four seconds; reduced motion shows the final scene.
+ */
 export function BrandPanel() {
   const { t } = useTranslation('auth')
-  const points = [
-    { Icon: Storefront, text: t('brandPanel.point1') },
-    { Icon: ShieldCheck, text: t('brandPanel.point2') },
-    { Icon: SlidersHorizontal, text: t('brandPanel.point3') },
-  ]
+  const words = [t('brandPanel.word1'), t('brandPanel.word2'), t('brandPanel.word3')]
+  const scale = 3.2
 
   return (
-    <div className="gm-auth-hero relative w-full h-full min-h-screen flex flex-col gap-10 px-16 py-12 overflow-hidden">
-      <GoMingleLogo light height={30} />
-
-      <div className="flex items-center gap-10 flex-grow">
-        <GoMingleMark size={190} light animated />
-        <div className="flex flex-col gap-4 max-w-[440px]">
-          <h1 className="m-0 text-[38px] leading-[1.1] font-bold text-[#F4F1FF] font-(--font-display) tracking-[-0.01em]">
-            {t('brandPanel.tagline')}
-          </h1>
-          <p className="m-0 text-[16px] leading-[1.65] text-[#B9B3D6]">{t('brandPanel.body')}</p>
-        </div>
+    <>
+      <div aria-hidden="true" className="gm-stage-embers">
+        {EMBERS.map(([left, top, size, delay], i) => (
+          <span
+            key={i}
+            className={`gm-ember gm-ember--${i % 3}`}
+            style={
+              {
+                left: `${left}%`,
+                top: `${top}%`,
+                width: size,
+                height: size,
+                animationDelay: `${delay}s`,
+              } as CSSProperties
+            }
+          />
+        ))}
       </div>
 
-      <ul className="list-none m-0 p-0 grid grid-cols-3 gap-3">
-        {points.map(({ Icon, text }, i) => (
-          <li
-            key={text}
-            className="gm-rise flex flex-col gap-3 p-4 rounded-[18px] bg-[#1E1838] border border-[#2E2752] text-[14px] leading-[1.45] text-[#D6D1EE]"
-            style={{ '--rise-delay': `${1500 + i * 150}ms` } as CSSProperties}
-          >
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[rgba(255,90,68,0.16)] text-[#FF8A78]">
-              <Icon size={18} weight="bold" aria-hidden />
-            </span>
-            {text}
-          </li>
+      <div className="gm-stage-logo">
+        <GoMingleLogo height={28} />
+      </div>
+
+      <div className="gm-gather" aria-hidden="true">
+        <svg className="gm-gather__table" width="200" height="200" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="44" fill="none" strokeWidth="12" />
+        </svg>
+        {GUESTS.map((g, i) => (
+          <span
+            key={i}
+            className={`gm-guest gm-guest--${g.tone}`}
+            style={
+              {
+                '--sx': `${g.sx}px`,
+                '--sy': `${g.sy}px`,
+                left: `calc(50% + ${(g.x - 32) * scale}px)`,
+                top: `calc(50% + ${(g.y - 32) * scale}px)`,
+                animationDelay: `${i * 0.1}s`,
+              } as CSSProperties
+            }
+          />
         ))}
-      </ul>
-    </div>
+      </div>
+
+      <h1 className="gm-stage-title">
+        <span className="gm-cycle" aria-hidden="true">
+          {words.map((w, i) => (
+            <span key={w} className={`gm-cycle__word gm-cycle__word--${i}`}>
+              {w}
+            </span>
+          ))}
+        </span>
+        <span className="sr-only">{words.join(' ')} </span>
+        <span className="gm-stage-title__line">{t('brandPanel.tagline')}</span>
+      </h1>
+      <p className="gm-stage-body">{t('brandPanel.body')}</p>
+    </>
   )
 }

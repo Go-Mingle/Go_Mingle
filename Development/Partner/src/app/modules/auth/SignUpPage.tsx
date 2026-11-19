@@ -1,4 +1,3 @@
-import { GoMingleLogo } from '../../atoms/GoMingleLogo'
 import { SignUpProgress } from './components/SignUpProgress'
 import { AuthThemeScope } from './components/AuthThemeScope'
 import { BrandPanel } from './components/BrandPanel'
@@ -39,18 +38,12 @@ export function SignUpPage() {
 
   return (
     <AuthThemeScope>
-      <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+      <main className="gm-stage">
         {contextHolder}
-        <div className="hidden lg:block">
-          <BrandPanel />
-        </div>
+        <BrandPanel />
 
-        <div className="flex flex-col items-center justify-center min-h-screen px-6 py-12 bg-[var(--color-page)]">
+        <div className="contents">
           <div className="gm-auth-form w-full max-w-[440px]">
-            <div className="flex justify-center mb-8 lg:hidden">
-              <GoMingleLogo collapsed={false} />
-            </div>
-
             <div className="gm-auth-card">
               <SignUpProgress step={step} />
               {step === 'email' && (
@@ -93,7 +86,7 @@ export function SignUpPage() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </AuthThemeScope>
   )
 }

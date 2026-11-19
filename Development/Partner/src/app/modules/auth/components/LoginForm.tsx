@@ -1,5 +1,4 @@
 import { Form } from 'antd'
-import { GoMingleLogo } from '../../../atoms/GoMingleLogo'
 import { useLoginForm } from '../hooks/useLoginForm'
 import {
   LoginStep,
@@ -103,12 +102,8 @@ export function LoginForm() {
   const state = useLoginForm()
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-6 py-12 bg-[var(--color-page)]">
+    <div className="contents">
       <div className="gm-auth-form w-full max-w-[440px]">
-        <div className="flex justify-center mb-8 lg:hidden">
-          <GoMingleLogo collapsed={false} />
-        </div>
-
         <div className="gm-auth-card">
           <LoginStepsSwitch {...state} />
         </div>
