@@ -1,28 +1,31 @@
 {
   "/login": [
     "Create an account > action:Back to sign in",
+    "Create an account > action:Dark theme",
+    "Create an account > action:Light theme",
     "Create an account > action:Send code",
     "Create an account > action:Sign in",
     "Create an account > heading:Create your account",
-    "Create an account > heading:Fill your tables with people who came to talk.",
     "Create an account > input:you@yourrestaurant.com",
     "action:Create an account",
+    "action:Dark theme",
     "action:Forgot password?",
+    "action:Light theme",
     "action:Show",
     "action:Sign in",
     "field:Email",
     "field:Password",
-    "heading:Fill your tables with people who came to talk.",
     "heading:Welcome back",
     "input:Enter your password",
     "input:you@yourrestaurant.com"
   ],
   "/signup": [
     "action:Back to sign in",
+    "action:Dark theme",
+    "action:Light theme",
     "action:Send code",
     "action:Sign in",
     "heading:Create your account",
-    "heading:Fill your tables with people who came to talk.",
     "input:you@yourrestaurant.com"
   ]
 }

@@ -103,6 +103,7 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 
 | Version | Date | What changed |
 |---|---|---|
+| 0.13.0 | 19 Nov 2026 | Auth screens use `.gm-stage` (full-bleed, theme-aware glow); `BrandPanel` renders the gathering guests, cycling headline (sr-only full text) and embers, all CSS (no new dependencies); motion ends by ~4.5 s for WCAG 2.2.2; sign-in inventory baseline updated for the new headline only (GM-336) |
 | 0.12.2 | 19 Nov 2026 | Inline splash in `index.html` (theme set before first paint, faded out by `hideSplash()` in `main.tsx`), `TableLoader` atom as antd's global Spin indicator and Partner route fallback, `SeatMap` seats in `--brand-warm/--brand-cool`, `.gm-app-main h1` display font, radii 14/18 (GM-338, GM-337) |
 | 0.12.1 | 19 Nov 2026 | `BrandPanel` rebuilt (animated `GoMingleMark`, floor cards in Partner, points in Admin), `.gm-auth-hero/.gm-auth-card/.gm-auth-form/.gm-rise` in `brand.css`, `ThemeSwitch` pill in `AuthThemeScope`, Partner `SignUpProgress`; all motion off under reduced motion (GM-336) |
 | 0.12.0 | 19 Nov 2026 | Tokens in `styles/index.css` re-pointed to Candlelit (light + dark), new `--color-on-accent`, `styles/brand.css` (logo + motion), `GoMingleLogo`/`GoMingleMark` as inline SVG, antd themes in `styles/theme.ts`, chart palette validated with the dataviz checker; hard-coded teal/Poppins replaced with tokens; `AuthThemeScope` carries `ThemeToggle` (GM-334, GM-335) |
