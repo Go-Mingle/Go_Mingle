@@ -1,0 +1,13 @@
+{
+  "/login": [
+    "action:Forgot password?",
+    "action:Show",
+    "action:Sign in",
+    "field:Email",
+    "field:Password",
+    "heading:Elevated dining. Effortless mingling.",
+    "heading:Welcome back",
+    "input:Enter your password",
+    "input:you@gomingle.com"
+  ]
+}
