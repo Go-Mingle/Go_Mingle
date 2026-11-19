@@ -1,46 +1,45 @@
+import type { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GoMingleLogo } from '../../../atoms/GoMingleLogo'
+import { ShieldCheck, SlidersHorizontal, Storefront } from '@phosphor-icons/react'
+import { GoMingleLogo, GoMingleMark } from '../../../atoms/GoMingleLogo'
 
-/** Landing hero in the GoMingle brand colours: logo navy with coral accents. */
+/** Landing hero for GoMingle staff (GM-336): the table mark draws itself beside what the panel is for. */
 export function BrandPanel() {
   const { t } = useTranslation('auth')
-  const chips = [t('brandPanel.chip1'), t('brandPanel.chip2'), t('brandPanel.chip3')]
+  const points = [
+    { Icon: Storefront, text: t('brandPanel.point1') },
+    { Icon: ShieldCheck, text: t('brandPanel.point2') },
+    { Icon: SlidersHorizontal, text: t('brandPanel.point3') },
+  ]
 
   return (
-    <div className="relative w-full h-full flex flex-col justify-center px-16 py-16 overflow-hidden min-h-screen bg-[linear-gradient(150deg,#120F22_0%,#1C1730_55%,#2B2147_100%)]">
-      {/* Coral glow — top right */}
-      <div className="absolute pointer-events-none w-[420px] h-[420px] rounded-full -top-[140px] -right-[120px] bg-[radial-gradient(circle,rgba(255,90,68,0.28)_0%,rgba(255,90,68,0)_70%)]" />
-      {/* Decorative ring — bottom left */}
-      <div className="absolute pointer-events-none w-[260px] h-[260px] rounded-full border border-white/[0.07] -bottom-[70px] -left-[50px]" />
-      {/* Brand star watermark */}
+    <div className="gm-auth-hero relative w-full h-full min-h-screen flex flex-col gap-10 px-16 py-12 overflow-hidden">
+      <GoMingleLogo light height={30} />
 
-      {/* Logo */}
-      <div className="mb-14">
-        <GoMingleLogo light height={48} />
+      <div className="flex items-center gap-10 flex-grow">
+        <GoMingleMark size={190} light animated />
+        <div className="flex flex-col gap-4 max-w-[440px]">
+          <h1 className="m-0 text-[38px] leading-[1.1] font-bold text-[#F4F1FF] font-(--font-display) tracking-[-0.01em]">
+            {t('brandPanel.tagline')}
+          </h1>
+          <p className="m-0 text-[16px] leading-[1.65] text-[#B9B3D6]">{t('brandPanel.body')}</p>
+        </div>
       </div>
 
-      {/* Tagline */}
-      <h1 className="text-[40px] font-extrabold text-white leading-[1.12] font-[var(--font-display)] mb-5 tracking-[-0.02em] whitespace-pre-line">
-        {t('brandPanel.tagline')}
-      </h1>
-      <div className="w-[56px] h-[4px] rounded-full bg-[#FF5A44] mb-6" />
-
-      {/* Body copy */}
-      <p className="text-[15px] text-white/70 leading-[1.75] mb-9 max-w-[380px]">
-        {t('brandPanel.body')}
-      </p>
-
-      {/* Pill chips */}
-      <div className="flex gap-3 flex-wrap">
-        {chips.map((chip) => (
-          <span
-            key={chip}
-            className="inline-flex items-center h-[30px] px-[14px] rounded-[100px] border border-[#FF5A44]/50 text-white/85 text-[11px] font-semibold tracking-[0.08em] uppercase"
+      <ul className="list-none m-0 p-0 grid grid-cols-3 gap-3">
+        {points.map(({ Icon, text }, i) => (
+          <li
+            key={text}
+            className="gm-rise flex flex-col gap-3 p-4 rounded-[18px] bg-[#1E1838] border border-[#2E2752] text-[14px] leading-[1.45] text-[#D6D1EE]"
+            style={{ '--rise-delay': `${1500 + i * 150}ms` } as CSSProperties}
           >
-            {chip}
-          </span>
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[rgba(255,90,68,0.16)] text-[#FF8A78]">
+              <Icon size={18} weight="bold" aria-hidden />
+            </span>
+            {text}
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   )
 }
