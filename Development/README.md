@@ -103,6 +103,7 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 
 | Version | Date | What changed |
 |---|---|---|
+| 0.12.2 | 19 Nov 2026 | Inline splash in `index.html` (theme set before first paint, faded out by `hideSplash()` in `main.tsx`), `TableLoader` atom as antd's global Spin indicator and Partner route fallback, `SeatMap` seats in `--brand-warm/--brand-cool`, `.gm-app-main h1` display font, radii 14/18 (GM-338, GM-337) |
 | 0.12.1 | 19 Nov 2026 | `BrandPanel` rebuilt (animated `GoMingleMark`, floor cards in Partner, points in Admin), `.gm-auth-hero/.gm-auth-card/.gm-auth-form/.gm-rise` in `brand.css`, `ThemeSwitch` pill in `AuthThemeScope`, Partner `SignUpProgress`; all motion off under reduced motion (GM-336) |
 | 0.12.0 | 19 Nov 2026 | Tokens in `styles/index.css` re-pointed to Candlelit (light + dark), new `--color-on-accent`, `styles/brand.css` (logo + motion), `GoMingleLogo`/`GoMingleMark` as inline SVG, antd themes in `styles/theme.ts`, chart palette validated with the dataviz checker; hard-coded teal/Poppins replaced with tokens; `AuthThemeScope` carries `ThemeToggle` (GM-334, GM-335) |
 | 0.11.3 | 19 Nov 2026 | E2E `*.inventory.spec.ts` + `E2E/inventory/*.json`: fails if any recorded UI item disappears; re-record with `GM_UPDATE_INVENTORY=1`, then `=intersect` on a fresh seed (GM-343). `Database` listens for pool `error` so a dropped connection no longer crashes the API (GM-347, `test/features/db-connection-drop.test.ts`) |

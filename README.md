@@ -174,6 +174,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 
 | Release | Date | Highlights |
 |---|---|---|
+| `v0.12.2` | 19 Nov 2026 | App start: the GoMingle table draws itself and seats its guests while the app loads, in light or dark. Every spinner is now the table filling up; seat dots on tables use the brand's candle and mint; page titles in the display face; the sidebar logo draws once per visit (GM-338, GM-337) |
 | `v0.12.1` | 19 Nov 2026 | Redesigned sign-in and sign-up screens in both portals: the table mark draws itself, guests take their seats, and Partner shows an evening of tables for 2, 6 and 10 filling up; sign-up progress is a table filling seat by seat; a sun/moon switch picks light or dark before signing in; works down to phone width (GM-336, GM-335) |
 | `v0.12.0` | 19 Nov 2026 | Candlelit brand foundation in both portals: the new open-seat logo (the O is a table with guests and one open seat) and favicon, Candlelit colours for light and dark, Manrope and Unbounded type, colour-blind-checked chart colours, and the light/dark switch on the sign-in screens (GM-334, GM-335). Layouts are unchanged in this release |
 | `v0.11.3` | 19 Nov 2026 | Quality: a UI inventory of both portals (every screen, tab, field, column, button and dialog field: about 1,800 items, the map link included) is now checked on every build, so the redesign can change the look but never drop anything (GM-343). Fix: the API no longer stops when the database drops an idle connection (GM-347) |

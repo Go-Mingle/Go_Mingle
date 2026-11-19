@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FEATURES } from '../../shared/config/features'
 import { clsx } from 'clsx'
@@ -12,10 +13,21 @@ import {
   ChartLineUp,
 } from '@phosphor-icons/react'
 import { GoMingleLogo } from '../atoms/GoMingleLogo'
+
 import { useAppSelector, useAppDispatch } from '../../shared/store/hooks'
 import { toggleSidebar, closeDrawer } from '../../shared/store/uiSlice'
 import { SidebarNavGroup } from './SidebarNavGroup'
 import type { NavGroup } from './SidebarNavGroup'
+
+/** The sidebar logo draws itself once per visit, not on every navigation. */
+const logoVisit = { drawn: false }
+function useDrawLogoOnce() {
+  const [draw] = useState(() => !logoVisit.drawn)
+  useEffect(() => {
+    logoVisit.drawn = true
+  }, [])
+  return draw
+}
 
 interface SidebarProps {
   /** When true the sidebar renders as a full-width mobile overlay drawer (always expanded, shows a close button) */
@@ -23,6 +35,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ forDrawer = false }: SidebarProps) {
+  const drawLogo = useDrawLogoOnce()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const collapsed = useAppSelector((s) => s.ui.sidebarCollapsed)
@@ -69,7 +82,7 @@ export function Sidebar({ forDrawer = false }: SidebarProps) {
           isIconOnly ? 'justify-center px-0' : 'justify-between px-5',
         )}
       >
-        <GoMingleLogo collapsed={isIconOnly} height={34} />
+        <GoMingleLogo collapsed={isIconOnly} height={34} animated={drawLogo} />
 
         {/* Close button — drawer mode only */}
         {forDrawer && (

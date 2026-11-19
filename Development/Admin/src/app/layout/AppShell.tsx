@@ -57,7 +57,7 @@ export function AppShell() {
       {/* ── Main column ── */}
       <div className="flex flex-col flex-1 min-w-0">
         <Topbar />
-        <main className="flex-1 overflow-y-auto p-8 lg:p-6 md:p-4">
+        <main className="gm-app-main flex-1 overflow-y-auto p-8 lg:p-6 md:p-4">
           <div ref={page}>
             <Outlet />
           </div>
