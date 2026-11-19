@@ -40,7 +40,10 @@ const upload = async (text: string, name = 'people.csv') => {
 
 describe('ImportDialog', () => {
   it('previews rows, skips problems and imports the rest', async () => {
-    const failing = vi.fn().mockResolvedValueOnce(undefined).mockRejectedValueOnce(new Error('Already registered'))
+    const failing = vi
+      .fn()
+      .mockResolvedValueOnce(undefined)
+      .mockRejectedValueOnce(new Error('Already registered'))
     const { onImported } = setup(failing)
     await upload('Name,Email\nAli,a@b.pk\n,x@b.pk\nSara,s@b.pk\nSara,s@b.pk')
 
@@ -65,7 +68,9 @@ describe('ImportDialog', () => {
   it('refuses other file types', async () => {
     setup()
     const input = document.querySelector('input[type=file]') as HTMLInputElement
-    await userEvent.upload(input, new File(['x'], 'people.txt', { type: 'text/plain' }), { applyAccept: false })
+    await userEvent.upload(input, new File(['x'], 'people.txt', { type: 'text/plain' }), {
+      applyAccept: false,
+    })
     expect(await screen.findByText(/Choose an \.xlsx or \.csv file/)).toBeInTheDocument()
   })
 })

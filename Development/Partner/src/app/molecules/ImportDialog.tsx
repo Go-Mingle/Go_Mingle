@@ -52,7 +52,20 @@ interface PreviewRow<K extends string> {
  * time through the normal endpoints. Rows with problems are skipped and listed.
  */
 export function ImportDialog<K extends string>(props: ImportDialogProps<K>) {
-  const { open, onClose, onImported, title, intro, columns, templateFileName, validate, importRow, extra, extraReady = true, errorMessage } = props
+  const {
+    open,
+    onClose,
+    onImported,
+    title,
+    intro,
+    columns,
+    templateFileName,
+    validate,
+    importRow,
+    extra,
+    extraReady = true,
+    errorMessage,
+  } = props
   const { t } = useTranslation('common')
   const [step, setStep] = useState<Step>('pick')
   const [fileName, setFileName] = useState('')
@@ -126,13 +139,18 @@ export function ImportDialog<K extends string>(props: ImportDialogProps<K>) {
     ...columns.map((c) => ({
       title: c.label,
       key: c.key,
-      render: (_: unknown, r: PreviewRow<K>) => r.rec[c.key] || <span className="text-[var(--color-text-muted)]">—</span>,
+      render: (_: unknown, r: PreviewRow<K>) =>
+        r.rec[c.key] || <span className="text-[var(--color-text-muted)]">—</span>,
     })),
     {
       title: t('import.check'),
       key: 'check',
       render: (_: unknown, r: PreviewRow<K>) =>
-        r.problem ? <Tag color="error">{r.problem}</Tag> : <Tag color="success">{t('import.ready')}</Tag>,
+        r.problem ? (
+          <Tag color="error">{r.problem}</Tag>
+        ) : (
+          <Tag color="success">{t('import.ready')}</Tag>
+        ),
     },
   ]
 
@@ -140,21 +158,41 @@ export function ImportDialog<K extends string>(props: ImportDialogProps<K>) {
   const imported = done - failures.length
 
   return (
-    <Modal open={open} onCancel={close} title={<span className="text-[20px] font-semibold">{title}</span>} footer={null} width={step === 'pick' ? 560 : 860} destroyOnHidden maskClosable={step !== 'running'} closable={step !== 'running'}>
+    <Modal
+      open={open}
+      onCancel={close}
+      title={<span className="text-[20px] font-semibold">{title}</span>}
+      footer={null}
+      width={step === 'pick' ? 560 : 860}
+      destroyOnHidden
+      maskClosable={step !== 'running'}
+      closable={step !== 'running'}
+    >
       {step === 'pick' && (
         <div className="flex flex-col gap-4" data-testid="import-pick">
           <div className="text-[14px] text-[var(--color-text-muted)]">{intro}</div>
-          <Upload.Dragger accept={IMPORT_ACCEPT} showUploadList={false} beforeUpload={(f) => pick(f as unknown as File)} className="app-upload-dragger">
+          <Upload.Dragger
+            accept={IMPORT_ACCEPT}
+            showUploadList={false}
+            beforeUpload={(f) => pick(f as unknown as File)}
+            className="app-upload-dragger"
+          >
             <div className="flex flex-col items-center gap-2 py-4">
               <FileArrowUp size={30} className="text-[var(--color-text-subtle)]" aria-hidden />
-              <span className="text-[14px] font-semibold text-[var(--color-text)]">{t('import.drop')}</span>
-              <span className="text-[13px] text-[var(--color-text-muted)]">{t('import.formats', { max: IMPORT_MAX_ROWS })}</span>
+              <span className="text-[14px] font-semibold text-[var(--color-text)]">
+                {t('import.drop')}
+              </span>
+              <span className="text-[13px] text-[var(--color-text-muted)]">
+                {t('import.formats', { max: IMPORT_MAX_ROWS })}
+              </span>
             </div>
           </Upload.Dragger>
           {readError && <Alert type="error" showIcon message={readError} />}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span className="text-[13px] text-[var(--color-text-muted)]">
-              {t('import.columnsHint', { columns: columns.map((c) => c.label + (c.required ? ' *' : '')).join(', ') })}
+              {t('import.columnsHint', {
+                columns: columns.map((c) => c.label + (c.required ? ' *' : '')).join(', '),
+              })}
             </span>
             <AppButton variant="secondary" onClick={template}>
               <DownloadSimple size={14} /> {t('import.template')}
@@ -171,9 +209,18 @@ export function ImportDialog<K extends string>(props: ImportDialogProps<K>) {
             message={t('import.summary', { file: fileName, ready: total, skipped })}
           />
           {extra}
-          <Table rowKey="row" size="small" columns={tableColumns} dataSource={rows} pagination={rows.length > 8 ? { pageSize: 8, showSizeChanger: false } : false} scroll={{ x: true }} />
+          <Table
+            rowKey="row"
+            size="small"
+            columns={tableColumns}
+            dataSource={rows}
+            pagination={rows.length > 8 ? { pageSize: 8, showSizeChanger: false } : false}
+            scroll={{ x: true }}
+          />
           <div className="app-modal-footer">
-            <SecondaryActionButton onClick={reset}>{t('import.chooseAnother')}</SecondaryActionButton>
+            <SecondaryActionButton onClick={reset}>
+              {t('import.chooseAnother')}
+            </SecondaryActionButton>
             <PrimaryActionButton onClick={run} disabled={!total || !extraReady}>
               {t('import.importN', { count: total })}
             </PrimaryActionButton>
@@ -190,7 +237,11 @@ export function ImportDialog<K extends string>(props: ImportDialogProps<K>) {
 
       {step === 'done' && (
         <div className="flex flex-col gap-4" data-testid="import-done">
-          <Alert type={failures.length ? 'warning' : 'success'} showIcon message={t('import.result', { imported, failed: failures.length, skipped })} />
+          <Alert
+            type={failures.length ? 'warning' : 'success'}
+            showIcon
+            message={t('import.result', { imported, failed: failures.length, skipped })}
+          />
           {failures.length > 0 && (
             <ul className="m-0 flex max-h-[220px] flex-col gap-1 overflow-auto pl-5 text-[13px]">
               {failures.map((f) => (
