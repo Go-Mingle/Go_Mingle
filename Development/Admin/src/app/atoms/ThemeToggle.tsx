@@ -2,19 +2,19 @@ import { Moon, Sun } from '@phosphor-icons/react'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useThemeStore } from '../../shared/theme/themeStore'
+import { originOf, transitionTheme } from '../../shared/theme/themeTransition'
 
 /** Light / dark switch for the top bar. Shows the theme it switches to. */
 export function ThemeToggle() {
   const { t } = useTranslation()
   const mode = useThemeStore((s) => s.mode)
-  const toggle = useThemeStore((s) => s.toggle)
   const label = mode === 'dark' ? t('topbar.switchToLight') : t('topbar.switchToDark')
 
   return (
     <Tooltip title={label}>
       <button
         type="button"
-        onClick={toggle}
+        onClick={(e) => transitionTheme(mode === 'dark' ? 'light' : 'dark', originOf(e))}
         aria-label={label}
         aria-pressed={mode === 'dark'}
         data-testid="theme-toggle"

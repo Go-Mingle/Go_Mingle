@@ -43,7 +43,14 @@ async function capture(page: Page, root = 'body'): Promise<string[]> {
     }
     const inRows = (el: Element) => !!el.closest('.ant-table-tbody, [role="rowgroup"] [role="row"]')
     for (const rootEl of roots) {
-      for (const el of rootEl.querySelectorAll('h1,h2,h3,h4')) if (visible(el)) out.push(`heading:${el.textContent ?? ''}`)
+      // What a screen reader hears: decorative or moving text (aria-hidden, such as
+      // the sign-in headline's cycling guest) is left out, so the record is stable.
+      const spoken = (el: Element) => {
+        const copy = el.cloneNode(true) as Element
+        copy.querySelectorAll('[aria-hidden="true"]').forEach((n) => n.remove())
+        return copy.textContent ?? ''
+      }
+      for (const el of rootEl.querySelectorAll('h1,h2,h3,h4')) if (visible(el)) out.push(`heading:${spoken(el)}`)
       for (const el of rootEl.querySelectorAll('[role="tab"]')) out.push(`tab:${el.textContent ?? ''}`)
       for (const el of rootEl.querySelectorAll('label, .ant-form-item-label')) if (visible(el)) out.push(`field:${el.textContent ?? ''}`)
       for (const el of rootEl.querySelectorAll('input, textarea, select')) {
