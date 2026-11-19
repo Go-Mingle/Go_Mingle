@@ -27,6 +27,7 @@ import {
   Cigarette,
 } from '@phosphor-icons/react'
 import type { Icon } from '@phosphor-icons/react'
+import { findLibraryIcon } from '../iconLibrary'
 
 const amenityIconMap: Record<string, Icon> = {
   WifiHigh,
@@ -90,10 +91,17 @@ export const AmenityIconBadge = memo(function AmenityIconBadge({
   const value = typeof iconUrl === 'string' ? iconUrl.trim() : ''
   const isSvgMarkup = value.toLowerCase().startsWith('<svg')
   // The real API returns a CDN URL to the uploaded SVG — render it as an image.
-  const isUrl = /^https?:\/\//i.test(value) || value.startsWith('/') || /\.svg(\?|#|$)/i.test(value)
+  const isUrl =
+    /^https?:\/\//i.test(value) ||
+    /^data:image\//i.test(value) ||
+    value.startsWith('/') ||
+    /\.svg(\?|#|$)/i.test(value)
   // Legacy/mock icons are stored as a Phosphor icon name; null falls back to
   // the built-in shield so the current UI is preserved when no icon is given.
-  const phosphorIcon = !isSvgMarkup && !isUrl && value ? (amenityIconMap[value] ?? null) : null
+  const phosphorIcon =
+    !isSvgMarkup && !isUrl && value
+      ? (amenityIconMap[value] ?? findLibraryIcon(value)?.Icon ?? null)
+      : null
   const hasVersion = version !== undefined && version !== null && version !== ''
   const imgSrc = isUrl && hasVersion ? withVersion(value, version) : value
 

@@ -1,4 +1,6 @@
 import { Controller, Delete, Get, HttpCode, Inject, OnModuleInit, Param, Patch, Post, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common'
+import fs from 'node:fs'
+import path from 'node:path'
 import type { Request, Response } from 'express'
 import { asc, eq, sql } from 'drizzle-orm'
 import { DB, type Db } from '../../db/database'
@@ -10,8 +12,23 @@ import { AuditInterceptor } from '../../shared/changelog/audit.interceptor'
 import { ChangeLogService } from '../../shared/changelog/changelog.service'
 import { UsageService } from '../../shared/usage.service'
 import { AdminGuard } from '../access/admin.guard'
+import { config } from '../../config'
 
 type Row = typeof amenities.$inferSelect
+
+/**
+ * A library icon is stored by its Phosphor name (e.g. "WifiHigh"). Only names
+ * that exist in the bundled icon set are accepted, so every screen can draw it.
+ */
+const libraryIcon = (raw: string | null | undefined): string | null => {
+  const name = raw?.trim() ?? ''
+  if (!name) return null
+  const kebab = name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
+  if (!/^[A-Z][A-Za-z0-9]{1,40}$/.test(name) || !fs.existsSync(path.join(config.phosphorDir, `${kebab}.svg`))) {
+    throw apiError(422, 'ERR_VALIDATION', 'Unknown icon.', { iconName: name })
+  }
+  return name
+}
 
 const notFound = () => apiError(404, 'ERR_AMENITY_NOT_FOUND', 'Amenity not found.', {})
 const nameInUse = (name: string) => apiError(409, 'ERR_AMENITY_NAME_IN_USE', 'Amenity name already exists.', { name })
@@ -47,9 +64,7 @@ export class AmenitiesController implements OnModuleInit {
 
   /** Next id: a1, a2, … */
   private async nextId(): Promise<string> {
-    const [row] = await this.db
-      .select({ max: sql<number>`coalesce(max((substring(${amenities.id} from '^a(\\d+)$'))::int), 0)` })
-      .from(amenities)
+    const [row] = await this.db.select({ max: sql<number>`coalesce(max((substring(${amenities.id} from '^a(\\d+)$'))::int), 0)` }).from(amenities)
     return `a${Number(row?.max ?? 0) + 1}`
   }
 
@@ -93,10 +108,11 @@ export class AmenitiesController implements OnModuleInit {
     if (!name) throw apiError(400, 'ERR_VALIDATION', 'Name is required.', {})
     if ((await this.all()).some((a) => a.name.toLowerCase() === name.toLowerCase())) throw nameInUse(name)
     const icon = await fd.file('icon')
+    const iconName = libraryIcon(fd.text('iconName'))
     const now = new Date().toISOString()
     const [a] = await this.db
       .insert(amenities)
-      .values({ id: await this.nextId(), name, iconUrl: icon ? iconDataUrl(icon) : null, createdAt: now, updatedAt: now })
+      .values({ id: await this.nextId(), name, iconUrl: icon ? iconDataUrl(icon) : iconName, createdAt: now, updatedAt: now })
       .returning()
     return { success: true, data: await this.shape(a) }
   }
@@ -111,9 +127,11 @@ export class AmenitiesController implements OnModuleInit {
 
     const changes: Partial<Row> = { updatedAt: new Date().toISOString() }
     if (name) changes.name = name
-    // The portal sends either a replacement file or a reset flag, never both.
+    // The portal sends a replacement file, a library icon name or a reset flag.
     const icon = await fd.file('icon')
+    const iconName = libraryIcon(fd.text('iconName'))
     if (icon) changes.iconUrl = iconDataUrl(icon)
+    else if (iconName) changes.iconUrl = iconName
     else if (fd.text('resetIcon') === 'true') changes.iconUrl = null
     const [a] = await this.db.update(amenities).set(changes).where(eq(amenities.id, id)).returning()
     return { success: true, data: await this.shape(a) }

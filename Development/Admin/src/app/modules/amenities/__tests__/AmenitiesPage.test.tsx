@@ -4,7 +4,7 @@ import { QueryClient } from '@tanstack/react-query'
 import { screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { server } from '../../../../mocks/server'
-import { renderWithProviders } from '../../../../test-utils/renderWithProviders'
+import { within, renderWithProviders } from '../../../../test-utils/renderWithProviders'
 import { AmenitiesPage } from '../AmenitiesPage'
 
 function setMobile() {
@@ -312,6 +312,64 @@ describe('AmenitiesPage', () => {
     await user.click(screen.getByRole('button', { name: /create amenity/i }))
 
     expect(await screen.findByText(/"Rooftop Bar" has been added\./)).toBeInTheDocument()
+  })
+
+  it('lets the admin pick a library icon and sends its name instead of a file', async () => {
+    let sent: { iconName: unknown; icon: unknown } | null = null
+    server.use(
+      http.post(BASE, async ({ request }) => {
+        const fd = await request.formData()
+        sent = { iconName: fd.get('iconName'), icon: fd.get('icon') }
+        return HttpResponse.json(
+          {
+            success: true,
+            data: {
+              id: 'new2',
+              name: fd.get('name'),
+              iconUrl: 'Car',
+              restaurantsCount: 0,
+              createdAt: '2026-06-11T00:00:00Z',
+            },
+          },
+          { status: 201 },
+        )
+      }),
+    )
+
+    renderWithProviders(<AmenitiesPage />)
+    await screen.findByText('Wi-Fi free')
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: /new amenity/i }))
+    await user.type(await screen.findByPlaceholderText('e.g. Rooftop access'), 'Basement parking')
+
+    // The library is the default tab: search narrows it, and a click selects.
+    await user.type(screen.getByRole('textbox', { name: 'Search icons' }), 'parking')
+    const options = within(screen.getByRole('listbox', { name: 'Icons' })).getAllByRole('option')
+    expect(options.map((o) => o.getAttribute('title'))).toContain('Covered parking')
+    const parking = options.find((o) => o.getAttribute('title') === 'Parking')!
+    await user.click(parking)
+    expect(parking).toHaveAttribute('aria-selected', 'true')
+
+    await user.click(screen.getByRole('button', { name: /create amenity/i }))
+    expect(await screen.findByText(/"Basement parking" has been added\./)).toBeInTheDocument()
+    expect(sent).toEqual({ iconName: 'Car', icon: null })
+  })
+
+  it('filters the icon library by category and says when nothing matches', async () => {
+    renderWithProviders(<AmenitiesPage />)
+    await screen.findByText('Wi-Fi free')
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: /new amenity/i }))
+
+    await user.click(await screen.findByRole('button', { name: 'Getting there' }))
+    const titles = within(screen.getByRole('listbox', { name: 'Icons' }))
+      .getAllByRole('option')
+      .map((o) => o.getAttribute('title'))
+    expect(titles).toContain('EV charging')
+    expect(titles).not.toContain('Wi-Fi')
+
+    await user.type(screen.getByRole('textbox', { name: 'Search icons' }), 'zzzz')
+    expect(screen.getByText(/No icon matches that/)).toBeInTheDocument()
   })
 
   it('rejects a whitespace-only amenity name with a validation message and does not POST', async () => {
@@ -649,6 +707,10 @@ describe('AmenitiesPage — SVG icon upload flow', () => {
   })
 
   function getFileInput() {
+    // The dialog opens on the icon library; the file input lives on the upload tab.
+    if (!document.querySelector('.amenity-modal input[type="file"]')) {
+      fireEvent.click(screen.getByText('Upload your own'))
+    }
     return document.querySelector('.amenity-modal input[type="file"]') as HTMLInputElement
   }
 
