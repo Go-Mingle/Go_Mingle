@@ -5,15 +5,11 @@ import { LoginForm } from './components/LoginForm'
 export function LoginPage() {
   return (
     <AuthThemeScope>
-      <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-        {/* Brand panel — only shown at ≥ 1024px */}
-        <div className="hidden lg:block">
-          <BrandPanel />
-        </div>
-
-        {/* Form panel — always visible, full width on small screens */}
+      {/* One full-screen stage: guests gather around the table, then the form (GM-336). */}
+      <main className="gm-stage">
+        <BrandPanel />
         <LoginForm />
-      </div>
+      </main>
     </AuthThemeScope>
   )
 }

@@ -3,22 +3,18 @@ import { screen } from '@testing-library/react'
 import { renderWithProviders } from '../../../../test-utils/renderWithProviders'
 import { BrandPanel } from '../components/BrandPanel'
 
-describe('BrandPanel', () => {
-  it('renders the light logo lockup and the animated table mark', () => {
+describe('BrandPanel (sign-in stage, option B)', () => {
+  it('shows the logo and five guests plus one open seat gathering at the table', () => {
     const { container } = renderWithProviders(<BrandPanel />)
-    expect(screen.getByRole('img', { name: 'GoMingle' })).toHaveClass('gm-wordmark--light')
-    expect(container.querySelector('.gm-mark--animated')).not.toBeNull()
+    expect(screen.getByRole('img', { name: 'GoMingle' })).toBeInTheDocument()
+    expect(container.querySelectorAll('.gm-guest')).toHaveLength(6)
+    expect(container.querySelectorAll('.gm-guest--open')).toHaveLength(1)
   })
 
-  it('says what the admin panel is for', () => {
+  it('reads the whole headline to screen readers, not just the word on screen', () => {
     renderWithProviders(<BrandPanel />)
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Every table, every seat, at a glance.',
-    )
-    expect(screen.getByText('Approve and manage every restaurant')).toBeInTheDocument()
-    expect(
-      screen.getByText('Hold payments in escrow until each dinner is done'),
-    ).toBeInTheDocument()
-    expect(screen.getByText('Tune interests, amenities and timers')).toBeInTheDocument()
+    const h1 = screen.getByRole('heading', { level: 1 })
+    for (const w of ['Restaurants.', 'Tables.', 'Minglers.']) expect(h1).toHaveTextContent(w)
+    expect(h1).toHaveTextContent('All at one table.')
   })
 })
