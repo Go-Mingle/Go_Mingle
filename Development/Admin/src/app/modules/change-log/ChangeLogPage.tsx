@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { MobileEmpty } from '../../molecules/MobileEmpty'
 import { Spin, Alert, Pagination, Grid } from 'antd'
 import { DownloadSimple } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
@@ -54,6 +55,8 @@ interface ChangeLogCardListProps {
 
 function ChangeLogCardList({ data }: ChangeLogCardListProps) {
   const { t } = useTranslation('change-log')
+  if (data.length === 0) return <MobileEmpty title={t('common:mobileEmpty.changeLog.title')} />
+
   return (
     <div className="change-log-card-list">
       {data.map((row, idx) => {

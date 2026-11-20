@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import { useTranslation } from 'react-i18next'
 import type { FinanceRecord } from './financeTypes'
 
@@ -18,6 +19,8 @@ export const FinancesCardList = memo(function FinancesCardList({
   onMinglerClick,
 }: FinancesCardListProps) {
   const { t } = useTranslation('finances')
+
+  if (data.length === 0) return <MobileEmpty title={t('common:mobileEmpty.finances.title')} />
 
   return (
     <div className="finances-card-list">

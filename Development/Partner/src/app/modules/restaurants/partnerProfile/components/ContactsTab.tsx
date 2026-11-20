@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Alert, Modal, Spin, Table, Tooltip } from 'antd'
 import type { ColumnsType, TableProps } from 'antd/es/table'
 import type { FilterDropdownProps, SortOrder } from 'antd/es/table/interface'
-import { AddressBook, PencilSimple, Plus, Trash } from '@phosphor-icons/react'
+import { AddressBook, FileArrowUp, PencilSimple, Plus, Trash } from '@phosphor-icons/react'
+import { ImportContactsDialog } from './ImportContactsDialog'
 import { useTranslation } from 'react-i18next'
 import { getApiErrorMessage } from '../../../../../shared/utils/apiError'
 import { AppButton } from '../../../../atoms/AppButton'
@@ -93,6 +94,7 @@ function ContactFormModal({ c }: { c: Contacts }) {
  */
 export function ContactsTab({ c }: { c: Contacts }) {
   const { t } = useTranslation(['restaurants', 'common'])
+  const [importOpen, setImportOpen] = useState(false)
 
   const searching = Boolean(c.search)
 
@@ -247,10 +249,16 @@ export function ContactsTab({ c }: { c: Contacts }) {
   }
 
   const addButton = c.editable ? (
-    <AppButton variant="primary" onClick={c.openAdd} className="justify-center">
-      <Plus size={15} />
-      {t('restaurants:contacts.add')}
-    </AppButton>
+    <div className="flex flex-wrap justify-center gap-2">
+      <AppButton variant="secondary" onClick={() => setImportOpen(true)} className="justify-center">
+        <FileArrowUp size={15} />
+        {t('restaurants:contacts.importButton')}
+      </AppButton>
+      <AppButton variant="primary" onClick={c.openAdd} className="justify-center">
+        <Plus size={15} />
+        {t('restaurants:contacts.add')}
+      </AppButton>
+    </div>
   ) : undefined
 
   return (
@@ -285,6 +293,9 @@ export function ContactsTab({ c }: { c: Contacts }) {
       )}
 
       <ContactFormModal c={c} />
+      {c.editable && (
+        <ImportContactsDialog open={importOpen} onClose={() => setImportOpen(false)} />
+      )}
 
       <ConfirmModal
         open={!!c.deleteTarget}
