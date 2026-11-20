@@ -7,6 +7,7 @@ import { NotificationPopover } from './NotificationPopover'
 import { UserMenuDropdown } from './UserMenuDropdown'
 import { TopbarModals } from './TopbarModals'
 import { ThemeToggle } from '../atoms/ThemeToggle'
+import { CommandPaletteTrigger } from './command/CommandPaletteTrigger'
 import { useAppDispatch, useAppSelector } from '../../shared/store/hooks'
 import { toggleDrawer } from '../../shared/store/uiSlice'
 
@@ -41,7 +42,8 @@ export function Topbar() {
         </span>
       </div>
 
-      <div className="flex items-center gap-4 lg:gap-6">
+      <div className="flex items-center gap-3 lg:gap-5">
+        <CommandPaletteTrigger />
         <ThemeToggle />
         <NotificationPopover
           open={bellOpen}
