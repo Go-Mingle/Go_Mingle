@@ -1,7 +1,7 @@
 import { Table } from 'antd'
 import { withFixedEnds } from '../../../molecules/withFixedEnds'
 import type { ColumnsType } from 'antd/es/table'
-import { Funnel } from '@phosphor-icons/react'
+import { Funnel, ShieldCheck } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import type { UserRow } from './types'
 import type { ListUsersQueryParams } from '../types'
@@ -122,6 +122,23 @@ export function UsersTable({
           </span>
         )
       },
+    },
+    {
+      title: t('table.headers.twoStep'),
+      dataIndex: 'twoStepEnabled',
+      key: 'twoStepEnabled',
+      align: 'left',
+      render: (on: boolean | undefined) => (
+        <span
+          className={`inline-flex items-center gap-1 text-[13px] font-medium ${
+            on ? 'text-(--color-success)' : 'text-(--color-text-subtle)'
+          }`}
+          data-testid="user-two-step"
+        >
+          {on ? <ShieldCheck size={14} weight="fill" aria-hidden /> : null}
+          {on ? t('twoStep.on') : t('twoStep.off')}
+        </span>
+      ),
     },
     {
       title: '',

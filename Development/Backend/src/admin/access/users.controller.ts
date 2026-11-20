@@ -14,6 +14,7 @@ import { AccountDirectory } from '../../shared/accounts/account-directory.servic
 import { AdminGuard, CurrentAdmin } from './admin.guard'
 import { AdminAccountsService, type AdminSession, type AdminUserRow } from './admin-accounts.service'
 import { MailService } from '../../shared/email/mail.service'
+import { AdminSecurityService } from './admin-security.service'
 
 const err = (code: string, message: string, status: number) => apiError(status, code, message, {})
 
@@ -29,7 +30,14 @@ export class UsersController implements OnModuleInit {
     private readonly directory: AccountDirectory,
     private readonly changeLog: ChangeLogService,
     private readonly mail: MailService,
+    private readonly security: AdminSecurityService,
   ) {}
+
+  /** Suspending, deleting or resetting a user signs out all their sign-ins at once. */
+  private async signOutEverywhere(id: string) {
+    for (const sid of await this.security.revokeOthers(id, null)) await this.tokens.revokeSession(sid)
+    await this.tokens.revokeUser(id)
+  }
 
   onModuleInit() {
     this.changeLog.registerTarget('users', async (id) => {
@@ -72,6 +80,7 @@ export class UsersController implements OnModuleInit {
       role: role ?? { id: u.roleId, name: '', fullAccess: false },
       status: u.status,
       createdAt: u.createdAt,
+      twoStepEnabled: Boolean(u.totpEnabledAt && u.totpSecret),
     }
   }
 
@@ -189,7 +198,7 @@ export class UsersController implements OnModuleInit {
     const [u] = Object.keys(changes).length
       ? await this.db.update(adminUsers).set(changes).where(eq(adminUsers.id, id)).returning()
       : [existing]
-    if (u.status !== 'ACTIVE') await this.tokens.revokeUser(id)
+    if (u.status !== 'ACTIVE') await this.signOutEverywhere(id)
     return { success: true, data: await this.response(u) }
   }
 
@@ -199,7 +208,7 @@ export class UsersController implements OnModuleInit {
     if (await this.isOnlyActiveSuperAdmin(id)) throw err('ERR_LAST_SUPER_ADMIN', 'Cannot delete the last active super admin.', 409)
     if (await this.find(id)) {
       await this.db.update(adminUsers).set({ status: 'DELETED' }).where(eq(adminUsers.id, id))
-      await this.tokens.revokeUser(id)
+      await this.signOutEverywhere(id)
     }
     res.status(204).end()
   }
@@ -214,7 +223,23 @@ export class UsersController implements OnModuleInit {
     const u = await this.find(id)
     if (!u) throw err('ERR_USER_NOT_FOUND', 'User not found.', 404)
     await this.accounts.setPasswordHash(id, hashPassword(body.newPassword))
-    await this.tokens.revokeUser(id)
+    await this.signOutEverywhere(id)
     return { success: true, data: { id: u.id, email: u.email, passwordChangedAt: new Date().toISOString() } }
+  }
+
+  /**
+   * Turns off another admin's two-step sign-in (lost phone, used-up backup
+   * codes) and signs them out everywhere. They set it up again at next sign-in
+   * when the panel requires it.
+   */
+  @Post(':id/reset-two-step')
+  @HttpCode(200)
+  async resetTwoStep(@Param('id') id: string, @CurrentAdmin() me: AdminSession) {
+    if (id === me.id) throw err('ERR_SELF_MODIFICATION', 'Use the Security page to change your own two-step sign-in.', 403)
+    const u = await this.find(id)
+    if (!u) throw err('ERR_USER_NOT_FOUND', 'User not found.', 404)
+    await this.security.disable(u)
+    await this.signOutEverywhere(id)
+    return { success: true, data: await this.response({ ...u, totpEnabledAt: null, totpSecret: null }) }
   }
 }

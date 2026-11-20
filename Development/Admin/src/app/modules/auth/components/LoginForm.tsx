@@ -3,7 +3,15 @@ import { Form } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../../../shared/store/hooks'
-import { cognitoLogin, mapCognitoErrorToCode } from '../cognitoService'
+import {
+  cognitoLogin,
+  completeSecondStep,
+  mapCognitoErrorToCode,
+  SecondStepError,
+  TwoStepNeeded,
+  type CognitoLoginResult,
+} from '../cognitoService'
+import { TwoStepCodeStep } from './TwoStepCodeStep'
 import { loginAction, setPermissionsUnavailableAction } from '../../../../shared/store/authSlice'
 import { getStrength } from '../../../../shared/utils/passwordStrength'
 import { isValidEmail } from '../../../../shared/utils/email'
@@ -22,7 +30,7 @@ import {
   SuccessStep,
 } from './LoginSteps'
 
-type Step = 'login' | 'request-otp' | 'verify-otp' | 'new-password' | 'success'
+type Step = 'login' | 'two-step' | 'request-otp' | 'verify-otp' | 'new-password' | 'success'
 
 // Removed lockout constants — previously managed locally but now delegated to AWS Cognito's built-in
 // account lockout mechanism which is more secure and standards-compliant
@@ -89,6 +97,10 @@ export function LoginForm() {
       }
     }, 1000)
   }
+
+  // Two-step sign-in (GM-346): the token from the password step, and the email.
+  const [mfa, setMfa] = useState<{ token: string; email: string } | null>(null)
+  const [twoStepError, setTwoStepError] = useState('')
 
   const [otp, setOtp] = useState('')
   const [countdown, setCountdown] = useState(0)
@@ -237,6 +249,88 @@ export function LoginForm() {
     }, 1000)
   }
 
+  /** Everything after the session tokens are in hand: profile, permissions, landing page. */
+  const finishSignIn = async (result: CognitoLoginResult) => {
+    localStorage.setItem('auth-token-timestamp', Date.now().toString())
+
+    // Resolve the user's role + permissions from auth/me so RBAC
+    // (sidebar filtering, route guards, landing route) has real data before we navigate.
+    let user: AuthUser = result.user
+    let permissionsLookupFailed = false
+    try {
+      const { me, permissions, fullAccess } = await resolveMeWithPermissions()
+      user = {
+        ...result.user,
+        // Display name must always reflect the profile's fullName (GET /auth/me).
+        name: me.fullName || result.user.name,
+        initials: (me.fullName || result.user.name).slice(0, 2).toUpperCase(),
+        role: me.role.name,
+        permissions,
+        fullAccess,
+      }
+    } catch (meErr) {
+      // Fall back to the identity-only user; guards will deny modules until
+      // the AuthGuard poll re-syncs permissions.
+      //
+      // A-02 (pentest) — this used to be an empty catch. When /auth/me returns
+      // HTTP 500 (the caller's role was soft-deleted) the fallback user carries
+      // no permissions, so the operator was dropped on a bare "Access denied"
+      // that reads as a permissions problem rather than a server fault. Record
+      // the outage unless the session itself was rejected, in which case the
+      // normal expiry path already handles it.
+      const typedMeErr = meErr as { code?: string; status?: number }
+      if (typedMeErr.code !== 'ERR_ACCOUNT_SUSPENDED' && typedMeErr.status !== 401) {
+        permissionsLookupFailed = true
+      }
+    }
+
+    dispatch(loginAction(user))
+    // Dispatched after loginAction, which resets the flag as part of a fresh session.
+    if (permissionsLookupFailed) {
+      dispatch(setPermissionsUnavailableAction(true))
+    }
+    // The panel requires two-step sign-in and this admin hasn't set it up yet.
+    const landing = result.twoStepSetupRequired
+      ? '/security?setup=1'
+      : (firstAccessiblePath(getRoleFromUser(user)) ?? '/')
+    navigate(landing, { replace: true })
+  }
+
+  const onVerifySecondStep = async (code: string) => {
+    if (!mfa) return
+    setLoading(true)
+    setTwoStepError('')
+    try {
+      const result = await completeSecondStep(mfa.token, code, mfa.email)
+      await finishSignIn(result)
+    } catch (err) {
+      setLoading(false)
+      if (err instanceof SecondStepError) {
+        if (err.status === 423) {
+          armLockoutInterval(
+            err.unlocksAt ? new Date(err.unlocksAt).getTime() : Date.now() + 15 * 60_000,
+          )
+          setMfa(null)
+          setStep('login')
+          return
+        }
+        if (err.code === 'ERR_MFA_TOKEN_INVALID') {
+          setMfa(null)
+          setStep('login')
+          setLoginError(t('twoStep.expired'))
+          return
+        }
+        setTwoStepError(
+          err.remainingAttempts !== undefined
+            ? t('twoStep.wrongCodeRemaining', { count: err.remainingAttempts })
+            : t('twoStep.wrongCode'),
+        )
+        return
+      }
+      setTwoStepError(t('twoStep.failed'))
+    }
+  }
+
   const onFinish = async (values: { email: string; password: string }) => {
     if (!validateBeforeSubmit(values)) return
 
@@ -260,6 +354,14 @@ export function LoginForm() {
       loginResult = await cognitoLogin(email, values.password)
       cognitoSucceeded = true
     } catch (err) {
+      if (err instanceof TwoStepNeeded) {
+        // Password was right: ask for the code. Not a failed attempt.
+        setMfa({ token: err.mfaToken, email })
+        setTwoStepError('')
+        setStep('two-step')
+        setLoading(false)
+        return
+      }
       cognitoErr = err
     }
 
@@ -288,46 +390,7 @@ export function LoginForm() {
     }
 
     if (cognitoSucceeded && loginResult) {
-      localStorage.setItem('auth-token-timestamp', Date.now().toString())
-
-      // Resolve the user's role + permissions from auth/me so RBAC
-      // (sidebar filtering, route guards, landing route) has real data before we navigate.
-      let user: AuthUser = loginResult.user
-      let permissionsLookupFailed = false
-      try {
-        const { me, permissions, fullAccess } = await resolveMeWithPermissions()
-        user = {
-          ...loginResult.user,
-          // Display name must always reflect the profile's fullName (GET /auth/me).
-          name: me.fullName || loginResult.user.name,
-          initials: (me.fullName || loginResult.user.name).slice(0, 2).toUpperCase(),
-          role: me.role.name,
-          permissions,
-          fullAccess,
-        }
-      } catch (meErr) {
-        // Fall back to the identity-only user; guards will deny modules until
-        // the AuthGuard poll re-syncs permissions.
-        //
-        // A-02 (pentest) — this used to be an empty catch. When /auth/me returns
-        // HTTP 500 (the caller's role was soft-deleted) the fallback user carries
-        // no permissions, so the operator was dropped on a bare "Access denied"
-        // that reads as a permissions problem rather than a server fault. Record
-        // the outage unless the session itself was rejected, in which case the
-        // normal expiry path already handles it.
-        const typedMeErr = meErr as { code?: string; status?: number }
-        if (typedMeErr.code !== 'ERR_ACCOUNT_SUSPENDED' && typedMeErr.status !== 401) {
-          permissionsLookupFailed = true
-        }
-      }
-
-      dispatch(loginAction(user))
-      // Dispatched after loginAction, which resets the flag as part of a fresh session.
-      if (permissionsLookupFailed) {
-        dispatch(setPermissionsUnavailableAction(true))
-      }
-      const landing = firstAccessiblePath(getRoleFromUser(user)) ?? '/'
-      navigate(landing, { replace: true })
+      await finishSignIn(loginResult)
     } else {
       setLoginError(getErrorMessage(mapCognitoErrorToCode(cognitoErr), remainingAttempts))
       setLoading(false)
@@ -435,6 +498,18 @@ export function LoginForm() {
                 demoPassword={DEMO_PASSWORD}
               />
             </Form>
+          )}
+
+          {step === 'two-step' && (
+            <TwoStepCodeStep
+              loading={loading}
+              error={twoStepError}
+              onVerify={(code) => void onVerifySecondStep(code)}
+              onBack={() => {
+                setMfa(null)
+                setStep('login')
+              }}
+            />
           )}
 
           {step === 'request-otp' && (

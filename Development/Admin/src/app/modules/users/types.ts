@@ -11,6 +11,8 @@ export interface UserRow {
   status: 'ACTIVE' | 'SUSPENDED'
   createdAt: string
   updatedAt?: string
+  /** Two-step sign-in is on for this admin (GM-346). */
+  twoStepEnabled?: boolean
 }
 
 export type UserStatus = 'ACTIVE' | 'SUSPENDED'
