@@ -61,7 +61,7 @@ const toValues = (p: ManagedProfile): Values => ({
   visibleOnApp: p.visibleOnApp,
 })
 
-const toPatch = (v: Values, wasVisible: boolean): ProfilePatch => ({
+const fullPatch = (v: Values): ProfilePatch => ({
   name: v.name.trim(),
   cuisine: v.cuisine.trim(),
   description: v.description.trim(),
@@ -83,8 +83,23 @@ const toPatch = (v: Values, wasVisible: boolean): ProfilePatch => ({
     dressCode: v.dressCode.trim(),
     servesAlcohol: v.servesAlcohol,
   },
-  ...(v.visibleOnApp !== wasVisible ? { visibleOnApp: v.visibleOnApp } : {}),
+  visibleOnApp: v.visibleOnApp,
 })
+
+/**
+ * Only what the admin changed, so saving one field never rewrites the rest
+ * (an empty "house rules" group would otherwise be saved as set, and a
+ * restaurant's own edits made meanwhile would be overwritten).
+ */
+const toPatch = (v: Values, original: Values): ProfilePatch => {
+  const next = fullPatch(v) as Record<string, unknown>
+  const before = fullPatch(original) as Record<string, unknown>
+  const patch: Record<string, unknown> = {}
+  for (const key of Object.keys(next)) {
+    if (JSON.stringify(next[key]) !== JSON.stringify(before[key])) patch[key] = next[key]
+  }
+  return patch as ProfilePatch
+}
 
 /**
  * Every field of the restaurant's profile, editable by a super admin (GM-342):
@@ -117,7 +132,12 @@ export function EditDetailsDrawer({ restaurantId, open, onClose }: Props) {
   // Saved through the form (onFinish), which waits for any validation still running.
   const onFinish = (values: Values) => {
     if (!profile.data) return
-    save.mutate(toPatch(values, profile.data.visibleOnApp), {
+    const patch = toPatch(values, toValues(profile.data))
+    if (Object.keys(patch).length === 0) {
+      onClose()
+      return
+    }
+    save.mutate(patch, {
       onSuccess: () => {
         void messageApi.success(t('restaurants:manage.saved'))
         onClose()
