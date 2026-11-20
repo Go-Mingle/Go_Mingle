@@ -1,3 +1,4 @@
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import { Table } from 'antd'
 import { withFixedEnds } from '../../../molecules/withFixedEnds'
 import type { ColumnsType } from 'antd/es/table'
@@ -126,6 +127,7 @@ export function ChangeLogTable({ pagedData, onTableChange }: ChangeLogTableProps
   return (
     <div className="change-log-table">
       <Table<LogRow>
+        locale={{ emptyText: <MobileEmpty title={t('common:mobileEmpty.changeLog.title')} /> }}
         dataSource={pagedData}
         columns={withFixedEnds(columns, { pinLast: false })}
         rowKey="id"

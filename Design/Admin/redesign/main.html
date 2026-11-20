@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Candlelit - Brand sheet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700&amp;family=Manrope:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#FFB547}a:hover{color:#FFD08A}
+.m-ring{stroke-dasharray:88;stroke-dashoffset:88;animation:m-draw 6s cubic-bezier(.2,0,0,1) infinite}
+.m-seat{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:m-pop 6s cubic-bezier(.34,1.56,.64,1) infinite}
+.m-d1{animation-delay:.1s}.m-d2{animation-delay:.22s}.m-d3{animation-delay:.34s}.m-d4{animation-delay:.46s}.m-d5{animation-delay:.58s}
+.m-open{transform-box:fill-box;transform-origin:center;animation:m-open 6s ease-in-out infinite}
+@keyframes m-draw{0%{stroke-dashoffset:88}16%,90%{stroke-dashoffset:0}100%{stroke-dashoffset:88}}
+@keyframes m-pop{0%,16%{transform:scale(0)}24%,90%{transform:scale(1)}97%,100%{transform:scale(0)}}
+@keyframes m-open{0%,30%{opacity:0;transform:scale(.6)}40%{opacity:1;transform:scale(1)}55%{transform:scale(1.25)}70%,90%{opacity:1;transform:scale(1)}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.m-ring,.m-seat,.m-open{animation:none;stroke-dashoffset:0;transform:none;opacity:1}}
+</style>
+</head>
+<body>
+<div style="width:1440px;height:1040px;box-sizing:border-box;background:#14102A;color:#F4F1FF;font-family:Manrope,sans-serif;padding:64px 72px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:56px">
+  <div style="display:flex;flex-direction:column;gap:40px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <h1 style="margin:0;font-family:Unbounded,sans-serif;font-weight:700;font-size:44px;line-height:1.08">The O is a table. One seat is always open.</h1>
+      <p style="margin:0;font-size:17px;line-height:1.6;color:#B9B3D6;max-width:560px">Tables on GoMingle seat two people or ten, so the mark never counts heads. It shows a round table, the people already around it, and one open seat drawn as an outline: the place that is waiting for you.</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:48px;padding:40px;border-radius:28px;background:radial-gradient(360px 300px at 30% 50%,rgba(255,181,71,.16),transparent 70%),#1A1535">
+      <svg width="220" height="220" viewBox="0 0 64 64" role="img" aria-label="GoMingle mark: a round table with people seated and one open seat">
+        <circle class="m-ring" cx="32" cy="32" r="14" fill="none" stroke="#FF5A44" stroke-width="4.5" stroke-linecap="round" transform="rotate(-90 32 32)"></circle>
+        <circle class="m-seat" cx="32" cy="7" r="4.2" fill="#FFB547"></circle>
+        <circle class="m-seat m-d1" cx="53.7" cy="19.5" r="4.2" fill="#3FD6B4"></circle>
+        <circle class="m-seat m-d2" cx="53.7" cy="44.5" r="4.2" fill="#FFB547"></circle>
+        <circle class="m-seat m-d3" cx="32" cy="57" r="4.2" fill="#3FD6B4"></circle>
+        <circle class="m-seat m-d4" cx="10.3" cy="44.5" r="4.2" fill="#FFB547"></circle>
+        <circle class="m-open" cx="10.3" cy="19.5" r="3.6" fill="none" stroke="#FFB547" stroke-width="1.6"></circle>
+      </svg>
+      <div style="display:flex;flex-direction:column;gap:14px;font-size:14px;line-height:1.55;color:#D6D1EE;max-width:300px">
+        <div><strong style="color:#FF5A44">Ember ring:</strong> the table, drawn in one stroke on load.</div>
+        <div><strong style="color:#FFB547">Filled seats:</strong> guests already booked, candle and mint alternating.</div>
+        <div><strong style="color:#FFB547">Open seat:</strong> the outline that pulses once. It is the call to action, in the logo.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="height:120px;border-radius:20px;background:#14102A;border:1px solid #3A3263;display:flex;align-items:center;justify-content:center;gap:2px;font-family:Unbounded,sans-serif;font-weight:700;font-size:24px">
+          <span>G</span><svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="14" fill="none" stroke="#FF5A44" stroke-width="5"></circle><circle cx="32" cy="7" r="4.6" fill="#FFB547"></circle><circle cx="53.7" cy="19.5" r="4.6" fill="#3FD6B4"></circle><circle cx="53.7" cy="44.5" r="4.6" fill="#FFB547"></circle><circle cx="32" cy="57" r="4.6" fill="#3FD6B4"></circle><circle cx="10.3" cy="44.5" r="4.6" fill="#FFB547"></circle><circle cx="10.3" cy="19.5" r="3.8" fill="none" stroke="#FFB547" stroke-width="2"></circle></svg><span>Mingle</span>
+        </div>
+        <span style="font-size:13px;color:#B9B3D6">Wordmark on midnight</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="height:120px;border-radius:20px;background:#F7F5FC;color:#1A1530;display:flex;align-items:center;justify-content:center;gap:2px;font-family:Unbounded,sans-serif;font-weight:700;font-size:24px">
+          <span>G</span><svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="14" fill="none" stroke="#E8432E" stroke-width="5"></circle><circle cx="32" cy="7" r="4.6" fill="#D98A12"></circle><circle cx="53.7" cy="19.5" r="4.6" fill="#13A386"></circle><circle cx="53.7" cy="44.5" r="4.6" fill="#D98A12"></circle><circle cx="32" cy="57" r="4.6" fill="#13A386"></circle><circle cx="10.3" cy="44.5" r="4.6" fill="#D98A12"></circle><circle cx="10.3" cy="19.5" r="3.8" fill="none" stroke="#D98A12" stroke-width="2"></circle></svg><span>Mingle</span>
+        </div>
+        <span style="font-size:13px;color:#B9B3D6">Wordmark on daylight</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="height:120px;border-radius:20px;background:#FF5A44;display:flex;align-items:center;justify-content:center">
+          <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="14" fill="none" stroke="#14102A" stroke-width="5"></circle><circle cx="32" cy="7" r="4.6" fill="#14102A"></circle><circle cx="53.7" cy="19.5" r="4.6" fill="#14102A"></circle><circle cx="53.7" cy="44.5" r="4.6" fill="#14102A"></circle><circle cx="32" cy="57" r="4.6" fill="#14102A"></circle><circle cx="10.3" cy="44.5" r="4.6" fill="#14102A"></circle><circle cx="10.3" cy="19.5" r="3.8" fill="none" stroke="#14102A" stroke-width="2"></circle></svg>
+        </div>
+        <span style="font-size:13px;color:#B9B3D6">App icon and favicon, one colour</span>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:36px">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <h2 style="margin:0;font-family:Unbounded,sans-serif;font-size:20px;font-weight:500">Colour, by mode</h2>
+      <div style="display:grid;grid-template-columns:120px repeat(2,minmax(0,1fr));gap:8px 12px;font-size:13px;align-items:center">
+        <span style="color:#8E87B3">Role</span><span style="color:#8E87B3">Dark (sign-in, landing, dark toggle)</span><span style="color:#8E87B3">Light (dashboards by default)</span>
+        <span>Ground</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#14102A;border:1px solid #3A3263"></span>Midnight #14102A</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#F7F5FC"></span>Linen #F7F5FC</span>
+        <span>Surface</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#221C40"></span>Booth #221C40</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#FFFFFF"></span>White #FFFFFF</span>
+        <span>Text</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#F4F1FF"></span>Moon #F4F1FF</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#1A1530"></span>Ink #1A1530</span>
+        <span>Primary</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#FF5A44"></span>Ember #FF5A44</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#FF5A44"></span>Ember #FF5A44, ink label</span>
+        <span>Warm accent</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#FFB547"></span>Candle #FFB547</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#D98A12"></span>Brass #D98A12</span>
+        <span>Cool accent</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#3FD6B4"></span>Mint #3FD6B4</span><span style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:8px;background:#13A386"></span>Sage #13A386</span>
+      </div>
+      <p style="margin:0;font-size:13px;line-height:1.55;color:#B9B3D6">Buttons are Ember with an ink label in both modes (6:1 contrast). Brass and Sage are the light-mode versions of Candle and Mint, dark enough to carry text.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <h2 style="margin:0;font-family:Unbounded,sans-serif;font-size:20px;font-weight:500">Type</h2>
+      <div style="font-family:Unbounded,sans-serif;font-weight:700;font-size:40px;line-height:1.1">Tonight at Saffron</div>
+      <div style="font-family:Unbounded,sans-serif;font-weight:500;font-size:22px">Six of eight seats taken</div>
+      <div style="font-size:16px;line-height:1.6;color:#D6D1EE;max-width:520px">Manrope carries the interface: forms, tables, menus and every sentence you read. Unbounded is kept for the name, page titles and big numbers, never for paragraphs.</div>
+      <div style="font-size:13px;color:#8E87B3">Scale: 40 / 28 / 22 / 18 / 16 / 14 / 13. Body line height 1.6.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <h2 style="margin:0;font-family:Unbounded,sans-serif;font-size:20px;font-weight:500">How it speaks</h2>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;font-size:14px;line-height:1.5">
+        <div style="padding:16px;border-radius:16px;background:#221C40"><span style="color:#3FD6B4;font-weight:700">Say</span><br>"Table for 6 is full. Open another one?"</div>
+        <div style="padding:16px;border-radius:16px;background:#221C40"><span style="color:#FF8A78;font-weight:700">Not</span><br>"Error: capacity exceeded for resource."</div>
+        <div style="padding:16px;border-radius:16px;background:#221C40"><span style="color:#3FD6B4;font-weight:700">Say</span><br>"Someone just took a seat at Book Club, 8 PM."</div>
+        <div style="padding:16px;border-radius:16px;background:#221C40"><span style="color:#FF8A78;font-weight:700">Not</span><br>"New booking record created."</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Login option A - The table is the stage (dark)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=Manrope:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#FFB547}a:hover{color:#FFD08A}
+.a-glow{animation:a-drift 14s ease-in-out infinite alternate}
+.a-glow2{animation:a-drift2 18s ease-in-out infinite alternate}
+.a-ring{stroke-dasharray:2765;stroke-dashoffset:2765;animation:a-draw 1.6s cubic-bezier(.2,0,0,1) .2s forwards}
+.a-seat{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:a-pop .5s cubic-bezier(.34,1.56,.64,1) forwards}
+.a-open{transform-box:fill-box;transform-origin:center;opacity:0;animation:a-in .4s ease 2.9s forwards,a-breathe 3s ease-in-out 3.3s 1}
+.a-card{opacity:0;transform:scale(.94);animation:a-card .7s cubic-bezier(.2,0,0,1) 1.2s forwards}
+.a-word{opacity:0;transform:translateY(10px);animation:a-rise .6s cubic-bezier(.2,0,0,1) forwards}
+@keyframes a-draw{to{stroke-dashoffset:0}}
+@keyframes a-pop{to{transform:scale(1)}}
+@keyframes a-in{to{opacity:1}}
+@keyframes a-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+@keyframes a-card{to{opacity:1;transform:none}}
+@keyframes a-rise{to{opacity:1;transform:none}}
+@keyframes a-drift{from{transform:translate(-40px,-20px)}to{transform:translate(60px,30px)}}
+@keyframes a-drift2{from{transform:translate(30px,20px)}to{transform:translate(-50px,-40px)}}
+@media (prefers-reduced-motion:reduce){.a-glow,.a-glow2,.a-ring,.a-seat,.a-open,.a-card,.a-word{animation:none;opacity:1;transform:none;stroke-dashoffset:0}}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #FFB547;outline-offset:2px}
+</style>
+</head>
+<body>
+<div style="width:1440px;height:900px;position:relative;overflow:hidden;background:#14102A;color:#F4F1FF;font-family:Manrope,sans-serif">
+  <div class="a-glow" style="position:absolute;width:760px;height:760px;left:340px;top:70px;border-radius:50%;background:radial-gradient(circle,rgba(255,181,71,.20),transparent 65%)"></div>
+  <div class="a-glow2" style="position:absolute;width:620px;height:620px;left:-120px;top:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,90,68,.16),transparent 65%)"></div>
+  <div class="a-glow" style="position:absolute;width:560px;height:560px;right:-140px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(63,214,180,.10),transparent 65%)"></div>
+
+  <svg width="1440" height="900" viewBox="0 0 1440 900" aria-hidden="true" style="position:absolute;inset:0">
+    <circle class="a-ring" cx="720" cy="450" r="440" fill="none" stroke="#FF5A44" stroke-opacity=".55" stroke-width="3" transform="rotate(-90 720 450)"></circle>
+    <circle class="a-seat" style="animation-delay:1.5s" cx="720" cy="18" r="22" fill="#FFB547"></circle>
+    <circle class="a-seat" style="animation-delay:1.65s" cx="1031" cy="139" r="22" fill="#3FD6B4"></circle>
+    <circle class="a-seat" style="animation-delay:1.8s" cx="1160" cy="450" r="22" fill="#FFB547"></circle>
+    <circle class="a-seat" style="animation-delay:1.95s" cx="1031" cy="761" r="22" fill="#3FD6B4"></circle>
+    <circle class="a-seat" style="animation-delay:2.1s" cx="720" cy="882" r="22" fill="#FFB547"></circle>
+    <circle class="a-seat" style="animation-delay:2.25s" cx="409" cy="761" r="22" fill="#3FD6B4"></circle>
+    <circle class="a-seat" style="animation-delay:2.4s" cx="280" cy="450" r="22" fill="#FFB547"></circle>
+    <circle class="a-open" cx="409" cy="139" r="20" fill="none" stroke="#FFB547" stroke-width="3"></circle>
+  </svg>
+
+  <div style="position:absolute;top:32px;left:40px;display:flex;align-items:center;gap:2px;font-family:Unbounded,sans-serif;font-weight:700;font-size:22px">G<svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="14" fill="none" stroke="#FF5A44" stroke-width="5"></circle><circle cx="32" cy="7" r="4.6" fill="#FFB547"></circle><circle cx="53.7" cy="19.5" r="4.6" fill="#3FD6B4"></circle><circle cx="53.7" cy="44.5" r="4.6" fill="#FFB547"></circle><circle cx="32" cy="57" r="4.6" fill="#3FD6B4"></circle><circle cx="10.3" cy="44.5" r="4.6" fill="#FFB547"></circle><circle cx="10.3" cy="19.5" r="3.8" fill="none" stroke="#FFB547" stroke-width="2"></circle></svg>Mingle</div>
+  <div role="group" aria-label="Theme" style="position:absolute;top:24px;right:32px;display:flex;gap:4px;padding:4px;border-radius:999px;background:#1E1838;border:1px solid #2E2752"><a href="#" aria-label="Light theme" style="width:40px;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;color:#B9B3D6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></a><span aria-current="true" style="width:40px;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:#FF5A44;color:#14102A"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"></path></svg></span></div>
+
+  <div style="position:absolute;left:470px;top:150px;width:500px;display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center">
+    <h1 style="margin:0;font-family:Unbounded,sans-serif;font-weight:700;font-size:34px;line-height:1.15"><span class="a-word" style="display:inline-block;animation-delay:.6s">Pull up</span> <span class="a-word" style="display:inline-block;animation-delay:.75s">a chair.</span></h1>
+    <p class="a-word" style="margin:-8px 0 0;font-size:15px;color:#B9B3D6;animation-delay:.9s">Your floor is filling up. One seat is still open for you.</p>
+    <div class="a-card" style="width:100%;box-sizing:border-box;padding:30px;border-radius:24px;background:#1E1838;border:1px solid #3A3263;box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 6px rgba(255,90,68,.06);display:flex;flex-direction:column;gap:16px;text-align:left">
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:600">Work email<input type="email" placeholder="you@restaurant.pk" style="height:48px;border-radius:12px;border:1px solid #3A3263;background:#14102A;color:#F4F1FF;padding:0 14px;font:inherit;font-size:15px"></label>
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:600">Password<input type="password" placeholder="Your password" style="height:48px;border-radius:12px;border:1px solid #3A3263;background:#14102A;color:#F4F1FF;padding:0 14px;font:inherit;font-size:15px"></label>
+      <button type="button" style="height:52px;border:0;border-radius:12px;background:#FF5A44;color:#14102A;font:inherit;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 10px 30px rgba(255,90,68,.35)">Take your seat</button>
+      <div style="display:flex;justify-content:space-between;font-size:13px"><a href="#">Forgot password?</a><a href="#">Continue with Google</a></div>
+    </div>
+    <p class="a-word" style="margin:0;font-size:14px;color:#B9B3D6;animation-delay:2.6s">New restaurant? <a href="#">List your tables</a></p>
+  </div>
+</div>
+</body>
+</html>

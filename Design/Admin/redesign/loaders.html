@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Candlelit - Loaders and motion</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=Manrope:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0}
+.x-ring{stroke-dasharray:88;stroke-dashoffset:88;animation:x-draw 3.2s cubic-bezier(.2,0,0,1) infinite}
+.x-seat{transform-box:fill-box;transform-origin:center;animation:x-pop 3.2s cubic-bezier(.34,1.56,.64,1) infinite}
+.x-s1{animation-delay:.08s}.x-s2{animation-delay:.16s}.x-s3{animation-delay:.24s}.x-s4{animation-delay:.32s}
+.x-orbit{transform-origin:32px 32px;animation:x-spin 1.2s cubic-bezier(.65,0,.35,1) infinite}
+.x-shimmer{background:linear-gradient(90deg,#EFECF5 0%,#F8F6FC 50%,#EFECF5 100%);background-size:200% 100%;animation:x-sh 1.4s linear infinite}
+.x-check{stroke-dasharray:30;stroke-dashoffset:30;animation:x-chk 2.6s ease-out infinite}
+.x-fill{animation:x-fl 2.6s ease-out infinite}
+@keyframes x-draw{0%{stroke-dashoffset:88}30%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:88}}
+@keyframes x-pop{0%,30%{transform:scale(0)}40%,85%{transform:scale(1)}95%,100%{transform:scale(0)}}
+@keyframes x-spin{to{transform:rotate(360deg)}}
+@keyframes x-sh{to{background-position:-200% 0}}
+@keyframes x-chk{0%,35%{stroke-dashoffset:30}55%,100%{stroke-dashoffset:0}}
+@keyframes x-fl{0%{opacity:.25}30%,100%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.x-ring,.x-seat,.x-orbit,.x-shimmer,.x-check,.x-fill{animation:none;stroke-dashoffset:0;transform:none;opacity:1}}
+button:focus-visible,input:focus-visible{outline:2px solid #E8432E;outline-offset:2px}
+</style>
+</head>
+<body>
+<div style="width:1440px;height:900px;box-sizing:border-box;background:#F7F5FC;color:#1A1530;font-family:Manrope,sans-serif;padding:48px 56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px">
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:20px">
+    <div style="padding:24px;border-radius:24px;background:#14102A;color:#F4F1FF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+      <svg width="112" height="112" viewBox="0 0 64 64" aria-hidden="true"><circle class="x-ring" cx="32" cy="32" r="14" fill="none" stroke="#FF5A44" stroke-width="4.5" stroke-linecap="round" transform="rotate(-90 32 32)"></circle><circle class="x-seat" cx="32" cy="7" r="4.2" fill="#FFB547"></circle><circle class="x-seat x-s1" cx="53.7" cy="19.5" r="4.2" fill="#3FD6B4"></circle><circle class="x-seat x-s2" cx="53.7" cy="44.5" r="4.2" fill="#FFB547"></circle><circle class="x-seat x-s3" cx="32" cy="57" r="4.2" fill="#3FD6B4"></circle><circle class="x-seat x-s4" cx="10.3" cy="44.5" r="4.2" fill="#FFB547"></circle></svg>
+      <strong style="font-size:15px">App start</strong>
+      <span style="font-size:13px;color:#B9B3D6;text-align:center">The table draws, guests take their seats. Shown once per visit, about one second.</span>
+    </div>
+    <div style="padding:24px;border-radius:24px;background:#FFFFFF;border:1px solid #E6E2F0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+      <button type="button" aria-busy="true" style="height:52px;padding:0 24px;border:0;border-radius:12px;background:#FF5A44;color:#1A1530;font:inherit;font-weight:700;font-size:16px;display:flex;align-items:center;gap:12px"><svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="14" fill="none" stroke="rgba(26,21,48,.25)" stroke-width="6"></circle><g class="x-orbit"><circle cx="32" cy="8" r="7" fill="#1A1530"></circle></g></svg>Signing in…</button>
+      <strong style="font-size:15px">Buttons and small waits</strong>
+      <span style="font-size:13px;color:#5C5677;text-align:center">One guest circles the table. The label says what is happening.</span>
+    </div>
+    <div style="padding:24px;border-radius:24px;background:#FFFFFF;border:1px solid #E6E2F0;display:flex;flex-direction:column;gap:12px;justify-content:center">
+      <div class="x-shimmer" style="height:18px;width:60%;border-radius:8px"></div>
+      <div style="display:flex;gap:10px;align-items:center"><div class="x-shimmer" style="width:40px;height:40px;border-radius:50%"></div><div style="flex-grow:1;display:flex;flex-direction:column;gap:8px"><div class="x-shimmer" style="height:12px;border-radius:6px"></div><div class="x-shimmer" style="height:12px;width:70%;border-radius:6px"></div></div></div>
+      <div style="display:flex;gap:10px;align-items:center"><div class="x-shimmer" style="width:40px;height:40px;border-radius:50%"></div><div style="flex-grow:1;display:flex;flex-direction:column;gap:8px"><div class="x-shimmer" style="height:12px;border-radius:6px"></div><div class="x-shimmer" style="height:12px;width:50%;border-radius:6px"></div></div></div>
+      <strong style="font-size:15px;margin-top:8px">Pages and tables</strong>
+      <span style="font-size:13px;color:#5C5677">A skeleton in the page's real shape, so nothing jumps when data lands.</span>
+    </div>
+    <div style="padding:24px;border-radius:24px;background:#FFFFFF;border:1px solid #E6E2F0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+      <svg width="96" height="96" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="14" fill="#E3F6F1" stroke="#13A386" stroke-width="4"></circle><path class="x-check" d="M25 32l5 5 9-10" fill="none" stroke="#0B7A64" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><circle class="x-fill" cx="32" cy="7" r="4.2" fill="#D98A12"></circle><circle class="x-fill" cx="53.7" cy="19.5" r="4.2" fill="#13A386"></circle><circle class="x-fill" cx="53.7" cy="44.5" r="4.2" fill="#D98A12"></circle><circle class="x-fill" cx="32" cy="57" r="4.2" fill="#13A386"></circle><circle class="x-fill" cx="10.3" cy="44.5" r="4.2" fill="#D98A12"></circle><circle class="x-fill" cx="10.3" cy="19.5" r="4.2" fill="#13A386"></circle></svg>
+      <strong style="font-size:15px">Done moments</strong>
+      <span style="font-size:13px;color:#5C5677;text-align:center">"Table published." The open seat fills and a tick draws. Used for big wins only.</span>
+    </div>
+  </div>
+  <div style="padding:28px;border-radius:24px;background:#FFFFFF;border:1px solid #E6E2F0;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <h2 style="margin:0;font-family:Unbounded,sans-serif;font-weight:500;font-size:20px">Admin · New amenity: choose an icon</h2>
+      <span style="font-size:14px;color:#5C5677">Admin only. Pick from 160+ library icons, or upload your own SVG. Partners just tick the amenities the admin has created.</span>
+    </div>
+    <label style="display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border-radius:12px;border:1px solid #D9D4E8;background:#F7F5FC;font-size:15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5C5677" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg><span style="position:absolute;width:1px;height:1px;overflow:hidden">Search amenities</span><input type="search" placeholder="Search icons, e.g. parking, wifi, prayer" style="border:0;background:transparent;font:inherit;color:#1A1530;flex-grow:1;outline:none"></label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:13px">
+      <span style="padding:6px 12px;border-radius:999px;background:#1A1530;color:#FFFFFF;font-weight:700">All</span><span style="padding:6px 12px;border-radius:999px;background:#F2EFF8">Comfort</span><span style="padding:6px 12px;border-radius:999px;background:#F2EFF8">Food and drink</span><span style="padding:6px 12px;border-radius:999px;background:#F2EFF8">Access</span><span style="padding:6px 12px;border-radius:999px;background:#F2EFF8">Family</span><span style="padding:6px 12px;border-radius:999px;background:#F2EFF8">Parking</span><span style="padding:6px 12px;border-radius:999px;background:#F2EFF8">Entertainment</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+      <button type="button" aria-pressed="true" style="height:88px;border-radius:14px;border:1.5px solid #E8432E;background:#FFF1EE;color:#1A1530;font:inherit;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8432E" stroke-width="2" aria-hidden="true"><path d="M2 9a15 15 0 0120 0M5 12.5a10 10 0 0114 0M8.5 16a5 5 0 017 0"></path><circle cx="12" cy="19.5" r="1"></circle></svg>Free Wi-Fi</button>
+      <button type="button" aria-pressed="true" style="height:88px;border-radius:14px;border:1.5px solid #E8432E;background:#FFF1EE;color:#1A1530;font:inherit;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8432E" stroke-width="2" aria-hidden="true"><path d="M12 2v20M4 6l16 12M20 6L4 18"></path></svg>Air conditioned</button>
+      <button type="button" aria-pressed="false" style="height:88px;border-radius:14px;border:1px solid #E6E2F0;background:#FFFFFF;color:#1A1530;font:inherit;font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3A3456" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="7" rx="2"></rect><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle><path d="M5 11l2-5h10l2 5"></path></svg>Parking</button>
+      <button type="button" aria-pressed="true" style="height:88px;border-radius:14px;border:1.5px solid #E8432E;background:#FFF1EE;color:#1A1530;font:inherit;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8432E" stroke-width="2" aria-hidden="true"><circle cx="12" cy="4" r="2"></circle><path d="M12 7v6h5l2 6M12 13H8a4 4 0 104 5"></path></svg>Wheelchair access</button>
+      <button type="button" aria-pressed="false" style="height:88px;border-radius:14px;border:1px solid #E6E2F0;background:#FFFFFF;color:#1A1530;font:inherit;font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3A3456" stroke-width="2" aria-hidden="true"><path d="M4 20c2-6 4-9 8-9s6 3 8 9M12 11V4M8 6l4-2 4 2"></path></svg>Outdoor seating</button>
+      <button type="button" aria-pressed="false" style="height:88px;border-radius:14px;border:1px solid #E6E2F0;background:#FFFFFF;color:#1A1530;font:inherit;font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3A3456" stroke-width="2" aria-hidden="true"><path d="M3 5h18v11H3zM8 20h8M12 16v4"></path></svg>Projector</button>
+      <button type="button" aria-pressed="true" style="height:88px;border-radius:14px;border:1.5px solid #E8432E;background:#FFF1EE;color:#1A1530;font:inherit;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8432E" stroke-width="2" aria-hidden="true"><path d="M5 11h14v3a7 7 0 01-14 0zM19 12h1a2 2 0 010 4h-1M9 3v4M13 3v4"></path></svg>Prayer area</button>
+      <button type="button" aria-pressed="false" style="height:88px;border-radius:14px;border:1px solid #E6E2F0;background:#FFFFFF;color:#1A1530;font:inherit;font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3A3456" stroke-width="2" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>Live music</button>
+    </div>
+    <div style="margin-top:auto;padding:16px;border-radius:16px;border:1.5px dashed #D9D4E8;display:flex;align-items:center;gap:14px">
+      <span style="width:48px;height:48px;border-radius:12px;background:#F2EFF8;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8A4F00" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></span>
+      <div style="display:flex;flex-direction:column;gap:2px;flex-grow:1"><strong style="font-size:14px">Upload your own icon</strong><span style="font-size:13px;color:#5C5677">Nothing fits? Upload a square SVG under 100 KB.</span></div>
+      <button type="button" style="height:44px;padding:0 16px;border-radius:12px;border:1px solid #D9D4E8;background:#FFFFFF;color:#1A1530;font:inherit;font-weight:700;font-size:14px">Add custom</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

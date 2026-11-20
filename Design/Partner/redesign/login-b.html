@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Login option B - Gathering lights (dark)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=Manrope:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#FFB547}a:hover{color:#FFD08A}
+.b-p{position:absolute;border-radius:50%;animation:b-gather 2.6s cubic-bezier(.2,.7,.2,1) forwards,b-hover 5s ease-in-out 2.8s 1 alternate}
+.b-amb{position:absolute;border-radius:50%;background:#FFB547;opacity:.35;animation:b-float 9s ease-in-out infinite alternate}
+.b-ring{opacity:0;animation:b-in .8s ease 2.2s forwards}
+.b-word{display:inline-block;opacity:0;animation:b-cycle 9s ease-in-out infinite}
+.b-card{opacity:0;transform:translateY(16px);animation:b-up .7s cubic-bezier(.2,0,0,1) 2.4s forwards}
+@keyframes b-gather{from{transform:translate(var(--sx),var(--sy)) scale(.4);opacity:0}25%{opacity:.9}to{transform:none;opacity:1}}
+@keyframes b-hover{to{transform:translateY(-4px)}}
+@keyframes b-float{from{transform:translateY(0)}to{transform:translateY(-40px)}}
+@keyframes b-in{to{opacity:1}}
+@keyframes b-up{to{opacity:1;transform:none}}
+@keyframes b-cycle{0%,4%{opacity:0;transform:translateY(8px)}8%,30%{opacity:1;transform:none}34%,100%{opacity:0;transform:translateY(-8px)}}
+@media (prefers-reduced-motion:reduce){.b-p,.b-amb,.b-ring,.b-card{animation:none;opacity:1;transform:none}.b-word{animation:none;opacity:0}.b-word.b-first{opacity:1}}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #FFB547;outline-offset:2px}
+</style>
+</head>
+<body>
+<div style="width:1440px;height:900px;position:relative;overflow:hidden;background:radial-gradient(900px 600px at 50% 30%,#221A44 0%,#14102A 60%,#0E0B20 100%);color:#F4F1FF;font-family:Manrope,sans-serif">
+  <span class="b-amb" style="width:6px;height:6px;left:120px;top:700px"></span>
+  <span class="b-amb" style="width:4px;height:4px;left:260px;top:180px;animation-delay:1s"></span>
+  <span class="b-amb" style="width:5px;height:5px;left:1220px;top:640px;animation-delay:2s"></span>
+  <span class="b-amb" style="width:3px;height:3px;left:1320px;top:220px;animation-delay:.5s;background:#3FD6B4"></span>
+  <span class="b-amb" style="width:4px;height:4px;left:80px;top:360px;animation-delay:3s;background:#FF5A44"></span>
+  <span class="b-amb" style="width:6px;height:6px;left:1100px;top:820px;animation-delay:1.5s;background:#3FD6B4"></span>
+
+  <div style="position:absolute;left:720px;top:210px;width:0;height:0">
+    <svg class="b-ring" width="200" height="200" viewBox="0 0 200 200" aria-hidden="true" style="position:absolute;left:-100px;top:-100px;filter:drop-shadow(0 0 18px rgba(255,90,68,.6))"><circle cx="100" cy="100" r="44" fill="none" stroke="#FF5A44" stroke-width="12"></circle></svg>
+    <span class="b-p" style="--sx:-560px;--sy:-260px;width:22px;height:22px;left:-11px;top:-89px;background:#FFB547;box-shadow:0 0 18px #FFB547;animation-delay:0s,2.8s"></span>
+    <span class="b-p" style="--sx:600px;--sy:-200px;width:22px;height:22px;left:56px;top:-50px;background:#3FD6B4;box-shadow:0 0 18px #3FD6B4;animation-delay:.1s,2.8s"></span>
+    <span class="b-p" style="--sx:640px;--sy:380px;width:22px;height:22px;left:56px;top:28px;background:#FFB547;box-shadow:0 0 18px #FFB547;animation-delay:.2s,2.8s"></span>
+    <span class="b-p" style="--sx:40px;--sy:620px;width:22px;height:22px;left:-11px;top:67px;background:#3FD6B4;box-shadow:0 0 18px #3FD6B4;animation-delay:.3s,2.8s"></span>
+    <span class="b-p" style="--sx:-620px;--sy:420px;width:22px;height:22px;left:-78px;top:28px;background:#FFB547;box-shadow:0 0 18px #FFB547;animation-delay:.4s,2.8s"></span>
+    <span class="b-p" style="--sx:-660px;--sy:40px;width:18px;height:18px;left:-76px;top:-48px;border:3px solid #FFB547;box-sizing:border-box;animation-delay:.6s,2.8s"></span>
+  </div>
+
+  <div style="position:absolute;top:32px;left:40px;font-family:Unbounded,sans-serif;font-weight:700;font-size:22px">GoMingle</div>
+  <div role="group" aria-label="Theme" style="position:absolute;top:24px;right:32px;display:flex;gap:4px;padding:4px;border-radius:999px;background:#1E1838;border:1px solid #2E2752"><a href="#" aria-label="Light theme" style="width:40px;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;color:#B9B3D6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></a><span aria-current="true" style="width:40px;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:#FF5A44;color:#14102A"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"></path></svg></span></div>
+
+  <div style="position:absolute;left:420px;top:340px;width:600px;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center">
+    <h1 style="margin:0;font-family:Unbounded,sans-serif;font-weight:700;font-size:36px;line-height:1.2">
+      <span style="display:inline-grid">
+        <span class="b-word b-first" style="grid-area:1/1;color:#FFB547;animation-delay:0s">Founders.</span>
+        <span class="b-word" style="grid-area:1/1;color:#3FD6B4;animation-delay:3s">Poets.</span>
+        <span class="b-word" style="grid-area:1/1;color:#FF8A78;animation-delay:6s">Chess players.</span>
+      </span><br>Tonight, at one table.
+    </h1>
+    <div class="b-card" style="width:440px;box-sizing:border-box;padding:28px;border-radius:24px;background:rgba(30,24,56,.92);border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:14px;text-align:left">
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:600">Work email<input type="email" placeholder="you@restaurant.pk" style="height:48px;border-radius:12px;border:1px solid #3A3263;background:#14102A;color:#F4F1FF;padding:0 14px;font:inherit;font-size:15px"></label>
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:600">Password<input type="password" placeholder="Your password" style="height:48px;border-radius:12px;border:1px solid #3A3263;background:#14102A;color:#F4F1FF;padding:0 14px;font:inherit;font-size:15px"></label>
+      <button type="button" style="height:52px;border:0;border-radius:12px;background:#FF5A44;color:#14102A;font:inherit;font-weight:800;font-size:16px;cursor:pointer">Sign in</button>
+      <div style="display:flex;justify-content:space-between;font-size:13px"><a href="#">Forgot password?</a><a href="#">Continue with Google</a></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

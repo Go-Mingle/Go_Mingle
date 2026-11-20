@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Candlelit - Partner sign up</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=Manrope:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#FFB547}a:hover{color:#FFD08A}
+.s-now{transform-box:fill-box;transform-origin:center;animation:s-pulse 2.4s ease-in-out infinite}
+.s-panel{animation:s-in .5s cubic-bezier(.2,0,0,1) both}
+@keyframes s-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+@keyframes s-in{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.s-now,.s-panel{animation:none}}
+input:focus-visible,button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid #FFB547;outline-offset:2px}
+</style>
+</head>
+<body>
+<div style="width:1440px;height:900px;box-sizing:border-box;background:#14102A;color:#F4F1FF;font-family:Manrope,sans-serif;display:grid;grid-template-columns:440px minmax(0,1fr)">
+  <div style="padding:48px 48px;background:#1A1535;border-right:1px solid #2E2752;display:flex;flex-direction:column;gap:36px">
+    <div style="display:flex;align-items:center;gap:2px;font-family:Unbounded,sans-serif;font-weight:700;font-size:22px">
+      <span>G</span><svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="14" fill="none" stroke="#FF5A44" stroke-width="5"></circle><circle cx="32" cy="7" r="4.6" fill="#FFB547"></circle><circle cx="53.7" cy="19.5" r="4.6" fill="#3FD6B4"></circle><circle cx="53.7" cy="44.5" r="4.6" fill="#FFB547"></circle><circle cx="32" cy="57" r="4.6" fill="#3FD6B4"></circle><circle cx="10.3" cy="44.5" r="4.6" fill="#FFB547"></circle><circle cx="10.3" cy="19.5" r="3.8" fill="none" stroke="#FFB547" stroke-width="2"></circle></svg><span>Mingle</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <svg width="120" height="120" viewBox="0 0 64 64" role="img" aria-label="Progress: two of five steps done">
+        <circle cx="32" cy="32" r="14" fill="none" stroke="#FF5A44" stroke-width="4.5"></circle>
+        <circle cx="32" cy="7" r="4.2" fill="#FFB547"></circle>
+        <circle cx="53.7" cy="19.5" r="4.2" fill="#3FD6B4"></circle>
+        <circle class="s-now" cx="53.7" cy="44.5" r="3.6" fill="none" stroke="#FFB547" stroke-width="1.8"></circle>
+        <circle cx="32" cy="57" r="3.6" fill="none" stroke="#3A3263" stroke-width="1.6"></circle>
+        <circle cx="10.3" cy="44.5" r="3.6" fill="none" stroke="#3A3263" stroke-width="1.6"></circle>
+        <circle cx="10.3" cy="19.5" r="3.6" fill="none" stroke="#3A3263" stroke-width="1.6"></circle>
+      </svg>
+      <p style="margin:0;font-size:14px;line-height:1.55;color:#B9B3D6;max-width:200px">Each step you finish takes a seat at your table. Fill them all and we review your listing within two working days.</p>
+    </div>
+    <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+      <li style="display:flex;gap:14px;align-items:center;padding:12px 14px;border-radius:14px"><span style="width:28px;height:28px;border-radius:50%;background:#3FD6B4;color:#14102A;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><div style="display:flex;flex-direction:column"><span style="font-weight:700;font-size:15px">Your account</span><span style="font-size:13px;color:#B9B3D6">Name, work email, password</span></div></li>
+      <li style="display:flex;gap:14px;align-items:center;padding:12px 14px;border-radius:14px"><span style="width:28px;height:28px;border-radius:50%;background:#3FD6B4;color:#14102A;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><div style="display:flex;flex-direction:column"><span style="font-weight:700;font-size:15px">Verify your email</span><span style="font-size:13px;color:#B9B3D6">Six-digit code</span></div></li>
+      <li aria-current="step" style="display:flex;gap:14px;align-items:center;padding:12px 14px;border-radius:14px;background:#241D45;border:1px solid #3A3263"><span style="width:28px;height:28px;border-radius:50%;border:2px solid #FFB547;box-sizing:border-box;color:#FFB547;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">3</span><div style="display:flex;flex-direction:column"><span style="font-weight:700;font-size:15px">Your restaurant</span><span style="font-size:13px;color:#B9B3D6">Name, area, cuisine, photos</span></div></li>
+      <li style="display:flex;gap:14px;align-items:center;padding:12px 14px;border-radius:14px;color:#8E87B3"><span style="width:28px;height:28px;border-radius:50%;border:1.5px solid #3A3263;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">4</span><div style="display:flex;flex-direction:column"><span style="font-weight:700;font-size:15px">Your tables</span><span style="font-size:13px">Sizes, times and set menus</span></div></li>
+      <li style="display:flex;gap:14px;align-items:center;padding:12px 14px;border-radius:14px;color:#8E87B3"><span style="width:28px;height:28px;border-radius:50%;border:1.5px solid #3A3263;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">5</span><div style="display:flex;flex-direction:column"><span style="font-weight:700;font-size:15px">Getting paid</span><span style="font-size:13px">Bank details for payouts</span></div></li>
+    </ol>
+  </div>
+  <div style="padding:56px 96px;display:flex;flex-direction:column;justify-content:center">
+    <div class="s-panel" style="max-width:640px;display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:14px;color:#FFB547;font-weight:700">Step 3 of 5</span>
+        <h1 style="margin:0;font-family:Unbounded,sans-serif;font-size:32px;font-weight:700;line-height:1.15">Tell guests where they'll be sitting</h1>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:#B9B3D6">This is what Minglers see before they book. A clear name and a good photo do more than a long description.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px">
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500;grid-column:span 2">Restaurant name<input type="text" placeholder="As it appears on your sign" style="height:48px;border-radius:12px;border:1px solid #3A3263;background:#1A1535;color:#F4F1FF;padding:0 14px;font:inherit;font-size:15px"></label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500">City<select style="height:48px;border-radius:12px;border:1px solid #3A3263;background:#1A1535;color:#F4F1FF;padding:0 12px;font:inherit;font-size:15px"><option>Karachi</option><option>Lahore</option><option>Islamabad</option></select></label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500">Area<input type="text" placeholder="e.g. Clifton Block 4" style="height:48px;border-radius:12px;border:1px solid #3A3263;background:#1A1535;color:#F4F1FF;padding:0 14px;font:inherit;font-size:15px"></label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500;grid-column:span 2">Google Maps link<input type="url" placeholder="https://maps.app.goo.gl/…" style="height:48px;border-radius:12px;border:1px solid #3A3263;background:#1A1535;color:#F4F1FF;padding:0 14px;font:inherit;font-size:15px"></label>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:14px;font-weight:500">Cuisine</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <button type="button" aria-pressed="true" style="height:40px;padding:0 16px;border-radius:999px;border:1px solid #FF5A44;background:rgba(255,90,68,.14);color:#FFB3A8;font:inherit;font-size:14px;font-weight:700;cursor:pointer">Desi</button>
+          <button type="button" aria-pressed="true" style="height:40px;padding:0 16px;border-radius:999px;border:1px solid #FF5A44;background:rgba(255,90,68,.14);color:#FFB3A8;font:inherit;font-size:14px;font-weight:700;cursor:pointer">Café</button>
+          <button type="button" aria-pressed="false" style="height:40px;padding:0 16px;border-radius:999px;border:1px solid #3A3263;background:transparent;color:#D6D1EE;font:inherit;font-size:14px;cursor:pointer">Continental</button>
+          <button type="button" aria-pressed="false" style="height:40px;padding:0 16px;border-radius:999px;border:1px solid #3A3263;background:transparent;color:#D6D1EE;font:inherit;font-size:14px;cursor:pointer">Chinese</button>
+          <button type="button" aria-pressed="false" style="height:40px;padding:0 16px;border-radius:999px;border:1px solid #3A3263;background:transparent;color:#D6D1EE;font:inherit;font-size:14px;cursor:pointer">BBQ</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px">
+        <div style="flex:2;height:132px;border-radius:16px;border:1.5px dashed #3A3263;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#B9B3D6;font-size:14px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFB547" stroke-width="2" aria-hidden="true"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"></path></svg><span><strong style="color:#F4F1FF">Cover photo</strong>: your dining room, wide</span></div>
+        <div style="flex:1;height:132px;border-radius:16px;border:1.5px dashed #3A3263;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#B9B3D6;font-size:14px;text-align:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3FD6B4" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle></svg><span><strong style="color:#F4F1FF">Profile photo</strong>: logo, square</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px">
+        <button type="button" style="height:48px;padding:0 20px;border-radius:12px;border:1px solid #3A3263;background:transparent;color:#F4F1FF;font:inherit;font-weight:700;font-size:15px;cursor:pointer">Back</button>
+        <button type="button" style="height:52px;padding:0 28px;border:0;border-radius:12px;background:#FF5A44;color:#14102A;font:inherit;font-weight:700;font-size:16px;cursor:pointer">Save and continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

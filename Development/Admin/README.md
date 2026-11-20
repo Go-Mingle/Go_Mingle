@@ -1,74 +1,77 @@
-# React + TypeScript + Vite
+# GoMingle Admin Panel
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The back office for GoMingle's team: approve restaurants, run interest tables and bookings, follow the money in escrow, and manage the catalogues, roles and admin accounts behind the platform.
 
-Currently, two official plugins are available:
+**Live:** https://gomingle-admin.vercel.app · API: https://gomingle-api.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| | |
+|---|---|
+| Stack | React 19, TypeScript, Vite, Ant Design 6, Tailwind CSS 4, TanStack Query, Redux Toolkit, i18next |
+| Icons | Phosphor only |
+| Tests | Vitest + Testing Library (about 2,300 tests), MSW for the API; browser tests in [`../E2E`](../E2E/README.md) |
+| Design | Candlelit brand, light and dark themes, phone layouts; boards and screenshots in [`Design/Admin`](../../Design/Admin/README.md) |
 
-## React Compiler
+## What it does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Area | Screens |
+|---|---|
+| Overview | **Dashboard** with charts and a PDF export; **Ctrl+K** search for pages, restaurants, Minglers, admin users and booking references |
+| Restaurants | Directory with filters, **bulk suspend/reactivate**, **CSV export**; restaurant detail (profile, schedule, menu, photos, documents, bookings, reviews, Partner Portal access); **Manage** menu to edit details, tables, menus, contacts, amenities and photos on the restaurant's behalf; archive and restore |
+| Approval queue | Pending and declined applications, review screen, approve with a category or decline with a reason, **bulk approve/decline**, CSV export |
+| Interest tables | Create and edit tables at a restaurant; bookings with change-seats, **bulk cancel** and CSV export |
+| Minglers | List and detail, suspend/reactivate (one or many), CSV export |
+| Finances | Revenue, payouts, **Escrow & payouts** (holds, captures, releases, failed collections, sandbox bookings) |
+| Catalogues | Amenities (icon library), categories, email templates, loyalty, preference questions, interests and topics |
+| Platform | Notifications (and **message restaurants**), change log, timer settings |
+| Access | Roles & access (per-module permissions), admin users (suspend, reset password, **turn off two-step**), **Security**: two-step sign-in, signed-in devices and the "require two-step for everyone" rule |
 
-## Expanding the ESLint configuration
+Every screen is gated by the admin's role (`shared/services/permissions.ts`); the sidebar, search and routes all read the same rules.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Run it
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm ci
+npm run dev        # http://localhost:5173, with the mock API (MSW)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Against a real API (see [`../Backend`](../Backend/README.md)):
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+VITE_MSW_ENABLED=false VITE_API_BASE_URL=http://localhost:4000/admin VITE_AUTH_MODE=api npm run dev
 ```
-# gomingle
+
+`../run-gomingle.sh` (or `.bat` on Windows) starts the API and both portals together.
+
+| Script | |
+|---|---|
+| `npm run build` | Type-check and production build |
+| `npm run lint` | ESLint, no warnings allowed |
+| `npm run typecheck` | `tsc -b` |
+| `npm run test:run` | All unit and component tests once |
+| `npm run format` | Prettier |
+
+## Layout
+
+```
+src/
+  app/
+    router.tsx        routes, lazy pages, permission guards
+    layout/           shell: floating dock sidebar, top bar, Ctrl+K command palette, user menu
+    modules/<area>/   one folder per area: page, components, services, hooks, types, tests
+    atoms/ molecules/ shared building blocks (buttons, modals, bulk-action bar, CSV export, empty states)
+    visual/           charts, dashboard PDF, motion helpers
+  shared/
+    api/              HTTP client (token refresh, act-as header, session handling)
+    theme/            light/dark tokens and the circle theme transition
+    utils/            CSV, bulk runner, dates, errors
+  locales/en/         every string, one file per area
+  mocks/              MSW handlers used by tests and `npm run dev`
+  styles/             Tailwind entry and brand CSS
+```
+
+## Conventions
+
+- Tailwind classes for layout and colour (`var(--color-…)` tokens); no inline styles in new code.
+- Phosphor icons only. Strings go through i18next (`locales/en/*.json`).
+- Nothing is imported from the Partner portal; shared ideas are copied deliberately.
+- Each change is logged in the version history in the root `README.md` and on Jira.

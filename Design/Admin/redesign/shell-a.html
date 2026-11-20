@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Inside option A - Floating dock</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#B92E1C;text-decoration:none}
+.navi{display:flex;align-items:center;gap:12px;height:44px;padding:0 14px;border-radius:14px;color:#D6D1EE;font-size:14px;font-weight:600}
+.navi.on{background:#FF5A44;color:#14102A}
+.pill{height:38px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;font-size:14px;font-weight:600;color:#3A3456;white-space:nowrap}
+.pill.on{background:#1A1530;color:#FFFFFF}
+.field{display:flex;flex-direction:column;gap:4px}
+.lab{font-size:12px;color:#5C5677;font-weight:600}
+.val{font-size:15px;font-weight:600;color:#1A1530}
+</style>
+</head>
+<body>
+<div style="width:1440px;height:900px;box-sizing:border-box;background:#F7F5FC;font-family:Manrope,sans-serif;color:#1A1530;display:grid;grid-template-columns:244px minmax(0,1fr);gap:20px;padding:16px">
+  <nav aria-label="Main" style="background:#14102A;border-radius:28px;padding:24px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 20px 50px rgba(20,16,42,.25)">
+    <div style="display:flex;align-items:center;gap:2px;font-family:Unbounded,sans-serif;font-weight:700;font-size:19px;color:#F4F1FF;padding:0 10px 22px">G<svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="14" fill="none" stroke="#FF5A44" stroke-width="5"></circle><circle cx="32" cy="7" r="4.6" fill="#FFB547"></circle><circle cx="53.7" cy="19.5" r="4.6" fill="#3FD6B4"></circle><circle cx="53.7" cy="44.5" r="4.6" fill="#FFB547"></circle><circle cx="32" cy="57" r="4.6" fill="#3FD6B4"></circle><circle cx="10.3" cy="44.5" r="4.6" fill="#FFB547"></circle><circle cx="10.3" cy="19.5" r="3.8" fill="none" stroke="#FFB547" stroke-width="2"></circle></svg>Mingle</div>
+    <a href="#" class="navi on" aria-current="page">Restaurant profile</a>
+    <a href="#" class="navi">Dashboard</a>
+    <a href="#" class="navi">Finances</a>
+    <a href="#" class="navi">Users</a>
+    <div style="margin-top:auto;padding:14px;border-radius:18px;background:#221C40;display:flex;flex-direction:column;gap:4px"><span style="font-size:14px;font-weight:700;color:#F4F1FF">Kolachi Seafront</span><span style="font-size:12px;color:#B9B3D6">Karachi · Live on the app</span></div>
+  </nav>
+  <main style="display:flex;flex-direction:column;gap:18px;min-width:0;padding:8px 8px 0 0">
+    <div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;height:40px">
+      <span style="margin-right:auto;font-size:13px;color:#5C5677">Thursday, 19 November</span>
+      <button type="button" aria-label="Notifications" style="width:40px;height:40px;border-radius:12px;border:1px solid #D9D4E8;background:#FFFFFF"></button>
+      <span aria-hidden="true" style="width:40px;height:40px;border-radius:50%;background:#13A386;color:#FFF;display:flex;align-items:center;justify-content:center;font-weight:700">HM</span>
+    </div>
+    <header style="position:relative;height:210px;border-radius:28px;overflow:hidden;background:linear-gradient(160deg,#F28A3C 0%,#E04A2C 45%,#3A1E3F 100%);flex-shrink:0">
+      <span style="position:absolute;left:24px;top:20px;padding:6px 12px;border-radius:999px;background:rgba(20,16,42,.55);color:#F4F1FF;font-size:12px;font-weight:600">Cover photo · Change</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 24px;display:flex;align-items:flex-end;gap:16px;background:linear-gradient(transparent,rgba(20,16,42,.85))">
+        <span aria-label="Profile photo" role="img" style="width:84px;height:84px;border-radius:22px;background:#14102A;border:4px solid #FFFFFF;flex-shrink:0"></span>
+        <div style="flex-grow:1;color:#FFFFFF"><h1 style="margin:0;font-family:Unbounded,sans-serif;font-size:26px">Kolachi Seafront</h1><span style="font-size:14px;opacity:.85">DHA Phase 8, Karachi</span></div>
+        <span style="height:38px;padding:0 14px;border-radius:999px;background:#3FD6B4;color:#14102A;font-size:13px;font-weight:700;display:flex;align-items:center">Visible on the Mingler app</span>
+        <button type="button" style="height:40px;padding:0 16px;border-radius:12px;border:0;background:#FFFFFF;font:inherit;font-weight:700">Payout account</button>
+      </div>
+    </header>
+    <div role="tablist" aria-label="Restaurant sections" style="display:flex;gap:6px;padding:6px;border-radius:999px;background:#FFFFFF;border:1px solid #E6E2F0;overflow:hidden">
+      <span role="tab" aria-selected="true" class="pill on">Overview</span><span role="tab" class="pill">Payout</span><span role="tab" class="pill">Contacts</span><span role="tab" class="pill">Documents</span><span role="tab" class="pill">Amenities</span><span role="tab" class="pill">Menu options</span><span role="tab" class="pill">Table timings</span><span role="tab" class="pill">Interest tables</span><span role="tab" class="pill">Photos</span><span role="tab" class="pill">More</span>
+    </div>
+    <div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px;flex-grow:1">
+      <section style="background:#FFFFFF;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:18px;border:1px solid #E6E2F0">
+        <h2 style="margin:0;font-family:Unbounded,sans-serif;font-size:17px">Restaurant details</h2>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px">
+          <div class="field" style="grid-column:span 2"><span class="lab">Description</span><span class="val">Seafront barbecue on Do Darya with a view of the Arabian Sea.</span></div>
+          <div class="field"><span class="lab">Cuisine</span><span class="val">Pakistani</span></div>
+          <div class="field"><span class="lab">Commission</span><span class="val">12%</span></div>
+          <div class="field"><span class="lab">Full address</span><span class="val">Do Darya, DHA Phase 8, Karachi</span><a href="#" style="font-size:13px;font-weight:700">View on map</a></div>
+          <div class="field"><span class="lab">Phone</span><span class="val">+92 21 3525 0000</span></div>
+        </div>
+      </section>
+      <section style="background:#14102A;color:#F4F1FF;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <h2 style="margin:0;font-family:Unbounded,sans-serif;font-size:17px">Tonight</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #2E2752"><span><strong>7:30 PM</strong> Startup Mixer</span><span style="font-size:12px;font-weight:700;color:#FFB547">8 open</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0"><span><strong>9:00 PM</strong> Urdu poetry night</span><span style="font-size:12px;font-weight:700;color:#3FD6B4">Full</span></div>
+      </section>
+    </div>
+  </main>
+</div>
+</body>
+</html>

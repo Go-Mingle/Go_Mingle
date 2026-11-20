@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>C - Night Market (parked)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&amp;family=DM+Sans:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#7FE6F2}a:hover{color:#B5F2F9}
+.gc-link{stroke-dasharray:36;stroke-dashoffset:36;animation:gc-link 5s ease-in-out infinite}
+.gc-l2{animation-delay:.25s}.gc-l3{animation-delay:.5s}.gc-l4{animation-delay:.75s}
+.gc-ring{transform-origin:32px 32px;animation:gc-spin 14s linear infinite}
+.gc-p{animation:gc-glow 2.5s ease-in-out infinite}
+.gc-load{transform-origin:32px 32px;animation:gc-spin 1.4s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes gc-link{0%,15%{stroke-dashoffset:36}40%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:36}}
+@keyframes gc-spin{to{transform:rotate(360deg)}}
+@keyframes gc-glow{0%,100%{opacity:1}50%{opacity:.55}}
+@media (prefers-reduced-motion:reduce){.gc-link,.gc-ring,.gc-p,.gc-load{animation:none;stroke-dashoffset:0}}
+input:focus-visible,button:focus-visible{outline:2px solid #7FE6F2;outline-offset:2px}
+</style>
+</head>
+<body>
+<div style="width:1280px;height:820px;box-sizing:border-box;background:#0B0D1E;color:#EEF0FF;font-family:'DM Sans',sans-serif;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)">
+  <div style="padding:56px 64px;display:flex;flex-direction:column;gap:30px">
+    <div style="display:flex;align-items:center;gap:2px;font-family:Syne,sans-serif;font-weight:800;font-size:32px">
+      <span>G</span>
+      <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="20" fill="none" stroke="#8B5CFF" stroke-width="5"></circle><circle cx="32" cy="12" r="5" fill="#2DD4E8"></circle><circle cx="52" cy="32" r="5" fill="#FF4D8D"></circle><circle cx="32" cy="52" r="5" fill="#2DD4E8"></circle><circle cx="12" cy="32" r="5" fill="#FF4D8D"></circle></svg>
+      <span>Mingle</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:44px;flex-grow:1">
+      <svg width="260" height="260" viewBox="0 0 64 64" role="img" aria-label="GoMingle mark: four people at a table, linked as they meet" style="filter:drop-shadow(0 0 10px rgba(139,92,255,.55))">
+        <circle class="gc-ring" cx="32" cy="32" r="20" fill="none" stroke="#8B5CFF" stroke-width="2.5" stroke-dasharray="104 22"></circle>
+        <line class="gc-link" x1="32" y1="12" x2="52" y2="32" stroke="#EEF0FF" stroke-width=".8" stroke-opacity=".7"></line>
+        <line class="gc-link gc-l2" x1="52" y1="32" x2="32" y2="52" stroke="#EEF0FF" stroke-width=".8" stroke-opacity=".7"></line>
+        <line class="gc-link gc-l3" x1="32" y1="52" x2="12" y2="32" stroke="#EEF0FF" stroke-width=".8" stroke-opacity=".7"></line>
+        <line class="gc-link gc-l4" x1="12" y1="32" x2="32" y2="12" stroke="#EEF0FF" stroke-width=".8" stroke-opacity=".7"></line>
+        <circle class="gc-p" cx="32" cy="12" r="4" fill="#2DD4E8"></circle>
+        <circle class="gc-p" cx="52" cy="32" r="4" fill="#FF4D8D"></circle>
+        <circle class="gc-p" cx="32" cy="52" r="4" fill="#2DD4E8"></circle>
+        <circle class="gc-p" cx="12" cy="32" r="4" fill="#FF4D8D"></circle>
+      </svg>
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:300px">
+        <h1 style="margin:0;font-family:Syne,sans-serif;font-weight:800;font-size:44px;line-height:1.02">Tonight, the table does the introductions.</h1>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:#AEB3D8">The four people sit on the O, and thin lines draw between them as they connect. The most futuristic of the three: glow, glass and a slow orbit.</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#AEB3D8"><div style="width:96px;height:52px;border-radius:12px;background:#0B0D1E;border:1px solid #2A2E55"></div>Night #0B0D1E</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#AEB3D8"><div style="width:96px;height:52px;border-radius:12px;background:#8B5CFF"></div>Ultraviolet #8B5CFF</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#AEB3D8"><div style="width:96px;height:52px;border-radius:12px;background:#2DD4E8"></div>Signal #2DD4E8</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#AEB3D8"><div style="width:96px;height:52px;border-radius:12px;background:#FF4D8D"></div>Spark #FF4D8D</div>
+    </div>
+    <p style="margin:0;font-size:13px;color:#8C91BC">Syne for the name and headlines, DM Sans for the interface. Drops today's coral entirely.</p>
+  </div>
+  <div style="padding:56px 64px;display:flex;flex-direction:column;justify-content:center;gap:24px;background:radial-gradient(460px 360px at 70% 30%,rgba(139,92,255,.22),transparent 70%)">
+    <div style="display:flex;flex-direction:column;gap:18px;padding:36px;border-radius:24px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(18px)">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <h2 style="margin:0;font-family:Syne,sans-serif;font-size:24px;font-weight:800">Step back inside</h2>
+        <p style="margin:0;font-size:14px;color:#AEB3D8">Sign in to run tonight's tables.</p>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500">Work email<input type="email" placeholder="you@restaurant.pk" style="height:46px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(11,13,30,.6);color:#EEF0FF;padding:0 14px;font:inherit;font-size:15px"></label>
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500">Password<input type="password" placeholder="Your password" style="height:46px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(11,13,30,.6);color:#EEF0FF;padding:0 14px;font:inherit;font-size:15px"></label>
+      <button type="button" style="height:48px;border:0;border-radius:12px;background:#8B5CFF;color:#0B0D1E;font:inherit;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 0 24px rgba(139,92,255,.5)">Sign in</button>
+      <a href="#" style="font-size:13px;text-align:center">Forgot your password?</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:16px;border:1px solid rgba(255,255,255,.1)">
+      <svg width="40" height="40" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="20" fill="none" stroke="#2A2E55" stroke-width="5"></circle><g class="gc-load"><circle cx="32" cy="32" r="20" fill="none" stroke="#8B5CFF" stroke-width="5" stroke-dasharray="30 96" stroke-linecap="round"></circle><circle cx="32" cy="12" r="5" fill="#2DD4E8"></circle></g></svg>
+      <div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:700;font-size:14px">Loader: a guest circles the table</span><span style="font-size:13px;color:#AEB3D8">Finding your people…</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

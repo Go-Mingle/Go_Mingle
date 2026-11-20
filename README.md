@@ -151,8 +151,8 @@ Go_Mingle/
 │   ├── Requirement Specification Document/    Requirement specification + legal feasibility assessment
 │   └── Project Plan/                          Project plan spreadsheet
 ├── Design/
-│   ├── Admin/                                 Admin Panel designs
-│   ├── Partner/                               Partner Portal designs
+│   ├── Admin/                                 Admin Panel designs: redesign boards (HTML) and every shipped screen in light, dark and phone
+│   ├── Partner/                               Partner Portal designs: redesign boards (HTML) and every shipped screen in light, dark and phone
 │   ├── Mingler/                               Mingler App designs
 │   └── Design Document/                       System design diagrams (architecture, ERD, schema, class, use case, DFD, flowcharts)
 ├── .github/                                   CI on every pull request, Dependabot, pull request and issue templates
@@ -166,7 +166,7 @@ Go_Mingle/
     └── run-gomingle.sh / run-gomingle.bat     Install and start the API and both portals
 ```
 
-The `Design` folders are scaffolded and filled in as work lands for each product.
+The `Design` folders are filled in as work lands for each product. Admin and Partner hold the November 2026 Candlelit redesign, as standalone HTML boards with previews, plus screenshots of every shipped screen.
 
 ## Releases
 
@@ -174,6 +174,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 
 | Release | Date | Highlights |
 |---|---|---|
+| `v0.13.12` | 20 Nov 2026 | Design folders: `Design/Admin` and `Design/Partner` now hold the Candlelit redesign boards as standalone pages (gallery in `redesign/index.html`) and screenshots of every shipped screen in light, dark and phone layouts. READMEs rewritten for both portals, the API (acting on a restaurant's behalf, two-step sign-in and sessions) and the E2E suite. Admin Notifications on a phone: the date now sits under the title, which no longer breaks mid-word (GM-352). Finances shows each restaurant's initials instead of a blank coloured square (GM-353). Empty lists on desktop (Users, Minglers, Change log, Interests, Interest tables) say so instead of showing a bare header (GM-354). Redesign regression across both portals passed (GM-343) |
 | `v0.13.11` | 20 Nov 2026 | Admin Panel two-step sign-in and sessions: from the new Security page (user menu) any admin can turn on two-step sign-in. They scan a QR code with an authenticator app, confirm a 6-digit code and save ten one-time backup codes; signing in then asks for a code after the password. The page lists every device where the admin is signed in and can sign any of them out at once. A super admin can require two-step sign-in for every admin, see who has it on in Users, and turn it off for someone who lost their phone. The code boxes no longer drop digits typed quickly or filled in by the phone (GM-346) |
 | `v0.13.10` | 20 Nov 2026 | Admin Panel bulk actions and CSV export: tick rows to suspend or reactivate several restaurants or Minglers, suspend, reactivate or delete admin users, approve (into one category) or decline applications, and cancel bookings of an interest table. Each one confirms with the count, shows progress and names any row that couldn't change and why; every record gets its own change-log entry. Export CSV on Restaurants, Minglers, Users, the Approval queue and a table's bookings downloads every row matching the current filters, ready for Excel (GM-345) |
 | `v0.13.9` | 20 Nov 2026 | Fix: switching light/dark no longer blinks back to the old theme for a moment after the circle animation, in both portals (GM-351) |
@@ -251,6 +252,8 @@ Dependabot proposes dependency updates weekly.
 
 | Document | Description |
 |---|---|
+| [Admin Panel designs](Design/Admin/README.md) | Candlelit redesign boards (brand sheet, loaders, app-shell options, sign-in option D, parked directions) and every shipped Admin screen in light, dark and phone |
+| [Partner Portal designs](Design/Partner/README.md) | Candlelit redesign boards (sign-in and sign-up, dashboards, sign-in options A–D) and every shipped Partner screen in light, dark and phone |
 | [Design Document](Design/Design%20Document/README.md) | Architecture, ERD, database schema, class diagram, use case diagram, data flow diagrams (level 0 and 1) and flowcharts, each as Mermaid source + SVG + PNG (Jira epic GM-278) |
 | Sprint capacity and velocity | On Jira: task GM-277 and every sprint goal. Team of 3 at 2 hours a day; 2-week sprints (Sprint 0–15) aligned to the project plan with the semester break 19 Dec – 24 Jan. The web portals and API are built over four sprints (Sprint 1–4: build, sign-off, quality and performance, launch readiness); the Mingler app starts in Sprint 5 after the break |
 

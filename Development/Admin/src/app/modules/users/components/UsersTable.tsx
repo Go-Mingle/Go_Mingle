@@ -1,3 +1,4 @@
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import { Table } from 'antd'
 import { withFixedEnds } from '../../../molecules/withFixedEnds'
 import type { ColumnsType } from 'antd/es/table'
@@ -158,6 +159,14 @@ export function UsersTable({
   return (
     <div className="users-table">
       <Table<UserRow>
+        locale={{
+          emptyText: (
+            <MobileEmpty
+              title={t('common:mobileEmpty.users.title')}
+              hint={t('common:mobileEmpty.users.hint')}
+            />
+          ),
+        }}
         dataSource={data}
         columns={withFixedEnds(columns)}
         rowKey="id"

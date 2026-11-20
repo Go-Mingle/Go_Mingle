@@ -1,3 +1,4 @@
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import React from 'react'
 import { withFixedEnds } from '../../../molecules/withFixedEnds'
 import { Table } from 'antd'
@@ -137,6 +138,7 @@ export function InterestsTable({
   return (
     <div className="interests-table">
       <Table<Interest>
+        locale={{ emptyText: <MobileEmpty title={t('common:mobileEmpty.interests.title')} /> }}
         dataSource={pagedData}
         columns={withFixedEnds(columns)}
         rowKey="id"

@@ -724,7 +724,7 @@
   padding-top: 14px !important;
   border-top: 0 !important;
 }
-/* Suppress the empty-state placeholder row that sometimes renders a separator */
+/* The empty-state row stays visible; only its separator line is removed */
 .minglers-table .ant-table-placeholder,
 .finances-table .ant-table-placeholder,
 .change-log-table .ant-table-placeholder,
@@ -733,8 +733,8 @@
 .preference-questions-table .ant-table-placeholder,
 .interest-topics-table .ant-table-placeholder,
 .interests-table .ant-table-placeholder,
-.interest-tables-table .ant-table-placeholder {
-  display: none !important;
+.interest-tables-table .ant-table-placeholder > td {
+  border-bottom: 0 !important;
 }
 
 /* ── Interest Table detail — per-table bookings & invited tables ──

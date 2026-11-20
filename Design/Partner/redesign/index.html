@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoMingle Partner Portal designs</title>
+<style>
+:root{color-scheme:light dark;--bg:#F7F5FC;--card:#fff;--text:#1A1530;--muted:#5C5677;--line:#E6E2F0}
+@media (prefers-color-scheme:dark){:root{--bg:#14102A;--card:#1E1838;--text:#F4F1FF;--muted:#B9B3D6;--line:#2E2752}}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Manrope,system-ui,sans-serif}
+main{max-width:1200px;margin:0 auto;padding:40px 16px}
+h1{margin:0 0 6px;font-size:28px} p.lead{margin:0 0 28px;color:var(--muted);max-width:720px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.card{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:16px;background:var(--card);border:1px solid var(--line);color:inherit;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
+.card:focus-visible{outline:2px solid #FF5A44;outline-offset:2px}
+.card img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
+.t{font-weight:700} .n{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>GoMingle Partner Portal: design boards</h1>
+<p class="lead">The Candlelit redesign, November 2026, exported from the design canvas as standalone pages. Open a card to see the full board, with its motion. The shipped screens in light, dark and phone layouts are in <a href="../screens/">screens/</a>.</p>
+<div class="grid">
+    <a class="card" href="login.html"><img src="previews/login.png" alt="Candlelit - Partner sign in (dark)" loading="lazy" width="1440" height="900"><span class="t">Candlelit - Partner sign in (dark)</span><span class="n">Partner sign-in, Candlelit direction (dark): the first full-screen draft. 1440×900</span></a>
+    <a class="card" href="login-light.html"><img src="previews/login-light.png" alt="Candlelit - Partner sign in (light)" loading="lazy" width="1440" height="900"><span class="t">Candlelit - Partner sign in (light)</span><span class="n">Partner sign-in, Candlelit direction (light). 1440×900</span></a>
+    <a class="card" href="signup.html"><img src="previews/signup.png" alt="Candlelit - Partner sign up" loading="lazy" width="1440" height="900"><span class="t">Candlelit - Partner sign up</span><span class="n">Partner sign-up: the five-step listing flow, shown at step 3. 1440×900</span></a>
+    <a class="card" href="dash-light.html"><img src="previews/dash-light.png" alt="Candlelit - Dashboard (light)" loading="lazy" width="1440" height="900"><span class="t">Candlelit - Dashboard (light)</span><span class="n">Partner dashboard, light. 1440×900</span></a>
+    <a class="card" href="dash-dark.html"><img src="previews/dash-dark.png" alt="Candlelit - Dashboard (dark)" loading="lazy" width="1440" height="900"><span class="t">Candlelit - Dashboard (dark)</span><span class="n">Partner dashboard, dark. 1440×900</span></a>
+    <a class="card" href="login-a.html"><img src="previews/login-a.png" alt="Login option A - The table is the stage (dark)" loading="lazy" width="1440" height="900"><span class="t">Login option A - The table is the stage (dark)</span><span class="n">Sign-in option A: the table is the stage. Explored. 1440×900</span></a>
+    <a class="card" href="login-b.html"><img src="previews/login-b.png" alt="Login option B - Gathering lights (dark) -" loading="lazy" width="1440" height="900"><span class="t">Login option B - Gathering lights (dark) -</span><span class="n">Sign-in option B: gathering lights, with the rotating guest names. Shipped in v0.12, then refined into option D. 1440×900</span></a>
+    <a class="card" href="login-c.html"><img src="previews/login-c.png" alt="Login option C - Tonight&#x27;s floor (light)" loading="lazy" width="1440" height="900"><span class="t">Login option C - Tonight&#x27;s floor (light)</span><span class="n">Sign-in option C: tonight&#x27;s floor (light). Explored. 1440×900</span></a>
+    <a class="card" href="login-d.html"><img src="previews/login-d.png" alt="Login option D - Side by side, one screen (dark, 1366×768)" loading="lazy" width="1366" height="768"><span class="t">Login option D - Side by side, one screen (dark, 1366×768)</span><span class="n">Sign-in option D, dark: text and form side by side, fits one screen at 1366×768. Chosen and shipped in v0.13.3. 1366×768</span></a>
+    <a class="card" href="login-d-light.html"><img src="previews/login-d-light.png" alt="Login option D - Side by side, one screen (light, 1366×768)" loading="lazy" width="1366" height="768"><span class="t">Login option D - Side by side, one screen (light, 1366×768)</span><span class="n">Sign-in option D, light. Shipped in v0.13.3. 1366×768</span></a>
+    <a class="card" href="login-d-phone.html"><img src="previews/login-d-phone.png" alt="Login option D - Phone (light)" loading="lazy" width="390" height="844"><span class="t">Login option D - Phone (light)</span><span class="n">Sign-in option D on a phone. Shipped in v0.13.3. 390×844</span></a>
+</div>
+</main>
+</body>
+</html>

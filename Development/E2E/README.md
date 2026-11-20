@@ -12,6 +12,15 @@ Playwright tests that drive the **Admin Panel** and **Partner Portal** in a real
 | `partner.crawl.spec.ts` | The same for every Partner Portal screen and tab. |
 | `admin.values.spec.ts` | Restaurant list and detail, menus and tables, finances (to the rupee), escrow totals and rows, interest tables, categories, users and the notification badge match the API. |
 | `partner.values.spec.ts` | Restaurant profile, menus, tables, interest tables, finances and escrow match the API, and the same restaurant reads the same on both portals. |
+| `admin/partner.inventory.spec.ts` | Records every heading, field and action on every screen and fails if a redesign drops one (re-record with `GM_UPDATE_INVENTORY=1` only for an intended change). |
+| `admin/partner.responsive.spec.ts` | Every screen at 390 px (phone) and 768 px (tablet): no sideways scrolling and no clipped content. |
+| `admin.access.spec.ts`, `admin.owners.spec.ts` | Admin-created restaurant profiles, Partner Portal access, several owners. |
+| `admin.workflow-manage.spec.ts` | A super admin manages a restaurant on its behalf: details, tables, amenities, photos, archive and restore, timer settings, messaging restaurants; each step is undone. |
+| `admin.command-palette.spec.ts` | Ctrl+K search: pages, restaurants, booking references, admin users, phone layout. |
+| `admin.workflow-bulk.spec.ts` | Bulk suspend, reactivate and delete of admin users (one change-log entry each) and CSV exports of the lists. |
+| `admin.security.spec.ts` | Two-step sign-in set up from the Security page with a real authenticator code, sign-in with an app code and a backup code, signing other devices out. |
+| `partner.team-and-photos.spec.ts`, `partner.workflow-import.spec.ts` | Team management, cover and profile photos, importing users and contacts from Excel/CSV. |
+| `admin-late.bulk-bookings.spec.ts` | Bulk-cancelling bookings. It runs in the `admin-late` project, after the partner specs, because cancelled bookings stay listed. |
 
 ## Running it
 
@@ -31,6 +40,7 @@ npm ci
 npx playwright install chromium   # once
 npx playwright test               # everything
 npx playwright test --project=api # API only
+GM_SHOTS=/tmp/shots npx playwright test admin.responsive # also save screenshots
 npx playwright show-report        # the HTML report
 ```
 
