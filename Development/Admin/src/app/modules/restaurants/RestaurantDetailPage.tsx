@@ -10,6 +10,7 @@ import { ChangeCategoryModal } from './ChangeCategoryModal'
 import { RestaurantDetailHeader } from './components/RestaurantDetailHeader'
 import { RestaurantDetailTabs } from './components/restaurantDetailTabs'
 import { RestaurantSuspendModal } from './components/RestaurantSuspendModal'
+import { ManageRestaurantMenu } from './manage/ManageRestaurantMenu'
 import { RestaurantUnsuspendModal } from './components/RestaurantUnsuspendModal'
 import { DeleteReviewModal } from './components/DeleteReviewModal'
 import { AppDetailApproveModal } from '../approval-queue/components/AppDetailApproveModal'
@@ -104,6 +105,8 @@ export function RestaurantDetailPage() {
         return { bg: 'var(--color-warning)', text: '#FFFFFF', label: 'Pending' }
       case 'REJECTED':
         return { bg: 'var(--color-error)', text: '#FFFFFF', label: 'Rejected' }
+      case 'ARCHIVED':
+        return { bg: 'var(--color-badge-neutral)', text: '#FFFFFF', label: 'Archived' }
       default:
         return { bg: 'var(--color-badge-neutral)', text: '#FFFFFF', label: 'Unknown' }
     }
@@ -257,6 +260,15 @@ export function RestaurantDetailPage() {
         }}
         onSuspend={() => setSuspendModalOpen(true)}
         onReactivate={() => setUnsuspendModalOpen(true)}
+        extraActions={
+          !isApprovalMode && id ? (
+            <ManageRestaurantMenu
+              restaurantId={id}
+              restaurantName={restaurant.name}
+              archived={restaurant.status === 'ARCHIVED'}
+            />
+          ) : undefined
+        }
       />
 
       {restaurant.status === 'REJECTED' && approvalDetail.data && (

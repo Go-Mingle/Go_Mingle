@@ -25,6 +25,8 @@ const BASE = '/api/v1/restaurants'
 // not an Admin-facing row at all. `statuses[]` is an allow-list over the same
 // two values, so it can never widen the base filter.
 const DIRECTORY_STATUSES = ['ACTIVE', 'SUSPENDED']
+// GM-342 — archived restaurants leave the default list but can be asked for.
+const ALLOWED_STATUSES = [...DIRECTORY_STATUSES, 'ARCHIVED']
 
 function notFound() {
   return HttpResponse.json(
@@ -244,13 +246,13 @@ export const restaurantsHandlers = [
 
     // Anything outside the allow-list is rejected outright — notably PENDING and
     // REJECTED, which used to validate and return an empty page.
-    if (statuses.some((s) => !DIRECTORY_STATUSES.includes(s))) {
+    if (statuses.some((s) => !ALLOWED_STATUSES.includes(s))) {
       return HttpResponse.json(
         {
           success: false,
           error: {
             code: 'ERR_VALIDATION',
-            message: `Each status must be one of: ${DIRECTORY_STATUSES.join(', ')}.`,
+            message: `Each status must be one of: ${ALLOWED_STATUSES.join(', ')}.`,
           },
         },
         { status: 422 },
@@ -259,7 +261,8 @@ export const restaurantsHandlers = [
 
     // Base filter first, so counts and pagination totals never see a
     // DRAFT/PENDING/REJECTED row.
-    let items = mockRestaurants.filter((r) => DIRECTORY_STATUSES.includes(r.status))
+    const base = statuses.includes('ARCHIVED') ? ALLOWED_STATUSES : DIRECTORY_STATUSES
+    let items = mockRestaurants.filter((r) => base.includes(r.status))
 
     if (categoryIds.length) items = items.filter((r) => categoryIds.includes(r.categoryId))
     if (cities)

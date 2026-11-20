@@ -11,7 +11,7 @@ import { ReviewService } from '../../shared/restaurants/review.service'
 import { AdminGuard } from '../access/admin.guard'
 import { AdminRestaurantsService } from './admin-restaurants.service'
 
-const DIRECTORY_STATUSES = ['ACTIVE', 'SUSPENDED']
+const DIRECTORY_STATUSES = ['ACTIVE', 'SUSPENDED', 'ARCHIVED']
 const MEDIA_KINDS = ['DOCUMENT', 'PHOTO', 'VIDEO']
 
 const fail = (status: number, code: string, message?: string) =>
@@ -55,6 +55,8 @@ export class RestaurantsController {
 
     const cats = await this.directory.categoriesById()
     let rows = (await this.directory.all()).filter((r) => DIRECTORY_STATUSES.includes(adminStatus(r)))
+    // Archived restaurants are listed only when asked for.
+    if (!statuses.includes('ARCHIVED')) rows = rows.filter((r) => adminStatus(r) !== 'ARCHIVED')
     if (categoryIds.length) rows = rows.filter((r) => categoryIds.includes(r.categoryId ?? ''))
     if (q.cities) rows = rows.filter((r) => (r.city ?? '').toLowerCase().includes(q.cities.toLowerCase()))
     if (statuses.length) rows = rows.filter((r) => statuses.includes(adminStatus(r)))
@@ -201,5 +203,33 @@ export class RestaurantsController {
     if (adminStatus(r) !== 'SUSPENDED') throw fail(409, 'ERR_RESTAURANT_ALREADY_ACTIONED', 'Restaurant is not suspended.')
     await this.review.unsuspend(r.id)
     return { success: true, data: { id: r.id, status: 'ACTIVE' } }
+  }
+
+  /**
+   * Archive (GM-342): the restaurant leaves the Mingler app and the directory's
+   * default list, and its data stays. Restore brings it back, still hidden from
+   * the app until the restaurant turns visibility on again.
+   */
+  @Post(':id/archive')
+  @HttpCode(200)
+  async archive(@Param('id') id: string, @Body() body: { reason?: string }) {
+    const r = await this.directory.known(id)
+    if (!r) throw notFound()
+    if (adminStatus(r) === 'ARCHIVED') throw fail(409, 'ERR_RESTAURANT_ALREADY_ACTIONED', 'Restaurant is already archived.')
+    if (!['ACTIVE', 'SUSPENDED'].includes(adminStatus(r))) throw fail(409, 'ERR_RESTAURANT_ALREADY_ACTIONED', 'Only approved restaurants can be archived.')
+    if (!body.reason || body.reason.trim().length < 10) throw fail(400, 'ERR_VALIDATION', 'A reason of at least 10 characters is required.')
+    await this.restaurants.update(r.id, { archivedAt: new Date().toISOString(), visibleOnApp: false })
+    return { success: true, data: { id: r.id, status: 'ARCHIVED' } }
+  }
+
+  @Post(':id/restore')
+  @HttpCode(200)
+  async restore(@Param('id') id: string) {
+    const r = await this.directory.known(id)
+    if (!r) throw notFound()
+    if (adminStatus(r) !== 'ARCHIVED') throw fail(409, 'ERR_RESTAURANT_ALREADY_ACTIONED', 'Restaurant is not archived.')
+    await this.restaurants.update(r.id, { archivedAt: null })
+    const after = await this.directory.known(id)
+    return { success: true, data: { id: r.id, status: after ? adminStatus(after) : 'ACTIVE' } }
   }
 }

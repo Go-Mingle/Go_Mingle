@@ -25,7 +25,7 @@ export const RESTAURANTS_ENDPOINTS = {
  * `statuses[]` accepts. Drives both the Status column's filter options and the
  * `ListRestaurantsParams` type, so the UI cannot offer a value the API 422s on.
  */
-export const DIRECTORY_STATUSES: readonly RestaurantDirectoryStatus[] = ['ACTIVE', 'SUSPENDED']
+export const DIRECTORY_STATUSES: readonly RestaurantDirectoryStatus[] = ['ACTIVE', 'SUSPENDED', 'ARCHIVED']
 
 export const RESTAURANTS_PAGE_SIZE = 10
 export const RESTAURANTS_MOBILE_PAGE_SIZE = 5

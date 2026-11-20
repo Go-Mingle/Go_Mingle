@@ -407,5 +407,111 @@
     "bookings": "Confirmed bookings",
     "joined": "Joined",
     "id": "Restaurant ID"
+  },
+  "manage": {
+    "onBehalf": "You're changing this on the restaurant's behalf. The restaurant's own rules apply, and the change is logged in the change log.",
+    "loadFailed": "This couldn't be loaded. Please try again.",
+    "saveFailed": "This couldn't be saved. Please try again.",
+    "saved": "Saved",
+    "readOnly": "This restaurant is waiting for approval, so its details can't be changed right now.",
+    "hidden": "Hidden",
+    "hide": "Hide",
+    "show": "Show",
+    "menu": {
+      "button": "Manage restaurant",
+      "details": "Edit details",
+      "contacts": "Contacts",
+      "tables": "Tables",
+      "menus": "Menu options",
+      "amenities": "Amenities",
+      "photos": "Photos",
+      "archive": "Archive restaurant",
+      "restore": "Restore from archive"
+    },
+    "details": {
+      "title": "Edit restaurant details",
+      "basics": "Basics",
+      "name": "Restaurant name",
+      "cuisine": "Cuisine",
+      "description": "Description",
+      "location": "Location",
+      "fullAddress": "Full address",
+      "area": "Area or district",
+      "city": "City",
+      "mapLink": "Google Maps link",
+      "mapLinkHint": "Paste a Google Maps link and choose Use link to fill in the coordinates.",
+      "mapLinkInvalid": "No coordinates were found in this link.",
+      "useLink": "Use link",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "viewOnMap": "View on map",
+      "contact": "Restaurant contact",
+      "phone": "Phone",
+      "email": "Email",
+      "website": "Website",
+      "owner": "Owner",
+      "ownerName": "Owner name",
+      "ownerEmail": "Owner email",
+      "ownerPhone": "Owner phone",
+      "rules": "House rules",
+      "houseRules": "House rules",
+      "dressCode": "Dress code",
+      "servesAlcohol": "Serves alcohol",
+      "visible": "Visible on the Mingler app"
+    },
+    "contacts": {
+      "title": "Contacts",
+      "add": "Add contact",
+      "name": "Name",
+      "role": "Title",
+      "email": "Email",
+      "phone": "Phone",
+      "empty": "No contacts yet.",
+      "removeConfirm": "Remove {{name}}?"
+    },
+    "tables": {
+      "title": "Tables",
+      "add": "Add table",
+      "name": "Table area name",
+      "hint": "Weekly availability stays as the restaurant set it. A table in use by an upcoming interest table can't be removed; hide it instead.",
+      "empty": "No tables yet.",
+      "removeConfirm": "Remove {{name}}?"
+    },
+    "menus": {
+      "title": "Menu options",
+      "add": "Add menu option",
+      "name": "Menu name",
+      "price": "Price per seat",
+      "course": "Course",
+      "coursePh": "Main course",
+      "choose": "Choose",
+      "options": "Dishes",
+      "optionsPh": "Separate dishes with commas, e.g. Biryani, Karahi",
+      "addCourse": "Add course",
+      "removeCourse": "Remove course",
+      "empty": "No menu options yet.",
+      "removeConfirm": "Remove {{name}}?"
+    },
+    "amenities": {
+      "title": "Amenities",
+      "empty": "No amenities in the catalogue yet. Add them under Amenities."
+    },
+    "photos": {
+      "title": "Photos",
+      "add": "Upload photo",
+      "uploading": "Uploading…",
+      "empty": "No photos yet.",
+      "cover": "Cover",
+      "makeCover": "Make cover photo",
+      "removeConfirm": "Remove this photo?"
+    },
+    "archive": {
+      "title": "Archive {{name}}?",
+      "body": "An archived restaurant leaves the Mingler app and the restaurant list, and all its data is kept. You can restore it at any time; it stays hidden from the app until the restaurant turns visibility on again.",
+      "reason": "Why is it being archived? (at least 10 characters)",
+      "confirm": "Archive",
+      "done": "{{name}} was archived.",
+      "restored": "{{name}} was restored."
+    }
   }
 }

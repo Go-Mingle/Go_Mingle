@@ -122,11 +122,11 @@ describe('buildRestaurantsColumns', () => {
     expect(status.sorter).toBe(true)
     // CR-45 AC-2 — the API 422s on anything outside this allow-list, so offering
     // Pending or Rejected here would turn a filter click into a hard error.
-    expect(status.filters.map((f) => f.value)).toEqual(['ACTIVE', 'SUSPENDED'])
+    expect(status.filters.map((f) => f.value)).toEqual(['ACTIVE', 'SUSPENDED', 'ARCHIVED'])
     expect(status.filters.map((f) => f.value)).not.toContain('PENDING')
     expect(status.filters.map((f) => f.value)).not.toContain('REJECTED')
     expect(status.filters.map((f) => f.value)).not.toContain('DRAFT')
-    expect(status.filters.map((f) => f.text)).toEqual(['Active', 'Suspended'])
+    expect(status.filters.map((f) => f.text)).toEqual(['Active', 'Suspended', 'Archived'])
 
     const known = status.render('ACTIVE')
     expect(known.props.children).toBe('Active')

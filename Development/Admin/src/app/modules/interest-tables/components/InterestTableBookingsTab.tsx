@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { Table, Grid, Flex, Row, Col, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
-import { CalendarBlank, Crown } from '@phosphor-icons/react'
+import { CalendarBlank, Chair, Crown } from '@phosphor-icons/react'
+import { AppButton } from '../../../atoms/AppButton'
+import { ChangeSeatsModal } from './ChangeSeatsModal'
 import { useTranslation } from 'react-i18next'
 import type { InterestTableBooking } from '../types'
 import { InterestTableStatusBadge } from './InterestTableStatusBadge'
@@ -40,6 +42,22 @@ export function InterestTableBookingsTab({ bookings }: Props) {
   const cancellable = (b: InterestTableBooking) =>
     b.status === 'PENDING' || b.status === 'CONFIRMED'
   const selection = useRowSelection(bookings, null, cancellable, (b) => `${b.guest} ${b.bookingId}`)
+  const [seatsFor, setSeatsFor] = useState<InterestTableBooking | null>(null)
+  const canChangeSeats = (b: InterestTableBooking) =>
+    b.status === 'PENDING' || b.status === 'CONFIRMED'
+  const changeSeatsBtn = (b: InterestTableBooking) =>
+    canChangeSeats(b) ? (
+      <AppButton
+        variant="secondary"
+        aria-label={t('interest-tables:seats.action', { name: b.guest })}
+        onClick={(e) => {
+          e.stopPropagation()
+          setSeatsFor(b)
+        }}
+      >
+        <Chair size={14} aria-hidden /> {t('interest-tables:seats.short')}
+      </AppButton>
+    ) : null
 
   const billCell = (v: number, align: 'left' | 'right') => {
     const base = { fontFamily: 'var(--font-ui)', fontSize: 14, fontWeight: 500 } as const
@@ -154,6 +172,17 @@ export function InterestTableBookingsTab({ bookings }: Props) {
       render: (s: InterestTableBooking['status']) => (
         <InterestTableStatusBadge status={s} kind="booking" />
       ),
+    },
+    {
+      title: t('interest-tables:seats.column'),
+      dataIndex: 'seats',
+      key: 'seats',
+      render: (n: number | undefined) => <span className="text-[14px]">{n ?? '—'}</span>,
+    },
+    {
+      title: '',
+      key: 'actions',
+      render: (_: unknown, b) => changeSeatsBtn(b),
     },
   ]
 
@@ -295,6 +324,9 @@ export function InterestTableBookingsTab({ bookings }: Props) {
                   {bk.bill > 0 ? `PKR ${bk.bill.toLocaleString()}` : '—'}
                 </span>
               </Flex>
+              {canChangeSeats(bk) && (
+                <div className="mt-3 flex justify-end">{changeSeatsBtn(bk)}</div>
+              )}
             </div>
           ))}
         </div>
@@ -324,6 +356,7 @@ export function InterestTableBookingsTab({ bookings }: Props) {
         onClear={selection.clear}
         onFinished={selection.remove}
       />
+      <ChangeSeatsModal booking={seatsFor} onClose={() => setSeatsFor(null)} />
 
       <BookingDetailTabsModal
         open={!!selectedBookingId}
