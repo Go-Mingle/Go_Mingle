@@ -65,7 +65,7 @@ describe('ChangeLogTable', () => {
 
   it('renders empty state when no data', () => {
     renderWithProviders(<ChangeLogTable pagedData={[]} onTableChange={vi.fn()} />)
-    expect(screen.getAllByText(/no data/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/no changes recorded yet/i)).toBeInTheDocument()
   })
 
   it('renders dashes for empty/—/null oldVal and newVal across actions', () => {
