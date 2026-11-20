@@ -103,7 +103,8 @@ test('finds an admin user and opens their details', async ({ page }) => {
     await page.getByTestId('command-input').fill(`search ${stamp}`)
     await page.getByTestId(`command-item-user-${created.id}`).click()
     await expect(page).toHaveURL(/\/users$/)
-    const dialog = page.getByRole('dialog')
+    // The palette's own dialog may still be animating out, so pick the edit dialog by name.
+    const dialog = page.getByRole('dialog', { name: 'Edit user' })
     await expect(dialog).toBeVisible()
     await expect(dialog.getByRole('textbox').first()).toHaveValue(fullName)
   } finally {
