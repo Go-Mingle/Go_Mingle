@@ -62,7 +62,8 @@
     "update": "Update",
     "verify": "Verify",
     "continue": "Continue",
-    "sendInvite": "Send invite"
+    "sendInvite": "Send invite",
+    "done": "Done"
   },
   "errors": {
     "fetchError": "Failed to load data. Please try again.",
@@ -235,6 +236,28 @@
   "mobileSearch": {
     "restaurants": "Search restaurants by name",
     "minglers": "Search Minglers by name"
+  },
+  "bulk": {
+    "region": "Selected rows",
+    "selected_one": "{{count}} selected",
+    "selected_other": "{{count}} selected",
+    "clear": "Clear selection",
+    "selectAll": "Select all on this page",
+    "andMore_one": "and {{count}} more",
+    "andMore_other": "and {{count}} more",
+    "reasonMin": "At least {{count}} characters.",
+    "progress": "{{done}} of {{total}} done…",
+    "doneCount_one": "{{count}} updated.",
+    "doneCount_other": "{{count}} updated.",
+    "failedCount_one": "{{count}} could not be changed:",
+    "failedCount_other": "{{count}} could not be changed:"
+  },
+  "export": {
+    "csv": "Export CSV",
+    "done_one": "Exported {{count}} row.",
+    "done_other": "Exported {{count}} rows.",
+    "truncated": "Exported the first {{count}} rows. Narrow the filters to export the rest.",
+    "failed": "Could not export. Try again."
   },
   "command": {
     "title": "Search GoMingle Admin",

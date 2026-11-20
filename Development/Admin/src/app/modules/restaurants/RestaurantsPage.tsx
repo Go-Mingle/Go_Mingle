@@ -18,6 +18,8 @@ import { RestaurantCardList } from './components/RestaurantCardList'
 import { RestaurantSuspendModal } from './components/RestaurantSuspendModal'
 import { RestaurantUnsuspendModal } from './components/RestaurantUnsuspendModal'
 import { ChangeCategoryModal } from './ChangeCategoryModal'
+import { RestaurantsBulkActions, RestaurantsExportButton } from './components/RestaurantsBulk'
+import { inSelectionCell, useRowSelection } from '../../hooks/useRowSelection'
 import { getApiErrorMessage } from '../../../shared/utils/apiError'
 import {
   useActiveCategoriesQuery,
@@ -71,6 +73,11 @@ export function RestaurantsPage() {
   const { data: activeCategories = [] } = useActiveCategoriesQuery()
 
   const rows = (data?.items ?? []).map(mapRestaurant)
+  const selection = useRowSelection(
+    rows,
+    queryParams,
+    (r) => r.status === 'ACTIVE' || r.status === 'SUSPENDED',
+  )
 
   const [suspendModalOpen, setSuspendModalOpen] = useState(false)
   const [suspendTarget, setSuspendTarget] = useState<Restaurant | null>(null)
@@ -234,7 +241,10 @@ export function RestaurantsPage() {
         >
           {t('restaurants:title')}
         </h1>
-        <AddRestaurantButton />
+        <div className="flex flex-wrap items-center gap-2">
+          <RestaurantsExportButton params={queryParams} />
+          <AddRestaurantButton />
+        </div>
       </div>
 
       <InvitedRestaurants />
@@ -268,8 +278,11 @@ export function RestaurantsPage() {
             scroll={{ x: 'max-content' }}
             loading={isFetching}
             onChange={handleTableChange}
+            rowSelection={selection.rowSelection}
             onRow={(record) => ({
-              onClick: () => navigate(`/restaurants/${record.id}`),
+              onClick: (e) => {
+                if (!inSelectionCell(e.target)) navigate(`/restaurants/${record.id}`)
+              },
               style: { cursor: 'pointer' },
             })}
           />
@@ -296,6 +309,14 @@ export function RestaurantsPage() {
           onPageSizeChange={(size) =>
             setQueryParams((prev) => ({ ...prev, page: 1, pageSize: size }))
           }
+        />
+      )}
+
+      {!isMobile && (
+        <RestaurantsBulkActions
+          selected={selection.selected}
+          onClear={selection.clear}
+          onFinished={selection.remove}
         />
       )}
 
