@@ -11,6 +11,8 @@ import {
   useActiveBookingsCountQuery,
 } from './hooks/useMinglersQuery'
 import { MinglersTable } from './components/MinglersTable'
+import { MinglersBulkActions, MinglersExportButton } from './components/MinglersBulk'
+import { useRowSelection } from '../../hooks/useRowSelection'
 import { MinglersPagination } from './components/MinglersPagination'
 import { SuspendModal } from './components/SuspendModal'
 import { UnsuspendModal } from './components/UnsuspendModal'
@@ -223,6 +225,8 @@ export function MinglersPage() {
     suspendModal.open,
   )
 
+  const selection = useRowSelection(data?.items ?? [], queryParams)
+
   if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
 
@@ -288,7 +292,7 @@ export function MinglersPage() {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {contextHolder}
 
-      <div style={{ marginBottom: 24 }}>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1
           style={{
             margin: 0,
@@ -300,6 +304,7 @@ export function MinglersPage() {
         >
           {t('title')}
         </h1>
+        <MinglersExportButton params={queryParams} />
       </div>
 
       {/* Table (desktop) or Card list (mobile) */}
@@ -328,6 +333,7 @@ export function MinglersPage() {
             setSuspendModal({ open: true, mingler: record })
           }}
           onUnsuspendClick={(record) => setUnsuspendModal({ open: true, mingler: record })}
+          rowSelection={selection.rowSelection}
         />
       )}
 
@@ -378,6 +384,14 @@ export function MinglersPage() {
         onConfirm={handleConfirmUnsuspend}
         confirmLoading={reactivateMutation.isPending}
       />
+
+      {!isMobile && (
+        <MinglersBulkActions
+          selected={selection.selected}
+          onClear={selection.clear}
+          onFinished={selection.remove}
+        />
+      )}
     </div>
   )
 }

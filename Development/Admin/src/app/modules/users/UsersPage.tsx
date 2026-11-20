@@ -27,6 +27,9 @@ import { EditUserModal } from './components/EditUserModal'
 import { DeleteUserModal } from './components/DeleteUserModal'
 import { ResetPasswordModal } from './components/ResetPasswordModal'
 import { AppButton } from '../../atoms/AppButton'
+import { UsersBulkActions, UsersExportButton } from './components/UsersBulk'
+import { useRowSelection } from '../../hooks/useRowSelection'
+
 import { usersService } from './services'
 
 const CARD_CLS = 'bg-(--color-card) rounded-xl p-4 flex flex-col gap-3'
@@ -190,6 +193,8 @@ export function UsersPage() {
       })
     }
   }, [editTarget, editForm])
+
+  const selection = useRowSelection(usersData?.items ?? [], queryParams)
 
   // `/users?open=<id>` (from global search) opens that admin user straight away.
   const [searchParams, setSearchParams] = useSearchParams()
@@ -373,10 +378,13 @@ export function UsersPage() {
         >
           {t('title')}
         </h1>
-        <AppButton variant="primary" onClick={() => setNewOpen(true)}>
-          <Plus size={15} weight="bold" />
-          {t('actions.newUserShort')}
-        </AppButton>
+        <Flex align="center" gap={8} wrap>
+          {!isMobile && <UsersExportButton params={queryParams} />}
+          <AppButton variant="primary" onClick={() => setNewOpen(true)}>
+            <Plus size={15} weight="bold" />
+            {t('actions.newUserShort')}
+          </AppButton>
+        </Flex>
       </Flex>
 
       {isMobile ? (
@@ -396,6 +404,7 @@ export function UsersPage() {
           onQueryParamsChange={handleQueryParamsChange}
           roleFilterOptions={roleFilterOptions}
           onRowClick={setEditTarget}
+          rowSelection={selection.rowSelection}
         />
       )}
 
@@ -458,6 +467,14 @@ export function UsersPage() {
         onConfirm={handleSendPasswordReset}
         onCancel={() => setResetPasswordTarget(null)}
       />
+
+      {!isMobile && (
+        <UsersBulkActions
+          selected={selection.selected}
+          onClear={selection.clear}
+          onFinished={selection.remove}
+        />
+      )}
     </Flex>
   )
 }
