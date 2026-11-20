@@ -67,6 +67,8 @@ export const restaurants = pgTable(
     /** DRAFT | PENDING | ACTIVE | REJECTED */
     status: text('status').notNull().default('DRAFT'),
     suspended: boolean('suspended').notNull().default(false),
+    /** Archived by a GoMingle admin (ISO time): hidden from the app and the directory, data kept. */
+    archivedAt: text('archived_at'),
     rejections: jsonb('rejections').$type<Rejection[]>().notNull().default([]),
     /** When it first entered the approval queue (ms); null until first submitted. */
     firstSubmittedAt: bigint('first_submitted_at', { mode: 'number' }),
