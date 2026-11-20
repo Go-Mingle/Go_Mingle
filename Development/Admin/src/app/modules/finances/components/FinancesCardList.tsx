@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import { MobileEmpty } from '../../../molecules/MobileEmpty'
+import { TableAvatar } from '../../../molecules/TableAvatar'
 import { useTranslation } from 'react-i18next'
 import type { FinanceRecord } from './financeTypes'
 
@@ -37,9 +38,11 @@ export const FinancesCardList = memo(function FinancesCardList({
         >
           {/* Row 1: avatar + restaurant/mingler */}
           <div className="flex items-center gap-2.5 min-w-0">
-            <div
-              style={{ background: record.avatarColor ?? 'var(--color-accent)' }}
-              className="w-9 h-9 rounded-lg shrink-0"
+            <TableAvatar
+              name={record.restaurant}
+              size={36}
+              shape="rounded"
+              color={record.avatarColor}
             />
             <div className="min-w-0">
               <div className="text-sm font-semibold text-[var(--color-text)] font-[var(--font-ui)] whitespace-nowrap overflow-hidden text-ellipsis">
