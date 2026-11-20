@@ -1,4 +1,5 @@
 import { Popover } from 'antd'
+import { TableAvatar } from '../../../molecules/TableAvatar'
 import type { ColumnType } from 'antd/es/table'
 import { Info } from '@phosphor-icons/react'
 import { RestaurantInfoPopover } from '../RestaurantInfoPopover'
@@ -33,15 +34,7 @@ export function buildRestaurantColumn(
       const clickable = !!onRestaurantClick && !!record.restaurantId
       return (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div
-            style={{
-              width: 28,
-              height: 28,
-              borderRadius: 8,
-              background: record.avatarColor ?? 'var(--color-accent)',
-              flexShrink: 0,
-            }}
-          />
+          <TableAvatar name={name} size={28} shape="rounded" color={record.avatarColor} />
           <span
             role={clickable ? 'button' : undefined}
             onClick={

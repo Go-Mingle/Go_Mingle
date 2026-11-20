@@ -1,3 +1,4 @@
+import { getInitials } from '../../../../shared/utils/avatar'
 import { describe, it, expect, vi } from 'vitest'
 import { screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -215,14 +216,14 @@ describe('FinancesCardList — keyboard and mingler interactions', () => {
     expect(onView).toHaveBeenCalledWith(mockData[1])
   })
 
-  it('falls back to the accent color when avatarColor is absent', () => {
+  it("shows each restaurant's initials in its avatar instead of a blank square", () => {
     const onView = vi.fn()
     const onMinglerClick = vi.fn()
-    const { container } = renderWithProviders(
+    renderWithProviders(
       <FinancesCardList data={mockData} onView={onView} onMinglerClick={onMinglerClick} />,
     )
-    // mockData[1] (Sara) has no avatarColor → inline style uses the accent var.
-    const avatars = container.querySelectorAll('[style*="var(--color-accent)"]')
-    expect(avatars.length).toBeGreaterThan(0)
+    for (const row of mockData) {
+      expect(screen.getAllByText(getInitials(row.restaurant)).length).toBeGreaterThan(0)
+    }
   })
 })
