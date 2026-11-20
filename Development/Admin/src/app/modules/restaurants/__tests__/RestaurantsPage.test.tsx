@@ -300,7 +300,8 @@ describe('RestaurantsPage — server-side filtering & sorting', () => {
     await screen.findByText('Zeta')
 
     const user = userEvent.setup()
-    const nameHeader = screen.getAllByRole('columnheader')[0]
+    // Column 0 is the row-selection checkbox (GM-345).
+    const nameHeader = screen.getAllByRole('columnheader')[1]
     await user.click(nameHeader)
 
     await waitFor(() => {

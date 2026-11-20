@@ -18,6 +18,8 @@ import { TableAvatar } from '../../../molecules/TableAvatar'
 import { useBookingDetailQuery } from '../../restaurants/hooks/useRestaurantsQuery'
 import { BookingDetailTabsModal } from '../../restaurants/components/BookingDetailTabsModal'
 import { bookingDetailToBooking } from '../../restaurants/components/reviewsMappers'
+import { BookingsExportButton, InterestTableBookingsBulk } from './InterestTableBookingsBulk'
+import { inSelectionCell, useRowSelection } from '../../../hooks/useRowSelection'
 
 interface Props {
   bookings: InterestTableBooking[]
@@ -35,6 +37,9 @@ export function InterestTableBookingsTab({ bookings }: Props) {
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null)
   const bookingQuery = useBookingDetailQuery(selectedBookingId ?? undefined)
   const bookingRecord = bookingQuery.data ? bookingDetailToBooking(bookingQuery.data) : null
+  const cancellable = (b: InterestTableBooking) =>
+    b.status === 'PENDING' || b.status === 'CONFIRMED'
+  const selection = useRowSelection(bookings, null, cancellable, (b) => `${b.guest} ${b.bookingId}`)
 
   const billCell = (v: number, align: 'left' | 'right') => {
     const base = { fontFamily: 'var(--font-ui)', fontSize: 14, fontWeight: 500 } as const
@@ -193,6 +198,11 @@ export function InterestTableBookingsTab({ bookings }: Props) {
 
   return (
     <div className="pt-5">
+      {bookings.length > 0 && !isMobile && (
+        <div className="mb-3 flex justify-end">
+          <BookingsExportButton bookings={bookings} />
+        </div>
+      )}
       {bookings.length === 0 ? (
         emptyState
       ) : isMobile ? (
@@ -297,13 +307,23 @@ export function InterestTableBookingsTab({ bookings }: Props) {
             size="middle"
             pagination={false}
             scroll={{ x: 'max-content' }}
+            rowSelection={selection.rowSelection}
             onRow={(record) => ({
-              onClick: () => setSelectedBookingId(record.id),
+              onClick: (e) => {
+                if (!inSelectionCell(e.target)) setSelectedBookingId(record.id)
+              },
               style: { cursor: 'pointer' },
             })}
           />
         </div>
       )}
+
+      <InterestTableBookingsBulk
+        bookings={bookings}
+        selected={isMobile ? [] : selection.selected}
+        onClear={selection.clear}
+        onFinished={selection.remove}
+      />
 
       <BookingDetailTabsModal
         open={!!selectedBookingId}

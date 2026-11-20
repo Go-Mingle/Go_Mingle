@@ -1,6 +1,8 @@
 import { Table } from 'antd'
 import { withFixedEnds } from '../../../molecules/withFixedEnds'
 import type { TableProps } from 'antd'
+import type { TableRowSelection } from 'antd/es/table/interface'
+import { inSelectionCell } from '../../../hooks/useRowSelection'
 import { buildMinglerColumns } from './minglerColumns'
 import type {
   ListMinglersQueryParams,
@@ -17,6 +19,7 @@ interface MinglersTableProps {
   onRowClick: (id: string) => void
   onSuspendClick: (record: MinglerListItem) => void
   onUnsuspendClick: (record: MinglerListItem) => void
+  rowSelection?: TableRowSelection<MinglerListItem>
 }
 
 const SORT_FIELD_MAP: Record<string, MinglersSortBy> = {
@@ -37,6 +40,7 @@ export function MinglersTable({
   onRowClick,
   onSuspendClick,
   onUnsuspendClick,
+  rowSelection,
 }: MinglersTableProps) {
   // The row itself is clickable (see onRow below), so the View action
   // icon was removed from buildMinglerColumns.
@@ -80,8 +84,11 @@ export function MinglersTable({
         pagination={false}
         scroll={{ x: 'max-content' }}
         onChange={handleChange}
+        rowSelection={rowSelection}
         onRow={(record) => ({
-          onClick: () => onRowClick(record.id),
+          onClick: (e) => {
+            if (!inSelectionCell(e.target)) onRowClick(record.id)
+          },
           style: { cursor: 'pointer' },
         })}
       />

@@ -296,5 +296,22 @@
   },
   "timer": {
     "closed": "Closed"
+  },
+  "bulk": {
+    "cancel_one": "Cancel {{count}} booking",
+    "cancel_other": "Cancel {{count}} bookings",
+    "cancelTitle_one": "Cancel {{count}} booking?",
+    "cancelTitle_other": "Cancel {{count}} bookings?",
+    "cancelBody_one": "The Mingler is told, their card hold is released and anything already paid is refunded. The seats open up for others.",
+    "cancelBody_other": "Each Mingler is told, their card holds are released and anything already paid is refunded. The seats open up for others.",
+    "export": {
+      "reference": "Booking reference",
+      "guest": "Guest",
+      "date": "Date",
+      "menu": "Menu",
+      "seats": "Seats",
+      "status": "Status",
+      "bill": "Bill (PKR)"
+    }
   }
 }

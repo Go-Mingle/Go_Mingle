@@ -12,6 +12,8 @@ import {
   mapTableChange,
 } from './tableHelpers'
 import { RestaurantCell } from './RestaurantCell'
+import type { TableRowSelection } from 'antd/es/table/interface'
+import { inSelectionCell } from '../../../hooks/useRowSelection'
 import { ActionIcon } from './ActionIcon'
 
 interface PendingTableProps {
@@ -20,6 +22,7 @@ interface PendingTableProps {
   onQueryParamsChange: (params: Partial<ListApprovalsQueryParams>) => void
   onApprove: (record: Application) => void
   onReject: (record: Application) => void
+  rowSelection?: TableRowSelection<Application>
 }
 
 const cellCls = 'text-sm font-medium text-(--color-text-secondary) [font-family:var(--font-ui)]'
@@ -30,6 +33,7 @@ export function PendingTable({
   onQueryParamsChange,
   onApprove,
   onReject,
+  rowSelection,
 }: PendingTableProps) {
   const navigate = useNavigate()
   const { t } = useTranslation('approval-queue')
@@ -132,11 +136,14 @@ export function PendingTable({
         loading={loading}
         scroll={{ x: 'max-content' }}
         onChange={(_p, filters, sorter) => onQueryParamsChange(mapTableChange(filters, sorter))}
+        rowSelection={rowSelection}
         onRow={(record) => ({
-          onClick: () =>
+          onClick: (e) => {
+            if (inSelectionCell(e.target)) return
             navigate(`/approval-queue/${record.id}`, {
               state: { fromApproval: true, backLabel: t('common:backTo.approvalQueue') },
-            }),
+            })
+          },
           className: 'cursor-pointer',
         })}
       />
