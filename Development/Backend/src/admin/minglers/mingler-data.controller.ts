@@ -2,6 +2,8 @@ import { Controller, Delete, Get, HttpCode, Patch, Post, UseGuards } from '@nest
 import { rawError } from '../../common/errors'
 import { num, Query } from '../../common/http'
 import { AdminGuard } from '../access/admin.guard'
+import { config } from '../../config'
+import { CHECK_IN_OPENS_MINUTES, NO_SHOW_GRACE_MINUTES } from '../../shared/bookings/bookings.service'
 
 /**
  * Screens whose records are created by the Mingler app: Minglers, their
@@ -114,12 +116,39 @@ export class ReviewsController {
   }
 }
 
-/** Screens with nothing behind them yet: /admin/api/timer-settings */
+/**
+ * Timer Settings (GM-342): every timer the platform runs, with its value and
+ * where it applies. The booking windows are platform-fixed in the requirements
+ * (SA6, Mingler stories AC13-AC15), so this screen shows them rather than
+ * offering to change them; each restaurant's own cancellation window and
+ * no-show penalty are set on its No-show policy.
+ */
 @Controller('admin/api')
 @UseGuards(AdminGuard)
 export class TimerSettingsController {
   @Get('timer-settings')
   timerSettings() {
-    return []
+    const hours = (s: number) => Math.round(s / 3600)
+    const t = (key: string, group: string, name: string, value: number, unit: 'minutes' | 'hours' | 'days', appliesTo: string, source: 'PLATFORM_FIXED' | 'PER_RESTAURANT') => ({
+      key,
+      group,
+      name,
+      value,
+      unit,
+      appliesTo,
+      source,
+    })
+    return [
+      t('confirm-window', 'Bookings', 'Auto-confirm window', 24, 'hours', 'A table with at least 4 seats booked confirms this long before it starts, and cards are charged.', 'PLATFORM_FIXED'),
+      t('auto-cancel', 'Bookings', 'Auto-cancel check', 4, 'hours', 'A Pending table still under 4 seats is cancelled this long before it starts; holds are released.', 'PLATFORM_FIXED'),
+      t('booking-close', 'Bookings', 'Booking window closes', 2, 'hours', 'No new bookings this close to the start; seats are re-checked.', 'PLATFORM_FIXED'),
+      t('check-in-opens', 'Check-in', 'Check-in opens', CHECK_IN_OPENS_MINUTES, 'minutes', 'Staff can mark guests as arrived from this long before the start.', 'PLATFORM_FIXED'),
+      t('no-show-grace', 'Check-in', 'No-show grace period', NO_SHOW_GRACE_MINUTES, 'minutes', 'After the start, bookings not checked in by then are marked no-show automatically.', 'PLATFORM_FIXED'),
+      t('cancellation-window', 'Bookings', "Restaurant's cancellation window", 24, 'hours', 'Default; each restaurant sets its own on its No-show policy (up to 168 hours).', 'PER_RESTAURANT'),
+      t('reset-code', 'Sign-in', 'Password reset code', 10, 'minutes', 'How long an emailed reset code stays valid.', 'PLATFORM_FIXED'),
+      t('lockout', 'Sign-in', 'Account lockout', config.lockout.lockMinutes, 'minutes', `After ${config.lockout.maxFailures} wrong passwords in a row, sign-in is blocked for this long.`, 'PLATFORM_FIXED'),
+      t('session', 'Sign-in', 'Session length', hours(config.accessTokenTtlSeconds), 'hours', 'A sign-in renews itself silently within this time.', 'PLATFORM_FIXED'),
+      t('remember', 'Sign-in', 'Stay signed in', Math.round(config.refreshTokenTtlSeconds / 86400), 'days', 'After this long without using the portal, people sign in again.', 'PLATFORM_FIXED'),
+    ]
   }
 }
