@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Controller, Get, HttpCode, Param, Patch, Post, UseGuards, UseInterceptors } from '@nestjs/common'
 import { rawError, apiError } from '../common/errors'
 import { Body, num, Query } from '../common/http'
 import { BookingsService, type Booking } from '../shared/bookings/bookings.service'
@@ -149,5 +149,17 @@ export class BookingsController {
       throw rawError(409, { success: false, error: { code: 'ERR_BOOKING_NOT_CANCELLABLE', message: 'This booking can no longer be cancelled.' } })
     }
     return { success: true, data: { id: b.id, status: 'CANCELLED' } }
+  }
+
+  /** Changes a booking's seats (GM-342). The booking's time is its table's time. */
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() body: { seats?: unknown }, @CurrentAdmin() admin: AdminSession) {
+    const b = await this.bookings.find(id)
+    if (!b) throw notFound()
+    if (body.seats === undefined) {
+      throw rawError(422, { success: false, error: { code: 'ERR_VALIDATION', message: 'Nothing to change: send seats.' } })
+    }
+    const updated = await this.bookings.changeSeats(b, body.seats, admin.fullName)
+    return { success: true, data: { id: updated.id, bookingRef: updated.bookingRef, seats: updated.seats, status: updated.status } }
   }
 }

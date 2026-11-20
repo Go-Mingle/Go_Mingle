@@ -46,6 +46,7 @@ const makeBooking = (overrides: Partial<InterestTableBooking> = {}): InterestTab
   comboName: 'Standard',
   status: 'CONFIRMED',
   bill: 150,
+  seats: 2,
   ...overrides,
 })
 
