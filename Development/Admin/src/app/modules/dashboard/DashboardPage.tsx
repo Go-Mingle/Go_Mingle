@@ -3,6 +3,7 @@ import { Alert, Button } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { InsightsDashboard } from '../../visual/InsightsDashboard'
 import { PageSkeleton } from '../../visual/PageSkeleton'
+import { ExportPdfButton } from '../../visual/ExportPdfButton'
 import type { Range } from '../../visual/insights'
 import { useDashboardQuery } from './useDashboardQuery'
 
@@ -34,6 +35,7 @@ export function DashboardPage() {
       range={range}
       onRange={setRange}
       tableHref={(table) => `/interest-tables/${table.id}`}
+      actions={<ExportPdfButton audience="admin" data={data} />}
     />
   )
 }

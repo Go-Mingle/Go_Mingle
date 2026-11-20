@@ -39,6 +39,8 @@
     "dayjs": "^1.11.20",
     "dompurify": "^3.4.8",
     "i18next": "^26.0.8",
+    "jspdf": "^3.0.4",
+    "jspdf-autotable": "^5.0.9",
     "msw": "^2.14.3",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
