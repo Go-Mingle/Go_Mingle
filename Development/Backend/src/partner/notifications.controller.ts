@@ -17,6 +17,7 @@ const TYPE_CATALOGUE = [
   { type: 'IT_CREATED', label: 'New interest table created' },
   { type: 'MINGLER_CANCELLED_BOOKING', label: 'Mingler cancelled a booking' },
   { type: 'PROMINGLER_UPDATED', label: 'Promingler updated' },
+  { type: 'GOMINGLE_ANNOUNCEMENT', label: 'Message from GoMingle' },
 ]
 const KNOWN_TYPES = new Set(TYPE_CATALOGUE.map((t) => t.type))
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
