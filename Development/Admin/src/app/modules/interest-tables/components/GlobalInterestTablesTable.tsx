@@ -1,4 +1,5 @@
 import { Grid, Table } from 'antd'
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import type { SorterResult } from 'antd/es/table/interface'
 import { useTranslation } from 'react-i18next'
 import { withFixedEnds } from '../../../molecules/withFixedEnds'
@@ -42,6 +43,8 @@ export function GlobalInterestTablesTable({
 
   const columns = buildGlobalInterestTablesColumns(params, t, callbacks)
 
+  if (isMobile && items.length === 0)
+    return <MobileEmpty title={t('common:mobileEmpty.interestTables.title')} />
   if (isMobile) {
     return (
       <div className="flex flex-col gap-2.5">

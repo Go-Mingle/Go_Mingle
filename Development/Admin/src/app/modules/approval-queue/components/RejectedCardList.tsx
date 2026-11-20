@@ -1,4 +1,5 @@
 import { Flex } from 'antd'
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import { Eye } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import type { Application } from './types'
@@ -18,6 +19,8 @@ interface RejectedCardListProps {
 
 export function RejectedCardList({ data, onView }: RejectedCardListProps) {
   const { t } = useTranslation('approval-queue')
+
+  if (data.length === 0) return <MobileEmpty title={t('common:mobileEmpty.rejected.title')} />
 
   return (
     <div className="approval-queue-card-list">
