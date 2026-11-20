@@ -71,6 +71,7 @@ export class AdminAccountsService {
       role: user.role,
       status: user.status,
       createdAt: user.createdAt,
+      twoStepEnabled: Boolean(user.totpEnabledAt && user.totpSecret),
     }
   }
 

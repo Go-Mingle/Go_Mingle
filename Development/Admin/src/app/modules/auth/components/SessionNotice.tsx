@@ -8,6 +8,7 @@ const NOTICE_I18N_KEY: Record<SessionEndReason, string> = {
   SUSPENDED: 'session.suspended',
   EXPIRED: 'session.expired',
   INVALID: 'session.invalid',
+  REVOKED: 'session.revoked',
 }
 
 /**

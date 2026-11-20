@@ -26,6 +26,7 @@ const ROUTES = [
   '/notifications',
   '/change-log',
   '/timer-settings',
+  '/security',
 ]
 
 for (const route of ROUTES) {

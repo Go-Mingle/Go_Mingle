@@ -63,6 +63,7 @@ export function isApiAuthMode(): boolean {
 
 const API_AUTH = {
   login: '/api/v1/auth/login',
+  loginVerify: '/api/v1/auth/login/verify',
   refresh: '/api/v1/auth/refresh',
   logout: '/api/v1/auth/logout',
 } as const
@@ -87,6 +88,41 @@ interface ApiAuthResponse {
   accessToken: string
   refreshToken?: string
   user?: { id: string; email: string; fullName?: string }
+  twoStepSetupRequired?: boolean
+}
+
+/**
+ * The password was right and the account has two-step sign-in on (GM-346):
+ * ask for a code, then call completeSecondStep with `mfaToken`.
+ */
+export class TwoStepNeeded extends Error {
+  readonly mfaToken: string
+  constructor(mfaToken: string) {
+    super('Two-step sign-in')
+    this.name = 'TwoStepNeeded'
+    this.mfaToken = mfaToken
+  }
+}
+
+/** A wrong or expired second-step code. */
+export class SecondStepError extends Error {
+  readonly code: string
+  readonly status: number
+  readonly remainingAttempts?: number
+  readonly unlocksAt?: string
+  constructor(
+    status: number,
+    code: string,
+    message: string,
+    details?: { remainingAttempts?: number; unlocksAt?: string },
+  ) {
+    super(message)
+    this.name = 'SecondStepError'
+    this.status = status
+    this.code = code
+    this.remainingAttempts = details?.remainingAttempts
+    this.unlocksAt = details?.unlocksAt
+  }
 }
 
 async function postAuth(path: string, body: unknown, token?: string): Promise<Response> {
@@ -112,7 +148,43 @@ async function readAuthResponse(res: Response): Promise<ApiAuthResponse> {
 }
 
 async function apiLogin(email: string, password: string): Promise<CognitoLoginResult> {
-  const data = await readAuthResponse(await postAuth(API_AUTH.login, { email, password }))
+  const res = await postAuth(API_AUTH.login, { email, password })
+  if (res.ok) {
+    const peek = (await res
+      .clone()
+      .json()
+      .catch(() => ({}))) as { mfaRequired?: boolean; mfaToken?: string }
+    if (peek.mfaRequired && peek.mfaToken) throw new TwoStepNeeded(peek.mfaToken)
+  }
+  return storeSession(await readAuthResponse(res), email)
+}
+
+/** Second sign-in step: a code from the authenticator app or a backup code. */
+export async function completeSecondStep(
+  mfaToken: string,
+  code: string,
+  email: string,
+): Promise<CognitoLoginResult> {
+  const res = await postAuth(API_AUTH.loginVerify, { mfaToken, code })
+  if (!res.ok) {
+    const body = (await res.json().catch(() => ({}))) as {
+      error?: {
+        code?: string
+        message?: string
+        details?: { remainingAttempts?: number; unlocksAt?: string }
+      }
+    }
+    throw new SecondStepError(
+      res.status,
+      body.error?.code ?? 'ERR_INVALID_CODE',
+      body.error?.message ?? 'Invalid code',
+      body.error?.details,
+    )
+  }
+  return storeSession(await readAuthResponse(res), email)
+}
+
+function storeSession(data: ApiAuthResponse, email: string): CognitoLoginResult {
   localStorage.setItem('auth-token', data.accessToken)
   if (data.refreshToken) localStorage.setItem('auth-refresh-token', data.refreshToken)
   const name = data.user?.fullName || data.user?.email || email
@@ -127,6 +199,7 @@ async function apiLogin(email: string, password: string): Promise<CognitoLoginRe
       fullAccess: false,
       initials: name.slice(0, 2).toUpperCase(),
     },
+    twoStepSetupRequired: Boolean(data.twoStepSetupRequired),
   }
 }
 
@@ -134,6 +207,8 @@ async function apiLogin(email: string, password: string): Promise<CognitoLoginRe
 export interface CognitoLoginResult {
   accessToken: string
   user: AuthUser
+  /** The panel requires two-step sign-in and this admin hasn't set it up (GM-346). */
+  twoStepSetupRequired?: boolean
 }
 
 // Authenticates user with Cognito using email/password credentials.

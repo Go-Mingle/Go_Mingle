@@ -2,6 +2,7 @@ import { LoadingState } from '../../molecules/LoadingState'
 import { MobileEmpty } from '../../molecules/MobileEmpty'
 import { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
+import { useQueryClient } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { Alert, Form, message, Pagination, Flex, Row, Col, Grid, Modal } from 'antd'
 import { Plus, PencilSimple, Key, Trash } from '@phosphor-icons/react'
@@ -150,6 +151,32 @@ export function UsersPage() {
   const { data: activeRoles } = useActiveRolesQuery()
 
   const [messageApi, contextHolder] = message.useMessage()
+  const [modalApi, modalHolder] = Modal.useModal()
+  const queryClient = useQueryClient()
+  const [resettingTwoStep, setResettingTwoStep] = useState(false)
+
+  // GM-346: a super admin turns off another admin's two-step sign-in (lost phone).
+  const resetTwoStep = (target: UserRow) => {
+    void modalApi.confirm({
+      title: t('twoStep.confirmTitle', { name: target.fullName }),
+      content: t('twoStep.confirmBody'),
+      okText: t('twoStep.reset'),
+      okButtonProps: { danger: true },
+      onOk: async () => {
+        setResettingTwoStep(true)
+        try {
+          await usersService.resetTwoStep(target.id)
+          setEditTarget({ ...target, twoStepEnabled: false })
+          void queryClient.invalidateQueries({ queryKey: ['users'] })
+          void messageApi.success(t('twoStep.done', { name: target.fullName }))
+        } catch (err) {
+          void messageApi.error(getApiErrorMessage(err, t('common:errors.genericError')))
+        } finally {
+          setResettingTwoStep(false)
+        }
+      },
+    })
+  }
 
   const createMutation = useCreateUserMutation()
   const updateMutation = useUpdateUserMutation()
@@ -344,6 +371,7 @@ export function UsersPage() {
   return (
     <Flex vertical>
       {contextHolder}
+      {modalHolder}
       <Flex align="center" justify="space-between" gap={12} className="mb-6">
         <h1
           className={`m-0 ${isMobile ? 'text-xl' : 'text-[26px]'} font-bold text-(--color-text) leading-tight`}
@@ -420,6 +448,8 @@ export function UsersPage() {
         form={editForm}
         roleOptions={roleOptions}
         onSave={handleEditSave}
+        onResetTwoStep={editTarget?.twoStepEnabled ? () => resetTwoStep(editTarget) : undefined}
+        resettingTwoStep={resettingTwoStep}
         onCancel={() => {
           setEditTarget(null)
           editForm.resetFields()

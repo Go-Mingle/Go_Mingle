@@ -19,6 +19,7 @@ export type TargetLookup = (id: string) => Promise<{ name?: string | null; recor
 const MODULES: [RegExp, string, string][] = [
   [/^\/api\/v1\/roles/, 'Roles & Access', 'role'],
   [/^\/api\/v1\/users/, 'Users', 'user'],
+  [/^\/api\/v1\/security/, 'Roles & Access', 'security rule'],
   [/^\/api\/v1\/categories/, 'Categories', 'category'],
   [/^\/api\/v1\/amenities/, 'Amenities', 'amenity'],
   [/^\/api\/v1\/interest-topics|^\/api\/v1\/topics/, 'Interest Topics', 'topic'],
@@ -53,6 +54,7 @@ const VERBS: Record<string, string> = {
   cancel: 'Cancelled',
   'make-available': 'Made available',
   promingler: 'Changed Pro Mingler',
+  'reset-two-step': 'Turned off two-step sign-in',
   invitees: 'Invited a Mingler',
   capture: 'Captured payment',
   void: 'Voided hold',

@@ -1,0 +1,80 @@
+{
+  "title": "Security",
+  "subtitle": "Two-step sign-in and the devices where you're signed in.",
+  "passwordPlaceholder": "Your current password",
+  "forced": {
+    "title": "Turn on two-step sign-in to continue",
+    "body": "A super admin requires two-step sign-in for every admin. Set it up below; the rest of the Admin Panel opens as soon as it's on."
+  },
+  "twoStep": {
+    "title": "Two-step sign-in",
+    "on": "On",
+    "off": "Off",
+    "onBody_one": "On since {{date}}. Signing in asks for a code from your authenticator app. {{count}} backup code left.",
+    "onBody_other": "On since {{date}}. Signing in asks for a code from your authenticator app. {{count}} backup codes left.",
+    "offBody": "Add a second step to signing in: a 6-digit code from an authenticator app such as Google Authenticator, Microsoft Authenticator or 1Password. Someone with your password alone can't get in.",
+    "fewCodes_one": "Only {{count}} backup code left. Make new ones so you aren't locked out if you lose your phone.",
+    "fewCodes_other": "Only {{count}} backup codes left. Make new ones so you aren't locked out if you lose your phone.",
+    "turnOn": "Turn on",
+    "turnOff": "Turn off",
+    "turnedOn": "Two-step sign-in is on.",
+    "turnedOff": "Two-step sign-in is off.",
+    "turnOffTitle": "Turn off two-step sign-in?",
+    "turnOffBody": "Signing in will only need your password. Enter it to confirm.",
+    "newCodes": "New backup codes",
+    "newCodesTitle": "New backup codes",
+    "newCodesBody": "Your old backup codes stop working. Enter your password to make ten new ones."
+  },
+  "setup": {
+    "title": "Turn on two-step sign-in",
+    "stepApp": "Add to app",
+    "stepCode": "Enter code",
+    "stepBackup": "Save backup codes",
+    "intro": "Use an authenticator app such as Google Authenticator, Microsoft Authenticator or 1Password.",
+    "keyLabel": "Setup key",
+    "keyHint": "Account: GoMingle Admin · Type: time-based",
+    "copy": "Copy",
+    "copyAll": "Copy all",
+    "copied": "Copied",
+    "openApp": "On this phone? Open in your authenticator app",
+    "codeLabel": "Code from the app",
+    "turnOn": "Turn on",
+    "onTitle": "Two-step sign-in is on",
+    "backupIntro": "Keep these backup codes somewhere safe, away from your phone. Each one signs you in once if your phone isn't with you. They won't be shown again.",
+    "download": "Download codes",
+    "saveFirst": "Download or copy the codes to finish.",
+    "done": "Done",
+    "fileTitle": "GoMingle Admin: backup codes for two-step sign-in",
+    "fileNote": "Each code works once. Keep this file somewhere safe.",
+    "scan": "Scan this code with the app. Can't scan? Add an account in the app, choose to enter a setup key and type the key below. Then enter the 6-digit code the app shows.",
+    "qrAlt": "QR code to add GoMingle Admin to your authenticator app"
+  },
+  "sessions": {
+    "title": "Where you're signed in",
+    "body": "Sign out any device you don't recognise or no longer use. It stops working straight away.",
+    "device": "{{browser}} on {{os}}",
+    "thisDevice": "This device",
+    "signedIn": "signed in {{when}}",
+    "lastSeen": "active {{when}}",
+    "viaBackup": "signed in with a backup code",
+    "signOut": "Sign out",
+    "signOutOne": "Sign out {{browser}} on {{os}}",
+    "signOutOthers_one": "Sign out {{count}} other device",
+    "signOutOthers_other": "Sign out {{count}} other devices",
+    "signedOut": "Signed out that device.",
+    "signedOutOthers_one": "Signed out {{count}} other device.",
+    "signedOutOthers_other": "Signed out {{count}} other devices."
+  },
+  "policy": {
+    "title": "Require two-step sign-in for every admin",
+    "body": "Admins without it must set it up before they can use the Admin Panel. If someone loses their phone, reset it for them on the Users page.",
+    "needOwn": "Turn on two-step sign-in for your own account first.",
+    "nowRequired": "Two-step sign-in is now required for every admin.",
+    "nowOptional": "Two-step sign-in is now optional."
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "load": "Couldn't load your security settings.",
+    "wrongCode": "That code didn't match. Check the time on your phone and try the newest code."
+  }
+}

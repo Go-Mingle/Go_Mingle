@@ -18,6 +18,9 @@ const AppRedirectPage = lazy(() =>
 const RolesAccessPage = lazy(() =>
   import('./modules/roles-access/RolesAccessPage').then((m) => ({ default: m.RolesAccessPage })),
 )
+const SecurityPage = lazy(() =>
+  import('./modules/security/SecurityPage').then((m) => ({ default: m.SecurityPage })),
+)
 const UsersPage = lazy(() =>
   import('./modules/users/UsersPage').then((m) => ({ default: m.UsersPage })),
 )
@@ -316,6 +319,8 @@ export const router = createBrowserRouter([
         path: '/notifications',
         element: wrap(<NotificationsPage />),
       },
+      // Every signed-in admin: their own two-step sign-in and sessions (GM-346).
+      { path: '/security', element: wrap(<SecurityPage />) },
       { path: '*', element: <LandingRedirect /> },
     ],
   },

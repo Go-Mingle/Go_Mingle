@@ -36,6 +36,15 @@ export const adminUsers = pgTable(
     passwordHash: text('password_hash'),
     failures: integer('failures').notNull().default(0),
     lockedUntil: bigint('locked_until', { mode: 'number' }).notNull().default(0),
+    /** Two-step sign-in (GM-346): the authenticator secret, sealed (see auth/totp.ts). */
+    totpSecret: text('totp_secret'),
+    /** A secret being set up, until the first code confirms it. */
+    totpPendingSecret: text('totp_pending_secret'),
+    totpEnabledAt: text('totp_enabled_at'),
+    /** Last 30-second step a code was accepted for, so a code can't be used twice. */
+    totpLastStep: bigint('totp_last_step', { mode: 'number' }).notNull().default(0),
+    /** SHA-256 of each unused backup code. */
+    backupCodes: jsonb('backup_codes').$type<string[]>().notNull().default([]),
   },
   (t) => [
     uniqueIndex('admin_users_email_live')
@@ -52,8 +61,31 @@ export const refreshTokens = pgTable(
     userId: text('user_id').notNull(),
     audience: text('audience').notNull(),
     expiresAt: bigint('expires_at', { mode: 'number' }).notNull(),
+    /** Admin sign-in session the token belongs to (null for partner tokens). */
+    sessionId: text('session_id'),
   },
   (t) => [index('refresh_tokens_user').on(t.userId)],
+)
+
+/**
+ * Admin sign-in sessions (GM-346): one per sign-in, listed on the Security
+ * page. Revoking one stops its access token at the next request and its
+ * refresh token for good.
+ */
+export const adminSessions = pgTable(
+  'admin_sessions',
+  {
+    id: text('id').primaryKey(),
+    userId: text('user_id').notNull(),
+    userAgent: text('user_agent').notNull().default(''),
+    ip: text('ip').notNull().default(''),
+    /** How the second step was passed: none | totp | backup */
+    method: text('method').notNull().default('none'),
+    createdAt: text('created_at').notNull(),
+    lastSeenAt: text('last_seen_at').notNull(),
+    revokedAt: text('revoked_at'),
+  },
+  (t) => [index('admin_sessions_user').on(t.userId)],
 )
 
 /** One-time codes (password reset, partner sign-up), keyed `${purpose}:${email}`. */

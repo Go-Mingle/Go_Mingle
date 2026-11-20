@@ -22,6 +22,7 @@
    "expiresIn": 7200,
    "refreshToken": "<gen>",
    "tokenType": "Bearer",
+   "twoStepSetupRequired": false,
    "user": {
     "createdAt": "<iso>",
     "email": "admin@gomingle.com",
@@ -33,7 +34,8 @@
      "name": "Super Admin",
      "permissions": []
     },
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "twoStepEnabled": false
    }
   }
  },

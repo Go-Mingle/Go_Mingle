@@ -159,6 +159,14 @@ async function requestWithRetry<T>(
       // and friends — leaves the session valid; the user simply lacks that
       // permission.
       if (err.code === 'ERR_ACCOUNT_SUSPENDED') terminateSession('SUSPENDED')
+      // A super admin requires two-step sign-in and this admin hasn't set it up
+      // yet (GM-346): the Security page is the only place left to go.
+      if (
+        err.code === 'ERR_TWO_STEP_REQUIRED' &&
+        !window.location.pathname.startsWith('/security')
+      ) {
+        window.location.assign('/security?setup=1')
+      }
       throw err
     }
 
@@ -168,6 +176,12 @@ async function requestWithRetry<T>(
     // terminate without ever attempting a renewal (BR-06c, AC-03.3/03.4).
     if (err.code === 'ERR_TOKEN_INVALID') {
       terminateSession('INVALID')
+      throw err
+    }
+
+    // This sign-in was signed out from the Security page on another device.
+    if (err.code === 'ERR_SESSION_REVOKED') {
+      terminateSession('REVOKED')
       throw err
     }
 

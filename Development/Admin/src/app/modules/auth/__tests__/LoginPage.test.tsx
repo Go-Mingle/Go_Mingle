@@ -16,6 +16,19 @@ vi.mock('react-router-dom', async () => {
 
 vi.mock('../cognitoService', () => ({
   cognitoLogin: vi.fn(),
+  completeSecondStep: vi.fn(),
+  TwoStepNeeded: class TwoStepNeeded extends Error {
+    mfaToken: string
+    constructor(t: string) {
+      super('Two-step sign-in')
+      this.mfaToken = t
+    }
+  },
+  SecondStepError: class SecondStepError extends Error {
+    status = 401
+    code = 'ERR_INVALID_CODE'
+    remainingAttempts?: number
+  },
   mapCognitoErrorToCode: vi.fn((err: unknown) => {
     const message = err instanceof Error ? err.message : String(err)
     if (message.includes('NotAuthorizedException')) return 'ERR_INVALID_CREDENTIALS'
@@ -67,6 +80,50 @@ describe('LoginPage', () => {
       await user.type(pwInput, 'Admin@123')
       const signIn = screen.getByRole('button', { name: /signIn|sign in/i })
       await user.click(signIn)
+      vi.advanceTimersByTime(2000)
+      await waitFor(() =>
+        expect(navigateMock).toHaveBeenCalledWith('/dashboard', { replace: true }),
+      )
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('asks for the authenticator code when two-step sign-in is on (GM-346)', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    try {
+      const svc = await import('../cognitoService')
+      cognitoLoginMock.mockRejectedValue(new svc.TwoStepNeeded('step-token'))
+      const verify = vi.mocked(svc.completeSecondStep).mockResolvedValue({
+        accessToken: 'mock-token',
+        user: {
+          id: 'user-1',
+          email: 'admin@gomingle.com',
+          name: 'Admin User',
+          role: 'Super Admin',
+          initials: 'AU',
+          permissions: [],
+          fullAccess: true,
+        },
+        twoStepSetupRequired: false,
+      })
+      renderWithProviders(<LoginPage />)
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
+      await user.type(
+        document.querySelector('input[type="email"]') as HTMLInputElement,
+        'admin@gomingle.com',
+      )
+      await user.type(
+        document.querySelector('input[type="password"]') as HTMLInputElement,
+        'Admin@123',
+      )
+      await user.click(screen.getByRole('button', { name: /signIn|sign in/i }))
+      expect(await screen.findByTestId('two-step-step')).toBeInTheDocument()
+      await user.click(screen.getByLabelText('Digit 1 of 6'))
+      await user.keyboard('482913')
+      await waitFor(() =>
+        expect(verify).toHaveBeenCalledWith('step-token', '482913', 'admin@gomingle.com'),
+      )
       vi.advanceTimersByTime(2000)
       await waitFor(() =>
         expect(navigateMock).toHaveBeenCalledWith('/dashboard', { replace: true }),
