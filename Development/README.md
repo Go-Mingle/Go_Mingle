@@ -2,7 +2,7 @@
 
 NUCES MS Practicum: GoMingle social dining and restaurant booking platform (Karachi).
 
-**Version 0.13.11** (20 Nov 2026). See *Version history* at the end.
+**Version 0.13.12** (20 Nov 2026). See *Version history* at the end.
 
 **Live:** Admin Panel https://gomingle-admin.vercel.app · Partner Portal https://gomingle-partner.vercel.app · API https://gomingle-api.vercel.app. See *Online on Vercel* below.
 
@@ -103,6 +103,7 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 
 | Version | Date | What changed |
 |---|---|---|
+| 0.13.12 | 20 Nov 2026 | Admin `NotificationCard`: title and date stack below `sm` (GM-352). Docs: `Design/{Admin,Partner}/redesign` boards and `screens/` captures; READMEs for Admin, Partner, Backend and E2E (GM-343) |
 | 0.13.11 | 20 Nov 2026 | API: `auth/totp.ts` (RFC 6238 on node:crypto, ±1 step, replay-proof via `totp_last_step`; secrets sealed with AES-256-GCM; hashed backup codes), `AdminSecurityService` and `admin_sessions` (migration 0021: `admin_users` two-step columns, `refresh_tokens.session_id`); access tokens carry `sid`, so a signed-out session fails at once with `ERR_SESSION_REVOKED`; `POST auth/login` answers `{ mfaRequired, mfaToken }` then `POST auth/login/verify`; `/admin/api/v1/security` (overview, two-step setup/enable/disable/backup-codes, sessions, policy); `ERR_TWO_STEP_REQUIRED` from `AdminGuard` when the policy is on; `POST users/:id/reset-two-step`. Admin: `modules/security` (Security page, set-up modal with a lazily loaded `qrcode`), `TwoStepCodeStep` on sign-in, `OtpInput` rewritten; tests `two-step.test.ts`, unit, E2E `admin.security.spec.ts` (GM-346) |
 | 0.13.10 | 20 Nov 2026 | Admin `shared/utils/bulk.ts` (`runBulk` with concurrency 3 and per-item results, `fetchAllPages` capped at 5,000 rows), `csvExport` adds a UTF-8 BOM and defuses spreadsheet formulas (CSV injection); `hooks/useRowSelection` (selection scoped to the list query); molecules `BulkActionBar`, `BulkActionModal`, `ExportCsvButton`; per-module `RestaurantsBulk`, `MinglersBulk`, `UsersBulk`, `ApprovalsBulk`, `InterestTableBookingsBulk`; E2E `admin.workflow-bulk.spec.ts` and `admin-late.bulk-bookings.spec.ts` (new `admin-late` project runs after the partner specs) (GM-345) |
 | 0.13.9 | 20 Nov 2026 | `themeTransition.ts` (both portals): the reveal is a CSS `@keyframes gm-theme-reveal` on `::view-transition-new(root)` driven by `--gm-vt-x/y/r`, set before `startViewTransition`, cleaned up on `finished`; `html.gm-theme-vt *` disables CSS transitions while switching, which caused the flash back (GM-351) |
