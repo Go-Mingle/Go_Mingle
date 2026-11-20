@@ -155,5 +155,34 @@
     "placeholder": "Explain why this application is being declined. The applicant will receive this message via email.",
     "confirmDecline": "Decline Application",
     "cancel": "Cancel"
+  },
+  "bulk": {
+    "approve_one": "Approve {{count}}",
+    "approve_other": "Approve {{count}}",
+    "decline_one": "Decline {{count}}",
+    "decline_other": "Decline {{count}}",
+    "approveTitle_one": "Approve {{count}} restaurant?",
+    "approveTitle_other": "Approve {{count}} restaurants?",
+    "approveBody_one": "It goes live in the chosen category and its owner gets the approval email.",
+    "approveBody_other": "They go live in the chosen category and each owner gets the approval email.",
+    "declineTitle_one": "Decline {{count}} application?",
+    "declineTitle_other": "Decline {{count}} applications?",
+    "declineBody_one": "The owner gets the reason by email and can fix the profile and send it again.",
+    "declineBody_other": "Each owner gets the reason by email and can fix the profile and send it again.",
+    "category": "Category for all of them",
+    "categoryPlaceholder": "Choose a category",
+    "reason": "Reason (sent to each owner)"
+  },
+  "export": {
+    "name": "Restaurant",
+    "cuisine": "Cuisine",
+    "owner": "Owner",
+    "email": "Email",
+    "phone": "Phone",
+    "city": "City",
+    "submitted": "Submitted",
+    "rejectedOn": "Declined on",
+    "reason": "Reason",
+    "id": "Application ID"
   }
 }

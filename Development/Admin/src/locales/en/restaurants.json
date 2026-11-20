@@ -382,6 +382,32 @@
       "done": "Access removed for {{email}}."
     }
   },
+  "bulk": {
+    "suspend_one": "Suspend {{count}}",
+    "suspend_other": "Suspend {{count}}",
+    "reactivate_one": "Reactivate {{count}}",
+    "reactivate_other": "Reactivate {{count}}",
+    "suspendTitle_one": "Suspend {{count}} restaurant?",
+    "suspendTitle_other": "Suspend {{count}} restaurants?",
+    "suspendBody_one": "It disappears from the Mingler app and its owners can't take new bookings until it is reactivated. Restaurants with upcoming bookings are skipped and listed below.",
+    "suspendBody_other": "They disappear from the Mingler app and their owners can't take new bookings until reactivated. Restaurants with upcoming bookings are skipped and listed below.",
+    "reactivateTitle_one": "Reactivate {{count}} restaurant?",
+    "reactivateTitle_other": "Reactivate {{count}} restaurants?",
+    "reactivateBody_one": "It goes back on the Mingler app and its owners can take bookings again.",
+    "reactivateBody_other": "They go back on the Mingler app and their owners can take bookings again.",
+    "reason": "Reason (sent to each restaurant's owners)"
+  },
+  "export": {
+    "name": "Name",
+    "cuisine": "Cuisine",
+    "city": "City",
+    "category": "Category",
+    "status": "Status",
+    "visible": "On the app",
+    "bookings": "Confirmed bookings",
+    "joined": "Joined",
+    "id": "Restaurant ID"
+  },
   "manage": {
     "onBehalf": "You're changing this on the restaurant's behalf. The restaurant's own rules apply, and the change is logged in the change log.",
     "loadFailed": "This couldn't be loaded. Please try again.",

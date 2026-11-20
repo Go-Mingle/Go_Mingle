@@ -1,5 +1,6 @@
 import { Flex, Pagination, Grid } from 'antd'
 import type { Application, ListApprovalsQueryParams } from '../types'
+import type { TableRowSelection } from 'antd/es/table/interface'
 import { PaginationRow } from './PaginationRow'
 import { PendingTable } from './PendingTable'
 import { PendingCardList } from './PendingCardList'
@@ -16,6 +17,7 @@ interface PendingTabContentProps {
   onView: (id: string) => void
   onPageChange: (page: number) => void
   onPageSizeChange: (size: number) => void
+  rowSelection?: TableRowSelection<Application>
 }
 
 export function PendingTabContent({
@@ -30,6 +32,7 @@ export function PendingTabContent({
   onView,
   onPageChange,
   onPageSizeChange,
+  rowSelection,
 }: PendingTabContentProps) {
   const screens = Grid.useBreakpoint()
   const isMobile = !screens.md
@@ -45,6 +48,7 @@ export function PendingTabContent({
           onQueryParamsChange={onQueryParamsChange}
           onApprove={onApprove}
           onReject={onReject}
+          rowSelection={rowSelection}
         />
       )}
 
