@@ -51,20 +51,34 @@ test('finds a restaurant by name and opens it', async ({ page }) => {
 
 test('finds a booking by its reference', async ({ page }) => {
   const { interestTableId } = seed()
-  const A = await adminToken()
-  const made = unwrap(await ok('POST', `${ADMIN_API}/admin/bookings/sandbox`, A, { interestTableId, minglerName: 'Search Check', seats: 1 }))
-  const booking = (made.booking ?? made) as { id: string; bookingRef: string }
-  try {
-    await page.goto('/dashboard')
-    await settle(page)
-    await page.keyboard.press('Control+k')
-    // Typed loosely: lower case, no dash.
-    await page.getByTestId('command-input').fill(booking.bookingRef.replace('-', '').toLowerCase())
-    await page.getByRole('option', { name: new RegExp(booking.bookingRef) }).click()
-    await expect(page).toHaveURL(new RegExp(`/interest-tables/${interestTableId}\\?tab=bookings`))
-  } finally {
-    await ok('POST', `${ADMIN_API}/admin/bookings/${booking.id}/cancel`, A).catch(() => undefined)
-  }
+  // A real booking can't be removed afterwards and would change what the
+  // partner specs see, so the lookup is answered here; the API test covers
+  // the endpoint itself (insights.test.ts).
+  const ref = 'GM-482913'
+  await page.route(`**/admin/bookings/${ref}`, (route) =>
+    route.fulfill({
+      json: {
+        success: true,
+        data: {
+          id: 'bk-search',
+          bookingRef: ref,
+          interestTableId,
+          interestTableName: 'Startup Mixer',
+          restaurantName: 'Kolachi',
+          date: '2026-11-28',
+          time: '7:30 PM',
+          status: 'CONFIRMED',
+        },
+      },
+    }),
+  )
+  await page.goto('/dashboard')
+  await settle(page)
+  await page.keyboard.press('Control+k')
+  // Typed loosely: lower case, no dash.
+  await page.getByTestId('command-input').fill('gm482913')
+  await page.getByRole('option', { name: new RegExp(ref) }).click()
+  await expect(page).toHaveURL(new RegExp(`/interest-tables/${interestTableId}\\?tab=bookings`))
 })
 
 test('finds an admin user and opens their details', async ({ page }) => {
