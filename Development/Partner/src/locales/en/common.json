@@ -197,5 +197,39 @@
       "completed": "Checked in. The dinner took place.",
       "cancelled": "Cancelled. Nothing is held on the card."
     }
+  },
+  "import": {
+    "button": "Import",
+    "drop": "Drop your Excel or CSV file here, or click to choose",
+    "formats": "An .xlsx or .csv file, up to {{max}} rows and 2 MB. The first row must be the column names.",
+    "columnsHint": "Columns: {{columns}} (* required)",
+    "template": "Download template",
+    "missingColumns": "This file has no {{columns}} column. Download the template to see the expected columns.",
+    "errors": {
+      "type": "Choose an .xlsx or .csv file.",
+      "size": "This file is larger than 2 MB.",
+      "empty": "This file has no rows under the column names.",
+      "tooMany": "This file has more than {{max}} rows. Split it and import each part.",
+      "unreadable": "We couldn't read this file. Save it again as .xlsx or .csv and try once more."
+    },
+    "summary": "{{file}}: {{ready}} ready to import, {{skipped}} with problems (these will be skipped).",
+    "row": "Row",
+    "check": "Check",
+    "ready": "Ready",
+    "chooseAnother": "Choose another file",
+    "importN_one": "Import {{count}} row",
+    "importN_other": "Import {{count}} rows",
+    "progress": "Imported {{done}} of {{total}}",
+    "result": "Imported {{imported}}. Failed {{failed}}. Skipped {{skipped}}.",
+    "failedRow": "Row {{row}}: {{error}}",
+    "problems": {
+      "nameRequired": "Name is missing",
+      "emailRequired": "Email is missing",
+      "emailInvalid": "Email looks wrong",
+      "duplicate": "Repeated in this file",
+      "nameTooLong": "Name is too long",
+      "designationTooLong": "Designation is too long",
+      "statusInvalid": "Status must be Active or Suspended"
+    }
   }
 }
