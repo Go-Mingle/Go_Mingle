@@ -113,5 +113,33 @@
     "passwordMin8": "Password must be at least 8 characters"
   },
   "readOnlyHint": "Email cannot be changed.",
-  "newUserTitle": "New user"
+  "newUserTitle": "New user",
+  "bulk": {
+    "suspend_one": "Suspend {{count}}",
+    "suspend_other": "Suspend {{count}}",
+    "reactivate_one": "Reactivate {{count}}",
+    "reactivate_other": "Reactivate {{count}}",
+    "delete_one": "Delete {{count}}",
+    "delete_other": "Delete {{count}}",
+    "suspendTitle_one": "Suspend {{count}} admin user?",
+    "suspendTitle_other": "Suspend {{count}} admin users?",
+    "suspendBody_one": "They are signed out and can't sign in to the Admin Panel until reactivated.",
+    "suspendBody_other": "They are signed out and can't sign in to the Admin Panel until reactivated.",
+    "reactivateTitle_one": "Reactivate {{count}} admin user?",
+    "reactivateTitle_other": "Reactivate {{count}} admin users?",
+    "reactivateBody_one": "They can sign in to the Admin Panel again with their current password.",
+    "reactivateBody_other": "They can sign in to the Admin Panel again with their current passwords.",
+    "deleteTitle_one": "Delete {{count}} admin user?",
+    "deleteTitle_other": "Delete {{count}} admin users?",
+    "deleteBody_one": "Their access is removed for good. Their past changes stay in the change log.",
+    "deleteBody_other": "Their access is removed for good. Their past changes stay in the change log."
+  },
+  "export": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "lastActive": "Last active",
+    "id": "User ID"
+  }
 }
