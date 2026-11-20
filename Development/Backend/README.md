@@ -9,7 +9,7 @@ monolith on PostgreSQL.
 | Framework | NestJS 11 (Express) |
 | Database | PostgreSQL 17, through Drizzle ORM |
 | Payments | Safepay (authorize → capture → release), with a built-in simulator |
-| Tests | Vitest: 12 contract scenarios (about 1,000 checked answers) and 2 feature suites |
+| Tests | Vitest: contract scenarios (about 1,000 checked answers) and feature suites, 82 tests in all |
 
 ## Run it
 
@@ -168,6 +168,38 @@ Finances → Escrow & payouts, on a hold that says "Awaiting payment":
 - **Without keys:** **Add test card** (`4111 1111 1111 1111`) approves the hold
   in the built-in simulator; nothing reaches Safepay.
 
+## Acting on a restaurant's behalf (super admins)
+
+An admin token plus the header `X-GoMingle-Restaurant: <restaurant id>` on any
+`/partner/api/v1/partner/restaurant/**` route lets a super admin (or a role with
+the Restaurants permission) make the change as that restaurant's owner would:
+the same validation and rules apply. `ActAsAuditInterceptor` writes each change
+to the change log under Restaurants, naming the item ("Removed table: Rooftop
+(on the restaurant's behalf)"). Archive and restore are admin routes
+(`POST /admin/api/v1/restaurants/:id/archive` with a reason, `/restore`).
+
+## Admin security: two-step sign-in and sessions
+
+- **Two-step sign-in** (`src/auth/totp.ts`): RFC 6238 codes from an authenticator
+  app, ±1 step of clock drift. A code works once (`admin_users.totp_last_step`).
+  Secrets are sealed with AES-256-GCM using a key derived from `JWT_SECRET`, so
+  changing `JWT_SECRET` also turns everyone's two-step sign-in off until they set
+  it up again. Ten backup codes are stored as SHA-256 hashes and each works once.
+- **Sign-in:** `POST /admin/api/v1/auth/login` answers `{ mfaRequired, mfaToken }`
+  when two-step is on; `POST auth/login/verify { mfaToken, code }` returns the
+  tokens. Wrong codes count towards the same 5-attempt lock as passwords.
+- **Sessions** (`admin_sessions`): every sign-in is one. Access tokens carry its
+  id (`sid`). A signed-out session fails at once with `ERR_SESSION_REVOKED`, and
+  its refresh token is gone. Logging out signs out this device only; changing a
+  password, suspending or deleting a user signs out every device.
+- **Routes** under `/admin/api/v1/security`: overview, `two-step/setup|enable|disable|backup-codes`,
+  `sessions` (list, `DELETE :id`, `sign-out-others`) and `PUT policy`. These sit
+  outside `AdminGuard`'s two-step rule, so an admin who must set it up can.
+- **Policy:** a super admin can require two-step sign-in for every admin
+  (`settings.admin-security`). Until an admin turns it on, every admin route
+  answers `403 ERR_TWO_STEP_REQUIRED`. `POST /admin/api/v1/users/:id/reset-two-step`
+  turns it off for someone who lost their phone.
+
 ## On Vercel
 
 `api/index.js` is the Vercel function; it loads `dist/serverless.js`, built from
@@ -215,8 +247,9 @@ npm run typecheck
 ```
 
 `test/features/` holds suites that test behaviour directly: email templates and
-delivery, Google sign-in, the one-time code limits, and owner access
-(Google sign-in edge cases, admin-created profiles). The browser-level
+delivery, Google sign-in, the one-time code limits, owner access (Google
+sign-in edge cases, admin-created profiles), insights, the last-seat race,
+super-admin changes on a restaurant's behalf, and two-step sign-in and sessions. The browser-level
 end-to-end suite for both portals is in `Development/E2E`.
 
 Each scenario plays a full story through the HTTP API (for example: partner

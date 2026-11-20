@@ -2,7 +2,7 @@
 
 NUCES MS Practicum: GoMingle social dining and restaurant booking platform (Karachi).
 
-**Version 0.7.4** (12 Nov 2026). See *Version history* at the end.
+**Version 0.13.11** (20 Nov 2026). See *Version history* at the end.
 
 **Live:** Admin Panel https://gomingle-admin.vercel.app · Partner Portal https://gomingle-partner.vercel.app · API https://gomingle-api.vercel.app. See *Online on Vercel* below.
 

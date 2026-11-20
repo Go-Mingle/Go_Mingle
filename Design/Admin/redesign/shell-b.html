@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Inside option B - Top bar, hero header, Ctrl+K</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#B92E1C;text-decoration:none}
+.top{height:40px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;font-size:14px;font-weight:600;color:#3A3456}
+.top.on{background:#FFECE8;color:#B92E1C}
+.tab{padding:14px 2px;font-size:14px;font-weight:600;color:#5C5677;border-bottom:3px solid transparent;white-space:nowrap}
+.tab.on{color:#1A1530;border-color:#D63A25}
+.lab{font-size:12px;color:#5C5677;font-weight:600}
+.val{font-size:15px;font-weight:600}
+</style>
+</head>
+<body>
+<div style="width:1440px;height:900px;background:#F7F5FC;font-family:Manrope,sans-serif;color:#1A1530;display:flex;flex-direction:column">
+  <header style="height:72px;flex-shrink:0;background:#FFFFFF;border-bottom:1px solid #E6E2F0;display:flex;align-items:center;gap:20px;padding:0 32px">
+    <span style="font-family:Unbounded,sans-serif;font-weight:700;font-size:19px">GoMingle</span>
+    <nav aria-label="Main" style="display:flex;gap:4px"><a href="#" class="top on" aria-current="page">Restaurant</a><a href="#" class="top">Dashboard</a><a href="#" class="top">Finances</a><a href="#" class="top">Users</a></nav>
+    <button type="button" style="margin-left:auto;width:340px;height:42px;border-radius:12px;border:1px solid #D9D4E8;background:#F7F5FC;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:inherit;color:#5C5677">Search tables, bookings, guests<kbd style="font:inherit;font-size:12px;padding:2px 8px;border-radius:6px;background:#FFFFFF;border:1px solid #E6E2F0">Ctrl K</kbd></button>
+    <button type="button" aria-label="Notifications" style="width:42px;height:42px;border-radius:12px;border:1px solid #D9D4E8;background:#FFFFFF"></button>
+    <span aria-hidden="true" style="width:42px;height:42px;border-radius:50%;background:#13A386;color:#FFF;display:flex;align-items:center;justify-content:center;font-weight:700">HM</span>
+  </header>
+  <div style="background:#14102A;color:#F4F1FF;padding:28px 32px 0;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;align-items:flex-end;gap:20px">
+      <span aria-hidden="true" style="width:72px;height:72px;border-radius:20px;background:#FF5A44"></span>
+      <div style="flex-grow:1;display:flex;flex-direction:column;gap:6px"><h1 style="margin:0;font-family:Unbounded,sans-serif;font-size:30px">Kolachi Seafront</h1><span style="font-size:14px;color:#B9B3D6">DHA Phase 8, Karachi · <span style="color:#3FD6B4;font-weight:700">Visible on the Mingler app</span></span></div>
+      <div style="display:flex;gap:28px;font-size:13px;color:#B9B3D6"><div><div style="font-family:Unbounded,sans-serif;font-size:22px;color:#F4F1FF">4</div>tables tonight</div><div><div style="font-family:Unbounded,sans-serif;font-size:22px;color:#F4F1FF">21</div>guests booked</div><div><div style="font-family:Unbounded,sans-serif;font-size:22px;color:#FFB547">4.8</div>rating</div></div>
+    </div>
+    <div role="tablist" aria-label="Restaurant sections" style="display:flex;gap:26px;overflow:hidden">
+      <span role="tab" aria-selected="true" class="tab on" style="color:#F4F1FF;border-color:#FF5A44">Overview</span><span role="tab" class="tab" style="color:#B9B3D6">Payout account</span><span role="tab" class="tab" style="color:#B9B3D6">Contacts</span><span role="tab" class="tab" style="color:#B9B3D6">Documents</span><span role="tab" class="tab" style="color:#B9B3D6">Amenities</span><span role="tab" class="tab" style="color:#B9B3D6">Menu options</span><span role="tab" class="tab" style="color:#B9B3D6">Table timings</span><span role="tab" class="tab" style="color:#B9B3D6">Interest tables</span><span role="tab" class="tab" style="color:#B9B3D6">Photos and videos</span><span role="tab" class="tab" style="color:#B9B3D6">No-show policy</span><span role="tab" class="tab" style="color:#B9B3D6">Reviews</span>
+    </div>
+  </div>
+  <main style="padding:28px 32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px">
+    <section style="grid-column:span 2;background:#FFFFFF;border-radius:20px;padding:24px;border:1px solid #E6E2F0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px">
+      <h2 style="grid-column:span 2;margin:0;font-family:Unbounded,sans-serif;font-size:17px">Restaurant details</h2>
+      <div style="grid-column:span 2;display:flex;flex-direction:column;gap:4px"><span class="lab">Description</span><span class="val">Seafront barbecue on Do Darya with a view of the Arabian Sea.</span></div>
+      <div style="display:flex;flex-direction:column;gap:4px"><span class="lab">Full address</span><span class="val">Do Darya, DHA Phase 8, Karachi</span><a href="#" style="font-size:13px;font-weight:700">View on map</a></div>
+      <div style="display:flex;flex-direction:column;gap:4px"><span class="lab">Cuisine · Commission</span><span class="val">Pakistani · 12%</span></div>
+    </section>
+    <section style="background:#FFFFFF;border-radius:20px;padding:24px;border:1px solid #E6E2F0;display:flex;flex-direction:column;gap:10px">
+      <h2 style="margin:0;font-family:Unbounded,sans-serif;font-size:17px">Owner</h2>
+      <span class="val">Raees Khan</span><span style="color:#5C5677;font-size:14px">owner@kolachi.pk · +92 300 111 2233</span>
+    </section>
+  </main>
+</div>
+</body>
+</html>

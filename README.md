@@ -151,8 +151,8 @@ Go_Mingle/
 │   ├── Requirement Specification Document/    Requirement specification + legal feasibility assessment
 │   └── Project Plan/                          Project plan spreadsheet
 ├── Design/
-│   ├── Admin/                                 Admin Panel designs
-│   ├── Partner/                               Partner Portal designs
+│   ├── Admin/                                 Admin Panel designs: redesign boards (HTML) and every shipped screen in light, dark and phone
+│   ├── Partner/                               Partner Portal designs: redesign boards (HTML) and every shipped screen in light, dark and phone
 │   ├── Mingler/                               Mingler App designs
 │   └── Design Document/                       System design diagrams (architecture, ERD, schema, class, use case, DFD, flowcharts)
 ├── .github/                                   CI on every pull request, Dependabot, pull request and issue templates
@@ -166,7 +166,7 @@ Go_Mingle/
     └── run-gomingle.sh / run-gomingle.bat     Install and start the API and both portals
 ```
 
-The `Design` folders are scaffolded and filled in as work lands for each product.
+The `Design` folders are filled in as work lands for each product. Admin and Partner hold the November 2026 Candlelit redesign, as standalone HTML boards with previews, plus screenshots of every shipped screen.
 
 ## Releases
 
@@ -249,6 +249,8 @@ Dependabot proposes dependency updates weekly.
 
 | Document | Description |
 |---|---|
+| [Admin Panel designs](Design/Admin/README.md) | Candlelit redesign boards (brand sheet, loaders, app-shell options, sign-in option D, parked directions) and every shipped Admin screen in light, dark and phone |
+| [Partner Portal designs](Design/Partner/README.md) | Candlelit redesign boards (sign-in and sign-up, dashboards, sign-in options A–D) and every shipped Partner screen in light, dark and phone |
 | [Design Document](Design/Design%20Document/README.md) | Architecture, ERD, database schema, class diagram, use case diagram, data flow diagrams (level 0 and 1) and flowcharts, each as Mermaid source + SVG + PNG (Jira epic GM-278) |
 | Sprint capacity and velocity | On Jira: task GM-277 and every sprint goal. Team of 3 at 2 hours a day; 2-week sprints (Sprint 0–15) aligned to the project plan with the semester break 19 Dec – 24 Jan. The web portals and API are built over four sprints (Sprint 1–4: build, sign-off, quality and performance, launch readiness); the Mingler app starts in Sprint 5 after the break |
 

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1366">
+<title>Login option D - Side by side, one screen (light, 1366×768)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#B92E1C;text-decoration:none;font-weight:700}
+.d-p{position:absolute;width:16px;height:16px;border-radius:50%;opacity:0;animation:d-pop .5s cubic-bezier(.34,1.56,.64,1) forwards}
+.d-word{display:inline-block;opacity:0;animation:d-cycle 44.0s ease-in-out infinite}
+.d-card{opacity:0;transform:translateX(18px);animation:d-in .7s cubic-bezier(.2,0,0,1) .4s forwards}
+@keyframes d-pop{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:none}}
+@keyframes d-in{to{opacity:1;transform:none}}
+@keyframes d-cycle{0%{opacity:0;transform:translateY(10px)}1%,4.00%{opacity:1;transform:none}5.00%,100%{opacity:0;transform:translateY(-10px)}}
+@media (prefers-reduced-motion:reduce){.d-p,.d-card{animation:none;opacity:1;transform:none}.d-word{animation:none}.d-word.d-first{opacity:1}}
+</style>
+</head>
+<body>
+<div style="width:1366px;height:768px;position:relative;overflow:hidden;background:radial-gradient(800px 560px at 30% 45%,#FFE9E2 0%,#F7F5FC 60%,#F1EEF9 100%);color:#1A1530;font-family:Manrope,sans-serif">
+  <div style="position:absolute;top:28px;left:40px;font-family:Unbounded,sans-serif;font-weight:700;font-size:21px">GoMingle</div>
+  <div role="group" aria-label="Theme" style="position:absolute;top:22px;right:28px;display:flex;gap:4px;padding:4px;border-radius:999px;background:#FFFFFF;border:1px solid #E6E2F0"><span style="width:40px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:#D63A25;color:#FFFFFF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span><span style="width:40px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;color:#5C5677"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"></path></svg></span></div>
+  <main style="position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1fr) 420px;align-items:center;gap:72px;padding:0 112px">
+    <section style="display:flex;flex-direction:column;gap:22px;max-width:600px">
+      <div style="position:relative;width:150px;height:150px">
+        <div style="position:absolute;left:75px;top:75px;width:0;height:0">
+          <svg width="96" height="96" viewBox="0 0 96 96" aria-hidden="true" style="position:absolute;left:-48px;top:-48px;filter:drop-shadow(0 0 14px #D63A2588)"><circle cx="48" cy="48" r="30" fill="none" stroke="#D63A25" stroke-width="9"></circle></svg>
+          <span class="d-p" style="left:-8px;top:-68px;background:#D98A12;box-shadow:0 0 14px #D98A12;animation-delay:0.00s"></span><span class="d-p" style="left:44px;top:-38px;background:#13A386;box-shadow:0 0 14px #13A386;animation-delay:0.12s"></span><span class="d-p" style="left:44px;top:22px;background:#D98A12;box-shadow:0 0 14px #D98A12;animation-delay:0.24s"></span><span class="d-p" style="left:-8px;top:52px;background:#13A386;box-shadow:0 0 14px #13A386;animation-delay:0.36s"></span><span class="d-p" style="left:-60px;top:22px;background:#D98A12;box-shadow:0 0 14px #D98A12;animation-delay:0.48s"></span><span class="d-p" style="left:-60px;top:-38px;width:14px;height:14px;background:none;border:2.5px solid #D98A12;box-sizing:border-box;animation-delay:.7s"></span>
+        </div>
+      </div>
+      <h1 style="margin:0;font-family:Unbounded,sans-serif;font-weight:700;font-size:44px;line-height:1.12;letter-spacing:-.01em">
+        <span style="display:inline-grid"><span class="d-word d-first" style="grid-area:1/1;color:#C2410C;animation-delay:0.0s">Founders.</span><span class="d-word" style="grid-area:1/1;color:#0B7A64;animation-delay:2.2s">Poets.</span><span class="d-word" style="grid-area:1/1;color:#D63A25;animation-delay:4.4s">Chess players.</span><span class="d-word" style="grid-area:1/1;color:#C2410C;animation-delay:6.6s">Foodies.</span><span class="d-word" style="grid-area:1/1;color:#0B7A64;animation-delay:8.8s">Book lovers.</span><span class="d-word" style="grid-area:1/1;color:#D63A25;animation-delay:11.0s">Coders.</span><span class="d-word" style="grid-area:1/1;color:#C2410C;animation-delay:13.2s">Qawwali fans.</span><span class="d-word" style="grid-area:1/1;color:#0B7A64;animation-delay:15.4s">Cricket fans.</span><span class="d-word" style="grid-area:1/1;color:#D63A25;animation-delay:17.6s">Artists.</span><span class="d-word" style="grid-area:1/1;color:#C2410C;animation-delay:19.8s">Travellers.</span><span class="d-word" style="grid-area:1/1;color:#0B7A64;animation-delay:22.0s">Film buffs.</span><span class="d-word" style="grid-area:1/1;color:#D63A25;animation-delay:24.2s">Musicians.</span><span class="d-word" style="grid-area:1/1;color:#C2410C;animation-delay:26.4s">Designers.</span><span class="d-word" style="grid-area:1/1;color:#0B7A64;animation-delay:28.6s">Photographers.</span><span class="d-word" style="grid-area:1/1;color:#D63A25;animation-delay:30.8s">Runners.</span><span class="d-word" style="grid-area:1/1;color:#C2410C;animation-delay:33.0s">Gamers.</span><span class="d-word" style="grid-area:1/1;color:#0B7A64;animation-delay:35.2s">Urdu poets.</span><span class="d-word" style="grid-area:1/1;color:#D63A25;animation-delay:37.4s">Coffee nerds.</span><span class="d-word" style="grid-area:1/1;color:#C2410C;animation-delay:39.6s">Biryani critics.</span><span class="d-word" style="grid-area:1/1;color:#0B7A64;animation-delay:41.8s">Doctors.</span></span><br>Tonight, at one table.
+      </h1>
+      <p style="margin:0;font-size:17px;line-height:1.6;color:#5C5677;max-width:520px">GoMingle seats small groups of strangers who share an interest at your restaurant: tables of two, six or ten, booked and paid before they arrive.</p>
+    </section>
+    <div class="d-card" style="box-sizing:border-box;padding:32px;border-radius:24px;background:#FFFFFF;border:1px solid #E6E2F0;box-shadow:0 30px 70px rgba(26,21,48,.12);display:flex;flex-direction:column;gap:16px">
+      <div><div style="font-size:24px;font-weight:800">Welcome back</div><div style="font-size:14px;color:#5C5677;margin-top:4px">GoMingle Partner Portal</div></div>
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:700;letter-spacing:.06em;color:#5C5677">EMAIL<input type="email" placeholder="you@yourrestaurant.com" style="height:46px;border-radius:12px;border:1px solid #D9D4E8;background:#F7F5FC;color:#1A1530;padding:0 14px;font:inherit;font-size:15px;letter-spacing:0"></label>
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:700;letter-spacing:.06em;color:#5C5677">PASSWORD<input type="password" placeholder="Enter your password" style="height:46px;border-radius:12px;border:1px solid #D9D4E8;background:#F7F5FC;color:#1A1530;padding:0 14px;font:inherit;font-size:15px;letter-spacing:0"></label>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span style="color:#5C5677">Remember me</span><a href="#">Forgot password?</a></div>
+      <button type="button" style="height:50px;border:0;border-radius:12px;background:#D63A25;color:#FFFFFF;font:inherit;font-weight:800;font-size:16px">Sign in</button>
+      <button type="button" style="height:46px;border-radius:12px;border:1px solid #D9D4E8;background:transparent;color:#1A1530;font:inherit;font-weight:700;font-size:14px">Continue with Google</button>
+      <div style="text-align:center;font-size:13px;color:#5C5677">New to GoMingle? <a href="#">Sign up your restaurant</a></div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
