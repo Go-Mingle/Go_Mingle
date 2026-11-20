@@ -608,3 +608,49 @@ html.gm-theme-fade *::after {
     stroke 400ms ease,
     box-shadow 400ms ease !important;
 }
+
+/* ── Command palette (GM-344) ─────────────────────────────────────────── */
+.ant-modal.gm-command {
+  top: 12vh;
+  padding-bottom: 0;
+}
+.gm-command .ant-modal-container {
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 24px 64px -16px rgb(15 23 42 / 0.35),
+    0 2px 6px rgb(15 23 42 / 0.08);
+}
+.gm-command .ant-modal-body {
+  padding: 0;
+}
+.gm-kbd {
+  min-width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  border: 1px solid var(--color-border);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-text-secondary);
+  background: var(--color-card);
+}
+/* Phones: pin the palette under the top edge, above the on-screen keyboard. */
+@media (max-width: 767px) {
+  .ant-modal-wrap.gm-command-wrap {
+    align-items: flex-start;
+    padding-top: 8px;
+  }
+  .ant-modal.gm-command {
+    top: 0;
+    width: auto !important;
+    max-width: none;
+    margin: 0 8px;
+  }
+}

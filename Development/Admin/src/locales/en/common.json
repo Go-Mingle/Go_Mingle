@@ -235,5 +235,40 @@
   "mobileSearch": {
     "restaurants": "Search restaurants by name",
     "minglers": "Search Minglers by name"
+  },
+  "command": {
+    "title": "Search GoMingle Admin",
+    "trigger": "Search…",
+    "open": "Search ({{shortcut}})",
+    "placeholder": "Search pages, restaurants, Minglers, bookings (GM-123456)…",
+    "results": "Search results",
+    "groups": {
+      "recent": "Recent",
+      "pages": "Go to",
+      "bookings": "Bookings",
+      "restaurants": "Restaurants",
+      "minglers": "Minglers",
+      "users": "Admin users",
+      "actions": "Actions"
+    },
+    "kinds": {
+      "page": "Page",
+      "action": "Action"
+    },
+    "pages": {
+      "escrow": "Escrow ledger",
+      "notifications": "Notifications"
+    },
+    "empty": {
+      "title": "No results for “{{query}}”",
+      "short": "Type at least 2 letters to search records.",
+      "hint": "Try a restaurant or Mingler name, an admin's email, or a booking reference like GM-123456."
+    },
+    "partial": "Some results couldn't load. Try again in a moment.",
+    "keys": {
+      "move": "to move",
+      "open": "to open",
+      "close": "to close"
+    }
   }
 }
