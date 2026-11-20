@@ -1,8 +1,10 @@
 import { CanActivate, createParamDecorator, ExecutionContext, Injectable } from '@nestjs/common'
 import type { Request } from 'express'
 import { apiError } from '../../common/errors'
-import { ADMIN_AUDIENCE, bearer, PARTNER_AUDIENCE, TokensService } from '../../auth/tokens.service'
+import { bearer, PARTNER_AUDIENCE, TokensService } from '../../auth/tokens.service'
 import { AdminAccountsService, type AdminSession } from '../../admin/access/admin-accounts.service'
+import { AdminSecurityService } from '../../admin/access/admin-security.service'
+import { requireTwoStepIfAsked, resolveAdmin } from '../../admin/access/admin.guard'
 import { RestaurantsService } from '../../shared/restaurants/restaurants.service'
 import { PartnerAccountsService, type PartnerUser } from './partner-accounts.service'
 
@@ -36,6 +38,7 @@ export class PartnerGuard implements CanActivate {
     private readonly accounts: PartnerAccountsService,
     private readonly admins: AdminAccountsService,
     private readonly restaurants: RestaurantsService,
+    private readonly security: AdminSecurityService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -48,11 +51,8 @@ export class PartnerGuard implements CanActivate {
   /** A stand-in owner of the restaurant, for an admin allowed to manage restaurants. */
   private async actAs(req: PartnerRequest, restaurantId: string): Promise<PartnerUser> {
     if (!ACT_AS_PATHS.test(req.path)) throw apiError(403, 'ERR_FORBIDDEN', 'Not available to GoMingle admins.')
-    const { claims, error } = this.tokens.verify(bearer(req), ADMIN_AUDIENCE)
-    if (!claims) throw apiError(401, error ?? 'ERR_TOKEN_INVALID', 'Authentication required')
-    const admin = await this.admins.byId(claims.sub)
-    if (!admin) throw apiError(401, 'ERR_TOKEN_INVALID', 'Unknown user')
-    if (admin.status !== 'ACTIVE') throw apiError(403, 'ERR_ACCOUNT_SUSPENDED', 'Account suspended')
+    const admin = await resolveAdmin(req, this.tokens, this.admins, this.security)
+    await requireTwoStepIfAsked(admin, this.security)
     const role = admin.role
     if (!role || !(role.fullAccess || role.permissions.includes('RESTAURANTS'))) {
       throw apiError(403, 'ERR_FORBIDDEN', 'Your role cannot manage restaurants.')

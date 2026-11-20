@@ -10,6 +10,8 @@ import { ActAsAuditInterceptor } from './shared/changelog/act-as-audit.intercept
 import { APP_INTERCEPTOR } from '@nestjs/core'
 import { AdminAccountsService } from './admin/access/admin-accounts.service'
 import { AdminGuard } from './admin/access/admin.guard'
+import { AdminSecurityService } from './admin/access/admin-security.service'
+import { AdminSecurityController } from './admin/access/admin-security.controller'
 import { AdminAuthController } from './admin/access/admin-auth.controller'
 import { RolesController } from './admin/access/roles.controller'
 import { UsersController } from './admin/access/users.controller'
@@ -96,6 +98,7 @@ class RootController {
   controllers: [
     RootController,
     AdminAuthController,
+    AdminSecurityController,
     RolesController,
     UsersController,
     ChangeLogController,
@@ -156,6 +159,7 @@ class RootController {
     AuditInterceptor,
     { provide: APP_INTERCEPTOR, useClass: ActAsAuditInterceptor },
     AdminAccountsService,
+    AdminSecurityService,
     AdminGuard,
     PartnerAccountsService,
     PartnerGuard,

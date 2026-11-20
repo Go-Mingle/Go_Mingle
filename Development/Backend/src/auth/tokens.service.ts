@@ -30,6 +30,8 @@ export interface AccessClaims {
   email: string
   name: string
   role: string
+  /** Admin sign-in session (GM-346); absent on partner tokens. */
+  sid?: string
 }
 
 /**
@@ -43,9 +45,9 @@ export interface AccessClaims {
 export class TokensService {
   constructor(@Inject(DB) private readonly db: Db) {}
 
-  async issue(user: TokenSubject, audience: Audience): Promise<TokenPair> {
+  async issue(user: TokenSubject, audience: Audience, sessionId?: string): Promise<TokenPair> {
     const accessToken = jwt.sign(
-      { sub: user.id, email: user.email, name: user.fullName, role: user.roleName },
+      { sub: user.id, email: user.email, name: user.fullName, role: user.roleName, ...(sessionId ? { sid: sessionId } : {}) },
       config.jwtSecret,
       { algorithm: 'HS256', audience, issuer: 'gomingle-api', expiresIn: config.accessTokenTtlSeconds },
     )
@@ -55,6 +57,7 @@ export class TokensService {
       userId: user.id,
       audience,
       expiresAt: Date.now() + config.refreshTokenTtlSeconds * 1000,
+      sessionId: sessionId ?? null,
     })
     return { accessToken, refreshToken, expiresIn: config.accessTokenTtlSeconds, tokenType: 'Bearer' }
   }
@@ -79,6 +82,43 @@ export class TokensService {
     const [row] = await this.db.delete(refreshTokens).where(eq(refreshTokens.token, token)).returning()
     if (!row || row.audience !== audience || row.expiresAt < Date.now()) return null
     return row.userId
+  }
+
+  /** Like consume(), but also returns the admin session the token belongs to. */
+  async consumeWithSession(token: unknown, audience: Audience): Promise<{ userId: string; sessionId: string | null } | null> {
+    if (typeof token !== 'string' || !token) return null
+    const [row] = await this.db.delete(refreshTokens).where(eq(refreshTokens.token, token)).returning()
+    if (!row || row.audience !== audience || row.expiresAt < Date.now()) return null
+    return { userId: row.userId, sessionId: row.sessionId ?? null }
+  }
+
+  /** Revokes the refresh tokens of one admin session. */
+  async revokeSession(sessionId: string): Promise<void> {
+    await this.db.delete(refreshTokens).where(eq(refreshTokens.sessionId, sessionId))
+  }
+
+  /** A short-lived token proving the password step passed, for the second step. */
+  issueStepToken(userId: string, purpose: string, ttlSeconds = 300): string {
+    return jwt.sign({ sub: userId, purpose }, config.jwtSecret, {
+      algorithm: 'HS256',
+      audience: `${ADMIN_AUDIENCE}-step`,
+      issuer: 'gomingle-api',
+      expiresIn: ttlSeconds,
+    })
+  }
+
+  verifyStepToken(token: unknown, purpose: string): string | null {
+    if (typeof token !== 'string' || !token) return null
+    try {
+      const c = jwt.verify(token, config.jwtSecret, {
+        algorithms: ['HS256'],
+        audience: `${ADMIN_AUDIENCE}-step`,
+        issuer: 'gomingle-api',
+      }) as { sub: string; purpose: string }
+      return c.purpose === purpose ? c.sub : null
+    } catch {
+      return null
+    }
   }
 
   async revokeUser(userId: string): Promise<void> {
