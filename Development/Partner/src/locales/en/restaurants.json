@@ -534,7 +534,18 @@
     "emptyTitle": "No contacts yet",
     "emptyDesc": "Add the people diners and GoMingle can reach — managers, reservations, or press.",
     "deleteBody": "Remove {{name}} from this restaurant's contacts?",
-    "lastContactHint": "At least one contact must remain."
+    "lastContactHint": "At least one contact must remain.",
+    "importButton": "Import",
+    "import": {
+      "title": "Import contacts",
+      "intro": "Add your restaurant's contacts from an Excel or CSV file so the GoMingle team knows who to reach. Each row is checked like the contact form before anything is saved.",
+      "columns": {
+        "name": "Name",
+        "title": "Title",
+        "email": "Email",
+        "phone": "Phone"
+      }
+    }
   },
   "emptyStates": {
     "detailsTitle": "No restaurant details yet",
