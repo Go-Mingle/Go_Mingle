@@ -22,16 +22,30 @@ describe('transitionTheme', () => {
     expect(document.documentElement.classList.contains('gm-theme-fade')).toBe(false)
   })
 
-  it('uses a view transition when there is one', () => {
+  it('uses a view transition whose circle starts at the switch, and cleans up after', async () => {
     useThemeStore.getState().setMode('dark')
+    let finish = () => {}
+    const finished = new Promise<void>((r) => (finish = r))
+    const root = document.documentElement
     const start = vi.fn((update: () => void) => {
+      // The circle's position is set before the snapshot is taken, so the
+      // reveal is in place from the first frame (no flash of the new theme).
+      expect(root.classList.contains('gm-theme-vt')).toBe(true)
+      expect(root.style.getPropertyValue('--gm-vt-x')).toBe('10px')
+      expect(root.style.getPropertyValue('--gm-vt-y')).toBe('20px')
+      expect(parseFloat(root.style.getPropertyValue('--gm-vt-r'))).toBeGreaterThan(0)
       update()
-      return { ready: new Promise<void>(() => {}) }
+      return { ready: Promise.resolve(), finished }
     })
     doc.startViewTransition = start
-    transitionTheme('light', { x: 10, y: 10 })
+    transitionTheme('light', { x: 10, y: 20 })
     expect(start).toHaveBeenCalledOnce()
     expect(useThemeStore.getState().mode).toBe('light')
+    finish()
+    await finished
+    await Promise.resolve()
+    expect(root.classList.contains('gm-theme-vt')).toBe(false)
+    expect(root.style.getPropertyValue('--gm-vt-x')).toBe('')
   })
 
   it('does nothing when the theme is already the one asked for', () => {

@@ -2,6 +2,7 @@ import { LoadingState } from '../../molecules/LoadingState'
 import { MobileEmpty } from '../../molecules/MobileEmpty'
 import { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
+import { useSearchParams } from 'react-router-dom'
 import { Alert, Form, message, Pagination, Flex, Row, Col, Grid, Modal } from 'antd'
 import { Plus, PencilSimple, Key, Trash } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
@@ -27,6 +28,8 @@ import { ResetPasswordModal } from './components/ResetPasswordModal'
 import { AppButton } from '../../atoms/AppButton'
 import { UsersBulkActions, UsersExportButton } from './components/UsersBulk'
 import { useRowSelection } from '../../hooks/useRowSelection'
+
+import { usersService } from './services'
 
 const CARD_CLS = 'bg-(--color-card) rounded-xl p-4 flex flex-col gap-3'
 
@@ -165,6 +168,21 @@ export function UsersPage() {
   }, [editTarget, editForm])
 
   const selection = useRowSelection(usersData?.items ?? [], queryParams)
+
+  // `/users?open=<id>` (from global search) opens that admin user straight away.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const openId = searchParams.get('open')
+  useEffect(() => {
+    if (!openId) return
+    usersService
+      .getById(openId)
+      .then(setEditTarget)
+      .catch(() => undefined)
+    // Drop the parameter so a refresh or Back doesn't reopen it.
+    const next = new URLSearchParams(searchParams)
+    next.delete('open')
+    setSearchParams(next, { replace: true })
+  }, [openId, searchParams, setSearchParams])
 
   if (isPending) return <LoadingState variant="table" />
   if (isError) return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
