@@ -2,6 +2,7 @@ export const USERS_ENDPOINTS = {
   list: '/api/v1/users',
   byId: (id: string) => `/api/v1/users/${id}`,
   changePassword: (id: string) => `/api/v1/users/${id}/change-password`,
+  resetTwoStep: (id: string) => `/api/v1/users/${id}/reset-two-step`,
 } as const
 
 export const USERS_PAGE_SIZE = 25

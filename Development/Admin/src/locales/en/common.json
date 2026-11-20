@@ -39,7 +39,8 @@
     "switchToLight": "Switch to light mode",
     "theme": "Theme",
     "themeLight": "Light theme",
-    "themeDark": "Dark theme"
+    "themeDark": "Dark theme",
+    "security": "Security"
   },
   "buttons": {
     "save": "Save",
@@ -79,7 +80,8 @@
   "session": {
     "suspended": "Your account has been suspended. Please contact support.",
     "expired": "Your session has expired. Please sign in again.",
-    "invalid": "Your session is no longer valid. Please sign in again."
+    "invalid": "Your session is no longer valid. Please sign in again.",
+    "revoked": "You were signed out from another device. Please sign in again."
   },
   "unauthorized": {
     "title": "Access denied",

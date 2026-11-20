@@ -2,6 +2,7 @@ import { Modal, Form, Input, Select } from 'antd'
 import type { FormInstance } from 'antd'
 import { Lock } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
+import { AppButton } from '../../../atoms/AppButton'
 import { LABEL_STYLE } from './tableHelpers'
 import { ModalFooter } from './FormButtons'
 
@@ -10,10 +11,21 @@ interface EditUserModalProps {
   form: FormInstance
   roleOptions: { value: string; label: string }[]
   onSave: () => void
+  /** Shown when this admin has two-step sign-in on (GM-346). */
+  onResetTwoStep?: () => void
+  resettingTwoStep?: boolean
   onCancel: () => void
 }
 
-export function EditUserModal({ open, form, roleOptions, onSave, onCancel }: EditUserModalProps) {
+export function EditUserModal({
+  open,
+  form,
+  roleOptions,
+  onSave,
+  onCancel,
+  onResetTwoStep,
+  resettingTwoStep,
+}: EditUserModalProps) {
   const { t } = useTranslation('users')
   const editName = (Form.useWatch('name', form) as string) ?? ''
   const editRole = Form.useWatch('role', form) as string | undefined
@@ -114,6 +126,25 @@ export function EditUserModal({ open, form, roleOptions, onSave, onCancel }: Edi
           </Form.Item>
         </div>
       </Form>
+
+      {onResetTwoStep && (
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-[10px] border border-(--color-border) px-4 py-3">
+          <div className="min-w-0">
+            <div className="text-[13px] font-semibold text-(--color-text)">
+              {t('twoStep.resetTitle')}
+            </div>
+            <div className="text-[12px] text-(--color-text-muted)">{t('twoStep.resetBody')}</div>
+          </div>
+          <AppButton
+            variant="neutral"
+            onClick={onResetTwoStep}
+            loading={resettingTwoStep}
+            data-testid="reset-two-step"
+          >
+            {t('twoStep.reset')}
+          </AppButton>
+        </div>
+      )}
 
       <ModalFooter isValid={isValid} isEdit={true} onSave={onSave} onCancel={onCancel} />
     </Modal>

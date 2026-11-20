@@ -10,6 +10,7 @@ import approvalQueue from './en/approval-queue.json'
 import restaurants from './en/restaurants.json'
 import rolesAccess from './en/roles-access.json'
 import notifications from './en/notifications.json'
+import security from './en/security.json'
 import profile from './en/profile.json'
 import categories from './en/categories.json'
 import loyalty from './en/loyalty.json'
@@ -38,6 +39,7 @@ i18n.use(initReactI18next).init({
       restaurants,
       'roles-access': rolesAccess,
       notifications,
+      security,
       profile,
       categories,
       loyalty,
@@ -55,6 +57,7 @@ i18n.use(initReactI18next).init({
   ns: [
     'common',
     'auth',
+    'security',
     'dashboard',
     'minglers',
     'users',
