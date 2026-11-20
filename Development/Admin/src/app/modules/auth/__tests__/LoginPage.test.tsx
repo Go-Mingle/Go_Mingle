@@ -102,6 +102,8 @@ describe('LoginPage', () => {
           name: 'Admin User',
           role: 'Super Admin',
           initials: 'AU',
+          permissions: [],
+          fullAccess: true,
         },
         twoStepSetupRequired: false,
       })
