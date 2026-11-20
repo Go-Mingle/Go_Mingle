@@ -141,6 +141,13 @@
       "when": 1795023557790,
       "tag": "0019_photo_roles",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1795125754963,
+      "tag": "0020_restaurant_archive",
+      "breakpoints": true
     }
   ]
 }

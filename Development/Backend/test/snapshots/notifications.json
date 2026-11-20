@@ -136,6 +136,10 @@
      {
       "label": "Promingler updated",
       "type": "PROMINGLER_UPDATED"
+     },
+     {
+      "label": "Message from GoMingle",
+      "type": "GOMINGLE_ANNOUNCEMENT"
      }
     ]
    },
@@ -1660,7 +1664,7 @@
       },
       "readAt": null,
       "readByUserId": null,
-      "title": "Restaurant Application Resubmitted",
+      "title": "New Restaurant Application",
       "type": "RESTAURANT_APPLICATION_SUBMITTED"
      },
      {
@@ -1674,7 +1678,7 @@
       },
       "readAt": null,
       "readByUserId": null,
-      "title": "New Restaurant Application",
+      "title": "Restaurant Application Resubmitted",
       "type": "RESTAURANT_APPLICATION_SUBMITTED"
      }
     ],

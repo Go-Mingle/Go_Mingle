@@ -1,5 +1,16 @@
 {
   "title": "Timer Settings",
   "description": "No timer settings have been configured yet.",
-  "loadingError": "Failed to load timer settings. Please try again."
+  "loadingError": "Failed to load timer settings. Please try again.",
+  "intro": "Every timer GoMingle runs, with its current value. The booking windows are fixed by the platform rules and can't be changed here; each restaurant sets its own cancellation window and no-show penalty on its No-show policy.",
+  "fixed": "Platform-fixed",
+  "perRestaurant": "Set by each restaurant",
+  "units": {
+    "minutes_one": "{{count}} minute",
+    "minutes_other": "{{count}} minutes",
+    "hours_one": "{{count}} hour",
+    "hours_other": "{{count}} hours",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days"
+  }
 }

@@ -2881,7 +2881,7 @@
   "body": {
    "error": {
     "code": "ERR_VALIDATION",
-    "message": "Each status must be one of: ACTIVE, SUSPENDED."
+    "message": "Each status must be one of: ACTIVE, SUSPENDED, ARCHIVED."
    },
    "success": false
   }
