@@ -40,4 +40,21 @@ export const notificationsService = {
 
   markAllRead: (): Promise<MarkAllReadResult> =>
     httpClient.patch<MarkAllReadResult>(NOTIFICATIONS_ENDPOINTS.markAllRead, {}),
+
+  /** Removes one notification from the shared admin inbox (GM-342). */
+  remove: (id: string): Promise<{ id: string; deleted: boolean }> =>
+    httpClient.delete<{ id: string; deleted: boolean }>(
+      `${NOTIFICATIONS_ENDPOINTS.list}/${encodeURIComponent(id)}`,
+    ),
+
+  /** Sends a message from GoMingle to restaurants' Partner Portal inboxes; all live ones when no ids are given. */
+  broadcast: (msg: {
+    title: string
+    body: string
+    restaurantIds?: string[]
+  }): Promise<{ name: string; sent: number }> =>
+    httpClient.post<{ name: string; sent: number }>(
+      `${NOTIFICATIONS_ENDPOINTS.list}/broadcast`,
+      msg,
+    ),
 }

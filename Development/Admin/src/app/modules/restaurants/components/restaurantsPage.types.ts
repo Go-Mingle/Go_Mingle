@@ -24,6 +24,7 @@ export const statusColors: Record<string, string> = {
   SUSPENDED: '#C0392B',
   PENDING: '#B06000',
   DEACTIVATED: '#4A5568',
+  ARCHIVED: '#5C5677',
 }
 
 export const statusLabels: Record<string, string> = {
@@ -31,4 +32,5 @@ export const statusLabels: Record<string, string> = {
   SUSPENDED: 'Suspended',
   PENDING: 'Pending',
   DEACTIVATED: 'Deactivated',
+  ARCHIVED: 'Archived',
 }
