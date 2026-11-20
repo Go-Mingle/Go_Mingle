@@ -228,6 +228,81 @@ export class BookingsService implements OnModuleInit, OnModuleDestroy {
   }
 
   /**
+   * Changes how many seats an open booking has (GM-342, admin). Fewer seats:
+   * the extra seats' card holds are let go and the seats return to the table.
+   * More seats: the seats are claimed first (only while free), then one card
+   * hold per new seat; if any hold fails, everything added is undone.
+   */
+  async changeSeats(b: Booking, seatsInput: unknown, by: string): Promise<Booking> {
+    if (!ACTIVE.includes(b.status)) {
+      throw apiError(409, 'ERR_BOOKING_NOT_EDITABLE', 'Only an open booking can be changed.', { status: b.status })
+    }
+    const seats = Number(seatsInput)
+    if (!Number.isInteger(seats) || seats < 1) throw apiError(422, 'ERR_VALIDATION', 'Seats must be a whole number of 1 or more.')
+    if (seats === b.seats) return b
+    const table = await this.tables.find(b.interestTableId)
+    if (!table) throw apiError(404, 'ERR_INTEREST_TABLE_NOT_FOUND', 'Interest table not found.')
+    if (Date.now() >= startsAt(table)) {
+      throw apiError(409, 'ERR_TABLE_STARTED', "This table has already started, so its bookings can't be changed.")
+    }
+    const holds = (await this.escrow.holdsOfBooking(b.id)).filter((h) => ['AUTHORIZED', 'PENDING_PAYMENT'].includes(h.status))
+
+    if (seats < b.seats) {
+      const drop = b.seats - seats
+      for (const h of holds.slice(-drop)) await this.letGo(h.id, b.id, by, `Booking reduced to ${seats} seat${seats === 1 ? '' : 's'}`)
+      await this.db
+        .update(interestTables)
+        .set({ seatsBooked: sql`greatest(0, ${interestTables.seatsBooked} - ${drop})` })
+        .where(eq(interestTables.id, table.id))
+    } else {
+      const add = seats - b.seats
+      const claimed = await this.db
+        .update(interestTables)
+        .set({ seatsBooked: sql`${interestTables.seatsBooked} + ${add}` })
+        .where(and(eq(interestTables.id, table.id), sql`${interestTables.seatsBooked} + ${add} <= coalesce(${interestTables.maxGuests}, 0)`))
+        .returning({ seatsBooked: interestTables.seatsBooked })
+      if (claimed.length === 0) {
+        const left = Math.max(0, (table.maxGuests ?? 0) - table.seatsBooked)
+        throw apiError(409, 'ERR_TABLE_FULL', `Only ${left} more seat${left === 1 ? '' : 's'} can be added at this table.`, { seatsLeft: left })
+      }
+      const added: string[] = []
+      try {
+        const lastSeat = Math.max(0, ...holds.map((h) => h.seatNo ?? 0), b.seats)
+        for (let i = 1; b.penaltyPerSeatPkr > 0 && i <= add; i++) {
+          const h = await this.escrow.createHold({
+            restaurantId: b.restaurantId,
+            minglerName: b.minglerName,
+            guests: 1,
+            amountPerGuest: b.penaltyPerSeatPkr,
+            eventName: table.name ?? 'Interest Table',
+            eventAt: new Date(startsAt(table)).toISOString(),
+            by,
+            kind: 'NO_SHOW_HOLD',
+            bookingId: b.id,
+            bookingRef: b.bookingRef,
+            seatNo: lastSeat + i,
+          })
+          added.push(h.id)
+        }
+      } catch (err) {
+        for (const id of added) await this.escrow.releaseHold(id, by, 'Seats could not be added').catch(() => undefined)
+        await this.db
+          .update(interestTables)
+          .set({ seatsBooked: sql`greatest(0, ${interestTables.seatsBooked} - ${add})` })
+          .where(eq(interestTables.id, table.id))
+          .catch(() => undefined)
+        throw err
+      }
+    }
+    const [updated] = await this.db
+      .update(bookings)
+      .set({ seats, updatedAt: new Date().toISOString() })
+      .where(eq(bookings.id, b.id))
+      .returning()
+    return updated
+  }
+
+  /**
    * Cancels every open booking of a table that is being cancelled. Each
    * Mingler's card hold is voided, or their payment refunded. Returns how many
    * bookings were cancelled and how much was given back.

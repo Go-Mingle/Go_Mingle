@@ -10,10 +10,16 @@ import { getAuthToken, renewSession, terminateSession } from './sessionManager'
 function resolveUrl(url: string): string {
   const baseUrl = import.meta.env.VITE_API_BASE_URL
   if (!isMocksEnabled() && baseUrl) {
-    return `${baseUrl.replace(/\/$/, '')}${url}`
+    const base = baseUrl.replace(/\/$/, '')
+    // Partner routes (an admin managing a restaurant, GM-342) live beside /admin on the same API host.
+    if (url.startsWith('/partner/')) return `${base.replace(/\/admin$/, '')}${url}`
+    return `${base}${url}`
   }
   return url
 }
+
+/** Header that lets a super admin work on a restaurant's own screens (GM-342). */
+export const ACT_AS_HEADER = 'X-GoMingle-Restaurant'
 
 // ── Token redaction (FE1 BR-11) ────────────────────────────────
 // Neither access nor refresh tokens may appear in logs, analytics or error
@@ -48,10 +54,11 @@ async function request<T>(
   url: string,
   body?: unknown,
   responseType: 'json' | 'blob' = 'json',
+  extraHeaders: Record<string, string> = {},
 ): Promise<T> {
   const token = getAuthToken()
 
-  const headers: Record<string, string> = {}
+  const headers: Record<string, string> = { ...extraHeaders }
   if (token) {
     headers['Authorization'] = `Bearer ${token}`
   }
@@ -136,11 +143,12 @@ async function requestWithRetry<T>(
   body?: unknown,
   responseType: 'json' | 'blob' = 'json',
   isReplay = false,
+  extraHeaders: Record<string, string> = {},
 ): Promise<T> {
   const tokenBeforeRequest = getAuthToken()
 
   try {
-    return await request<T>(method, url, body, responseType)
+    return await request<T>(method, url, body, responseType, extraHeaders)
   } catch (err) {
     // Network failure, timeout, abort — the token was never the problem.
     if (!(err instanceof HttpError)) throw err
@@ -173,7 +181,7 @@ async function requestWithRetry<T>(
         terminateSession('EXPIRED')
         throw err
       }
-      return await requestWithRetry<T>(method, url, body, responseType, true)
+      return await requestWithRetry<T>(method, url, body, responseType, true, extraHeaders)
     }
 
     // Everything else that reaches here is terminal: a second 401 on a replay
@@ -210,4 +218,26 @@ export const httpClient = {
   delete<T = void>(url: string): Promise<T> {
     return requestWithRetry<T>('DELETE', url)
   },
+}
+
+/**
+ * The same client, acting on one restaurant's own screens: calls the Partner
+ * restaurant routes (`/partner/api/v1/partner/restaurant/...`) with the
+ * admin's session and the act-as header. The API checks the admin may manage
+ * restaurants and applies the restaurant's own rules (GM-342).
+ */
+export function restaurantClient(restaurantId: string) {
+  const h = { [ACT_AS_HEADER]: restaurantId }
+  const at = (path: string) => `/partner/api/v1/partner/restaurant${path}`
+  return {
+    get: <T>(path: string) => requestWithRetry<T>('GET', at(path), undefined, 'json', false, h),
+    post: <T>(path: string, body?: unknown) =>
+      requestWithRetry<T>('POST', at(path), body, 'json', false, h),
+    put: <T>(path: string, body?: unknown) =>
+      requestWithRetry<T>('PUT', at(path), body, 'json', false, h),
+    patch: <T>(path: string, body?: unknown) =>
+      requestWithRetry<T>('PATCH', at(path), body, 'json', false, h),
+    delete: <T = void>(path: string) =>
+      requestWithRetry<T>('DELETE', at(path), undefined, 'json', false, h),
+  }
 }

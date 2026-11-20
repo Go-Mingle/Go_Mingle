@@ -35,6 +35,7 @@ export function displayPhone(e164: string | null | undefined): string {
 
 /** The status the Admin Panel shows: a suspended live restaurant is SUSPENDED. */
 export function adminStatus(r: Restaurant): string {
+  if (r.archivedAt) return 'ARCHIVED'
   return r.status === 'ACTIVE' && r.suspended ? 'SUSPENDED' : r.status
 }
 

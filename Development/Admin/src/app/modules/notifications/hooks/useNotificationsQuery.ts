@@ -54,3 +54,18 @@ export function useMarkAllNotificationsReadMutation() {
     onSuccess: () => invalidateAll(qc),
   })
 }
+
+export function useDeleteNotificationMutation() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => notificationsService.remove(id),
+    onSuccess: () => invalidateAll(qc),
+  })
+}
+
+export function useBroadcastMutation() {
+  return useMutation({
+    mutationFn: (msg: { title: string; body: string; restaurantIds?: string[] }) =>
+      notificationsService.broadcast(msg),
+  })
+}

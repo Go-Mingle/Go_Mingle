@@ -1,4 +1,6 @@
 import type { KeyboardEvent } from 'react'
+import { Popconfirm } from 'antd'
+import { Trash } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import type { NotificationItem } from './types'
 import { notificationIcon, notificationIconBgClass } from './notificationIcon'
@@ -8,9 +10,11 @@ interface Props {
   notification: NotificationItem
   onMarkRead: (id: string) => void
   onOpen?: (notification: NotificationItem) => void
+  /** Removes it from the shared inbox (GM-342). */
+  onDelete?: (id: string) => void
 }
 
-export function NotificationCard({ notification: n, onMarkRead, onOpen }: Props) {
+export function NotificationCard({ notification: n, onMarkRead, onOpen, onDelete }: Props) {
   const { t } = useTranslation('notifications')
   const isRead = !!n.readAt
 
@@ -69,6 +73,27 @@ export function NotificationCard({ notification: n, onMarkRead, onOpen }: Props)
           </button>
         )}
       </div>
+      {onDelete && (
+        <Popconfirm
+          title={t('deleteConfirm')}
+          okText={t('delete')}
+          cancelText={t('cancel')}
+          onConfirm={(e) => {
+            e?.stopPropagation()
+            onDelete(n.id)
+          }}
+          onCancel={(e) => e?.stopPropagation()}
+        >
+          <button
+            type="button"
+            aria-label={t('deleteLabel', { title: n.title })}
+            onClick={(e) => e.stopPropagation()}
+            className="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-[10px] border-none bg-transparent cursor-pointer text-[var(--color-text-subtle)] hover:bg-[var(--color-hover-neutral)] hover:text-[var(--color-error)]"
+          >
+            <Trash size={16} />
+          </button>
+        </Popconfirm>
+      )}
     </div>
   )
 }

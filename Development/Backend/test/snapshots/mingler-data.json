@@ -433,7 +433,98 @@
  {
   "step": "GET /admin/api/timer-settings",
   "status": 200,
-  "body": []
+  "body": [
+   {
+    "appliesTo": "A table with at least 4 seats booked confirms this long before it starts, and cards are charged.",
+    "group": "Bookings",
+    "key": "<gen>",
+    "name": "Auto-confirm window",
+    "source": "PLATFORM_FIXED",
+    "unit": "hours",
+    "value": 24
+   },
+   {
+    "appliesTo": "A Pending table still under 4 seats is cancelled this long before it starts; holds are released.",
+    "group": "Bookings",
+    "key": "<gen>",
+    "name": "Auto-cancel check",
+    "source": "PLATFORM_FIXED",
+    "unit": "hours",
+    "value": 4
+   },
+   {
+    "appliesTo": "No new bookings this close to the start; seats are re-checked.",
+    "group": "Bookings",
+    "key": "<gen>",
+    "name": "Booking window closes",
+    "source": "PLATFORM_FIXED",
+    "unit": "hours",
+    "value": 2
+   },
+   {
+    "appliesTo": "Staff can mark guests as arrived from this long before the start.",
+    "group": "Check-in",
+    "key": "<gen>",
+    "name": "Check-in opens",
+    "source": "PLATFORM_FIXED",
+    "unit": "minutes",
+    "value": 60
+   },
+   {
+    "appliesTo": "After the start, bookings not checked in by then are marked no-show automatically.",
+    "group": "Check-in",
+    "key": "<gen>",
+    "name": "No-show grace period",
+    "source": "PLATFORM_FIXED",
+    "unit": "minutes",
+    "value": 60
+   },
+   {
+    "appliesTo": "Default; each restaurant sets its own on its No-show policy (up to 168 hours).",
+    "group": "Bookings",
+    "key": "<gen>",
+    "name": "Restaurant's cancellation window",
+    "source": "PER_RESTAURANT",
+    "unit": "hours",
+    "value": 24
+   },
+   {
+    "appliesTo": "How long an emailed reset code stays valid.",
+    "group": "Sign-in",
+    "key": "<gen>",
+    "name": "Password reset code",
+    "source": "PLATFORM_FIXED",
+    "unit": "minutes",
+    "value": 10
+   },
+   {
+    "appliesTo": "After 5 wrong passwords in a row, sign-in is blocked for this long.",
+    "group": "Sign-in",
+    "key": "<gen>",
+    "name": "Account lockout",
+    "source": "PLATFORM_FIXED",
+    "unit": "minutes",
+    "value": 15
+   },
+   {
+    "appliesTo": "A sign-in renews itself silently within this time.",
+    "group": "Sign-in",
+    "key": "<gen>",
+    "name": "Session length",
+    "source": "PLATFORM_FIXED",
+    "unit": "hours",
+    "value": 2
+   },
+   {
+    "appliesTo": "After this long without using the portal, people sign in again.",
+    "group": "Sign-in",
+    "key": "<gen>",
+    "name": "Stay signed in",
+    "source": "PLATFORM_FIXED",
+    "unit": "days",
+    "value": 7
+   }
+  ]
  },
  {
   "step": "GET /partner/api/v1/partner/reviews",

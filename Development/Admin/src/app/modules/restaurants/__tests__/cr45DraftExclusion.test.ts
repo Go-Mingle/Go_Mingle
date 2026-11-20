@@ -77,13 +77,21 @@ describe('CR-45 · GET /api/v1/restaurants — directory base filter (AC-1, AC-6
 })
 
 describe('CR-45 · GET /api/v1/restaurants — statuses[] allow-list (AC-2)', () => {
-  it.each(DIRECTORY_STATUSES)('accepts %s and narrows within the base filter', async (status) => {
-    const res = await restaurantsService.listRestaurants({ pageSize: 50, statuses: [status] })
-    expect(res.items.length).toBeGreaterThan(0)
-    for (const item of res.items) {
-      expect(item.status).toBe(status)
-    }
+  it('accepts ARCHIVED, which is left out of the default list (GM-342)', async () => {
+    const res = await restaurantsService.listRestaurants({ pageSize: 50, statuses: ['ARCHIVED'] })
+    for (const item of res.items) expect(item.status).toBe('ARCHIVED')
   })
+
+  it.each(['ACTIVE', 'SUSPENDED'] as const)(
+    'accepts %s and narrows within the base filter',
+    async (status) => {
+      const res = await restaurantsService.listRestaurants({ pageSize: 50, statuses: [status] })
+      expect(res.items.length).toBeGreaterThan(0)
+      for (const item of res.items) {
+        expect(item.status).toBe(status)
+      }
+    },
+  )
 
   it('accepts the full allow-list and returns the same set as no filter at all', async () => {
     const filtered = await restaurantsService.listRestaurants({
