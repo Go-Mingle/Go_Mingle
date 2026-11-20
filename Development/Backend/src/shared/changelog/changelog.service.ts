@@ -1,3 +1,4 @@
+import crypto from 'node:crypto'
 import { Inject, Injectable } from '@nestjs/common'
 import { desc } from 'drizzle-orm'
 import { DB, type Db } from '../../db/database'
@@ -25,6 +26,7 @@ const MODULES: [RegExp, string, string][] = [
   [/^\/api\/v1\/preference-questions/, 'Preference Questions', 'question'],
   [/^\/api\/v1\/loyalty|^\/api\/loyalty/, 'Loyalty', 'loyalty settings'],
   [/^\/api\/v1\/admin\/approvals/, 'Approvals', 'application'],
+  [/^\/api\/v1\/admin\/bookings/, 'Bookings', 'booking'],
   [/^\/api\/v1\/restaurants\/[^/]+\/interest-tables|^\/api\/v1\/interest-tables/, 'Interest Tables', 'interest table'],
   [/^\/api\/v1\/restaurants/, 'Restaurants', 'restaurant'],
   [/^\/api\/v1\/minglers/, 'Minglers', 'mingler'],
@@ -32,6 +34,7 @@ const MODULES: [RegExp, string, string][] = [
   [/^\/api\/v1\/escrow/, 'Finance', 'escrow'],
   [/^\/api\/v1\/(admin\/)?finances/, 'Finance', 'payout'],
   [/^\/api\/v1\/email-templates/, 'Email Templates', 'email template'],
+  [/^\/api\/v1\/notifications/, 'Notifications', 'notification'],
 ]
 
 /** Sub-actions that read better as words than as "update". */
@@ -39,6 +42,9 @@ const VERBS: Record<string, string> = {
   approve: 'Approved',
   decline: 'Declined',
   suspend: 'Suspended',
+  archive: 'Archived',
+  broadcast: 'Sent a message to restaurants',
+  restore: 'Restored from the archive',
   unsuspend: 'Reactivated',
   category: 'Changed category',
   resend: 'Resent the invitation',
@@ -130,6 +136,8 @@ export class ChangeLogService {
     adminUser: { email: string; fullName: string } | null | undefined
     target: Target | null
     result: unknown
+    /** Wording for the change, when the path alone can't say it. */
+    note?: string
   }): Promise<void> {
     const { method, path, body, adminUser, target, result } = ctx
     const entry = MODULES.find(([re]) => re.test(path))
@@ -162,10 +170,16 @@ export class ChangeLogService {
       const reason = body?.reason ? ` — ${body.reason}` : ''
       newVal = `${verb}${reason}`
     } else newVal ??= `Updated ${noun}`
+    if (ctx.note) {
+      oldVal = undefined
+      newVal = ctx.note
+    }
 
-    const count = await this.db.$count(changeLogs)
+    // Unique even when two changes land in the same millisecond (GM-350): a
+    // time-and-count id collided under concurrent bookings and turned a
+    // successful action into a 500.
     await this.db.insert(changeLogs).values({
-      id: `cl-${Date.now().toString(36)}-${count + 1}`,
+      id: `cl-${Date.now().toString(36)}-${crypto.randomBytes(4).toString('hex')}`,
       timestamp: karachiLogStamp(),
       admin: adminUser?.email ?? 'system',
       initials: initialsOf(adminUser?.fullName ?? adminUser?.email),

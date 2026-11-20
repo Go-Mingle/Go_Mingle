@@ -26,5 +26,25 @@
     "autoCancel": "Auto Cancel",
     "all": "All"
   },
-  "markAsRead": "Mark as read"
+  "markAsRead": "Mark as read",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "deleteConfirm": "Delete this notification for every admin?",
+  "deleteLabel": "Delete notification: {{title}}",
+  "deleted": "Notification deleted",
+  "broadcast": {
+    "button": "Message restaurants",
+    "title": "Message restaurants",
+    "body": "Sends a message to the Notifications inbox of restaurants' Partner Portal. Pushing to Minglers arrives with the Mingler app.",
+    "to": "Send to",
+    "all": "Every live restaurant",
+    "some": "Chosen restaurants",
+    "choose": "Choose restaurants",
+    "msgTitle": "Title",
+    "msgBody": "Message",
+    "send": "Send",
+    "sent_one": "Sent to {{count}} restaurant",
+    "sent_other": "Sent to {{count}} restaurants",
+    "failed": "The message couldn't be sent. Please try again."
+  }
 }

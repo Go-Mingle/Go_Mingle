@@ -4,6 +4,7 @@ import { MagnifyingGlass } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { NotificationCard } from './NotificationCard'
+import { BroadcastModal } from './components/BroadcastModal'
 import { resolveDeepLink } from './deepLink'
 import { NotificationsHeader, type SortOrder } from './components/NotificationsHeader'
 import {
@@ -17,6 +18,7 @@ import {
   useUnreadCountQuery,
   useMarkNotificationReadMutation,
   useMarkAllNotificationsReadMutation,
+  useDeleteNotificationMutation,
 } from './hooks/useNotificationsQuery'
 import {
   NOTIFICATIONS_DEFAULT_PAGE_SIZE,
@@ -58,6 +60,8 @@ export function NotificationsPage() {
   const { data: unread } = useUnreadCountQuery()
   const markReadMutation = useMarkNotificationReadMutation()
   const markAllReadMutation = useMarkAllNotificationsReadMutation()
+  const deleteMutation = useDeleteNotificationMutation()
+  const [broadcastOpen, setBroadcastOpen] = useState(false)
 
   const resetPage = () => setPage(1)
 
@@ -81,6 +85,7 @@ export function NotificationsPage() {
       <NotificationsHeader
         unreadCount={unread?.count ?? 0}
         onMarkAllRead={() => markAllReadMutation.mutate()}
+        onBroadcast={() => setBroadcastOpen(true)}
         sortOrder={sortOrder}
         onSortOrderToggle={() => {
           setSortOrder((s) => (s === 'desc' ? 'asc' : 'desc'))
@@ -135,6 +140,7 @@ export function NotificationsPage() {
                 notification={n}
                 onMarkRead={(id) => markReadMutation.mutate(id)}
                 onOpen={handleOpen}
+                onDelete={(id) => deleteMutation.mutate(id)}
               />
             ))}
           </div>
@@ -154,6 +160,7 @@ export function NotificationsPage() {
           </div>
         </>
       )}
+      <BroadcastModal open={broadcastOpen} onClose={() => setBroadcastOpen(false)} />
     </div>
   )
 }

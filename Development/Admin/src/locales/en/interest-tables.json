@@ -313,5 +313,16 @@
       "status": "Status",
       "bill": "Bill (PKR)"
     }
+  },
+  "seats": {
+    "column": "Seats",
+    "short": "Seats",
+    "action": "Change seats for {{name}}",
+    "title": "Change seats for {{name}}",
+    "body": "Adding seats places one more card hold per seat and only uses seats the table still has free. Removing seats releases their holds. The booking's time is the table's time; change it on the interest table.",
+    "label": "Seats",
+    "saved_one": "Booking now has {{count}} seat.",
+    "saved_other": "Booking now has {{count}} seats.",
+    "failed": "The seats couldn't be changed. Please try again."
   }
 }
