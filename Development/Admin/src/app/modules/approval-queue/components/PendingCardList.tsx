@@ -1,4 +1,5 @@
 import { Flex, Tooltip } from 'antd'
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import { Eye, CheckCircle, XCircle } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import type { Application } from './types'
@@ -19,6 +20,14 @@ interface PendingCardListProps {
 
 export function PendingCardList({ data, onApprove, onReject, onView }: PendingCardListProps) {
   const { t } = useTranslation('approval-queue')
+
+  if (data.length === 0)
+    return (
+      <MobileEmpty
+        title={t('common:mobileEmpty.pending.title')}
+        hint={t('common:mobileEmpty.pending.hint')}
+      />
+    )
 
   return (
     <div className="approval-queue-card-list">
