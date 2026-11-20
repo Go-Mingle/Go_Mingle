@@ -1,4 +1,4 @@
-import { Checks, ArrowDown, ArrowUp } from '@phosphor-icons/react'
+import { Checks, ArrowDown, ArrowUp, Megaphone } from '@phosphor-icons/react'
 import { useTranslation } from 'react-i18next'
 import { AppButton } from '../../../atoms/AppButton'
 
@@ -9,6 +9,8 @@ interface NotificationsHeaderProps {
   onMarkAllRead: () => void
   sortOrder: SortOrder
   onSortOrderToggle: () => void
+  /** Opens "Message restaurants" (GM-342). */
+  onBroadcast?: () => void
 }
 
 export function NotificationsHeader({
@@ -16,6 +18,7 @@ export function NotificationsHeader({
   onMarkAllRead,
   sortOrder,
   onSortOrderToggle,
+  onBroadcast,
 }: NotificationsHeaderProps) {
   const { t } = useTranslation('notifications')
 
@@ -34,6 +37,13 @@ export function NotificationsHeader({
           )}
           <span>{sortOrder === 'desc' ? t('sortNewest') : t('sortOldest')}</span>
         </AppButton>
+
+        {onBroadcast && (
+          <AppButton variant="primary" onClick={onBroadcast} className="w-full sm:w-auto">
+            <Megaphone size={15} weight="regular" />
+            <span>{t('broadcast.button')}</span>
+          </AppButton>
+        )}
 
         {unreadCount > 0 && (
           <AppButton variant="secondary" onClick={onMarkAllRead} className="w-full sm:w-auto">

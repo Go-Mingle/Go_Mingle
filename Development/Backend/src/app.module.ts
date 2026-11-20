@@ -6,6 +6,8 @@ import { CodesService } from './auth/codes.service'
 import { AccountDirectory } from './shared/accounts/account-directory.service'
 import { ChangeLogService } from './shared/changelog/changelog.service'
 import { AuditInterceptor } from './shared/changelog/audit.interceptor'
+import { ActAsAuditInterceptor } from './shared/changelog/act-as-audit.interceptor'
+import { APP_INTERCEPTOR } from '@nestjs/core'
 import { AdminAccountsService } from './admin/access/admin-accounts.service'
 import { AdminGuard } from './admin/access/admin.guard'
 import { AdminAuthController } from './admin/access/admin-auth.controller'
@@ -152,6 +154,7 @@ class RootController {
     ChangeLogService,
     UsageService,
     AuditInterceptor,
+    { provide: APP_INTERCEPTOR, useClass: ActAsAuditInterceptor },
     AdminAccountsService,
     AdminGuard,
     PartnerAccountsService,
