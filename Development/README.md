@@ -103,6 +103,7 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 
 | Version | Date | What changed |
 |---|---|---|
+| 0.13.9 | 20 Nov 2026 | `themeTransition.ts` (both portals): the reveal is a CSS `@keyframes gm-theme-reveal` on `::view-transition-new(root)` driven by `--gm-vt-x/y/r`, set before `startViewTransition`, cleaned up on `finished`; `html.gm-theme-vt *` disables CSS transitions while switching, which caused the flash back (GM-351) |
 | 0.13.6 | 20 Nov 2026 | `visual/dashboardPdf.ts` (jsPDF + jspdf-autotable, loaded only on export) and `ExportPdfButton`, shown through a new `actions` slot on `InsightsDashboard`; Partner passes the restaurant name from the profile query; unit tests read the generated PDF text (GM-340) |
 | 0.13.5 | 20 Nov 2026 | Admin `MobileEmpty` molecule on 11 phone lists; phone name search on Restaurants and Minglers; `RestaurantDetailHeader` cover banner on phones; E2E `admin/partner.responsive.spec.ts` (+`support/responsive.ts`): 390 and 768 wide, every route and tab, fails on sideways scroll or clipped content, `GM_SHOTS` saves screenshots (GM-341) |
 | 0.13.4 | 20 Nov 2026 | Partner `ImportDialog` molecule (pick, preview, run, result) and `shared/utils/spreadsheet.ts` (RFC 4180 CSV parser, header mapping, .xlsx via `read-excel-file`, loaded only when used; 500 rows / 2 MB); `ImportUsersDialog` and `ImportContactsDialog` send each row through the existing create endpoints; E2E `partner.import.spec.ts` (GM-339) |
