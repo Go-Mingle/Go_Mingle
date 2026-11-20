@@ -174,6 +174,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 
 | Release | Date | Highlights |
 |---|---|---|
+| `v0.13.9` | 20 Nov 2026 | Fix: switching light/dark no longer blinks back to the old theme for a moment after the circle animation, in both portals (GM-351) |
 | `v0.13.6` | 20 Nov 2026 | Both dashboards get a Download PDF button: a branded, text-based report of the chosen period (7, 30 or 90 days) with the headline figures against the period before, how bookings turned out, where the money is, upcoming tables, every day of the period, and for Admin the top restaurants and restaurant counts. Page numbers, Pakistan time, PKR (GM-340) |
 | `v0.13.5` | 20 Nov 2026 | Phones: every Admin and Partner screen and tab now fits a phone (390 px) and a tablet (768 px) without sideways scrolling, checked by a new end-to-end test. Admin lists that showed only a page number when empty now say so; Restaurants and Minglers get a name search on phones; the Admin restaurant page gets the cover banner on phones too (GM-341) |
 | `v0.13.4` | 20 Nov 2026 | Partner Portal: owners can import team users (Users page) and restaurant contacts (Contacts tab) from an Excel (.xlsx) or CSV file. A preview checks every row first (missing name or email, wrong email, repeated rows) and skips the ones with problems; users get a temporary password the owner sets for the file. A template can be downloaded from the dialog (GM-339) |

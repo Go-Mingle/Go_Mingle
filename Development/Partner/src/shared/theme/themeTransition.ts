@@ -2,7 +2,7 @@ import { flushSync } from 'react-dom'
 import { useThemeStore, type ThemeMode } from './themeStore'
 
 type ViewTransitionDoc = Document & {
-  startViewTransition?: (update: () => void) => { ready: Promise<void> }
+  startViewTransition?: (update: () => void) => { ready: Promise<void>; finished: Promise<void> }
 }
 
 const reducedMotion = () =>
@@ -32,21 +32,21 @@ export function transitionTheme(mode: ThemeMode, from?: { x: number; y: number }
   const x = from?.x ?? window.innerWidth - 40
   const y = from?.y ?? 40
   const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
+  // The circle is a CSS animation driven by these variables, so it is in place
+  // from the very first frame of the transition. (Starting it from JavaScript
+  // after `ready` showed the new theme uncovered for a frame: the flash.)
+  root.style.setProperty('--gm-vt-x', `${x}px`)
+  root.style.setProperty('--gm-vt-y', `${y}px`)
+  root.style.setProperty('--gm-vt-r', `${Math.ceil(radius)}px`)
   root.classList.add('gm-theme-vt')
+  const done = () => {
+    root.classList.remove('gm-theme-vt')
+    root.style.removeProperty('--gm-vt-x')
+    root.style.removeProperty('--gm-vt-y')
+    root.style.removeProperty('--gm-vt-r')
+  }
   const vt = doc.startViewTransition(apply)
-  vt.ready
-    .then(() => {
-      const anim = root.animate(
-        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-        {
-          duration: 600,
-          easing: 'cubic-bezier(0.2, 0, 0, 1)',
-          pseudoElement: '::view-transition-new(root)',
-        },
-      )
-      anim.finished.finally(() => root.classList.remove('gm-theme-vt'))
-    })
-    .catch(() => root.classList.remove('gm-theme-vt'))
+  vt.finished.then(done, done)
 }
 
 /** Centre of the element that was clicked, for the circle to start from. */
