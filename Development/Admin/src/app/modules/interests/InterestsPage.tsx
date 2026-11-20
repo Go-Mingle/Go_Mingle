@@ -1,4 +1,5 @@
 import { LoadingState } from '../../molecules/LoadingState'
+import { MobileEmpty } from '../../molecules/MobileEmpty'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form, Grid, Alert, message } from 'antd'
@@ -135,7 +136,9 @@ export function InterestsPage() {
       {contextHolder}
       <InterestsPageHeader onNew={openNew} />
 
-      {isMobile ? (
+      {isMobile && pagedData.length === 0 ? (
+        <MobileEmpty title={t('common:mobileEmpty.interests.title')} />
+      ) : isMobile ? (
         <div
           className="interests-card-list"
           style={{ display: 'flex', flexDirection: 'column', gap: 10 }}

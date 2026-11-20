@@ -1,7 +1,8 @@
 import { LoadingState } from '../../molecules/LoadingState'
+import { MobileEmpty } from '../../molecules/MobileEmpty'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Alert, message, Pagination, Grid } from 'antd'
+import { Alert, message, Pagination, Grid, Input } from 'antd'
 import { useTranslation } from 'react-i18next'
 import {
   useMinglersQuery,
@@ -42,6 +43,14 @@ function MinglerCardList({ data, onCardClick }: MinglerCardListProps) {
     color: 'var(--color-text-secondary)',
     fontFamily: 'var(--font-ui)',
   }
+
+  if (data.length === 0)
+    return (
+      <MobileEmpty
+        title={t('common:mobileEmpty.minglers.title')}
+        hint={t('common:mobileEmpty.minglers.hint')}
+      />
+    )
 
   return (
     <div className="mingler-card-list">
@@ -295,7 +304,18 @@ export function MinglersPage() {
 
       {/* Table (desktop) or Card list (mobile) */}
       {isMobile ? (
-        <MinglerCardList data={items} onCardClick={(id) => navigate(`/minglers/${id}`)} />
+        <>
+          <Input.Search
+            allowClear
+            className="mb-3"
+            aria-label={t('common:mobileSearch.minglers')}
+            placeholder={t('common:mobileSearch.minglers')}
+            onSearch={(v) =>
+              setQueryParams((prev) => ({ ...prev, page: 1, name: v.trim() || undefined }))
+            }
+          />
+          <MinglerCardList data={items} onCardClick={(id) => navigate(`/minglers/${id}`)} />
+        </>
       ) : (
         <MinglersTable
           data={items}
