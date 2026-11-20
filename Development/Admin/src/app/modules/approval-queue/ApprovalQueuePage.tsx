@@ -2,7 +2,7 @@ import { celebrate } from '../../visual/celebrate'
 import { LoadingState } from '../../molecules/LoadingState'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Alert, message, Tabs, Flex } from 'antd'
+import { Alert, message, Tabs, Flex, Grid } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useQueryClient } from '@tanstack/react-query'
 import { useActiveCategoriesQuery } from '../categories/hooks/useCategoriesQuery'
@@ -18,6 +18,8 @@ import { AppDetailDeclineModal } from './components/AppDetailDeclineModal'
 import { PendingTabContent } from './components/PendingTabContent'
 import { RejectedTabContent } from './components/RejectedTabContent'
 import { PendingTabLabel } from './components/PendingTabLabel'
+import { ApprovalsBulkActions, ApprovalsExportButton } from './components/ApprovalsBulk'
+import { useRowSelection } from '../../hooks/useRowSelection'
 
 const PENDING_DEFAULTS: ListApprovalsQueryParams = {
   status: 'pending',
@@ -39,6 +41,7 @@ export function ApprovalQueuePage() {
   const { t } = useTranslation('approval-queue')
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
+  const screens = Grid.useBreakpoint()
   const qc = useQueryClient()
   const [activeTab, setActiveTab] = useState<'pending' | 'rejected'>('pending')
 
@@ -118,6 +121,8 @@ export function ApprovalQueuePage() {
     label: c.name,
   }))
 
+  const selection = useRowSelection(pendingQuery.data?.items ?? [], pendingParams)
+
   if (activeQuery.isLoading) return <LoadingState variant="table" />
   if (activeQuery.isError)
     return <Alert type="error" message={t('common:errors.fetchError')} className="m-4" />
@@ -126,10 +131,15 @@ export function ApprovalQueuePage() {
     <Flex vertical>
       {contextHolder}
 
-      <div className="mb-6">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="m-0 text-[20px] md:text-[26px] font-bold text-(--color-text) font-(--font-ui)">
           {t('title')}
         </h1>
+        {screens.md && (
+          <ApprovalsExportButton
+            params={activeTab === 'pending' ? pendingParams : rejectedParams}
+          />
+        )}
       </div>
 
       <Tabs
@@ -156,6 +166,7 @@ export function ApprovalQueuePage() {
           onQueryParamsChange={(partial) =>
             setPendingParams((prev) => ({ ...prev, ...partial, page: 1 }))
           }
+          rowSelection={selection.rowSelection}
           onApprove={(r) => setApproveModal({ open: true, record: r, categoryId: null })}
           onReject={(r) => setRejectModal({ open: true, record: r, reason: '' })}
           onView={(id) =>
@@ -212,6 +223,15 @@ export function ApprovalQueuePage() {
         onCancel={closeRejectModal}
         onConfirm={handleReject}
       />
+
+      {activeTab === 'pending' && screens.md && (
+        <ApprovalsBulkActions
+          selected={selection.selected}
+          categoryOptions={categoryOptions}
+          onClear={selection.clear}
+          onFinished={selection.remove}
+        />
+      )}
     </Flex>
   )
 }
