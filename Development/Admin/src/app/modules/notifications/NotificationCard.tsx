@@ -47,10 +47,9 @@ export function NotificationCard({ notification: n, onMarkRead, onOpen, onDelete
       </div>
 
       <div className="flex-1 min-w-0">
-        <div className="flex items-baseline justify-between gap-3 mb-1">
+        <div className="flex flex-col gap-0.5 mb-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
           <span
-            className="text-sm text-[var(--color-text)] min-w-0 break-words"
-            style={{ fontWeight: isRead ? 500 : 600 }}
+            className={`text-sm text-[var(--color-text)] min-w-0 break-words ${isRead ? 'font-medium' : 'font-semibold'}`}
           >
             {n.title}
           </span>
