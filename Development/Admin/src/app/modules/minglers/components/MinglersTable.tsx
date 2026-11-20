@@ -1,4 +1,6 @@
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import { Table } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { withFixedEnds } from '../../../molecules/withFixedEnds'
 import type { TableProps } from 'antd'
 import type { TableRowSelection } from 'antd/es/table/interface'
@@ -42,6 +44,7 @@ export function MinglersTable({
   onUnsuspendClick,
   rowSelection,
 }: MinglersTableProps) {
+  const { t } = useTranslation()
   // The row itself is clickable (see onRow below), so the View action
   // icon was removed from buildMinglerColumns.
   const columns = buildMinglerColumns({
@@ -76,6 +79,14 @@ export function MinglersTable({
   return (
     <div className="minglers-table">
       <Table<MinglerListItem>
+        locale={{
+          emptyText: (
+            <MobileEmpty
+              title={t('common:mobileEmpty.minglers.title')}
+              hint={t('common:mobileEmpty.minglers.hint')}
+            />
+          ),
+        }}
         dataSource={data}
         columns={withFixedEnds(columns)}
         rowKey="id"

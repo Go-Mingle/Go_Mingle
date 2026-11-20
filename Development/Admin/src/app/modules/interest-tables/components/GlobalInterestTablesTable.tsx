@@ -125,6 +125,7 @@ export function GlobalInterestTablesTable({
   return (
     <div className="interest-tables-table">
       <Table<MasterInterestTableItem>
+        locale={{ emptyText: <MobileEmpty title={t('common:mobileEmpty.interestTables.title')} /> }}
         dataSource={items}
         columns={withFixedEnds(columns)}
         rowKey="id"
