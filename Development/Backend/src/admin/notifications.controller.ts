@@ -1,9 +1,13 @@
-import { Controller, Get, Inject, Param, Patch, UseGuards } from '@nestjs/common'
+import { Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, UseGuards, UseInterceptors } from '@nestjs/common'
+import { AuditInterceptor } from '../shared/changelog/audit.interceptor'
 import { desc, eq, isNull } from 'drizzle-orm'
 import { DB, type Db } from '../db/database'
 import { adminNotifications } from '../db/schema'
 import { rawError } from '../common/errors'
-import { num, Query } from '../common/http'
+import { Body, num, Query } from '../common/http'
+import { NotificationsService } from '../shared/notifications/notifications.service'
+import { adminStatus } from '../shared/restaurants/restaurants.service'
+import { AdminRestaurantsService } from './restaurants/admin-restaurants.service'
 import { AdminGuard, CurrentAdmin } from './access/admin.guard'
 import type { AdminSession } from './access/admin-accounts.service'
 
@@ -38,7 +42,11 @@ const item = (n: Row) => ({
 @Controller('admin/api/v1/notifications')
 @UseGuards(AdminGuard)
 export class AdminNotificationsController {
-  constructor(@Inject(DB) private readonly db: Db) {}
+  constructor(
+    @Inject(DB) private readonly db: Db,
+    private readonly notifications: NotificationsService,
+    private readonly restaurants: AdminRestaurantsService,
+  ) {}
 
   /** Newest first. */
   private all(): Promise<Row[]> {
@@ -52,7 +60,8 @@ export class AdminNotificationsController {
 
   @Get('recent')
   async recent() {
-    const rows = (await this.all()).sort((a, b) => sortable(b.createdAt).localeCompare(sortable(a.createdAt)))
+    // Same-minute stamps tie; the insert order (seq) breaks the tie, so the order never flickers.
+    const rows = (await this.all()).sort((a, b) => sortable(b.createdAt).localeCompare(sortable(a.createdAt)) || b.seq - a.seq)
     return { success: true, data: { items: rows.slice(0, 10).map(item) } }
   }
 
@@ -77,7 +86,7 @@ export class AdminNotificationsController {
     if (q.startDate) rows = rows.filter((n) => day(n) >= q.startDate)
     if (q.endDate) rows = rows.filter((n) => day(n) <= q.endDate)
     rows.sort((a, b) => {
-      const cmp = sortable(a.createdAt).localeCompare(sortable(b.createdAt))
+      const cmp = sortable(a.createdAt).localeCompare(sortable(b.createdAt)) || a.seq - b.seq
       return q.sortDir === 'asc' ? cmp : -cmp
     })
 
@@ -112,5 +121,48 @@ export class AdminNotificationsController {
     const readAt = new Date().toISOString()
     await this.db.update(adminNotifications).set({ readAt, readByUserId: admin.id }).where(eq(adminNotifications.id, id))
     return { success: true, data: { id, marked: 1, readAt, readByUserId: admin.id } }
+  }
+
+  /** Removes a notification from the shared admin inbox (GM-342). */
+  @Delete(':id')
+  @UseInterceptors(AuditInterceptor)
+  async remove(@Param('id') id: string) {
+    const rows = await this.db.delete(adminNotifications).where(eq(adminNotifications.id, id)).returning({ id: adminNotifications.id })
+    if (!rows.length) throw rawError(404, { success: false, error: { code: 'ERR_NOTIFICATION_NOT_FOUND', message: 'Not found.' } })
+    return { success: true, data: { id, deleted: true } }
+  }
+
+  /**
+   * Sends a message from GoMingle to restaurants' Partner Portal inboxes
+   * (GM-342): every live restaurant, or the ones named. Push to Minglers waits
+   * for the Mingler app.
+   */
+  @Post('broadcast')
+  @UseInterceptors(AuditInterceptor)
+  @HttpCode(201)
+  async broadcast(@Body() body: { title?: unknown; body?: unknown; restaurantIds?: unknown }, @CurrentAdmin() admin: AdminSession) {
+    const title = String(body.title ?? '').trim()
+    const text = String(body.body ?? '').trim()
+    const bad = (message: string) => rawError(422, { success: false, error: { code: 'ERR_VALIDATION', message } })
+    if (!title || title.length > 120) throw bad('A title of up to 120 characters is required.')
+    if (!text || text.length > 1000) throw bad('A message of up to 1,000 characters is required.')
+    const live = (await this.restaurants.all()).filter((r) => ['ACTIVE', 'SUSPENDED'].includes(adminStatus(r)))
+    let targets = live
+    if (body.restaurantIds !== undefined) {
+      if (!Array.isArray(body.restaurantIds) || !body.restaurantIds.length) throw bad('Choose at least one restaurant, or leave the list out to message all.')
+      const ids = new Set(body.restaurantIds.map(String))
+      targets = live.filter((r) => ids.has(r.id))
+      if (targets.length !== ids.size) throw bad('Some of the chosen restaurants could not be found.')
+    }
+    for (const r of targets) {
+      await this.notifications.notifyPartner(r.id, {
+        type: 'GOMINGLE_ANNOUNCEMENT',
+        title,
+        body: text,
+        deepLink: '/notifications',
+        metadata: { from: admin.fullName },
+      })
+    }
+    return { success: true, data: { name: title, sent: targets.length } }
   }
 }
