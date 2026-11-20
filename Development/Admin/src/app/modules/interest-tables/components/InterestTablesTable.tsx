@@ -1,4 +1,5 @@
 import { Table, Grid, Tooltip } from 'antd'
+import { MobileEmpty } from '../../../molecules/MobileEmpty'
 import { withFixedEnds } from '../../../molecules/withFixedEnds'
 import type { ColumnsType } from 'antd/es/table'
 import type { SorterResult } from 'antd/es/table/interface'
@@ -266,6 +267,8 @@ export function InterestTablesTable({
     },
   ]
 
+  if (isMobile && pagedData.length === 0)
+    return <MobileEmpty title={t('common:mobileEmpty.interestTables.title')} />
   if (isMobile) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
