@@ -8,6 +8,8 @@ import type { ListUsersQueryParams } from '../types'
 import { tableSortIcon, searchFilterDropdown, searchFilterIcon } from './tableHelpers'
 import { UserActionCell } from './UserActionCell'
 import { RoleName } from './RoleName'
+import type { TableRowSelection } from 'antd/es/table/interface'
+import { inSelectionCell } from '../../../hooks/useRowSelection'
 import { formatKarachiDateTime } from '../../../../shared/utils/dateHelpers'
 
 type SorterResult = {
@@ -26,6 +28,7 @@ interface UsersTableProps {
   onQueryParamsChange: (params: Partial<ListUsersQueryParams>) => void
   roleFilterOptions?: { text: string; value: string }[]
   onRowClick?: (user: UserRow) => void
+  rowSelection?: TableRowSelection<UserRow>
 }
 
 export function UsersTable({
@@ -37,6 +40,7 @@ export function UsersTable({
   onQueryParamsChange,
   roleFilterOptions = [],
   onRowClick,
+  rowSelection,
 }: UsersTableProps) {
   const { t } = useTranslation('users')
 
@@ -190,10 +194,14 @@ export function UsersTable({
 
           onQueryParamsChange(partial)
         }}
+        rowSelection={rowSelection}
         rowClassName={() => (onRowClick ? 'cursor-pointer' : '')}
         onRow={(record) => ({
           onClick: (e) => {
-            if (!(e.target as Element).closest('[data-user-action]')) {
+            if (
+              !(e.target as Element).closest('[data-user-action]') &&
+              !inSelectionCell(e.target)
+            ) {
               onRowClick?.(record)
             }
           },

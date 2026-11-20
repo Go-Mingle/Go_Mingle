@@ -27,5 +27,7 @@ export default defineConfig({
     { name: 'api', testMatch: /api\..*\.spec\.ts/, dependencies: ['setup'] },
     { name: 'admin', testMatch: /admin\..*\.spec\.ts/, dependencies: ['setup'], use: { baseURL: ADMIN_URL, storageState: ADMIN_STORAGE } },
     { name: 'partner', testMatch: /partner\..*\.spec\.ts/, dependencies: ['setup'], use: { baseURL: PARTNER_URL, storageState: PARTNER_STORAGE } },
+    // Admin flows that leave data the partner specs would notice (cancelled bookings stay listed).
+    { name: 'admin-late', testMatch: /admin-late\..*\.spec\.ts/, dependencies: ['partner'], use: { baseURL: ADMIN_URL, storageState: ADMIN_STORAGE } },
   ],
 })

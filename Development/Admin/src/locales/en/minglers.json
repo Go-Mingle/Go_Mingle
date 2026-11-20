@@ -271,5 +271,31 @@
     "defaultCardChanged": "Default card changed.",
     "alreadyActioned": "This Mingler has already been actioned by another admin.",
     "prominglerUpdated": "Pro Mingler status updated for {{name}}."
+  },
+  "bulk": {
+    "suspend_one": "Suspend {{count}}",
+    "suspend_other": "Suspend {{count}}",
+    "reactivate_one": "Reactivate {{count}}",
+    "reactivate_other": "Reactivate {{count}}",
+    "suspendTitle_one": "Suspend {{count}} Mingler?",
+    "suspendTitle_other": "Suspend {{count}} Minglers?",
+    "suspendBody_one": "They can't sign in to the Mingler app or book tables until reactivated. Their upcoming bookings are cancelled and refunded.",
+    "suspendBody_other": "They can't sign in to the Mingler app or book tables until reactivated. Their upcoming bookings are cancelled and refunded.",
+    "reactivateTitle_one": "Reactivate {{count}} Mingler?",
+    "reactivateTitle_other": "Reactivate {{count}} Minglers?",
+    "reactivateBody_one": "They can sign in and book tables again.",
+    "reactivateBody_other": "They can sign in and book tables again.",
+    "reason": "Reason (kept in the change log)"
+  },
+  "export": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "status": "Status",
+    "promingler": "ProMingler",
+    "bookings": "Bookings",
+    "points": "Loyalty points",
+    "joined": "Joined",
+    "id": "Mingler ID"
   }
 }
