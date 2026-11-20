@@ -3,6 +3,7 @@ import {
   CalendarCheck,
   CalendarPlus,
   CalendarX,
+  Megaphone,
   UserMinus,
   UsersThree,
   type IconProps,
@@ -49,6 +50,12 @@ const META: Record<string, NotifMeta> = {
     Icon: UsersThree,
     colorClass: 'text-[var(--color-info)]',
     bgClass: 'bg-[var(--color-info-bg)]',
+  },
+  /** A message GoMingle sent to restaurants from the Admin Panel (GM-342). */
+  GOMINGLE_ANNOUNCEMENT: {
+    Icon: Megaphone,
+    colorClass: 'text-[var(--color-accent)]',
+    bgClass: 'bg-[var(--color-accent-light)]',
   },
 }
 

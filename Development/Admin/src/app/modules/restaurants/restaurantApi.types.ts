@@ -3,7 +3,7 @@ export interface RestaurantCategoryRef {
   name: string
 }
 
-export type RestaurantStatus = 'PENDING' | 'ACTIVE' | 'REJECTED' | 'SUSPENDED'
+export type RestaurantStatus = 'PENDING' | 'ACTIVE' | 'REJECTED' | 'SUSPENDED' | 'ARCHIVED'
 
 /**
  * CR-45 — the statuses the restaurants directory will serve. `statuses[]` on
@@ -13,7 +13,7 @@ export type RestaurantStatus = 'PENDING' | 'ACTIVE' | 'REJECTED' | 'SUSPENDED'
  * queue instead; Partner-Portal DRAFT restaurants are never Admin-visible at
  * all. See DIRECTORY_STATUSES in ./constants for the runtime allow-list.
  */
-export type RestaurantDirectoryStatus = Extract<RestaurantStatus, 'ACTIVE' | 'SUSPENDED'>
+export type RestaurantDirectoryStatus = Extract<RestaurantStatus, 'ACTIVE' | 'SUSPENDED' | 'ARCHIVED'>
 
 export interface Pagination {
   page: number

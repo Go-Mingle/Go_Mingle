@@ -25,6 +25,8 @@ interface RestaurantDetailHeaderProps {
   /** When provided, replaces the default change-category / suspend actions
    *  (used by the approval-preview mode to render Approve / Reject instead). */
   actions?: ReactNode
+  /** Shown after the default actions, e.g. Manage restaurant (GM-342). */
+  extraActions?: ReactNode
 }
 
 export function RestaurantDetailHeader({
@@ -37,6 +39,7 @@ export function RestaurantDetailHeader({
   onReactivate,
   isSuspended,
   actions,
+  extraActions,
 }: RestaurantDetailHeaderProps) {
   const navigate = useNavigate()
   const location = useLocation()
@@ -154,6 +157,7 @@ export function RestaurantDetailHeader({
                 {isActive ? suspendBtn : unsuspendBtn}
               </>
             )}
+            {extraActions}
           </div>
         </div>
       ) : (
@@ -207,6 +211,7 @@ export function RestaurantDetailHeader({
                   {isActive ? suspendBtn : unsuspendBtn}
                 </>
               )}
+              {extraActions}
             </div>
           </div>
         </div>
