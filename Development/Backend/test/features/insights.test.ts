@@ -63,7 +63,11 @@ describe('dashboard insights', () => {
       availabilityMode: 'AVAILABLE_NOW', publish: true, topicId, restaurantTableId: table.id, menuOptionIds: [menu.id],
     }, admin)
     const book = (minglerName: string, seats: number) => must('POST', `${A}/admin/bookings/sandbox`, { interestTableId: it.id, minglerName, seats }, admin)
-    await book('Sana Khan', 4)
+    const sana = await book('Sana Khan', 4)
+    // Global search finds a booking by its reference and links to its table (GM-344).
+    const ref = (sana.bookingRef ?? sana.booking?.bookingRef) as string
+    const found = await must('GET', `${A}/admin/bookings/${ref}`, undefined, admin)
+    expect(found).toMatchObject({ bookingRef: ref, interestTableId: it.id, restaurantId: rid })
     await book('Osama Siddiqui', 2)
     const gone = await book('Ali Raza', 1)
     await must('POST', `${A}/admin/bookings/${gone.id ?? gone.booking?.id}/cancel`, undefined, admin)
