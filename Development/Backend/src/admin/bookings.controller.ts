@@ -119,6 +119,8 @@ export class BookingsController {
       data: {
         id: row.id,
         bookingRef: row.bookingRef,
+        interestTableId: row.interestTableId,
+        restaurantId: row.restaurantId,
         interestTableName: row.interestTableName,
         topic: row.topic,
         restaurantName: row.restaurantName,
