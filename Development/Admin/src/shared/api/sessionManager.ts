@@ -13,7 +13,7 @@ import { refreshAccessToken } from '../../app/modules/auth/cognitoService'
  * (BR-10) — a per-call or per-module implementation could not.
  */
 
-export type SessionEndReason = 'SUSPENDED' | 'EXPIRED' | 'INVALID'
+export type SessionEndReason = 'SUSPENDED' | 'EXPIRED' | 'INVALID' | 'REVOKED'
 
 /**
  * Survives the hard redirect to /login so the reason can be shown there
@@ -27,6 +27,7 @@ const NOTICE_I18N_KEY: Record<SessionEndReason, string> = {
   SUSPENDED: 'session.suspended',
   EXPIRED: 'session.expired',
   INVALID: 'session.invalid',
+  REVOKED: 'session.revoked',
 }
 
 export function getAuthToken(): string | undefined {

@@ -256,7 +256,7 @@ describe('useUpdatePreferenceQuestionMutation', () => {
       })
     })
 
-    expect(result.current.isSuccess).toBe(true)
+    await waitFor(() => expect(result.current.isSuccess).toBe(true))
     expect(invalidateSpy).toHaveBeenCalledWith(
       expect.objectContaining({ queryKey: ['preference-questions'] }),
     )
@@ -310,7 +310,8 @@ describe('useDeletePreferenceQuestionMutation', () => {
       await result.current.mutateAsync('pq1')
     })
 
-    expect(result.current.isSuccess).toBe(true)
+    // The hook's state settles a tick after mutateAsync resolves (it flaked on CI).
+    await waitFor(() => expect(result.current.isSuccess).toBe(true))
     expect(invalidateSpy).toHaveBeenCalledWith(
       expect.objectContaining({ queryKey: ['preference-questions'] }),
     )

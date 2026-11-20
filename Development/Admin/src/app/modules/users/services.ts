@@ -40,4 +40,8 @@ export const usersService = {
     httpClient.post(USERS_ENDPOINTS.changePassword(id), data),
 
   delete: (id: string): Promise<void> => httpClient.delete<void>(USERS_ENDPOINTS.byId(id)),
+
+  /** Turns off another admin's two-step sign-in and signs them out everywhere (GM-346). */
+  resetTwoStep: (id: string): Promise<UserRow> =>
+    httpClient.post<UserRow>(USERS_ENDPOINTS.resetTwoStep(id), {}),
 }

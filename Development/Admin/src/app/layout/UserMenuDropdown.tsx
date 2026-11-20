@@ -1,7 +1,7 @@
 import { useState, type FC } from 'react'
 import { Dropdown, Modal, Button } from 'antd'
 import type { MenuProps } from 'antd'
-import { User, Lock, SignOut, CaretDown } from '@phosphor-icons/react'
+import { User, Lock, SignOut, CaretDown, ShieldCheck } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppSelector, useAppDispatch } from '../../shared/store/hooks'
@@ -52,6 +52,11 @@ export const UserMenuDropdown: FC<Props> = () => {
       label: t('topbar.changePassword'),
     },
     {
+      key: 'security',
+      icon: <ShieldCheck size={16} color="var(--color-text-muted)" />,
+      label: t('topbar.security'),
+    },
+    {
       key: 'signout',
       icon: <SignOut size={16} color="var(--color-error)" />,
       label: <span style={{ color: 'var(--color-error)' }}>{t('topbar.signOut')}</span>,
@@ -61,6 +66,7 @@ export const UserMenuDropdown: FC<Props> = () => {
   const handleMenu: MenuProps['onClick'] = ({ key }) => {
     if (key === 'view-profile') setViewProfileOpen(true)
     if (key === 'change') setShowChangePassword(true)
+    if (key === 'security') navigate('/security')
     if (key === 'signout') setSignOutOpen(true)
   }
 

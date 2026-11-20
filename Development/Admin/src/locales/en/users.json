@@ -14,7 +14,8 @@
       "name": "NAME",
       "role": "ROLE",
       "status": "STATUS",
-      "lastActive": "LAST ACTIVE"
+      "lastActive": "LAST ACTIVE",
+      "twoStep": "Two-step"
     },
     "roleDeleted": "Role deleted",
     "roleDeletedHint": "This administrator's role was deleted, so they cannot sign in. Edit the account and assign a live role.",
@@ -113,5 +114,15 @@
     "passwordMin8": "Password must be at least 8 characters"
   },
   "readOnlyHint": "Email cannot be changed.",
-  "newUserTitle": "New user"
+  "newUserTitle": "New user",
+  "twoStep": {
+    "on": "On",
+    "off": "Off",
+    "resetTitle": "Two-step sign-in is on",
+    "resetBody": "Lost their phone? Turn it off and sign them out everywhere. They set it up again at their next sign-in.",
+    "reset": "Turn off two-step",
+    "confirmTitle": "Turn off two-step sign-in for {{name}}?",
+    "confirmBody": "They are signed out on every device. If two-step sign-in is required, they'll set it up again when they next sign in.",
+    "done": "Two-step sign-in is off for {{name}}."
+  }
 }
