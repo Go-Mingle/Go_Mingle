@@ -18,6 +18,8 @@ interface Props {
   onRange: (r: Range) => void
   /** Where an upcoming table's row leads. */
   tableHref: (t: Insights['upcoming'][number]) => string
+  /** Extra controls beside the period picker, such as the PDF export. */
+  actions?: ReactNode
 }
 
 function Panel({
@@ -121,7 +123,14 @@ const timePk = (iso: string) =>
     timeZone: 'Asia/Karachi',
   })
 
-export function InsightsDashboard({ audience, data, range, onRange, tableHref }: Readonly<Props>) {
+export function InsightsDashboard({
+  audience,
+  data,
+  range,
+  onRange,
+  tableHref,
+  actions,
+}: Readonly<Props>) {
   const { t } = useTranslation('dashboard')
   const k = data.kpis
   const against = t('against', { count: data.days })
@@ -143,12 +152,15 @@ export function InsightsDashboard({ audience, data, range, onRange, tableHref }:
             {t(isAdmin ? 'subtitleAdmin' : 'subtitlePartner')}
           </p>
         </div>
-        <Segmented<Range>
-          aria-label={t('range.label')}
-          value={range}
-          onChange={onRange}
-          options={RANGES.map((r) => ({ value: r, label: t('range.days', { count: r }) }))}
-        />
+        <div className="flex flex-wrap items-center gap-2">
+          <Segmented<Range>
+            aria-label={t('range.label')}
+            value={range}
+            onChange={onRange}
+            options={RANGES.map((r) => ({ value: r, label: t('range.days', { count: r }) }))}
+          />
+          {actions}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-4">
