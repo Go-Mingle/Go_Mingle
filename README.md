@@ -180,6 +180,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 
 | Release | Date | Highlights |
 |---|---|---|
+| `v0.14.2` | 25 Nov 2026 | Practicum documents redesigned in the GoMingle light theme with the logo: branded covers, headers and tables in the Word reports, light-theme spreadsheets, and a new final presentation (HTML with motion graphics and real portal screens; PowerPoint with transitions and animations) (GM-361) |
 | `v0.14.1` | 25 Nov 2026 | Practicum artifacts: Stakeholder Analysis Report (GM-356), Risk Register (GM-357), Sprint Reports with reviews and retrospectives (GM-358), Test Plan, Test Cases and Test Report (GM-359), Deployment Guide (GM-360), Final Report, Presentation and ROI model (GM-361). Project Plan budget sheet repaired (hours were #REF!, totals now 1,666 h and $26,750). New *Practicum Artifacts* table in this README maps each evaluated artifact to GitHub and Jira |
 | `v0.14.0` | 25 Nov 2026 | Mingler app foundation (GM-355). The app no longer depends on the private `flutter_ether_2` SDK: it has its own Material 3 light/dark theme from the brand tokens and remembers the chosen mode. Android was moved to the current Flutter template (Kotlin DSL, Gradle 9.5, AGP 9.3). A new **Mingler app** workflow runs analysis and tests on every PR, builds the production and staging APKs, and publishes them as a GitHub release on each merge to main |
 | `v0.13.12` | 20 Nov 2026 | Design folders: `Design/Admin` and `Design/Partner` now hold the Candlelit redesign boards as standalone pages (gallery in `redesign/index.html`) and screenshots of every shipped screen in light, dark and phone layouts. READMEs rewritten for both portals, the API (acting on a restaurant's behalf, two-step sign-in and sessions) and the E2E suite. Admin Notifications on a phone: the date now sits under the title, which no longer breaks mid-word (GM-352). Finances shows each restaurant's initials instead of a blank coloured square (GM-353). Empty lists on desktop (Users, Minglers, Change log, Interests, Interest tables) say so instead of showing a bare header (GM-354). Redesign regression across both portals passed (GM-343) |
@@ -250,7 +251,7 @@ Where each evaluated artifact lives.
 | 7 | GitHub Repository & Code Review | This repository: a branch and pull request per change, CI on every pull request ([workflows](.github/workflows)), [release history](#releases) | Jira keys in every commit and pull request |
 | 8 | Test Plan, Test Cases & Test Reports | [Documentation/Testing](Documentation/Testing), suites in [Development/E2E](Development/E2E/README.md) | GM-359; regression GM-343; bugs GM-212 |
 | 9 | Deployment Guide | [Deployment_Guide.docx](Documentation/Deployment%20Guide/Deployment_Guide.docx) | GM-360 |
-| 10 | Final Report, Presentation & ROI Report | [Documentation/Final Report](Documentation/Final%20Report) | GM-361 |
+| 10 | Final Report, Presentation & ROI Report | [Documentation/Final Report](Documentation/Final%20Report): report, [presentation](Documentation/Final%20Report/Final_Presentation.html) (HTML with motion, plus PowerPoint), ROI model | GM-361 |
 
 ## Documentation Index
 
@@ -280,7 +281,7 @@ Where each evaluated artifact lives.
 | [Test Report](Documentation/Testing/Test_Report.docx) | 6,799 automated tests passing on main, redesign regression, defects and performance (GM-359) |
 | [Deployment Guide](Documentation/Deployment%20Guide/Deployment_Guide.docx) | Prerequisites, access, local install, configuration, Vercel deployment, verification, APK install and rollback (GM-360) |
 | [Final Report and ROI](Documentation/Final%20Report/Final_Report.docx) | Outcome, delivery, quality, business value, cost-benefit analysis and ROI (GM-361) |
-| [Final Presentation](Documentation/Final%20Report/Final_Presentation.pptx) | 10-slide project presentation (GM-361) |
+| [Final Presentation](Documentation/Final%20Report/Final_Presentation.html) | 11-slide presentation in the GoMingle light theme with motion (logo draw, staggered reveals, count-ups, animated charts, real portal screens); open in a browser, ← → to move, F for full screen. Also as [PowerPoint](Documentation/Final%20Report/Final_Presentation.pptx) with slide transitions and entrance animations (GM-361) |
 | [ROI Model](Documentation/Final%20Report/ROI_Model.xlsx) | Editable 3-year model: 307 % ROI, payback within year 2 (GM-361) |
 
 ### Design Document
