@@ -2,7 +2,7 @@
 
 NUCES MS Practicum: GoMingle social dining and restaurant booking platform (Karachi).
 
-**Version 0.13.12** (20 Nov 2026). See *Version history* at the end.
+**Version 0.14.1** (25 Nov 2026). See *Version history* at the end.
 
 **Live:** Admin Panel https://gomingle-admin.vercel.app · Partner Portal https://gomingle-partner.vercel.app · API https://gomingle-api.vercel.app. See *Online on Vercel* below.
 
@@ -97,12 +97,14 @@ Each folder is its own Vercel project in the `go-mingle` team: `Admin` → `gomi
 - Backend details, configuration and current limits are in `Backend/README.md`. The main limits: email goes to the Mailtrap test inbox online and to the API window locally (no SMS yet), payments are Safepay sandbox ( Safepay uses the sandbox keys in `Backend/.env` locally or the Vercel settings online; empty them to use the offline simulator), and Mingler bookings, reviews and finance figures stay empty until the Mingler app is connected.
 - Production sign-in is still AWS Cognito. Set `VITE_AUTH_MODE=cognito` and the pool variables.
 - The mobile app's bundle id is now `com.gomingle.customer`. Register that id in Firebase before building release apps.
-- The Flutter app still pulls the Ethr UI SDK from its original Bitbucket repository. That URL in `pubspec.yaml` is the only place the old company name remains, because the package can only be fetched from where it is hosted.
+- The Flutter app builds in GitHub Actions (workflow *Mingler app*); the APK is published on the repository's Releases page. See `Mingler/README.md`.
 
 ## Version history
 
 | Version | Date | What changed |
 |---|---|---|
+| 0.14.1 | 25 Nov 2026 | Docs only: practicum artifacts under `Documentation/` (stakeholder analysis, risk register, sprint reports, testing, deployment guide, final report and ROI); Project Plan budget hours repaired; note on the Flutter app's private SDK removed (GM-356 to GM-361) |
+| 0.14.0 | 25 Nov 2026 | Mingler: `flutter_ether_2` removed; `core/theme/theme.dart` adds `GoMingleTheme.light()/dark()` and `ThemeController` (Hive-backed `ThemeMode`); Android on Kotlin DSL (Gradle 9.5, AGP 9.3, Kotlin 2.4, Java 17) with the three flavors and optional release signing from `ANDROID_KEYSTORE_*`; per-flavor API base URLs; `.github/workflows/mingler.yml` (analyze, test, APK artifact, release on main); tests for the theme, validators and API environments (GM-355) |
 | 0.13.12 | 20 Nov 2026 | Admin `NotificationCard`: title and date stack below `sm` (GM-352); Finances restaurant cell uses `TableAvatar` (GM-353); list tables keep `.ant-table-placeholder` visible and pass `locale.emptyText` with `MobileEmpty` (GM-354). Docs: `Design/{Admin,Partner}/redesign` boards and `screens/` captures; READMEs for Admin, Partner, Backend and E2E (GM-343) |
 | 0.13.11 | 20 Nov 2026 | API: `auth/totp.ts` (RFC 6238 on node:crypto, ±1 step, replay-proof via `totp_last_step`; secrets sealed with AES-256-GCM; hashed backup codes), `AdminSecurityService` and `admin_sessions` (migration 0021: `admin_users` two-step columns, `refresh_tokens.session_id`); access tokens carry `sid`, so a signed-out session fails at once with `ERR_SESSION_REVOKED`; `POST auth/login` answers `{ mfaRequired, mfaToken }` then `POST auth/login/verify`; `/admin/api/v1/security` (overview, two-step setup/enable/disable/backup-codes, sessions, policy); `ERR_TWO_STEP_REQUIRED` from `AdminGuard` when the policy is on; `POST users/:id/reset-two-step`. Admin: `modules/security` (Security page, set-up modal with a lazily loaded `qrcode`), `TwoStepCodeStep` on sign-in, `OtpInput` rewritten; tests `two-step.test.ts`, unit, E2E `admin.security.spec.ts` (GM-346) |
 | 0.13.10 | 20 Nov 2026 | Admin `shared/utils/bulk.ts` (`runBulk` with concurrency 3 and per-item results, `fetchAllPages` capped at 5,000 rows), `csvExport` adds a UTF-8 BOM and defuses spreadsheet formulas (CSV injection); `hooks/useRowSelection` (selection scoped to the list query); molecules `BulkActionBar`, `BulkActionModal`, `ExportCsvButton`; per-module `RestaurantsBulk`, `MinglersBulk`, `UsersBulk`, `ApprovalsBulk`, `InterestTableBookingsBulk`; E2E `admin.workflow-bulk.spec.ts` and `admin-late.bulk-bookings.spec.ts` (new `admin-late` project runs after the partner specs) (GM-345) |

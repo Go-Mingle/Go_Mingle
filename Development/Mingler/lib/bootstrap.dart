@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_ether_2/flutter_ether_2.dart';
 import 'package:gomingle_customer_mobile/core/cache_client/cache_client.dart';
 import 'package:gomingle_customer_mobile/core/theme/theme.dart';
 
@@ -27,7 +26,7 @@ class AppBlocObserver extends BlocObserver {
 }
 
 Future<void> bootstrap(
-  FutureOr<Widget> Function(EthrThemeController) builder,
+  FutureOr<Widget> Function(ThemeController) builder,
 ) async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -35,7 +34,7 @@ Future<void> bootstrap(
 
   await HiveCacheClient.initializeCache();
 
-  final themeController = await buildGoMingleThemeController();
+  final themeController = ThemeController(cache: HiveCacheClient());
 
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);

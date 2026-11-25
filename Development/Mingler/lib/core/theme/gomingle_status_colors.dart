@@ -19,6 +19,15 @@ class GoMingleStatusColors extends ThemeExtension<GoMingleStatusColors> {
   final Color noShow;
   final Color cancelled;
 
+  static const light = GoMingleStatusColors(
+    pending:   GoMingleBrandColors.amberDark,
+    confirmed: GoMingleBrandColors.tealDark,
+    arrived:   GoMingleBrandColors.teal,
+    completed: GoMingleBrandColors.textTertiary,
+    noShow:    GoMingleBrandColors.coralDark,
+    cancelled: GoMingleBrandColors.coralDeep,
+  );
+
   static const dark = GoMingleStatusColors(
     pending:   GoMingleBrandColors.amber,
     confirmed: GoMingleBrandColors.teal,
