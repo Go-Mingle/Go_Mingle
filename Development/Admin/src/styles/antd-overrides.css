@@ -1076,3 +1076,9 @@ a:focus-visible,
   margin-inline-end: 8px;
   color: var(--color-text-muted);
 }
+
+/* Empty-state illustration: AntD draws it in fill tokens that almost vanish
+   on the dark card, so lift it in dark mode. */
+:root[data-theme='dark'] .ant-empty-image svg {
+  filter: brightness(1.9) saturate(0.8);
+}
