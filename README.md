@@ -22,6 +22,7 @@
 - [Scope Estimate](#scope-estimate)
 - [Live Environment](#live-environment)
 - [Repository Structure](#repository-structure)
+- [Practicum Artifacts](#practicum-artifacts)
 - [Documentation Index](#documentation-index)
 - [Key Assumptions and Dependencies](#key-assumptions-and-dependencies)
 - [Contributing](#contributing)
@@ -148,8 +149,13 @@ Go_Mingle/
 │   └── Practicum QnA/                         Answers to practicum queries
 ├── Documentation/
 │   ├── Project Proposal/                      Project proposal presentation
+│   ├── Stakeholder Analysis/                  Stakeholder analysis report
 │   ├── Requirement Specification Document/    Requirement specification + legal feasibility assessment
-│   └── Project Plan/                          Project plan spreadsheet
+│   ├── Project Plan/                          Project plan (schedule, budget) + risk register
+│   ├── Sprint Reports/                        Sprint goals, reviews and retrospectives
+│   ├── Testing/                               Test plan, test cases, test report
+│   ├── Deployment Guide/                      Install, configure and deploy
+│   └── Final Report/                          Final report with ROI, presentation, ROI model
 ├── Design/
 │   ├── Admin/                                 Admin Panel designs: redesign boards (HTML) and every shipped screen in light, dark and phone
 │   ├── Partner/                               Partner Portal designs: redesign boards (HTML) and every shipped screen in light, dark and phone
@@ -174,6 +180,7 @@ Releases up to `v0.5` are tags; later ones are `release/vX.Y.Z` branches merged 
 
 | Release | Date | Highlights |
 |---|---|---|
+| `v0.14.1` | 25 Nov 2026 | Practicum artifacts: Stakeholder Analysis Report (GM-356), Risk Register (GM-357), Sprint Reports with reviews and retrospectives (GM-358), Test Plan, Test Cases and Test Report (GM-359), Deployment Guide (GM-360), Final Report, Presentation and ROI model (GM-361). Project Plan budget sheet repaired (hours were #REF!, totals now 1,666 h and $26,750). New *Practicum Artifacts* table in this README maps each evaluated artifact to GitHub and Jira |
 | `v0.13.12` | 20 Nov 2026 | Design folders: `Design/Admin` and `Design/Partner` now hold the Candlelit redesign boards as standalone pages (gallery in `redesign/index.html`) and screenshots of every shipped screen in light, dark and phone layouts. READMEs rewritten for both portals, the API (acting on a restaurant's behalf, two-step sign-in and sessions) and the E2E suite. Admin Notifications on a phone: the date now sits under the title, which no longer breaks mid-word (GM-352). Finances shows each restaurant's initials instead of a blank coloured square (GM-353). Empty lists on desktop (Users, Minglers, Change log, Interests, Interest tables) say so instead of showing a bare header (GM-354). Redesign regression across both portals passed (GM-343) |
 | `v0.13.11` | 20 Nov 2026 | Admin Panel two-step sign-in and sessions: from the new Security page (user menu) any admin can turn on two-step sign-in. They scan a QR code with an authenticator app, confirm a 6-digit code and save ten one-time backup codes; signing in then asks for a code after the password. The page lists every device where the admin is signed in and can sign any of them out at once. A super admin can require two-step sign-in for every admin, see who has it on in Users, and turn it off for someone who lost their phone. The code boxes no longer drop digits typed quickly or filled in by the phone (GM-346) |
 | `v0.13.10` | 20 Nov 2026 | Admin Panel bulk actions and CSV export: tick rows to suspend or reactivate several restaurants or Minglers, suspend, reactivate or delete admin users, approve (into one category) or decline applications, and cancel bookings of an interest table. Each one confirms with the count, shows progress and names any row that couldn't change and why; every record gets its own change-log entry. Export CSV on Restaurants, Minglers, Users, the Approval queue and a table's bookings downloads every row matching the current filters, ready for Excel (GM-345) |
@@ -227,6 +234,23 @@ Every pull request runs `.github/workflows/ci.yml` on GitHub Actions before anyt
 
 Dependabot proposes dependency updates weekly.
 
+## Practicum Artifacts
+
+Where each evaluated artifact lives.
+
+| # | Artifact | GitHub | Jira |
+|---|---|---|---|
+| 1 | Project Proposal | [Project_Proposal.pptx](Documentation/Project%20Proposal/Project_Proposal.pptx) | – |
+| 2 | Stakeholder Analysis Report | [Stakeholder_Analysis_Report.docx](Documentation/Stakeholder%20Analysis/Stakeholder_Analysis_Report.docx) | GM-356 |
+| 3 | Product Backlog | [User stories](Requirement%20Analysis/User%20Stories) and [T-shirt sizing](Requirement%20Analysis/User%20Stories/User_Stories_T-Shirt_Sizing.xlsx) | Project GM: epics GM-263 Admin Panel, GM-264 Partner Portal, GM-265 Mingler App; 93 stories with points and acceptance criteria; bugs under GM-212 |
+| 4 | Project Plan & Risk Register | [Project_Plan.xlsx](Documentation/Project%20Plan/Project_Plan.xlsx), [Risk_Register.xlsx](Documentation/Project%20Plan/Risk_Register.xlsx) | GM-357; capacity and velocity in GM-277 |
+| 5 | Architecture Diagram & ERD | [Design Document](Design/Design%20Document/README.md): architecture, ERD, schema, class, use case, DFD, flowcharts | GM-278 |
+| 6 | Sprint Backlog & Sprint Reports | [Sprint_Reports.docx](Documentation/Sprint%20Reports/Sprint_Reports.docx) | Sprints 0–15 on board 1 (goal and capacity in each sprint); GM-358 |
+| 7 | GitHub Repository & Code Review | This repository: a branch and pull request per change, CI on every pull request ([workflows](.github/workflows)), [release history](#releases) | Jira keys in every commit and pull request |
+| 8 | Test Plan, Test Cases & Test Reports | [Documentation/Testing](Documentation/Testing), suites in [Development/E2E](Development/E2E/README.md) | GM-359; regression GM-343; bugs GM-212 |
+| 9 | Deployment Guide | [Deployment_Guide.docx](Documentation/Deployment%20Guide/Deployment_Guide.docx) | GM-360 |
+| 10 | Final Report, Presentation & ROI Report | [Documentation/Final Report](Documentation/Final%20Report) | GM-361 |
+
 ## Documentation Index
 
 ### Requirement Analysis
@@ -246,7 +270,17 @@ Dependabot proposes dependency updates weekly.
 | [Project Proposal](Documentation/Project%20Proposal/Project_Proposal.pptx) | Problem, solution, timeline, strategy and assumptions |
 | [Requirement Specification Document](Documentation/Requirement%20Specification%20Document/Requirement_Specification_Document.docx) | Business context, solution architecture, traceability matrix, roadmap, cost breakdown and risk management |
 | [Legal Feasibility Assessment](Documentation/Requirement%20Specification%20Document/Legal_Feasibility_Assessment.docx) | Legal and compliance review of the booking commitment mechanic |
-| [Project Plan](Documentation/Project%20Plan/Project_Plan.xlsx) | Schedule and milestones |
+| [Project Plan](Documentation/Project%20Plan/Project_Plan.xlsx) | 42-week schedule, milestones, and budget and costing (1,666 hours, $26,750) |
+| [Stakeholder Analysis Report](Documentation/Stakeholder%20Analysis/Stakeholder_Analysis_Report.docx) | 11 stakeholders with role, influence, interest and expectations; influence/interest grid; engagement and communication plan; RACI (GM-356) |
+| [Risk Register](Documentation/Project%20Plan/Risk_Register.xlsx) | 16 risks scored by probability × impact, with owner, mitigation, contingency, status and a heat map (GM-357) |
+| [Sprint Reports](Documentation/Sprint%20Reports/Sprint_Reports.docx) | Goal, backlog, review and retrospective for Sprints 0–3, with velocity (GM-358) |
+| [Test Plan](Documentation/Testing/Test_Plan.docx) | Test levels, tools, environments, entry and exit criteria, defect management (GM-359) |
+| [Test Cases](Documentation/Testing/Test_Cases.xlsx) | Suite summary, all 132 end-to-end cases with results, and the defect log of 55 bugs (GM-359) |
+| [Test Report](Documentation/Testing/Test_Report.docx) | 6,799 automated tests passing on main, redesign regression, defects and performance (GM-359) |
+| [Deployment Guide](Documentation/Deployment%20Guide/Deployment_Guide.docx) | Prerequisites, access, local install, configuration, Vercel deployment, verification, APK install and rollback (GM-360) |
+| [Final Report and ROI](Documentation/Final%20Report/Final_Report.docx) | Outcome, delivery, quality, business value, cost-benefit analysis and ROI (GM-361) |
+| [Final Presentation](Documentation/Final%20Report/Final_Presentation.pptx) | 10-slide project presentation (GM-361) |
+| [ROI Model](Documentation/Final%20Report/ROI_Model.xlsx) | Editable 3-year model: 307 % ROI, payback within year 2 (GM-361) |
 
 ### Design Document
 
