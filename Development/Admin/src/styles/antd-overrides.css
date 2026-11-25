@@ -51,7 +51,11 @@
   border-bottom: none !important;
 }
 .ant-table .ant-table-tbody > tr:hover > td {
-  background-color: var(--color-hover) !important;
+  background-color: var(--color-hover-solid) !important;
+}
+/* Every body cell, pinned or not, fades the same way, so a row lights up as one piece. */
+.ant-table .ant-table-tbody > tr > td {
+  transition: background-color 0.18s cubic-bezier(0.2, 0, 0, 1) !important;
 }
 .ant-table {
   background: var(--color-card) !important;
@@ -373,10 +377,11 @@
   font-family: var(--font-ui) !important;
   font-size: 12px !important;
   padding: 6px 10px !important;
-  background: var(--color-navy) !important;
+  background: var(--tooltip-bg) !important;
+  color: var(--tooltip-text) !important;
 }
 .ant-tooltip .ant-tooltip-arrow::before {
-  background: var(--color-navy) !important;
+  background: var(--tooltip-bg) !important;
 }
 
 /* ── Segmented (preserved) ───────────────────────────────────── */
@@ -841,7 +846,7 @@ tr.ant-table-measure-row {
 .ant-table .ant-table-tbody > tr:hover > td.ant-table-cell-fix-end,
 .ant-table .ant-table-tbody > tr:hover > td.ant-table-cell-fix-left,
 .ant-table .ant-table-tbody > tr:hover > td.ant-table-cell-fix-right {
-  background: linear-gradient(var(--color-hover), var(--color-hover)), var(--color-card) !important;
+  background: var(--color-hover-solid) !important;
 }
 
 /* ── Finances restaurant-info popover (click-triggered) ─────── */

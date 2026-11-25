@@ -66,6 +66,9 @@
   --color-violet: #6d4bd8;
   --color-neutral: #6e6889;
   --color-hover: rgba(214, 58, 37, 0.05);
+  --color-hover-solid: #fdf3f1;
+  --tooltip-bg: #14102a;
+  --tooltip-text: #ffffff;
   --color-hover-neutral: rgba(26, 21, 48, 0.04);
   --color-focus-ring: rgba(214, 58, 37, 0.22);
   --color-selected: rgba(214, 58, 37, 0.08);
@@ -229,6 +232,8 @@ body {
   --color-hover: rgba(255, 111, 90, 0.08);
   --color-hover-neutral: rgba(255, 255, 255, 0.05);
   --color-hover-solid: #231c3f;
+  --tooltip-bg: #f4f1ff;
+  --tooltip-text: #14102a;
   --color-focus-ring: rgba(255, 111, 90, 0.35);
   --color-selected: rgba(255, 111, 90, 0.14);
   --color-teal-light: rgba(255, 111, 90, 0.16);
