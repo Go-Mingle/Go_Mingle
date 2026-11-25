@@ -1,0 +1,124 @@
+name: Mingler app
+
+# The Flutter app: analysis and tests on every pull request that touches it,
+# then Android APKs. Pushes to main also publish the APK as a GitHub release.
+on:
+  pull_request:
+    paths:
+      - "Development/Mingler/**"
+      - ".github/workflows/mingler.yml"
+  push:
+    branches: [main]
+    paths:
+      - "Development/Mingler/**"
+      - ".github/workflows/mingler.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: mingler-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: Development/Mingler
+
+jobs:
+  test:
+    name: Mingler (analyze + tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter --version
+      - run: flutter pub get
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+      - name: Unit and widget tests
+        run: flutter test --coverage --reporter expanded
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mingler-coverage
+          path: Development/Mingler/coverage/lcov.info
+          if-no-files-found: ignore
+
+  apk:
+    name: Mingler (Android APK)
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('Development/Mingler/android/**/*.gradle.kts', 'Development/Mingler/android/gradle/wrapper/gradle-wrapper.properties') }}
+      - run: flutter pub get
+      - name: Build APKs (production and staging)
+        run: |
+          flutter build apk --release --flavor production -t lib/main_production.dart
+          flutter build apk --release --flavor staging -t lib/main_staging.dart
+      - name: Name the APKs
+        id: apk
+        run: |
+          version=$(grep '^version:' pubspec.yaml | awk '{print $2}' | cut -d+ -f1)
+          mkdir -p dist
+          cp build/app/outputs/flutter-apk/app-production-release.apk "dist/GoMingle-${version}.apk"
+          cp build/app/outputs/flutter-apk/app-staging-release.apk "dist/GoMingle-${version}-staging.apk"
+          ls -la dist
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GoMingle-${{ steps.apk.outputs.version }}-apk
+          path: Development/Mingler/dist/*.apk
+          if-no-files-found: error
+
+  release:
+    name: Mingler (publish APK)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: apk
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the app version
+        id: v
+        run: echo "version=$(grep '^version:' Development/Mingler/pubspec.yaml | awk '{print $2}' | cut -d+ -f1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          name: GoMingle-${{ steps.v.outputs.version }}-apk
+          path: dist
+      - name: Publish or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: mingler-v${{ steps.v.outputs.version }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/*.apk --clobber
+          else
+            gh release create "$TAG" dist/*.apk --target "$GITHUB_SHA" \
+              --title "GoMingle app ${{ steps.v.outputs.version }}" \
+              --notes "Android APKs of the GoMingle app built from ${GITHUB_SHA::7}. Install GoMingle-${{ steps.v.outputs.version }}.apk; the -staging APK installs alongside it." \
+              --prerelease
+          fi

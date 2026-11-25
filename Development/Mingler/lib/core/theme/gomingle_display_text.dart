@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ether_2/flutter_ether_2.dart';
 
-// Sanctioned exception to the "Ethr widgets only" rule:
-// EthrTypography supports a single font family, so Bricolage Grotesque for
-// D1/D2 display moments cannot flow through EthrText. Use this widget only.
+/// Display headings (D1/D2) in Bricolage Grotesque; body text uses Poppins
+/// from the theme.
 class GoMingleDisplayText extends StatelessWidget {
   const GoMingleDisplayText(
     this.text, {
@@ -51,7 +49,6 @@ class GoMingleDisplayText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.ethrThemeData;
     return Text(
       text,
       textAlign: textAlign,
@@ -61,7 +58,7 @@ class GoMingleDisplayText extends StatelessWidget {
         fontWeight: fontWeight,
         height: 1.1,
         letterSpacing: -1,
-        color: color ?? theme.contentNeutralPrimary,
+        color: color ?? Theme.of(context).colorScheme.onSurface,
       ),
     );
   }

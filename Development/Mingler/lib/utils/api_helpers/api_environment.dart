@@ -1,12 +1,14 @@
 enum ApiEnvironment {
-  production(baseUrl: 'https://backend.example.com/'),
-  staging(baseUrl: 'https://backend.example.qa/'),
-  development(baseUrl: 'https://backend.example.dev/');
+  production(baseUrl: 'https://gomingle-api.vercel.app/mingler/'),
+  // Staging uses the live API until a separate staging API exists.
+  staging(baseUrl: 'https://gomingle-api.vercel.app/mingler/'),
+  // The Android emulator reaches the computer's localhost at 10.0.2.2.
+  development(baseUrl: 'http://10.0.2.2:4000/mingler/');
 
   const ApiEnvironment({required this.baseUrl});
 
-  /// Placeholder per-flavor URL. Real values should be injected at build time
-  /// with `--dart-define=API_BASE_URL=https://...` (see [resolvedBaseUrl]).
+  /// Default API address for this flavor. Override it at build time with
+  /// `--dart-define=API_BASE_URL=https://...` (see [resolvedBaseUrl]).
   final String baseUrl;
 
   /// Build-time override: `flutter run --dart-define=API_BASE_URL=https://...`.

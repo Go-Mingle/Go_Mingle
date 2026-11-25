@@ -3,7 +3,7 @@ part of 'view.dart';
 class App extends StatelessWidget {
   const App({required this.themeController, super.key});
 
-  final EthrThemeController themeController;
+  final ThemeController themeController;
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +25,18 @@ class App extends StatelessWidget {
 class AppView extends StatelessWidget {
   const AppView({required this.themeController, super.key});
 
-  final EthrThemeController themeController;
+  final ThemeController themeController;
 
   @override
   Widget build(BuildContext context) {
     final appRouter = context.read<AppRouter>();
-    return EthrThemeProvider(
-      controller: themeController,
-      child: MaterialApp.router(
-        theme: ThemeData(
-          useMaterial3: true,
-          extensions: const [GoMingleStatusColors.dark],
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          extensions: const [GoMingleStatusColors.dark],
-        ),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeController,
+      builder: (context, mode, _) => MaterialApp.router(
+        title: 'GoMingle',
+        theme: GoMingleTheme.light(),
+        darkTheme: GoMingleTheme.dark(),
+        themeMode: mode,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,

@@ -1,59 +1,53 @@
-# GoMingle
+# GoMingle app (Mingler)
 
-[![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
-[![License: MIT][license_badge]][license_link]
+The Android app for Minglers: find interest tables at restaurants, join one, pay the hold and turn up for dinner. Built with Flutter; delivered as an APK.
 
+| | |
+|---|---|
+| Stack | Flutter (stable channel), Dart 3, flutter_bloc, go_router, easy_localization, Hive, http |
+| Flavors | `production` (com.gomingle.customer), `staging` (.stg), `development` (.dev); they install side by side |
+| API | `https://gomingle-api.vercel.app/mingler/` (production and staging); `http://10.0.2.2:4000/mingler/` (development, the emulator reaching a local API). Override with `--dart-define=API_BASE_URL=...` |
+| Tests | `flutter test` (unit and widget); app flows against the API with `integration_test` on an Android emulator |
+| Builds | GitHub Actions (`.github/workflows/mingler.yml`) |
 
-GoMingle customer app
+## Run it
 
----
+Needs Flutter (stable) and the Android SDK.
 
-## Getting Started 🚀
-
-This project contains 3 flavors:
-
-- development
-- staging
-- production
-
-To run the desired flavor either use the launch configuration in VSCode/Android Studio or use the following commands:
-
-```sh
-# Development
-$ flutter run --flavor development --target lib/main_development.dart
-
-# Staging
-$ flutter run --flavor staging --target lib/main_staging.dart
-
-# Production
-$ flutter run --flavor production --target lib/main_production.dart
+```bash
+flutter pub get
+flutter run --flavor development -t lib/main_development.dart   # against a local API
+flutter run --flavor production  -t lib/main_production.dart    # against the live API
 ```
 
-_\*GoMingle works on iOS, Android, Web, and Windows._
+| Command | |
+|---|---|
+| `flutter analyze` | Static analysis (`very_good_analysis`) |
+| `flutter test` | Unit and widget tests |
+| `flutter build apk --release --flavor production -t lib/main_production.dart` | Release APK in `build/app/outputs/flutter-apk/` |
 
----
+## Getting the APK
 
-## Running Tests 🧪
+Every pull request that touches this folder runs the **Mingler app** workflow: analysis, tests, then the production and staging APKs as a downloadable artifact. Each merge to `main` also publishes them on the repository's **Releases** page as `mingler-v<version>`.
 
-To run all unit and widget tests use the following command:
+Release builds are signed with the debug key until a release keystore is added to the repository secrets (`ANDROID_KEYSTORE_*`). They install fine for testing; the Play Store needs the real key.
 
-```sh
-$ flutter test --coverage --test-randomize-ordering-seed random
+## Layout
+
+```
+lib/
+  main_<flavor>.dart   entry point per flavor
+  bootstrap.dart       start-up: localisation, cache, theme, bloc observer
+  app/                 the app widget, app-level bloc, router host
+  core/                auth (API, repository), cache, theme
+  utils/               API client, router, validators, locale strings, helpers
+assets/                fonts (Poppins, Bricolage Grotesque), images, translations
+test/                  unit and widget tests, mirroring lib/
+android/               Gradle (Kotlin DSL), flavors and signing
 ```
 
-To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
+## Conventions
 
-```sh
-# Generate Coverage Report
-$ genhtml coverage/lcov.info -o coverage/
-
-# Open Coverage Report
-$ open coverage/index.html
-```
-
----
-
-[license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[license_link]: https://opensource.org/licenses/MIT
-[very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
-[very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
+- Screens read colours and type from `Theme.of(context)`; tokens live in `core/theme/`.
+- Strings go through `easy_localization` (`assets/translations/`).
+- Each change is logged in the version history in the root `README.md` and on Jira.
