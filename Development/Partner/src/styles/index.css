@@ -174,6 +174,8 @@ button:focus-visible,
    through. */
 :root {
   --color-hover-solid: #fdf3f1;
+  --tooltip-bg: #14102a;
+  --tooltip-text: #ffffff;
 }
 
 /* Data-table rhythm tokens. The global `.ant-table` rules in antd-overrides.css
@@ -248,6 +250,8 @@ button:focus-visible,
   --color-hover: rgba(255, 111, 90, 0.08);
   --color-hover-neutral: rgba(255, 255, 255, 0.05);
   --color-hover-solid: #231c3f;
+  --tooltip-bg: #f4f1ff;
+  --tooltip-text: #14102a;
   --color-focus-ring: rgba(255, 111, 90, 0.35);
   --color-selected: rgba(255, 111, 90, 0.14);
   --color-teal-light: rgba(255, 111, 90, 0.16);
