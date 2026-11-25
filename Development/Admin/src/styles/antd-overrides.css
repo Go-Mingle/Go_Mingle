@@ -303,7 +303,7 @@
   border-color: var(--color-accent) !important;
 }
 .ant-pagination-item-active a {
-  color: #fff !important;
+  color: var(--color-on-accent) !important;
 }
 .ant-pagination-item:hover {
   border-color: var(--color-accent) !important;

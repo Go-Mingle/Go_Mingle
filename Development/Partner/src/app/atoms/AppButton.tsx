@@ -4,7 +4,7 @@ import { clsx } from 'clsx'
 /**
  * Canonical portal button. Four variants cover every action in the app:
  *
- *  - primary   → solid teal, white text        (main CTA: Save / Create / Publish / Confirm)
+ *  - primary   → solid accent, on-accent text        (main CTA: Save / Create / Publish / Confirm)
  *  - secondary → light teal tint               (positive secondary: Change Category, Copy Link, Approve)
  *  - danger    → light red tint                (destructive: Suspend, Delete, Cancel, Decline)
  *  - neutral   → white + gray outline          (Cancel / dismiss / Export / Download)
@@ -18,7 +18,7 @@ export type AppButtonVariant = 'primary' | 'secondary' | 'danger' | 'neutral'
 
 // Base fill/text/border per variant (full Tailwind literals for the JIT scanner).
 const VARIANT_BASE: Record<AppButtonVariant, string> = {
-  primary: 'bg-[var(--color-accent)] text-white font-semibold border-none',
+  primary: 'bg-[var(--color-accent)] text-(--color-on-accent) font-semibold border-none',
   secondary:
     'bg-[var(--color-accent-light)] text-[var(--color-accent-dark)] font-medium border-[1.5px] border-solid border-[var(--color-accent)]',
   danger:

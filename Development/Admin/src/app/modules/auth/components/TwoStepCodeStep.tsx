@@ -82,7 +82,7 @@ export function TwoStepCodeStep({ onBack, onVerify, error, loading }: Props) {
           type="submit"
           disabled={!ready || loading}
           data-testid="two-step-verify"
-          className="btn-primary h-11 w-full rounded-[12px] text-[14px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+          className="btn-primary h-11 w-full rounded-[12px] text-[14px] font-semibold disabled:cursor-not-allowed disabled:opacity-60"
         >
           {t('twoStep.verify')}
         </button>

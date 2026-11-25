@@ -4,7 +4,7 @@ import { CircleNotch } from '@phosphor-icons/react'
 /**
  * Canonical portal button. Four variants cover every action in the app:
  *
- *  - primary   → solid teal, white text        (main CTA: Save / Create / Publish / Confirm)
+ *  - primary   → solid accent, on-accent text        (main CTA: Save / Create / Publish / Confirm)
  *  - secondary → light teal tint               (positive secondary: Change Category, Copy Link, Approve)
  *  - danger    → light red tint                (destructive: Suspend, Delete, Cancel, Decline)
  *  - neutral   → white + gray outline          (Cancel / dismiss / Export / Download)
@@ -28,11 +28,11 @@ interface VariantStyle {
 const VARIANTS: Record<AppButtonVariant, VariantStyle> = {
   primary: {
     bg: 'var(--color-accent)',
-    color: '#ffffff',
+    color: 'var(--color-on-accent)',
     border: 'transparent',
     weight: 600,
     hoverBg: 'var(--color-accent-dark)',
-    hoverColor: '#ffffff',
+    hoverColor: 'var(--color-on-accent)',
     hoverBorder: 'transparent',
   },
   secondary: {

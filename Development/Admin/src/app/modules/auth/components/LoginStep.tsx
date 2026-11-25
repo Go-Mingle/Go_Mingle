@@ -117,7 +117,7 @@ export function LoginStep({
         <button
           type="submit"
           disabled={loading || isLocked}
-          className="btn-primary w-full h-11 rounded-[12px] text-white font-semibold text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
+          className="btn-primary w-full h-11 rounded-[12px] font-semibold text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? t('common:status.loading') : t('signIn')}
         </button>

@@ -95,7 +95,7 @@ export function NewPasswordStep({
           type="button"
           onClick={onSave}
           disabled={loading || pwStrength < 2 || !confirmPw || newPw !== confirmPw}
-          className="btn-primary w-full h-11 rounded-[12px] text-white font-semibold text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
+          className="btn-primary w-full h-11 rounded-[12px] font-semibold text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? t('newPassword.saving') : t('newPassword.save')}
         </button>
@@ -128,7 +128,7 @@ export function SuccessStep({ onBack }: SuccessStepProps) {
       <button
         type="button"
         onClick={onBack}
-        className="btn-primary w-full h-11 rounded-[12px] text-white font-semibold text-[14px]"
+        className="btn-primary w-full h-11 rounded-[12px] font-semibold text-[14px]"
       >
         {t('success.backToSignIn')}
       </button>

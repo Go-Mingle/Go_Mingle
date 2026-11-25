@@ -35,7 +35,7 @@ const ACCENT_BTN =
   'inline-flex items-center justify-center gap-1.5 h-10 px-4 rounded-[12px] border-[1.5px] ' +
   'bg-[var(--color-accent-light)] border-[var(--color-accent)] text-[var(--color-accent-dark)] ' +
   'font-(--font-ui) text-[13px] font-medium cursor-pointer transition-colors ' +
-  'md:hover:bg-[var(--color-accent)] md:hover:text-white whitespace-nowrap'
+  'md:hover:bg-[var(--color-accent)] md:hover:text-(--color-on-accent) whitespace-nowrap'
 
 const MODAL_LABEL =
   'block text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--color-text-muted)] mb-1.5'
