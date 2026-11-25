@@ -51,7 +51,7 @@ export function VerifyOtpStep({
           type="button"
           onClick={onVerify}
           disabled={otp.length !== 6 || loading}
-          className="btn-primary w-full h-11 rounded-[12px] text-white font-semibold text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
+          className="btn-primary w-full h-11 rounded-[12px] font-semibold text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {t('verifyOtp.verifyCode')}
         </button>

@@ -62,7 +62,7 @@ export const searchFilterDropdown =
         </Button>
         <button
           onClick={() => confirm()}
-          className="h-7 px-3 bg-accent hover:bg-accent-dark text-white border-none rounded-xl text-xs font-semibold cursor-pointer transition-[background] duration-150 ease-out"
+          className="h-7 px-3 bg-accent hover:bg-accent-dark text-(--color-on-accent) border-none rounded-xl text-xs font-semibold cursor-pointer transition-[background] duration-150 ease-out"
         >
           Search
         </button>
@@ -103,7 +103,7 @@ export const dateRangeFilterDropdown = ({
       </Button>
       <button
         onClick={() => confirm()}
-        className="h-7 px-3 bg-accent hover:bg-accent-dark text-white border-none rounded-xl text-xs font-semibold cursor-pointer transition-[background] duration-150 ease-out"
+        className="h-7 px-3 bg-accent hover:bg-accent-dark text-(--color-on-accent) border-none rounded-xl text-xs font-semibold cursor-pointer transition-[background] duration-150 ease-out"
       >
         Apply
       </button>

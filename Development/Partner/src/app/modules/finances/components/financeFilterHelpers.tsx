@@ -12,7 +12,7 @@ import dayjs from 'dayjs'
 
 // ── Shared button styles ───────────────────────────────────────
 export const accentBtnClass =
-  'h-7 px-3 py-0 bg-[var(--color-accent)] hover:bg-[var(--color-accent-dark)] text-white border-none rounded-lg font-(--font-ui) text-xs font-semibold cursor-pointer'
+  'h-7 px-3 py-0 bg-[var(--color-accent)] hover:bg-[var(--color-accent-dark)] text-(--color-on-accent) border-none rounded-lg font-(--font-ui) text-xs font-semibold cursor-pointer'
 
 export const greyBtnClass =
   'border-[var(--color-border-strong)] text-[var(--color-text-muted)] rounded-lg'

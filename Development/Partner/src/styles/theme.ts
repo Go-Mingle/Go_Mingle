@@ -93,6 +93,11 @@ export const antdDarkTheme: ThemeConfig = {
       defaultBorderColor: '#3A3263',
       defaultBg: '#221C40',
     },
+    Image: {
+      previewOperationColor: 'rgba(255, 255, 255, 0.85)',
+      previewOperationHoverColor: '#FFFFFF',
+      previewOperationColorDisabled: 'rgba(255, 255, 255, 0.35)',
+    },
     Input: {
       borderRadius: 10,
       activeBorderColor: '#FF6F5A',

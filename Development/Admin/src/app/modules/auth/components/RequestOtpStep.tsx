@@ -51,7 +51,7 @@ export function RequestOtpStep({
           type="button"
           onClick={onSend}
           disabled={loading || !resetEmail.trim()}
-          className="btn-primary w-full h-11 rounded-[12px] text-white font-semibold text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
+          className="btn-primary w-full h-11 rounded-[12px] font-semibold text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? t('resetPassword.sending') : t('resetPassword.sendCode')}
         </button>
