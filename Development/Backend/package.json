@@ -42,7 +42,7 @@
     "@types/pg": "8.15.5",
     "drizzle-kit": "0.31.5",
     "tsx": "4.20.5",
-    "typescript": "5.9.3",
+    "typescript": "7.0.2",
     "unplugin-swc": "1.5.7",
     "vitest": "4.1.11"
   }
