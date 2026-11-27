@@ -105,7 +105,7 @@ jobs:
       - name: Read the app version
         id: v
         run: echo "version=$(grep '^version:' Development/Mingler/pubspec.yaml | awk '{print $2}' | cut -d+ -f1)" >> "$GITHUB_OUTPUT"
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: GoMingle-${{ steps.v.outputs.version }}-apk
           path: dist
